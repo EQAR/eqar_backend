@@ -17,3 +17,5 @@ coverage.*
 !.travis.yml
 !.isort.cfg
 db.sqlite3
+.idea/
+eqar_backend/settings_components/local.py
