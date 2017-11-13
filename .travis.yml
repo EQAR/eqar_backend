@@ -6,10 +6,6 @@ python:
 services:
   - postgresql
 
-env:
-  - DATABASE_URL = postgres://postgres@localhost/test_db
-  - DJANGO_SECRET_KEY = 'TravisDjangoNotSoSecretKey'
-
 install:
   - pip install -r requirements.txt
   - pip install coveralls
