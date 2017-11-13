@@ -19,7 +19,6 @@ before_script:
   - psql -c 'create database test_db;' -U postgres
 
 script:
-  - export DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
   - coverage run --source=eqar_backend manage.py test
 
 after_success:
