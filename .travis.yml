@@ -9,7 +9,7 @@ services:
 env:
   global:
     - DATABASE_URL = postgres://postgres@localhost/test_db
-    - secure: QyRok0THs53J6Xlp9aeVbK5gi0s/t2kBoFEfwV77cv6DKwF9ox7OngdwdyA3rFmQp5rP34mxneLd9QkFDtSzkHYfmWCoSOJ+AqJZ4zo6snVJrw+5kN4r32538dgx2f48JpEEj4tdM4Cfcz9FLExnS2t5VciDjFxkpKXYT81liR6IH97m4GDe/IFd+ti6LlVdISPckF0gdasT45XpOVrs5dX6EB82w1LnCd7VncXxXzqXeXaaz+aijDLTsRhPK4TlAfRE1kLm8dEAf3BDqScxakiC+PbOrno+QbwU7CArtY/1+i4WhX4hRXyIYRAx+JCNc2G9R78GyW51ZQR/Q4HzqwVW2di6CQlZWSXGFWmQyEnZCK1Kmwvl7klLEhw18YlnH/yNz/+kfcywxdGsb4X0febMMkcBwSYQhJ0JiNkbXM7G6Tq6kG+7W1myVBci9eT6dX8Ci7QI53TFEcUKhW0RnBqariPeT31n6NValKA2CV9mbhZ/3d/f9lddrKW6bXWvhxe0JpNwsUSwSnqJ8CWuSVkfLNqGxBL/tPF763l9a04HGI8vjjIkIXtHBKqRUjh4KXftHRQwKQOq85jpcm1ck4Q2UmzIJfHRazSyMOzo6ivn7zqiPAa+qvjRU64QYEm2c24LY3BPQJ293aasVxR7T7oDPa4fg/AedLSvHz9WvbM=
+    - DJANGO_SECRET_KEY = 'TravisDjangoNotSoSecretKey'
 
 install:
   - pip install -r requirements.txt
