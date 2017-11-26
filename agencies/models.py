@@ -6,6 +6,7 @@ class Agency(models.Model):
     eqar_id = models.CharField(max_length=25)
     contact_person = models.CharField(max_length=150)
     fax = models.CharField(max_length=20, blank=True)
+    address = models.TextField()
     website_link = models.URLField(max_length=100)
     specialisation_note = models.TextField(blank=True)
     activity_note = models.TextField(blank=True)

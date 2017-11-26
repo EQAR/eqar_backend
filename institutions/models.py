@@ -1,13 +1,10 @@
 from django.db import models
 
-NQF_LEVEL_CHOICES = (('level 6', 'level 6'), ('level 7', 'level 7'), ('level 8', 'level 8'))
-
 
 class Institution(models.Model):
     id = models.AutoField(primary_key=True)
     eqar_id = models.CharField(max_length=25)
     eter_id = models.ForeignKey('lists.ETEREntity', blank=True, null=True, on_delete=models.PROTECT)
-    name_primary = models.CharField(max_length=200)
     website_link = models.CharField(max_length=150)
 
     class Meta:
@@ -69,7 +66,7 @@ class InstitutionCountry(models.Model):
 class InstitutionNQFLevel(models.Model):
     id = models.AutoField(primary_key=True)
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    nqf_level = models.CharField(max_length=10, choices=NQF_LEVEL_CHOICES)
+    nqf_level = models.CharField(max_length=10)
 
     class Meta:
         db_table = 'eqar_institution_nqf_levels'
@@ -92,7 +89,7 @@ class InstitutionHistoricalField(models.Model):
         db_table = 'eqar_institution_historical_fields'
 
 
-class AgencyHistoricalData(models.Model):
+class InstitutionHistoricalData(models.Model):
     id = models.AutoField(primary_key=True)
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
     field = models.ForeignKey('InstitutionHistoricalField', on_delete=models.CASCADE)
