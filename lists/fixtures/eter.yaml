@@ -1,0 +1,12 @@
+- model: lists.ETEREntity
+  pk: 1
+  fields:
+    eter_id: DE0394
+    institution_name: Fachhochschule für öffentliche Verwaltung, Rechtspflege und Polizei Güstrow
+
+- model: lists.ETEREntity
+  pk: 2
+  fields:
+    eter_id: DE0392
+    institution_name: Hessische Hochschule für Polizei und Verwaltung
+

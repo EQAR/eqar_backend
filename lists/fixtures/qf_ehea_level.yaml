@@ -1,0 +1,19 @@
+- model: lists.QFEHEALevel
+  pk: 1
+  fields:
+    level: first cycle
+
+- model: lists.QFEHEALevel
+  pk: 2
+  fields:
+    level: second cycle
+
+- model: lists.QFEHEALevel
+  pk: 3
+  fields:
+    level: third cycle
+
+- model: lists.QFEHEALevel
+  pk: 4
+  fields:
+    level: short cycle

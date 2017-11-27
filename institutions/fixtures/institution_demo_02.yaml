@@ -1,0 +1,33 @@
+- model: institutions.Institution
+  pk: 2
+  fields:
+    eqar_id: EQARIN0002
+    eter_id: 1
+    website_link: http://www.fh-guestrow.de
+
+- model: institutions.InstitutionName
+  pk: 2
+  fields:
+    institution: 2
+    name_official: Fachhochschule für öffentliche Verwaltung, Rechtspflege und Polizei Güstrow
+    name_english: University of Applied Sciences of Public Administration, Police and Administration of Justice in Güstrow
+    acronym: FHöVPR
+
+- model: institutions.InstitutionCountry
+  pk: 2
+  fields:
+    institution: 2
+    country: 64
+
+- model: institutions.InstitutionNQFLevel
+  pk: 2
+  fields:
+    institution: 2
+    nqf_level: Level 6
+
+- model: institutions.InstitutionQFEHEALevel
+  pk: 2
+  fields:
+    institution: 2
+    qf_ehea_level: 2
+

@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 7
+  fields:
+    report: 5
+    qualification: Bachelor of Arts
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 7
+  fields:
+    programme: 7
+    name: Polizeivollzugsdienst - Kriminalpolizei (B.A.)
+    name_is_english: False

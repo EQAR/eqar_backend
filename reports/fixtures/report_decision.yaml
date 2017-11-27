@@ -1,0 +1,19 @@
+- model: reports.ReportDecision
+  pk: 1
+  fields:
+    decision: yes, positive
+
+- model: reports.ReportDecision
+  pk: 2
+  fields:
+    decision: yes, positive with conditions or restrictions
+
+- model: reports.ReportDecision
+  pk: 3
+  fields:
+    decision: no, negative
+
+- model: reports.ReportDecision
+  pk: 4
+  fields:
+    decision: not applicable

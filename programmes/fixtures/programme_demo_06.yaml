@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 6
+  fields:
+    report: 5
+    qualification: Bachelor of Arts
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 6
+  fields:
+    programme: 6
+    name: Public Administration (B.A.)
+    name_is_english: False

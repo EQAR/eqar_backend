@@ -1,0 +1,33 @@
+- model: institutions.Institution
+  pk: 1
+  fields:
+    eqar_id: EQARIN0001
+    eter_id:
+    website_link: www.hoev-rlp.de
+
+- model: institutions.InstitutionName
+  pk: 1
+  fields:
+    institution: 1
+    name_official: Hochschule für öffentliche Verwaltung Rheinland-Pfalz
+    name_english: University of applied sciences for Public Administration Rhineland-Palatinate
+    acronym: HöV
+
+- model: institutions.InstitutionCountry
+  pk: 1
+  fields:
+    institution: 1
+    country: 64
+
+- model: institutions.InstitutionNQFLevel
+  pk: 1
+  fields:
+    institution: 1
+    nqf_level: Level 6
+
+- model: institutions.InstitutionQFEHEALevel
+  pk: 1
+  fields:
+    institution: 1
+    qf_ehea_level: 2
+

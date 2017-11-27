@@ -1,1285 +1,1285 @@
-- model: list.language
+- model: lists.Language
   pk: 1
   fields:
     language_name_en: Afar
     iso_639_1: aa
     iso_639_2: aar
 
-- model: list.language
+- model: lists.Language
   pk: 2
   fields:
     language_name_en: Abkhazian
     iso_639_1: ab
     iso_639_2: abk
 
-- model: list.language
+- model: lists.Language
   pk: 3
   fields:
     language_name_en: Afrikaans
     iso_639_1: af
     iso_639_2: afr
 
-- model: list.language
+- model: lists.Language
   pk: 4
   fields:
     language_name_en: Akan
     iso_639_1: ak
     iso_639_2: aka
 
-- model: list.language
+- model: lists.Language
   pk: 5
   fields:
     language_name_en: Albanian
     iso_639_1: sq
     iso_639_2: alb
 
-- model: list.language
+- model: lists.Language
   pk: 6
   fields:
     language_name_en: Amharic
     iso_639_1: am
     iso_639_2: amh
 
-- model: list.language
+- model: lists.Language
   pk: 7
   fields:
     language_name_en: Arabic
     iso_639_1: ar
     iso_639_2: ara
 
-- model: list.language
+- model: lists.Language
   pk: 8
   fields:
     language_name_en: Aragonese
     iso_639_1: an
     iso_639_2: arg
 
-- model: list.language
+- model: lists.Language
   pk: 9
   fields:
     language_name_en: Armenian
     iso_639_1: hy
     iso_639_2: arm
 
-- model: list.language
+- model: lists.Language
   pk: 10
   fields:
     language_name_en: Assamese
     iso_639_1: as
     iso_639_2: asm
 
-- model: list.language
+- model: lists.Language
   pk: 11
   fields:
     language_name_en: Avaric
     iso_639_1: av
     iso_639_2: ava
 
-- model: list.language
+- model: lists.Language
   pk: 12
   fields:
     language_name_en: Avestan
     iso_639_1: ae
     iso_639_2: ave
 
-- model: list.language
+- model: lists.Language
   pk: 13
   fields:
     language_name_en: Aymara
     iso_639_1: ay
     iso_639_2: aym
 
-- model: list.language
+- model: lists.Language
   pk: 14
   fields:
     language_name_en: Azerbaijani
     iso_639_1: az
     iso_639_2: aze
 
-- model: list.language
+- model: lists.Language
   pk: 15
   fields:
     language_name_en: Bashkir
     iso_639_1: ba
     iso_639_2: bak
 
-- model: list.language
+- model: lists.Language
   pk: 16
   fields:
     language_name_en: Bambara
     iso_639_1: bm
     iso_639_2: bam
 
-- model: list.language
+- model: lists.Language
   pk: 17
   fields:
     language_name_en: Basque
     iso_639_1: eu
     iso_639_2: baq
 
-- model: list.language
+- model: lists.Language
   pk: 18
   fields:
     language_name_en: Belarusian
     iso_639_1: be
     iso_639_2: bel
 
-- model: list.language
+- model: lists.Language
   pk: 19
   fields:
     language_name_en: Bengali
     iso_639_1: bn
     iso_639_2: ben
 
-- model: list.language
+- model: lists.Language
   pk: 20
   fields:
     language_name_en: Bihari languages
     iso_639_1: bh
     iso_639_2: bih
 
-- model: list.language
+- model: lists.Language
   pk: 21
   fields:
     language_name_en: Bislama
     iso_639_1: bi
     iso_639_2: bis
 
-- model: list.language
+- model: lists.Language
   pk: 22
   fields:
     language_name_en: Bosnian
     iso_639_1: bs
     iso_639_2: bos
 
-- model: list.language
+- model: lists.Language
   pk: 23
   fields:
     language_name_en: Breton
     iso_639_1: br
     iso_639_2: bre
 
-- model: list.language
+- model: lists.Language
   pk: 24
   fields:
     language_name_en: Bulgarian
     iso_639_1: bg
     iso_639_2: bul
 
-- model: list.language
+- model: lists.Language
   pk: 25
   fields:
     language_name_en: Burmese
     iso_639_1: my
     iso_639_2: bur
 
-- model: list.language
+- model: lists.Language
   pk: 26
   fields:
     language_name_en: Catalan; Valencian
     iso_639_1: ca
     iso_639_2: cat
 
-- model: list.language
+- model: lists.Language
   pk: 27
   fields:
     language_name_en: Chamorro
     iso_639_1: ch
     iso_639_2: cha
 
-- model: list.language
+- model: lists.Language
   pk: 28
   fields:
     language_name_en: Chechen
     iso_639_1: ce
     iso_639_2: che
 
-- model: list.language
+- model: lists.Language
   pk: 29
   fields:
     language_name_en: Chinese
     iso_639_1: zh
     iso_639_2: chi
 
-- model: list.language
+- model: lists.Language
   pk: 30
   fields:
     language_name_en: Old Slavonic; Old Bulgarian
     iso_639_1: cu
     iso_639_2: chu
 
-- model: list.language
+- model: lists.Language
   pk: 31
   fields:
     language_name_en: Chuvash
     iso_639_1: cv
     iso_639_2: chv
 
-- model: list.language
+- model: lists.Language
   pk: 32
   fields:
     language_name_en: Cornish
     iso_639_1: kw
     iso_639_2: cor
 
-- model: list.language
+- model: lists.Language
   pk: 33
   fields:
     language_name_en: Corsican
     iso_639_1: co
     iso_639_2: cos
 
-- model: list.language
+- model: lists.Language
   pk: 34
   fields:
     language_name_en: Cree
     iso_639_1: cr
     iso_639_2: cre
 
-- model: list.language
+- model: lists.Language
   pk: 35
   fields:
     language_name_en: Czech
     iso_639_1: cs
     iso_639_2: cze
 
-- model: list.language
+- model: lists.Language
   pk: 36
   fields:
     language_name_en: Danish
     iso_639_1: da
     iso_639_2: dan
 
-- model: list.language
+- model: lists.Language
   pk: 37
   fields:
     language_name_en: Divehi; Dhivehi; Maldivian
     iso_639_1: dv
     iso_639_2: div
 
-- model: list.language
+- model: lists.Language
   pk: 38
   fields:
     language_name_en: Dutch; Flemish
     iso_639_1: nl
     iso_639_2: dut
 
-- model: list.language
+- model: lists.Language
   pk: 39
   fields:
     language_name_en: Dzongkha
     iso_639_1: dz
     iso_639_2: dzo
 
-- model: list.language
+- model: lists.Language
   pk: 40
   fields:
     language_name_en: English
     iso_639_1: en
     iso_639_2: eng
 
-- model: list.language
+- model: lists.Language
   pk: 41
   fields:
     language_name_en: Esperanto
     iso_639_1: eo
     iso_639_2: epo
 
-- model: list.language
+- model: lists.Language
   pk: 42
   fields:
     language_name_en: Estonian
     iso_639_1: et
     iso_639_2: est
 
-- model: list.language
+- model: lists.Language
   pk: 43
   fields:
     language_name_en: Ewe
     iso_639_1: ee
     iso_639_2: ewe
 
-- model: list.language
+- model: lists.Language
   pk: 44
   fields:
     language_name_en: Faroese
     iso_639_1: fo
     iso_639_2: fao
 
-- model: list.language
+- model: lists.Language
   pk: 45
   fields:
     language_name_en: Fijian
     iso_639_1: fj
     iso_639_2: fij
 
-- model: list.language
+- model: lists.Language
   pk: 46
   fields:
     language_name_en: Finnish
     iso_639_1: fi
     iso_639_2: fin
 
-- model: list.language
+- model: lists.Language
   pk: 47
   fields:
     language_name_en: French
     iso_639_1: fr
     iso_639_2: fre
 
-- model: list.language
+- model: lists.Language
   pk: 48
   fields:
     language_name_en: Western Frisian
     iso_639_1: fy
     iso_639_2: fry
 
-- model: list.language
+- model: lists.Language
   pk: 49
   fields:
     language_name_en: Fulah
     iso_639_1: ff
     iso_639_2: ful
 
-- model: list.language
+- model: lists.Language
   pk: 50
   fields:
     language_name_en: Georgian
     iso_639_1: ka
     iso_639_2: geo
 
-- model: list.language
+- model: lists.Language
   pk: 51
   fields:
     language_name_en: German
     iso_639_1: de
     iso_639_2: ger
 
-- model: list.language
+- model: lists.Language
   pk: 52
   fields:
     language_name_en: Gaelic; Scottish Gaelic
     iso_639_1: gd
     iso_639_2: gla
 
-- model: list.language
+- model: lists.Language
   pk: 53
   fields:
     language_name_en: Irish
     iso_639_1: ga
     iso_639_2: gle
 
-- model: list.language
+- model: lists.Language
   pk: 54
   fields:
     language_name_en: Galician
     iso_639_1: gl
     iso_639_2: glg
 
-- model: list.language
+- model: lists.Language
   pk: 55
   fields:
     language_name_en: Manx
     iso_639_1: gv
     iso_639_2: glv
 
-- model: list.language
+- model: lists.Language
   pk: 56
   fields:
     language_name_en: Greek, Modern (1453-)
     iso_639_1: el
     iso_639_2: gre
 
-- model: list.language
+- model: lists.Language
   pk: 57
   fields:
     language_name_en: Guarani
     iso_639_1: gn
     iso_639_2: grn
 
-- model: list.language
+- model: lists.Language
   pk: 58
   fields:
     language_name_en: Gujarati
     iso_639_1: gu
     iso_639_2: guj
 
-- model: list.language
+- model: lists.Language
   pk: 59
   fields:
     language_name_en: Haitian; Haitian Creole
     iso_639_1: ht
     iso_639_2: hat
 
-- model: list.language
+- model: lists.Language
   pk: 60
   fields:
     language_name_en: Hausa
     iso_639_1: ha
     iso_639_2: hau
 
-- model: list.language
+- model: lists.Language
   pk: 61
   fields:
     language_name_en: Hebrew
     iso_639_1: he
     iso_639_2: heb
 
-- model: list.language
+- model: lists.Language
   pk: 62
   fields:
     language_name_en: Herero
     iso_639_1: hz
     iso_639_2: her
 
-- model: list.language
+- model: lists.Language
   pk: 63
   fields:
     language_name_en: Hindi
     iso_639_1: hi
     iso_639_2: hin
 
-- model: list.language
+- model: lists.Language
   pk: 64
   fields:
     language_name_en: Hiri Motu
     iso_639_1: ho
     iso_639_2: hmo
 
-- model: list.language
+- model: lists.Language
   pk: 65
   fields:
     language_name_en: Croatian
     iso_639_1: hr
     iso_639_2: hrv
 
-- model: list.language
+- model: lists.Language
   pk: 66
   fields:
     language_name_en: Hungarian
     iso_639_1: hu
     iso_639_2: hun
 
-- model: list.language
+- model: lists.Language
   pk: 67
   fields:
     language_name_en: Igbo
     iso_639_1: ig
     iso_639_2: ibo
 
-- model: list.language
+- model: lists.Language
   pk: 68
   fields:
     language_name_en: Icelandic
     iso_639_1: is
     iso_639_2: ice
 
-- model: list.language
+- model: lists.Language
   pk: 69
   fields:
     language_name_en: Ido
     iso_639_1: io
     iso_639_2: ido
 
-- model: list.language
+- model: lists.Language
   pk: 70
   fields:
     language_name_en: Sichuan Yi; Nuosu
     iso_639_1: ii
     iso_639_2: iii
 
-- model: list.language
+- model: lists.Language
   pk: 71
   fields:
     language_name_en: Inuktitut
     iso_639_1: iu
     iso_639_2: iku
 
-- model: list.language
+- model: lists.Language
   pk: 72
   fields:
     language_name_en: Interlingue; Occidental
     iso_639_1: ie
     iso_639_2: ile
 
-- model: list.language
+- model: lists.Language
   pk: 73
   fields:
     language_name_en: Interlingua (International Auxiliary Language Association)
     iso_639_1: ia
     iso_639_2: ina
 
-- model: list.language
+- model: lists.Language
   pk: 74
   fields:
     language_name_en: Indonesian
     iso_639_1: id
     iso_639_2: ind
 
-- model: list.language
+- model: lists.Language
   pk: 75
   fields:
     language_name_en: Inupiaq
     iso_639_1: ik
     iso_639_2: ipk
 
-- model: list.language
+- model: lists.Language
   pk: 76
   fields:
     language_name_en: Italian
     iso_639_1: it
     iso_639_2: ita
 
-- model: list.language
+- model: lists.Language
   pk: 77
   fields:
     language_name_en: Javanese
     iso_639_1: jv
     iso_639_2: jav
 
-- model: list.language
+- model: lists.Language
   pk: 78
   fields:
     language_name_en: Japanese
     iso_639_1: ja
     iso_639_2: jpn
 
-- model: list.language
+- model: lists.Language
   pk: 79
   fields:
     language_name_en: Kalaallisut; Greenlandic
     iso_639_1: kl
     iso_639_2: kal
 
-- model: list.language
+- model: lists.Language
   pk: 80
   fields:
     language_name_en: Kannada
     iso_639_1: kn
     iso_639_2: kan
 
-- model: list.language
+- model: lists.Language
   pk: 81
   fields:
     language_name_en: Kashmiri
     iso_639_1: ks
     iso_639_2: kas
 
-- model: list.language
+- model: lists.Language
   pk: 82
   fields:
     language_name_en: Kanuri
     iso_639_1: kr
     iso_639_2: kau
 
-- model: list.language
+- model: lists.Language
   pk: 83
   fields:
     language_name_en: Kazakh
     iso_639_1: kk
     iso_639_2: kaz
 
-- model: list.language
+- model: lists.Language
   pk: 84
   fields:
     language_name_en: Central Khmer
     iso_639_1: km
     iso_639_2: khm
 
-- model: list.language
+- model: lists.Language
   pk: 85
   fields:
     language_name_en: Kikuyu; Gikuyu
     iso_639_1: ki
     iso_639_2: kik
 
-- model: list.language
+- model: lists.Language
   pk: 86
   fields:
     language_name_en: Kinyarwanda
     iso_639_1: rw
     iso_639_2: kin
 
-- model: list.language
+- model: lists.Language
   pk: 87
   fields:
     language_name_en: Kirghiz; Kyrgyz
     iso_639_1: ky
     iso_639_2: kir
 
-- model: list.language
+- model: lists.Language
   pk: 88
   fields:
     language_name_en: Komi
     iso_639_1: kv
     iso_639_2: kom
 
-- model: list.language
+- model: lists.Language
   pk: 89
   fields:
     language_name_en: Kongo
     iso_639_1: kg
     iso_639_2: kon
 
-- model: list.language
+- model: lists.Language
   pk: 90
   fields:
     language_name_en: Korean
     iso_639_1: ko
     iso_639_2: kor
 
-- model: list.language
+- model: lists.Language
   pk: 91
   fields:
     language_name_en: Kuanyama; Kwanyama
     iso_639_1: kj
     iso_639_2: kua
 
-- model: list.language
+- model: lists.Language
   pk: 92
   fields:
     language_name_en: Kurdish
     iso_639_1: ku
     iso_639_2: kur
 
-- model: list.language
+- model: lists.Language
   pk: 93
   fields:
     language_name_en: Lao
     iso_639_1: lo
     iso_639_2: lao
 
-- model: list.language
+- model: lists.Language
   pk: 94
   fields:
     language_name_en: Latin
     iso_639_1: la
     iso_639_2: lat
 
-- model: list.language
+- model: lists.Language
   pk: 95
   fields:
     language_name_en: Latvian
     iso_639_1: lv
     iso_639_2: lav
 
-- model: list.language
+- model: lists.Language
   pk: 96
   fields:
     language_name_en: Limburgan; Limburger; Limburgish
     iso_639_1: li
     iso_639_2: lim
 
-- model: list.language
+- model: lists.Language
   pk: 97
   fields:
     language_name_en: Lingala
     iso_639_1: ln
     iso_639_2: lin
 
-- model: list.language
+- model: lists.Language
   pk: 98
   fields:
     language_name_en: Lithuanian
     iso_639_1: lt
     iso_639_2: lit
 
-- model: list.language
+- model: lists.Language
   pk: 99
   fields:
     language_name_en: Luxembourgish; Letzeburgesch
     iso_639_1: lb
     iso_639_2: ltz
 
-- model: list.language
+- model: lists.Language
   pk: 100
   fields:
     language_name_en: Luba-Katanga
     iso_639_1: lu
     iso_639_2: lub
 
-- model: list.language
+- model: lists.Language
   pk: 101
   fields:
     language_name_en: Ganda
     iso_639_1: lg
     iso_639_2: lug
 
-- model: list.language
+- model: lists.Language
   pk: 102
   fields:
     language_name_en: Macedonian
     iso_639_1: mk
     iso_639_2: mac
 
-- model: list.language
+- model: lists.Language
   pk: 103
   fields:
     language_name_en: Marshallese
     iso_639_1: mh
     iso_639_2: mah
 
-- model: list.language
+- model: lists.Language
   pk: 104
   fields:
     language_name_en: Malayalam
     iso_639_1: ml
     iso_639_2: mal
 
-- model: list.language
+- model: lists.Language
   pk: 105
   fields:
     language_name_en: Maori
     iso_639_1: mi
     iso_639_2: mao
 
-- model: list.language
+- model: lists.Language
   pk: 106
   fields:
     language_name_en: Marathi
     iso_639_1: mr
     iso_639_2: mar
 
-- model: list.language
+- model: lists.Language
   pk: 107
   fields:
     language_name_en: Malay
     iso_639_1: ms
     iso_639_2: may
 
-- model: list.language
+- model: lists.Language
   pk: 108
   fields:
     language_name_en: Malagasy
     iso_639_1: mg
     iso_639_2: mlg
 
-- model: list.language
+- model: lists.Language
   pk: 109
   fields:
     language_name_en: Maltese
     iso_639_1: mt
     iso_639_2: mlt
 
-- model: list.language
+- model: lists.Language
   pk: 110
   fields:
     language_name_en: Mongolian
     iso_639_1: mn
     iso_639_2: mon
 
-- model: list.language
+- model: lists.Language
   pk: 111
   fields:
     language_name_en: Nauru
     iso_639_1: na
     iso_639_2: nau
 
-- model: list.language
+- model: lists.Language
   pk: 112
   fields:
     language_name_en: Navajo; Navaho
     iso_639_1: nv
     iso_639_2: nav
 
-- model: list.language
+- model: lists.Language
   pk: 113
   fields:
     language_name_en: Ndebele, South; South Ndebele
     iso_639_1: nr
     iso_639_2: nbl
 
-- model: list.language
+- model: lists.Language
   pk: 114
   fields:
     language_name_en: Ndebele, North; North Ndebele
     iso_639_1: nd
     iso_639_2: nde
 
-- model: list.language
+- model: lists.Language
   pk: 115
   fields:
     language_name_en: Ndonga
     iso_639_1: ng
     iso_639_2: ndo
 
-- model: list.language
+- model: lists.Language
   pk: 116
   fields:
     language_name_en: Nepali
     iso_639_1: ne
     iso_639_2: nep
 
-- model: list.language
+- model: lists.Language
   pk: 117
   fields:
     language_name_en: Norwegian Nynorsk; Nynorsk, Norwegian
     iso_639_1: nn
     iso_639_2: nno
 
-- model: list.language
+- model: lists.Language
   pk: 118
   fields:
     language_name_en: Bokm√•l, Norwegian; Norwegian Bokm√•l
     iso_639_1: nb
     iso_639_2: nob
 
-- model: list.language
+- model: lists.Language
   pk: 119
   fields:
     language_name_en: Norwegian
     iso_639_1: no
     iso_639_2: nor
 
-- model: list.language
+- model: lists.Language
   pk: 120
   fields:
     language_name_en: Chichewa; Chewa; Nyanja
     iso_639_1: ny
     iso_639_2: nya
 
-- model: list.language
+- model: lists.Language
   pk: 121
   fields:
     language_name_en: Occitan (post 1500); Proven√ßal
     iso_639_1: oc
     iso_639_2: oci
 
-- model: list.language
+- model: lists.Language
   pk: 122
   fields:
     language_name_en: Ojibwa
     iso_639_1: oj
     iso_639_2: oji
 
-- model: list.language
+- model: lists.Language
   pk: 123
   fields:
     language_name_en: Oriya
     iso_639_1: or
     iso_639_2: ori
 
-- model: list.language
+- model: lists.Language
   pk: 124
   fields:
     language_name_en: Oromo
     iso_639_1: om
     iso_639_2: orm
 
-- model: list.language
+- model: lists.Language
   pk: 125
   fields:
     language_name_en: Ossetian; Ossetic
     iso_639_1: os
     iso_639_2: oss
 
-- model: list.language
+- model: lists.Language
   pk: 126
   fields:
     language_name_en: Panjabi; Punjabi
     iso_639_1: pa
     iso_639_2: pan
 
-- model: list.language
+- model: lists.Language
   pk: 127
   fields:
     language_name_en: Persian
     iso_639_1: fa
     iso_639_2: per
 
-- model: list.language
+- model: lists.Language
   pk: 128
   fields:
     language_name_en: Pali
     iso_639_1: pi
     iso_639_2: pli
 
-- model: list.language
+- model: lists.Language
   pk: 129
   fields:
     language_name_en: Polish
     iso_639_1: pl
     iso_639_2: pol
 
-- model: list.language
+- model: lists.Language
   pk: 130
   fields:
     language_name_en: Portuguese
     iso_639_1: pt
     iso_639_2: por
 
-- model: list.language
+- model: lists.Language
   pk: 131
   fields:
     language_name_en: Pushto; Pashto
     iso_639_1: ps
     iso_639_2: pus
 
-- model: list.language
+- model: lists.Language
   pk: 132
   fields:
     language_name_en: Quechua
     iso_639_1: qu
     iso_639_2: que
 
-- model: list.language
+- model: lists.Language
   pk: 133
   fields:
     language_name_en: Romansh
     iso_639_1: rm
     iso_639_2: roh
 
-- model: list.language
+- model: lists.Language
   pk: 134
   fields:
     language_name_en: Romanian; Moldavian; Moldovan
     iso_639_1: ro
     iso_639_2: rum
 
-- model: list.language
+- model: lists.Language
   pk: 135
   fields:
     language_name_en: Rundi
     iso_639_1: rn
     iso_639_2: run
 
-- model: list.language
+- model: lists.Language
   pk: 136
   fields:
     language_name_en: Russian
     iso_639_1: ru
     iso_639_2: rus
 
-- model: list.language
+- model: lists.Language
   pk: 137
   fields:
     language_name_en: Sango
     iso_639_1: sg
     iso_639_2: sag
 
-- model: list.language
+- model: lists.Language
   pk: 138
   fields:
     language_name_en: Sanskrit
     iso_639_1: sa
     iso_639_2: san
 
-- model: list.language
+- model: lists.Language
   pk: 139
   fields:
     language_name_en: Sinhala; Sinhalese
     iso_639_1: si
     iso_639_2: sin
 
-- model: list.language
+- model: lists.Language
   pk: 140
   fields:
     language_name_en: Slovak
     iso_639_1: sk
     iso_639_2: slo
 
-- model: list.language
+- model: lists.Language
   pk: 141
   fields:
     language_name_en: Slovenian
     iso_639_1: sl
     iso_639_2: slv
 
-- model: list.language
+- model: lists.Language
   pk: 142
   fields:
     language_name_en: Northern Sami
     iso_639_1: se
     iso_639_2: sme
 
-- model: list.language
+- model: lists.Language
   pk: 143
   fields:
     language_name_en: Samoan
     iso_639_1: sm
     iso_639_2: smo
 
-- model: list.language
+- model: lists.Language
   pk: 144
   fields:
     language_name_en: Shona
     iso_639_1: sn
     iso_639_2: sna
 
-- model: list.language
+- model: lists.Language
   pk: 145
   fields:
     language_name_en: Sindhi
     iso_639_1: sd
     iso_639_2: snd
 
-- model: list.language
+- model: lists.Language
   pk: 146
   fields:
     language_name_en: Somali
     iso_639_1: so
     iso_639_2: som
 
-- model: list.language
+- model: lists.Language
   pk: 147
   fields:
     language_name_en: Sotho, Southern
     iso_639_1: st
     iso_639_2: sot
 
-- model: list.language
+- model: lists.Language
   pk: 148
   fields:
     language_name_en: Spanish; Castilian
     iso_639_1: es
     iso_639_2: spa
 
-- model: list.language
+- model: lists.Language
   pk: 149
   fields:
     language_name_en: Sardinian
     iso_639_1: sc
     iso_639_2: srd
 
-- model: list.language
+- model: lists.Language
   pk: 150
   fields:
     language_name_en: Serbian
     iso_639_1: sr
     iso_639_2: srp
 
-- model: list.language
+- model: lists.Language
   pk: 151
   fields:
     language_name_en: Swati
     iso_639_1: ss
     iso_639_2: ssw
 
-- model: list.language
+- model: lists.Language
   pk: 152
   fields:
     language_name_en: Sundanese
     iso_639_1: su
     iso_639_2: sun
 
-- model: list.language
+- model: lists.Language
   pk: 153
   fields:
     language_name_en: Swahili
     iso_639_1: sw
     iso_639_2: swa
 
-- model: list.language
+- model: lists.Language
   pk: 154
   fields:
     language_name_en: Swedish
     iso_639_1: sv
     iso_639_2: swe
 
-- model: list.language
+- model: lists.Language
   pk: 155
   fields:
     language_name_en: Tahitian
     iso_639_1: ty
     iso_639_2: tah
 
-- model: list.language
+- model: lists.Language
   pk: 156
   fields:
     language_name_en: Tamil
     iso_639_1: ta
     iso_639_2: tam
 
-- model: list.language
+- model: lists.Language
   pk: 157
   fields:
     language_name_en: Tatar
     iso_639_1: tt
     iso_639_2: tat
 
-- model: list.language
+- model: lists.Language
   pk: 158
   fields:
     language_name_en: Telugu
     iso_639_1: te
     iso_639_2: tel
 
-- model: list.language
+- model: lists.Language
   pk: 159
   fields:
     language_name_en: Tajik
     iso_639_1: tg
     iso_639_2: tgk
 
-- model: list.language
+- model: lists.Language
   pk: 160
   fields:
     language_name_en: Tagalog
     iso_639_1: tl
     iso_639_2: tgl
 
-- model: list.language
+- model: lists.Language
   pk: 161
   fields:
     language_name_en: Thai
     iso_639_1: th
     iso_639_2: tha
 
-- model: list.language
+- model: lists.Language
   pk: 162
   fields:
     language_name_en: Tibetan
     iso_639_1: bo
     iso_639_2: tib
 
-- model: list.language
+- model: lists.Language
   pk: 163
   fields:
     language_name_en: Tigrinya
     iso_639_1: ti
     iso_639_2: tir
 
-- model: list.language
+- model: lists.Language
   pk: 164
   fields:
     language_name_en: Tonga (Tonga Islands)
     iso_639_1: to
     iso_639_2: ton
 
-- model: list.language
+- model: lists.Language
   pk: 165
   fields:
     language_name_en: Tswana
     iso_639_1: tn
     iso_639_2: tsn
 
-- model: list.language
+- model: lists.Language
   pk: 166
   fields:
     language_name_en: Tsonga
     iso_639_1: ts
     iso_639_2: tso
 
-- model: list.language
+- model: lists.Language
   pk: 167
   fields:
     language_name_en: Turkmen
     iso_639_1: tk
     iso_639_2: tuk
 
-- model: list.language
+- model: lists.Language
   pk: 168
   fields:
     language_name_en: Turkish
     iso_639_1: tr
     iso_639_2: tur
 
-- model: list.language
+- model: lists.Language
   pk: 169
   fields:
     language_name_en: Twi
     iso_639_1: tw
     iso_639_2: twi
 
-- model: list.language
+- model: lists.Language
   pk: 170
   fields:
     language_name_en: Uighur; Uyghur
     iso_639_1: ug
     iso_639_2: uig
 
-- model: list.language
+- model: lists.Language
   pk: 171
   fields:
     language_name_en: Ukrainian
     iso_639_1: uk
     iso_639_2: ukr
 
-- model: list.language
+- model: lists.Language
   pk: 172
   fields:
     language_name_en: Urdu
     iso_639_1: ur
     iso_639_2: urd
 
-- model: list.language
+- model: lists.Language
   pk: 173
   fields:
     language_name_en: Uzbek
     iso_639_1: uz
     iso_639_2: uzb
 
-- model: list.language
+- model: lists.Language
   pk: 174
   fields:
     language_name_en: Venda
     iso_639_1: ve
     iso_639_2: ven
 
-- model: list.language
+- model: lists.Language
   pk: 175
   fields:
     language_name_en: Vietnamese
     iso_639_1: vi
     iso_639_2: vie
 
-- model: list.language
+- model: lists.Language
   pk: 176
   fields:
     language_name_en: Volap√ºk
     iso_639_1: vo
     iso_639_2: vol
 
-- model: list.language
+- model: lists.Language
   pk: 177
   fields:
     language_name_en: Welsh
     iso_639_1: cy
     iso_639_2: wel
 
-- model: list.language
+- model: lists.Language
   pk: 178
   fields:
     language_name_en: Walloon
     iso_639_1: wa
     iso_639_2: wln
 
-- model: list.language
+- model: lists.Language
   pk: 179
   fields:
     language_name_en: Wolof
     iso_639_1: wo
     iso_639_2: wol
 
-- model: list.language
+- model: lists.Language
   pk: 180
   fields:
     language_name_en: Xhosa
     iso_639_1: xh
     iso_639_2: xho
 
-- model: list.language
+- model: lists.Language
   pk: 181
   fields:
     language_name_en: Yiddish
     iso_639_1: yi
     iso_639_2: yid
 
-- model: list.language
+- model: lists.Language
   pk: 182
   fields:
     language_name_en: Yoruba
     iso_639_1: yo
     iso_639_2: yor
 
-- model: list.language
+- model: lists.Language
   pk: 183
   fields:
     language_name_en: Zhuang; Chuang
     iso_639_1: za
     iso_639_2: zha
 
-- model: list.language
+- model: lists.Language
   pk: 184
   fields:
     language_name_en: Zulu

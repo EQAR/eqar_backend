@@ -38,7 +38,7 @@ class InstitutionName(models.Model):
     name_english = models.CharField(max_length=200, blank=True)
     acronym = models.CharField(max_length=20, blank=True)
     source_note = models.TextField(blank=True)
-    valid_to = models.DateField()
+    valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'eqar_institution_names'
