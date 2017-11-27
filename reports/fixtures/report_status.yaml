@@ -1,0 +1,9 @@
+- model: reports.ReportStatus
+  pk: 1
+  fields:
+    status: part of obligatory EQA system
+
+- model: reports.ReportStatus
+  pk: 2
+  fields:
+    status: voluntary

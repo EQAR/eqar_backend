@@ -1,0 +1,14 @@
+- model: institutions.InstitutionResource
+  pk: 1
+  fields:
+    resource: WHED
+
+- model: institutions.InstitutionResource
+  pk: 2
+  fields:
+    resource: ENIC-NARIC
+
+- model: institutions.InstitutionResource
+  pk: 3
+  fields:
+    resource: National Authority

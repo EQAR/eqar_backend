@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 10
+  fields:
+    report: 6
+    qualification: Bachelor of Laws
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 10
+  fields:
+    programme: 10
+    name: Sozialverwaltung - Rentenversicherung
+    name_is_english: False

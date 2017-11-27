@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 2
+  fields:
+    report: 1
+    qualification: Bachelor of Arts
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 2
+  fields:
+    programme: 2
+    name: Verwaltungsbetriebswirtschaft (B.A.)
+    name_is_english: False

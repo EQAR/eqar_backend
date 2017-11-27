@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 3
+  fields:
+    report: 2
+    qualification: Bachelor of Laws
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 3
+  fields:
+    programme: 3
+    name: Öffentliche Verwaltung (LL.B.)
+    name_is_english: False

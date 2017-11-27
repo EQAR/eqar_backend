@@ -1,0 +1,13 @@
+- model: programmes.Programme
+  pk: 5
+  fields:
+    report: 4
+    qualification: Bachelor of Arts
+    countries: [64]
+
+- model: programmes.ProgrammeNames
+  pk: 5
+  fields:
+    programme: 5
+    name: Polizeivollzugsdienst für Aufstiegsbeamte
+    name_is_english: False

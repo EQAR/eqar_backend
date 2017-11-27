@@ -1,0 +1,80 @@
+- model: agencies.Agency
+  pk: 1
+  fields:
+    eqar_id: EQARAG0021
+    contact_person: Stefan Handke
+    fax: +49 921 530390 51
+    address: |
+      <p>
+        Brandenburger Str. 2<br/>
+        95448 Bayreuth<br/>
+        Germany<br/>
+      </p>
+    website_link: http://www.acquin.org
+    reports_link: https://www.acquin.org/de/akkreditierte-studiengaenge/
+    description_note: |
+      <p>
+        ACQUIN is a registered association whose members are higher education institutions, professional associations
+        and business companies. Its core competence is the evaluation and accreditation of study programmes for different
+        types of Higher Education Institutions (HEIs) in Germany and abroad as well as evaluation and accreditation of
+        quality management systems in HEIs (system accreditation). ACQUIN’s central concern is to promote and anchor
+        quality culture in higher education.
+      </p>
+    registration_start: 2009-04-08
+    registration_valid_to: 2021-06-30
+    focus:
+    enqua_membership: 1
+
+- model: agencies.AgencyName
+  pk: 1
+  fields:
+    agency: 1
+
+- model: agencies.AgencyNameVersion
+  pk: 1
+  fields:
+    agency_name: 1
+    name:  Accreditation, Certification and Quality Assurance Institute
+    name_is_primary: True
+    acronym: ACQUIN
+    acronym_is_primary: True
+
+- model: agencies.AgencyNameVersion
+  pk: 2
+  fields:
+    agency_name: 1
+    name:  Akkreditierungs-, Certifizierungs- und Qualitätssicherungsinstitut e.V.
+    name_is_primary: False
+    acronym_is_primary: False
+
+- model: agencies.AgencyPhone
+  pk: 1
+  fields:
+    agency: 1
+    phone: +49 921 530390 77
+
+- model: agencies.AgencyEmail
+  pk: 1
+  fields:
+    agency: 1
+    email: handke@acquin.org
+
+- model: agencies.AgencyEmail
+  pk: 2
+  fields:
+    agency: 1
+    email: biehl@acquin.org
+
+- model: agencies.AgencyESGActivities
+  pk: 1
+  fields:
+    agency: 1
+    activity_type: 1
+    esg_activity: institutional audit/review
+
+- model: agencies.AgencyESGActivities
+  pk: 2
+  fields:
+    agency: 1
+    activity_type: 2
+    esg_activity: programme audit/review

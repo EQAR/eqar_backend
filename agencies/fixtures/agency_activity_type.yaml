@@ -1,0 +1,14 @@
+- model: agencies.AgencyActivityType
+  pk: 1
+  fields:
+    type: programme
+
+- model: agencies.AgencyActivityType
+  pk: 2
+  fields:
+    type: institutional
+
+- model: agencies.AgencyActivityType
+  pk: 3
+  fields:
+    type: joint programme
