@@ -76,7 +76,7 @@
     agency: 2
     email: tiia.bach@archimedes.ee
 
-- model: agencies.AgencyESGActivities
+- model: agencies.AgencyESGActivity
   pk: 6
   fields:
     agency: 2
@@ -85,7 +85,7 @@
       Accreditations and enhancement oriented assessments of study programme groups in higher education and vocational
       education and training.
 
-- model: agencies.AgencyESGActivities
+- model: agencies.AgencyESGActivity
   pk: 7
   fields:
     agency: 2

@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('valid_from', models.DateField()),
                 ('valid_to', models.DateField(blank=True)),
                 ('agency', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agencies.Agency')),
-                ('agency_esg_activity', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='agencies.AgencyESGActivities')),
+                ('agency_esg_activity', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='agencies.AgencyESGActivity')),
             ],
             options={
                 'db_table': 'eqar_reports',

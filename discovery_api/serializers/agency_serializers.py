@@ -79,7 +79,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agency
-        fields = ('names', 'registration_start', 'registration_valid_to', 'registration_note', 'phone_numbers',
+        fields = ('eqar_id', 'names', 'registration_start', 'registration_valid_to', 'registration_note', 'phone_numbers',
                   'contact_person', 'address', 'emails', 'website_link', 'activity_note', 'locations',
                   'focus_countries', 'activities', 'qf_ehea_levels', 'associations', 'renewals', 'specialisation_note',
                   'activity_note', 'description_note', 'focus', 'enqua_membership', 'historical_data')
