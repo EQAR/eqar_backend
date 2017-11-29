@@ -1,0 +1,114 @@
+- model: agencies.Agency
+  pk: 2
+  fields:
+    eqar_id: EQARAG0051
+    contact_person: Tiia Bach
+    address: |
+      <p>
+        Toompuiestee 30<br/>
+        Tallinn 10149<br/>
+        Estonia<br/>
+      </p>
+    website_link: http://www.ekka.archimedes.ee/en
+    reports_link: http://www.ekka.archimedes.ee/universities/quality-assessment-of-study-programme-groups/assessment-decisions-and-reports
+    description_note: |
+      <p>
+        EKKA is a competence centre in the field of external evaluation of both higher education and vocational
+        education. EKKA acts in accord with agreements and trends in the European higher education and vocational
+        education areas, retains information about trends and best practices also from outside Europe, and applies
+        up-to-date know-how and analyses of the results of external quality evaluations.
+      </p>
+    registration_start: 2013-10-23
+    registration_valid_to: 2018-03-31
+    enqua_membership: 1
+
+- model: agencies.AgencyName
+  pk: 2
+  fields:
+    agency: 2
+
+- model: agencies.AgencyName
+  pk: 3
+  fields:
+    agency: 2
+    valid_to: 2015-04-01
+
+- model: agencies.AgencyNameVersion
+  pk: 3
+  fields:
+    agency_name: 2
+    name:  Estonian Quality Agency for Higher and Vocational Education
+    name_is_primary: True
+    acronym: EKKA
+    acronym_is_primary: True
+
+- model: agencies.AgencyNameVersion
+  pk: 4
+  fields:
+    agency_name: 2
+    name:  Eesti Kõrg- ja Kutsehariduse Kvaliteediagentuur
+    name_is_primary: False
+    acronym_is_primary: False
+
+- model: agencies.AgencyNameVersion
+  pk: 5
+  fields:
+    agency_name: 3
+    name:  Estonian Higher Education Quality Agency
+    name_is_primary: False
+    acronym_is_primary: False
+
+- model: agencies.AgencyPhone
+  pk: 2
+  fields:
+    agency: 2
+    phone: +372 640 0455
+
+- model: agencies.AgencyPhone
+  pk: 3
+  fields:
+    agency: 2
+    phone: +372 566 06419
+
+- model: agencies.AgencyEmail
+  pk: 3
+  fields:
+    agency: 2
+    email: tiia.bach@archimedes.ee
+
+- model: agencies.AgencyESGActivities
+  pk: 6
+  fields:
+    agency: 2
+    activity_type: 1
+    esg_activity: |
+      Accreditations and enhancement oriented assessments of study programme groups in higher education and vocational
+      education and training.
+
+- model: agencies.AgencyESGActivities
+  pk: 7
+  fields:
+    agency: 2
+    activity_type: 2
+    esg_activity: |
+      Accreditations of higher education institutions, using internationally recognised experts.
+
+- model: agencies.AgencyLocationCountry
+  pk: 2
+  fields:
+    agency: 2
+    country: 56
+
+- model: agencies.AgencyFocusCountry
+  pk: 14
+  fields:
+    agency: 2
+    country: 56
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 15
+  fields:
+    agency: 2
+    country: 114
+    focus_country_official: true

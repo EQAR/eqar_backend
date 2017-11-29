@@ -70,11 +70,130 @@
   fields:
     agency: 1
     activity_type: 1
-    esg_activity: institutional audit/review
+    esg_activity: System Accreditation in Germany
 
 - model: agencies.AgencyESGActivities
   pk: 2
   fields:
     agency: 1
     activity_type: 2
-    esg_activity: programme audit/review
+    esg_activity: Programme Accreditation in Germany
+
+- model: agencies.AgencyESGActivities
+  pk: 3
+  fields:
+    agency: 1
+    activity_type: 3
+    esg_activity: Certification Procedures in Germany
+
+- model: agencies.AgencyESGActivities
+  pk: 4
+  fields:
+    agency: 1
+    activity_type: 2
+    esg_activity: Programme Accreditation Abroad
+
+- model: agencies.AgencyESGActivities
+  pk: 5
+  fields:
+    agency: 1
+    activity_type: 1
+    esg_activity: Institutional Accreditation Abroad
+
+- model: agencies.AgencyLocationCountry
+  pk: 1
+  fields:
+    agency: 1
+    country: 64
+
+- model: agencies.AgencyFocusCountry
+  pk: 1
+  fields:
+    agency: 1
+    country: 64
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 2
+  fields:
+    agency: 1
+    country: 10
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 3
+  fields:
+    agency: 1
+    country: 16
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 4
+  fields:
+    agency: 1
+    country: 52
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 5
+  fields:
+    agency: 1
+    country: 57
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 6
+  fields:
+    agency: 1
+    country: 64
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 7
+  fields:
+    agency: 1
+    country: 86
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 8
+  fields:
+    agency: 1
+    country: 92
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 9
+  fields:
+    agency: 1
+    country: 99
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 10
+  fields:
+    agency: 1
+    country: 130
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 11
+  fields:
+    agency: 1
+    country: 142
+    focus_country_official: true
+
+- model: agencies.AgencyFocusCountry
+  pk: 12
+  fields:
+    agency: 1
+    country: 157
+    focus_country_official: true
+
+
+- model: agencies.AgencyFocusCountry
+  pk: 13
+  fields:
+    agency: 1
+    country: 167
+    focus_country_official: true

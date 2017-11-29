@@ -19,6 +19,14 @@ class Agency(models.Model):
     enqua_membership = models.ForeignKey('AgencyENQUAMembership')
     related_agencies = models.ManyToManyField('self', through='AgencyRelationship', symmetrical=False)
 
+    def get_primary_name(self):
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), name_is_primary=True).first()
+        return anv.name
+
+    def get_primary_acronym(self):
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), acronym_is_primary=True).first()
+        return anv.acronym
+
     class Meta:
         db_table = 'eqar_agencies'
 
@@ -27,6 +35,9 @@ class AgencyFocus(models.Model):
     id = models.AutoField(primary_key=True)
     focus = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.focus
+
     class Meta:
         db_table = 'eqar_agency_focuses'
 
@@ -34,6 +45,9 @@ class AgencyFocus(models.Model):
 class AgencyENQUAMembership(models.Model):
     id = models.AutoField(primary_key=True)
     membership = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.membership
 
     class Meta:
         db_table = 'eqar_agency_enqua_memberships'
@@ -68,6 +82,9 @@ class AgencyPhone(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.phone
+
     class Meta:
         db_table = 'eqar_agency_phones'
 
@@ -77,6 +94,9 @@ class AgencyEmail(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     email = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.email
+
     class Meta:
         db_table = 'eqar_agency_emails'
 
@@ -85,6 +105,9 @@ class AgencyLocationCountry(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     country = models.ForeignKey('lists.Country', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.country.country_name_en
 
     class Meta:
         db_table = 'eqar_agency_location_countries'
@@ -100,7 +123,7 @@ class AgencyFocusCountry(models.Model):
         db_table = 'eqar_agency_focus_countries'
 
 
-class AgencyESGActivities(models.Model):
+class AgencyESGActivity(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     activity_description = models.CharField(max_length=300, blank=True)
@@ -115,14 +138,20 @@ class AgencyActivityType(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.type
+
     class Meta:
         db_table = 'eqar_agency_activity_types'
 
 
-class AgencyLevels(models.Model):
+class AgencyLevel(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.qf_ehea_level
 
     class Meta:
         db_table = 'eqar_agency_levels'
@@ -142,7 +171,10 @@ class AgencyRelationship(models.Model):
 class AgencyMembership(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    associaton = models.ForeignKey('lists.Association', on_delete=models.PROTECT)
+    association = models.ForeignKey('lists.Association', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.association.association
 
     class Meta:
         db_table = 'eqar_agency_memberships'
@@ -172,6 +204,9 @@ class AgencyEQARChange(models.Model):
 class AgencyHistoricalField(models.Model):
     id = models.AutoField(primary_key=True)
     field = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.field
 
     class Meta:
         db_table = 'eqar_agency_historical_fields'

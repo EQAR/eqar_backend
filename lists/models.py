@@ -8,6 +8,9 @@ class Country(models.Model):
     country_name_en = models.CharField(unique=True, max_length=100)
     qa_requirement_notes = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.country_name_en
+
     class Meta:
         db_table = 'list_countries'
 
