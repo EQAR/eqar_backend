@@ -33,6 +33,7 @@ class Language(models.Model):
 
 class QFEHEALevel(models.Model):
     id = models.AutoField(primary_key=True)
+    code = models.IntegerField(blank=True, null=True)
     level = models.CharField(max_length=20)
 
     class Meta:
@@ -54,3 +55,11 @@ class ETEREntity(models.Model):
 
     class Meta:
         db_table = 'list_eter_entities'
+
+
+class EQARDecisionType(models.Model):
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=25)
+
+    class Meta:
+        db_table = 'list_eqar_decision_types'

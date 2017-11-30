@@ -9,6 +9,7 @@
         Tallinn 10149<br/>
         Estonia<br/>
       </p>
+    country: 56
     website_link: http://www.ekka.archimedes.ee/en
     reports_link: http://www.ekka.archimedes.ee/universities/quality-assessment-of-study-programme-groups/assessment-decisions-and-reports
     description_note: |
@@ -20,7 +21,6 @@
       </p>
     registration_start: 2013-10-23
     registration_valid_to: 2018-03-31
-    enqua_membership: 1
 
 - model: agencies.AgencyName
   pk: 2
@@ -92,12 +92,6 @@
     activity_type: 2
     esg_activity: |
       Accreditations of higher education institutions, using internationally recognised experts.
-
-- model: agencies.AgencyLocationCountry
-  pk: 2
-  fields:
-    agency: 2
-    country: 56
 
 - model: agencies.AgencyFocusCountry
   pk: 14

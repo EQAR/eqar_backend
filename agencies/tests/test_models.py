@@ -11,7 +11,7 @@ class AgencyTestCase(TestCase):
     """
     fixtures = [
         'country',
-        'agency_activity_type', 'agency_enqa_membership', 'agency_focus',
+        'agency_activity_type', 'agency_focus',
         'agency_demo_01', 'agency_demo_02'
     ]
 

@@ -10,6 +10,7 @@
         95448 Bayreuth<br/>
         Germany<br/>
       </p>
+    country: 64
     website_link: http://www.acquin.org
     reports_link: https://www.acquin.org/de/akkreditierte-studiengaenge/
     description_note: |
@@ -23,7 +24,6 @@
     registration_start: 2009-04-08
     registration_valid_to: 2021-06-30
     focus:
-    enqua_membership: 1
 
 - model: agencies.AgencyName
   pk: 1
@@ -100,91 +100,78 @@
     activity_type: 1
     esg_activity: Institutional Accreditation Abroad
 
-- model: agencies.AgencyLocationCountry
-  pk: 1
-  fields:
-    agency: 1
-    country: 64
-
 - model: agencies.AgencyFocusCountry
   pk: 1
-  fields:
-    agency: 1
-    country: 64
-    focus_country_official: true
-
-- model: agencies.AgencyFocusCountry
-  pk: 2
   fields:
     agency: 1
     country: 10
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 3
+  pk: 2
   fields:
     agency: 1
     country: 16
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 4
+  pk: 3
   fields:
     agency: 1
     country: 52
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 5
+  pk: 4
   fields:
     agency: 1
     country: 57
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 6
+  pk: 5
   fields:
     agency: 1
     country: 64
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 7
+  pk: 6
   fields:
     agency: 1
     country: 86
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 8
+  pk: 7
   fields:
     agency: 1
     country: 92
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 9
+  pk: 8
   fields:
     agency: 1
     country: 99
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 10
+  pk: 9
   fields:
     agency: 1
     country: 130
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 11
+  pk: 10
   fields:
     agency: 1
     country: 142
     focus_country_official: true
 
 - model: agencies.AgencyFocusCountry
-  pk: 12
+  pk: 11
   fields:
     agency: 1
     country: 157
@@ -192,7 +179,7 @@
 
 
 - model: agencies.AgencyFocusCountry
-  pk: 13
+  pk: 12
   fields:
     agency: 1
     country: 167

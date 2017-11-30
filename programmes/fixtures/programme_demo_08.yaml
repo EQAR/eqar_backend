@@ -2,7 +2,6 @@
   pk: 8
   fields:
     report: 6
-    qualification: Bachelor of Arts
     countries: [64]
 
 - model: programmes.ProgrammeNames
@@ -11,3 +10,4 @@
     programme: 8
     name: Polizeivollzugsdienst - Schutzpolizei (B.A.)
     name_is_english: False
+    qualification: Bachelor of Arts
