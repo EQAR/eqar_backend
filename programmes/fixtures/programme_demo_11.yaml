@@ -2,7 +2,6 @@
   pk: 11
   fields:
     report: 7
-    qualification: Master of Public Management
     countries: [64]
 
 - model: programmes.ProgrammeNames
@@ -11,3 +10,4 @@
     programme: 11
     name: Public Management
     name_is_english: False
+    qualification: Master of Public Management

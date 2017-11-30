@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'institutions',
     'lists',
     'programmes',
-    'reports'
+    'reports',
+    'discovery_api'
 ]
 
 MIDDLEWARE = [

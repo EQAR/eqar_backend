@@ -1,19 +1,29 @@
 - model: lists.Association
   pk: 1
   fields:
-    association: INQAAHE
+    association: ENQA member
 
 - model: lists.Association
   pk: 2
   fields:
-    association: CEENQA
+    association: ENQA affiliate
 
 - model: lists.Association
   pk: 3
   fields:
-    association: ECA
+    association: INQAAHE
 
 - model: lists.Association
   pk: 4
+  fields:
+    association: CEENQA
+
+- model: lists.Association
+  pk: 5
+  fields:
+    association: ECA
+
+- model: lists.Association
+  pk: 6
   fields:
     association: CHEA

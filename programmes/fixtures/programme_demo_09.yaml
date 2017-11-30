@@ -2,7 +2,6 @@
   pk: 9
   fields:
     report: 6
-    qualification: Bachelor of Laws
     countries: [64]
 
 - model: programmes.ProgrammeNames
@@ -11,3 +10,4 @@
     programme: 9
     name: Sozialverwaltung - Rentenversicherung (LL.B.)
     name_is_english: False
+    qualification: Bachelor of Laws

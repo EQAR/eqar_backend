@@ -7,6 +7,7 @@ class Agency(models.Model):
     contact_person = models.CharField(max_length=150)
     fax = models.CharField(max_length=20, blank=True)
     address = models.TextField()
+    country = models.ForeignKey('lists.Country', blank=True, null=True)
     website_link = models.URLField(max_length=100)
     specialisation_note = models.TextField(blank=True)
     activity_note = models.TextField(blank=True)
@@ -16,8 +17,18 @@ class Agency(models.Model):
     registration_valid_to = models.DateField()
     registration_note = models.TextField(blank=True)
     focus = models.ForeignKey('AgencyFocus', blank=True, null=True)
-    enqua_membership = models.ForeignKey('AgencyENQUAMembership')
     related_agencies = models.ManyToManyField('self', through='AgencyRelationship', symmetrical=False)
+
+    def __str__(self):
+        return "%s - %s" % (self.get_primary_acronym(), self.get_primary_name())
+
+    def get_primary_name(self):
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), name_is_primary=True).first()
+        return anv.name
+
+    def get_primary_acronym(self):
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), acronym_is_primary=True).first()
+        return anv.acronym
 
     class Meta:
         db_table = 'eqar_agencies'
@@ -25,7 +36,10 @@ class Agency(models.Model):
 
 class AgencyFocus(models.Model):
     id = models.AutoField(primary_key=True)
-    focus = models.CharField(max_length=20)
+    focus = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.focus
 
     class Meta:
         db_table = 'eqar_agency_focuses'
@@ -33,7 +47,10 @@ class AgencyFocus(models.Model):
 
 class AgencyENQUAMembership(models.Model):
     id = models.AutoField(primary_key=True)
-    membership = models.CharField(max_length=20)
+    membership = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.membership
 
     class Meta:
         db_table = 'eqar_agency_enqua_memberships'
@@ -68,8 +85,12 @@ class AgencyPhone(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.phone
+
     class Meta:
         db_table = 'eqar_agency_phones'
+        unique_together = ('agency', 'phone')
 
 
 class AgencyEmail(models.Model):
@@ -77,17 +98,12 @@ class AgencyEmail(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     email = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.email
+
     class Meta:
         db_table = 'eqar_agency_emails'
-
-
-class AgencyLocationCountry(models.Model):
-    id = models.AutoField(primary_key=True)
-    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    country = models.ForeignKey('lists.Country', on_delete=models.PROTECT)
-
-    class Meta:
-        db_table = 'eqar_agency_location_countries'
+        unique_together = ('agency', 'email')
 
 
 class AgencyFocusCountry(models.Model):
@@ -96,11 +112,15 @@ class AgencyFocusCountry(models.Model):
     country = models.ForeignKey('lists.Country', on_delete=models.PROTECT)
     focus_country_official = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.country.country_name_en
+
     class Meta:
         db_table = 'eqar_agency_focus_countries'
+        unique_together = ('agency', 'country')
 
 
-class AgencyESGActivities(models.Model):
+class AgencyESGActivity(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     activity_description = models.CharField(max_length=300, blank=True)
@@ -113,19 +133,13 @@ class AgencyESGActivities(models.Model):
 
 class AgencyActivityType(models.Model):
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=20)
+    type = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.type
 
     class Meta:
         db_table = 'eqar_agency_activity_types'
-
-
-class AgencyLevels(models.Model):
-    id = models.AutoField(primary_key=True)
-    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.PROTECT)
-
-    class Meta:
-        db_table = 'eqar_agency_levels'
 
 
 class AgencyRelationship(models.Model):
@@ -142,36 +156,34 @@ class AgencyRelationship(models.Model):
 class AgencyMembership(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    associaton = models.ForeignKey('lists.Association', on_delete=models.PROTECT)
+    association = models.ForeignKey('lists.Association', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.association.association
 
     class Meta:
         db_table = 'eqar_agency_memberships'
+        unique_together = ('agency', 'association')
 
 
-class AgencyEQARRenewal(models.Model):
+class AgencyEQARDecision(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    renewal_date = models.DateField()
-    review_report_file = models.FileField(blank=True)
-    decision_file = models.FileField(blank=True)
+    decision_date = models.DateField()
+    decision_type = models.ForeignKey('lists.EQARDecisionType')
+    decision_file = models.FileField()
+    decision_file_extra = models.FileField(blank=True)
 
     class Meta:
-        db_table = 'eqar_agency_eqar_renewals'
-
-
-class AgencyEQARChange(models.Model):
-    id = models.AutoField(primary_key=True)
-    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    change_date = models.DateField()
-    change_report_file = models.FileField()
-
-    class Meta:
-        db_table = 'eqar_agency_eqar_changes'
+        db_table = 'eqar_agency_eqar_decisions'
 
 
 class AgencyHistoricalField(models.Model):
     id = models.AutoField(primary_key=True)
     field = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.field
 
     class Meta:
         db_table = 'eqar_agency_historical_fields'

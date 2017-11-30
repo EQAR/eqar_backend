@@ -1,0 +1,14 @@
+- model: lists.EQARDecisionType
+  pk: 1
+  fields:
+    type: renewal
+
+- model: lists.EQARDecisionType
+  pk: 2
+  fields:
+    type: change
+
+- model: lists.EQARDecisionType
+  pk: 3
+  fields:
+    type: compliant

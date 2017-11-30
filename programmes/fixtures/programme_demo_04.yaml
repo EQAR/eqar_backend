@@ -2,7 +2,6 @@
   pk: 4
   fields:
     report: 3
-    qualification: Bachelor of Arts
     countries: [64]
 
 - model: programmes.ProgrammeNames
@@ -11,3 +10,4 @@
     programme: 4
     name: Polizeivollzugsdienst (B.A.)
     name_is_english: False
+    qualification: Bachelor of Arts

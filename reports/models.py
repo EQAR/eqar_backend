@@ -5,7 +5,7 @@ class Report(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
     agency_identifier = models.CharField(max_length=50, blank=True, null=True)
-    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivities', on_delete=models.PROTECT)
+    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT)
     report_name = models.CharField(max_length=300)
     report_type = models.CharField(max_length=50)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
