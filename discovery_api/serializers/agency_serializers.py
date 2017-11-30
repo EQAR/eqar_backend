@@ -27,12 +27,13 @@ class AgencyNameSerializer(serializers.ModelSerializer):
         fields = ['name_versions', 'name_note', 'valid_to']
 
 
-class AgencyFocusCountrySerializer(serializers.ModelSerializer):
-    country = serializers.StringRelatedField(read_only=True)
+class AgencyFocusCountrySerializer(serializers.HyperlinkedModelSerializer):
+    country_name = serializers.StringRelatedField(read_only=True, source='country')
+    country = serializers.HyperlinkedRelatedField(read_only=True, view_name='discovery_api:country-detail')
 
     class Meta:
         model = AgencyFocusCountry
-        fields = ['country', 'focus_country_official']
+        fields = ['id', 'country', 'country_name', 'focus_country_official']
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
@@ -43,16 +44,10 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
         fields = ['esg_activity', 'activity_description', 'activity_type']
 
 
-class AgencyEQARRenewalSerializer(serializers.ModelSerializer):
+class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AgencyEQARRenewal
-        fields = ['renewal_date', 'review_report_file', 'decision_file']
-
-
-class AgencyEQARChangeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgencyEQARChange
-        fields = ['change_date', 'change_report_file']
+        model = AgencyEQARDecision
+        fields = ['decision_date', 'decision_type__type', 'decision_file', 'decision_file_extra']
 
 
 class AgencyHistoricalDataSerializer(serializers.ModelSerializer):
@@ -67,20 +62,18 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     names = AgencyNameSerializer(many=True, read_only=True, source='agencyname_set')
     phone_numbers = serializers.StringRelatedField(many=True, source='agencyphone_set')
     emails = serializers.StringRelatedField(many=True, source='agencyemail_set')
-    locations = serializers.StringRelatedField(many=True, read_only=True, source='agencylocationcountry_set')
+    country = serializers.StringRelatedField()
     focus_countries = AgencyFocusCountrySerializer(many=True, read_only=True, source='agencyfocuscountry_set')
     activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
-    qf_ehea_levels = serializers.StringRelatedField(many=True, read_only=True, source='agencylevel_set')
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
-    renewals = AgencyEQARRenewalSerializer(many=True, read_only=True, source='agencyeqarrenewal_set')
+    decisions = AgencyEQARDecisionSerializer(many=True, read_only=True, source='agencydecision_set')
     historical_data = AgencyHistoricalDataSerializer(many=True, read_only=True, source='agencyhistoricaldata_set')
-    enqua_membership = serializers.StringRelatedField(read_only=True)
     focus = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Agency
-        fields = ('eqar_id', 'names', 'registration_start', 'registration_valid_to', 'registration_note', 'phone_numbers',
-                  'contact_person', 'address', 'emails', 'website_link', 'activity_note', 'locations',
-                  'focus_countries', 'activities', 'qf_ehea_levels', 'associations', 'renewals', 'specialisation_note',
-                  'activity_note', 'description_note', 'focus', 'enqua_membership', 'historical_data')
+        fields = ('names', 'eqar_id', 'registration_start', 'registration_valid_to', 'registration_note',
+                  'phone_numbers', 'contact_person', 'address', 'country', 'emails', 'website_link', 'activity_note',
+                  'focus_countries', 'activities', 'associations', 'decisions', 'specialisation_note',
+                  'activity_note', 'description_note', 'focus', 'historical_data',)
 

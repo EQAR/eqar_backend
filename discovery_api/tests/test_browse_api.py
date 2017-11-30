@@ -3,7 +3,7 @@ from rest_framework.test import APITestCase
 
 
 class BrowseAPITest(APITestCase):
-    fixtures = ['agency_activity_type', 'agency_enqa_membership', 'agency_focus',
+    fixtures = ['agency_activity_type', 'agency_focus',
                 'institution_resource',
                 'association', 'country', 'language', 'qf_ehea_level', 'eter',
                 'report_decision', 'report_status',
@@ -26,7 +26,7 @@ class BrowseAPITest(APITestCase):
         """
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get('/api/browse/agencies/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, "Testing login")
 
     def test_agency_list(self):
         """
@@ -44,3 +44,20 @@ class BrowseAPITest(APITestCase):
         response = self.client.get('/api/browse/agencies/1/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['eqar_id'], 'EQARAG0021')
+
+    def test_country_list(self):
+        """
+            Test if we can display a list of countries.
+        """
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get('/api/browse/countries/')
+        self.assertEqual(response.data['count'], 14)
+
+    def test_country_browse(self):
+        """
+            Test if we can display a particular agency.
+        """
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get('/api/browse/countries/64/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['country_name_en'], 'Germany')
