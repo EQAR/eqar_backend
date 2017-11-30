@@ -1,5 +1,4 @@
 python manage.py loaddata agency_activity_type
-python manage.py loaddata agency_enqa_membership
 python manage.py loaddata agency_focus
 
 python manage.py loaddata institution_resource
@@ -14,6 +13,7 @@ python manage.py loaddata report_decision
 python manage.py loaddata report_status
 
 python manage.py loaddata agency_demo_01
+python manage.py loaddata agency_demo_02
 
 python manage.py loaddata institution_demo_01
 python manage.py loaddata institution_demo_02
