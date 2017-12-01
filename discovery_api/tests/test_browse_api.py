@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 
@@ -19,20 +20,13 @@ class BrowseAPITest(APITestCase):
                                                   email='testuser@eqar.eu',
                                                   password='testpassword')
         self.user.save()
-
-    def test_loign(self):
-        """
-            Test if we can login with testuser.
-        """
-        self.client.login(username='testuser', password='testpassword')
-        response = self.client.get('/api/browse/agencies/')
-        self.assertEqual(response.status_code, 200, "Testing login")
+        self.token = Token.objects.get(user__username='testuser')
 
     def test_agency_list(self):
         """
             Test if we can display a list of agencies.
         """
-        self.client.login(username='testuser', password='testpassword')
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response = self.client.get('/api/browse/agencies/')
         self.assertEqual(response.data['count'], 2)
 
@@ -40,7 +34,7 @@ class BrowseAPITest(APITestCase):
         """
             Test if we can display a particular agency.
         """
-        self.client.login(username='testuser', password='testpassword')
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response = self.client.get('/api/browse/agencies/1/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['eqar_id'], 'EQARAG0021')
@@ -49,7 +43,7 @@ class BrowseAPITest(APITestCase):
         """
             Test if we can display a list of countries.
         """
-        self.client.login(username='testuser', password='testpassword')
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response = self.client.get('/api/browse/countries/')
         self.assertEqual(response.data['count'], 14)
 
@@ -57,7 +51,6 @@ class BrowseAPITest(APITestCase):
         """
             Test if we can display a particular agency.
         """
-        self.client.login(username='testuser', password='testpassword')
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response = self.client.get('/api/browse/countries/64/')
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['country_name_en'], 'Germany')
