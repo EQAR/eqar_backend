@@ -119,7 +119,7 @@ class AgencyESGActivity(models.Model):
     activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
 
     class Meta:
-        db_table = 'eqar_agency_esga_activities'
+        db_table = 'eqar_agency_esg_activities'
 
 
 class AgencyActivityType(models.Model):
