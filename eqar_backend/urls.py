@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
-from rest_framework.authtoken import views
 
 urlpatterns = [
-    url(r'^api/', include('discovery_api.urls', namespace='discovery_api')),
+    url(r'^webapi/v1/', include('webapi.urls', namespace='webapi-v1')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^api-token-auth/', views.obtain_auth_token)
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
