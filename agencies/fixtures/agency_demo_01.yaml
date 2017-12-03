@@ -2,6 +2,8 @@
   pk: 1
   fields:
     eqar_id: EQARAG0021
+    name_primary: Accreditation, Certification and Quality Assurance Institute
+    acronym_primary: ACQUIN
     contact_person: Stefan Handke
     fax: +49 921 530390 51
     address: |
