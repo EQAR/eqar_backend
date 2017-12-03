@@ -2,6 +2,8 @@
   pk: 2
   fields:
     eqar_id: EQARAG0051
+    name_primary: Estonian Quality Agency for Higher and Vocational Education
+    acronym_primary: EKKA
     contact_person: Tiia Bach
     address: |
       <p>
@@ -39,8 +41,7 @@
     agency_name: 2
     name:  Estonian Quality Agency for Higher and Vocational Education
     name_is_primary: True
-    acronym: EKKA
-    acronym_is_primary: True
+    acronym_is_primary: False
 
 - model: agencies.AgencyNameVersion
   pk: 4
@@ -48,7 +49,8 @@
     agency_name: 2
     name:  Eesti Kõrg- ja Kutsehariduse Kvaliteediagentuur
     name_is_primary: False
-    acronym_is_primary: False
+    acronym: EKKA
+    acronym_is_primary: True
 
 - model: agencies.AgencyNameVersion
   pk: 5

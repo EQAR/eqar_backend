@@ -3,7 +3,7 @@ from agencies.models import *
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="discovery_api:agency-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:agency-detail")
     primary_title = serializers.CharField(source='get_primary_name', read_only=True)
     primary_acronym = serializers.CharField(source='get_primary_acronym', read_only=True)
 
@@ -25,15 +25,6 @@ class AgencyNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyName
         fields = ['name_versions', 'name_note', 'valid_to']
-
-
-class AgencyFocusCountrySerializer(serializers.HyperlinkedModelSerializer):
-    country_name = serializers.StringRelatedField(read_only=True, source='country')
-    country = serializers.HyperlinkedRelatedField(read_only=True, view_name='discovery_api:country-detail')
-
-    class Meta:
-        model = AgencyFocusCountry
-        fields = ['id', 'country', 'country_name', 'focus_country_official']
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
@@ -63,7 +54,6 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     phone_numbers = serializers.StringRelatedField(many=True, source='agencyphone_set')
     emails = serializers.StringRelatedField(many=True, source='agencyemail_set')
     country = serializers.StringRelatedField()
-    focus_countries = AgencyFocusCountrySerializer(many=True, read_only=True, source='agencyfocuscountry_set')
     activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
     decisions = AgencyEQARDecisionSerializer(many=True, read_only=True, source='agencydecision_set')
@@ -73,7 +63,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agency
         fields = ('names', 'eqar_id', 'registration_start', 'registration_valid_to', 'registration_note',
-                  'phone_numbers', 'contact_person', 'address', 'country', 'emails', 'website_link', 'activity_note',
-                  'focus_countries', 'activities', 'associations', 'decisions', 'specialisation_note',
+                  'phone_numbers', 'contact_person', 'address', 'country', 'emails', 'website_link',
+                  'activities', 'associations', 'decisions', 'specialisation_note',
                   'activity_note', 'description_note', 'focus', 'historical_data',)
 

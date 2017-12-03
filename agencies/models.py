@@ -4,6 +4,8 @@ from django.db import models
 class Agency(models.Model):
     id = models.AutoField(primary_key=True)
     eqar_id = models.CharField(max_length=25)
+    name_primary = models.CharField(max_length=200, blank=True)
+    acronym_primary = models.CharField(max_length=20, blank=True)
     contact_person = models.CharField(max_length=150)
     fax = models.CharField(max_length=20, blank=True)
     address = models.TextField()
@@ -43,17 +45,6 @@ class AgencyFocus(models.Model):
 
     class Meta:
         db_table = 'eqar_agency_focuses'
-
-
-class AgencyENQUAMembership(models.Model):
-    id = models.AutoField(primary_key=True)
-    membership = models.CharField(max_length=20, unique=True)
-
-    def __str__(self):
-        return self.membership
-
-    class Meta:
-        db_table = 'eqar_agency_enqua_memberships'
 
 
 class AgencyName(models.Model):
