@@ -3,8 +3,9 @@
   fields:
     report: 5
     countries: [64]
+    name_primary: Polizeivollzugsdienst - Kriminalpolizei (B.A.)
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 7
   fields:
     programme: 7

@@ -1,14 +1,14 @@
-- model: agencies.AgencyFocus
+- model: agencies.AgencyGeographicalFocus
   pk: 1
   fields:
     focus: regional
 
-- model: agencies.AgencyFocus
+- model: agencies.AgencyGeographicalFocus
   pk: 2
   fields:
     focus: national
 
-- model: agencies.AgencyFocus
+- model: agencies.AgencyGeographicalFocus
   pk: 3
   fields:
     focus: international

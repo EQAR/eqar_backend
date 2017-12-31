@@ -3,8 +3,10 @@
   fields:
     report: 1
     countries: [64]
+    name_primary: Verwaltungsbetriebswirtschaft (B.A.)
 
-- model: programmes.ProgrammeNames
+
+- model: programmes.programmeName
   pk: 2
   fields:
     programme: 2

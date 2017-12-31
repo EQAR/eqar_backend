@@ -2,73 +2,72 @@
   pk: 1
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0001-01
+    local_identifier: EQARAG0021-EQARIN0001-01
     agency_esg_activity: 1
-    report_name: Akkreditierungsverfahren an der Hochschule für öffentliche Verwaltung Rheinland-Pfalz in Mayen
-    report_type: Institutional
+    name: Akkreditierungsverfahren an der Hochschule für öffentliche Verwaltung Rheinland-Pfalz in Mayen
     status: 1
     decision: 1
     valid_from: 2015-03-31
     valid_to: 2021-09-30
     institutions: [1]
 
+
 - model: reports.Report
   pk: 2
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0002-01
+    local_identifier: EQARAG0021-EQARIN0002-01
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
       Mecklenburg-Vorpommern - „Öffentliche Verwaltung“ (LL.B.)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2014-09-30
     valid_to: 2021-03-31
     institutions: [2]
 
+
 - model: reports.Report
   pk: 3
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0002-02
+    local_identifier: EQARAG0021-EQARIN0002-02
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
       Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A.)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2013-09-24
     valid_to: 2020-09-30
     institutions: [2]
 
+
 - model: reports.Report
   pk: 4
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0002-03
+    local_identifier: EQARAG0021-EQARIN0002-03
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
       Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A., für Aufstiegsbeamte)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2010-03-23
     valid_to: 2022-09-30
     institutions: [2]
 
+
 - model: reports.Report
   pk: 5
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0003-01
+    local_identifier: EQARAG0021-EQARIN0003-01
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Reakkreditierungsverfahren Hessische Hochschule für Polizei und Verwaltung „Public Administration“ (B.A.)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2010-06-16
@@ -80,12 +79,11 @@
   pk: 6
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0003-02
+    local_identifier: EQARAG0021-EQARIN0003-02
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Polizeivollzugsdienst -
       Schutzpolizei“ (B.A.), „Polizeivollzugsdienst - Kriminalpolizei“ (B.A.)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2010-03-23
@@ -97,12 +95,11 @@
   pk: 7
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0003-03
+    local_identifier: EQARAG0021-EQARIN0003-03
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
       (Master of Public Management)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2013-06-26
@@ -114,12 +111,11 @@
   pk: 8
   fields:
     agency: 1
-    agency_identifier: EQARAG0021-EQARIN0003-04
+    local_identifier: EQARAG0021-EQARIN0003-04
     agency_esg_activity: 2
-    report_name: |
+    name: |
       Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
       (Master of Public Management)
-    report_type: Programme
     status: 1
     decision: 1
     valid_from: 2016-03-31

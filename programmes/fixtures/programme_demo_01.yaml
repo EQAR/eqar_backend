@@ -3,8 +3,9 @@
   fields:
     report: 1
     countries: [64]
+    name_primary: Verwaltung (B.A.)
 
-- model: programmes.ProgrammeNames
+- model: programmes.ProgrammeName
   pk: 1
   fields:
     programme: 1

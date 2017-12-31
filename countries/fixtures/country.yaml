@@ -1,0 +1,2135 @@
+- model: countries.Country
+  pk: 1
+  fields:
+    name_english: Afghanistan
+    iso_3166_alpha2: AF
+    iso_3166_alpha3: AFG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 2
+  fields:
+    name_english: Albania
+    iso_3166_alpha2: AL
+    iso_3166_alpha3: ALB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 3
+  fields:
+    name_english: Algeria
+    iso_3166_alpha2: DZ
+    iso_3166_alpha3: DZA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 4
+  fields:
+    name_english: Andorra
+    iso_3166_alpha2: AD
+    iso_3166_alpha3: AND
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 5
+  fields:
+    name_english: Angola
+    iso_3166_alpha2: AO
+    iso_3166_alpha3: AGO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 6
+  fields:
+    name_english: Antigua and Barbuda
+    iso_3166_alpha2: AG
+    iso_3166_alpha3: ATG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 7
+  fields:
+    name_english: Argentina
+    iso_3166_alpha2: AR
+    iso_3166_alpha3: ARG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 8
+  fields:
+    name_english: Armenia
+    iso_3166_alpha2: AM
+    iso_3166_alpha3: ARM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 9
+  fields:
+    name_english: Australia
+    iso_3166_alpha2: AU
+    iso_3166_alpha3: AUS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 10
+  fields:
+    name_english: Austria
+    iso_3166_alpha2: AT
+    iso_3166_alpha3: AUT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 11
+  fields:
+    name_english: Azerbaijan
+    iso_3166_alpha2: AZ
+    iso_3166_alpha3: AZE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 12
+  fields:
+    name_english: Bahamas, The
+    iso_3166_alpha2: BS
+    iso_3166_alpha3: BHS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 13
+  fields:
+    name_english: Bahrain
+    iso_3166_alpha2: BH
+    iso_3166_alpha3: BHR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 14
+  fields:
+    name_english: Bangladesh
+    iso_3166_alpha2: BD
+    iso_3166_alpha3: BGD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 15
+  fields:
+    name_english: Barbados
+    iso_3166_alpha2: BB
+    iso_3166_alpha3: BRB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 16
+  fields:
+    name_english: Belarus
+    iso_3166_alpha2: BY
+    iso_3166_alpha3: BLR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 17
+  fields:
+    name_english: Belgium
+    iso_3166_alpha2: BE
+    iso_3166_alpha3: BEL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 18
+  fields:
+    name_english: Belize
+    iso_3166_alpha2: BZ
+    iso_3166_alpha3: BLZ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 19
+  fields:
+    name_english: Benin
+    iso_3166_alpha2: BJ
+    iso_3166_alpha3: BEN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 20
+  fields:
+    name_english: Bhutan
+    iso_3166_alpha2: BT
+    iso_3166_alpha3: BTN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 21
+  fields:
+    name_english: Bolivia
+    iso_3166_alpha2: BO
+    iso_3166_alpha3: BOL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 22
+  fields:
+    name_english: Bosnia and Herzegovina
+    iso_3166_alpha2: BA
+    iso_3166_alpha3: BIH
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 23
+  fields:
+    name_english: Botswana
+    iso_3166_alpha2: BW
+    iso_3166_alpha3: BWA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 24
+  fields:
+    name_english: Brazil
+    iso_3166_alpha2: BR
+    iso_3166_alpha3: BRA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 25
+  fields:
+    name_english: Brunei
+    iso_3166_alpha2: BN
+    iso_3166_alpha3: BRN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 26
+  fields:
+    name_english: Bulgaria
+    iso_3166_alpha2: BG
+    iso_3166_alpha3: BGR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 27
+  fields:
+    name_english: Burkina Faso
+    iso_3166_alpha2: BF
+    iso_3166_alpha3: BFA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 28
+  fields:
+    name_english: Burundi
+    iso_3166_alpha2: BI
+    iso_3166_alpha3: BDI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 29
+  fields:
+    name_english: Cambodia
+    iso_3166_alpha2: KH
+    iso_3166_alpha3: KHM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 30
+  fields:
+    name_english: Cameroon
+    iso_3166_alpha2: CM
+    iso_3166_alpha3: CMR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 31
+  fields:
+    name_english: Canada
+    iso_3166_alpha2: CA
+    iso_3166_alpha3: CAN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 32
+  fields:
+    name_english: Cape Verde
+    iso_3166_alpha2: CV
+    iso_3166_alpha3: CPV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 33
+  fields:
+    name_english: Central African Republic
+    iso_3166_alpha2: CF
+    iso_3166_alpha3: CAF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 34
+  fields:
+    name_english: Chad
+    iso_3166_alpha2: TD
+    iso_3166_alpha3: TCD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 35
+  fields:
+    name_english: Chile
+    iso_3166_alpha2: CL
+    iso_3166_alpha3: CHL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 36
+  fields:
+    name_english: China, People's Republic of
+    iso_3166_alpha2: CN
+    iso_3166_alpha3: CHN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 37
+  fields:
+    name_english: Colombia
+    iso_3166_alpha2: CO
+    iso_3166_alpha3: COL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 38
+  fields:
+    name_english: Comoros
+    iso_3166_alpha2: KM
+    iso_3166_alpha3: COM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 39
+  fields:
+    name_english: Congo, (Congo ¬ñ Kinshasa)
+    iso_3166_alpha2: CD
+    iso_3166_alpha3: COD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 40
+  fields:
+    name_english: Congo, (Congo ¬ñ Brazzaville)
+    iso_3166_alpha2: CG
+    iso_3166_alpha3: COG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 41
+  fields:
+    name_english: Costa Rica
+    iso_3166_alpha2: CR
+    iso_3166_alpha3: CRI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 42
+  fields:
+    name_english: Cote d'Ivoire (Ivory Coast)
+    iso_3166_alpha2: CI
+    iso_3166_alpha3: CIV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 43
+  fields:
+    name_english: Croatia
+    iso_3166_alpha2: HR
+    iso_3166_alpha3: HRV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 44
+  fields:
+    name_english: Cuba
+    iso_3166_alpha2: CU
+    iso_3166_alpha3: CUB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 45
+  fields:
+    name_english: Cyprus
+    iso_3166_alpha2: CY
+    iso_3166_alpha3: CYP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 46
+  fields:
+    name_english: Czech Republic
+    iso_3166_alpha2: CZ
+    iso_3166_alpha3: CZE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 47
+  fields:
+    name_english: Denmark
+    iso_3166_alpha2: DK
+    iso_3166_alpha3: DNK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 48
+  fields:
+    name_english: Djibouti
+    iso_3166_alpha2: DJ
+    iso_3166_alpha3: DJI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 49
+  fields:
+    name_english: Dominica
+    iso_3166_alpha2: DM
+    iso_3166_alpha3: DMA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 50
+  fields:
+    name_english: Dominican Republic
+    iso_3166_alpha2: DO
+    iso_3166_alpha3: DOM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 51
+  fields:
+    name_english: Ecuador
+    iso_3166_alpha2: EC
+    iso_3166_alpha3: ECU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 52
+  fields:
+    name_english: Egypt
+    iso_3166_alpha2: EG
+    iso_3166_alpha3: EGY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 53
+  fields:
+    name_english: El Salvador
+    iso_3166_alpha2: SV
+    iso_3166_alpha3: SLV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 54
+  fields:
+    name_english: Equatorial Guinea
+    iso_3166_alpha2: GQ
+    iso_3166_alpha3: GNQ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 55
+  fields:
+    name_english: Eritrea
+    iso_3166_alpha2: ER
+    iso_3166_alpha3: ERI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 56
+  fields:
+    name_english: Estonia
+    iso_3166_alpha2: EE
+    iso_3166_alpha3: EST
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 57
+  fields:
+    name_english: Ethiopia
+    iso_3166_alpha2: ET
+    iso_3166_alpha3: ETH
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 58
+  fields:
+    name_english: Fiji
+    iso_3166_alpha2: FJ
+    iso_3166_alpha3: FJI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 59
+  fields:
+    name_english: Finland
+    iso_3166_alpha2: FI
+    iso_3166_alpha3: FIN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 60
+  fields:
+    name_english: France
+    iso_3166_alpha2: FR
+    iso_3166_alpha3: FRA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 61
+  fields:
+    name_english: Gabon
+    iso_3166_alpha2: GA
+    iso_3166_alpha3: GAB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 62
+  fields:
+    name_english: Gambia, The
+    iso_3166_alpha2: GM
+    iso_3166_alpha3: GMB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 63
+  fields:
+    name_english: Georgia
+    iso_3166_alpha2: GE
+    iso_3166_alpha3: GEO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 64
+  fields:
+    name_english: Germany
+    iso_3166_alpha2: DE
+    iso_3166_alpha3: DEU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 65
+  fields:
+    name_english: Ghana
+    iso_3166_alpha2: GH
+    iso_3166_alpha3: GHA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 66
+  fields:
+    name_english: Greece
+    iso_3166_alpha2: GR
+    iso_3166_alpha3: GRC
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 67
+  fields:
+    name_english: Grenada
+    iso_3166_alpha2: GD
+    iso_3166_alpha3: GRD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 68
+  fields:
+    name_english: Guatemala
+    iso_3166_alpha2: GT
+    iso_3166_alpha3: GTM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 69
+  fields:
+    name_english: Guinea
+    iso_3166_alpha2: GN
+    iso_3166_alpha3: GIN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 70
+  fields:
+    name_english: Guinea-Bissau
+    iso_3166_alpha2: GW
+    iso_3166_alpha3: GNB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 71
+  fields:
+    name_english: Guyana
+    iso_3166_alpha2: GY
+    iso_3166_alpha3: GUY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 72
+  fields:
+    name_english: Haiti
+    iso_3166_alpha2: HT
+    iso_3166_alpha3: HTI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 73
+  fields:
+    name_english: Honduras
+    iso_3166_alpha2: HN
+    iso_3166_alpha3: HND
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 74
+  fields:
+    name_english: Hungary
+    iso_3166_alpha2: HU
+    iso_3166_alpha3: HUN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 75
+  fields:
+    name_english: Iceland
+    iso_3166_alpha2: IS
+    iso_3166_alpha3: ISL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 76
+  fields:
+    name_english: India
+    iso_3166_alpha2: IN
+    iso_3166_alpha3: IND
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 77
+  fields:
+    name_english: Indonesia
+    iso_3166_alpha2: ID
+    iso_3166_alpha3: IDN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 78
+  fields:
+    name_english: Iran
+    iso_3166_alpha2: IR
+    iso_3166_alpha3: IRN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 79
+  fields:
+    name_english: Iraq
+    iso_3166_alpha2: IQ
+    iso_3166_alpha3: IRQ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 80
+  fields:
+    name_english: Ireland
+    iso_3166_alpha2: IE
+    iso_3166_alpha3: IRL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 81
+  fields:
+    name_english: Israel
+    iso_3166_alpha2: IL
+    iso_3166_alpha3: ISR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 82
+  fields:
+    name_english: Italy
+    iso_3166_alpha2: IT
+    iso_3166_alpha3: ITA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 83
+  fields:
+    name_english: Jamaica
+    iso_3166_alpha2: JM
+    iso_3166_alpha3: JAM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 84
+  fields:
+    name_english: Japan
+    iso_3166_alpha2: JP
+    iso_3166_alpha3: JPN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 85
+  fields:
+    name_english: Jordan
+    iso_3166_alpha2: JO
+    iso_3166_alpha3: JOR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 86
+  fields:
+    name_english: Kazakhstan
+    iso_3166_alpha2: KZ
+    iso_3166_alpha3: KAZ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 87
+  fields:
+    name_english: Kenya
+    iso_3166_alpha2: KE
+    iso_3166_alpha3: KEN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 88
+  fields:
+    name_english: Kiribati
+    iso_3166_alpha2: KI
+    iso_3166_alpha3: KIR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 89
+  fields:
+    name_english: Korea, North
+    iso_3166_alpha2: KP
+    iso_3166_alpha3: PRK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 90
+  fields:
+    name_english: Korea, South
+    iso_3166_alpha2: KR
+    iso_3166_alpha3: KOR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 91
+  fields:
+    name_english: Kuwait
+    iso_3166_alpha2: KW
+    iso_3166_alpha3: KWT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 92
+  fields:
+    name_english: Kyrgyzstan
+    iso_3166_alpha2: KG
+    iso_3166_alpha3: KGZ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 93
+  fields:
+    name_english: Laos
+    iso_3166_alpha2: LA
+    iso_3166_alpha3: LAO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 94
+  fields:
+    name_english: Latvia
+    iso_3166_alpha2: LV
+    iso_3166_alpha3: LVA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 95
+  fields:
+    name_english: Lebanon
+    iso_3166_alpha2: LB
+    iso_3166_alpha3: LBN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 96
+  fields:
+    name_english: Lesotho
+    iso_3166_alpha2: LS
+    iso_3166_alpha3: LSO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 97
+  fields:
+    name_english: Liberia
+    iso_3166_alpha2: LR
+    iso_3166_alpha3: LBR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 98
+  fields:
+    name_english: Libya
+    iso_3166_alpha2: LY
+    iso_3166_alpha3: LBY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 99
+  fields:
+    name_english: Liechtenstein
+    iso_3166_alpha2: LI
+    iso_3166_alpha3: LIE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 100
+  fields:
+    name_english: Lithuania
+    iso_3166_alpha2: LT
+    iso_3166_alpha3: LTU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 101
+  fields:
+    name_english: Luxembourg
+    iso_3166_alpha2: LU
+    iso_3166_alpha3: LUX
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 102
+  fields:
+    name_english: Macedonia
+    iso_3166_alpha2: MK
+    iso_3166_alpha3: MKD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 103
+  fields:
+    name_english: Madagascar
+    iso_3166_alpha2: MG
+    iso_3166_alpha3: MDG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 104
+  fields:
+    name_english: Malawi
+    iso_3166_alpha2: MW
+    iso_3166_alpha3: MWI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 105
+  fields:
+    name_english: Malaysia
+    iso_3166_alpha2: MY
+    iso_3166_alpha3: MYS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 106
+  fields:
+    name_english: Maldives
+    iso_3166_alpha2: MV
+    iso_3166_alpha3: MDV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 107
+  fields:
+    name_english: Mali
+    iso_3166_alpha2: ML
+    iso_3166_alpha3: MLI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 108
+  fields:
+    name_english: Malta
+    iso_3166_alpha2: MT
+    iso_3166_alpha3: MLT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 109
+  fields:
+    name_english: Marshall Islands
+    iso_3166_alpha2: MH
+    iso_3166_alpha3: MHL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 110
+  fields:
+    name_english: Mauritania
+    iso_3166_alpha2: MR
+    iso_3166_alpha3: MRT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 111
+  fields:
+    name_english: Mauritius
+    iso_3166_alpha2: MU
+    iso_3166_alpha3: MUS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 112
+  fields:
+    name_english: Mexico
+    iso_3166_alpha2: MX
+    iso_3166_alpha3: MEX
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 113
+  fields:
+    name_english: Micronesia
+    iso_3166_alpha2: FM
+    iso_3166_alpha3: FSM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 114
+  fields:
+    name_english: Moldova
+    iso_3166_alpha2: MD
+    iso_3166_alpha3: MDA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 115
+  fields:
+    name_english: Monaco
+    iso_3166_alpha2: MC
+    iso_3166_alpha3: MCO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 116
+  fields:
+    name_english: Mongolia
+    iso_3166_alpha2: MN
+    iso_3166_alpha3: MNG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 117
+  fields:
+    name_english: Montenegro
+    iso_3166_alpha2: ME
+    iso_3166_alpha3: MNE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 118
+  fields:
+    name_english: Morocco
+    iso_3166_alpha2: MA
+    iso_3166_alpha3: MAR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 119
+  fields:
+    name_english: Mozambique
+    iso_3166_alpha2: MZ
+    iso_3166_alpha3: MOZ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 120
+  fields:
+    name_english: Myanmar (Burma)
+    iso_3166_alpha2: MM
+    iso_3166_alpha3: MMR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 121
+  fields:
+    name_english: Namibia
+    iso_3166_alpha2: NA
+    iso_3166_alpha3: NAM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 122
+  fields:
+    name_english: Nauru
+    iso_3166_alpha2: NR
+    iso_3166_alpha3: NRU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 123
+  fields:
+    name_english: Nepal
+    iso_3166_alpha2: NP
+    iso_3166_alpha3: NPL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 124
+  fields:
+    name_english: Netherlands
+    iso_3166_alpha2: NL
+    iso_3166_alpha3: NLD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 125
+  fields:
+    name_english: New Zealand
+    iso_3166_alpha2: NZ
+    iso_3166_alpha3: NZL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 126
+  fields:
+    name_english: Nicaragua
+    iso_3166_alpha2: NI
+    iso_3166_alpha3: NIC
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 127
+  fields:
+    name_english: Niger
+    iso_3166_alpha2: NE
+    iso_3166_alpha3: NER
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 128
+  fields:
+    name_english: Nigeria
+    iso_3166_alpha2: NG
+    iso_3166_alpha3: NGA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 129
+  fields:
+    name_english: Norway
+    iso_3166_alpha2: "NO"
+    iso_3166_alpha3: NOR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 130
+  fields:
+    name_english: Oman
+    iso_3166_alpha2: OM
+    iso_3166_alpha3: OMN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 131
+  fields:
+    name_english: Pakistan
+    iso_3166_alpha2: PK
+    iso_3166_alpha3: PAK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 132
+  fields:
+    name_english: Palau
+    iso_3166_alpha2: PW
+    iso_3166_alpha3: PLW
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 133
+  fields:
+    name_english: Panama
+    iso_3166_alpha2: PA
+    iso_3166_alpha3: PAN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 134
+  fields:
+    name_english: Papua New Guinea
+    iso_3166_alpha2: PG
+    iso_3166_alpha3: PNG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 135
+  fields:
+    name_english: Paraguay
+    iso_3166_alpha2: PY
+    iso_3166_alpha3: PRY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 136
+  fields:
+    name_english: Peru
+    iso_3166_alpha2: PE
+    iso_3166_alpha3: PER
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 137
+  fields:
+    name_english: Philippines
+    iso_3166_alpha2: PH
+    iso_3166_alpha3: PHL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 138
+  fields:
+    name_english: Poland
+    iso_3166_alpha2: PL
+    iso_3166_alpha3: POL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 139
+  fields:
+    name_english: Portugal
+    iso_3166_alpha2: PT
+    iso_3166_alpha3: PRT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 140
+  fields:
+    name_english: Qatar
+    iso_3166_alpha2: QA
+    iso_3166_alpha3: QAT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 141
+  fields:
+    name_english: Romania
+    iso_3166_alpha2: RO
+    iso_3166_alpha3: ROU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 142
+  fields:
+    name_english: Russia
+    iso_3166_alpha2: RU
+    iso_3166_alpha3: RUS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 143
+  fields:
+    name_english: Rwanda
+    iso_3166_alpha2: RW
+    iso_3166_alpha3: RWA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 144
+  fields:
+    name_english: Saint Kitts and Nevis
+    iso_3166_alpha2: KN
+    iso_3166_alpha3: KNA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 145
+  fields:
+    name_english: Saint Lucia
+    iso_3166_alpha2: LC
+    iso_3166_alpha3: LCA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 146
+  fields:
+    name_english: Saint Vincent and the Grenadines
+    iso_3166_alpha2: VC
+    iso_3166_alpha3: VCT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 147
+  fields:
+    name_english: Samoa
+    iso_3166_alpha2: WS
+    iso_3166_alpha3: WSM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 148
+  fields:
+    name_english: San Marino
+    iso_3166_alpha2: SM
+    iso_3166_alpha3: SMR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 149
+  fields:
+    name_english: Sao Tome and Principe
+    iso_3166_alpha2: ST
+    iso_3166_alpha3: STP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 150
+  fields:
+    name_english: Saudi Arabia
+    iso_3166_alpha2: SA
+    iso_3166_alpha3: SAU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 151
+  fields:
+    name_english: Senegal
+    iso_3166_alpha2: SN
+    iso_3166_alpha3: SEN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 152
+  fields:
+    name_english: Serbia
+    iso_3166_alpha2: RS
+    iso_3166_alpha3: SRB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 153
+  fields:
+    name_english: Seychelles
+    iso_3166_alpha2: SC
+    iso_3166_alpha3: SYC
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 154
+  fields:
+    name_english: Sierra Leone
+    iso_3166_alpha2: SL
+    iso_3166_alpha3: SLE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 155
+  fields:
+    name_english: Singapore
+    iso_3166_alpha2: SG
+    iso_3166_alpha3: SGP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 156
+  fields:
+    name_english: Slovakia
+    iso_3166_alpha2: SK
+    iso_3166_alpha3: SVK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 157
+  fields:
+    name_english: Slovenia
+    iso_3166_alpha2: SI
+    iso_3166_alpha3: SVN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 158
+  fields:
+    name_english: Solomon Islands
+    iso_3166_alpha2: SB
+    iso_3166_alpha3: SLB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 159
+  fields:
+    name_english: Somalia
+    iso_3166_alpha2: SO
+    iso_3166_alpha3: SOM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 160
+  fields:
+    name_english: South Africa
+    iso_3166_alpha2: ZA
+    iso_3166_alpha3: ZAF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 161
+  fields:
+    name_english: Spain
+    iso_3166_alpha2: ES
+    iso_3166_alpha3: ESP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 162
+  fields:
+    name_english: Sri Lanka
+    iso_3166_alpha2: LK
+    iso_3166_alpha3: LKA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 163
+  fields:
+    name_english: Sudan
+    iso_3166_alpha2: SD
+    iso_3166_alpha3: SDN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 164
+  fields:
+    name_english: Suriname
+    iso_3166_alpha2: SR
+    iso_3166_alpha3: SUR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 165
+  fields:
+    name_english: Swaziland
+    iso_3166_alpha2: SZ
+    iso_3166_alpha3: SWZ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 166
+  fields:
+    name_english: Sweden
+    iso_3166_alpha2: SE
+    iso_3166_alpha3: SWE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 167
+  fields:
+    name_english: Switzerland
+    iso_3166_alpha2: CH
+    iso_3166_alpha3: CHE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 168
+  fields:
+    name_english: Syria
+    iso_3166_alpha2: SY
+    iso_3166_alpha3: SYR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 169
+  fields:
+    name_english: Tajikistan
+    iso_3166_alpha2: TJ
+    iso_3166_alpha3: TJK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 170
+  fields:
+    name_english: Tanzania
+    iso_3166_alpha2: TZ
+    iso_3166_alpha3: TZA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 171
+  fields:
+    name_english: Thailand
+    iso_3166_alpha2: TH
+    iso_3166_alpha3: THA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 172
+  fields:
+    name_english: Timor-Leste (East Timor)
+    iso_3166_alpha2: TL
+    iso_3166_alpha3: TLS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 173
+  fields:
+    name_english: Togo
+    iso_3166_alpha2: TG
+    iso_3166_alpha3: TGO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 174
+  fields:
+    name_english: Tonga
+    iso_3166_alpha2: TO
+    iso_3166_alpha3: TON
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 175
+  fields:
+    name_english: Trinidad and Tobago
+    iso_3166_alpha2: TT
+    iso_3166_alpha3: TTO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 176
+  fields:
+    name_english: Tunisia
+    iso_3166_alpha2: TN
+    iso_3166_alpha3: TUN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 177
+  fields:
+    name_english: Turkey
+    iso_3166_alpha2: TR
+    iso_3166_alpha3: TUR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 178
+  fields:
+    name_english: Turkmenistan
+    iso_3166_alpha2: TM
+    iso_3166_alpha3: TKM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 179
+  fields:
+    name_english: Tuvalu
+    iso_3166_alpha2: TV
+    iso_3166_alpha3: TUV
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 180
+  fields:
+    name_english: Uganda
+    iso_3166_alpha2: UG
+    iso_3166_alpha3: UGA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 181
+  fields:
+    name_english: Ukraine
+    iso_3166_alpha2: UA
+    iso_3166_alpha3: UKR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 182
+  fields:
+    name_english: United Arab Emirates
+    iso_3166_alpha2: AE
+    iso_3166_alpha3: ARE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 183
+  fields:
+    name_english: United Kingdom
+    iso_3166_alpha2: GB
+    iso_3166_alpha3: GBR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 184
+  fields:
+    name_english: United States
+    iso_3166_alpha2: US
+    iso_3166_alpha3: USA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 185
+  fields:
+    name_english: Uruguay
+    iso_3166_alpha2: UY
+    iso_3166_alpha3: URY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 186
+  fields:
+    name_english: Uzbekistan
+    iso_3166_alpha2: UZ
+    iso_3166_alpha3: UZB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 187
+  fields:
+    name_english: Vanuatu
+    iso_3166_alpha2: VU
+    iso_3166_alpha3: VUT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 188
+  fields:
+    name_english: Vatican City
+    iso_3166_alpha2: VA
+    iso_3166_alpha3: VAT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 189
+  fields:
+    name_english: Venezuela
+    iso_3166_alpha2: VE
+    iso_3166_alpha3: VEN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 190
+  fields:
+    name_english: Vietnam
+    iso_3166_alpha2: VN
+    iso_3166_alpha3: VNM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 191
+  fields:
+    name_english: Yemen
+    iso_3166_alpha2: YE
+    iso_3166_alpha3: YEM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 192
+  fields:
+    name_english: Zambia
+    iso_3166_alpha2: ZM
+    iso_3166_alpha3: ZMB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 193
+  fields:
+    name_english: Zimbabwe
+    iso_3166_alpha2: ZW
+    iso_3166_alpha3: ZWE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 194
+  fields:
+    name_english: Abkhazia
+    iso_3166_alpha2: GE
+    iso_3166_alpha3: GEO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 195
+  fields:
+    name_english: China, Republic of (Taiwan)
+    iso_3166_alpha2: TW
+    iso_3166_alpha3: TWN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 196
+  fields:
+    name_english: Nagorno-Karabakh
+    iso_3166_alpha2: AZ
+    iso_3166_alpha3: AZE
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 197
+  fields:
+    name_english: Northern Cyprus
+    iso_3166_alpha2: CY
+    iso_3166_alpha3: CYP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 198
+  fields:
+    name_english: Pridnestrovie (Transnistria)
+    iso_3166_alpha2: MD
+    iso_3166_alpha3: MDA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 199
+  fields:
+    name_english: Somaliland
+    iso_3166_alpha2: SO
+    iso_3166_alpha3: SOM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 200
+  fields:
+    name_english: South Ossetia
+    iso_3166_alpha2: GE
+    iso_3166_alpha3: GEO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 201
+  fields:
+    name_english: Ashmore and Cartier Islands
+    iso_3166_alpha2: AU
+    iso_3166_alpha3: AUS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 202
+  fields:
+    name_english: Christmas Island
+    iso_3166_alpha2: CX
+    iso_3166_alpha3: CXR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 203
+  fields:
+    name_english: Cocos (Keeling) Islands
+    iso_3166_alpha2: CC
+    iso_3166_alpha3: CCK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 204
+  fields:
+    name_english: Coral Sea Islands
+    iso_3166_alpha2: AU
+    iso_3166_alpha3: AUS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 205
+  fields:
+    name_english: Heard Island and McDonald Islands
+    iso_3166_alpha2: HM
+    iso_3166_alpha3: HMD
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 206
+  fields:
+    name_english: Norfolk Island
+    iso_3166_alpha2: NF
+    iso_3166_alpha3: NFK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 207
+  fields:
+    name_english: New Caledonia
+    iso_3166_alpha2: NC
+    iso_3166_alpha3: NCL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 208
+  fields:
+    name_english: French Polynesia
+    iso_3166_alpha2: PF
+    iso_3166_alpha3: PYF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 209
+  fields:
+    name_english: Mayotte
+    iso_3166_alpha2: YT
+    iso_3166_alpha3: MYT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 210
+  fields:
+    name_english: Saint Barthelemy
+    iso_3166_alpha2: GP
+    iso_3166_alpha3: GLP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 211
+  fields:
+    name_english: Saint Martin
+    iso_3166_alpha2: GP
+    iso_3166_alpha3: GLP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 212
+  fields:
+    name_english: Saint Pierre and Miquelon
+    iso_3166_alpha2: PM
+    iso_3166_alpha3: SPM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 213
+  fields:
+    name_english: Wallis and Futuna
+    iso_3166_alpha2: WF
+    iso_3166_alpha3: WLF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 214
+  fields:
+    name_english: French Southern and Antarctic Lands
+    iso_3166_alpha2: TF
+    iso_3166_alpha3: ATF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 215
+  fields:
+    name_english: Clipperton Island
+    iso_3166_alpha2: PF
+    iso_3166_alpha3: PYF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 216
+  fields:
+    name_english: Bouvet Island
+    iso_3166_alpha2: BV
+    iso_3166_alpha3: BVT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 217
+  fields:
+    name_english: Cook Islands
+    iso_3166_alpha2: CK
+    iso_3166_alpha3: COK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 218
+  fields:
+    name_english: Niue
+    iso_3166_alpha2: NU
+    iso_3166_alpha3: NIU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 219
+  fields:
+    name_english: Tokelau
+    iso_3166_alpha2: TK
+    iso_3166_alpha3: TKL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 220
+  fields:
+    name_english: Guernsey
+    iso_3166_alpha2: GG
+    iso_3166_alpha3: GGY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 221
+  fields:
+    name_english: Isle of Man
+    iso_3166_alpha2: IM
+    iso_3166_alpha3: IMN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 222
+  fields:
+    name_english: Jersey
+    iso_3166_alpha2: JE
+    iso_3166_alpha3: JEY
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 223
+  fields:
+    name_english: Anguilla
+    iso_3166_alpha2: AI
+    iso_3166_alpha3: AIA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 224
+  fields:
+    name_english: Bermuda
+    iso_3166_alpha2: BM
+    iso_3166_alpha3: BMU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 225
+  fields:
+    name_english: British Indian Ocean Territory
+    iso_3166_alpha2: IO
+    iso_3166_alpha3: IOT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 227
+  fields:
+    name_english: British Virgin Islands
+    iso_3166_alpha2: VG
+    iso_3166_alpha3: VGB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 228
+  fields:
+    name_english: Cayman Islands
+    iso_3166_alpha2: KY
+    iso_3166_alpha3: CYM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 229
+  fields:
+    name_english: Falkland Islands (Islas Malvinas)
+    iso_3166_alpha2: FK
+    iso_3166_alpha3: FLK
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 230
+  fields:
+    name_english: Gibraltar
+    iso_3166_alpha2: GI
+    iso_3166_alpha3: GIB
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 231
+  fields:
+    name_english: Montserrat
+    iso_3166_alpha2: MS
+    iso_3166_alpha3: MSR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 232
+  fields:
+    name_english: Pitcairn Islands
+    iso_3166_alpha2: PN
+    iso_3166_alpha3: PCN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 233
+  fields:
+    name_english: Saint Helena
+    iso_3166_alpha2: SH
+    iso_3166_alpha3: SHN
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 234
+  fields:
+    name_english: South Georgia & South Sandwich Islands
+    iso_3166_alpha2: GS
+    iso_3166_alpha3: SGS
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 235
+  fields:
+    name_english: Turks and Caicos Islands
+    iso_3166_alpha2: TC
+    iso_3166_alpha3: TCA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 236
+  fields:
+    name_english: Northern Mariana Islands
+    iso_3166_alpha2: MP
+    iso_3166_alpha3: MNP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 237
+  fields:
+    name_english: Puerto Rico
+    iso_3166_alpha2: PR
+    iso_3166_alpha3: PRI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 238
+  fields:
+    name_english: American Samoa
+    iso_3166_alpha2: AS
+    iso_3166_alpha3: ASM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 239
+  fields:
+    name_english: Baker Island
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 240
+  fields:
+    name_english: Guam
+    iso_3166_alpha2: GU
+    iso_3166_alpha3: GUM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 241
+  fields:
+    name_english: Howland Island
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 242
+  fields:
+    name_english: Jarvis Island
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 243
+  fields:
+    name_english: Johnston Atoll
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 244
+  fields:
+    name_english: Kingman Reef
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 245
+  fields:
+    name_english: Midway Islands
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 246
+  fields:
+    name_english: Navassa Island
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 247
+  fields:
+    name_english: Palmyra Atoll
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 248
+  fields:
+    name_english: U.S. Virgin Islands
+    iso_3166_alpha2: VI
+    iso_3166_alpha3: VIR
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 249
+  fields:
+    name_english: Wake Island
+    iso_3166_alpha2: UM
+    iso_3166_alpha3: UMI
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 250
+  fields:
+    name_english: Hong Kong
+    iso_3166_alpha2: HK
+    iso_3166_alpha3: HKG
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 251
+  fields:
+    name_english: Macau
+    iso_3166_alpha2: MO
+    iso_3166_alpha3: MAC
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 252
+  fields:
+    name_english: Faroe Islands
+    iso_3166_alpha2: FO
+    iso_3166_alpha3: FRO
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 253
+  fields:
+    name_english: Greenland
+    iso_3166_alpha2: GL
+    iso_3166_alpha3: GRL
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 254
+  fields:
+    name_english: French Guiana
+    iso_3166_alpha2: GF
+    iso_3166_alpha3: GUF
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 255
+  fields:
+    name_english: Guadeloupe
+    iso_3166_alpha2: GP
+    iso_3166_alpha3: GLP
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 256
+  fields:
+    name_english: Martinique
+    iso_3166_alpha2: MQ
+    iso_3166_alpha3: MTQ
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 257
+  fields:
+    name_english: Reunion
+    iso_3166_alpha2: RE
+    iso_3166_alpha3: REU
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 258
+  fields:
+    name_english: Aland
+    iso_3166_alpha2: AX
+    iso_3166_alpha3: ALA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 259
+  fields:
+    name_english: Aruba
+    iso_3166_alpha2: AW
+    iso_3166_alpha3: ABW
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 260
+  fields:
+    name_english: Netherlands Antilles
+    iso_3166_alpha2: AN
+    iso_3166_alpha3: ANT
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 261
+  fields:
+    name_english: Svalbard
+    iso_3166_alpha2: SJ
+    iso_3166_alpha3: SJM
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 262
+  fields:
+    name_english: Ascension
+    iso_3166_alpha2: AC
+    iso_3166_alpha3: ASC
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 263
+  fields:
+    name_english: Tristan da Cunha
+    iso_3166_alpha2: TA
+    iso_3166_alpha3: TAA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 268
+  fields:
+    name_english: Australian Antarctic Territory
+    iso_3166_alpha2: AQ
+    iso_3166_alpha3: ATA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 269
+  fields:
+    name_english: Ross Dependency
+    iso_3166_alpha2: AQ
+    iso_3166_alpha3: ATA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 270
+  fields:
+    name_english: Peter I Island
+    iso_3166_alpha2: AQ
+    iso_3166_alpha3: ATA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 271
+  fields:
+    name_english: Queen Maud Land
+    iso_3166_alpha2: AQ
+    iso_3166_alpha3: ATA
+    qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 272
+  fields:
+    name_english: British Antarctic Territory
+    iso_3166_alpha2: AQ
+    iso_3166_alpha3: ATA
+    qa_requirement_type: 3

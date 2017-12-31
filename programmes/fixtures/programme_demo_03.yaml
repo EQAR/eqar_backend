@@ -3,8 +3,10 @@
   fields:
     report: 2
     countries: [64]
+    name_primary: Öffentliche Verwaltung (LL.B.)
 
-- model: programmes.ProgrammeNames
+
+- model: programmes.programmeName
   pk: 3
   fields:
     programme: 3

@@ -1,7 +1,7 @@
 - model: agencies.Agency
   pk: 1
   fields:
-    eqar_id: EQARAG0021
+    deqar_id: EQARAG0021
     name_primary: Accreditation, Certification and Quality Assurance Institute
     acronym_primary: ACQUIN
     contact_person: Stefan Handke
@@ -25,7 +25,7 @@
       </p>
     registration_start: 2009-04-08
     registration_valid_to: 2021-06-30
-    focus:
+    geographical_focus: 3
 
 - model: agencies.AgencyName
   pk: 1
@@ -72,112 +72,112 @@
   fields:
     agency: 1
     activity_type: 1
-    esg_activity: System Accreditation in Germany
+    activity: System Accreditation in Germany
 
 - model: agencies.AgencyESGActivity
   pk: 2
   fields:
     agency: 1
     activity_type: 2
-    esg_activity: Programme Accreditation in Germany
+    activity: Programme Accreditation in Germany
 
 - model: agencies.AgencyESGActivity
   pk: 3
   fields:
     agency: 1
     activity_type: 3
-    esg_activity: Certification Procedures in Germany
+    activity: Certification Procedures in Germany
 
 - model: agencies.AgencyESGActivity
   pk: 4
   fields:
     agency: 1
     activity_type: 2
-    esg_activity: Programme Accreditation Abroad
+    activity: Programme Accreditation Abroad
 
 - model: agencies.AgencyESGActivity
   pk: 5
   fields:
     agency: 1
     activity_type: 1
-    esg_activity: Institutional Accreditation Abroad
+    activity: Institutional Accreditation Abroad
 
 - model: agencies.AgencyFocusCountry
   pk: 1
   fields:
     agency: 1
     country: 10
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 2
   fields:
     agency: 1
     country: 16
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 3
   fields:
     agency: 1
     country: 52
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 4
   fields:
     agency: 1
     country: 57
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 5
   fields:
     agency: 1
     country: 64
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 6
   fields:
     agency: 1
     country: 86
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 7
   fields:
     agency: 1
     country: 92
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 8
   fields:
     agency: 1
     country: 99
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 9
   fields:
     agency: 1
     country: 130
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 10
   fields:
     agency: 1
     country: 142
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 11
   fields:
     agency: 1
     country: 157
-    focus_country_official: true
+    country_is_official: true
 
 
 - model: agencies.AgencyFocusCountry
@@ -185,4 +185,4 @@
   fields:
     agency: 1
     country: 167
-    focus_country_official: true
+    country_is_official: true

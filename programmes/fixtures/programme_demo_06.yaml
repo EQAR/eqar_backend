@@ -3,8 +3,9 @@
   fields:
     report: 5
     countries: [64]
+    name_primary: Public Administration (B.A.)
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 6
   fields:
     programme: 6

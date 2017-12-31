@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts',
     'agencies',
+    'countries',
     'institutions',
     'lists',
     'programmes',

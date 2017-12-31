@@ -3,8 +3,9 @@
   fields:
     report: 6
     countries: [64]
+    name_primary: Sozialverwaltung - Rentenversicherung
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 10
   fields:
     programme: 10

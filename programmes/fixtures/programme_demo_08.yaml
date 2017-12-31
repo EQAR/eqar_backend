@@ -3,8 +3,9 @@
   fields:
     report: 6
     countries: [64]
+    name_primary: Polizeivollzugsdienst - Schutzpolizei (B.A.)
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 8
   fields:
     programme: 8

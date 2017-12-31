@@ -12,3 +12,13 @@
   pk: 3
   fields:
     type: compliant
+
+- model: lists.EQARDecisionType
+  pk: 4
+  fields:
+    type: admission
+
+- model: lists.EQARDecisionType
+  pk: 5
+  fields:
+    type: extraordinary decision

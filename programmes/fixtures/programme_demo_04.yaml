@@ -3,8 +3,10 @@
   fields:
     report: 3
     countries: [64]
+    name_primary: Polizeivollzugsdienst (B.A.)
 
-- model: programmes.ProgrammeNames
+
+- model: programmes.programmeName
   pk: 4
   fields:
     programme: 4
