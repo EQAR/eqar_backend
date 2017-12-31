@@ -5,9 +5,12 @@ from rest_framework.test import APITestCase
 
 class BrowseAPITest(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
-                'institution_resource',
-                'association', 'country', 'language', 'qf_ehea_level', 'eter',
+                'identifier_resource',
+                'association',
+                'country_qa_requirement_type','country',
+                'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
+                'eter_demo',
                 'agency_demo_01', 'agency_demo_02',
                 'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
                 'report_demo_01',
@@ -36,7 +39,7 @@ class BrowseAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/agencies/1/')
-        self.assertEqual(response.data['eqar_id'], 'EQARAG0021')
+        self.assertEqual(response.data['deqar_id'], 'EQARAG0021')
 
     def test_agency_list_by_operation_country(self):
         """
@@ -67,7 +70,7 @@ class BrowseAPITest(APITestCase):
             Test if we can display a list of focus countries by agency.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/agencies-in/2/')
+        response = self.client.get('/webapi/v1/browse/countries/by-agency/2/')
         self.assertEqual(response.data['count'], 2)
 
     def test_country_detail(self):
@@ -76,4 +79,60 @@ class BrowseAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/countries/64/')
-        self.assertEqual(response.data['country_name_en'], 'Germany')
+        self.assertEqual(response.data['name_english'], 'Germany')
+
+    def test_institution_list(self):
+        """
+            Test if we can display a list of institutions.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/institutions/')
+        self.assertEqual(response.data['count'], 3)
+
+    def test_institution_detail(self):
+        """
+            Test if we can display a particular institution.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/institutions/2/')
+        self.assertEqual(response.data['website_link'], 'http://www.fh-guestrow.de')
+
+    def test_institution_list_by_country(self):
+        """
+            Test if we can display a list of institutions by country.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/institutions/by-country/64/')
+        self.assertEqual(response.data['count'], 3)
+
+    def test_reports_list_by_agency(self):
+        """
+            Test if we can display a list of reports by agency.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/reports/by-agency/1/')
+        self.assertEqual(response.data['count'], 12)
+
+    def test_reports_list_by_institution(self):
+        """
+            Test if we can display a list of reports by institution.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/reports/by-institution/2/')
+        self.assertEqual(response.data['count'], 3)
+
+    def test_reports_list_by_country(self):
+        """
+            Test if we can display a list of reports by country.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/reports/by-country/64/')
+        self.assertEqual(response.data['count'], 12)
+
+    def test_reports_detail(self):
+        """
+            Test if we can display a particular report.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/reports/3/')
+        self.assertEqual(response.data['local_identifier'], 'EQARAG0021-EQARIN0002-02')

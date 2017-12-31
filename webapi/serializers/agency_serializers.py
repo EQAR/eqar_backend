@@ -9,7 +9,7 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agency
-        fields = ['id', 'url', 'eqar_id', 'primary_title', 'primary_acronym']
+        fields = ['id', 'url', 'deqar_id', 'primary_title', 'primary_acronym', 'logo']
 
 
 class AgencyNameVersionSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['esg_activity', 'activity_description', 'activity_type']
+        fields = ['activity', 'activity_description', 'activity_type']
 
 
 class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
@@ -58,12 +58,12 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
     decisions = AgencyEQARDecisionSerializer(many=True, read_only=True, source='agencydecision_set')
     historical_data = AgencyHistoricalDataSerializer(many=True, read_only=True, source='agencyhistoricaldata_set')
-    focus = serializers.StringRelatedField(read_only=True)
+    geographical_focus = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Agency
-        fields = ('names', 'eqar_id', 'registration_start', 'registration_valid_to', 'registration_note',
-                  'phone_numbers', 'contact_person', 'address', 'country', 'emails', 'website_link',
+        fields = ('deqar_id', 'names', 'contact_person', 'registration_start', 'registration_valid_to', 'registration_note',
+                  'phone_numbers', 'address', 'country', 'emails', 'website_link',
                   'activities', 'associations', 'decisions', 'specialisation_note',
-                  'activity_note', 'description_note', 'focus', 'historical_data',)
+                  'description_note', 'geographical_focus', 'historical_data',)
 
