@@ -11,7 +11,7 @@ class AgencyTestCase(TestCase):
     Test module for the Agency class.
     """
     fixtures = [
-        'country',
+        'country_qa_requirement_type', 'country',
         'agency_activity_type', 'agency_focus',
         'agency_demo_01', 'agency_demo_02', 'association'
     ]
@@ -42,7 +42,7 @@ class AgencyTestCase(TestCase):
         self.assertEqual(str(ahf), 'country')
 
     def test_agency_focus_str(self):
-        af = AgencyFocus.objects.get(id=1)
+        af = AgencyGeographicalFocus.objects.get(id=1)
         self.assertEqual(str(af), 'regional')
 
     def test_agency_phone_str(self):

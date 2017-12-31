@@ -3,8 +3,9 @@
   fields:
     report: 6
     countries: [64]
+    name_primary: Sozialverwaltung - Rentenversicherung (LL.B.)
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 9
   fields:
     programme: 9

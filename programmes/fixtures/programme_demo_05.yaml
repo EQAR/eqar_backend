@@ -3,8 +3,9 @@
   fields:
     report: 4
     countries: [64]
+    name_primary: Polizeivollzugsdienst für Aufstiegsbeamte
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 5
   fields:
     programme: 5

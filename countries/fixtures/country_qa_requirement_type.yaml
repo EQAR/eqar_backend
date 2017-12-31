@@ -1,0 +1,14 @@
+- model: countries.CountryQARequirementType
+  pk: 1
+  fields:
+    qa_requirement_type: institutional level
+
+- model: countries.CountryQARequirementType
+  pk: 2
+  fields:
+    qa_requirement_type: programme level
+
+- model: countries.CountryQARequirementType
+  pk: 3
+  fields:
+    qa_requirement_type: institutional and programme level

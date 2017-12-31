@@ -1,8 +1,9 @@
 - model: institutions.Institution
   pk: 1
   fields:
-    eqar_id: EQARIN0001
+    deqar_id: EQARIN0001
     eter_id:
+    name_primary: Hochschule für öffentliche Verwaltung Rheinland-Pfalz
     website_link: www.hoev-rlp.de
 
 - model: institutions.InstitutionName

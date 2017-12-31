@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from agencies.models import *
-from lists.models import Country
+from countries.models import Country
 
 
 class CountryListSerializer(serializers.HyperlinkedModelSerializer):
@@ -8,10 +7,16 @@ class CountryListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Country
-        fields = ['id', 'url', 'country_name_en', 'alpha2', 'alpha3']
+        fields = ['id', 'url', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
 
 
 class CountryDetailSerializer(serializers.ModelSerializer):
+    qa_requirement_type = serializers.StringRelatedField()
+
     class Meta:
         model = Country
-        fields = ['id', 'country_name_en', 'alpha2', 'alpha3', 'qa_requirement_notes']
+        fields = ['id', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3', 'ehea_is_member',
+                  'eqar_govermental_member_start', 'qa_requirement', 'qa_requirement_type', 'qa_requirement_notes',
+                  'external_QAA_is_permitted', 'eligibility', 'conditions', 'recognition',
+                  'external_QAA_permitted_note', 'european_approach_is_permitted', 'european_approach_note',
+                  'general_note']

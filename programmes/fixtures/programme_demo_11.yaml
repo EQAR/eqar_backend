@@ -3,8 +3,9 @@
   fields:
     report: 7
     countries: [64]
+    name_primary: Public Management
 
-- model: programmes.ProgrammeNames
+- model: programmes.programmeName
   pk: 11
   fields:
     programme: 11

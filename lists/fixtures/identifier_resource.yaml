@@ -1,14 +1,14 @@
-- model: institutions.InstitutionResource
+- model: lists.IdentifierResource
   pk: 1
   fields:
     resource: WHED
 
-- model: institutions.InstitutionResource
+- model: lists.IdentifierResource
   pk: 2
   fields:
     resource: ENIC-NARIC
 
-- model: institutions.InstitutionResource
+- model: lists.IdentifierResource
   pk: 3
   fields:
     resource: National Authority

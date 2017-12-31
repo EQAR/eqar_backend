@@ -1,7 +1,7 @@
 - model: agencies.Agency
   pk: 2
   fields:
-    eqar_id: EQARAG0051
+    deqar_id: EQARAG0051
     name_primary: Estonian Quality Agency for Higher and Vocational Education
     acronym_primary: EKKA
     contact_person: Tiia Bach
@@ -83,7 +83,7 @@
   fields:
     agency: 2
     activity_type: 1
-    esg_activity: |
+    activity: |
       Accreditations and enhancement oriented assessments of study programme groups in higher education and vocational
       education and training.
 
@@ -92,7 +92,7 @@
   fields:
     agency: 2
     activity_type: 2
-    esg_activity: |
+    activity: |
       Accreditations of higher education institutions, using internationally recognised experts.
 
 - model: agencies.AgencyFocusCountry
@@ -100,11 +100,11 @@
   fields:
     agency: 2
     country: 56
-    focus_country_official: true
+    country_is_official: true
 
 - model: agencies.AgencyFocusCountry
   pk: 15
   fields:
     agency: 2
     country: 114
-    focus_country_official: true
+    country_is_official: true

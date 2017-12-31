@@ -1,0 +1,29 @@
+- model: institutions.InstitutionETERRecord
+  pk: 1
+  fields:
+    eter_id: DE0394
+    national_identifier: 70805
+    name: Fachhochschule für öffentliche Verwaltung, Rechtspflege und Polizei Güstrow
+    acronym: FHOVPR
+    country: DE
+    website: http://www.fh-guestrow.de
+    ISCED_lowest: ISCED6
+    ISCED_highest: ISCED7
+    valid_from_year: 2014-01-01
+    data_updated: 2017-12-30
+    eter_link: https://www.eter-project.com/hei/585254f6bd8a5bba211e8409
+
+- model: institutions.InstitutionETERRecord
+  pk: 2
+  fields:
+    eter_id: DE0392
+    national_identifier: 70715
+    name: Hessische Hochschule für Polizei und Verwaltung
+    acronym: HfPV
+    country: DE
+    website: http://www.vfh.hessen.de
+    ISCED_lowest: ISCED6
+    ISCED_highest: ISCED6
+    valid_from_year: 2014-01-01
+    data_updated: 2017-12-30
+    eter_link: https://www.eter-project.com/hei/585254f6bd8a5bba211e8409
