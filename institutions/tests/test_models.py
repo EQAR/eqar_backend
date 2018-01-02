@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from institutions.models import Institution
+from institutions.models import Institution, InstitutionHistoricalField
 
 
 class InstitutionTestCase(TestCase):
@@ -24,3 +24,7 @@ class InstitutionTestCase(TestCase):
     def test_institution_qf_ehea_level_str(self):
         institution_qf_ehea_level = Institution.objects.get(id=1).institutionqfehealevel_set.first()
         self.assertEqual(str(institution_qf_ehea_level), 'first cycle')
+
+    def test_institution_historical_field_str(self):
+        ahf = InstitutionHistoricalField.objects.create(field='institutioncountries__country_id')
+        self.assertEqual(str(ahf), 'institutioncountries__country_id')

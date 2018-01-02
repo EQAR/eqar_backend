@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from countries.models import Country
+from countries.models import Country, CountryQAARegulation, CountryHistoricalData
 
 
 class CountryListSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,8 +10,24 @@ class CountryListSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'url', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
 
 
+class CountryQAARegulationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CountryQAARegulation
+        fields = ['regulation', 'regulation_url']
+
+
+class CountryHistoricalDataSerializer(serializers.ModelSerializer):
+    field = serializers.StringRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = CountryHistoricalData
+        fields = ['field', 'value', 'valid_from', 'valid_to']
+
+
 class CountryDetailSerializer(serializers.ModelSerializer):
     qa_requirement_type = serializers.StringRelatedField()
+    qaa_regulations = CountryQAARegulationSerializer(many=True, read_only=True, source='countryqaaregulation_set')
+    historical_data = CountryHistoricalDataSerializer(many=True, read_only=True, source='countryhistoricaldata_set')
 
     class Meta:
         model = Country
@@ -19,4 +35,4 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'eqar_govermental_member_start', 'qa_requirement', 'qa_requirement_type', 'qa_requirement_notes',
                   'external_QAA_is_permitted', 'eligibility', 'conditions', 'recognition',
                   'external_QAA_permitted_note', 'european_approach_is_permitted', 'european_approach_note',
-                  'general_note']
+                  'general_note', 'qaa_regulations', 'historical_data']

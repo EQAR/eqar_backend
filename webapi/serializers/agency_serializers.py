@@ -32,7 +32,7 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['activity', 'activity_description', 'activity_type']
+        fields = ['activity', 'activity_description', 'activity_type', 'reports_link']
 
 
 class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
@@ -62,7 +62,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agency
-        fields = ('deqar_id', 'names', 'contact_person', 'registration_start', 'registration_valid_to', 'registration_note',
+        fields = ('id', 'deqar_id', 'names', 'contact_person', 'registration_start', 'registration_valid_to', 'registration_note',
                   'phone_numbers', 'address', 'country', 'emails', 'website_link',
                   'activities', 'associations', 'decisions', 'specialisation_note',
                   'description_note', 'geographical_focus', 'historical_data',)
