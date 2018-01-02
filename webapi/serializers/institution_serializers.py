@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from institutions.models import Institution, InstitutionIdentifier, InstitutionName, InstitutionETERRecord
+from institutions.models import Institution, InstitutionIdentifier, InstitutionName, InstitutionETERRecord, \
+    InstitutionHistoricalData
 
 
 class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,6 +42,14 @@ class InstitutionETERRecordSerializer(serializers.ModelSerializer):
                   'ISCED_highest', 'valid_from_year', 'data_updated', 'eter_link']
 
 
+class InstitutionHistoricalDataSerializer(serializers.ModelSerializer):
+    field = serializers.StringRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = InstitutionHistoricalData
+        fields = ['field', 'value', 'valid_from', 'valid_to']
+
+
 class InstitutionDetailSerializer(serializers.ModelSerializer):
     eter = InstitutionETERRecordSerializer()
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
@@ -48,7 +57,8 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     countries = serializers.StringRelatedField(many=True, read_only=True, source='institutioncountry_set')
     # nqf_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionnqflevel_set')
     qf_ehea_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionqfehealevel_set')
+    historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
 
     class Meta:
         model = Institution
-        fields = ('eter', 'identifiers', 'website_link', 'names', 'countries', 'qf_ehea_levels')
+        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'qf_ehea_levels', 'historical_data')
