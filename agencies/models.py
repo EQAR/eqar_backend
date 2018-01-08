@@ -29,11 +29,11 @@ class Agency(models.Model):
 
     def get_primary_name(self):
         anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), name_is_primary=True).first()
-        return anv.name
+        return anv.name if anv else ""
 
     def get_primary_acronym(self):
         anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), acronym_is_primary=True).first()
-        return anv.acronym
+        return anv.acronym if anv else ""
 
     class Meta:
         db_table = 'deqar_agencies'
