@@ -36,5 +36,4 @@ class DEQARTabularInline(TabularInline):
         models.ForeignKey: {'widget': Select(attrs={'class': 'span8'})},
     }
 
-
 admin_site = DEQARAdminSite(name='deqar_admin')
