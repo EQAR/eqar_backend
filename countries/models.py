@@ -29,7 +29,9 @@ class Country(models.Model):
 
     class Meta:
         db_table = 'deqar_counties'
-
+        verbose_name = 'Country'
+        verbose_name_plural = 'Countries'
+        ordering = ('name_english',)
 
 class CountryQARequirementType(models.Model):
     """

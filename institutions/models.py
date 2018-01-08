@@ -48,7 +48,9 @@ class InstitutionName(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_names'
-        ordering = ('name_official', 'name_english')
+        ordering = ('institution', 'name_official', 'name_english')
+        verbose_name = 'Institution Name'
+        verbose_name_plural = 'Institution Names'
 
 
 class InstitutionNameVersion(models.Model):
@@ -126,10 +128,15 @@ class InstitutionETERRecord(models.Model):
     ISCED_highest = models.CharField(max_length=10)
     valid_from_year = models.DateField()
     data_updated = models.DateField()
-    eter_link = models.URLField()
+    eter_link = models.URLField(blank=True)
+
+    def __str__(self):
+        return "%s - %s" % (self.eter_id, self.name)
 
     class Meta:
         db_table = 'deqar_institution_eter_records'
+        verbose_name = 'ETER Record'
+        verbose_name_plural = 'ETER Records'
 
 
 class InstitutionHistoricalField(models.Model):

@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework import generics
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 from agencies.models import Agency
 from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer
@@ -12,9 +12,9 @@ class AgencyList(generics.ListAPIView):
     """
     queryset = Agency.objects.all()
     serializer_class = AgencyListSerializer
-    filter_backends = (OrderingFilter,)
+    filter_backends = (OrderingFilter, SearchFilter)
     ordering_fields = ('name_primary', 'acronym_primary')
-    ordering = ('name_primary',)
+    ordering = ('acronym_primary', 'name_primary')
 
 
 class AgencyListByFocusCountry(AgencyList):

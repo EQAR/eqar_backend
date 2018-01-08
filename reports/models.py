@@ -48,7 +48,7 @@ class ReportDecision(models.Model):
         db_table = 'deqar_report_decision'
 
 
-class ReportFile:
+class ReportFile(models.Model):
     """
     PDF versions of reports and evaluations.
     """
