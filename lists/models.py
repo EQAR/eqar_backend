@@ -12,6 +12,7 @@ class Language(models.Model):
 
     class Meta:
         db_table = 'deqar_list_languages'
+        ordering = ('language_name_en',)
 
 
 class QFEHEALevel(models.Model):
@@ -24,6 +25,9 @@ class QFEHEALevel(models.Model):
 
     class Meta:
         db_table = 'deqar_list_qf_ehea_levels'
+        ordering = ('code',)
+        verbose_name = 'QF-EHEA level'
+        verbose_name_plural = 'QF-EHEA levels'
 
 
 class Association(models.Model):
@@ -35,6 +39,7 @@ class Association(models.Model):
 
     class Meta:
         db_table = 'deqar_list_associations'
+        ordering = ('association',)
 
 
 class EQARDecisionType(models.Model):
@@ -46,6 +51,9 @@ class EQARDecisionType(models.Model):
 
     class Meta:
         db_table = 'deqar_list_eqar_decision_types'
+        verbose_name = 'EQAR Decision Type'
+        verbose_name_plural = 'EQAR Decision Types'
+        ordering = ('type',)
 
 
 class IdentifierResource(models.Model):
@@ -57,3 +65,6 @@ class IdentifierResource(models.Model):
 
     class Meta:
         db_table = 'deqar_list_identifier_resources'
+        verbose_name = 'Identifier Resource'
+        verbose_name_plural = 'Identifier Resources'
+        ordering = ('resource',)

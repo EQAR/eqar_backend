@@ -56,3 +56,7 @@ class AgencyTestCase(TestCase):
     def test_agency_focus_country_str(self):
         afc = AgencyFocusCountry.objects.get(id=1)
         self.assertEqual(str(afc), 'Austria')
+
+    def test_agency_esg_activity_str(self):
+        aea = AgencyESGActivity.objects.get(id=1)
+        self.assertEqual(str(aea), 'ACQUIN -> System Accreditation in Germany (programme)')

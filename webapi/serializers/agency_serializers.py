@@ -63,7 +63,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agency
         fields = ('id', 'deqar_id', 'names', 'contact_person', 'registration_start', 'registration_valid_to', 'registration_note',
-                  'phone_numbers', 'address', 'country', 'emails', 'website_link',
+                  'phone_numbers', 'address', 'country', 'emails', 'website_link', 'logo',
                   'activities', 'associations', 'decisions', 'specialisation_note',
                   'description_note', 'geographical_focus', 'historical_data',)
 

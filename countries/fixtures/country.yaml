@@ -2133,3 +2133,11 @@
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
     qa_requirement_type: 3
+
+- model: countries.Country
+  pk: 273
+  fields:
+    name_english: Kosovo
+    iso_3166_alpha2: XK
+    iso_3166_alpha3: XKX
+    qa_requirement_type: 3
