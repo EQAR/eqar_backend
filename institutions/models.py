@@ -10,6 +10,7 @@ class Institution(models.Model):
     eter = models.ForeignKey('institutions.InstitutionETERRecord', blank=True, null=True, on_delete=models.PROTECT)
     name_primary = models.CharField(max_length=200, blank=True)
     website_link = models.CharField(max_length=150)
+    countries = models.ManyToManyField('countries.Country')
 
     def __str__(self):
         return self.name_primary
@@ -64,22 +65,6 @@ class InstitutionNameVersion(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_name_versions'
-
-
-class InstitutionCountry(models.Model):
-    """
-    List of countries where the institution is located.
-    """
-    id = models.AutoField(primary_key=True)
-    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    country = models.ForeignKey('countries.Country', on_delete=models.PROTECT)
-
-    def __str__(self):
-        return self.country.name_english
-
-    class Meta:
-        db_table = 'deqar_institution_countries'
-        ordering = ('country__name_english',)
 
 
 class InstitutionNQFLevel(models.Model):

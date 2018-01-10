@@ -1,0 +1,14 @@
+- model: lists.PermissionType
+  pk: 1
+  fields:
+    type: 'yes'
+
+- model: lists.PermissionType
+  pk: 2
+  fields:
+    type: 'no'
+
+- model: lists.PermissionType
+  pk: 3
+  fields:
+    type: 'partially / with conditions'

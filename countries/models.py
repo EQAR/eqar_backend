@@ -12,9 +12,7 @@ class Country(models.Model):
     name_english = models.CharField(unique=True, max_length=100)
     ehea_is_member = models.BooleanField(default=False)
     eqar_govermental_member_start = models.DateField(blank=True, null=True)
-    qa_requirement = models.CharField(max_length=200, blank=True)
-    qa_requirement_type = models.ForeignKey('countries.CountryQARequirementType', on_delete=models.CASCADE)
-    qa_requirement_notes = models.TextField(blank=True)
+    qa_requirement_note = models.TextField(blank=True)
     external_QAA_is_permitted = models.BooleanField(default=False)
     eligibility = models.TextField(blank=True)
     conditions = models.CharField(max_length=200, blank=True)
@@ -32,6 +30,15 @@ class Country(models.Model):
         verbose_name = 'Country'
         verbose_name_plural = 'Countries'
         ordering = ('name_english',)
+
+
+class CountryQARequirement(models.Model):
+    id = models.AutoField(primary_key=True)
+    country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
+    qa_requirement = models.CharField(max_length=200, blank=True)
+    qa_requirement_type = models.ForeignKey('countries.CountryQARequirementType', on_delete=models.CASCADE)
+    qa_requirement_note = models.TextField(blank=True)
+
 
 class CountryQARequirementType(models.Model):
     """

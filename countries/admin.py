@@ -3,19 +3,22 @@ from django.db import models
 from django.forms import TextInput, Textarea, ModelForm
 from suit_ckeditor.widgets import CKEditorWidget
 
-from countries.models import Country, CountryQAARegulation
-from eqar_backend.admin import admin_site, DEQARModelAdmin
+from countries.models import Country, CountryQAARegulation, CountryQARequirement
+from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 
 
-class CountryQAARegulationInline(StackedInline):
+class CountryQAARegulationInline(DEQARStackedInline):
     model = CountryQAARegulation
     extra = 1
     verbose_name = 'QAA Regulation'
     verbose_name_plural = 'QAA Regulations'
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.URLField: {'widget': TextInput(attrs={'class': 'span8'})},
-    }
+
+
+class CountryQARequirementInline(DEQARStackedInline):
+    model = CountryQARequirement
+    extra = 1
+    verbose_name = 'QA Requirement'
+    verbose_name_plural = 'QA Requirements'
 
 
 class CountryForm(ModelForm):
@@ -32,7 +35,7 @@ class CountryForm(ModelForm):
                              'toolbarGroups': _ck_editor_toolbar}
 
         widgets = {
-            'qa_requirement_notes': CKEditorWidget(editor_options=_ck_editor_config),
+            'qa_requirement_note': CKEditorWidget(editor_options=_ck_editor_config),
             'eligibility': CKEditorWidget(editor_options=_ck_editor_config),
             'external_QAA_permitted_note': CKEditorWidget(editor_options=_ck_editor_config),
             'european_approach_note': CKEditorWidget(editor_options=_ck_editor_config),
@@ -54,11 +57,11 @@ class CountryAdmin(DEQARModelAdmin):
             'fields': ('ehea_is_member', 'eqar_govermental_member_start')
         }),
         ('Quality Assurance', {
-            'fields': ('qa_requirement', 'qa_requirement_type', 'qa_requirement_notes', 'external_QAA_is_permitted',
+            'fields': ('qa_requirement_note', 'external_QAA_is_permitted',
                        'eligibility', 'conditions', 'recognition', 'external_QAA_permitted_note',
                        'european_approach_is_permitted', 'european_approach_note', 'general_note')
         })
     )
-    inlines = [CountryQAARegulationInline]
+    inlines = [CountryQAARegulationInline, CountryQARequirementInline]
 
 admin_site.register(Country, CountryAdmin)
