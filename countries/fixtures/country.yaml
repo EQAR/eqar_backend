@@ -4,15 +4,14 @@
     name_english: Afghanistan
     iso_3166_alpha2: AF
     iso_3166_alpha3: AFG
-    qa_requirement_type: 3
-
+    
 - model: countries.Country
   pk: 2
   fields:
     name_english: Albania
     iso_3166_alpha2: AL
     iso_3166_alpha3: ALB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 3
@@ -20,7 +19,7 @@
     name_english: Algeria
     iso_3166_alpha2: DZ
     iso_3166_alpha3: DZA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 4
@@ -28,7 +27,7 @@
     name_english: Andorra
     iso_3166_alpha2: AD
     iso_3166_alpha3: AND
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 5
@@ -36,7 +35,7 @@
     name_english: Angola
     iso_3166_alpha2: AO
     iso_3166_alpha3: AGO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 6
@@ -44,7 +43,7 @@
     name_english: Antigua and Barbuda
     iso_3166_alpha2: AG
     iso_3166_alpha3: ATG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 7
@@ -52,7 +51,7 @@
     name_english: Argentina
     iso_3166_alpha2: AR
     iso_3166_alpha3: ARG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 8
@@ -60,7 +59,7 @@
     name_english: Armenia
     iso_3166_alpha2: AM
     iso_3166_alpha3: ARM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 9
@@ -68,7 +67,7 @@
     name_english: Australia
     iso_3166_alpha2: AU
     iso_3166_alpha3: AUS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 10
@@ -76,7 +75,7 @@
     name_english: Austria
     iso_3166_alpha2: AT
     iso_3166_alpha3: AUT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 11
@@ -84,7 +83,7 @@
     name_english: Azerbaijan
     iso_3166_alpha2: AZ
     iso_3166_alpha3: AZE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 12
@@ -92,7 +91,7 @@
     name_english: Bahamas, The
     iso_3166_alpha2: BS
     iso_3166_alpha3: BHS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 13
@@ -100,7 +99,7 @@
     name_english: Bahrain
     iso_3166_alpha2: BH
     iso_3166_alpha3: BHR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 14
@@ -108,7 +107,7 @@
     name_english: Bangladesh
     iso_3166_alpha2: BD
     iso_3166_alpha3: BGD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 15
@@ -116,7 +115,7 @@
     name_english: Barbados
     iso_3166_alpha2: BB
     iso_3166_alpha3: BRB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 16
@@ -124,7 +123,7 @@
     name_english: Belarus
     iso_3166_alpha2: BY
     iso_3166_alpha3: BLR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 17
@@ -132,7 +131,7 @@
     name_english: Belgium
     iso_3166_alpha2: BE
     iso_3166_alpha3: BEL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 18
@@ -140,7 +139,7 @@
     name_english: Belize
     iso_3166_alpha2: BZ
     iso_3166_alpha3: BLZ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 19
@@ -148,7 +147,7 @@
     name_english: Benin
     iso_3166_alpha2: BJ
     iso_3166_alpha3: BEN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 20
@@ -156,7 +155,7 @@
     name_english: Bhutan
     iso_3166_alpha2: BT
     iso_3166_alpha3: BTN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 21
@@ -164,7 +163,7 @@
     name_english: Bolivia
     iso_3166_alpha2: BO
     iso_3166_alpha3: BOL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 22
@@ -172,7 +171,7 @@
     name_english: Bosnia and Herzegovina
     iso_3166_alpha2: BA
     iso_3166_alpha3: BIH
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 23
@@ -180,7 +179,7 @@
     name_english: Botswana
     iso_3166_alpha2: BW
     iso_3166_alpha3: BWA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 24
@@ -188,7 +187,7 @@
     name_english: Brazil
     iso_3166_alpha2: BR
     iso_3166_alpha3: BRA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 25
@@ -196,7 +195,7 @@
     name_english: Brunei
     iso_3166_alpha2: BN
     iso_3166_alpha3: BRN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 26
@@ -204,7 +203,7 @@
     name_english: Bulgaria
     iso_3166_alpha2: BG
     iso_3166_alpha3: BGR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 27
@@ -212,7 +211,7 @@
     name_english: Burkina Faso
     iso_3166_alpha2: BF
     iso_3166_alpha3: BFA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 28
@@ -220,7 +219,7 @@
     name_english: Burundi
     iso_3166_alpha2: BI
     iso_3166_alpha3: BDI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 29
@@ -228,7 +227,7 @@
     name_english: Cambodia
     iso_3166_alpha2: KH
     iso_3166_alpha3: KHM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 30
@@ -236,7 +235,7 @@
     name_english: Cameroon
     iso_3166_alpha2: CM
     iso_3166_alpha3: CMR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 31
@@ -244,7 +243,7 @@
     name_english: Canada
     iso_3166_alpha2: CA
     iso_3166_alpha3: CAN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 32
@@ -252,7 +251,7 @@
     name_english: Cape Verde
     iso_3166_alpha2: CV
     iso_3166_alpha3: CPV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 33
@@ -260,7 +259,7 @@
     name_english: Central African Republic
     iso_3166_alpha2: CF
     iso_3166_alpha3: CAF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 34
@@ -268,7 +267,7 @@
     name_english: Chad
     iso_3166_alpha2: TD
     iso_3166_alpha3: TCD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 35
@@ -276,7 +275,7 @@
     name_english: Chile
     iso_3166_alpha2: CL
     iso_3166_alpha3: CHL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 36
@@ -284,7 +283,7 @@
     name_english: China, People's Republic of
     iso_3166_alpha2: CN
     iso_3166_alpha3: CHN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 37
@@ -292,7 +291,7 @@
     name_english: Colombia
     iso_3166_alpha2: CO
     iso_3166_alpha3: COL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 38
@@ -300,7 +299,7 @@
     name_english: Comoros
     iso_3166_alpha2: KM
     iso_3166_alpha3: COM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 39
@@ -308,7 +307,7 @@
     name_english: Congo, (Congo ¬ñ Kinshasa)
     iso_3166_alpha2: CD
     iso_3166_alpha3: COD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 40
@@ -316,7 +315,7 @@
     name_english: Congo, (Congo ¬ñ Brazzaville)
     iso_3166_alpha2: CG
     iso_3166_alpha3: COG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 41
@@ -324,7 +323,7 @@
     name_english: Costa Rica
     iso_3166_alpha2: CR
     iso_3166_alpha3: CRI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 42
@@ -332,7 +331,7 @@
     name_english: Cote d'Ivoire (Ivory Coast)
     iso_3166_alpha2: CI
     iso_3166_alpha3: CIV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 43
@@ -340,7 +339,7 @@
     name_english: Croatia
     iso_3166_alpha2: HR
     iso_3166_alpha3: HRV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 44
@@ -348,7 +347,7 @@
     name_english: Cuba
     iso_3166_alpha2: CU
     iso_3166_alpha3: CUB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 45
@@ -356,7 +355,7 @@
     name_english: Cyprus
     iso_3166_alpha2: CY
     iso_3166_alpha3: CYP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 46
@@ -364,7 +363,7 @@
     name_english: Czech Republic
     iso_3166_alpha2: CZ
     iso_3166_alpha3: CZE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 47
@@ -372,7 +371,7 @@
     name_english: Denmark
     iso_3166_alpha2: DK
     iso_3166_alpha3: DNK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 48
@@ -380,7 +379,7 @@
     name_english: Djibouti
     iso_3166_alpha2: DJ
     iso_3166_alpha3: DJI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 49
@@ -388,7 +387,7 @@
     name_english: Dominica
     iso_3166_alpha2: DM
     iso_3166_alpha3: DMA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 50
@@ -396,7 +395,7 @@
     name_english: Dominican Republic
     iso_3166_alpha2: DO
     iso_3166_alpha3: DOM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 51
@@ -404,7 +403,7 @@
     name_english: Ecuador
     iso_3166_alpha2: EC
     iso_3166_alpha3: ECU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 52
@@ -412,7 +411,7 @@
     name_english: Egypt
     iso_3166_alpha2: EG
     iso_3166_alpha3: EGY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 53
@@ -420,7 +419,7 @@
     name_english: El Salvador
     iso_3166_alpha2: SV
     iso_3166_alpha3: SLV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 54
@@ -428,7 +427,7 @@
     name_english: Equatorial Guinea
     iso_3166_alpha2: GQ
     iso_3166_alpha3: GNQ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 55
@@ -436,7 +435,7 @@
     name_english: Eritrea
     iso_3166_alpha2: ER
     iso_3166_alpha3: ERI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 56
@@ -444,7 +443,7 @@
     name_english: Estonia
     iso_3166_alpha2: EE
     iso_3166_alpha3: EST
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 57
@@ -452,7 +451,7 @@
     name_english: Ethiopia
     iso_3166_alpha2: ET
     iso_3166_alpha3: ETH
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 58
@@ -460,7 +459,7 @@
     name_english: Fiji
     iso_3166_alpha2: FJ
     iso_3166_alpha3: FJI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 59
@@ -468,7 +467,7 @@
     name_english: Finland
     iso_3166_alpha2: FI
     iso_3166_alpha3: FIN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 60
@@ -476,7 +475,7 @@
     name_english: France
     iso_3166_alpha2: FR
     iso_3166_alpha3: FRA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 61
@@ -484,7 +483,7 @@
     name_english: Gabon
     iso_3166_alpha2: GA
     iso_3166_alpha3: GAB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 62
@@ -492,7 +491,7 @@
     name_english: Gambia, The
     iso_3166_alpha2: GM
     iso_3166_alpha3: GMB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 63
@@ -500,7 +499,7 @@
     name_english: Georgia
     iso_3166_alpha2: GE
     iso_3166_alpha3: GEO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 64
@@ -508,7 +507,7 @@
     name_english: Germany
     iso_3166_alpha2: DE
     iso_3166_alpha3: DEU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 65
@@ -516,7 +515,7 @@
     name_english: Ghana
     iso_3166_alpha2: GH
     iso_3166_alpha3: GHA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 66
@@ -524,7 +523,7 @@
     name_english: Greece
     iso_3166_alpha2: GR
     iso_3166_alpha3: GRC
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 67
@@ -532,7 +531,7 @@
     name_english: Grenada
     iso_3166_alpha2: GD
     iso_3166_alpha3: GRD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 68
@@ -540,7 +539,7 @@
     name_english: Guatemala
     iso_3166_alpha2: GT
     iso_3166_alpha3: GTM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 69
@@ -548,7 +547,7 @@
     name_english: Guinea
     iso_3166_alpha2: GN
     iso_3166_alpha3: GIN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 70
@@ -556,7 +555,7 @@
     name_english: Guinea-Bissau
     iso_3166_alpha2: GW
     iso_3166_alpha3: GNB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 71
@@ -564,7 +563,7 @@
     name_english: Guyana
     iso_3166_alpha2: GY
     iso_3166_alpha3: GUY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 72
@@ -572,7 +571,7 @@
     name_english: Haiti
     iso_3166_alpha2: HT
     iso_3166_alpha3: HTI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 73
@@ -580,7 +579,7 @@
     name_english: Honduras
     iso_3166_alpha2: HN
     iso_3166_alpha3: HND
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 74
@@ -588,7 +587,7 @@
     name_english: Hungary
     iso_3166_alpha2: HU
     iso_3166_alpha3: HUN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 75
@@ -596,7 +595,7 @@
     name_english: Iceland
     iso_3166_alpha2: IS
     iso_3166_alpha3: ISL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 76
@@ -604,7 +603,7 @@
     name_english: India
     iso_3166_alpha2: IN
     iso_3166_alpha3: IND
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 77
@@ -612,7 +611,7 @@
     name_english: Indonesia
     iso_3166_alpha2: ID
     iso_3166_alpha3: IDN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 78
@@ -620,7 +619,7 @@
     name_english: Iran
     iso_3166_alpha2: IR
     iso_3166_alpha3: IRN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 79
@@ -628,7 +627,7 @@
     name_english: Iraq
     iso_3166_alpha2: IQ
     iso_3166_alpha3: IRQ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 80
@@ -636,7 +635,7 @@
     name_english: Ireland
     iso_3166_alpha2: IE
     iso_3166_alpha3: IRL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 81
@@ -644,7 +643,7 @@
     name_english: Israel
     iso_3166_alpha2: IL
     iso_3166_alpha3: ISR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 82
@@ -652,7 +651,7 @@
     name_english: Italy
     iso_3166_alpha2: IT
     iso_3166_alpha3: ITA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 83
@@ -660,7 +659,7 @@
     name_english: Jamaica
     iso_3166_alpha2: JM
     iso_3166_alpha3: JAM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 84
@@ -668,7 +667,7 @@
     name_english: Japan
     iso_3166_alpha2: JP
     iso_3166_alpha3: JPN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 85
@@ -676,7 +675,7 @@
     name_english: Jordan
     iso_3166_alpha2: JO
     iso_3166_alpha3: JOR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 86
@@ -684,7 +683,7 @@
     name_english: Kazakhstan
     iso_3166_alpha2: KZ
     iso_3166_alpha3: KAZ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 87
@@ -692,7 +691,7 @@
     name_english: Kenya
     iso_3166_alpha2: KE
     iso_3166_alpha3: KEN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 88
@@ -700,7 +699,7 @@
     name_english: Kiribati
     iso_3166_alpha2: KI
     iso_3166_alpha3: KIR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 89
@@ -708,7 +707,7 @@
     name_english: Korea, North
     iso_3166_alpha2: KP
     iso_3166_alpha3: PRK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 90
@@ -716,7 +715,7 @@
     name_english: Korea, South
     iso_3166_alpha2: KR
     iso_3166_alpha3: KOR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 91
@@ -724,7 +723,7 @@
     name_english: Kuwait
     iso_3166_alpha2: KW
     iso_3166_alpha3: KWT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 92
@@ -732,7 +731,7 @@
     name_english: Kyrgyzstan
     iso_3166_alpha2: KG
     iso_3166_alpha3: KGZ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 93
@@ -740,7 +739,7 @@
     name_english: Laos
     iso_3166_alpha2: LA
     iso_3166_alpha3: LAO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 94
@@ -748,7 +747,7 @@
     name_english: Latvia
     iso_3166_alpha2: LV
     iso_3166_alpha3: LVA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 95
@@ -756,7 +755,7 @@
     name_english: Lebanon
     iso_3166_alpha2: LB
     iso_3166_alpha3: LBN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 96
@@ -764,7 +763,7 @@
     name_english: Lesotho
     iso_3166_alpha2: LS
     iso_3166_alpha3: LSO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 97
@@ -772,7 +771,7 @@
     name_english: Liberia
     iso_3166_alpha2: LR
     iso_3166_alpha3: LBR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 98
@@ -780,7 +779,7 @@
     name_english: Libya
     iso_3166_alpha2: LY
     iso_3166_alpha3: LBY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 99
@@ -788,7 +787,7 @@
     name_english: Liechtenstein
     iso_3166_alpha2: LI
     iso_3166_alpha3: LIE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 100
@@ -796,7 +795,7 @@
     name_english: Lithuania
     iso_3166_alpha2: LT
     iso_3166_alpha3: LTU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 101
@@ -804,7 +803,7 @@
     name_english: Luxembourg
     iso_3166_alpha2: LU
     iso_3166_alpha3: LUX
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 102
@@ -812,7 +811,7 @@
     name_english: Macedonia
     iso_3166_alpha2: MK
     iso_3166_alpha3: MKD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 103
@@ -820,7 +819,7 @@
     name_english: Madagascar
     iso_3166_alpha2: MG
     iso_3166_alpha3: MDG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 104
@@ -828,7 +827,7 @@
     name_english: Malawi
     iso_3166_alpha2: MW
     iso_3166_alpha3: MWI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 105
@@ -836,7 +835,7 @@
     name_english: Malaysia
     iso_3166_alpha2: MY
     iso_3166_alpha3: MYS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 106
@@ -844,7 +843,7 @@
     name_english: Maldives
     iso_3166_alpha2: MV
     iso_3166_alpha3: MDV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 107
@@ -852,7 +851,7 @@
     name_english: Mali
     iso_3166_alpha2: ML
     iso_3166_alpha3: MLI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 108
@@ -860,7 +859,7 @@
     name_english: Malta
     iso_3166_alpha2: MT
     iso_3166_alpha3: MLT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 109
@@ -868,7 +867,7 @@
     name_english: Marshall Islands
     iso_3166_alpha2: MH
     iso_3166_alpha3: MHL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 110
@@ -876,7 +875,7 @@
     name_english: Mauritania
     iso_3166_alpha2: MR
     iso_3166_alpha3: MRT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 111
@@ -884,7 +883,7 @@
     name_english: Mauritius
     iso_3166_alpha2: MU
     iso_3166_alpha3: MUS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 112
@@ -892,7 +891,7 @@
     name_english: Mexico
     iso_3166_alpha2: MX
     iso_3166_alpha3: MEX
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 113
@@ -900,7 +899,7 @@
     name_english: Micronesia
     iso_3166_alpha2: FM
     iso_3166_alpha3: FSM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 114
@@ -908,7 +907,7 @@
     name_english: Moldova
     iso_3166_alpha2: MD
     iso_3166_alpha3: MDA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 115
@@ -916,7 +915,7 @@
     name_english: Monaco
     iso_3166_alpha2: MC
     iso_3166_alpha3: MCO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 116
@@ -924,7 +923,7 @@
     name_english: Mongolia
     iso_3166_alpha2: MN
     iso_3166_alpha3: MNG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 117
@@ -932,7 +931,7 @@
     name_english: Montenegro
     iso_3166_alpha2: ME
     iso_3166_alpha3: MNE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 118
@@ -940,7 +939,7 @@
     name_english: Morocco
     iso_3166_alpha2: MA
     iso_3166_alpha3: MAR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 119
@@ -948,7 +947,7 @@
     name_english: Mozambique
     iso_3166_alpha2: MZ
     iso_3166_alpha3: MOZ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 120
@@ -956,7 +955,7 @@
     name_english: Myanmar (Burma)
     iso_3166_alpha2: MM
     iso_3166_alpha3: MMR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 121
@@ -964,7 +963,7 @@
     name_english: Namibia
     iso_3166_alpha2: NA
     iso_3166_alpha3: NAM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 122
@@ -972,7 +971,7 @@
     name_english: Nauru
     iso_3166_alpha2: NR
     iso_3166_alpha3: NRU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 123
@@ -980,7 +979,7 @@
     name_english: Nepal
     iso_3166_alpha2: NP
     iso_3166_alpha3: NPL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 124
@@ -988,7 +987,7 @@
     name_english: Netherlands
     iso_3166_alpha2: NL
     iso_3166_alpha3: NLD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 125
@@ -996,7 +995,7 @@
     name_english: New Zealand
     iso_3166_alpha2: NZ
     iso_3166_alpha3: NZL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 126
@@ -1004,7 +1003,7 @@
     name_english: Nicaragua
     iso_3166_alpha2: NI
     iso_3166_alpha3: NIC
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 127
@@ -1012,7 +1011,7 @@
     name_english: Niger
     iso_3166_alpha2: NE
     iso_3166_alpha3: NER
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 128
@@ -1020,7 +1019,7 @@
     name_english: Nigeria
     iso_3166_alpha2: NG
     iso_3166_alpha3: NGA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 129
@@ -1028,7 +1027,7 @@
     name_english: Norway
     iso_3166_alpha2: "NO"
     iso_3166_alpha3: NOR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 130
@@ -1036,7 +1035,7 @@
     name_english: Oman
     iso_3166_alpha2: OM
     iso_3166_alpha3: OMN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 131
@@ -1044,7 +1043,7 @@
     name_english: Pakistan
     iso_3166_alpha2: PK
     iso_3166_alpha3: PAK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 132
@@ -1052,7 +1051,7 @@
     name_english: Palau
     iso_3166_alpha2: PW
     iso_3166_alpha3: PLW
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 133
@@ -1060,7 +1059,7 @@
     name_english: Panama
     iso_3166_alpha2: PA
     iso_3166_alpha3: PAN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 134
@@ -1068,7 +1067,7 @@
     name_english: Papua New Guinea
     iso_3166_alpha2: PG
     iso_3166_alpha3: PNG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 135
@@ -1076,7 +1075,7 @@
     name_english: Paraguay
     iso_3166_alpha2: PY
     iso_3166_alpha3: PRY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 136
@@ -1084,7 +1083,7 @@
     name_english: Peru
     iso_3166_alpha2: PE
     iso_3166_alpha3: PER
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 137
@@ -1092,7 +1091,7 @@
     name_english: Philippines
     iso_3166_alpha2: PH
     iso_3166_alpha3: PHL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 138
@@ -1100,7 +1099,7 @@
     name_english: Poland
     iso_3166_alpha2: PL
     iso_3166_alpha3: POL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 139
@@ -1108,7 +1107,7 @@
     name_english: Portugal
     iso_3166_alpha2: PT
     iso_3166_alpha3: PRT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 140
@@ -1116,7 +1115,7 @@
     name_english: Qatar
     iso_3166_alpha2: QA
     iso_3166_alpha3: QAT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 141
@@ -1124,7 +1123,7 @@
     name_english: Romania
     iso_3166_alpha2: RO
     iso_3166_alpha3: ROU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 142
@@ -1132,7 +1131,7 @@
     name_english: Russia
     iso_3166_alpha2: RU
     iso_3166_alpha3: RUS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 143
@@ -1140,7 +1139,7 @@
     name_english: Rwanda
     iso_3166_alpha2: RW
     iso_3166_alpha3: RWA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 144
@@ -1148,7 +1147,7 @@
     name_english: Saint Kitts and Nevis
     iso_3166_alpha2: KN
     iso_3166_alpha3: KNA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 145
@@ -1156,7 +1155,7 @@
     name_english: Saint Lucia
     iso_3166_alpha2: LC
     iso_3166_alpha3: LCA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 146
@@ -1164,7 +1163,7 @@
     name_english: Saint Vincent and the Grenadines
     iso_3166_alpha2: VC
     iso_3166_alpha3: VCT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 147
@@ -1172,7 +1171,7 @@
     name_english: Samoa
     iso_3166_alpha2: WS
     iso_3166_alpha3: WSM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 148
@@ -1180,7 +1179,7 @@
     name_english: San Marino
     iso_3166_alpha2: SM
     iso_3166_alpha3: SMR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 149
@@ -1188,7 +1187,7 @@
     name_english: Sao Tome and Principe
     iso_3166_alpha2: ST
     iso_3166_alpha3: STP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 150
@@ -1196,7 +1195,7 @@
     name_english: Saudi Arabia
     iso_3166_alpha2: SA
     iso_3166_alpha3: SAU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 151
@@ -1204,7 +1203,7 @@
     name_english: Senegal
     iso_3166_alpha2: SN
     iso_3166_alpha3: SEN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 152
@@ -1212,7 +1211,7 @@
     name_english: Serbia
     iso_3166_alpha2: RS
     iso_3166_alpha3: SRB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 153
@@ -1220,7 +1219,7 @@
     name_english: Seychelles
     iso_3166_alpha2: SC
     iso_3166_alpha3: SYC
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 154
@@ -1228,7 +1227,7 @@
     name_english: Sierra Leone
     iso_3166_alpha2: SL
     iso_3166_alpha3: SLE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 155
@@ -1236,7 +1235,7 @@
     name_english: Singapore
     iso_3166_alpha2: SG
     iso_3166_alpha3: SGP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 156
@@ -1244,7 +1243,7 @@
     name_english: Slovakia
     iso_3166_alpha2: SK
     iso_3166_alpha3: SVK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 157
@@ -1252,7 +1251,7 @@
     name_english: Slovenia
     iso_3166_alpha2: SI
     iso_3166_alpha3: SVN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 158
@@ -1260,7 +1259,7 @@
     name_english: Solomon Islands
     iso_3166_alpha2: SB
     iso_3166_alpha3: SLB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 159
@@ -1268,7 +1267,7 @@
     name_english: Somalia
     iso_3166_alpha2: SO
     iso_3166_alpha3: SOM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 160
@@ -1276,7 +1275,7 @@
     name_english: South Africa
     iso_3166_alpha2: ZA
     iso_3166_alpha3: ZAF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 161
@@ -1284,7 +1283,7 @@
     name_english: Spain
     iso_3166_alpha2: ES
     iso_3166_alpha3: ESP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 162
@@ -1292,7 +1291,7 @@
     name_english: Sri Lanka
     iso_3166_alpha2: LK
     iso_3166_alpha3: LKA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 163
@@ -1300,7 +1299,7 @@
     name_english: Sudan
     iso_3166_alpha2: SD
     iso_3166_alpha3: SDN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 164
@@ -1308,7 +1307,7 @@
     name_english: Suriname
     iso_3166_alpha2: SR
     iso_3166_alpha3: SUR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 165
@@ -1316,7 +1315,7 @@
     name_english: Swaziland
     iso_3166_alpha2: SZ
     iso_3166_alpha3: SWZ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 166
@@ -1324,7 +1323,7 @@
     name_english: Sweden
     iso_3166_alpha2: SE
     iso_3166_alpha3: SWE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 167
@@ -1332,7 +1331,7 @@
     name_english: Switzerland
     iso_3166_alpha2: CH
     iso_3166_alpha3: CHE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 168
@@ -1340,7 +1339,7 @@
     name_english: Syria
     iso_3166_alpha2: SY
     iso_3166_alpha3: SYR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 169
@@ -1348,7 +1347,7 @@
     name_english: Tajikistan
     iso_3166_alpha2: TJ
     iso_3166_alpha3: TJK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 170
@@ -1356,7 +1355,7 @@
     name_english: Tanzania
     iso_3166_alpha2: TZ
     iso_3166_alpha3: TZA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 171
@@ -1364,7 +1363,7 @@
     name_english: Thailand
     iso_3166_alpha2: TH
     iso_3166_alpha3: THA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 172
@@ -1372,7 +1371,7 @@
     name_english: Timor-Leste (East Timor)
     iso_3166_alpha2: TL
     iso_3166_alpha3: TLS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 173
@@ -1380,7 +1379,7 @@
     name_english: Togo
     iso_3166_alpha2: TG
     iso_3166_alpha3: TGO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 174
@@ -1388,7 +1387,7 @@
     name_english: Tonga
     iso_3166_alpha2: TO
     iso_3166_alpha3: TON
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 175
@@ -1396,7 +1395,7 @@
     name_english: Trinidad and Tobago
     iso_3166_alpha2: TT
     iso_3166_alpha3: TTO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 176
@@ -1404,7 +1403,7 @@
     name_english: Tunisia
     iso_3166_alpha2: TN
     iso_3166_alpha3: TUN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 177
@@ -1412,7 +1411,7 @@
     name_english: Turkey
     iso_3166_alpha2: TR
     iso_3166_alpha3: TUR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 178
@@ -1420,7 +1419,7 @@
     name_english: Turkmenistan
     iso_3166_alpha2: TM
     iso_3166_alpha3: TKM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 179
@@ -1428,7 +1427,7 @@
     name_english: Tuvalu
     iso_3166_alpha2: TV
     iso_3166_alpha3: TUV
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 180
@@ -1436,7 +1435,7 @@
     name_english: Uganda
     iso_3166_alpha2: UG
     iso_3166_alpha3: UGA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 181
@@ -1444,7 +1443,7 @@
     name_english: Ukraine
     iso_3166_alpha2: UA
     iso_3166_alpha3: UKR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 182
@@ -1452,7 +1451,7 @@
     name_english: United Arab Emirates
     iso_3166_alpha2: AE
     iso_3166_alpha3: ARE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 183
@@ -1460,7 +1459,7 @@
     name_english: United Kingdom
     iso_3166_alpha2: GB
     iso_3166_alpha3: GBR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 184
@@ -1468,7 +1467,7 @@
     name_english: United States
     iso_3166_alpha2: US
     iso_3166_alpha3: USA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 185
@@ -1476,7 +1475,7 @@
     name_english: Uruguay
     iso_3166_alpha2: UY
     iso_3166_alpha3: URY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 186
@@ -1484,7 +1483,7 @@
     name_english: Uzbekistan
     iso_3166_alpha2: UZ
     iso_3166_alpha3: UZB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 187
@@ -1492,7 +1491,7 @@
     name_english: Vanuatu
     iso_3166_alpha2: VU
     iso_3166_alpha3: VUT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 188
@@ -1500,7 +1499,7 @@
     name_english: Vatican City
     iso_3166_alpha2: VA
     iso_3166_alpha3: VAT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 189
@@ -1508,7 +1507,7 @@
     name_english: Venezuela
     iso_3166_alpha2: VE
     iso_3166_alpha3: VEN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 190
@@ -1516,7 +1515,7 @@
     name_english: Vietnam
     iso_3166_alpha2: VN
     iso_3166_alpha3: VNM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 191
@@ -1524,7 +1523,7 @@
     name_english: Yemen
     iso_3166_alpha2: YE
     iso_3166_alpha3: YEM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 192
@@ -1532,7 +1531,7 @@
     name_english: Zambia
     iso_3166_alpha2: ZM
     iso_3166_alpha3: ZMB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 193
@@ -1540,7 +1539,7 @@
     name_english: Zimbabwe
     iso_3166_alpha2: ZW
     iso_3166_alpha3: ZWE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 194
@@ -1548,7 +1547,7 @@
     name_english: Abkhazia
     iso_3166_alpha2: GE
     iso_3166_alpha3: GEO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 195
@@ -1556,7 +1555,7 @@
     name_english: China, Republic of (Taiwan)
     iso_3166_alpha2: TW
     iso_3166_alpha3: TWN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 196
@@ -1564,7 +1563,7 @@
     name_english: Nagorno-Karabakh
     iso_3166_alpha2: AZ
     iso_3166_alpha3: AZE
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 197
@@ -1572,7 +1571,7 @@
     name_english: Northern Cyprus
     iso_3166_alpha2: CY
     iso_3166_alpha3: CYP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 198
@@ -1580,7 +1579,7 @@
     name_english: Pridnestrovie (Transnistria)
     iso_3166_alpha2: MD
     iso_3166_alpha3: MDA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 199
@@ -1588,7 +1587,7 @@
     name_english: Somaliland
     iso_3166_alpha2: SO
     iso_3166_alpha3: SOM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 200
@@ -1596,7 +1595,7 @@
     name_english: South Ossetia
     iso_3166_alpha2: GE
     iso_3166_alpha3: GEO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 201
@@ -1604,7 +1603,7 @@
     name_english: Ashmore and Cartier Islands
     iso_3166_alpha2: AU
     iso_3166_alpha3: AUS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 202
@@ -1612,7 +1611,7 @@
     name_english: Christmas Island
     iso_3166_alpha2: CX
     iso_3166_alpha3: CXR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 203
@@ -1620,7 +1619,7 @@
     name_english: Cocos (Keeling) Islands
     iso_3166_alpha2: CC
     iso_3166_alpha3: CCK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 204
@@ -1628,7 +1627,7 @@
     name_english: Coral Sea Islands
     iso_3166_alpha2: AU
     iso_3166_alpha3: AUS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 205
@@ -1636,7 +1635,7 @@
     name_english: Heard Island and McDonald Islands
     iso_3166_alpha2: HM
     iso_3166_alpha3: HMD
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 206
@@ -1644,7 +1643,7 @@
     name_english: Norfolk Island
     iso_3166_alpha2: NF
     iso_3166_alpha3: NFK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 207
@@ -1652,7 +1651,7 @@
     name_english: New Caledonia
     iso_3166_alpha2: NC
     iso_3166_alpha3: NCL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 208
@@ -1660,7 +1659,7 @@
     name_english: French Polynesia
     iso_3166_alpha2: PF
     iso_3166_alpha3: PYF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 209
@@ -1668,7 +1667,7 @@
     name_english: Mayotte
     iso_3166_alpha2: YT
     iso_3166_alpha3: MYT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 210
@@ -1676,7 +1675,7 @@
     name_english: Saint Barthelemy
     iso_3166_alpha2: GP
     iso_3166_alpha3: GLP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 211
@@ -1684,7 +1683,7 @@
     name_english: Saint Martin
     iso_3166_alpha2: GP
     iso_3166_alpha3: GLP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 212
@@ -1692,7 +1691,7 @@
     name_english: Saint Pierre and Miquelon
     iso_3166_alpha2: PM
     iso_3166_alpha3: SPM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 213
@@ -1700,7 +1699,7 @@
     name_english: Wallis and Futuna
     iso_3166_alpha2: WF
     iso_3166_alpha3: WLF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 214
@@ -1708,7 +1707,7 @@
     name_english: French Southern and Antarctic Lands
     iso_3166_alpha2: TF
     iso_3166_alpha3: ATF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 215
@@ -1716,7 +1715,7 @@
     name_english: Clipperton Island
     iso_3166_alpha2: PF
     iso_3166_alpha3: PYF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 216
@@ -1724,7 +1723,7 @@
     name_english: Bouvet Island
     iso_3166_alpha2: BV
     iso_3166_alpha3: BVT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 217
@@ -1732,7 +1731,7 @@
     name_english: Cook Islands
     iso_3166_alpha2: CK
     iso_3166_alpha3: COK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 218
@@ -1740,7 +1739,7 @@
     name_english: Niue
     iso_3166_alpha2: NU
     iso_3166_alpha3: NIU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 219
@@ -1748,7 +1747,7 @@
     name_english: Tokelau
     iso_3166_alpha2: TK
     iso_3166_alpha3: TKL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 220
@@ -1756,7 +1755,7 @@
     name_english: Guernsey
     iso_3166_alpha2: GG
     iso_3166_alpha3: GGY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 221
@@ -1764,7 +1763,7 @@
     name_english: Isle of Man
     iso_3166_alpha2: IM
     iso_3166_alpha3: IMN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 222
@@ -1772,7 +1771,7 @@
     name_english: Jersey
     iso_3166_alpha2: JE
     iso_3166_alpha3: JEY
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 223
@@ -1780,7 +1779,7 @@
     name_english: Anguilla
     iso_3166_alpha2: AI
     iso_3166_alpha3: AIA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 224
@@ -1788,7 +1787,7 @@
     name_english: Bermuda
     iso_3166_alpha2: BM
     iso_3166_alpha3: BMU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 225
@@ -1796,7 +1795,7 @@
     name_english: British Indian Ocean Territory
     iso_3166_alpha2: IO
     iso_3166_alpha3: IOT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 227
@@ -1804,7 +1803,7 @@
     name_english: British Virgin Islands
     iso_3166_alpha2: VG
     iso_3166_alpha3: VGB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 228
@@ -1812,7 +1811,7 @@
     name_english: Cayman Islands
     iso_3166_alpha2: KY
     iso_3166_alpha3: CYM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 229
@@ -1820,7 +1819,7 @@
     name_english: Falkland Islands (Islas Malvinas)
     iso_3166_alpha2: FK
     iso_3166_alpha3: FLK
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 230
@@ -1828,7 +1827,7 @@
     name_english: Gibraltar
     iso_3166_alpha2: GI
     iso_3166_alpha3: GIB
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 231
@@ -1836,7 +1835,7 @@
     name_english: Montserrat
     iso_3166_alpha2: MS
     iso_3166_alpha3: MSR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 232
@@ -1844,7 +1843,7 @@
     name_english: Pitcairn Islands
     iso_3166_alpha2: PN
     iso_3166_alpha3: PCN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 233
@@ -1852,7 +1851,7 @@
     name_english: Saint Helena
     iso_3166_alpha2: SH
     iso_3166_alpha3: SHN
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 234
@@ -1860,7 +1859,7 @@
     name_english: South Georgia & South Sandwich Islands
     iso_3166_alpha2: GS
     iso_3166_alpha3: SGS
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 235
@@ -1868,7 +1867,7 @@
     name_english: Turks and Caicos Islands
     iso_3166_alpha2: TC
     iso_3166_alpha3: TCA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 236
@@ -1876,7 +1875,7 @@
     name_english: Northern Mariana Islands
     iso_3166_alpha2: MP
     iso_3166_alpha3: MNP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 237
@@ -1884,7 +1883,7 @@
     name_english: Puerto Rico
     iso_3166_alpha2: PR
     iso_3166_alpha3: PRI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 238
@@ -1892,7 +1891,7 @@
     name_english: American Samoa
     iso_3166_alpha2: AS
     iso_3166_alpha3: ASM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 239
@@ -1900,7 +1899,7 @@
     name_english: Baker Island
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 240
@@ -1908,7 +1907,7 @@
     name_english: Guam
     iso_3166_alpha2: GU
     iso_3166_alpha3: GUM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 241
@@ -1916,7 +1915,7 @@
     name_english: Howland Island
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 242
@@ -1924,7 +1923,7 @@
     name_english: Jarvis Island
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 243
@@ -1932,7 +1931,7 @@
     name_english: Johnston Atoll
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 244
@@ -1940,7 +1939,7 @@
     name_english: Kingman Reef
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 245
@@ -1948,7 +1947,7 @@
     name_english: Midway Islands
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 246
@@ -1956,7 +1955,7 @@
     name_english: Navassa Island
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 247
@@ -1964,7 +1963,7 @@
     name_english: Palmyra Atoll
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 248
@@ -1972,7 +1971,7 @@
     name_english: U.S. Virgin Islands
     iso_3166_alpha2: VI
     iso_3166_alpha3: VIR
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 249
@@ -1980,7 +1979,7 @@
     name_english: Wake Island
     iso_3166_alpha2: UM
     iso_3166_alpha3: UMI
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 250
@@ -1988,7 +1987,7 @@
     name_english: Hong Kong
     iso_3166_alpha2: HK
     iso_3166_alpha3: HKG
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 251
@@ -1996,7 +1995,7 @@
     name_english: Macau
     iso_3166_alpha2: MO
     iso_3166_alpha3: MAC
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 252
@@ -2004,7 +2003,7 @@
     name_english: Faroe Islands
     iso_3166_alpha2: FO
     iso_3166_alpha3: FRO
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 253
@@ -2012,7 +2011,7 @@
     name_english: Greenland
     iso_3166_alpha2: GL
     iso_3166_alpha3: GRL
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 254
@@ -2020,7 +2019,7 @@
     name_english: French Guiana
     iso_3166_alpha2: GF
     iso_3166_alpha3: GUF
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 255
@@ -2028,7 +2027,7 @@
     name_english: Guadeloupe
     iso_3166_alpha2: GP
     iso_3166_alpha3: GLP
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 256
@@ -2036,7 +2035,7 @@
     name_english: Martinique
     iso_3166_alpha2: MQ
     iso_3166_alpha3: MTQ
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 257
@@ -2044,7 +2043,7 @@
     name_english: Reunion
     iso_3166_alpha2: RE
     iso_3166_alpha3: REU
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 258
@@ -2052,7 +2051,7 @@
     name_english: Aland
     iso_3166_alpha2: AX
     iso_3166_alpha3: ALA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 259
@@ -2060,7 +2059,7 @@
     name_english: Aruba
     iso_3166_alpha2: AW
     iso_3166_alpha3: ABW
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 260
@@ -2068,7 +2067,7 @@
     name_english: Netherlands Antilles
     iso_3166_alpha2: AN
     iso_3166_alpha3: ANT
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 261
@@ -2076,7 +2075,7 @@
     name_english: Svalbard
     iso_3166_alpha2: SJ
     iso_3166_alpha3: SJM
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 262
@@ -2084,7 +2083,7 @@
     name_english: Ascension
     iso_3166_alpha2: AC
     iso_3166_alpha3: ASC
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 263
@@ -2092,7 +2091,7 @@
     name_english: Tristan da Cunha
     iso_3166_alpha2: TA
     iso_3166_alpha3: TAA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 268
@@ -2100,7 +2099,7 @@
     name_english: Australian Antarctic Territory
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 269
@@ -2108,7 +2107,7 @@
     name_english: Ross Dependency
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 270
@@ -2116,7 +2115,7 @@
     name_english: Peter I Island
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 271
@@ -2124,7 +2123,7 @@
     name_english: Queen Maud Land
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 272
@@ -2132,7 +2131,7 @@
     name_english: British Antarctic Territory
     iso_3166_alpha2: AQ
     iso_3166_alpha3: ATA
-    qa_requirement_type: 3
+
 
 - model: countries.Country
   pk: 273
@@ -2140,4 +2139,3 @@
     name_english: Kosovo
     iso_3166_alpha2: XK
     iso_3166_alpha3: XKX
-    qa_requirement_type: 3

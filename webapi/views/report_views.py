@@ -82,13 +82,13 @@ class ReportListByCountry(generics.ListAPIView):
                     "deqar_programmes_countries",
                     "deqar_reports_institutions",
                     "deqar_institutions",
-                    "deqar_institution_countries"],
+                    "deqar_institutions_countries"],
             where=["deqar_reports.id = deqar_programmes.report_id AND "
                    "deqar_reports.id = deqar_reports_institutions.report_id AND "
                    "deqar_reports_institutions.institution_id = deqar_institutions.id AND "
-                   "deqar_institutions.id = deqar_institution_countries.institution_id AND "
+                   "deqar_institutions.id = deqar_institutions_countries.institution_id AND "
                    "deqar_programmes.id = deqar_programmes_countries.programme_id AND "
-                   "(deqar_institution_countries.country_id = %s OR "
+                   "(deqar_institutions_countries.country_id = %s OR "
                    "deqar_programmes_countries.country_id = %s)"
                    ],
             params=[country_id, country_id]

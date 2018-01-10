@@ -54,7 +54,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     eter = InstitutionETERRecordSerializer()
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, read_only=True, source='institutionname_set')
-    countries = serializers.StringRelatedField(many=True, read_only=True, source='institutioncountry_set')
+    countries = serializers.StringRelatedField()
     # nqf_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionnqflevel_set')
     qf_ehea_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionqfehealevel_set')
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')

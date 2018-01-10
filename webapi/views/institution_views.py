@@ -33,7 +33,7 @@ class InstitutionListByCountry(InstitutionList):
         Returns a list of all the institutions in DEQAR based in the submitted country.
     """
     def get_queryset(self):
-        return Institution.objects.filter(Q(institutioncountry__country=self.kwargs['country']))
+        return Institution.objects.filter(countries__id=self.kwargs['country'])
 
 
 class InstitutionListByAgency(InstitutionList):

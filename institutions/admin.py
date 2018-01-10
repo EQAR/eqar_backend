@@ -3,7 +3,7 @@ from django.db import models
 from django.forms import TextInput, Textarea, Select
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
-from institutions.models import Institution, InstitutionIdentifier, InstitutionCountry, InstitutionQFEHEALevel, \
+from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
     InstitutionETERRecord, InstitutionName, InstitutionNameVersion
 
 
@@ -12,13 +12,6 @@ class InstitutionIdentifierInline(StackedInline):
     extra = 1
     verbose_name = 'Identifier'
     verbose_name_plural = 'Identifiers'
-
-
-class InstitutionCountryInline(StackedInline):
-    model = InstitutionCountry
-    extra = 1
-    verbose_name = 'Country'
-    verbose_name_plural = 'Countries'
 
 
 class InstitutionQFEHEALevelInline(StackedInline):
@@ -48,7 +41,7 @@ class InstitutionAdmin(DEQARModelAdmin):
         models.ForeignKey: {'widget': Select(attrs={'class': 'span10'})},
     }
 
-    inlines = [InstitutionIdentifierInline, InstitutionCountryInline, InstitutionQFEHEALevelInline]
+    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline]
 
 
 class InstitutionETERAdmin(DEQARModelAdmin):

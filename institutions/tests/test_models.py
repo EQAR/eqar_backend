@@ -14,7 +14,7 @@ class InstitutionTestCase(TestCase):
     ]
 
     def test_institution_country_str(self):
-        institution_country = Institution.objects.get(id=1).institutioncountry_set.first()
+        institution_country = Institution.objects.get(id=1).countries.first()
         self.assertEqual(str(institution_country), 'Germany')
 
     def test_institution_nqf_level_str(self):

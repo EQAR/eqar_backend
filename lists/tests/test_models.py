@@ -10,7 +10,7 @@ class InstitutionTestCase(TestCase):
     fixtures = [
         'association', 'eqar_decision_type',
         'identifier_resource', 'language',
-        'qf_ehea_level'
+        'qf_ehea_level', 'permission_type'
     ]
 
     def test_identifier_resource_str(self):
@@ -32,3 +32,7 @@ class InstitutionTestCase(TestCase):
     def test_eqar_decision_type_str(self):
         eqar_decision_type = EQARDecisionType.objects.get(pk=1)
         self.assertEqual(str(eqar_decision_type), 'renewal')
+
+    def test_eqar_permission_type_str(self):
+        eqar_permission_type = PermissionType.objects.get(pk=1)
+        self.assertEqual(str(eqar_permission_type), 'yes')
