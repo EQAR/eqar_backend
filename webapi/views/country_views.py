@@ -36,7 +36,7 @@ class CountryList(generics.ListAPIView):
     filter_class = CountryFilterClass
 
     def get_queryset(self):
-        return Country.objects.filter(agency__country__isnull=False)
+        return Country.objects.exclude(agency=None)
 
 
 class CountryListByAgency(generics.ListAPIView):
