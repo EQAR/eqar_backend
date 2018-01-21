@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 
@@ -44,7 +45,7 @@ class CountryQARequirement(models.Model):
     qa_requirement = models.CharField(max_length=200)
     qa_requirement_type = models.ForeignKey('countries.CountryQARequirementType', on_delete=models.CASCADE)
     qa_requirement_note = models.TextField(blank=True)
-    requirement_valid_from = models.DateField(auto_now_add=True)
+    requirement_valid_from = models.DateField(default=datetime.date.today)
     requirement_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -76,7 +77,7 @@ class CountryQAARegulation(models.Model):
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
     regulation = models.CharField(max_length=200, blank=True)
     regulation_url = models.URLField(max_length=200, blank=True)
-    regulation_valid_from = models.DateField(auto_now_add=True)
+    regulation_valid_from = models.DateField(default=datetime.date.today)
     regulation_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:

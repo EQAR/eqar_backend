@@ -4,7 +4,7 @@ from django.forms import TextInput, Textarea, Select
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
-    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry
+    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData
 
 
 class InstitutionIdentifierInline(StackedInline):
@@ -28,6 +28,13 @@ class InstitutionCountryInline(StackedInline):
     verbose_name_plural = 'Countries'
 
 
+class InstitutionHistoricalDataInline(DEQARStackedInline):
+    model = InstitutionHistoricalData
+    extra = 1
+    verbose_name = 'History'
+    verbose_name_plural = 'Historical Entries'
+
+
 class InstitutionAdmin(DEQARModelAdmin):
     list_display = ('name_primary', 'website_link')
     list_display_links = ('name_primary',)
@@ -48,7 +55,8 @@ class InstitutionAdmin(DEQARModelAdmin):
         models.ForeignKey: {'widget': Select(attrs={'class': 'span10'})},
     }
 
-    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline, InstitutionCountryInline]
+    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline,
+               InstitutionCountryInline, InstitutionHistoricalDataInline]
 
 
 class InstitutionETERAdmin(DEQARModelAdmin):
@@ -70,7 +78,7 @@ class InstitutionNameAdmin(DEQARModelAdmin):
     list_display = ('institution', 'name_official', 'name_valid_to')
     ordering = ('institution', 'name_official',)
     list_filter = ('institution',)
-    inlines = (InstitutionNameVersionInline,)
+    inlines = (InstitutionNameVersionInline, )
 
 
 admin_site.register(InstitutionName, InstitutionNameAdmin)

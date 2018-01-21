@@ -54,6 +54,14 @@ class AgencyEQARDecisionInline(DEQARStackedInline):
     verbose_name_plural = 'Decisions'
 
 
+class AgencyHistoricalDataInline(DEQARStackedInline):
+    model = AgencyHistoricalData
+    extra = 1
+    suit_classes = 'suit-tab suit-tab-history'
+    verbose_name = 'History'
+    verbose_name_plural = 'Historical Entries'
+
+
 class AgencyForm(ModelForm):
     class Meta:
         _ck_editor_toolbar = [
@@ -82,13 +90,16 @@ class AgencyAdmin(DEQARModelAdmin):
     list_filter = ('country',)
     date_hierarchy = 'registration_start'
 
-    suit_form_tabs = (('name', 'Name'),
-                      ('focus_countries', 'Focus Countries'),
-                      ('contact', 'Contact Information'),
-                      ('other', 'Other Information'),
-                      ('esg', 'ESG Activities'),
-                      ('decision', 'EQAR Decision'),
-                      )
+    suit_form_tabs = (
+        ('name', 'Name'),
+        ('focus_countries', 'Focus Countries'),
+        ('contact', 'Contact'),
+        ('other', 'Other Inf.'),
+        ('esg', 'ESG Activities'),
+        ('decision', 'EQAR Decision'),
+        ('history', 'History'),
+    )
+
     fieldsets = (
         (None, {
             'fields': ('deqar_id', 'acronym_primary', 'name_primary'),
@@ -106,7 +117,21 @@ class AgencyAdmin(DEQARModelAdmin):
         })
     )
     inlines = [AgencyPhonesInline, AgencyEmailsInline, AgencyFocusCountriesInline, AgencyMembershipsInline,
-               AgencyEQARDecisionInline, AgencyESGActivityInline]
+               AgencyEQARDecisionInline, AgencyESGActivityInline, AgencyHistoricalDataInline]
+
+
+class AgencyProxyInline(DEQARStackedInline):
+    model = AgencyProxy
+    extra = 1
+    verbose_name = 'Agency Proxy'
+    verbose_name_plural = 'Agency Proxies'
+
+
+class SubmittingAgencyAdmin(DEQARModelAdmin):
+    list_display = ('agency', 'external_agency')
+    list_display_links = ('agency', 'external_agency')
+    fields = ['agency', 'external_agency', 'external_agency_acronym', 'registration_from', 'registration_to']
+    inlines = [AgencyProxyInline]
 
 
 class AgencyNameVersionInline(DEQARStackedInline):
@@ -125,3 +150,4 @@ class AgencyNameAdmin(DEQARModelAdmin):
 
 admin_site.register(Agency, AgencyAdmin)
 admin_site.register(AgencyName, AgencyNameAdmin)
+admin_site.register(SubmittingAgency, SubmittingAgencyAdmin)

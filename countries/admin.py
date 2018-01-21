@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from suit_ckeditor.widgets import CKEditorWidget
 
-from countries.models import Country, CountryQAARegulation, CountryQARequirement
+from countries.models import Country, CountryQAARegulation, CountryQARequirement, CountryHistoricalData
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 
 
@@ -35,10 +35,18 @@ class CountryForm(ModelForm):
         widgets = {
             'qa_requirement_note': CKEditorWidget(editor_options=_ck_editor_config),
             'eligibility': CKEditorWidget(editor_options=_ck_editor_config),
-            'external_QAA_permitted_note': CKEditorWidget(editor_options=_ck_editor_config),
+            'external_QAA_note': CKEditorWidget(editor_options=_ck_editor_config),
             'european_approach_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'general_note': CKEditorWidget(editor_options=_ck_editor_config)
+            'general_note': CKEditorWidget(editor_options=_ck_editor_config),
+            'recognition': CKEditorWidget(editor_options=_ck_editor_config)
         }
+
+
+class CountryHistoricalDataInline(DEQARStackedInline):
+    model = CountryHistoricalData
+    extra = 1
+    verbose_name = 'History'
+    verbose_name_plural = 'Historical Entries'
 
 
 class CountryAdmin(DEQARModelAdmin):
@@ -56,10 +64,10 @@ class CountryAdmin(DEQARModelAdmin):
         }),
         ('Quality Assurance', {
             'fields': ('qa_requirement_note', 'external_QAA_is_permitted',
-                       'eligibility', 'conditions', 'recognition', 'external_QAA_permitted_note',
+                       'eligibility', 'conditions', 'recognition', 'external_QAA_note',
                        'european_approach_is_permitted', 'european_approach_note', 'general_note')
         })
     )
-    inlines = [CountryQAARegulationInline, CountryQARequirementInline]
+    inlines = [CountryQAARegulationInline, CountryQARequirementInline, CountryHistoricalDataInline]
 
 admin_site.register(Country, CountryAdmin)

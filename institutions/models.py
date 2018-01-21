@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 
@@ -33,7 +34,7 @@ class InstitutionIdentifier(models.Model):
     identifier = models.CharField(max_length=50)
     agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.SET_NULL)
     resource = models.CharField(max_length=200, blank=True)
-    identifier_valid_from = models.DateField(auto_now_add=True)
+    identifier_valid_from = models.DateField(default=datetime.date.today)
     identifier_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -101,7 +102,7 @@ class InstitutionCountry(models.Model):
     long = models.FloatField(blank=True, null=True)
     country_source = models.CharField(max_length=20)
     country_source_note = models.CharField(max_length=200, blank=True)
-    country_valid_from = models.DateField(auto_now_add=True)
+    country_valid_from = models.DateField(default=datetime.date.today)
     country_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -121,7 +122,7 @@ class InstitutionNQFLevel(models.Model):
     nqf_level = models.CharField(max_length=10)
     nqf_level_source = models.CharField(max_length=20)
     nqf_level_source_note = models.CharField(max_length=200, blank=True)
-    nqf_level_valid_from = models.DateField(auto_now_add=True)
+    nqf_level_valid_from = models.DateField(default=datetime.date.today)
     nqf_level_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
@@ -143,7 +144,7 @@ class InstitutionQFEHEALevel(models.Model):
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.PROTECT)
     qf_ehea_level_source = models.CharField(max_length=20)
     qf_ehea_level_source_note = models.CharField(max_length=200, blank=True)
-    qf_ehea_level_valid_from = models.DateField(auto_now_add=True)
+    qf_ehea_level_valid_from = models.DateField(default=datetime.date.today)
     qf_ehea_level_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
