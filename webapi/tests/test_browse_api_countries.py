@@ -85,3 +85,14 @@ class BrowseCountryAPITest(APITestCase):
         response = self.client.get('/webapi/v1/browse/countries/64/', {'history': 'true'})
         self.assertEqual(response.data['name_english'], 'Germany')
         self.assertEqual(len(response.data['historical_data']), 1)
+
+    def test_country_by_agency_focus(self):
+        """
+            Test if we can display a list of countries by agency focus.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/countries/by-agency-focus/5/')
+        self.assertEqual(response.data['count'], 11)
+
+        response = self.client.get('/webapi/v1/browse/countries/by-agency-focus/5/', {'history': 'true'})
+        self.assertEqual(response.data['count'], 12)
