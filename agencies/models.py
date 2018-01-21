@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 from django.db import models
 
@@ -142,7 +143,7 @@ class AgencyFocusCountry(models.Model):
     country = models.ForeignKey('countries.Country', on_delete=models.PROTECT)
     country_is_official = models.BooleanField(default=False)
     country_is_crossborder = models.BooleanField(default=False)
-    country_valid_from = models.DateField(auto_now_add=True)
+    country_valid_from = models.DateField(default=datetime.date.today)
     country_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
@@ -219,7 +220,7 @@ class AgencyMembership(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     association = models.ForeignKey('lists.Association', on_delete=models.PROTECT)
-    membership_valid_from = models.DateField(auto_now_add=True)
+    membership_valid_from = models.DateField(default=datetime.date.today)
     membership_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
@@ -256,11 +257,13 @@ class SubmittingAgency(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE, blank=True, null=True)
     external_agency = models.CharField(max_length=200, blank=True)
     external_agency_acronym = models.CharField(max_length=20, blank=True)
-    registration_from = models.DateField(auto_now_add=True)
+    registration_from = models.DateField(default=datetime.date.today)
     registration_to = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_agency_submitting_agencies'
+        verbose_name = 'Submitting Agency'
+        verbose_name_plural = 'Submitting Agencies'
 
     def __str__(self):
         if self.agency:
@@ -274,9 +277,9 @@ class AgencyProxy(models.Model):
     List of EQAR registered agencies whose data is submitted to DEQAR by a different submitting agency.
     """
     id = models.AutoField(primary_key=True)
-    submitting_agency = models.ForeignKey('Agency', on_delete=models.CASCADE, related_name='submitting_agency')
+    submitting_agency = models.ForeignKey('SubmittingAgency', on_delete=models.CASCADE, related_name='submitting_agency')
     allowed_agency = models.ForeignKey('Agency', on_delete=models.CASCADE, related_name='allowed_agency')
-    proxy_from = models.DateField(auto_now_add=True)
+    proxy_from = models.DateField(default=datetime.date.today)
     proxy_to = models.DateField(blank=True, null=True)
 
     class Meta:
