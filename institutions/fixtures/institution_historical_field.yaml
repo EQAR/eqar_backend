@@ -1,0 +1,34 @@
+- model: institutions.InstitutionHistoricalField
+  pk: 1
+  fields:
+    field: Institution.website_link
+
+- model: institutions.InstitutionHistoricalField
+  pk: 2
+  fields:
+    field: Institution.eter_id
+
+- model: institutions.InstitutionHistoricalField
+  pk: 3
+  fields:
+    field: InstitutionIdentifier.identifier
+
+- model: institutions.InstitutionHistoricalField
+  pk: 4
+  fields:
+    field: InstitutionName.name_official_transliterated
+
+- model: institutions.InstitutionHistoricalField
+  pk: 5
+  fields:
+    field: InstitutionName.name_english
+
+- model: institutions.InstitutionHistoricalField
+  pk: 6
+  fields:
+    field: InstitutionName.acronym
+
+- model: institutions.InstitutionHistoricalField
+  pk: 7
+  fields:
+    field: InstitutionCountry.city

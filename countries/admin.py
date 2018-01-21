@@ -1,6 +1,4 @@
-from django.contrib.admin import ModelAdmin, StackedInline
-from django.db import models
-from django.forms import TextInput, Textarea, ModelForm
+from django.forms import ModelForm
 from suit_ckeditor.widgets import CKEditorWidget
 
 from countries.models import Country, CountryQAARegulation, CountryQARequirement
@@ -54,7 +52,7 @@ class CountryAdmin(DEQARModelAdmin):
             'fields': ('name_english', 'iso_3166_alpha2', 'iso_3166_alpha3')
         }),
         ('Membership', {
-            'fields': ('ehea_is_member', 'eqar_govermental_member_start')
+            'fields': ('ehea_is_member', 'eqar_governmental_member_start')
         }),
         ('Quality Assurance', {
             'fields': ('qa_requirement_note', 'external_QAA_is_permitted',

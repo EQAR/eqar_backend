@@ -4,7 +4,7 @@ from django.forms import TextInput, Textarea, Select
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
-    InstitutionETERRecord, InstitutionName, InstitutionNameVersion
+    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry
 
 
 class InstitutionIdentifierInline(StackedInline):
@@ -21,6 +21,13 @@ class InstitutionQFEHEALevelInline(StackedInline):
     verbose_name_plural = 'QF-EHEA levels'
 
 
+class InstitutionCountryInline(StackedInline):
+    model = InstitutionCountry
+    extra = 1
+    verbose_name = 'Country'
+    verbose_name_plural = 'Countries'
+
+
 class InstitutionAdmin(DEQARModelAdmin):
     list_display = ('name_primary', 'website_link')
     list_display_links = ('name_primary',)
@@ -30,7 +37,7 @@ class InstitutionAdmin(DEQARModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('deqar_id', 'eter', 'name_primary', 'website_link')
+            'fields': ('deqar_id', 'eter', 'name_primary', 'website_link',)
         }),
     )
 
@@ -41,7 +48,7 @@ class InstitutionAdmin(DEQARModelAdmin):
         models.ForeignKey: {'widget': Select(attrs={'class': 'span10'})},
     }
 
-    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline]
+    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline, InstitutionCountryInline]
 
 
 class InstitutionETERAdmin(DEQARModelAdmin):
@@ -60,7 +67,7 @@ class InstitutionNameVersionInline(DEQARStackedInline):
 
 
 class InstitutionNameAdmin(DEQARModelAdmin):
-    list_display = ('institution', 'name_official', 'valid_to')
+    list_display = ('institution', 'name_official', 'name_valid_to')
     ordering = ('institution', 'name_official',)
     list_filter = ('institution',)
     inlines = (InstitutionNameVersionInline,)

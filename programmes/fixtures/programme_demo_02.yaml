@@ -11,5 +11,5 @@
   fields:
     programme: 2
     name: Verwaltungsbetriebswirtschaft (B.A.)
-    name_is_english: False
+    name_is_primary: False
     qualification: Bachelor of Arts

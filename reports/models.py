@@ -13,11 +13,16 @@ class Report(models.Model):
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
     decision = models.ForeignKey('ReportDecision', on_delete=models.PROTECT)
     valid_from = models.DateField()
-    valid_to = models.DateField(blank=True)
+    valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
+    flag = models.ForeignKey('lists.Flag', default=1)
 
     class Meta:
         db_table = 'deqar_reports'
+        indexes = [
+            models.Index(fields=['valid_from']),
+            models.Index(fields=['valid_to']),
+        ]
 
 
 class ReportStatus(models.Model):
@@ -48,6 +53,19 @@ class ReportDecision(models.Model):
         db_table = 'deqar_report_decision'
 
 
+class ReportLink(models.Model):
+    """
+    Links to records on individual reports and evaluations at agency’s site.
+    """
+    id = models.AutoField(primary_key=True)
+    report = models.ForeignKey('Report')
+    link_display_name = models.CharField(max_length=200, blank=True, null=True)
+    link = models.URLField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_report_links'
+
+
 class ReportFile(models.Model):
     """
     PDF versions of reports and evaluations.
@@ -55,6 +73,7 @@ class ReportFile(models.Model):
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('Report')
     file_display_name = models.CharField(max_length=100)
+    file_original_location = models.CharField(max_length=200)
     file = models.FileField()
     languages = models.ManyToManyField('lists.Language')
 

@@ -10,5 +10,5 @@
   fields:
     programme: 6
     name: Public Administration (B.A.)
-    name_is_english: False
+    name_is_primary: False
     qualification: Bachelor of Arts

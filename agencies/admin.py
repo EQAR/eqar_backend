@@ -117,7 +117,7 @@ class AgencyNameVersionInline(DEQARStackedInline):
 
 
 class AgencyNameAdmin(DEQARModelAdmin):
-    list_display = ('agency', 'valid_to')
+    list_display = ('agency', 'name_valid_to')
     ordering = ('agency',)
     list_filter = ('agency',)
     inlines = (AgencyNameVersionInline,)
