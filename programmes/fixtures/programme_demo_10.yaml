@@ -10,5 +10,5 @@
   fields:
     programme: 10
     name: Sozialverwaltung - Rentenversicherung
-    name_is_english: False
+    name_is_primary: False
     qualification: Bachelor of Laws

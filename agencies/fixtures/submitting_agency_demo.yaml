@@ -1,0 +1,12 @@
+- model: agencies.SubmittingAgency
+  pk: 1
+  fields:
+    agency: 5
+    registration_from: 2009-04-08
+
+- model: agencies.SubmittingAgency
+  pk: 2
+  fields:
+    external_agency: German Accreditation Council
+    external_agency_acronym: GAC
+    registration_from: 2009-04-08

@@ -1,2141 +1,2107 @@
-- model: countries.Country
+- model: countries.country
   pk: 1
-  fields:
-    name_english: Afghanistan
-    iso_3166_alpha2: AF
-    iso_3166_alpha3: AFG
-    
-- model: countries.Country
+  fields: {iso_3166_alpha2: AF, iso_3166_alpha3: AFG, name_english: Afghanistan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 2
-  fields:
-    name_english: Albania
-    iso_3166_alpha2: AL
-    iso_3166_alpha3: ALB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AL, iso_3166_alpha3: ALB, name_english: Albania, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-09-08, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Yes, all Albanian higher education institutions are able to\
+      \ choose an EQAR-registered agency for their mandatory external quality assurance.\
+      \ Additional conditions apply: \n\nMinistry Decision No.424, date 02.6.2010\
+      \ on the approval of the regulation of accreditation system, organisation and\
+      \ operation of institutions of external quality assurance (amended No. 368,\
+      \ date 14.4.2011).", eligibility: Registration on EQAR is sufficient., conditions: 'EQAR-registered
+      agencies should follow the standards and procedures adopted by the Ministry
+      of Education and Science (e.g. Institutional evaluation and evaluation of study
+      programs last no more than 6 months). See <link http://www.aaal.edu.al/dokumente/en/paaheregulation.pdf
+      - external-link-new-window "Opens external link in new window">here</link>.',
+    recognition: 'The reports produced by the reviewing agency are used to inform
+      a final decision on accreditation, which is taken by the Minister of Education
+      and Science, based on recommendations by the Accreditation Council of the Public
+      Agency for accreditation of Higher Education (PAAHE).', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 3
-  fields:
-    name_english: Algeria
-    iso_3166_alpha2: DZ
-    iso_3166_alpha3: DZA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DZ, iso_3166_alpha3: DZA, name_english: Algeria, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 4
-  fields:
-    name_english: Andorra
-    iso_3166_alpha2: AD
-    iso_3166_alpha3: AND
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AD, iso_3166_alpha3: AND, name_english: Andorra, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] Unknown.', general_note: '', flag: 1}
+- model: countries.country
   pk: 5
-  fields:
-    name_english: Angola
-    iso_3166_alpha2: AO
-    iso_3166_alpha3: AGO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AO, iso_3166_alpha3: AGO, name_english: Angola, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 6
-  fields:
-    name_english: Antigua and Barbuda
-    iso_3166_alpha2: AG
-    iso_3166_alpha3: ATG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AG, iso_3166_alpha3: ATG, name_english: Antigua and Barbuda,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 7
-  fields:
-    name_english: Argentina
-    iso_3166_alpha2: AR
-    iso_3166_alpha3: ARG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AR, iso_3166_alpha3: ARG, name_english: Argentina, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 8
-  fields:
-    name_english: Armenia
-    iso_3166_alpha2: AM
-    iso_3166_alpha3: ARM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AM, iso_3166_alpha3: ARM, name_english: Armenia, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-22, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, all Armenian higher education institutions can choose\
+      \ an EQAR-registered agency for their mandatory external quality assurance.\
+      \ \n\nGovernment Decision No 301 dated on March 19, 2014 on amendments and supplements\
+      \ in the Government Decision No. 978 dated June 30, 2011 on Regulation of State\
+      \ Accreditation of the Educational Institutions providing professional education\
+      \ programs in the Republic of Armenia, their specializations (bullets 11 and\
+      \ 19).", eligibility: EQAR registration is sufficient., conditions: 'agencies
+      follow their usual, own standards and procedures. Prior to starting their accreditation
+      procedure the higher education institution should inform national agency (ANQA).',
+    recognition: automatic. The results of the accreditation are listed in the State
+      Accreditation Register., european_approach_is_permitted: 1, european_approach_note: 'Yes,
+      the European Approach is available to all higher education institutions that
+      seek an evaluation with an EQAR-registered agency. ', general_note: '', flag: 1}
+- model: countries.country
   pk: 9
-  fields:
-    name_english: Australia
-    iso_3166_alpha2: AU
-    iso_3166_alpha3: AUS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AU, iso_3166_alpha3: AUS, name_english: Australia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 10
-  fields:
-    name_english: Austria
-    iso_3166_alpha2: AT
-    iso_3166_alpha3: AUT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AT, iso_3166_alpha3: AUT, name_english: Austria, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-29, qa_requirement_note: "* University\
+      \ colleges of teacher education:own methodology \n", external_QAA_is_permitted: 2,
+    external_QAA_note: "[not recognised] <ul><li>Public universities: yes.</li><li>Universities\
+      \ of applied science: after having been re-accredited by the national Agency\
+      \ for Quality Assurance and Accreditation Austria (AQ Austria)</li><li>Private\
+      \ universities &amp; university colleges of teacher education: no.</li></ul>\
+      \ <ul><li> <b>Eligibility requirements for foreign agencies</b>: <ul><li>Registration\
+      \ on EQAR</li><li>QA agencies have to submit an expression of interest to the\
+      \ Federal Ministry of Science, Research and Economy. </li></ul></li><li><b>Condition\
+      \ for the agency's work</b>: compliance with the criteria by the Federal Ministry\
+      \ of Science, Research and Economy. </li><li><b>Further information/regulations</b>:\
+      \ <link http://wissenschaft.bmwfw.gv.at/fileadmin/user_upload/E_HS-QSG.pdf -\
+      \ external-link-new-window \"Opens external link in new window\">Act on Quality\
+      \ Assurance in Higher Education (HS-QSG)</link> (\xA7 19.) (page 14) &amp; <link\
+      \ https://www.eqar.eu/fileadmin/documents/eqar/presentations/2013/131909_HS-QSG_BMWF_Neuhold.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">BMWF Presentation\
+      \ </link></li></ul>", eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: "[not recognised] <ul><li>Public universities: yes (due\
+      \ to \u201Cself-accrediting\u201D status of their programmes they are able to\
+      \ employ the European Approach).</li><li>Universities of applied sciences: no</li><li>\
+      \ Private education providers &amp; university colleges of teacher education:\
+      \ no.</li></ul>", general_note: '', flag: 1}
+- model: countries.country
   pk: 11
-  fields:
-    name_english: Azerbaijan
-    iso_3166_alpha2: AZ
-    iso_3166_alpha3: AZE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AZ, iso_3166_alpha3: AZE, name_english: Azerbaijan, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-03-05, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach is not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 12
-  fields:
-    name_english: Bahamas, The
-    iso_3166_alpha2: BS
-    iso_3166_alpha3: BHS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BS, iso_3166_alpha3: BHS, name_english: 'Bahamas, The',
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 13
-  fields:
-    name_english: Bahrain
-    iso_3166_alpha2: BH
-    iso_3166_alpha3: BHR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BH, iso_3166_alpha3: BHR, name_english: Bahrain, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 14
-  fields:
-    name_english: Bangladesh
-    iso_3166_alpha2: BD
-    iso_3166_alpha3: BGD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BD, iso_3166_alpha3: BGD, name_english: Bangladesh, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 15
-  fields:
-    name_english: Barbados
-    iso_3166_alpha2: BB
-    iso_3166_alpha3: BRB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BB, iso_3166_alpha3: BRB, name_english: Barbados, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 16
-  fields:
-    name_english: Belarus
-    iso_3166_alpha2: BY
-    iso_3166_alpha3: BLR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BY, iso_3166_alpha3: BLR, name_english: Belarus, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '[not recognised] ', flag: 1}
+- model: countries.country
   pk: 17
-  fields:
-    name_english: Belgium
-    iso_3166_alpha2: BE
-    iso_3166_alpha3: BEL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BE, iso_3166_alpha3: BEL, name_english: Belgium, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-14, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: "[not recognised] Flemish Community: yes, for external quality\
+      \ assurance at programme level. Discussions are ongoing to allow higher education\
+      \ institutions to choose EQAR-registered agencies for institutional evaluations\
+      \ as well. <ul><li><b>Eligibility requirements for foreign agencies</b>: registration\
+      \ on EQAR or other conditions agreed with NVAO.</li><li><b>Conditions for the\
+      \ agencies\u2019 work (e.g. criteria to be used)</b>: own criteria.</li><li><b>Recognition\
+      \ of reviews carried out by foreign agencies: </b> QA agencies will have to\
+      \ agree the Terms of Reference with NVAO.</li><li><b>Further information/regulations:\
+      \ <link http://media.ehea.info/file/Belgium/40/8/National_Report_Belgium_Flemish_2015_566408.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Bologna National\
+      \ Report 2015 </link>&amp; <link http://data-onderwijs.vlaanderen.be/edulex/document.aspx?docid=14650\
+      \ - external-link-new-window \"Opens external link in new window\">Decision\
+      \ of the Flemish Government on higher educatio</link>n (in Dutch, Art. II. 122.\
+      \ \xA7 4)</b></li></ul> French Community : yes, Walloon higher education institutions\
+      \ can choose an EQAR-registered agency for their mandatory external quality\
+      \ assurance. <ul><li><b>Eligibility requirements for foreign agencies</b>: N/A</li><li><b>Conditions\
+      \ for the agencies\u2019 work (e.g. criteria to be used)</b>: own criteria (compatible\
+      \ with AEQES and the ESG).</li><li><b>Recognition of reviews carried out by\
+      \ foreign agencies: </b>AEQES reviews the request of the higher education institution\
+      \ to recognise the programme evaluations carried out by the foreign agency.\
+      \ External QA carried out by EQAR-registered agencies go through a simplified\
+      \ procedure.</li><li><b>Further information/regulations: </b>AEQES QA Guide\
+      \ </li></ul>", eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] Flemish Community: yes, the European
+      Approach can be used for the external review of joint programmes. French Community:
+      yes, the European Approach can be used for the external review of joint programmes.',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 18
-  fields:
-    name_english: Belize
-    iso_3166_alpha2: BZ
-    iso_3166_alpha3: BLZ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BZ, iso_3166_alpha3: BLZ, name_english: Belize, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 19
-  fields:
-    name_english: Benin
-    iso_3166_alpha2: BJ
-    iso_3166_alpha3: BEN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BJ, iso_3166_alpha3: BEN, name_english: Benin, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 20
-  fields:
-    name_english: Bhutan
-    iso_3166_alpha2: BT
-    iso_3166_alpha3: BTN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BT, iso_3166_alpha3: BTN, name_english: Bhutan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 21
-  fields:
-    name_english: Bolivia
-    iso_3166_alpha2: BO
-    iso_3166_alpha3: BOL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BO, iso_3166_alpha3: BOL, name_english: Bolivia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 22
-  fields:
-    name_english: Bosnia and Herzegovina
-    iso_3166_alpha2: BA
-    iso_3166_alpha3: BIH
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BA, iso_3166_alpha3: BIH, name_english: Bosnia and Herzegovina,
+    ehea_is_member: true, eqar_governmental_member_start: 2008-06-25, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '[not
+      recognised] <ul><li>While Bosnian and Herzegovinian higher education institutions
+      may employ the European Approach for the quality assurance of their joint programmes
+      (on the basis of agreement that will be signed with partner institutions within
+      the consortium), the reviewed programme will not be included into the State
+      register of accredited higher education institutions and study programs in Bosnia
+      and Herzegovina.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 23
-  fields:
-    name_english: Botswana
-    iso_3166_alpha2: BW
-    iso_3166_alpha3: BWA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BW, iso_3166_alpha3: BWA, name_english: Botswana, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 24
-  fields:
-    name_english: Brazil
-    iso_3166_alpha2: BR
-    iso_3166_alpha3: BRA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BR, iso_3166_alpha3: BRA, name_english: Brazil, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 25
-  fields:
-    name_english: Brunei
-    iso_3166_alpha2: BN
-    iso_3166_alpha3: BRN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BN, iso_3166_alpha3: BRN, name_english: Brunei, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 26
-  fields:
-    name_english: Bulgaria
-    iso_3166_alpha2: BG
-    iso_3166_alpha3: BGR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BG, iso_3166_alpha3: BGR, name_english: Bulgaria, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-22, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Yes, under certain conditions: \n\n<link http://media.ehea.info/file/Bulgaria/45/7/National_Report_Bulgaria_2015_566457.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Bologna National\
+      \ Report</link> (2015) &amp; <link http://siteresources.worldbank.org/BULGARIAEXTN/Resources/305438-1307440973243/Bulgaria-Higher-Education-executive-summary-March-2012-EN.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Amendments\
+      \ to the Higher Education Act of August 2011 </link>(Art. 88, para. 3) <b> </b>",
+    eligibility: registration on EQAR is sufficient., conditions: 'the foreign agency
+      will have to use the same criteria and mark-based system as the national agency,
+      NEAA.', recognition: accreditation is given by the National Evaluation and Accreditation
+      Agency (NEAA) based on the results of the assessment., european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] <ul><li>European Approach can be used
+      by EQAR-registered agencies operating in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 27
-  fields:
-    name_english: Burkina Faso
-    iso_3166_alpha2: BF
-    iso_3166_alpha3: BFA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BF, iso_3166_alpha3: BFA, name_english: Burkina Faso,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 28
-  fields:
-    name_english: Burundi
-    iso_3166_alpha2: BI
-    iso_3166_alpha3: BDI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BI, iso_3166_alpha3: BDI, name_english: Burundi, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 29
-  fields:
-    name_english: Cambodia
-    iso_3166_alpha2: KH
-    iso_3166_alpha3: KHM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KH, iso_3166_alpha3: KHM, name_english: Cambodia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 30
-  fields:
-    name_english: Cameroon
-    iso_3166_alpha2: CM
-    iso_3166_alpha3: CMR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CM, iso_3166_alpha3: CMR, name_english: Cameroon, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 31
-  fields:
-    name_english: Canada
-    iso_3166_alpha2: CA
-    iso_3166_alpha3: CAN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CA, iso_3166_alpha3: CAN, name_english: Canada, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 32
-  fields:
-    name_english: Cape Verde
-    iso_3166_alpha2: CV
-    iso_3166_alpha3: CPV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CV, iso_3166_alpha3: CPV, name_english: Cape Verde, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 33
-  fields:
-    name_english: Central African Republic
-    iso_3166_alpha2: CF
-    iso_3166_alpha3: CAF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CF, iso_3166_alpha3: CAF, name_english: Central African
+      Republic, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 34
-  fields:
-    name_english: Chad
-    iso_3166_alpha2: TD
-    iso_3166_alpha3: TCD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TD, iso_3166_alpha3: TCD, name_english: Chad, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 35
-  fields:
-    name_english: Chile
-    iso_3166_alpha2: CL
-    iso_3166_alpha3: CHL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CL, iso_3166_alpha3: CHL, name_english: Chile, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 36
-  fields:
-    name_english: China, People's Republic of
-    iso_3166_alpha2: CN
-    iso_3166_alpha3: CHN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CN, iso_3166_alpha3: CHN, name_english: 'China, People''s
+      Republic of', ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 37
-  fields:
-    name_english: Colombia
-    iso_3166_alpha2: CO
-    iso_3166_alpha3: COL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CO, iso_3166_alpha3: COL, name_english: Colombia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 38
-  fields:
-    name_english: Comoros
-    iso_3166_alpha2: KM
-    iso_3166_alpha3: COM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KM, iso_3166_alpha3: COM, name_english: Comoros, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 39
-  fields:
-    name_english: Congo, (Congo ¬ñ Kinshasa)
-    iso_3166_alpha2: CD
-    iso_3166_alpha3: COD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CD, iso_3166_alpha3: COD, name_english: "Congo, (Congo\
+      \ \xAC\xF1 Kinshasa)", ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 40
-  fields:
-    name_english: Congo, (Congo ¬ñ Brazzaville)
-    iso_3166_alpha2: CG
-    iso_3166_alpha3: COG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CG, iso_3166_alpha3: COG, name_english: "Congo, (Congo\
+      \ \xAC\xF1 Brazzaville)", ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 41
-  fields:
-    name_english: Costa Rica
-    iso_3166_alpha2: CR
-    iso_3166_alpha3: CRI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CR, iso_3166_alpha3: CRI, name_english: Costa Rica, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 42
-  fields:
-    name_english: Cote d'Ivoire (Ivory Coast)
-    iso_3166_alpha2: CI
-    iso_3166_alpha3: CIV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CI, iso_3166_alpha3: CIV, name_english: Cote d'Ivoire
+      (Ivory Coast), ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 43
-  fields:
-    name_english: Croatia
-    iso_3166_alpha2: HR
-    iso_3166_alpha3: HRV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HR, iso_3166_alpha3: HRV, name_english: Croatia, ehea_is_member: true,
+    eqar_governmental_member_start: 2011-09-05, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, however discussions are being held on a possible
+      proposal to implement the European Approach. See further info <link https://www.azvo.hr/en/about-ashe/international-projects
+      - external-link-new-window "Opens external link in new window">here</link>.</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 44
-  fields:
-    name_english: Cuba
-    iso_3166_alpha2: CU
-    iso_3166_alpha3: CUB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CU, iso_3166_alpha3: CUB, name_english: Cuba, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 45
-  fields:
-    name_english: Cyprus
-    iso_3166_alpha2: CY
-    iso_3166_alpha3: CYP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CY, iso_3166_alpha3: CYP, name_english: Cyprus, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-18, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, all higher education institutions may choose an external\
+      \ QA agency for programme or institutional evaluations except private universities\
+      \ with initial licence of operation. The first evaluation (accreditation and\
+      \ certification procedures) can only be carried out by the Cyprus Agency of\
+      \ Quality Assurance and Accreditation in Higher Education. \n\nArticle 5 of\
+      \ the law for \u201DThe Cyprus Agency of Quality Assurance and Accreditation\
+      \ in Higher Education&quot; (2015).", eligibility: EQAR registration otherwise
+      prior consent needs to be obtained from the Cyprus QA agency., conditions: '<b>(e.g.
+      criteria to be used): </b>own criteria', recognition: final decision is to be
+      taken by the Cypriot Agency of Quality Assurance and Accreditation in Higher
+      Education based on the outcomes of the external QA activity carried out by the
+      EQAR-registered agency., european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 46
-  fields:
-    name_english: Czech Republic
-    iso_3166_alpha2: CZ
-    iso_3166_alpha3: CZE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CZ, iso_3166_alpha3: CZE, name_english: Czech Republic,
+    ehea_is_member: true, eqar_governmental_member_start: 2013-01-10, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 47
-  fields:
-    name_english: Denmark
-    iso_3166_alpha2: DK
-    iso_3166_alpha3: DNK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DK, iso_3166_alpha3: DNK, name_english: Denmark, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-04-10, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, Danish higher education institutions are able to choose\
+      \ an EQAR-registered agency for the accreditation of Danish education programmes\
+      \ offered abroad and the accreditation of professional education programmes\
+      \ offered by transnational providers. The Accreditation Council may decide to\
+      \ also use an EQAR-registered quality assurance agency, other than the Danish\
+      \ Accreditation Agency for the preparation of the accreditation reports. At\
+      \ the request of a higher education institution, the Accreditation Council may\
+      \ accept an accreditation report from another internationally recognised quality\
+      \ assurance agency. \n\n", eligibility: EQAR registration, conditions: '<ul><li>for
+      accrediting Danish higher education institutions or programmes or Danish education
+      programmes offered abroad: the agency can use its own criteria.', recognition: null,
+    european_approach_is_permitted: 1, european_approach_note: "<ul><li>Yes, the European\
+      \ Approach is available to all higher education institutions.<ul><li>Joint programmes\
+      \ can be accredited by all \u201Cinternationally recognised\u201D agencies.\
+      \ If an agency is registered on EQAR, it is automatically considered \u201C\
+      internationally recognised\u201D; otherwise, it has to prove this in an individual\
+      \ procedure to the Danish authorities.</li></ul></li></ul>", general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 48
-  fields:
-    name_english: Djibouti
-    iso_3166_alpha2: DJ
-    iso_3166_alpha3: DJI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DJ, iso_3166_alpha3: DJI, name_english: Djibouti, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 49
-  fields:
-    name_english: Dominica
-    iso_3166_alpha2: DM
-    iso_3166_alpha3: DMA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DM, iso_3166_alpha3: DMA, name_english: Dominica, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 50
-  fields:
-    name_english: Dominican Republic
-    iso_3166_alpha2: DO
-    iso_3166_alpha3: DOM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DO, iso_3166_alpha3: DOM, name_english: Dominican Republic,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 51
-  fields:
-    name_english: Ecuador
-    iso_3166_alpha2: EC
-    iso_3166_alpha3: ECU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: EC, iso_3166_alpha3: ECU, name_english: Ecuador, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 52
-  fields:
-    name_english: Egypt
-    iso_3166_alpha2: EG
-    iso_3166_alpha3: EGY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: EG, iso_3166_alpha3: EGY, name_english: Egypt, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 53
-  fields:
-    name_english: El Salvador
-    iso_3166_alpha2: SV
-    iso_3166_alpha3: SLV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SV, iso_3166_alpha3: SLV, name_english: El Salvador, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 54
-  fields:
-    name_english: Equatorial Guinea
-    iso_3166_alpha2: GQ
-    iso_3166_alpha3: GNQ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GQ, iso_3166_alpha3: GNQ, name_english: Equatorial Guinea,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 55
-  fields:
-    name_english: Eritrea
-    iso_3166_alpha2: ER
-    iso_3166_alpha3: ERI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ER, iso_3166_alpha3: ERI, name_english: Eritrea, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 56
-  fields:
-    name_english: Estonia
-    iso_3166_alpha2: EE
-    iso_3166_alpha3: EST
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: EE, iso_3166_alpha3: EST, name_english: Estonia, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-20, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Generally yes, but based on specific national criteria and\
+      \ conditions: \n\n<link http://media.ehea.info/file/Estonia/63/2/National_Report_Estonia_2015_566632.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Bologna National\
+      \ Report (2015).</link>", eligibility: 'the agency must be approved by the <link
+      register/detailpage.html?tx_pxdeqar_pi1[cid]=51 - internal-link "Opens external
+      link in new window">Estonian Higher Education Quality Agency (EKKA)</link>',
+    conditions: 'the agency has to have experience in assessing study programmes or
+      higher education institutions, it must have an international assessment committee
+      (review team) and the assessment procedures should be transparent and in line
+      with the ESG.<b> </b>', recognition: treated in the same way as the evaluations
+      carried out by the national QA agency (EKKA)<b>.</b>, european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 57
-  fields:
-    name_english: Ethiopia
-    iso_3166_alpha2: ET
-    iso_3166_alpha3: ETH
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ET, iso_3166_alpha3: ETH, name_english: Ethiopia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 58
-  fields:
-    name_english: Fiji
-    iso_3166_alpha2: FJ
-    iso_3166_alpha3: FJI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FJ, iso_3166_alpha3: FJI, name_english: Fiji, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 59
-  fields:
-    name_english: Finland
-    iso_3166_alpha2: FI
-    iso_3166_alpha3: FIN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FI, iso_3166_alpha3: FIN, name_english: Finland, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-03-06, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Generally yes, but based on a specific national regulations.\
+      \ \n\nUniversity Act 558/2009; University of Applied Sciences Act 932/2014 &amp;\
+      \ <link http://typo3/http://karvi.fi/app/uploads/2014/09/KKA_1512.pdf - external-link-new-window\
+      \ \"Opens external link in new window\">Audit manual for the quality systems\
+      \ of higher education institutions </link>", eligibility: none, conditions: agencies
+      must follow the Finish methodology (including the six main audit targets and
+      four point scale criteria). See below the audit manual for the quality systems.<b>
+      </b>, recognition: treated in the same way as the evaluations carried out by
+      the national QA agency (FINEEC)<b>.</b>, european_approach_is_permitted: 1,
+    european_approach_note: "<ul><li>Yes, due to \u201Cself-accrediting\u201D status\
+      \ for their programmes, higher education institutions can employ the European\
+      \ Approach.</li></ul>", general_note: '', flag: 1}
+- model: countries.country
   pk: 60
-  fields:
-    name_english: France
-    iso_3166_alpha2: FR
-    iso_3166_alpha3: FRA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FR, iso_3166_alpha3: FRA, name_english: France, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-28, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "[not recognised] </li></ul> <ul style=\"fill: none; margin:\
+      \ 0px 15px 15px 10px; padding: 0px; list-style-type: none; line-height: 19.2px;\
+      \ \"><li style=\"color: rgb(51, 51, 51); font-family: Arial, Verdana, Helvetica;\
+      \ font-size: 12.8px; fill: none; margin: 0px; padding: 2px 5px 2px 30px; background-image:\
+      \ url(&quot;/fileadmin/tmpl/img/li.gif&quot;); background-repeat: no-repeat;\
+      \ background-position: 0px 5px; text-align: left; \"><b style=\"fill: none;\
+      \ \">Eligibility requirements for foreign agencies</b>: N/A</li><li style=\"\
+      color: rgb(51, 51, 51); font-family: Arial, Verdana, Helvetica; font-size: 12.8px;\
+      \ fill: none; margin: 0px; padding: 2px 5px 2px 30px; background-image: url(&quot;/fileadmin/tmpl/img/li.gif&quot;);\
+      \ background-repeat: no-repeat; background-position: 0px 5px; text-align: left;\
+      \ \"><b style=\"fill: none; \">Conditions for the agencies\u2019 work (e.g.\
+      \ criteria to be used)</b>: Criteria and procedures for external quality assurance\
+      \ must be validated by HCERES.</li><li style=\"color: rgb(51, 51, 51); font-family:\
+      \ Arial, Verdana, Helvetica; font-size: 12.8px; fill: none; margin: 0px; padding:\
+      \ 2px 5px 2px 30px; background-image: url(&quot;/fileadmin/tmpl/img/li.gif&quot;);\
+      \ background-repeat: no-repeat; background-position: 0px 5px; text-align: left;\
+      \ \"><b style=\"fill: none; \">Recognition of reviews carried out by foreign\
+      \ agencies: </b>HCERES checks the external quality assurance activity, whether\
+      \ it corresponds to the national qualifications framework and whether the foreign\
+      \ quality assurance has effectively involved students in the review.</li><li\
+      \ style=\"color: rgb(51, 51, 51); font-family: Arial, Verdana, Helvetica; font-size:\
+      \ 12.8px; fill: none; margin: 0px; padding: 2px 5px 2px 30px; background-image:\
+      \ url(&quot;/fileadmin/tmpl/img/li.gif&quot;); background-repeat: no-repeat;\
+      \ background-position: 0px 5px; text-align: left; \"><b>Further information\
+      \ / regulations</b>: French legal framework (<link https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000027748429&cidTexte=LEGITEXT000006071190&dateTexte=20170531&oldAction=rechCodeArticle&fastReqId=1537061084&nbResultRech=1\
+      \ - external-link-new-window \"Opens external link in new window\">Code de la\
+      \ recherche)</link>, <link https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000027748429&cidTexte=LEGITEXT000006071190&dateTexte=20170531&oldAction=rechCodeArticle&fastReqId=1537061084&nbResultRech=1\
+      \ - external-link-new-window \"Opens external link in new window\">Article L114-3-1\
+      \ </link></li></ul> <b> </b>", eligibility: '', conditions: '', recognition: '',
+    european_approach_is_permitted: 2, european_approach_note: '<ul><li>No, the European
+      Approach is not available to higher education institutions in the country.</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 61
-  fields:
-    name_english: Gabon
-    iso_3166_alpha2: GA
-    iso_3166_alpha3: GAB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GA, iso_3166_alpha3: GAB, name_english: Gabon, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 62
-  fields:
-    name_english: Gambia, The
-    iso_3166_alpha2: GM
-    iso_3166_alpha3: GMB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GM, iso_3166_alpha3: GMB, name_english: 'Gambia, The',
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 63
-  fields:
-    name_english: Georgia
-    iso_3166_alpha2: GE
-    iso_3166_alpha3: GEO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GE, iso_3166_alpha3: GEO, name_english: Georgia, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-27, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, Georgian higher education institutions can choose an\
+      \ EQAR-registered agency for their mandatory external quality assurance. \n\n\
+      Order of the Minister of Education and Science of Georgia No. 65 \u201COn approving\
+      \ statute for accreditation of educational programs and fees\u201D (Chapter\
+      \ 28. Recognition of Accreditation awarded by foreign organizations). May 4,\
+      \ 2011", eligibility: N/A, conditions: '(e.g. criteria to be used): Criteria
+      and procedures for external quality assurance must be validated by .', recognition: 'The
+      National Center for Educational Quality Enhancement of Georgia (<link http://www.eqe.ge/eng
+      - external-link-new-window "Opens external link in new window">NCEQE</link>)
+      checks the compatibility of the evaluation with National Standards and Procedures
+      (Art. 28).', european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 64
-  fields:
-    name_english: Germany
-    iso_3166_alpha2: DE
-    iso_3166_alpha3: DEU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: DE, iso_3166_alpha3: DEU, name_english: Germany, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-25, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, all German higher education institutions (HEIs) \n\n\
+      <ul><li><link http://www.akkreditierungsrat.de/index.php?id=284&L=1 - external-link-new-window\
+      \ \"Opens external link in new window\">Accreditation Council</link>", eligibility: EQAR-registration,
+    conditions: use of national standards and criteria (see below), recognition: starting
+      with mid-2018 applications for program and system accreditation must be addressed
+      to the German Accreditation Council., european_approach_is_permitted: 1, european_approach_note: '<ul><li>Yes.
+      all German higher education institutions can opt for programme accreditation
+      of joint degrees by an EQAR-registered agency using the European Approach. See
+      <link http://www.akkreditierungsrat.de/index.php?id=internationales&L=1&size=title%3DACQUIN%2FAccessKey%3A#c1796
+      - external-link-new-window "Opens external link in new window">here</link> for
+      further information. </li><li>Nationally recognised QA agencies can also ratify
+      individual accreditation decisions by other EQAR-registered agencies on joint
+      programmes between a German and foreign institution. </li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 65
-  fields:
-    name_english: Ghana
-    iso_3166_alpha2: GH
-    iso_3166_alpha3: GHA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GH, iso_3166_alpha3: GHA, name_english: Ghana, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 66
-  fields:
-    name_english: Greece
-    iso_3166_alpha2: GR
-    iso_3166_alpha3: GRC
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GR, iso_3166_alpha3: GRC, name_english: Greece, ehea_is_member: true,
+    eqar_governmental_member_start: 2017-01-01, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 67
-  fields:
-    name_english: Grenada
-    iso_3166_alpha2: GD
-    iso_3166_alpha3: GRD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GD, iso_3166_alpha3: GRD, name_english: Grenada, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 68
-  fields:
-    name_english: Guatemala
-    iso_3166_alpha2: GT
-    iso_3166_alpha3: GTM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GT, iso_3166_alpha3: GTM, name_english: Guatemala, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 69
-  fields:
-    name_english: Guinea
-    iso_3166_alpha2: GN
-    iso_3166_alpha3: GIN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GN, iso_3166_alpha3: GIN, name_english: Guinea, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 70
-  fields:
-    name_english: Guinea-Bissau
-    iso_3166_alpha2: GW
-    iso_3166_alpha3: GNB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GW, iso_3166_alpha3: GNB, name_english: Guinea-Bissau,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 71
-  fields:
-    name_english: Guyana
-    iso_3166_alpha2: GY
-    iso_3166_alpha3: GUY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GY, iso_3166_alpha3: GUY, name_english: Guyana, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 72
-  fields:
-    name_english: Haiti
-    iso_3166_alpha2: HT
-    iso_3166_alpha3: HTI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HT, iso_3166_alpha3: HTI, name_english: Haiti, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 73
-  fields:
-    name_english: Honduras
-    iso_3166_alpha2: HN
-    iso_3166_alpha3: HND
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HN, iso_3166_alpha3: HND, name_english: Honduras, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 74
-  fields:
-    name_english: Hungary
-    iso_3166_alpha2: HU
-    iso_3166_alpha3: HUN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HU, iso_3166_alpha3: HUN, name_english: Hungary, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach is not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 75
-  fields:
-    name_english: Iceland
-    iso_3166_alpha2: IS
-    iso_3166_alpha3: ISL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IS, iso_3166_alpha3: ISL, name_english: Iceland, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach is not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 76
-  fields:
-    name_english: India
-    iso_3166_alpha2: IN
-    iso_3166_alpha3: IND
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IN, iso_3166_alpha3: IND, name_english: India, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 77
-  fields:
-    name_english: Indonesia
-    iso_3166_alpha2: ID
-    iso_3166_alpha3: IDN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ID, iso_3166_alpha3: IDN, name_english: Indonesia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 78
-  fields:
-    name_english: Iran
-    iso_3166_alpha2: IR
-    iso_3166_alpha3: IRN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IR, iso_3166_alpha3: IRN, name_english: Iran, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 79
-  fields:
-    name_english: Iraq
-    iso_3166_alpha2: IQ
-    iso_3166_alpha3: IRQ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IQ, iso_3166_alpha3: IRQ, name_english: Iraq, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 80
-  fields:
-    name_english: Ireland
-    iso_3166_alpha2: IE
-    iso_3166_alpha3: IRL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IE, iso_3166_alpha3: IRL, name_english: Ireland, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-08-26, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] <ul><li>A number of eight universities
+      together with the Dublin Institute of Technology and Royal College of Surgeons
+      in Ireland have self-awarding powers giving them the possibility to validate
+      and award their own qualifications. They can employ the European Approach for
+      the quality assurance of joint programmes. Providers with awarding powers delegated
+      to them by QQI may also employ this approach</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 81
-  fields:
-    name_english: Israel
-    iso_3166_alpha2: IL
-    iso_3166_alpha3: ISR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IL, iso_3166_alpha3: ISR, name_english: Israel, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 82
-  fields:
-    name_english: Italy
-    iso_3166_alpha2: IT
-    iso_3166_alpha3: ITA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IT, iso_3166_alpha3: ITA, name_english: Italy, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 83
-  fields:
-    name_english: Jamaica
-    iso_3166_alpha2: JM
-    iso_3166_alpha3: JAM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: JM, iso_3166_alpha3: JAM, name_english: Jamaica, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 84
-  fields:
-    name_english: Japan
-    iso_3166_alpha2: JP
-    iso_3166_alpha3: JPN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: JP, iso_3166_alpha3: JPN, name_english: Japan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 85
-  fields:
-    name_english: Jordan
-    iso_3166_alpha2: JO
-    iso_3166_alpha3: JOR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: JO, iso_3166_alpha3: JOR, name_english: Jordan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 86
-  fields:
-    name_english: Kazakhstan
-    iso_3166_alpha2: KZ
-    iso_3166_alpha3: KAZ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KZ, iso_3166_alpha3: KAZ, name_english: Kazakhstan, ehea_is_member: true,
+    eqar_governmental_member_start: 2012-08-23, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, Kazakh higher education institutions can choose for their\
+      \ mandatory external quality assurance an EQAR-registered agency. \n\n<ul><li><link\
+      \ http://edu.gov.kz/m/ministerstvo/list.php?SECTION_ID=1 - external-link-new-window\
+      \ \"Opens external link in new window\">Rules for the recognition of accreditation\
+      \ bodies</link>", eligibility: 'Foreign agencies have to be listed in the national
+      Kazakh register. To be listed, agencies need to be registered in EQAR and to
+      also meet the following requirements:<ul><li>1) to have the status of a legal
+      entity in the organizational and legal form of a non-profit organization;</li><li>2)
+      to be a full member of the international network of quality assurance;</li><li>3)
+      to have the resources necessary to fulfill the obligations on accreditation
+      of educational organizations, educational programs;</li><li>4) to have the necessary
+      staffing;</li><li>5) to have accreditation standards (regulations) that establish
+      requirements for the accreditation procedure.</li></ul>', conditions: own criteria.,
+    recognition: automatic., european_approach_is_permitted: 1, european_approach_note: 'Yes,
+      Kazakh higher education institutions can opt for programme accreditation of
+      joint degrees by an EQAR registered agency using the European Approach.', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 87
-  fields:
-    name_english: Kenya
-    iso_3166_alpha2: KE
-    iso_3166_alpha3: KEN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KE, iso_3166_alpha3: KEN, name_english: Kenya, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 88
-  fields:
-    name_english: Kiribati
-    iso_3166_alpha2: KI
-    iso_3166_alpha3: KIR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KI, iso_3166_alpha3: KIR, name_english: Kiribati, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 89
-  fields:
-    name_english: Korea, North
-    iso_3166_alpha2: KP
-    iso_3166_alpha3: PRK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KP, iso_3166_alpha3: PRK, name_english: 'Korea, North',
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 90
-  fields:
-    name_english: Korea, South
-    iso_3166_alpha2: KR
-    iso_3166_alpha3: KOR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KR, iso_3166_alpha3: KOR, name_english: 'Korea, South',
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 91
-  fields:
-    name_english: Kuwait
-    iso_3166_alpha2: KW
-    iso_3166_alpha3: KWT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KW, iso_3166_alpha3: KWT, name_english: Kuwait, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 92
-  fields:
-    name_english: Kyrgyzstan
-    iso_3166_alpha2: KG
-    iso_3166_alpha3: KGZ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KG, iso_3166_alpha3: KGZ, name_english: Kyrgyzstan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 93
-  fields:
-    name_english: Laos
-    iso_3166_alpha2: LA
-    iso_3166_alpha3: LAO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LA, iso_3166_alpha3: LAO, name_english: Laos, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 94
-  fields:
-    name_english: Latvia
-    iso_3166_alpha2: LV
-    iso_3166_alpha3: LVA
+  fields: {iso_3166_alpha2: LV, iso_3166_alpha3: LVA, name_english: Latvia, ehea_is_member: true,
+    eqar_governmental_member_start: 2011-05-05, qa_requirement_note: '* Study direction
+      accreditation.
 
-
-- model: countries.Country
+      ', external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 95
-  fields:
-    name_english: Lebanon
-    iso_3166_alpha2: LB
-    iso_3166_alpha3: LBN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LB, iso_3166_alpha3: LBN, name_english: Lebanon, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 96
-  fields:
-    name_english: Lesotho
-    iso_3166_alpha2: LS
-    iso_3166_alpha3: LSO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LS, iso_3166_alpha3: LSO, name_english: Lesotho, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 97
-  fields:
-    name_english: Liberia
-    iso_3166_alpha2: LR
-    iso_3166_alpha3: LBR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LR, iso_3166_alpha3: LBR, name_english: Liberia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 98
-  fields:
-    name_english: Libya
-    iso_3166_alpha2: LY
-    iso_3166_alpha3: LBY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LY, iso_3166_alpha3: LBY, name_english: Libya, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 99
-  fields:
-    name_english: Liechtenstein
-    iso_3166_alpha2: LI
-    iso_3166_alpha3: LIE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LI, iso_3166_alpha3: LIE, name_english: Liechtenstein,
+    ehea_is_member: true, eqar_governmental_member_start: 2008-02-29, qa_requirement_note: '',
+    external_QAA_is_permitted: 1, external_QAA_note: "Yes. \n\n<ul><li>Liechtenstein\
+      \ legislation requires the higher education institution to seek accreditation\
+      \ by any EQAR-registered agency.The country has decided not to establish an\
+      \ own national agency.", eligibility: Registration on EQAR is sufficient., conditions: own
+      criteria., recognition: null, european_approach_is_permitted: 1, european_approach_note: '<ul><li>Yes,
+      all Liechtenstein higher education institutions can opt for programme accreditation
+      of joint degrees by an EQAR registered agency using the European Approach.</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 100
-  fields:
-    name_english: Lithuania
-    iso_3166_alpha2: LT
-    iso_3166_alpha3: LTU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LT, iso_3166_alpha3: LTU, name_english: Lithuania, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-03-04, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, but it's limited to (cluster) programme evaluations:\
+      \ \n\n<ul><li> <link https://www.e-tar.lt/portal/lt/legalAct/1a9058e049b311e6b5d09300a16a686c/nMPTrsSoMV\
+      \ (see art. 48, 49 - external-link-new-window \"Opens external link in new window\"\
+      >Law on Higher Education and Research </link>(first adopted in 2009, revised\
+      \ in 2016).", eligibility: EQAR registration, conditions: '<b>(e.g. criteria
+      to be used)</b>: national criteria (see below). The evaluation should consider
+      the local context, the needs of Lithuania as a state, as well as the economic,
+      social and cultural developments.', recognition: null, european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] <ul><li>Unknown.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 101
-  fields:
-    name_english: Luxembourg
-    iso_3166_alpha2: LU
-    iso_3166_alpha3: LUX
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LU, iso_3166_alpha3: LUX, name_english: Luxembourg, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-26, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: "[not recognised] <ul><li>foreign higher education institutions<b>\
+      \ </b>(whether public or private) which seek accreditation in Luxembourg must\
+      \ have their programme and institutional evaluation carried out by an EQAR-registered\
+      \ agency. </li><li>Public institutions, i.e. University of Luxembourg has a\
+      \ 'self-accrediting status' and does not fall into the requirement of this legal\
+      \ provision. </li></ul> <ul><li><b>Eligibility criteria for foreign agencies:</b>\
+      \ <ul><li>EQAR registration. The agency is selected by the Ministry of Higher\
+      \ Education and Research.</li></ul></li><li><b>Conditions for the agencies\u2019\
+      \ work</b>: <ul><li>The agency has to follow the accreditation criteria set\
+      \ out in the Regulation of the Grand Duchy of Luxembourg (see below, art. 4).<b>\
+      \ </b></li></ul></li><li><b>Recognition of review outcomes :</b><ul><li>The\
+      \ final decision is taken by the Ministry based on the result of the accreditation\
+      \ procedure.<b></b></li></ul></li><li><b>Further information/regulations</b>:\
+      \ <ul><li><link http://www.legilux.public.lu/leg/a/archives/2016/0143/2016A2424A.html?highlight=enseignement%22sup%C3%A9rieur\
+      \ - external-link-new-window \"Opens external link in new window\">Law of 23\
+      \ July 2016 amending the Law on Higher Education of 19 June 2009</link> and\
+      \ </li><li><link http://www.legilux.public.lu/leg/a/archives/2016/0197/2016A3850A.html?highlight=accr%C3%A9ditation\
+      \ _blank external-link-new-window \"Opens external link in new window\">the\
+      \ Regulation of the Grand Duchy of Luxembourg of 24 August 2016</link></li></ul></li></ul>\
+      \ <b> </b>", eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: "[not recognised] <ul><li>Due to its \u201Cself-accrediting\u201D\
+      \ status for their programmes, the University of Luxembourg can employ the European\
+      \ Approach. </li><li>Other Luxembourg higher education institutions that require\
+      \ external programme accreditation can not use the European Approach.</li></ul>",
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 102
-  fields:
-    name_english: Macedonia
-    iso_3166_alpha2: MK
-    iso_3166_alpha3: MKD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MK, iso_3166_alpha3: MKD, name_english: Macedonia, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-03-05, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 103
-  fields:
-    name_english: Madagascar
-    iso_3166_alpha2: MG
-    iso_3166_alpha3: MDG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MG, iso_3166_alpha3: MDG, name_english: Madagascar, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 104
-  fields:
-    name_english: Malawi
-    iso_3166_alpha2: MW
-    iso_3166_alpha3: MWI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MW, iso_3166_alpha3: MWI, name_english: Malawi, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 105
-  fields:
-    name_english: Malaysia
-    iso_3166_alpha2: MY
-    iso_3166_alpha3: MYS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MY, iso_3166_alpha3: MYS, name_english: Malaysia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 106
-  fields:
-    name_english: Maldives
-    iso_3166_alpha2: MV
-    iso_3166_alpha3: MDV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MV, iso_3166_alpha3: MDV, name_english: Maldives, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 107
-  fields:
-    name_english: Mali
-    iso_3166_alpha2: ML
-    iso_3166_alpha3: MLI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ML, iso_3166_alpha3: MLI, name_english: Mali, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 108
-  fields:
-    name_english: Malta
-    iso_3166_alpha2: MT
-    iso_3166_alpha3: MLT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MT, iso_3166_alpha3: MLT, name_english: Malta, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-22, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] <ul><li>Only for self-accrediting institutions
+      in Malta, i.e. the University of Malta; the Malta College for Arts, Science
+      and Technology; and the Institute for Tourism Studies. These institutions can
+      choose to employ the European Approach for the Quality Assurance of Joint Programmes</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 109
-  fields:
-    name_english: Marshall Islands
-    iso_3166_alpha2: MH
-    iso_3166_alpha3: MHL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MH, iso_3166_alpha3: MHL, name_english: Marshall Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 110
-  fields:
-    name_english: Mauritania
-    iso_3166_alpha2: MR
-    iso_3166_alpha3: MRT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MR, iso_3166_alpha3: MRT, name_english: Mauritania, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 111
-  fields:
-    name_english: Mauritius
-    iso_3166_alpha2: MU
-    iso_3166_alpha3: MUS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MU, iso_3166_alpha3: MUS, name_english: Mauritius, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 112
-  fields:
-    name_english: Mexico
-    iso_3166_alpha2: MX
-    iso_3166_alpha3: MEX
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MX, iso_3166_alpha3: MEX, name_english: Mexico, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 113
-  fields:
-    name_english: Micronesia
-    iso_3166_alpha2: FM
-    iso_3166_alpha3: FSM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FM, iso_3166_alpha3: FSM, name_english: Micronesia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 114
-  fields:
-    name_english: Moldova
-    iso_3166_alpha2: MD
-    iso_3166_alpha3: MDA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MD, iso_3166_alpha3: MDA, name_english: Moldova, ehea_is_member: true,
+    eqar_governmental_member_start: 2015-02-27, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '[not recognised] Moldova has been a
+      Governmental Member of EQAR since 2015. <h4>Can higher education institutions
+      choose a suitable EQAR-registered agency? </h4> Yes: <ul><li><b>Eligibility
+      requirements for foreign agencies</b>: EQAR registration is sufficient.</li><li><b>Condition
+      for the agency''s work</b>: the quality assurance agency has to follow the national
+      standards when carrying out the review.</li><li><b>Further information/regulations</b>:
+      <link http://lex.justice.md/md/355156/ - external-link-new-window "Opens external
+      link in new window">Education Code, Law no</link>. 152, 17.07.2014 ( art. 113)
+      (in Romanian)</li></ul> <h4>Can HEIs employ the <link projects/joint-programmes.html
+      _self internal-link "Opens internal link in current window">European Approach
+      for the Quality Assurance of Joint Programmes</link>?</h4> Yes, the European
+      Approach is available to all higher education institutions that seek an evaluation
+      with an EQAR-registered agency.', flag: 1}
+- model: countries.country
   pk: 115
-  fields:
-    name_english: Monaco
-    iso_3166_alpha2: MC
-    iso_3166_alpha3: MCO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MC, iso_3166_alpha3: MCO, name_english: Monaco, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 116
-  fields:
-    name_english: Mongolia
-    iso_3166_alpha2: MN
-    iso_3166_alpha3: MNG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MN, iso_3166_alpha3: MNG, name_english: Mongolia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 117
-  fields:
-    name_english: Montenegro
-    iso_3166_alpha2: ME
-    iso_3166_alpha3: MNE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ME, iso_3166_alpha3: MNE, name_english: Montenegro, ehea_is_member: true,
+    eqar_governmental_member_start: 2011-06-29, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 118
-  fields:
-    name_english: Morocco
-    iso_3166_alpha2: MA
-    iso_3166_alpha3: MAR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MA, iso_3166_alpha3: MAR, name_english: Morocco, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 119
-  fields:
-    name_english: Mozambique
-    iso_3166_alpha2: MZ
-    iso_3166_alpha3: MOZ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MZ, iso_3166_alpha3: MOZ, name_english: Mozambique, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 120
-  fields:
-    name_english: Myanmar (Burma)
-    iso_3166_alpha2: MM
-    iso_3166_alpha3: MMR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MM, iso_3166_alpha3: MMR, name_english: Myanmar (Burma),
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 121
-  fields:
-    name_english: Namibia
-    iso_3166_alpha2: NA
-    iso_3166_alpha3: NAM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NA, iso_3166_alpha3: NAM, name_english: Namibia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 122
-  fields:
-    name_english: Nauru
-    iso_3166_alpha2: NR
-    iso_3166_alpha3: NRU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NR, iso_3166_alpha3: NRU, name_english: Nauru, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 123
-  fields:
-    name_english: Nepal
-    iso_3166_alpha2: NP
-    iso_3166_alpha3: NPL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NP, iso_3166_alpha3: NPL, name_english: Nepal, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 124
-  fields:
-    name_english: Netherlands
-    iso_3166_alpha2: NL
-    iso_3166_alpha3: NLD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NL, iso_3166_alpha3: NLD, name_english: Netherlands, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-27, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Yes for programme accreditation only (with the exception of\
+      \ initial accreditation). The following conditions have to be met: \n\n<link\
+      \ http://www.ehea.info/cid101574/netherlands.html - external-link-new-window\
+      \ \"Opens external link in new window\">Bologna National Report</link> (2015),\
+      \ <link https://www.nvao.net/nederland/nederlandse-wetgeving - external-link-new-window\
+      \ \"Opens external link in new window\">Dutch legal frameworks on external quality\
+      \ assurance</link>, &amp; <link https://www.nvao.net/beoordelingskaders/beoordelingskader-accreditatiestelsel-nederland-2016\
+      \ _self external-link-new-window \"Opens external link in new window\">Assessment\
+      \ Framework for higher education accreditation system Netherlands (2016</link>)",
+    eligibility: 'the QA agency must agree its Terms of Reference with the <link https://www.eqar.eu/register/detailpage.html?tx_pxdeqar_pi1%5Bcid%5D=16&tx_pxdeqar_pi1%5Bback%5D%5Bpid%5D=6
+      _blank internal-link "Opens internal link in current window"> Accreditation
+      Organisation for the Netherlands and Flanders (NVAO)</link> and the panel secretary
+      must be trained by NVAO.', conditions: own criteria.<b> </b>, recognition: NVAO
+      will take the final decision of based on the result of the assessment / accreditation
+      procedure.<b></b>, european_approach_is_permitted: 1, european_approach_note: '<ul><li>Yes.
+      all Dutch higher education institutions can opt for programme accreditation
+      of joint degrees by an EQAR-registered agency using the European Approach. See
+      <link https://www.nvao.net/procedures/internationaal - external-link-new-window
+      "Opens external link in new window">here </link>for further information.</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 125
-  fields:
-    name_english: New Zealand
-    iso_3166_alpha2: NZ
-    iso_3166_alpha3: NZL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NZ, iso_3166_alpha3: NZL, name_english: New Zealand, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 126
-  fields:
-    name_english: Nicaragua
-    iso_3166_alpha2: NI
-    iso_3166_alpha3: NIC
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NI, iso_3166_alpha3: NIC, name_english: Nicaragua, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 127
-  fields:
-    name_english: Niger
-    iso_3166_alpha2: NE
-    iso_3166_alpha3: NER
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NE, iso_3166_alpha3: NER, name_english: Niger, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 128
-  fields:
-    name_english: Nigeria
-    iso_3166_alpha2: NG
-    iso_3166_alpha3: NGA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NG, iso_3166_alpha3: NGA, name_english: Nigeria, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 129
-  fields:
-    name_english: Norway
-    iso_3166_alpha2: "NO"
-    iso_3166_alpha3: NOR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: 'NO', iso_3166_alpha3: NOR, name_english: Norway, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-06-06, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 130
-  fields:
-    name_english: Oman
-    iso_3166_alpha2: OM
-    iso_3166_alpha3: OMN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: OM, iso_3166_alpha3: OMN, name_english: Oman, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 131
-  fields:
-    name_english: Pakistan
-    iso_3166_alpha2: PK
-    iso_3166_alpha3: PAK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PK, iso_3166_alpha3: PAK, name_english: Pakistan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 132
-  fields:
-    name_english: Palau
-    iso_3166_alpha2: PW
-    iso_3166_alpha3: PLW
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PW, iso_3166_alpha3: PLW, name_english: Palau, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 133
-  fields:
-    name_english: Panama
-    iso_3166_alpha2: PA
-    iso_3166_alpha3: PAN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PA, iso_3166_alpha3: PAN, name_english: Panama, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 134
-  fields:
-    name_english: Papua New Guinea
-    iso_3166_alpha2: PG
-    iso_3166_alpha3: PNG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PG, iso_3166_alpha3: PNG, name_english: Papua New Guinea,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 135
-  fields:
-    name_english: Paraguay
-    iso_3166_alpha2: PY
-    iso_3166_alpha3: PRY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PY, iso_3166_alpha3: PRY, name_english: Paraguay, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 136
-  fields:
-    name_english: Peru
-    iso_3166_alpha2: PE
-    iso_3166_alpha3: PER
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PE, iso_3166_alpha3: PER, name_english: Peru, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 137
-  fields:
-    name_english: Philippines
-    iso_3166_alpha2: PH
-    iso_3166_alpha3: PHL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PH, iso_3166_alpha3: PHL, name_english: Philippines, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 138
-  fields:
-    name_english: Poland
-    iso_3166_alpha2: PL
-    iso_3166_alpha3: POL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PL, iso_3166_alpha3: POL, name_english: Poland, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-25, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: "[not recognised] - HEIs are required to be reviewed by an\
+      \ EQAR-registered agency in order to apply for the right to offer doctorate\
+      \ degrees.- Foreign higher education institutions (HEIs) that have been accredited\
+      \ by any EQAR-registered agency have the right to establish branch HEIs or departments\
+      \ in Polish.- Higher education institutions may have their programme evaluated\
+      \ by EQAR-registered agencies if certain conditions are met: <ul><li><b>Eligibility\
+      \ requirements for foreign agencies</b>: EQAR registration</li><li><b>Conditions\
+      \ for the agencies\u2019 work (e.g. criteria to be used)</b>: own criteria for\
+      \ EQAR registered QA agencies.</li><li><b>Recognition of reviews carried out\
+      \ by foreign agencies: </b>the Polish Accreditation Commission (PKA, the national\
+      \ QA agency) takes into account the accreditations and certificates obtained\
+      \ through the evaluation by the foreign agency in selected areas of education</li><li><b>Further\
+      \ information/regulations: </b><ul><li><link http://dziennikustaw.gov.pl/du/2016/1529/1\
+      \ - external-link-new-window \"Opens external link in new window\">Ministry\
+      \ of Science and Higher Education Regulation of 20 September 2016 on the general\
+      \ criteria for program evaluation</link></li></ul></li></ul> <b> </b>", eligibility: '',
+    conditions: '', recognition: '', european_approach_is_permitted: 1, european_approach_note: <ul><li>Yes.
+      all Polish higher education institutions can opt for programme accreditation
+      of joint degrees by an EQAR-registered agency using the European Approach.</li></ul>,
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 139
-  fields:
-    name_english: Portugal
-    iso_3166_alpha2: PT
-    iso_3166_alpha3: PRT
+  fields: {iso_3166_alpha2: PT, iso_3166_alpha3: PRT, name_english: Portugal, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-03-04, qa_requirement_note: '* Audit of internal
+      quality assurance systems.
 
-
-- model: countries.Country
+      ', external_QAA_is_permitted: 3, external_QAA_note: "Generally yes, but only\
+      \ under certain conditions: \n\n<link http://media.ehea.info/file/Portugal/92/4/National_Report_Portugal_2015_571924.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Bologna National\
+      \ Report (2015)</link>.", eligibility: 'the QA agency must be approved by the
+      <link register/detailpage.html?tx_pxdeqar_pi1[cid]=59 - internal-link "Opens
+      internal link in current window">Agency for Assessment and Accreditation of
+      Higher Education (A3ES)</link>.', conditions: own criteria.<b> </b>, recognition: 'on
+      a case by case decision, the Executive Board of A3ES may accept the result of
+      the assessment / accreditation procedure from other QA agencies.<b></b>', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 140
-  fields:
-    name_english: Qatar
-    iso_3166_alpha2: QA
-    iso_3166_alpha3: QAT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: QA, iso_3166_alpha3: QAT, name_english: Qatar, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 141
-  fields:
-    name_english: Romania
-    iso_3166_alpha2: RO
-    iso_3166_alpha3: ROU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: RO, iso_3166_alpha3: ROU, name_english: Romania, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-03-04, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, Romanian higher education institutions can choose for\
+      \ their programme accreditation and periodic external evaluations the national\
+      \ QA agency, ARACIS or any other EQAR listed agency. \n\n<link http://media.ehea.info/file/Romania/94/4/National_Report_Romania_2015_571944.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Bologna National\
+      \ Report (2015)</link>.", eligibility: Registration on EQAR is sufficient.,
+    conditions: own criteria., recognition: null, european_approach_is_permitted: 1,
+    european_approach_note: '<ul><li>Yes, all Romanian higher education institutions
+      can opt for programme accreditation of joint degrees by an EQAR registered agency
+      using the European Approach.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 142
-  fields:
-    name_english: Russia
-    iso_3166_alpha2: RU
-    iso_3166_alpha3: RUS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: RU, iso_3166_alpha3: RUS, name_english: Russia, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 143
-  fields:
-    name_english: Rwanda
-    iso_3166_alpha2: RW
-    iso_3166_alpha3: RWA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: RW, iso_3166_alpha3: RWA, name_english: Rwanda, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 144
-  fields:
-    name_english: Saint Kitts and Nevis
-    iso_3166_alpha2: KN
-    iso_3166_alpha3: KNA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KN, iso_3166_alpha3: KNA, name_english: Saint Kitts and
+      Nevis, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 145
-  fields:
-    name_english: Saint Lucia
-    iso_3166_alpha2: LC
-    iso_3166_alpha3: LCA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LC, iso_3166_alpha3: LCA, name_english: Saint Lucia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 146
-  fields:
-    name_english: Saint Vincent and the Grenadines
-    iso_3166_alpha2: VC
-    iso_3166_alpha3: VCT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VC, iso_3166_alpha3: VCT, name_english: Saint Vincent
+      and the Grenadines, ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 147
-  fields:
-    name_english: Samoa
-    iso_3166_alpha2: WS
-    iso_3166_alpha3: WSM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: WS, iso_3166_alpha3: WSM, name_english: Samoa, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 148
-  fields:
-    name_english: San Marino
-    iso_3166_alpha2: SM
-    iso_3166_alpha3: SMR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SM, iso_3166_alpha3: SMR, name_english: San Marino, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 149
-  fields:
-    name_english: Sao Tome and Principe
-    iso_3166_alpha2: ST
-    iso_3166_alpha3: STP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ST, iso_3166_alpha3: STP, name_english: Sao Tome and Principe,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 150
-  fields:
-    name_english: Saudi Arabia
-    iso_3166_alpha2: SA
-    iso_3166_alpha3: SAU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SA, iso_3166_alpha3: SAU, name_english: Saudi Arabia,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 151
-  fields:
-    name_english: Senegal
-    iso_3166_alpha2: SN
-    iso_3166_alpha3: SEN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SN, iso_3166_alpha3: SEN, name_english: Senegal, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 152
-  fields:
-    name_english: Serbia
-    iso_3166_alpha2: RS
-    iso_3166_alpha3: SRB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: RS, iso_3166_alpha3: SRB, name_english: Serbia, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 153
-  fields:
-    name_english: Seychelles
-    iso_3166_alpha2: SC
-    iso_3166_alpha3: SYC
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SC, iso_3166_alpha3: SYC, name_english: Seychelles, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 154
-  fields:
-    name_english: Sierra Leone
-    iso_3166_alpha2: SL
-    iso_3166_alpha3: SLE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SL, iso_3166_alpha3: SLE, name_english: Sierra Leone,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 155
-  fields:
-    name_english: Singapore
-    iso_3166_alpha2: SG
-    iso_3166_alpha3: SGP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SG, iso_3166_alpha3: SGP, name_english: Singapore, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 156
-  fields:
-    name_english: Slovakia
-    iso_3166_alpha2: SK
-    iso_3166_alpha3: SVK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SK, iso_3166_alpha3: SVK, name_english: Slovakia, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach is not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 157
-  fields:
-    name_english: Slovenia
-    iso_3166_alpha2: SI
-    iso_3166_alpha3: SVN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SI, iso_3166_alpha3: SVN, name_english: Slovenia, ehea_is_member: true,
+    eqar_governmental_member_start: 2009-03-05, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: <ul><li>European Approach is not available to higher education
+      institutions in the country.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 158
-  fields:
-    name_english: Solomon Islands
-    iso_3166_alpha2: SB
-    iso_3166_alpha3: SLB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SB, iso_3166_alpha3: SLB, name_english: Solomon Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 159
-  fields:
-    name_english: Somalia
-    iso_3166_alpha2: SO
-    iso_3166_alpha3: SOM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SO, iso_3166_alpha3: SOM, name_english: Somalia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 160
-  fields:
-    name_english: South Africa
-    iso_3166_alpha2: ZA
-    iso_3166_alpha3: ZAF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ZA, iso_3166_alpha3: ZAF, name_english: South Africa,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 161
-  fields:
-    name_english: Spain
-    iso_3166_alpha2: ES
-    iso_3166_alpha3: ESP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ES, iso_3166_alpha3: ESP, name_english: Spain, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-28, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, however discussions are being held on developing
+      a legal framework to implement the European Approach.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 162
-  fields:
-    name_english: Sri Lanka
-    iso_3166_alpha2: LK
-    iso_3166_alpha3: LKA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: LK, iso_3166_alpha3: LKA, name_english: Sri Lanka, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 163
-  fields:
-    name_english: Sudan
-    iso_3166_alpha2: SD
-    iso_3166_alpha3: SDN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SD, iso_3166_alpha3: SDN, name_english: Sudan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 164
-  fields:
-    name_english: Suriname
-    iso_3166_alpha2: SR
-    iso_3166_alpha3: SUR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SR, iso_3166_alpha3: SUR, name_english: Suriname, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 165
-  fields:
-    name_english: Swaziland
-    iso_3166_alpha2: SZ
-    iso_3166_alpha3: SWZ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SZ, iso_3166_alpha3: SWZ, name_english: Swaziland, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 166
-  fields:
-    name_english: Sweden
-    iso_3166_alpha2: SE
-    iso_3166_alpha3: SWE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SE, iso_3166_alpha3: SWE, name_english: Sweden, ehea_is_member: true,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 167
-  fields:
-    name_english: Switzerland
-    iso_3166_alpha2: CH
-    iso_3166_alpha3: CHE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CH, iso_3166_alpha3: CHE, name_english: Switzerland, ehea_is_member: true,
+    eqar_governmental_member_start: 2009-05-05, qa_requirement_note: '', external_QAA_is_permitted: 3,
+    external_QAA_note: "Yes, under certain conditions: \n\n<link https://www.admin.ch/opc/en/classified-compilation/20151363/index.html\
+      \ - external-link-new-window \"Opens external link in new window\">HEdA Accreditation\
+      \ Guidelines</link> (2015) &amp; <link http://akkreditierungsrat.ch/download/Rechtliche%20Grundlagen/Guidelines_recognition-agencies.pdf\
+      \ - external-link-new-window \"Opens external link in new window\">Guidelines\
+      \ of the Swiss Accreditation Council on the recognition of agencies</link>",
+    eligibility: The agency will have to make an application to the Swiss Accreditation
+      Council to prove it fulfills the necessary conditions (see below) and to also
+      agree to the Fee Regulations of the Accreditation Council., conditions: 'to
+      align its accreditation procedures with the HEdA Accreditation Guidelines or
+      alternatively to use the Accreditation Guide of <link https://eqar.eu/?id= -
+      internal-link "Opens internal link in current window">AAQ</link>.', recognition: the
+      final accreditation decision is taken by the Swiss Accreditation Council., european_approach_is_permitted: 2,
+    european_approach_note: '[not recognised] <ul><li>The European Approach can be
+      used by EQAR-registered agencies operating in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 168
-  fields:
-    name_english: Syria
-    iso_3166_alpha2: SY
-    iso_3166_alpha3: SYR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SY, iso_3166_alpha3: SYR, name_english: Syria, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 169
-  fields:
-    name_english: Tajikistan
-    iso_3166_alpha2: TJ
-    iso_3166_alpha3: TJK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TJ, iso_3166_alpha3: TJK, name_english: Tajikistan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 170
-  fields:
-    name_english: Tanzania
-    iso_3166_alpha2: TZ
-    iso_3166_alpha3: TZA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TZ, iso_3166_alpha3: TZA, name_english: Tanzania, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 171
-  fields:
-    name_english: Thailand
-    iso_3166_alpha2: TH
-    iso_3166_alpha3: THA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TH, iso_3166_alpha3: THA, name_english: Thailand, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 172
-  fields:
-    name_english: Timor-Leste (East Timor)
-    iso_3166_alpha2: TL
-    iso_3166_alpha3: TLS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TL, iso_3166_alpha3: TLS, name_english: Timor-Leste (East
+      Timor), ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 173
-  fields:
-    name_english: Togo
-    iso_3166_alpha2: TG
-    iso_3166_alpha3: TGO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TG, iso_3166_alpha3: TGO, name_english: Togo, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 174
-  fields:
-    name_english: Tonga
-    iso_3166_alpha2: TO
-    iso_3166_alpha3: TON
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TO, iso_3166_alpha3: TON, name_english: Tonga, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 175
-  fields:
-    name_english: Trinidad and Tobago
-    iso_3166_alpha2: TT
-    iso_3166_alpha3: TTO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TT, iso_3166_alpha3: TTO, name_english: Trinidad and Tobago,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 176
-  fields:
-    name_english: Tunisia
-    iso_3166_alpha2: TN
-    iso_3166_alpha3: TUN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TN, iso_3166_alpha3: TUN, name_english: Tunisia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 177
-  fields:
-    name_english: Turkey
-    iso_3166_alpha2: TR
-    iso_3166_alpha3: TUR
+  fields: {iso_3166_alpha2: TR, iso_3166_alpha3: TUR, name_english: Turkey, ehea_is_member: true,
+    eqar_governmental_member_start: 2012-03-13, qa_requirement_note: '* no obligatory
+      external QA framework
 
-
-- model: countries.Country
+      ', external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: <ul><li>Not
+      applicable.</li></ul>, general_note: '', flag: 1}
+- model: countries.country
   pk: 178
-  fields:
-    name_english: Turkmenistan
-    iso_3166_alpha2: TM
-    iso_3166_alpha3: TKM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TM, iso_3166_alpha3: TKM, name_english: Turkmenistan,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 179
-  fields:
-    name_english: Tuvalu
-    iso_3166_alpha2: TV
-    iso_3166_alpha3: TUV
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TV, iso_3166_alpha3: TUV, name_english: Tuvalu, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 180
-  fields:
-    name_english: Uganda
-    iso_3166_alpha2: UG
-    iso_3166_alpha3: UGA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UG, iso_3166_alpha3: UGA, name_english: Uganda, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 181
-  fields:
-    name_english: Ukraine
-    iso_3166_alpha2: UA
-    iso_3166_alpha3: UKR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UA, iso_3166_alpha3: UKR, name_english: Ukraine, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-25, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 182
-  fields:
-    name_english: United Arab Emirates
-    iso_3166_alpha2: AE
-    iso_3166_alpha3: ARE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AE, iso_3166_alpha3: ARE, name_english: United Arab Emirates,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 183
-  fields:
-    name_english: United Kingdom
-    iso_3166_alpha2: GB
-    iso_3166_alpha3: GBR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GB, iso_3166_alpha3: GBR, name_english: United Kingdom,
+    ehea_is_member: true, eqar_governmental_member_start: 2014-07-29, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '[not
+      recognised] <ul><li>All higher education institutions with degree awarding power
+      are able to approve their own awards and therefore they can employ the European
+      Approach for the quality assurance of their joint programme.<a href="#_ftn1"
+      name="_ftnref1"></a> This is notwithstanding the fact that the approval of their
+      own awards must be done according to the UK Quality Code for Higher Education.</li></ul>',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 184
-  fields:
-    name_english: United States
-    iso_3166_alpha2: US
-    iso_3166_alpha3: USA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: US, iso_3166_alpha3: USA, name_english: United States,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 185
-  fields:
-    name_english: Uruguay
-    iso_3166_alpha2: UY
-    iso_3166_alpha3: URY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UY, iso_3166_alpha3: URY, name_english: Uruguay, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 186
-  fields:
-    name_english: Uzbekistan
-    iso_3166_alpha2: UZ
-    iso_3166_alpha3: UZB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UZ, iso_3166_alpha3: UZB, name_english: Uzbekistan, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 187
-  fields:
-    name_english: Vanuatu
-    iso_3166_alpha2: VU
-    iso_3166_alpha3: VUT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VU, iso_3166_alpha3: VUT, name_english: Vanuatu, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 188
-  fields:
-    name_english: Vatican City
-    iso_3166_alpha2: VA
-    iso_3166_alpha3: VAT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VA, iso_3166_alpha3: VAT, name_english: Vatican City,
+    ehea_is_member: true, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 189
-  fields:
-    name_english: Venezuela
-    iso_3166_alpha2: VE
-    iso_3166_alpha3: VEN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VE, iso_3166_alpha3: VEN, name_english: Venezuela, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 190
-  fields:
-    name_english: Vietnam
-    iso_3166_alpha2: VN
-    iso_3166_alpha3: VNM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VN, iso_3166_alpha3: VNM, name_english: Vietnam, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 191
-  fields:
-    name_english: Yemen
-    iso_3166_alpha2: YE
-    iso_3166_alpha3: YEM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: YE, iso_3166_alpha3: YEM, name_english: Yemen, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 192
-  fields:
-    name_english: Zambia
-    iso_3166_alpha2: ZM
-    iso_3166_alpha3: ZMB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ZM, iso_3166_alpha3: ZMB, name_english: Zambia, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 193
-  fields:
-    name_english: Zimbabwe
-    iso_3166_alpha2: ZW
-    iso_3166_alpha3: ZWE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: ZW, iso_3166_alpha3: ZWE, name_english: Zimbabwe, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 194
-  fields:
-    name_english: Abkhazia
-    iso_3166_alpha2: GE
-    iso_3166_alpha3: GEO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GE, iso_3166_alpha3: GEO, name_english: Abkhazia, ehea_is_member: true,
+    eqar_governmental_member_start: 2008-02-27, qa_requirement_note: '', external_QAA_is_permitted: 1,
+    external_QAA_note: "Yes, Georgian higher education institutions can choose an\
+      \ EQAR-registered agency for their mandatory external quality assurance. \n\n\
+      Order of the Minister of Education and Science of Georgia No. 65 \u201COn approving\
+      \ statute for accreditation of educational programs and fees\u201D (Chapter\
+      \ 28. Recognition of Accreditation awarded by foreign organizations). May 4,\
+      \ 2011", eligibility: N/A, conditions: '(e.g. criteria to be used): Criteria
+      and procedures for external quality assurance must be validated by .', recognition: 'The
+      National Center for Educational Quality Enhancement of Georgia (<link http://www.eqe.ge/eng
+      - external-link-new-window "Opens external link in new window">NCEQE</link>)
+      checks the compatibility of the evaluation with National Standards and Procedures
+      (Art. 28).', european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 195
-  fields:
-    name_english: China, Republic of (Taiwan)
-    iso_3166_alpha2: TW
-    iso_3166_alpha3: TWN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TW, iso_3166_alpha3: TWN, name_english: 'China, Republic
+      of (Taiwan)', ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 196
-  fields:
-    name_english: Nagorno-Karabakh
-    iso_3166_alpha2: AZ
-    iso_3166_alpha3: AZE
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AZ, iso_3166_alpha3: AZE, name_english: Nagorno-Karabakh,
+    ehea_is_member: true, eqar_governmental_member_start: 2015-03-05, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: <ul><li>European
+      Approach is not available to higher education institutions in the country.</li></ul>,
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 197
-  fields:
-    name_english: Northern Cyprus
-    iso_3166_alpha2: CY
-    iso_3166_alpha3: CYP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CY, iso_3166_alpha3: CYP, name_english: Northern Cyprus,
+    ehea_is_member: true, eqar_governmental_member_start: 2008-02-18, qa_requirement_note: '',
+    external_QAA_is_permitted: 1, external_QAA_note: "Yes, all higher education institutions\
+      \ may choose an external QA agency for programme or institutional evaluations\
+      \ except private universities with initial licence of operation. The first evaluation\
+      \ (accreditation and certification procedures) can only be carried out by the\
+      \ Cyprus Agency of Quality Assurance and Accreditation in Higher Education.\
+      \ \n\nArticle 5 of the law for \u201DThe Cyprus Agency of Quality Assurance\
+      \ and Accreditation in Higher Education&quot; (2015).", eligibility: EQAR registration
+      otherwise prior consent needs to be obtained from the Cyprus QA agency., conditions: '<b>(e.g.
+      criteria to be used): </b>own criteria', recognition: final decision is to be
+      taken by the Cypriot Agency of Quality Assurance and Accreditation in Higher
+      Education based on the outcomes of the external QA activity carried out by the
+      EQAR-registered agency., european_approach_is_permitted: 2, european_approach_note: '<ul><li>No,
+      the European Approach is not available to higher education institutions in the
+      country.</li></ul>', general_note: '', flag: 1}
+- model: countries.country
   pk: 198
-  fields:
-    name_english: Pridnestrovie (Transnistria)
-    iso_3166_alpha2: MD
-    iso_3166_alpha3: MDA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MD, iso_3166_alpha3: MDA, name_english: Pridnestrovie
+      (Transnistria), ehea_is_member: true, eqar_governmental_member_start: 2015-02-27,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '[not recognised] Moldova has been a
+      Governmental Member of EQAR since 2015. <h4>Can higher education institutions
+      choose a suitable EQAR-registered agency? </h4> Yes: <ul><li><b>Eligibility
+      requirements for foreign agencies</b>: EQAR registration is sufficient.</li><li><b>Condition
+      for the agency''s work</b>: the quality assurance agency has to follow the national
+      standards when carrying out the review.</li><li><b>Further information/regulations</b>:
+      <link http://lex.justice.md/md/355156/ - external-link-new-window "Opens external
+      link in new window">Education Code, Law no</link>. 152, 17.07.2014 ( art. 113)
+      (in Romanian)</li></ul> <h4>Can HEIs employ the <link projects/joint-programmes.html
+      _self internal-link "Opens internal link in current window">European Approach
+      for the Quality Assurance of Joint Programmes</link>?</h4> Yes, the European
+      Approach is available to all higher education institutions that seek an evaluation
+      with an EQAR-registered agency.', flag: 1}
+- model: countries.country
   pk: 199
-  fields:
-    name_english: Somaliland
-    iso_3166_alpha2: SO
-    iso_3166_alpha3: SOM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SO, iso_3166_alpha3: SOM, name_english: Somaliland, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 200
-  fields:
-    name_english: South Ossetia
-    iso_3166_alpha2: GE
-    iso_3166_alpha3: GEO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GE, iso_3166_alpha3: GEO, name_english: South Ossetia,
+    ehea_is_member: true, eqar_governmental_member_start: 2008-02-27, qa_requirement_note: '',
+    external_QAA_is_permitted: 1, external_QAA_note: "Yes, Georgian higher education\
+      \ institutions can choose an EQAR-registered agency for their mandatory external\
+      \ quality assurance. \n\nOrder of the Minister of Education and Science of Georgia\
+      \ No. 65 \u201COn approving statute for accreditation of educational programs\
+      \ and fees\u201D (Chapter 28. Recognition of Accreditation awarded by foreign\
+      \ organizations). May 4, 2011", eligibility: N/A, conditions: '(e.g. criteria
+      to be used): Criteria and procedures for external quality assurance must be
+      validated by .', recognition: 'The National Center for Educational Quality Enhancement
+      of Georgia (<link http://www.eqe.ge/eng - external-link-new-window "Opens external
+      link in new window">NCEQE</link>) checks the compatibility of the evaluation
+      with National Standards and Procedures (Art. 28).', european_approach_is_permitted: 2,
+    european_approach_note: '<ul><li>No, the European Approach is not available to
+      higher education institutions in the country.</li></ul>', general_note: '',
+    flag: 1}
+- model: countries.country
   pk: 201
-  fields:
-    name_english: Ashmore and Cartier Islands
-    iso_3166_alpha2: AU
-    iso_3166_alpha3: AUS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AU, iso_3166_alpha3: AUS, name_english: Ashmore and Cartier
+      Islands, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 202
-  fields:
-    name_english: Christmas Island
-    iso_3166_alpha2: CX
-    iso_3166_alpha3: CXR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CX, iso_3166_alpha3: CXR, name_english: Christmas Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 203
-  fields:
-    name_english: Cocos (Keeling) Islands
-    iso_3166_alpha2: CC
-    iso_3166_alpha3: CCK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CC, iso_3166_alpha3: CCK, name_english: Cocos (Keeling)
+      Islands, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 204
-  fields:
-    name_english: Coral Sea Islands
-    iso_3166_alpha2: AU
-    iso_3166_alpha3: AUS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AU, iso_3166_alpha3: AUS, name_english: Coral Sea Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 205
-  fields:
-    name_english: Heard Island and McDonald Islands
-    iso_3166_alpha2: HM
-    iso_3166_alpha3: HMD
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HM, iso_3166_alpha3: HMD, name_english: Heard Island and
+      McDonald Islands, ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 206
-  fields:
-    name_english: Norfolk Island
-    iso_3166_alpha2: NF
-    iso_3166_alpha3: NFK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NF, iso_3166_alpha3: NFK, name_english: Norfolk Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 207
-  fields:
-    name_english: New Caledonia
-    iso_3166_alpha2: NC
-    iso_3166_alpha3: NCL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NC, iso_3166_alpha3: NCL, name_english: New Caledonia,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 208
-  fields:
-    name_english: French Polynesia
-    iso_3166_alpha2: PF
-    iso_3166_alpha3: PYF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PF, iso_3166_alpha3: PYF, name_english: French Polynesia,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 209
-  fields:
-    name_english: Mayotte
-    iso_3166_alpha2: YT
-    iso_3166_alpha3: MYT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: YT, iso_3166_alpha3: MYT, name_english: Mayotte, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 210
-  fields:
-    name_english: Saint Barthelemy
-    iso_3166_alpha2: GP
-    iso_3166_alpha3: GLP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GP, iso_3166_alpha3: GLP, name_english: Saint Barthelemy,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 211
-  fields:
-    name_english: Saint Martin
-    iso_3166_alpha2: GP
-    iso_3166_alpha3: GLP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GP, iso_3166_alpha3: GLP, name_english: Saint Martin,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 212
-  fields:
-    name_english: Saint Pierre and Miquelon
-    iso_3166_alpha2: PM
-    iso_3166_alpha3: SPM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PM, iso_3166_alpha3: SPM, name_english: Saint Pierre and
+      Miquelon, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 213
-  fields:
-    name_english: Wallis and Futuna
-    iso_3166_alpha2: WF
-    iso_3166_alpha3: WLF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: WF, iso_3166_alpha3: WLF, name_english: Wallis and Futuna,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 214
-  fields:
-    name_english: French Southern and Antarctic Lands
-    iso_3166_alpha2: TF
-    iso_3166_alpha3: ATF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TF, iso_3166_alpha3: ATF, name_english: French Southern
+      and Antarctic Lands, ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 215
-  fields:
-    name_english: Clipperton Island
-    iso_3166_alpha2: PF
-    iso_3166_alpha3: PYF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PF, iso_3166_alpha3: PYF, name_english: Clipperton Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 216
-  fields:
-    name_english: Bouvet Island
-    iso_3166_alpha2: BV
-    iso_3166_alpha3: BVT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BV, iso_3166_alpha3: BVT, name_english: Bouvet Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 217
-  fields:
-    name_english: Cook Islands
-    iso_3166_alpha2: CK
-    iso_3166_alpha3: COK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: CK, iso_3166_alpha3: COK, name_english: Cook Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 218
-  fields:
-    name_english: Niue
-    iso_3166_alpha2: NU
-    iso_3166_alpha3: NIU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: NU, iso_3166_alpha3: NIU, name_english: Niue, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 219
-  fields:
-    name_english: Tokelau
-    iso_3166_alpha2: TK
-    iso_3166_alpha3: TKL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TK, iso_3166_alpha3: TKL, name_english: Tokelau, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 220
-  fields:
-    name_english: Guernsey
-    iso_3166_alpha2: GG
-    iso_3166_alpha3: GGY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GG, iso_3166_alpha3: GGY, name_english: Guernsey, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 221
-  fields:
-    name_english: Isle of Man
-    iso_3166_alpha2: IM
-    iso_3166_alpha3: IMN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IM, iso_3166_alpha3: IMN, name_english: Isle of Man, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 222
-  fields:
-    name_english: Jersey
-    iso_3166_alpha2: JE
-    iso_3166_alpha3: JEY
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: JE, iso_3166_alpha3: JEY, name_english: Jersey, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 223
-  fields:
-    name_english: Anguilla
-    iso_3166_alpha2: AI
-    iso_3166_alpha3: AIA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AI, iso_3166_alpha3: AIA, name_english: Anguilla, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 224
-  fields:
-    name_english: Bermuda
-    iso_3166_alpha2: BM
-    iso_3166_alpha3: BMU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: BM, iso_3166_alpha3: BMU, name_english: Bermuda, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 225
-  fields:
-    name_english: British Indian Ocean Territory
-    iso_3166_alpha2: IO
-    iso_3166_alpha3: IOT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: IO, iso_3166_alpha3: IOT, name_english: British Indian
+      Ocean Territory, ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
+  pk: 226
+  fields: {iso_3166_alpha2: VG, iso_3166_alpha3: VGB, name_english: British Virgin
+      Islands, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 227
-  fields:
-    name_english: British Virgin Islands
-    iso_3166_alpha2: VG
-    iso_3166_alpha3: VGB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: KY, iso_3166_alpha3: CYM, name_english: Cayman Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 228
-  fields:
-    name_english: Cayman Islands
-    iso_3166_alpha2: KY
-    iso_3166_alpha3: CYM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FK, iso_3166_alpha3: FLK, name_english: Falkland Islands
+      (Islas Malvinas), ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 229
-  fields:
-    name_english: Falkland Islands (Islas Malvinas)
-    iso_3166_alpha2: FK
-    iso_3166_alpha3: FLK
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GI, iso_3166_alpha3: GIB, name_english: Gibraltar, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 230
-  fields:
-    name_english: Gibraltar
-    iso_3166_alpha2: GI
-    iso_3166_alpha3: GIB
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MS, iso_3166_alpha3: MSR, name_english: Montserrat, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 231
-  fields:
-    name_english: Montserrat
-    iso_3166_alpha2: MS
-    iso_3166_alpha3: MSR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PN, iso_3166_alpha3: PCN, name_english: Pitcairn Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 232
-  fields:
-    name_english: Pitcairn Islands
-    iso_3166_alpha2: PN
-    iso_3166_alpha3: PCN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SH, iso_3166_alpha3: SHN, name_english: Saint Helena,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 233
-  fields:
-    name_english: Saint Helena
-    iso_3166_alpha2: SH
-    iso_3166_alpha3: SHN
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GS, iso_3166_alpha3: SGS, name_english: South Georgia
+      & South Sandwich Islands, ehea_is_member: false, eqar_governmental_member_start: null,
+    qa_requirement_note: '', external_QAA_is_permitted: 2, external_QAA_note: '',
+    eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 234
-  fields:
-    name_english: South Georgia & South Sandwich Islands
-    iso_3166_alpha2: GS
-    iso_3166_alpha3: SGS
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TC, iso_3166_alpha3: TCA, name_english: Turks and Caicos
+      Islands, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 235
-  fields:
-    name_english: Turks and Caicos Islands
-    iso_3166_alpha2: TC
-    iso_3166_alpha3: TCA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MP, iso_3166_alpha3: MNP, name_english: Northern Mariana
+      Islands, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 236
-  fields:
-    name_english: Northern Mariana Islands
-    iso_3166_alpha2: MP
-    iso_3166_alpha3: MNP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: PR, iso_3166_alpha3: PRI, name_english: Puerto Rico, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 237
-  fields:
-    name_english: Puerto Rico
-    iso_3166_alpha2: PR
-    iso_3166_alpha3: PRI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AS, iso_3166_alpha3: ASM, name_english: American Samoa,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 238
-  fields:
-    name_english: American Samoa
-    iso_3166_alpha2: AS
-    iso_3166_alpha3: ASM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Baker Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 239
-  fields:
-    name_english: Baker Island
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GU, iso_3166_alpha3: GUM, name_english: Guam, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 240
-  fields:
-    name_english: Guam
-    iso_3166_alpha2: GU
-    iso_3166_alpha3: GUM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Howland Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 241
-  fields:
-    name_english: Howland Island
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Jarvis Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 242
-  fields:
-    name_english: Jarvis Island
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Johnston Atoll,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 243
-  fields:
-    name_english: Johnston Atoll
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Kingman Reef,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 244
-  fields:
-    name_english: Kingman Reef
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Midway Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 245
-  fields:
-    name_english: Midway Islands
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Navassa Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 246
-  fields:
-    name_english: Navassa Island
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Palmyra Atoll,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 247
-  fields:
-    name_english: Palmyra Atoll
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: VI, iso_3166_alpha3: VIR, name_english: U.S. Virgin Islands,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 248
-  fields:
-    name_english: U.S. Virgin Islands
-    iso_3166_alpha2: VI
-    iso_3166_alpha3: VIR
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: UM, iso_3166_alpha3: UMI, name_english: Wake Island, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 249
-  fields:
-    name_english: Wake Island
-    iso_3166_alpha2: UM
-    iso_3166_alpha3: UMI
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: HK, iso_3166_alpha3: HKG, name_english: Hong Kong, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 250
-  fields:
-    name_english: Hong Kong
-    iso_3166_alpha2: HK
-    iso_3166_alpha3: HKG
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MO, iso_3166_alpha3: MAC, name_english: Macau, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 251
-  fields:
-    name_english: Macau
-    iso_3166_alpha2: MO
-    iso_3166_alpha3: MAC
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: FO, iso_3166_alpha3: FRO, name_english: Faroe Islands,
+    ehea_is_member: true, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '[not recognised] ', flag: 1}
+- model: countries.country
   pk: 252
-  fields:
-    name_english: Faroe Islands
-    iso_3166_alpha2: FO
-    iso_3166_alpha3: FRO
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GL, iso_3166_alpha3: GRL, name_english: Greenland, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 253
-  fields:
-    name_english: Greenland
-    iso_3166_alpha2: GL
-    iso_3166_alpha3: GRL
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GF, iso_3166_alpha3: GUF, name_english: French Guiana,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 254
-  fields:
-    name_english: French Guiana
-    iso_3166_alpha2: GF
-    iso_3166_alpha3: GUF
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: GP, iso_3166_alpha3: GLP, name_english: Guadeloupe, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 255
-  fields:
-    name_english: Guadeloupe
-    iso_3166_alpha2: GP
-    iso_3166_alpha3: GLP
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: MQ, iso_3166_alpha3: MTQ, name_english: Martinique, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 256
-  fields:
-    name_english: Martinique
-    iso_3166_alpha2: MQ
-    iso_3166_alpha3: MTQ
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: RE, iso_3166_alpha3: REU, name_english: Reunion, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 257
-  fields:
-    name_english: Reunion
-    iso_3166_alpha2: RE
-    iso_3166_alpha3: REU
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AX, iso_3166_alpha3: ALA, name_english: Aland, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 258
-  fields:
-    name_english: Aland
-    iso_3166_alpha2: AX
-    iso_3166_alpha3: ALA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AW, iso_3166_alpha3: ABW, name_english: Aruba, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 259
-  fields:
-    name_english: Aruba
-    iso_3166_alpha2: AW
-    iso_3166_alpha3: ABW
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AN, iso_3166_alpha3: ANT, name_english: Netherlands Antilles,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 260
-  fields:
-    name_english: Netherlands Antilles
-    iso_3166_alpha2: AN
-    iso_3166_alpha3: ANT
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: SJ, iso_3166_alpha3: SJM, name_english: Svalbard, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 261
-  fields:
-    name_english: Svalbard
-    iso_3166_alpha2: SJ
-    iso_3166_alpha3: SJM
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AC, iso_3166_alpha3: ASC, name_english: Ascension, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '', flag: 1}
+- model: countries.country
   pk: 262
-  fields:
-    name_english: Ascension
-    iso_3166_alpha2: AC
-    iso_3166_alpha3: ASC
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: TA, iso_3166_alpha3: TAA, name_english: Tristan da Cunha,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 263
-  fields:
-    name_english: Tristan da Cunha
-    iso_3166_alpha2: TA
-    iso_3166_alpha3: TAA
-
-
-- model: countries.Country
+  fields: {iso_3166_alpha2: AQ, iso_3166_alpha3: ATA, name_english: Australian Antarctic
+      Territory, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
+  pk: 264
+  fields: {iso_3166_alpha2: AQ, iso_3166_alpha3: ATA, name_english: Ross Dependency,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
+  pk: 265
+  fields: {iso_3166_alpha2: AQ, iso_3166_alpha3: ATA, name_english: Peter I Island,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
+  pk: 266
+  fields: {iso_3166_alpha2: AQ, iso_3166_alpha3: ATA, name_english: Queen Maud Land,
+    ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
+  pk: 267
+  fields: {iso_3166_alpha2: AQ, iso_3166_alpha3: ATA, name_english: British Antarctic
+      Territory, ehea_is_member: false, eqar_governmental_member_start: null, qa_requirement_note: '',
+    external_QAA_is_permitted: 2, external_QAA_note: '', eligibility: '', conditions: '',
+    recognition: '', european_approach_is_permitted: 2, european_approach_note: '',
+    general_note: '', flag: 1}
+- model: countries.country
   pk: 268
-  fields:
-    name_english: Australian Antarctic Territory
-    iso_3166_alpha2: AQ
-    iso_3166_alpha3: ATA
-
-
-- model: countries.Country
-  pk: 269
-  fields:
-    name_english: Ross Dependency
-    iso_3166_alpha2: AQ
-    iso_3166_alpha3: ATA
-
-
-- model: countries.Country
-  pk: 270
-  fields:
-    name_english: Peter I Island
-    iso_3166_alpha2: AQ
-    iso_3166_alpha3: ATA
-
-
-- model: countries.Country
-  pk: 271
-  fields:
-    name_english: Queen Maud Land
-    iso_3166_alpha2: AQ
-    iso_3166_alpha3: ATA
-
-
-- model: countries.Country
-  pk: 272
-  fields:
-    name_english: British Antarctic Territory
-    iso_3166_alpha2: AQ
-    iso_3166_alpha3: ATA
-
-
-- model: countries.Country
-  pk: 273
-  fields:
-    name_english: Kosovo
-    iso_3166_alpha2: XK
-    iso_3166_alpha3: XKX
+  fields: {iso_3166_alpha2: XK, iso_3166_alpha3: XKX, name_english: Kosovo, ehea_is_member: false,
+    eqar_governmental_member_start: null, qa_requirement_note: '', external_QAA_is_permitted: 2,
+    external_QAA_note: '', eligibility: '', conditions: '', recognition: '', european_approach_is_permitted: 2,
+    european_approach_note: '', general_note: '[not recognised] Not a governmental
+      member.', flag: 1}

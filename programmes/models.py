@@ -14,6 +14,9 @@ class Programme(models.Model):
 
     class Meta:
         db_table = 'deqar_programmes'
+        indexes = [
+            models.Index(fields=['name_primary']),
+        ]
 
 
 class ProgrammeName(models.Model):
@@ -23,12 +26,12 @@ class ProgrammeName(models.Model):
     id = models.AutoField(primary_key=True)
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True)
-    name_is_english = models.BooleanField(default=False)
+    name_is_primary = models.BooleanField(default=False)
     qualification = models.CharField(max_length=100, blank=True)
 
     class Meta:
         db_table = 'deqar_programme_names'
-        ordering = ('name_is_english', 'name')
+        ordering = ('name_is_primary', 'name')
         unique_together = ('programme', 'name')
 
 

@@ -1,0 +1,54 @@
+- model: countries.CountryHistoricalField
+  pk: 1
+  fields:
+    field: Country.ehea_is_member
+
+- model: countries.CountryHistoricalField
+  pk: 2
+  fields:
+    field: Country.qa_requirement_note
+
+- model: countries.CountryHistoricalField
+  pk: 3
+  fields:
+    field: Country.external_QAA_is_permitted
+
+- model: countries.CountryHistoricalField
+  pk: 4
+  fields:
+    field: Country.eligibility
+
+- model: countries.CountryHistoricalField
+  pk: 5
+  fields:
+    field: Country.conditions
+
+- model: countries.CountryHistoricalField
+  pk: 6
+  fields:
+    field: Country.recognition
+
+- model: countries.CountryHistoricalField
+  pk: 7
+  fields:
+    field: Country.external_QAA_note
+
+- model: countries.CountryHistoricalField
+  pk: 8
+  fields:
+    field: Country.european_approach_is_permitted
+
+- model: countries.CountryHistoricalField
+  pk: 3
+  fields:
+    field: Country.european_approach_note
+
+- model: countries.CountryHistoricalField
+  pk: 9
+  fields:
+    field: Country.general_note
+
+- model: countries.CountryHistoricalField
+  pk: 10
+  fields:
+    field: CountryQARequirement.qa_requirement_note

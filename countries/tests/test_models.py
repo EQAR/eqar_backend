@@ -8,6 +8,8 @@ class CountryTestCase(TestCase):
     Test module for the Country class.
     """
     fixtures = [
+        'flag',
+        'permission_type',
         'country_qa_requirement_type',
         'country',
     ]

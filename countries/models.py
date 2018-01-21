@@ -11,33 +11,47 @@ class Country(models.Model):
     iso_3166_alpha3 = models.CharField(max_length=3)
     name_english = models.CharField(unique=True, max_length=100)
     ehea_is_member = models.BooleanField(default=False)
-    eqar_govermental_member_start = models.DateField(blank=True, null=True)
+    eqar_governmental_member_start = models.DateField(blank=True, null=True)
     qa_requirement_note = models.TextField(blank=True)
-    external_QAA_is_permitted = models.BooleanField(default=False)
-    eligibility = models.TextField(blank=True)
-    conditions = models.CharField(max_length=200, blank=True)
-    recognition = models.CharField(max_length=200, blank=True)
-    external_QAA_permitted_note = models.TextField(blank=True)
-    european_approach_is_permitted = models.BooleanField(default=False)
-    european_approach_note = models.TextField(blank=True)
+    external_QAA_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_external_qaa', default=2)
+    external_QAA_note = models.TextField(blank=True, null=True)
+    eligibility = models.TextField(blank=True, null=True)
+    conditions = models.TextField(blank=True, null=True)
+    recognition = models.TextField(blank=True, null=True)
+    european_approach_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_european_approach', default=2)
+    european_approach_note = models.TextField(blank=True, null=True)
     general_note = models.TextField(blank=True)
+    flag = models.ForeignKey('lists.Flag', default=1)
 
     def __str__(self):
         return self.name_english
 
     class Meta:
-        db_table = 'deqar_counties'
+        db_table = 'deqar_countries'
         verbose_name = 'Country'
         verbose_name_plural = 'Countries'
         ordering = ('name_english',)
+        indexes = [
+            models.Index(fields=['name_english']),
+            models.Index(fields=['ehea_is_member']),
+            models.Index(fields=['eqar_governmental_member_start'])
+        ]
 
 
 class CountryQARequirement(models.Model):
     id = models.AutoField(primary_key=True)
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
-    qa_requirement = models.CharField(max_length=200, blank=True)
+    qa_requirement = models.CharField(max_length=200)
     qa_requirement_type = models.ForeignKey('countries.CountryQARequirementType', on_delete=models.CASCADE)
     qa_requirement_note = models.TextField(blank=True)
+    requirement_valid_from = models.DateField(auto_now_add=True)
+    requirement_valid_to = models.DateField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_country_qa_requirements'
+        indexes = [
+            models.Index(fields=['requirement_valid_to']),
+        ]
 
 
 class CountryQARequirementType(models.Model):
@@ -62,9 +76,14 @@ class CountryQAARegulation(models.Model):
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
     regulation = models.CharField(max_length=200, blank=True)
     regulation_url = models.URLField(max_length=200, blank=True)
+    regulation_valid_from = models.DateField(auto_now_add=True)
+    regulation_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_country_qaa_regulations'
+        indexes = [
+            models.Index(fields=['regulation_valid_to']),
+        ]
 
 
 class CountryHistoricalField(models.Model):
@@ -79,6 +98,9 @@ class CountryHistoricalField(models.Model):
 
     class Meta:
         db_table = 'deqar_country_historical_fields'
+        indexes = [
+            models.Index(fields=['field']),
+        ]
 
 
 class CountryHistoricalData(models.Model):
@@ -88,9 +110,13 @@ class CountryHistoricalData(models.Model):
     id = models.AutoField(primary_key=True)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     field = models.ForeignKey('CountryHistoricalField', on_delete=models.CASCADE)
+    record_id = models.IntegerField(blank=True, null=True)
     value = models.CharField(max_length=200)
     valid_from = models.DateField(blank=True, null=True)
     valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_country_historical_data'
+        indexes = [
+            models.Index(fields=['valid_to']),
+        ]

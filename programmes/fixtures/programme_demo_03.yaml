@@ -11,5 +11,5 @@
   fields:
     programme: 3
     name: Öffentliche Verwaltung (LL.B.)
-    name_is_english: False
+    name_is_primary: False
     qualification: Bachelor of Laws

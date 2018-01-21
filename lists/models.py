@@ -82,3 +82,17 @@ class PermissionType(models.Model):
         verbose_name = 'Permission Type'
         verbose_name_plural = 'Permission Types'
         ordering = ('type',)
+
+
+class Flag(models.Model):
+    id = models.AutoField(primary_key=True)
+    flag = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.flag
+
+    class Meta:
+        db_table = 'deqar_list_flags'
+        verbose_name = 'Flag'
+        verbose_name_plural = 'Flags'
+        ordering = ('flag',)

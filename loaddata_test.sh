@@ -19,7 +19,9 @@ python manage.py loaddata report_decision
 python manage.py loaddata report_status
 
 python manage.py loaddata agency_historical_field
-python manage.py loaddata agency
+
+python manage.py loaddata agency_demo_01
+python manage.py loaddata agency_demo_02
 
 python manage.py loaddata submitting_agency_demo
 

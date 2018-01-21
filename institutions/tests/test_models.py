@@ -8,14 +8,10 @@ class InstitutionTestCase(TestCase):
     Test module for the Institution classes.
     """
     fixtures = [
-        'country_qa_requirement_type', 'country',
-        'qf_ehea_level', 'eter_demo',
+        'country_qa_requirement_type', 'country', 'flag', 'permission_type',
+        'qf_ehea_level', 'eter_demo', 'institution_historical_field',
         'institution_demo_01', 'institution_demo_02', 'institution_demo_03'
     ]
-
-    def test_institution_country_str(self):
-        institution_country = Institution.objects.get(id=1).countries.first()
-        self.assertEqual(str(institution_country), 'Germany')
 
     def test_institution_nqf_level_str(self):
         institution_nqf_level = Institution.objects.get(id=1).institutionnqflevel_set.first()

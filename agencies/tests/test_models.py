@@ -11,29 +11,35 @@ class AgencyTestCase(TestCase):
     Test module for the Agency class.
     """
     fixtures = [
-        'country_qa_requirement_type', 'country',
-        'agency_activity_type', 'agency_focus',
-        'agency_demo_01', 'agency_demo_02', 'association'
+        'country_qa_requirement_type', 'country', 'flag',
+        'agency_historical_field',
+        'agency_activity_type', 'agency_focus', 'permission_type',
+        'agency_demo_01', 'agency_demo_02', 'association',
+        'submitting_agency_demo'
     ]
 
     def test_get_primary_name_metohd(self):
-        agency01 = Agency.objects.get(id=1)
+        agency01 = Agency.objects.get(id=5)
         agency02 = Agency.objects.get(id=2)
         self.assertEqual(agency01.get_primary_name(), 'Accreditation, Certification and Quality Assurance Institute')
         self.assertEqual(agency02.get_primary_name(), 'Estonian Quality Agency for Higher and Vocational Education')
 
     def test_get_primary_acronym(self):
-        agency01 = Agency.objects.get(id=1)
+        agency01 = Agency.objects.get(id=5)
         agency02 = Agency.objects.get(id=2)
         self.assertEqual(agency01.get_primary_acronym(), 'ACQUIN')
         self.assertEqual(agency02.get_primary_acronym(), 'EKKA')
+
+    def test_agency_str(self):
+        agency01 = Agency.objects.get(id=5)
+        self.assertEqual(str(agency01), 'ACQUIN - Accreditation, Certification and Quality Assurance Institute')
 
     def test_agency_activity_type_str(self):
         agency_activity_type01 = AgencyActivityType.objects.get(id=1)
         self.assertEqual(str(agency_activity_type01), 'programme')
 
     def test_agency_membership_str(self):
-        agency_membership = AgencyMembership.objects.create(agency=Agency.objects.get(id=1),
+        agency_membership = AgencyMembership.objects.create(agency=Agency.objects.get(id=5),
                                                             association=Association.objects.get(id=1))
         self.assertEqual(str(agency_membership), 'ENQA member')
 
@@ -60,3 +66,9 @@ class AgencyTestCase(TestCase):
     def test_agency_esg_activity_str(self):
         aea = AgencyESGActivity.objects.get(id=1)
         self.assertEqual(str(aea), 'ACQUIN -> System Accreditation in Germany (programme)')
+
+    def test_submitting_agency_str(self):
+        acquin = SubmittingAgency.objects.get(id=1)
+        gac = SubmittingAgency.objects.get(id=2)
+        self.assertEqual(str(acquin), 'ACQUIN - Accreditation, Certification and Quality Assurance Institute')
+        self.assertEqual(str(gac), 'GAC - German Accreditation Council')

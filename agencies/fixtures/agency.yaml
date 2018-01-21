@@ -3,7 +3,8 @@
     address: "Pra\xE7a de Alvalade, 6 - 5.\xB0 Frente, <br />1700 036 Lisboa<br />Portugal<br\
       \ />"
     contact_person: Alberto Amaral
-    deqar_id: DEQAR_AG0001
+    country: 139
+    deqar_id: '59'
     description_note: A3ES is a private law foundation, established for an indeterminate
       period of time, with legal status and recognised as being of public utility.
       A3ES is responsible for the assessment and accreditation of higher education
@@ -41,6 +42,7 @@
 - fields:
     agency: 1
     association: 1
+    membership_valid_from: '2014-11-29'
   model: agencies.AgencyMembership
   pk: 1
 - fields:
@@ -57,23 +59,27 @@
     agency: 1
     country: 139
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 1
 - fields:
     activity: Prior accreditation of new study programmes.
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 1
   model: agencies.AgencyESGActivity
   pk: 1
 - fields:
     activity: Assessment/accreditation of study programmes in operation.
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 1
   model: agencies.AgencyESGActivity
   pk: 2
 - fields:
     activity: Audit of internal quality assurance systems.
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 1
   model: agencies.AgencyESGActivity
   pk: 3
@@ -81,7 +87,8 @@
     acronym_primary: AAC-DEVA
     address: "Calle Do\xF1a Berenguela, s/n 3\xAA planta<br />14006 Cordoba<br />Spain"
     contact_person: Juan Antonio Devesa Alcaraz (Director)
-    deqar_id: DEQAR_AG0002
+    country: 161
+    deqar_id: '26'
     description_note: The Department of Evaluation and Accreditation (DEVA) is an
       independent unit of the Andalusian Agency of Knowledge (AAC). It came into legal
       existence by Legislative Decree 92/2011, April 19th, wherein the Statutes of
@@ -123,6 +130,7 @@
 - fields:
     agency: 2
     association: 1
+    membership_valid_from: '2014-11-29'
   model: agencies.AgencyMembership
   pk: 2
 - fields:
@@ -139,12 +147,14 @@
     agency: 2
     country: 161
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 2
 - fields:
     agency: 2
     country: 142
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 3
 - fields:
@@ -159,7 +169,8 @@
     acronym_primary: AAQ
     address: Effingerstrasse 15<br />P.O. Box<br />3001 Bern<br />Switzerland
     contact_person: Laura Beccari (International Affairs)
-    deqar_id: DEQAR_AG0003
+    country: 167
+    deqar_id: '45'
     description_note: Founded in 2001, the OAQ has been renamed Agency for Accreditation
       and Quality Assurance (AAQ), as a consequence of the entry into force of the
       Federal Act on Funding and Coordination of the Swiss Higher Education Sector
@@ -206,6 +217,7 @@
 - fields:
     agency: 3
     association: 1
+    membership_valid_from: '2012-05-08'
   model: agencies.AgencyMembership
   pk: 3
 - fields:
@@ -227,59 +239,69 @@
     agency: 3
     country: 64
     country_is_official: true
+    country_valid_from: '2012-05-08'
   model: agencies.AgencyFocusCountry
   pk: 4
 - fields:
     agency: 3
     country: 10
     country_is_official: true
+    country_valid_from: '2012-05-08'
   model: agencies.AgencyFocusCountry
   pk: 5
 - fields:
     agency: 3
     country: 99
     country_is_official: true
+    country_valid_from: '2012-05-08'
   model: agencies.AgencyFocusCountry
   pk: 6
 - fields:
     agency: 3
     country: 101
     country_is_official: true
+    country_valid_from: '2012-05-08'
   model: agencies.AgencyFocusCountry
   pk: 7
 - fields:
     agency: 3
     country: 167
     country_is_official: true
+    country_valid_from: '2012-05-08'
   model: agencies.AgencyFocusCountry
   pk: 8
 - fields:
     activity: Institutional Accreditation in Switzerland
     activity_type: 1
+    activity_valid_from: '2012-05-08'
     agency: 3
   model: agencies.AgencyESGActivity
   pk: 5
 - fields:
     activity: Programme Accreditation in Switzerland
     activity_type: 1
+    activity_valid_from: '2012-05-08'
     agency: 3
   model: agencies.AgencyESGActivity
   pk: 6
 - fields:
     activity: Ad-hoc Evaluations in Switzerland and Abroad
     activity_type: 1
+    activity_valid_from: '2012-05-08'
     agency: 3
   model: agencies.AgencyESGActivity
   pk: 7
 - fields:
     activity: System Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2012-05-08'
     agency: 3
   model: agencies.AgencyESGActivity
   pk: 8
 - fields:
     activity: Institutional Q-audit in Austria
     activity_type: 1
+    activity_valid_from: '2012-05-08'
     agency: 3
   model: agencies.AgencyESGActivity
   pk: 9
@@ -288,7 +310,8 @@
     address: "Avda. de Ranillas n\xBA 5 D, 1\xAA Planta<br />50018<br />Zaragoza<br\
       \ />Spain"
     contact_person: Irene Melchor
-    deqar_id: DEQAR_AG0004
+    country: 161
+    deqar_id: '67'
     description_note: Aragon Agency for Quality Assurance and Strategic Foresight
       in Higher Education (ACPUA) is the official agency for the evaluation and quality
       assurance of higher education in the region of Aragon (Spain). It was set up
@@ -329,6 +352,7 @@
 - fields:
     agency: 4
     association: 1
+    membership_valid_from: '2016-12-03'
   model: agencies.AgencyMembership
   pk: 4
 - fields:
@@ -350,53 +374,62 @@
     agency: 4
     country: 161
     country_is_official: true
+    country_valid_from: '2016-12-03'
   model: agencies.AgencyFocusCountry
   pk: 9
 - fields:
     activity: Study programme initial accreditation.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 10
 - fields:
     activity: Study programme accreditation.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 11
 - fields:
     activity: Study programme follow up.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 12
 - fields:
     activity: Training schools accreditation.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 13
 - fields:
     activity: Higher education institutions initial accreditation.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 14
 - fields:
     activity: Teaching activity evaluation system audit (DOCENTIA Programme).
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 15
 - fields:
     activity: Teaching staff evaluation system audit.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 16
 - fields:
     activity: Partner HEI evaluation.
     activity_type: 1
+    activity_valid_from: '2016-12-03'
     agency: 4
   model: agencies.AgencyESGActivity
   pk: 17
@@ -404,7 +437,8 @@
     acronym_primary: ACQUIN
     address: Brandenburger Str. 2<br />95448 Bayreuth<br />Germany
     contact_person: Stefan Handke
-    deqar_id: DEQAR_AG0005
+    country: 64
+    deqar_id: '21'
     description_note: "ACQUIN is a registered association whose members are higher\
       \ education institutions, professional associations and business companies.\
       \ Its core competence is the evaluation and accreditation of study programmes\
@@ -444,6 +478,7 @@
 - fields:
     agency: 5
     association: 1
+    membership_valid_from: '2009-04-08'
   model: agencies.AgencyMembership
   pk: 5
 - fields:
@@ -465,107 +500,125 @@
     agency: 5
     country: 167
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 10
 - fields:
     agency: 5
     country: 10
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 11
 - fields:
     agency: 5
     country: 64
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 12
 - fields:
     agency: 5
     country: 142
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 13
 - fields:
     agency: 5
     country: 86
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 14
 - fields:
     agency: 5
     country: 99
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 15
 - fields:
     agency: 5
     country: 26
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 16
 - fields:
     agency: 5
     country: 157
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 17
 - fields:
     agency: 5
     country: 52
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 18
 - fields:
     agency: 5
     country: 57
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 19
 - fields:
     agency: 5
-    country: 273
+    country: 268
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 20
 - fields:
     agency: 5
     country: 92
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 21
 - fields:
     agency: 5
     country: 130
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 22
 - fields:
     activity: Programme Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 5
   model: agencies.AgencyESGActivity
   pk: 18
 - fields:
     activity: System Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 5
   model: agencies.AgencyESGActivity
   pk: 19
 - fields:
     activity: Certification Procedures in Germany
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 5
   model: agencies.AgencyESGActivity
   pk: 20
 - fields:
     activity: Programme Accreditation Abroad
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 5
   model: agencies.AgencyESGActivity
   pk: 21
 - fields:
     activity: Institutional Accreditation Abroad
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 5
   model: agencies.AgencyESGActivity
   pk: 22
@@ -573,7 +626,8 @@
     acronym_primary: ACSUCYL
     address: "Avda. Reyes Cat\xF3licos 10<br />47006 Valladolid<br />Spain"
     contact_person: Sandra Marcos
-    deqar_id: DEQAR_AG0006
+    country: 161
+    deqar_id: '36'
     description_note: "ACSUCYL is the external accreditation body of the University\
       \ System of Castilla y Le\xF3n. It\xB4s mission is to to ensure ongoing improvement\
       \ in higher education and to provide information concerning the work it is conducting\
@@ -612,6 +666,7 @@
 - fields:
     agency: 6
     association: 1
+    membership_valid_from: '2010-11-18'
   model: agencies.AgencyMembership
   pk: 6
 - fields:
@@ -628,6 +683,7 @@
     agency: 6
     country: 161
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 23
 - fields:
@@ -645,7 +701,8 @@
     address: "R\xFAa Lamas de Abade s/n<br />Edificio CIFP Compostela 5a planta<br\
       \ />Santiago de Compostela 15702 <br />La Coru\xF1a<br />Spain<br />"
     contact_person: "Luis Carlos Vel\xF3n Sixto"
-    deqar_id: DEQAR_AG0007
+    country: 161
+    deqar_id: '37'
     description_note: "The Agency for Quality Assurance in the Galician University\
       \ System (ACSUG) is a public organisation that was set up in 2001 with the main\
       \ mission to contribute to assuring and improving the quality of the Galician\
@@ -684,6 +741,7 @@
 - fields:
     agency: 7
     association: 1
+    membership_valid_from: '2010-11-18'
   model: agencies.AgencyMembership
   pk: 7
 - fields:
@@ -700,35 +758,41 @@
     agency: 7
     country: 161
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 24
 - fields:
     agency: 7
     country: 86
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 25
 - fields:
     agency: 7
     country: 136
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 26
 - fields:
     agency: 7
     country: 92
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 27
 - fields:
     agency: 7
     country: 169
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 28
 - fields:
     activity: Assessment of institutional QA systems (FIDES-AUDIT)
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 24
@@ -736,30 +800,35 @@
     activity: "Verification of new (Bologna-type) programmes (\u201Cex-ante accreditation\u201D\
       )"
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 25
 - fields:
     activity: Monitoring of previously Verified programmes (including modifications)
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 26
 - fields:
     activity: Accreditation of existing programmes (i.e. cyclical reaccreditation)
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 27
 - fields:
     activity: Reviews at the request of other Autonomous Communities
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 28
 - fields:
     activity: Reviews outside Spain, notably in Peru and Central Asia
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 7
   model: agencies.AgencyESGActivity
   pk: 29
@@ -767,7 +836,8 @@
     acronym_primary: AEQES
     address: "Bld L\xE9opold II, 44<br />1080 Brussels<br />Belgium"
     contact_person: Caty Duykaerts
-    deqar_id: DEQAR_AG0008
+    country: 17
+    deqar_id: '46'
     description_note: 'AEQES is responsible for assessing the quality of all bachelor
       and master programmes of FWB (French-speaking Belgium). The focus is on quality-enhancement
       (AEQES Decree 2008: no accreditation, no impact on funding). Programmes are
@@ -802,6 +872,7 @@
 - fields:
     agency: 8
     association: 1
+    membership_valid_from: '2012-12-03'
   model: agencies.AgencyMembership
   pk: 8
 - fields:
@@ -818,11 +889,13 @@
     agency: 8
     country: 17
     country_is_official: true
+    country_valid_from: '2012-12-03'
   model: agencies.AgencyFocusCountry
   pk: 29
 - fields:
     activity: Programme evaluation (including a follow-up evaluation visit)
     activity_type: 1
+    activity_valid_from: '2012-12-03'
     agency: 8
   model: agencies.AgencyESGActivity
   pk: 30
@@ -830,7 +903,8 @@
     acronym_primary: AHPGS
     address: Sedanstrasse 22<br />79098 Freiburg<br />Germany
     contact_person: Georg Reschauer
-    deqar_id: DEQAR_AG0009
+    country: 64
+    deqar_id: '27'
     description_note: "The AHPGS promotes the quality and transparency of university\
       \ study courses and Universities through accreditation procedures in Germany\
       \ and abroad. AHPGS is accredited by the German Accreditation Council. Furtherrmore,\
@@ -874,6 +948,7 @@
 - fields:
     agency: 9
     association: 1
+    membership_valid_from: '2009-10-07'
   model: agencies.AgencyMembership
   pk: 9
 - fields:
@@ -890,48 +965,56 @@
     agency: 9
     country: 100
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 30
 - fields:
     agency: 9
     country: 64
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 31
 - fields:
     agency: 9
     country: 124
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 32
 - fields:
     agency: 9
     country: 10
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 33
 - fields:
     agency: 9
     country: 167
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 34
 - fields:
     agency: 9
     country: 141
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 35
 - fields:
     agency: 9
     country: 157
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 36
 - fields:
     agency: 9
     country: 45
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 37
 - fields:
@@ -947,7 +1030,8 @@
     acronym_primary: AI
     address: "Bredgade 38<br />1260 K\xF8benhavn K<br />Denmark"
     contact_person: "Anette D\xF8rge (Executive Director)"
-    deqar_id: DEQAR_AG0010
+    country: 47
+    deqar_id: '35'
     description_note: 'The Danish Accreditation Institution is an independent agency
       founded by
 
@@ -992,6 +1076,7 @@
 - fields:
     agency: 10
     association: 1
+    membership_valid_from: '2010-11-18'
   model: agencies.AgencyMembership
   pk: 10
 - fields:
@@ -1008,17 +1093,20 @@
     agency: 10
     country: 47
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 38
 - fields:
     activity: Accreditation of higher education institutions.
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 10
   model: agencies.AgencyESGActivity
   pk: 32
 - fields:
     activity: Accreditation of higher education programmes.
     activity_type: 1
+    activity_valid_from: '2010-11-18'
     agency: 10
   model: agencies.AgencyESGActivity
   pk: 33
@@ -1026,7 +1114,8 @@
     acronym_primary: AKKORK
     address: Spartakovskaya str. 14, bldg. 4,<br />4206 Moscow<br />Russia
     contact_person: Erika Soboleva
-    deqar_id: DEQAR_AG0011
+    country: 142
+    deqar_id: '64'
     description_note: 'AKKORK is an independent quality assurance agency. AKKORK offers
       evaluation, accreditation and certification of education institutions.
 
@@ -1057,6 +1146,7 @@
 - fields:
     agency: 11
     association: 1
+    membership_valid_from: '2015-11-17'
   model: agencies.AgencyMembership
   pk: 11
 - fields:
@@ -1078,47 +1168,55 @@
     agency: 11
     country: 142
     country_is_official: true
+    country_valid_from: '2015-11-17'
   model: agencies.AgencyFocusCountry
   pk: 39
 - fields:
     activity: Independent evaluation of education quality on programme level
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 34
 - fields:
     activity: Professional-public accreditation of education programmes
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 35
 - fields:
     activity: International accreditation of education programmes
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 36
 - fields:
     activity: International e-learning accreditation
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 37
 - fields:
     activity: Internal quality assurance system audit and certification (IQAS)
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 38
 - fields:
     activity: Assessment of administrative and teaching staff
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 39
 - fields:
     activity: Seminars and trainings
     activity_type: 1
+    activity_valid_from: '2015-11-17'
     agency: 11
   model: agencies.AgencyESGActivity
   pk: 40
@@ -1126,7 +1224,8 @@
     acronym_primary: ANECA
     address: "c/ Orense 11<br />7\xAA planta<br />28020 Madrid<br />Spain"
     contact_person: "Miguel \xC1ngel Galindo Mart\xEDn"
-    deqar_id: DEQAR_AG0012
+    country: 161
+    deqar_id: '17'
     description_note: "The National Agency for Quality Assessment and Accreditation\
       \ of Spain,\nANECA, is an autonomous body of public nature whose aim is to provide\n\
       external quality assurance for the Spanish Higher Education System and to\n\
@@ -1168,6 +1267,7 @@
 - fields:
     agency: 12
     association: 1
+    membership_valid_from: '2013-05-07'
   model: agencies.AgencyMembership
   pk: 12
 - fields:
@@ -1184,6 +1284,7 @@
     agency: 12
     country: 161
     country_is_official: true
+    country_valid_from: '2013-05-07'
   model: agencies.AgencyFocusCountry
   pk: 40
 - fields:
@@ -1200,7 +1301,8 @@
     acronym_primary: ANQA
     address: 22 Orbeli street<br />0028 Yerevan<br />Armenia
     contact_person: Ruben Topchyan
-    deqar_id: DEQAR_AG0013
+    country: 8
+    deqar_id: '70'
     description_note: ANQA was established on November 7, 2008 under the Government
       Decree (No 1486). The main goal of ANQA is to support the tertiary level institutions
       to develop, disseminate and enhance a quality culture by complying with the
@@ -1243,6 +1345,7 @@
 - fields:
     agency: 13
     association: 1
+    membership_valid_from: '2017-06-20'
   model: agencies.AgencyMembership
   pk: 13
 - fields:
@@ -1269,6 +1372,7 @@
     agency: 13
     country: 8
     country_is_official: true
+    country_valid_from: '2017-06-20'
   model: agencies.AgencyFocusCountry
   pk: 41
 - fields:
@@ -1283,7 +1387,8 @@
     acronym_primary: AQ Austria
     address: Renngasse 5, 1010 Vienna<br />Austria
     contact_person: Dr. Achim Hopbach
-    deqar_id: DEQAR_AG0014
+    country: 10
+    deqar_id: '57'
     description_note: AQ Austria is the national Quality Assurance Agency of Austria,
       founded in 2012 as a merger of three predecessor agencies. AQ Austria is independend
       and provides quality assurance service on a broad range with the aim to support
@@ -1321,6 +1426,7 @@
 - fields:
     agency: 14
     association: 1
+    membership_valid_from: '2014-11-29'
   model: agencies.AgencyMembership
   pk: 14
 - fields:
@@ -1337,71 +1443,83 @@
     agency: 14
     country: 64
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 42
 - fields:
     agency: 14
     country: 10
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 43
 - fields:
     agency: 14
     country: 22
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 44
 - fields:
     agency: 14
     country: 82
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 45
 - fields:
     agency: 14
     country: 86
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 46
 - fields:
     agency: 14
     country: 99
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 47
 - fields:
     agency: 14
     country: 152
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 48
 - fields:
     agency: 14
     country: 157
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 49
 - fields:
     activity: Programme Accreditation,
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 43
 - fields:
     activity: Institutional Accreditation,
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 44
 - fields:
     activity: Quality Audit, Programme Evaluation,
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 45
 - fields:
     activity: 'Institutional Evaluation, '
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 46
@@ -1409,6 +1527,7 @@
     activity: 'System Accreditation (Accreditation of internal Quality Assurance System,
       only in Germany); '
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 47
@@ -1416,6 +1535,7 @@
     activity: Consultancy for development of internal quality management systems,
       system-wide analysis.
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 14
   model: agencies.AgencyESGActivity
   pk: 48
@@ -1423,7 +1543,8 @@
     acronym_primary: AQAS
     address: "Hohenstaufenring 30-32<br />50674 K\xF6ln<br />Germany"
     contact_person: Doris Herrmann
-    deqar_id: DEQAR_AG0015
+    country: 64
+    deqar_id: '33'
     description_note: "AQAS e.V. \u2010 established in 2002 \u2010 is an agency for\
       \ quality assurance in the higher education area. AQAS is accredited by the\
       \ German Accreditation Council and authorised to award its seal to German study\
@@ -1463,6 +1584,7 @@
 - fields:
     agency: 15
     association: 1
+    membership_valid_from: '2010-05-25'
   model: agencies.AgencyMembership
   pk: 15
 - fields:
@@ -1479,107 +1601,125 @@
     agency: 15
     country: 80
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 50
 - fields:
     agency: 15
     country: 10
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 51
 - fields:
     agency: 15
     country: 64
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 52
 - fields:
     agency: 15
     country: 86
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 53
 - fields:
     agency: 15
     country: 142
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 54
 - fields:
     agency: 15
     country: 17
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 55
 - fields:
     agency: 15
     country: 60
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 56
 - fields:
     agency: 15
     country: 114
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 57
 - fields:
     agency: 15
     country: 161
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 58
 - fields:
     agency: 15
     country: 166
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 59
 - fields:
     agency: 15
     country: 177
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 60
 - fields:
     agency: 15
     country: 183
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 61
 - fields:
     activity: Programme Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 49
 - fields:
     activity: System Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 50
 - fields:
     activity: Programme Accreditation international
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 51
 - fields:
     activity: Institutional Accreditation international
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 52
 - fields:
     activity: Accreditation of Joint Programmes
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 53
 - fields:
     activity: Institutional and Programme Accreditation in Oman
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 15
   model: agencies.AgencyESGActivity
   pk: 54
@@ -1587,7 +1727,8 @@
     acronym_primary: AQU
     address: Carrer dels Vergos,<br />08017 Barcelona<br />Spain
     contact_person: "Maria Gin\xE9"
-    deqar_id: DEQAR_AG0016
+    country: 161
+    deqar_id: '15'
     description_note: 'The Catalan University Quality Assurance Agency, AQU Catalunya,
       is the main
 
@@ -1627,6 +1768,7 @@
 - fields:
     agency: 16
     association: 1
+    membership_valid_from: '2008-12-05'
   model: agencies.AgencyMembership
   pk: 16
 - fields:
@@ -1643,6 +1785,7 @@
     agency: 16
     country: 161
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 62
 - fields:
@@ -1661,7 +1804,8 @@
     acronym_primary: ARACIS
     address: Schitu Magureanu 1<br />050025 Bucharest<br />Romania
     contact_person: Radu Mircea Damian
-    deqar_id: DEQAR_AG0017
+    country: 141
+    deqar_id: '28'
     description_note: "ARACIS\u2019s mission is, according to the law, to asses the\
       \ quality of the study programmes, study domains and higher education institutions\
       \ as well as to contribute, together with the HEIs, to a continuous enhancement\
@@ -1699,6 +1843,7 @@
 - fields:
     agency: 17
     association: 1
+    membership_valid_from: '2009-10-07'
   model: agencies.AgencyMembership
   pk: 17
 - fields:
@@ -1715,12 +1860,14 @@
     agency: 17
     country: 141
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 63
 - fields:
     agency: 17
     country: 114
     country_is_official: true
+    country_valid_from: '2009-10-07'
   model: agencies.AgencyFocusCountry
   pk: 64
 - fields:
@@ -1740,7 +1887,8 @@
     acronym_primary: ASHE
     address: Donje Svetice 38/5<br />10000 Zagreb<br />Croatia
     contact_person: '&#272;ur&#273;ica Dragojevi&#263;'
-    deqar_id: DEQAR_AG0018
+    country: 43
+    deqar_id: '43'
     description_note: ASHE was established by Croatian Government as an independent
       public body and the only institution tasked with external quality assurance
       procedures in higher education and research in the country. In addition to these,
@@ -1779,6 +1927,7 @@
 - fields:
     agency: 18
     association: 1
+    membership_valid_from: '2011-11-25'
   model: agencies.AgencyMembership
   pk: 18
 - fields:
@@ -1795,18 +1944,21 @@
     agency: 18
     country: 43
     country_is_official: true
+    country_valid_from: '2011-11-25'
   model: agencies.AgencyFocusCountry
   pk: 65
 - fields:
     agency: 18
     country: 157
     country_is_official: true
+    country_valid_from: '2011-11-25'
   model: agencies.AgencyFocusCountry
   pk: 66
 - fields:
     activity: Initial accreditation (of higher education institutions and programmes
       in all three cycles)
     activity_type: 1
+    activity_valid_from: '2011-11-25'
     agency: 18
   model: agencies.AgencyESGActivity
   pk: 57
@@ -1814,24 +1966,28 @@
     activity: Re-accreditation (of higher education institutions and programmes in
       all three cycles)
     activity_type: 1
+    activity_valid_from: '2011-11-25'
     agency: 18
   model: agencies.AgencyESGActivity
   pk: 58
 - fields:
     activity: Audit (of higher education institutions)
     activity_type: 1
+    activity_valid_from: '2011-11-25'
     agency: 18
   model: agencies.AgencyESGActivity
   pk: 59
 - fields:
     activity: Thematic evaluations
     activity_type: 1
+    activity_valid_from: '2011-11-25'
     agency: 18
   model: agencies.AgencyESGActivity
   pk: 60
 - fields:
     activity: Re-accreditation of doctoral study programmes
     activity_type: 1
+    activity_valid_from: '2011-11-25'
     agency: 18
   model: agencies.AgencyESGActivity
   pk: 61
@@ -1839,7 +1995,8 @@
     acronym_primary: ASIIN
     address: "Robert\u2010Stolz\u2010Str. 5<br />40470 D\xFCsseldorf<br />Germany"
     contact_person: Iring Wasser
-    deqar_id: DEQAR_AG0019
+    country: 64
+    deqar_id: '20'
     description_note: "ASIIN is carried by an alliance of academic/professional associations\
       \ and higher education institutions. All activities of ASIIN aim at securing\
       \ and enhancing the quality of higher education, nationally and internationally.\
@@ -1873,6 +2030,7 @@
 - fields:
     agency: 19
     association: 1
+    membership_valid_from: '2009-04-08'
   model: agencies.AgencyMembership
   pk: 19
 - fields:
@@ -1889,179 +2047,209 @@
     agency: 19
     country: 167
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 67
 - fields:
     agency: 19
     country: 124
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 68
 - fields:
     agency: 19
     country: 64
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 69
 - fields:
     agency: 19
     country: 10
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 70
 - fields:
     agency: 19
     country: 43
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 71
 - fields:
     agency: 19
     country: 59
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 72
 - fields:
     agency: 19
     country: 60
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 73
 - fields:
     agency: 19
     country: 138
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 74
 - fields:
     agency: 19
     country: 139
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 75
 - fields:
     agency: 19
     country: 161
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 76
 - fields:
     agency: 19
     country: 183
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 77
 - fields:
     agency: 19
     country: 86
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 78
 - fields:
     agency: 19
     country: 8
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 79
 - fields:
     agency: 19
     country: 157
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 80
 - fields:
     agency: 19
     country: 181
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 81
 - fields:
     agency: 19
     country: 11
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 82
 - fields:
     agency: 19
     country: 142
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 83
 - fields:
     agency: 19
     country: 9
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 84
 - fields:
     agency: 19
     country: 77
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 85
 - fields:
     agency: 19
     country: 112
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 86
 - fields:
     agency: 19
     country: 130
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 87
 - fields:
     agency: 19
     country: 150
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 88
 - fields:
     agency: 19
     country: 45
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 89
 - fields:
     agency: 19
     country: 22
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 90
 - fields:
     activity: Programme Accreditation (for the seals of GAC, ASIIN or external labels)
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 62
 - fields:
     activity: Programme Evaluation
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 63
 - fields:
     activity: Institutional/System Accreditation (for the seals of GAC or ASIIN)
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 64
 - fields:
     activity: Institutional/System Evaluation
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 65
 - fields:
     activity: Certification
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 66
 - fields:
     activity: Quality development evaluation ("type 1")
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 19
   model: agencies.AgencyESGActivity
   pk: 67
@@ -2069,7 +2257,8 @@
     acronym_primary: BAC
     address: Ground Floor<br />14 Devonshire Square<br />London<br />EC2M 4YT<br />UK
     contact_person: Paul Fear
-    deqar_id: DEQAR_AG0020
+    country: 183
+    deqar_id: '63'
     description_note: 'BAC is an independent organisation, established in 1984 to
       be the national accrediting body for independent post-16 education in the UK.
       BAC is a not-for-profit charitable organisation and is self-financing through
@@ -2109,6 +2298,7 @@
 - fields:
     agency: 20
     association: 1
+    membership_valid_from: '2015-06-05'
   model: agencies.AgencyMembership
   pk: 20
 - fields:
@@ -2125,30 +2315,35 @@
     agency: 20
     country: 167
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 91
 - fields:
     agency: 20
     country: 183
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 92
 - fields:
     agency: 20
     country: 80
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 93
 - fields:
     agency: 20
     country: 66
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 94
 - fields:
     agency: 20
     country: 26
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 95
 - fields:
@@ -2166,7 +2361,8 @@
     address: Serbia Palace<br />East wing, office 477<br />Mihajlo Pupin Boulevard
       no. 2<br />11000 Belgrade, Serbia
     contact_person: Sofija Pekic Quarrie
-    deqar_id: DEQAR_AG0021
+    country: 152
+    deqar_id: '54'
     description_note: 'CAQA is the only formally recognised commission responsible
       for external quality assurance of higher educational institutions in Serbia.
       CAQA carries out the accreditation procedure for higher education institutions
@@ -2211,6 +2407,7 @@
 - fields:
     agency: 21
     association: 1
+    membership_valid_from: '2014-11-29'
   model: agencies.AgencyMembership
   pk: 21
 - fields:
@@ -2227,17 +2424,20 @@
     agency: 21
     country: 152
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 96
 - fields:
     activity: 'Accreditation of higher education institutions and study programs and '
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 21
   model: agencies.AgencyESGActivity
   pk: 69
 - fields:
     activity: 'External quality control of higher education institutions (auditing). '
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 21
   model: agencies.AgencyESGActivity
   pk: 70
@@ -2245,7 +2445,8 @@
     acronym_primary: CTI
     address: 27 rue Duret, 75116 Paris<br />France
     contact_person: Laurent Mahieu
-    deqar_id: DEQAR_AG0022
+    country: 60
+    deqar_id: '38'
     description_note: "CTI (Commission des Titres d'Ing\xE9nieurs) is an independent\
       \ body fully involved in the development of the European Higher Education Area,\
       \ established by the French law in 1934. \n\nIts missions are respectively:\
@@ -2291,6 +2492,7 @@
 - fields:
     agency: 22
     association: 1
+    membership_valid_from: '2010-11-18'
   model: agencies.AgencyMembership
   pk: 22
 - fields:
@@ -2307,36 +2509,42 @@
     agency: 22
     country: 17
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 97
 - fields:
     agency: 22
     country: 60
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 98
 - fields:
     agency: 22
     country: 64
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 99
 - fields:
     agency: 22
     country: 101
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 100
 - fields:
     agency: 22
     country: 167
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 101
 - fields:
     agency: 22
     country: 26
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 102
 - fields:
@@ -2350,7 +2558,8 @@
     address: University of Twente<br />School of Management and Governance<br />PO
       Box 217<br />7500 AE Enschede<br />The Netherlands
     contact_person: Taco Brandsen
-    deqar_id: DEQAR_AG0023
+    country: 124
+    deqar_id: '55'
     description_note: EAPAA promotes the quality of European academic level public
       administration programmes by accreditation, encourages curriculum development
       and innovation, provides a forum for discussion on quality and accreditation
@@ -2381,6 +2590,7 @@
 - fields:
     agency: 23
     association: 1
+    membership_valid_from: '2014-05-22'
   model: agencies.AgencyMembership
   pk: 23
 - fields:
@@ -2402,90 +2612,105 @@
     agency: 23
     country: 124
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 103
 - fields:
     agency: 23
     country: 17
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 104
 - fields:
     agency: 23
     country: 46
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 105
 - fields:
     agency: 23
     country: 56
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 106
 - fields:
     agency: 23
     country: 64
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 107
 - fields:
     agency: 23
     country: 74
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 108
 - fields:
     agency: 23
     country: 82
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 109
 - fields:
     agency: 23
     country: 86
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 110
 - fields:
     agency: 23
     country: 138
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 111
 - fields:
     agency: 23
     country: 141
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 112
 - fields:
     agency: 23
     country: 157
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 113
 - fields:
     agency: 23
     country: 166
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 114
 - fields:
     agency: 23
     country: 167
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 115
 - fields:
     agency: 23
     country: 177
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 116
 - fields:
     agency: 23
     country: 181
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 117
 - fields:
@@ -2501,7 +2726,8 @@
     acronym_primary: EKKA
     address: Toompuiestee 30<br />Tallinn 10149<br />Estonia
     contact_person: Tiia Bach
-    deqar_id: DEQAR_AG0024
+    country: 56
+    deqar_id: '51'
     description_note: EKKA is a competence centre in the field of external evaluation
       of both higher education and vocational education. EKKA acts in accord with
       agreements and trends in the European higher education and vocational education
@@ -2540,6 +2766,7 @@
 - fields:
     agency: 24
     association: 1
+    membership_valid_from: '2013-10-23'
   model: agencies.AgencyMembership
   pk: 24
 - fields:
@@ -2561,12 +2788,14 @@
     agency: 24
     country: 56
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 118
 - fields:
     agency: 24
     country: 114
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 119
 - fields:
@@ -2583,7 +2812,8 @@
     acronym_primary: evalag
     address: M7, 9a-10<br />68161 Mannheim<br />Germany
     contact_person: Anke Rigbers
-    deqar_id: DEQAR_AG0025
+    country: 64
+    deqar_id: '34'
     description_note: Evalag is a centre of competence for quality assurance and enhancement.
       The agency supports higher education institutions and other scientific institutions
       with their commitment for good quality in teaching and learning, research and
@@ -2620,6 +2850,7 @@
 - fields:
     agency: 25
     association: 1
+    membership_valid_from: '2010-05-25'
   model: agencies.AgencyMembership
   pk: 25
 - fields:
@@ -2634,49 +2865,57 @@
   pk: 30
 - fields:
     agency: 25
-    country: 273
+    country: 268
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 120
 - fields:
     agency: 25
     country: 100
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 121
 - fields:
     agency: 25
     country: 10
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 122
 - fields:
     agency: 25
     country: 64
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 123
 - fields:
     agency: 25
     country: 74
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 124
 - fields:
     agency: 25
     country: 99
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 125
 - fields:
     agency: 25
     country: 92
     country_is_official: true
+    country_valid_from: '2010-05-25'
   model: agencies.AgencyFocusCountry
   pk: 126
 - fields:
     activity: Evaluation (based on peer review and empirical data).
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 25
   model: agencies.AgencyESGActivity
   pk: 74
@@ -2684,18 +2923,21 @@
     activity: Audit procedures (based on peer review), accreditation (based on peer
       review).
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 25
   model: agencies.AgencyESGActivity
   pk: 75
 - fields:
     activity: Peer review procedures for research proposals.
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 25
   model: agencies.AgencyESGActivity
   pk: 76
 - fields:
     activity: Institutional accreditation of Swiss higher education institutions.
     activity_type: 1
+    activity_valid_from: '2010-05-25'
     agency: 25
   model: agencies.AgencyESGActivity
   pk: 77
@@ -2703,7 +2945,8 @@
     acronym_primary: FIBAA
     address: Berliner Freiheit 20-24<br />53111 Bonn<br />Germany
     contact_person: Kerstin Fink
-    deqar_id: DEQAR_AG0026
+    country: 64
+    deqar_id: '22'
     description_note: 'FIBAA is an international non profit accreditation and quality
       assurance agency, accredited by the German Accreditation Council since 2000
       (re-accreditation in 2005, 2007 and 2012, respectivelly for 5 years). FIBAA
@@ -2752,6 +2995,7 @@
 - fields:
     agency: 26
     association: 1
+    membership_valid_from: '2009-04-08'
   model: agencies.AgencyMembership
   pk: 26
 - fields:
@@ -2768,143 +3012,167 @@
     agency: 26
     country: 167
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 127
 - fields:
     agency: 26
     country: 142
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 128
 - fields:
     agency: 26
     country: 141
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 129
 - fields:
     agency: 26
     country: 124
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 130
 - fields:
     agency: 26
     country: 64
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 131
 - fields:
     agency: 26
     country: 10
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 132
 - fields:
     agency: 26
     country: 181
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 133
 - fields:
     agency: 26
     country: 2
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 134
 - fields:
     agency: 26
     country: 60
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 135
 - fields:
     agency: 26
     country: 101
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 136
 - fields:
     agency: 26
     country: 183
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 137
 - fields:
     agency: 26
     country: 45
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 138
 - fields:
     agency: 26
     country: 46
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 139
 - fields:
     agency: 26
     country: 63
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 140
 - fields:
     agency: 26
     country: 86
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 141
 - fields:
     agency: 26
     country: 157
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 142
 - fields:
     agency: 26
     country: 95
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 143
 - fields:
     activity: Programme Accreditation according to FIBAA quality standards.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 78
 - fields:
     activity: Programme Accreditation according to the GAC requirements.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 79
 - fields:
     activity: Certification of Further Education Courses.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 80
 - fields:
     activity: Institutional Strategic Management Accreditation (ISMA).
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 81
 - fields:
     activity: Institutional Quality Management Accreditation (IQMA).
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 82
 - fields:
     activity: Institutional Audit in Austria.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 83
 - fields:
     activity: System Accreditation according to the GAC requirements.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 84
@@ -2913,6 +3181,7 @@
       specific purposes determined by the institution which do not relate to quality
       assurance of teaching and learning).
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 26
   model: agencies.AgencyESGActivity
   pk: 85
@@ -2920,7 +3189,8 @@
     acronym_primary: FINEEC
     address: PO Box 28 / Mannerheiminaukio 1 A<br />00101 Helsinki<br />Finland
     contact_person: "Helka Kek\xE4l\xE4inen"
-    deqar_id: DEQAR_AG0027
+    country: 59
+    deqar_id: '39'
     description_note: "The Finnish Education Evaluation Centre (FINEEC) is an independent\
       \ government agency responsible for the national evaluation of education. \n\
       \nThe evaluations of FINEEC cover the education system in its entirety, from\
@@ -2958,6 +3228,7 @@
 - fields:
     agency: 27
     association: 1
+    membership_valid_from: '2010-11-18'
   model: agencies.AgencyMembership
   pk: 27
 - fields:
@@ -2974,12 +3245,14 @@
     agency: 27
     country: 10
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 144
 - fields:
     agency: 27
     country: 59
     country_is_official: true
+    country_valid_from: '2010-11-18'
   model: agencies.AgencyFocusCountry
   pk: 145
 - fields:
@@ -2998,7 +3271,8 @@
     acronym_primary: fmid
     address: "Paseo de Recoletos n\xBA 14<br />28001 - Madrid<br />Spain"
     contact_person: "Ra\xFAl de Andr\xE9s"
-    deqar_id: DEQAR_AG0028
+    country: 161
+    deqar_id: '62'
     description_note: "Fundaci\xF3n para el Conocimiento Madrimasd (madri+d, fmid)\
       \ is the designated official assessment body for the Madrid Higher Education\
       \ System. It is a non-profit organization established in 2002 whose aim is to\
@@ -3028,6 +3302,7 @@
 - fields:
     agency: 28
     association: 1
+    membership_valid_from: '2015-06-08'
   model: agencies.AgencyMembership
   pk: 28
 - fields:
@@ -3044,6 +3319,7 @@
     agency: 28
     country: 161
     country_is_official: true
+    country_valid_from: '2015-06-08'
   model: agencies.AgencyFocusCountry
   pk: 146
 - fields:
@@ -3057,7 +3333,8 @@
     acronym_primary: HCERES
     address: 2-8 rue Albert Einstein<br />75013 Paris<br />France
     contact_person: Michel Cosnard
-    deqar_id: DEQAR_AG0029
+    country: 60
+    deqar_id: '40'
     description_note: "The High Council for the Evaluation of Research and Higher\
       \ Education (HCERES), created by the Law No. 2013-660 of July 22nd, 2013 relative\
       \ to higher education and research, has replaced the AERES as from November\
@@ -3122,6 +3399,7 @@
 - fields:
     agency: 29
     association: 1
+    membership_valid_from: '2011-05-14'
   model: agencies.AgencyMembership
   pk: 29
 - fields:
@@ -3143,24 +3421,28 @@
     agency: 29
     country: 60
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 147
 - fields:
     agency: 29
     country: 8
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 148
 - fields:
     agency: 29
     country: 150
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 149
 - fields:
     agency: 29
     country: 182
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 150
 - fields:
@@ -3177,7 +3459,8 @@
     acronym_primary: IAAR
     address: "Kabanbay batyr avenue 42\u2010VP\u201017<br />010000, Astana <br />Kazakhsan"
     contact_person: Timur Kanapyanov
-    deqar_id: DEQAR_AG0030
+    country: 86
+    deqar_id: '68'
     description_note: "IAAR is a accreditation body established to create a competitive\
       \ environment in the system of independent evaluation of the quality of education\
       \ on national and international levels by conducting the procedures of accreditation.\
@@ -3219,6 +3502,7 @@
 - fields:
     agency: 30
     association: 1
+    membership_valid_from: '2017-06-20'
   model: agencies.AgencyMembership
   pk: 30
 - fields:
@@ -3240,17 +3524,20 @@
     agency: 30
     country: 86
     country_is_official: true
+    country_valid_from: '2017-06-20'
   model: agencies.AgencyFocusCountry
   pk: 151
 - fields:
     activity: ' Institutional accreditation of educational institutions.'
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 30
   model: agencies.AgencyESGActivity
   pk: 89
 - fields:
     activity: ' Specialised accreditation of study programmes.'
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 30
   model: agencies.AgencyESGActivity
   pk: 90
@@ -3259,7 +3546,8 @@
     address: "IEP c/o EUA<br />114 rue du Rh\xF4ne<br />Case postale 3174<br />1211\
       \ Geneva 3<br />Switzerland"
     contact_person: Anna Gover
-    deqar_id: DEQAR_AG0031
+    country: 167
+    deqar_id: '44'
     description_note: Consistent with institutional autonomy, the mission of the Institutional
       Evaluation Programme (IEP) is to support higher education institutions and systems
       in developing their strategic leadership and capacity to manage change through
@@ -3291,6 +3579,7 @@
 - fields:
     agency: 31
     association: 1
+    membership_valid_from: '2011-12-15'
   model: agencies.AgencyMembership
   pk: 31
 - fields:
@@ -3307,84 +3596,98 @@
     agency: 31
     country: 117
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 152
 - fields:
     agency: 31
     country: 46
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 153
 - fields:
     agency: 31
     country: 74
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 154
 - fields:
     agency: 31
     country: 157
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 155
 - fields:
     agency: 31
     country: 161
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 156
 - fields:
     agency: 31
     country: 102
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 157
 - fields:
     agency: 31
     country: 80
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 158
 - fields:
     agency: 31
     country: 82
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 159
 - fields:
     agency: 31
     country: 94
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 160
 - fields:
     agency: 31
     country: 100
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 161
 - fields:
     agency: 31
     country: 139
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 162
 - fields:
     agency: 31
     country: 141
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 163
 - fields:
     agency: 31
     country: 86
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 164
 - fields:
     agency: 31
     country: 177
     country_is_official: true
+    country_valid_from: '2011-12-15'
   model: agencies.AgencyFocusCountry
   pk: 165
 - fields:
@@ -3399,7 +3702,8 @@
     acronym_primary: IQAA
     address: Dostyk Str.20, Office 801<br />010000 Astana
     contact_person: Sholpan Kalanova
-    deqar_id: DEQAR_AG0032
+    country: 86
+    deqar_id: '69'
     description_note: IQAA is a non-governmental and non-profit organization created
       for the enhancement of the quality of education and competitiveness of Kazakhstani
       educational institutions; provision of information about institutions operating
@@ -3443,6 +3747,7 @@
 - fields:
     agency: 32
     association: 1
+    membership_valid_from: '2017-06-20'
   model: agencies.AgencyMembership
   pk: 32
 - fields:
@@ -3464,17 +3769,20 @@
     agency: 32
     country: 86
     country_is_official: true
+    country_valid_from: '2017-06-20'
   model: agencies.AgencyFocusCountry
   pk: 166
 - fields:
     activity: 'Institutional accreditation of higher education institutions; '
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 32
   model: agencies.AgencyESGActivity
   pk: 92
 - fields:
     activity: 'Specialized accreditation of study programmes of higher education institutions; '
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 32
   model: agencies.AgencyESGActivity
   pk: 93
@@ -3482,12 +3790,14 @@
     activity: Institutional accreditation of the educational departments of research
       organizations;
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 32
   model: agencies.AgencyESGActivity
   pk: 94
 - fields:
     activity: Specialized accreditation of study programmes of research organizations.
     activity_type: 1
+    activity_valid_from: '2017-06-20'
     agency: 32
   model: agencies.AgencyESGActivity
   pk: 95
@@ -3495,7 +3805,8 @@
     acronym_primary: KAA
     address: Street Agim Ramadani n.n.<br />10 000 Prishtina <br />Kosovo
     contact_person: Furtuna Mehmeti
-    deqar_id: DEQAR_AG0033
+    country: 268
+    deqar_id: '60'
     description_note: 'KAA was established by the Ministry of Education, Science and
       Technology (MEST) in accordance with the Law on Higher Education in Kosovo,
       as the Agency that guarantees the quality of educational and scientific research
@@ -3537,6 +3848,7 @@
 - fields:
     agency: 33
     association: 1
+    membership_valid_from: '2015-06-05'
   model: agencies.AgencyMembership
   pk: 33
 - fields:
@@ -3551,8 +3863,9 @@
   pk: 38
 - fields:
     agency: 33
-    country: 273
+    country: 268
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 167
 - fields:
@@ -3565,7 +3878,8 @@
     acronym_primary: MusiQuE
     address: c/o AEC, Avenue des Celtes, 20<br />1040 Brussels
     contact_person: Linda Messas
-    deqar_id: DEQAR_AG0034
+    country: 17
+    deqar_id: '66'
     description_note: "MusiQuE is an external evaluation body dedicated to the continuous\
       \ improvement\nof the quality of higher music education across Europe and beyond\
       \ and to assisting higher music education institutions in their own enhancement\
@@ -3596,6 +3910,7 @@
 - fields:
     agency: 34
     association: 1
+    membership_valid_from: '2016-06-06'
   model: agencies.AgencyMembership
   pk: 34
 - fields:
@@ -3612,96 +3927,112 @@
     agency: 34
     country: 8
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 168
 - fields:
     agency: 34
     country: 17
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 169
 - fields:
     agency: 34
     country: 46
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 170
 - fields:
     agency: 34
     country: 56
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 171
 - fields:
     agency: 34
     country: 60
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 172
 - fields:
     agency: 34
     country: 64
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 173
 - fields:
     agency: 34
     country: 75
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 174
 - fields:
     agency: 34
     country: 100
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 175
 - fields:
     agency: 34
     country: 124
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 176
 - fields:
     agency: 34
     country: 138
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 177
 - fields:
     agency: 34
     country: 139
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 178
 - fields:
     agency: 34
     country: 141
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 179
 - fields:
     agency: 34
     country: 142
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 180
 - fields:
     agency: 34
     country: 161
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 181
 - fields:
     agency: 34
     country: 167
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 182
 - fields:
     agency: 34
     country: 183
     country_is_official: true
+    country_valid_from: '2016-06-06'
   model: agencies.AgencyFocusCountry
   pk: 183
 - fields:
@@ -3724,7 +4055,8 @@
     acronym_primary: NCPA
     address: 206a Volkov Str.<br />Yoshkar-Ola<br />424000 Russia
     contact_person: Galina Motova
-    deqar_id: DEQAR_AG0035
+    country: 142
+    deqar_id: '65'
     description_note: NCPA is a national quality assurance agency in higher education,
       with responsibility for public accreditation at the program and institutional
       levels, assisting in quality enhancement, advising on quality assurance; and
@@ -3754,6 +4086,7 @@
 - fields:
     agency: 35
     association: 1
+    membership_valid_from: '2015-11-17'
   model: agencies.AgencyMembership
   pk: 35
 - fields:
@@ -3770,6 +4103,7 @@
     agency: 35
     country: 142
     country_is_official: true
+    country_valid_from: '2015-11-17'
   model: agencies.AgencyFocusCountry
   pk: 184
 - fields:
@@ -3783,7 +4117,8 @@
     acronym_primary: NOKUT
     address: PO Box 578<br />1327 LYSAKER<br />Norway
     contact_person: "\xD8ystein Lund"
-    deqar_id: DEQAR_AG0036
+    country: 129
+    deqar_id: '56'
     description_note: NOKUT was established by the U&C Act in 2002 and became operative
       by 1 January 2003. The act lists NOKUT's main tasks and empowers the agency
       as the only official quality assurance agency for Norwegian higher education.
@@ -3823,6 +4158,7 @@
 - fields:
     agency: 36
     association: 1
+    membership_valid_from: '2014-05-22'
   model: agencies.AgencyMembership
   pk: 36
 - fields:
@@ -3839,12 +4175,14 @@
     agency: 36
     country: 129
     country_is_official: true
+    country_valid_from: '2014-05-22'
   model: agencies.AgencyFocusCountry
   pk: 185
 - fields:
     activity: 'Institutional accreditation: ex ante process focused on determining
       an institutional status and granting the associated degree-awarding powers;'
     activity_type: 1
+    activity_valid_from: '2014-05-22'
     agency: 36
   model: agencies.AgencyESGActivity
   pk: 99
@@ -3852,6 +4190,7 @@
     activity: 'Programme accreditation: initial approval of a new study programme
       in areas for which the institution does not have degree-awarding power;'
     activity_type: 1
+    activity_valid_from: '2014-05-22'
     agency: 36
   model: agencies.AgencyESGActivity
   pk: 100
@@ -3859,6 +4198,7 @@
     activity: 'Institutional audit: cyclical evaluation of the effectiveness of internal
       quality assurance systems.'
     activity_type: 1
+    activity_valid_from: '2014-05-22'
     agency: 36
   model: agencies.AgencyESGActivity
   pk: 101
@@ -3867,6 +4207,7 @@
       \ on an ad-hoc basis to control the institution\u2019s or programme\u2019s continuous\
       \ adherence to the accreditation criteria."
     activity_type: 1
+    activity_valid_from: '2014-05-22'
     agency: 36
   model: agencies.AgencyESGActivity
   pk: 102
@@ -3875,7 +4216,8 @@
     address: PO Box 85498, 2508 CD Den Haag (postal)<br />Parkstraat 28, 2514 JK Den
       Haag (visitors)<br />The Netherlands
     contact_person: Rudy Derdelinckx
-    deqar_id: DEQAR_AG0037
+    country: 124
+    deqar_id: '16'
     description_note: NVAO is the independent and binational accreditation organisation
       for higher education in the Netherlands and in Flanders (the Flemish Community
       of Belgium). Its activities include drafting frameworks, deciding on accreditation
@@ -3915,6 +4257,7 @@
 - fields:
     agency: 37
     association: 1
+    membership_valid_from: '2008-12-05'
   model: agencies.AgencyMembership
   pk: 37
 - fields:
@@ -3931,66 +4274,77 @@
     agency: 37
     country: 124
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 186
 - fields:
     agency: 37
     country: 17
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 187
 - fields:
     agency: 37
     country: 8
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 188
 - fields:
     agency: 37
     country: 43
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 189
 - fields:
     agency: 37
     country: 64
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 190
 - fields:
     agency: 37
-    country: 259
+    country: 258
     country_is_official: true
+    country_valid_from: '2008-12-05'
   model: agencies.AgencyFocusCountry
   pk: 191
 - fields:
     activity: "Programme accreditation in Flanders, the Netherlands and the so called\
       \ \u201CCaribbean Netherlands\u201D;"
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 103
 - fields:
     activity: Initial programme accreditation in Flanders and the Netherlands;
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 104
 - fields:
     activity: Accreditation of joint programmes;
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 105
 - fields:
     activity: Institutional audits/reviews in the Netherlands and Flanders;
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 106
 - fields:
     activity: Programme assessment in Curacao, Aruba and St. Maarten;
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 107
@@ -3998,12 +4352,14 @@
     activity: Assessments of special (quality) features for programmes and institutions
       in the Netherlands and Flanders.
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 108
 - fields:
     activity: Evaluations on features of programmes.
     activity_type: 1
+    activity_valid_from: '2008-12-05'
     agency: 37
   model: agencies.AgencyESGActivity
   pk: 109
@@ -4011,7 +4367,8 @@
     acronym_primary: PKA
     address: Zurawia 32/34<br />Warsaw<br />Poland
     contact_person: Wojciech Wrona
-    deqar_id: DEQAR_AG0038
+    country: 138
+    deqar_id: '19'
     description_note: The Polish Accreditation Committee (PKA) was established on
       1 January 2002 pursuant to art. 38, clause 1 of the Law on Higher Education
       of 12 September 1990 (OJ No. 65, item 385) amended on 20 July 2001. The Polish
@@ -4049,6 +4406,7 @@
 - fields:
     agency: 38
     association: 1
+    membership_valid_from: '2009-04-08'
   model: agencies.AgencyMembership
   pk: 38
 - fields:
@@ -4070,29 +4428,34 @@
     agency: 38
     country: 138
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 192
 - fields:
     agency: 38
     country: 100
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 193
 - fields:
     activity: Initial accreditation for program and institutional evaluation
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 38
   model: agencies.AgencyESGActivity
   pk: 110
 - fields:
     activity: Programme evaluation for general academic profile
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 38
   model: agencies.AgencyESGActivity
   pk: 111
 - fields:
     activity: Programme evaluation for practice-oriented profile.
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 38
   model: agencies.AgencyESGActivity
   pk: 112
@@ -4101,7 +4464,8 @@
     address: Southgate House<br />Southgate Street<br />Gloucester, GL 1 1UB<br />United
       Kingdom
     contact_person: Karen Davies
-    deqar_id: DEQAR_AG0039
+    country: 183
+    deqar_id: '52'
     description_note: 'We are the Quality Assurance Agency for Higher Education (QAA).
       Our mission is to safeguard standards and improve the quality of UK higher education.
 
@@ -4135,6 +4499,7 @@
 - fields:
     agency: 39
     association: 1
+    membership_valid_from: '2013-10-23'
   model: agencies.AgencyMembership
   pk: 39
 - fields:
@@ -4151,71 +4516,83 @@
     agency: 39
     country: 183
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 194
 - fields:
     agency: 39
-    country: 251
+    country: 250
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 195
 - fields:
     agency: 39
     country: 175
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 196
 - fields:
     agency: 39
     country: 182
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 197
 - fields:
     activity: Quality Review Visit.
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 113
 - fields:
     activity: Higher Education Review in England and Northern Ireland.
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 114
 - fields:
     activity: 'Higher Education Review: Wales'
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 115
 - fields:
     activity: Enhancement-led Institutional Review in Scotland.
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 116
 - fields:
     activity: "Reviews of higher education delivered by alternative\u200B providers"
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 117
 - fields:
     activity: Reviews of higher education delivered overseas (transnational education)
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 118
 - fields:
     activity: "Reviews of\u200B professional programmes"
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 119
 - fields:
     activity: International Quality Reviews (IQR).
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 39
   model: agencies.AgencyESGActivity
   pk: 120
@@ -4223,7 +4600,8 @@
     acronym_primary: QANU
     address: Catharijnesingel 56<br />PO 8035<br />3503 RA Utrecht<br />The Netherlands
     contact_person: Sietze Looijenga
-    deqar_id: DEQAR_AG0040
+    country: 124
+    deqar_id: '41'
     description_note: 'QANU is a quality assurance agency which aims at assessing
       degree and
 
@@ -4264,6 +4642,7 @@
 - fields:
     agency: 40
     association: 1
+    membership_valid_from: '2011-05-14'
   model: agencies.AgencyMembership
   pk: 40
 - fields:
@@ -4280,23 +4659,27 @@
     agency: 40
     country: 124
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 198
 - fields:
     agency: 40
     country: 17
     country_is_official: true
+    country_valid_from: '2011-05-14'
   model: agencies.AgencyFocusCountry
   pk: 199
 - fields:
     activity: Assessments of degree programmes
     activity_type: 1
+    activity_valid_from: '2011-05-14'
     agency: 40
   model: agencies.AgencyESGActivity
   pk: 121
 - fields:
     activity: Assessments of research programmes (PhD training programmes)
     activity_type: 1
+    activity_valid_from: '2011-05-14'
     agency: 40
   model: agencies.AgencyESGActivity
   pk: 122
@@ -4304,7 +4687,8 @@
     acronym_primary: QQI
     address: 26/27 Denzille Lane <br />Dublin 2<br />D02 P266 <br />Ireland
     contact_person: Laura Carrigan
-    deqar_id: DEQAR_AG0041
+    country: 80
+    deqar_id: '61'
     description_note: 'Quality and Qualifications Ireland (QQI) was established in
       November 2012, with the commencement of the Qualifications and Quality Assurance
       (Education and Training) Act (2012) as the legal successor to the Further Education
@@ -4350,6 +4734,7 @@
 - fields:
     agency: 41
     association: 1
+    membership_valid_from: '2015-06-05'
   model: agencies.AgencyMembership
   pk: 41
 - fields:
@@ -4366,23 +4751,27 @@
     agency: 41
     country: 80
     country_is_official: true
+    country_valid_from: '2015-06-05'
   model: agencies.AgencyFocusCountry
   pk: 200
 - fields:
     activity: Institutional reviews and audits.
     activity_type: 1
+    activity_valid_from: '2015-06-05'
     agency: 41
   model: agencies.AgencyESGActivity
   pk: 123
 - fields:
     activity: Programme validation.
     activity_type: 1
+    activity_valid_from: '2015-06-05'
     agency: 41
   model: agencies.AgencyESGActivity
   pk: 124
 - fields:
     activity: Accreditation and research field accreditation.
     activity_type: 1
+    activity_valid_from: '2015-06-05'
     agency: 41
   model: agencies.AgencyESGActivity
   pk: 125
@@ -4390,7 +4779,8 @@
     acronym_primary: SKVC
     address: A. Gostauto g. 12<br />LT-01108 Vilnius<br />Lithuania
     contact_person: Aurelija Valeikien&#279
-    deqar_id: DEQAR_AG0042
+    country: 100
+    deqar_id: '47'
     description_note: The main objectives of SKVC are to promote the quality of activities
       of higher education institutions and to contribute to creation of favourable
       conditions for the free movement of persons. Established in 1995 as an independent
@@ -4430,6 +4820,7 @@
 - fields:
     agency: 42
     association: 1
+    membership_valid_from: '2012-12-03'
   model: agencies.AgencyMembership
   pk: 42
 - fields:
@@ -4451,18 +4842,21 @@
     agency: 42
     country: 100
     country_is_official: true
+    country_valid_from: '2012-12-03'
   model: agencies.AgencyFocusCountry
   pk: 201
 - fields:
     agency: 42
     country: 157
     country_is_official: true
+    country_valid_from: '2012-12-03'
   model: agencies.AgencyFocusCountry
   pk: 202
 - fields:
     activity: external evaluation and accreditation of study programmes in Lithuania
       and abroad;
     activity_type: 1
+    activity_valid_from: '2012-12-03'
     agency: 42
   model: agencies.AgencyESGActivity
   pk: 126
@@ -4470,12 +4864,14 @@
     activity: external evaluation and accreditation of higher education institutions
       in Lithuania and abroad;
     activity_type: 1
+    activity_valid_from: '2012-12-03'
     agency: 42
   model: agencies.AgencyESGActivity
   pk: 127
 - fields:
     activity: evaluations to determine HEI's eligibility to offer higher education
     activity_type: 1
+    activity_valid_from: '2012-12-03'
     agency: 42
   model: agencies.AgencyESGActivity
   pk: 128
@@ -4483,7 +4879,8 @@
     acronym_primary: SQAA
     address: Slovenska cesta 9<br />P.O. Box 40<br />1001 Ljubljana<br />Slovenia
     contact_person: Ivan Leban
-    deqar_id: DEQAR_AG0043
+    country: 157
+    deqar_id: '53'
     description_note: 'SQAA was established in 2010 from the previous state council
       as an independent non-governmental budget user and a public authorisation holder.
       Its goal is to professionalise transparent quality evaluation procedures according
@@ -4530,6 +4927,7 @@
 - fields:
     agency: 43
     association: 1
+    membership_valid_from: '2013-10-23'
   model: agencies.AgencyMembership
   pk: 43
 - fields:
@@ -4546,17 +4944,20 @@
     agency: 43
     country: 157
     country_is_official: true
+    country_valid_from: '2013-10-23'
   model: agencies.AgencyFocusCountry
   pk: 203
 - fields:
     activity: Quality evaluations and accreditations of higher education institutions
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 43
   model: agencies.AgencyESGActivity
   pk: 129
 - fields:
     activity: Study programmes and external evaluations of vocational colleges
     activity_type: 1
+    activity_valid_from: '2013-10-23'
     agency: 43
   model: agencies.AgencyESGActivity
   pk: 130
@@ -4564,7 +4965,8 @@
     acronym_primary: Unibasq
     address: San Prudencio, 8. 01005 Vitoria-Gasteiz <br />Spain
     contact_person: "Eva Fern\xE1ndez de Labastida"
-    deqar_id: DEQAR_AG0044
+    country: 161
+    deqar_id: '58'
     description_note: The Agency for Quality of the Basque University System (Unibasq
       - Agencia de Calidad del Sistema Universitario Vasco) was created in 2004 and
       its objective is the evaluation, accreditation and certification of quality
@@ -4603,6 +5005,7 @@
 - fields:
     agency: 44
     association: 1
+    membership_valid_from: '2014-11-29'
   model: agencies.AgencyMembership
   pk: 44
 - fields:
@@ -4619,30 +5022,35 @@
     agency: 44
     country: 161
     country_is_official: true
+    country_valid_from: '2014-11-29'
   model: agencies.AgencyFocusCountry
   pk: 204
 - fields:
     activity: Ex-ante evaluation of new study programmes, which serves as a basis
       for approval by the Basque government of the new programme;
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 131
 - fields:
     activity: Follow-up and monitoring of official degree programmes;
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 132
 - fields:
     activity: Ex-post evaluation of official programmes (i.e. re-accreditation);
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 133
 - fields:
     activity: "Voluntary evaluation of new \u201Ctitolos propios\u201D study programmes;"
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 134
@@ -4650,6 +5058,7 @@
     activity: Reviews of the fulfillment of performance agreements between the Basque
       government and universities;
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 135
@@ -4657,6 +5066,7 @@
     activity: Audits of internal quality assurance systems of faculties (AUDIT, shared
       programme with ANECA, AQU and ACSUG);
     activity_type: 1
+    activity_valid_from: '2014-11-29'
     agency: 44
   model: agencies.AgencyESGActivity
   pk: 136
@@ -4664,7 +5074,8 @@
     acronym_primary: VLUHR QA
     address: Ravensteingalerij 27, bus 3 & 6<br />1000 Brussels<br />Belgium
     contact_person: Klara De Wilde
-    deqar_id: DEQAR_AG0045
+    country: 17
+    deqar_id: '49'
     description_note: VLUHR - Quality Assurance Unit is a quality assurance agency
       that contributes to the safeguard and the continual improvement of quality in
       higher education. Through its activities, VLUHR QA stimulates quality culture
@@ -4705,6 +5116,7 @@
 - fields:
     agency: 45
     association: 1
+    membership_valid_from: '2013-05-07'
   model: agencies.AgencyMembership
   pk: 45
 - fields:
@@ -4721,12 +5133,14 @@
     agency: 45
     country: 17
     country_is_official: true
+    country_valid_from: '2013-05-07'
   model: agencies.AgencyFocusCountry
   pk: 205
 - fields:
     activity: Discipline orientated quality assessment based on self-assessment and
       peer review.
     activity_type: 1
+    activity_valid_from: '2013-05-07'
     agency: 45
   model: agencies.AgencyESGActivity
   pk: 137
@@ -4734,7 +5148,8 @@
     acronym_primary: ZEvA
     address: Lilienthalstrasse 1<br />30179 Hannover<br />Germany
     contact_person: Hermann Reuke
-    deqar_id: DEQAR_AG0046
+    country: 64
+    deqar_id: '23'
     description_note: 'ZEvA is based in Hanover, Germany and has been active in the
       field of
 
@@ -4782,6 +5197,7 @@
 - fields:
     agency: 46
     association: 1
+    membership_valid_from: '2009-04-08'
   model: agencies.AgencyMembership
   pk: 46
 - fields:
@@ -4798,83 +5214,97 @@
     agency: 46
     country: 167
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 206
 - fields:
     agency: 46
     country: 142
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 207
 - fields:
     agency: 46
     country: 124
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 208
 - fields:
     agency: 46
     country: 10
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 209
 - fields:
     agency: 46
     country: 64
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 210
 - fields:
     agency: 46
     country: 166
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 211
 - fields:
     agency: 46
     country: 181
     country_is_official: true
+    country_valid_from: '2009-04-08'
   model: agencies.AgencyFocusCountry
   pk: 212
 - fields:
     activity: Programme Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 138
 - fields:
     activity: System Accreditation in Germany
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 139
 - fields:
     activity: Institutional, programme, subject and thematic evaluation
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 140
 - fields:
     activity: Certification in tertiary education
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 141
 - fields:
     activity: International programme and institutional accreditation
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 142
 - fields:
     activity: Quality Audits in Austria
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 143
 - fields:
     activity: Programme Accreditation in Switzerland
     activity_type: 1
+    activity_valid_from: '2009-04-08'
     agency: 46
   model: agencies.AgencyESGActivity
   pk: 144

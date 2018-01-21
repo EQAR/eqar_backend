@@ -1,0 +1,54 @@
+- model: agencies.AgencyHistoricalField
+  pk: 1
+  fields:
+    field: Agency.address
+
+- model: agencies.AgencyHistoricalField
+  pk: 2
+  fields:
+    field: Agency.country
+
+- model: agencies.AgencyHistoricalField
+  pk: 3
+  fields:
+    field: Agency.website_link
+
+- model: agencies.AgencyHistoricalField
+  pk: 4
+  fields:
+    field: Agency.geographical_focus
+
+- model: agencies.AgencyHistoricalField
+  pk: 5
+  fields:
+    field: Agency.specialisation_note
+
+- model: agencies.AgencyHistoricalField
+  pk: 6
+  fields:
+    field: Agency.registration_note
+
+- model: agencies.AgencyHistoricalField
+  pk: 7
+  fields:
+    field: AgencyFocusCountry.country_is_official
+
+- model: agencies.AgencyHistoricalField
+  pk: 8
+  fields:
+    field: AgencyFocusCountry.country_is_crossborder
+
+- model: agencies.AgencyHistoricalField
+  pk: 9
+  fields:
+    field: AgencyESGActivity.activity_description
+
+- model: agencies.AgencyHistoricalField
+  pk: 10
+  fields:
+    field: AgencyESGActivity.activity_type
+
+- model: agencies.AgencyHistoricalField
+  pk: 11
+  fields:
+    field: AgencyESGActivity.reports_link

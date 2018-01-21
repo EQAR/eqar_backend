@@ -5,7 +5,16 @@
     eter_id:
     name_primary: Hochschule für öffentliche Verwaltung Rheinland-Pfalz
     website_link: www.hoev-rlp.de
-    countries: [64]
+
+- model: institutions.InstitutionCountry
+  pk: 1
+  fields:
+    institution: 1
+    country: 64
+    city: Mayen
+    lat: 50.32811
+    long: 7.229621
+    country_valid_from: 2010-01-01
 
 - model: institutions.InstitutionName
   pk: 1
@@ -20,10 +29,11 @@
   fields:
     institution: 1
     nqf_level: Level 6
+    nqf_level_valid_from: 2010-01-01
 
 - model: institutions.InstitutionQFEHEALevel
   pk: 1
   fields:
     institution: 1
     qf_ehea_level: 2
-
+    qf_ehea_level_valid_from: 2010-01-01

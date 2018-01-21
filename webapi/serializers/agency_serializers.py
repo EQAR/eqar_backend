@@ -1,15 +1,30 @@
 from rest_framework import serializers
 from agencies.models import *
+from eqar_backend.serializers import HistoryFilteredListSerializer
+from webapi.serializers.country_serializers import CountryListSerializer
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:agency-detail")
-    primary_title = serializers.CharField(source='get_primary_name', read_only=True)
-    primary_acronym = serializers.CharField(source='get_primary_acronym', read_only=True)
+    name_primary = serializers.CharField(source='get_primary_name', read_only=True)
+    acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
+    country = CountryListSerializer()
 
     class Meta:
         model = Agency
-        fields = ['id', 'url', 'deqar_id', 'primary_title', 'primary_acronym', 'logo']
+        fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country']
+
+
+class AgencyFocusCountrySerializer(serializers.ModelSerializer):
+    country = serializers.StringRelatedField()
+    country_url = serializers.HyperlinkedRelatedField(view_name="webapi-v1:country-detail", read_only=True,
+                                                      source='country')
+
+    class Meta:
+        model = AgencyFocusCountry
+        list_serializer_class = HistoryFilteredListSerializer
+        fields = ['country_url', 'country', 'country_is_official', 'country_is_crossborder', 'country_valid_from',
+                  'country_valid_to']
 
 
 class AgencyNameVersionSerializer(serializers.ModelSerializer):
@@ -24,7 +39,8 @@ class AgencyNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyName
-        fields = ['name_versions', 'name_note', 'valid_to']
+        list_serializer_class = HistoryFilteredListSerializer
+        fields = ['id', 'name_versions', 'name_note', 'name_valid_to']
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
@@ -32,7 +48,8 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['activity', 'activity_description', 'activity_type', 'reports_link']
+        list_serializer_class = HistoryFilteredListSerializer
+        fields = ['id', 'activity', 'activity_description', 'activity_type', 'reports_link', 'activity_valid_to']
 
 
 class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
@@ -42,11 +59,12 @@ class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
 
 
 class AgencyHistoricalDataSerializer(serializers.ModelSerializer):
-    field = serializers.StringRelatedField(many=True, read_only=True)
+    field = serializers.StringRelatedField()
 
     class Meta:
         model = AgencyHistoricalData
-        fields = ['field', 'value', 'valid_from', 'valid_to']
+        list_serializer_class = HistoryFilteredListSerializer
+        fields = ['field', 'record_id', 'value', 'valid_from', 'valid_to']
 
 
 class AgencyDetailSerializer(serializers.ModelSerializer):

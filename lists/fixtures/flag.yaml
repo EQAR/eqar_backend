@@ -1,0 +1,14 @@
+- model: lists.Flag
+  pk: 1
+  fields:
+    flag: 'none'
+
+- model: lists.Flag
+  pk: 2
+  fields:
+    flag: 'low level'
+
+- model: lists.Flag
+  pk: 3
+  fields:
+    flag: 'high level'

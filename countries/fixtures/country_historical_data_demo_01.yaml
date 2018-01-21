@@ -1,0 +1,7 @@
+- model: countries.CountryHistoricalData
+  pk: 1
+  fields:
+    country: 64
+    field: 9
+    value: This is a historical note.
+    valid_to: 2014-10-10
