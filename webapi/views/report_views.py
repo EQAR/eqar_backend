@@ -1,9 +1,7 @@
 import datetime
 
 from datedelta import datedelta
-from dateutil.relativedelta import relativedelta
 from django.db.models import Q
-from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 
