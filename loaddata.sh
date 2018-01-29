@@ -23,7 +23,7 @@ python manage.py loaddata agency
 
 python manage.py loaddata submitting_agency_demo
 
-python manage.py loaddata eter_demo
+python manage.py loaddata eter
 python manage.py loaddata institution_historical_field
 
 python manage.py loaddata institution_demo_01
