@@ -1,5 +1,5 @@
 import datetime
-from django.db.models import Q
+from django.db.models import Q, Count
 from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
@@ -8,7 +8,7 @@ from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from lists.models import PermissionType
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
-from webapi.serializers.country_serializers import CountryListSerializer, CountryDetailSerializer
+from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer
 
 
 class CountryFilterClass(filters.FilterSet):
@@ -29,14 +29,15 @@ class CountryList(generics.ListAPIView):
     """
         Returns a list of countries where agencies are located.
     """
-    serializer_class = CountryListSerializer
+    serializer_class = CountryLargeListSerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering_fields = ('name_english',)
+    ordering_fields = ('name_english', 'agency__count')
     ordering = ('name_english',)
     filter_class = CountryFilterClass
 
     def get_queryset(self):
-        return Country.objects.exclude(agency=None)
+        qs = Country.objects.exclude(agency=None).annotate(Count('agency'))
+        return qs
 
 
 class CountryListByAgency(generics.ListAPIView):
