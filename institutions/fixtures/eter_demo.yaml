@@ -1,5 +1,5 @@
 - model: institutions.InstitutionETERRecord
-  pk: 1
+  pk: 660
   fields:
     eter_id: DE0394
     national_identifier: 70805
@@ -14,7 +14,7 @@
     eter_link: https://www.eter-project.com/hei/585254f6bd8a5bba211e8409
 
 - model: institutions.InstitutionETERRecord
-  pk: 2
+  pk: 659
   fields:
     eter_id: DE0392
     national_identifier: 70715
