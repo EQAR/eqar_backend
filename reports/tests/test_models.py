@@ -27,4 +27,4 @@ class ReportTestCase(TestCase):
 
     def test_report_decision_str(self):
         report_status = Report.objects.get(id=1).decision
-        self.assertEqual(str(report_status), 'yes, positive')
+        self.assertEqual(str(report_status), 'positive')
