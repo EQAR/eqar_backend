@@ -10,13 +10,8 @@ from lists.models import QFEHEALevel, Language
 from reports.models import ReportStatus, ReportDecision
 
 
-class AlternativeNameSerializer(serializers.Serializer):
-    name_alternative = serializers.CharField(max_length=200, required=False)
-    name_alternative_transliterated = serializers.CharField(max_length=200, required=False)
-
-
 class IdentifierSerializer(serializers.Serializer):
-    identifier = serializers.CharField(max_length=255, required=False)
+    identifier = serializers.CharField(max_length=255, required=True)
     resource = serializers.CharField(max_length=255, required=False)
 
 
@@ -37,8 +32,13 @@ class QFEHEALevelSerializer(serializers.Serializer):
         return value
 
 
+class InstitutionAlternativeNameSerializer(serializers.Serializer):
+    name_alternative = serializers.CharField(max_length=200, required=True)
+    name_alternative_transliterated = serializers.CharField(max_length=200, required=False)
+
+
 class InstitutionLocatonSerializer(serializers.Serializer):
-    country = serializers.CharField(max_length=3, required=False)
+    country = serializers.CharField(max_length=3, required=True)
     city = serializers.CharField(max_length=100, required=False)
     latitude = serializers.FloatField(required=False)
     longitude = serializers.FloatField(required=False)
@@ -60,6 +60,24 @@ class InstitutionLocatonSerializer(serializers.Serializer):
 
         return value
 
+    def validate(self, data):
+        city = data.get('city', None)
+        latitude = data.get('latitude', None)
+        longitude = data.get('longitude', None)
+
+        if latitude is not None:
+            if longitude is None:
+                raise serializers.ValidationError("Please provide latitude together with longitude.")
+
+        if longitude is not None:
+            if latitude is None:
+                raise serializers.ValidationError("Please provide latitude together with longitude.")
+
+        if (latitude is not None and longitude is not None) and city is None:
+            raise serializers.ValidationError("Please provide latitude and longitude together with city data.")
+
+        return data
+
 
 class InstitutionSerializer(serializers.Serializer):
     # Reference
@@ -74,7 +92,7 @@ class InstitutionSerializer(serializers.Serializer):
     name_official_transliterated = serializers.CharField(max_length=255, required=False)
     name_english = serializers.CharField(max_length=255, required=False)
     acronym = serializers.CharField(max_length=30, required=False)
-    alternative_names = AlternativeNameSerializer(many=True, required=False)
+    alternative_names = InstitutionAlternativeNameSerializer(many=True, required=False)
 
     # Location
     locations = InstitutionLocatonSerializer(many=True, required=False)
@@ -84,6 +102,23 @@ class InstitutionSerializer(serializers.Serializer):
 
     # Website
     website = serializers.CharField(max_length=200, required=False)
+
+    def validate_identifiers(self, value):
+        # Validate if there is only one identifier without resource id
+        count = 0
+        resources = []
+        for identifier in value:
+            if 'resource' not in identifier.keys():
+                count += 1
+            else:
+                resources.append(identifier['resource'])
+        if count > 1:
+            raise serializers.ValidationError("You can only submit one identifier without resource.")
+
+        # Validate if resource values are uniqe
+        if len(resources) != len(set(resources)):
+            raise serializers.ValidationError("You can only submit different type of resources.")
+        return value
 
     def validate(self, data):
         eter_id = data.get('eter_id', None)
@@ -126,23 +161,69 @@ class InstitutionSerializer(serializers.Serializer):
                                               "or name_official and location and website to identify or create a "
                                               "new record.")
 
+        # Name official transliterated can only exists, when name official was submitted
+        name_official = data.get('name_official', None)
+        name_official_transliterated = data.get('name_official_transliterated', None)
+
+        if name_official is None and name_official_transliterated is not None:
+            raise serializers.ValidationError("Please submit name_official if you submitted the transliterated version.")
+
         return data
+
+
+class ProgrammeAlternativeNameSerializer(serializers.Serializer):
+    name_alternative = serializers.CharField(max_length=200, required=True)
+    qualification_alternative = serializers.CharField(max_length=200, required=False)
 
 
 class ProgrammeSerializer(serializers.Serializer):
     # Identification
-    identifiers = IdentifierSerializer
+    identifiers = IdentifierSerializer(many=True, required=False)
 
     # Name
-    name_primary = serializers.CharField(max_length=255, required=False)
+    name_primary = serializers.CharField(max_length=255, required=True)
     qualification_primary = serializers.CharField(max_length=255, required=False)
-    alternative_names = AlternativeNameSerializer(many=True)
+    alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False)
 
     # Country
-    countries = ListField(serializers.CharField(max_length=3, required=False))
+    countries = serializers.ListField(child=serializers.CharField(max_length=3, required=False), required=False)
 
     # Level
-    qf_ehea_levels = QFEHEALevelSerializer(many=True)
+    nqf_level = serializers.ChoiceField(choices=[('level 6', 'level 6'),
+                                                 ('level 7', 'level 7'),
+                                                 ('level 8', 'level 8')], required=False)
+    qf_ehea_level = serializers.CharField(max_length=20, required=False)
+
+    def validate_qf_ehea_level(self, value):
+        if value.isdigit():
+            try:
+                QFEHEALevel.objects.get(code=value)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide valid QF EHEA ID.")
+        else:
+            try:
+                QFEHEALevel.objects.get(level=value)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide valid QF EHEA level.")
+        return value
+
+    def validate_countries(self, value):
+        for country in value:
+            country = country.upper()
+            if len(country) == 2:
+                try:
+                    Country.objects.get(iso_3166_alpha2=country)
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Please provide valid country code.")
+            elif len(country) == 3:
+                try:
+                    Country.objects.get(iso_3166_alpha3=country)
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Please provide valid country code.")
+            else:
+                raise serializers.ValidationError("Please provide valid country code.")
+
+        return value
 
 
 class ReportFileSerializer(serializers.Serializer):

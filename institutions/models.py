@@ -42,6 +42,7 @@ class InstitutionIdentifier(models.Model):
         indexes = [
             models.Index(fields=['identifier_valid_to']),
         ]
+        unique_together = ('institution', 'agency', 'resource')
 
 
 class InstitutionName(models.Model):
