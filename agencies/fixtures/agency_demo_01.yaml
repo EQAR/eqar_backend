@@ -113,6 +113,16 @@
     activity_valid_from: 2010-01-01
     activity_valid_to: 2013-01-01
 
+- model: agencies.AgencyESGActivity
+  pk: 6
+  fields:
+    agency: 5
+    activity_type: 4
+    activity: Institutinal/Programme Accreditation Abroad
+    activity_local_identifier: ACQ005
+    activity_valid_from: 2010-01-01
+    activity_valid_to: 2021-01-01
+
 - model: agencies.AgencyFocusCountry
   pk: 1
   fields:

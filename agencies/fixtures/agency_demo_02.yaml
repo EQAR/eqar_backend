@@ -79,7 +79,7 @@
     email: tiia.bach@archimedes.ee
 
 - model: agencies.AgencyESGActivity
-  pk: 6
+  pk: 7
   fields:
     agency: 2
     activity_type: 1
@@ -89,7 +89,7 @@
     activity_valid_from: 2010-01-01
 
 - model: agencies.AgencyESGActivity
-  pk: 7
+  pk: 8
   fields:
     agency: 2
     activity_type: 2
