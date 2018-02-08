@@ -100,7 +100,7 @@ class SubmissionValidationTestCase(APITestCase):
         Test if serializer rejects records with wrong ESG Activity ID.
         """
         data = self.valid_data
-        data['activity'] = 6
+        data['activity'] = 7
         serializer = SubmissionPackageSerializer(data=data)
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -109,7 +109,7 @@ class SubmissionValidationTestCase(APITestCase):
         Test if serializer accepts records with ESG Activity description.
         """
         data = self.valid_data
-        data['activity'] = 'Programme Accreditation in Germany'
+        data['activity'] = 'System Accreditation in Germany'
         serializer = SubmissionPackageSerializer(data=data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
@@ -668,5 +668,86 @@ class SubmissionValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data['programmes'][0].update({'countries': ['AUT', 'Z']})
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_institutional_ok(self):
+        """
+        Test if serializer accepts records with institutional ESG Activity type and valid data.
+        """
+        data = self.valid_data
+        data['activity'] = "2"
+        data.pop('programmes', None)
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_institutional_existing_programme_error(self):
+        """
+        Test if serializer rejects records with institutional ESG Activity type with programme data.
+        """
+        data = self.valid_data
+        data['activity'] = "2"
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_programme_or_institutional_programme_ok(self):
+        """
+        Test if serializer accepts records with programme ESG Activity type and valid data.
+        """
+        data = self.valid_data
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_programme_or_institutional_programme_more_institution_error(self):
+        """
+        Test if serializer rejects records with programme ESG Activity type and data with many institutions.
+        """
+        data = self.valid_data
+        data['institutions'].append({
+            "eter_id": "DE0392"
+        })
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_programme_or_institutional_programme_empty_programme_error(self):
+        """
+        Test if serializer rejects records with programme ESG Activity type and data without programme.
+        """
+        data = self.valid_data
+        data.pop('programmes', None)
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_joint_programme_ok(self):
+        """
+        Test if serializer accepts records with joint programme ESG Activity type and valid data.
+        """
+        data = self.valid_data
+        data['activity'] = "3"
+        data['institutions'].append({
+            "eter_id": "DE0392"
+        })
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_joint_programme_one_institution_error(self):
+        """
+        Test if serializer rejects records with joint programme ESG Activity type and one institution.
+        """
+        data = self.valid_data
+        data['activity'] = "3"
+        serializer = SubmissionPackageSerializer(data=data)
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_esg_activity_joint_programme_empty_programme_error(self):
+        """
+        Test if serializer rejects records with joint programme ESG Activity type and no programme data.
+        """
+        data = self.valid_data
+        data['activity'] = "3"
+        data['institutions'].append({
+            "eter_id": "DE0392"
+        })
+        data.pop('programmes', None)
         serializer = SubmissionPackageSerializer(data=data)
         self.assertFalse(serializer.is_valid(), serializer.errors)
