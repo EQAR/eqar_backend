@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
-from rest_framework.fields import ListField
 
 from agencies.models import AgencyESGActivity, Agency
 from countries.models import Country
@@ -101,7 +100,7 @@ class InstitutionSerializer(serializers.Serializer):
     qf_ehea_levels = QFEHEALevelSerializer(many=True, required=False)
 
     # Website
-    website = serializers.CharField(max_length=200, required=False)
+    website = serializers.URLField(max_length=200, required=False)
 
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
@@ -227,7 +226,7 @@ class ProgrammeSerializer(serializers.Serializer):
 
 
 class ReportFileSerializer(serializers.Serializer):
-    file_original_location = serializers.CharField(max_length=255, required=False)
+    file_original_location = serializers.URLField(max_length=255, required=False)
     display_name = serializers.CharField(max_length=255, required=False)
     report_language = serializers.CharField(max_length=3, required=True)
 
@@ -362,21 +361,51 @@ class SubmissionPackageSerializer(serializers.Serializer):
             if activity is not None:
                 if activity.isdigit():
                     try:
-                        AgencyESGActivity.objects.get(pk=activity, agency=agency)
+                        esg_activity = AgencyESGActivity.objects.get(pk=activity, agency=agency)
                     except ObjectDoesNotExist:
                         raise serializers.ValidationError("Please provide valid ESG Activity ID.")
                 else:
                     try:
-                        AgencyESGActivity.objects.get(activity=activity, agency=agency)
+                        esg_activity = AgencyESGActivity.objects.get(activity=activity, agency=agency)
                     except ObjectDoesNotExist:
                         raise serializers.ValidationError("Please provide valid ESG Activity.")
 
             if activity_local_identifier is not None:
                 try:
-                    AgencyESGActivity.objects.get(activity_local_identifier=activity_local_identifier)
+                    esg_activity = AgencyESGActivity.objects.get(activity_local_identifier=activity_local_identifier)
                 except ObjectDoesNotExist:
                     raise serializers.ValidationError("Please provide valid ESG Activity local identifier.")
+
+            #
+            # WP01-008-002
+            #
+            institutions = data.get('institutions', None)
+            programmes = data.get('programmes', None)
+
+            if 'esg_activity' in locals():
+                # institutional
+                if esg_activity.activity_type_id == 2:
+                    if programmes is not None:
+                        raise serializers.ValidationError("Please remove programme information "
+                                                          "with this particular Activity type.")
+                # programme or institutional/programme
+                elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
+                    if len(institutions) > 1:
+                        raise serializers.ValidationError("Please provide only one institution "
+                                                          "with this particular Activity type.")
+                    if programmes is None:
+                        raise serializers.ValidationError("Please provide at least one programme "
+                                                          "with this particular Activity type.")
+                # joint programme
+                else:
+                    if len(institutions) == 1:
+                        raise serializers.ValidationError("Please provide data for all of the institutions "
+                                                          "with this particular Activity type.")
+                    if programmes is None:
+                        raise serializers.ValidationError("Please provide at least one programme "
+                                                          "with this particular Activity type.")
         else:
             raise serializers.ValidationError("Either ESG Activity ID, ESG Activity text or ESG Activity local "
                                               "identifier is needed.")
+
         return data
