@@ -25,7 +25,7 @@ class InstitutionTestCase(TestCase):
         qf_ehea_level = QFEHEALevel.objects.get(code=0)
         self.assertEqual(str(qf_ehea_level), 'short cycle')
 
-    def text_association_str(self):
+    def test_association_str(self):
         association = Association.objects.get(pk=1)
         self.assertEqual(str(association), 'ENQA member')
 
