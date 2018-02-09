@@ -73,6 +73,7 @@
     agency: 5
     activity_type: 1
     activity: System Accreditation in Germany
+    activity_local_identifier: ACQ001
     activity_valid_from: 2010-01-01
 
 - model: agencies.AgencyESGActivity
@@ -81,6 +82,7 @@
     agency: 5
     activity_type: 2
     activity: Programme Accreditation in Germany
+    activity_local_identifier: ACQ002
     activity_valid_from: 2010-01-01
 
 - model: agencies.AgencyESGActivity
@@ -89,6 +91,7 @@
     agency: 5
     activity_type: 3
     activity: Certification Procedures in Germany
+    activity_local_identifier: ACQ003
     activity_valid_from: 2010-01-01
 
 - model: agencies.AgencyESGActivity
@@ -97,6 +100,7 @@
     agency: 5
     activity_type: 2
     activity: Programme Accreditation Abroad
+    activity_local_identifier: ACQ004
     activity_valid_from: 2010-01-01
     activity_valid_to: 2021-01-01
 
@@ -108,6 +112,16 @@
     activity: Institutional Accreditation Abroad (Historical)
     activity_valid_from: 2010-01-01
     activity_valid_to: 2013-01-01
+
+- model: agencies.AgencyESGActivity
+  pk: 6
+  fields:
+    agency: 5
+    activity_type: 4
+    activity: Institutinal/Programme Accreditation Abroad
+    activity_local_identifier: ACQ005
+    activity_valid_from: 2010-01-01
+    activity_valid_to: 2021-01-01
 
 - model: agencies.AgencyFocusCountry
   pk: 1
