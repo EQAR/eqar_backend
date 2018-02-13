@@ -1,0 +1,88 @@
+[
+    {
+        "agency": "MusiQuE",
+        "local_identifier": "PCC-June08",
+        "activity": "programme review",
+        "status": "part of obligatory EQA system",
+        "decision": "yes, positive",
+        "valid_from": "2008-06-26",
+        "valid_to": "2018-01-15",
+        "date_format": "%Y-%m-%d",
+        "report_files": [
+            {
+                "original_location": "http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
+                "display_name": "AEC Review Visit to the Prince Claus Conservatoire Groningen, The Netherlands",
+                "report_language": [
+                    "eng"
+                ]
+            }
+        ],
+        "institutions": [
+            {
+                "identifiers": [
+                    {
+                        "identifier": "67"
+                    }
+                ],
+                "name_official": "Prince Claus Conservatoire",
+                "locations": [
+                    {
+                        "country": "NL", 
+                        "city": "Groningen"
+                    }
+                ],
+                "qf_ehea_levels": ["short cycle", "first cycle", "second cycle"],
+                "website": "https://www.hanze.nl/eng/education/art/prince-claus-conservatoire"
+            }
+        ],
+        "programmes": [
+            {
+                "identifiers": [
+                    {
+                        "identifier": "12"
+                    }
+                ],
+                "name_primary": "Master of Music program",
+                "qualification_primary": "Master",
+                "nqf_level": "level 7",
+                "qf_ehea_level": "second cycle"
+            }
+        ]
+    }, {
+        "agency": "MusiQuE",
+        "local_identifier": "SHM-April09",
+        "activity": "programme review",
+        "status": "part of obligatory EQA system",
+        "decision": "yes, positive",
+        "valid_from": "2009-04-09",
+        "valid_to": "2014-02-15",
+        "date_format": "%Y-%m-%d",
+        "report_files": [
+            {
+                "original_location": "http://www.musique-qe.eu/userfiles/File/2009-06-report-trossingen-website.pdf",
+                "display_name": "Review of the Master of Arts OrganExpert programme",
+                "report_language": [
+                    "ger"
+                ]
+            }
+        ],
+        "institutions": [
+            {
+                "eter_id": "DE0140"
+            }
+        ],
+        "programmes": [
+            {
+                "identifiers": [
+                    {
+                        "identifier": "16"
+                    }
+                ],
+                "name_primary": "Master of Arts OrganExpert",
+                "qualification_primary": "Master",
+                "nqf_level": "level 7",
+                "qf_ehea_level": "second cycle"
+            }
+        ]
+    }
+]

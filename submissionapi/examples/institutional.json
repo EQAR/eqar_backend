@@ -1,27 +1,59 @@
-{
-    "agency_acronym": "MusiQuE",
-    "local_identifier": "CRDB-October14",
-    "activity": "institutional evaluation",
-    "status": "part of obligatory EQA system",
-    "decision": "yes, positive",
-    "valid_from": "2014-10-28",
-    "valid_to": "2018-01-15",
-    "date_format": "%Y-%m-%d",
-    "report_files": [
-        {
-            "file_original_location": "http://www.musique-qe.eu/userfiles/File/2014-10-bruxelles-website.pdf",
-            "display_name": "Évaluation du cursus « Musique »",
-            "report_language": "fre"
-        }
-    ],
-    "institutions": [
-        {
-            "eter_id": "BE0035",
-            "identifiers": [
-                {
-                    "identifier": 14
-                }
-            ]
-        }
-    ]
-}
+[
+    {
+        "agency": "MusiQuE",
+        "local_identifier": "CRDB-October14",
+        "activity": "institutional evaluation",
+        "status": "part of obligatory EQA system",
+        "decision": "yes, positive",
+        "valid_from": "2014-10-28",
+        "valid_to": "2018-01-15",
+        "date_format": "%Y-%m-%d",
+        "report_files": [
+            {
+                "original_location": "http://www.musique-qe.eu/userfiles/File/2014-10-bruxelles-website.pdf",
+                "display_name": "Évaluation du cursus « Musique »",
+                "report_language": [
+                    "fre"
+                ]
+            }
+        ],
+        "institutions": [
+            {
+                "eter_id": "BE0035",
+                "identifiers": [
+                    {
+                        "identifier": "14"
+                    }
+                ]
+            }
+        ]
+    }, {
+        "agency": "MusiQuE",
+        "local_identifier": "HAMU-June15",
+        "activity": "institutional review",
+        "status": "part of obligatory EQA system",
+        "decision": "yes, positive",
+        "valid_from": "2015-06-15",
+        "valid_to": "2018-01-15",
+        "date_format": "%Y-%m-%d",
+        "report_files": [
+            {
+                "original_location": "http://www.musique-qe.eu/userfiles/File/2015-06-25-hamu-review-reportfinal.pdf",
+                "display_name": "Institutional Review of the Music and Dance Faculty of the Academy of Performing Arts in Prague (HAMU)",
+                "report_language": [
+                    "eng"
+                ]
+            }
+        ],
+        "institutions": [
+            {
+                "eter_id": "CZ0001",
+                "identifiers": [
+                    {
+                        "identifier": "16"
+                    }
+                ]
+            }
+        ]
+    }
+]
