@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
-    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel
+    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
@@ -36,7 +36,8 @@ class InstitutionIdentifierSerializer(serializers.ModelSerializer):
 
 class InstitutionNameVersionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ['name', 'translitertion']
+        model = InstitutionNameVersion
+        fields = ['name', 'transliteration']
 
 
 class InstitutionNameSerializer(serializers.ModelSerializer):
