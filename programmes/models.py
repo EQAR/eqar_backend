@@ -21,6 +21,12 @@ class Programme(models.Model):
             models.Index(fields=['name_primary']),
         ]
 
+    def set_primary_name(self):
+        prg_name_primary = self.programmename_set.filter(name_is_primary=True).first()
+        if prg_name_primary is not None:
+            self.name_primary = prg_name_primary.name
+            self.save()
+
 
 class ProgrammeName(models.Model):
     """
@@ -46,7 +52,7 @@ class ProgrammeIdentifier(models.Model):
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
     identifier = models.CharField(max_length=50)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
-    resource = models.CharField(max_length=30, blank=True)
+    resource = models.CharField(max_length=30, blank=True, default='local identifier')
 
     class Meta:
         db_table = 'deqar_programme_identifiers'
