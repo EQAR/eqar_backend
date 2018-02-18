@@ -27,3 +27,21 @@
     valid_from_year: 2014-01-01
     data_updated: 2017-12-30
     eter_link: https://www.eter-project.com/hei/585254f6bd8a5bba211e8409
+
+- model: institutions.InstitutionETERRecord
+  pk: 661
+  fields:
+    ISCED_highest: ISCED 6
+    ISCED_lowest: ISCED 6
+    acronym: HR Nord
+    city: Hildesheim
+    country: DE
+    data_updated: '2018-01-29'
+    eter_id: DE0395
+    lat: 0
+    long: 0
+    name: "Norddeutsche Hochschule f\xFCr Rechtspflege, Hildesheim"
+    name_english: "North German College for Rights, Hildesheim"
+    national_identifier: '70910'
+    valid_from_year: '2014-01-01'
+    website: www.fhr-nord.niedersachsen.de

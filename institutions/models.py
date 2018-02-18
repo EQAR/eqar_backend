@@ -7,7 +7,7 @@ class Institution(models.Model):
     List of institutions reviewed or evaluated by EQAR registered agencies.
     """
     id = models.AutoField(primary_key=True)
-    deqar_id = models.CharField(max_length=25)
+    deqar_id = models.CharField(max_length=25, blank=True)
     eter = models.ForeignKey('institutions.InstitutionETERRecord', blank=True, null=True, on_delete=models.PROTECT)
     name_primary = models.CharField(max_length=200, blank=True)
     website_link = models.CharField(max_length=150)
@@ -15,6 +15,24 @@ class Institution(models.Model):
 
     def __str__(self):
         return self.name_primary
+
+    def create_deqar_id(self):
+        self.deqar_id = 'DEQARINST%04d' % self.id
+        self.save()
+
+    def set_flag_low(self):
+        self.flag_id = 2
+        self.save()
+
+    def set_flag_high(self):
+        self.flag_id = 3
+        self.save()
+
+    def set_primary_name(self):
+        inst_name_primary = self.institutionname_set.filter(name_valid_to__isnull=True).first()
+        if inst_name_primary is not None:
+            self.name_primary = inst_name_primary.name
+            self.save()
 
     class Meta:
         db_table = 'deqar_institutions'
@@ -58,6 +76,13 @@ class InstitutionName(models.Model):
     name_source_note = models.TextField()
     name_valid_to = models.DateField(blank=True, null=True)
 
+    def add_source_note(self, flag_msg):
+        if len(self.name_source_note) > 0:
+            self.name_source_note += '; %s' % flag_msg
+        else:
+            self.name_source_note = flag_msg
+        self.save()
+
     class Meta:
         db_table = 'deqar_institution_names'
         ordering = ('institution', 'name_official', 'name_english')
@@ -80,8 +105,15 @@ class InstitutionNameVersion(models.Model):
     institution_name = models.ForeignKey('InstitutionName', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     transliteration = models.CharField(max_length=200, blank=True)
-    name_version_source = models.CharField(max_length=20)
+    name_version_source = models.CharField(max_length=20, blank=True)
     name_version_source_note = models.CharField(max_length=200, blank=True)
+
+    def add_source_note(self, flag_msg):
+        if len(self.name_version_source_note) > 0:
+            self.name_version_source_note += '; %s' % flag_msg
+        else:
+            self.name_version_source_note = flag_msg
+        self.save()
 
     class Meta:
         db_table = 'deqar_institution_name_versions'
@@ -106,6 +138,13 @@ class InstitutionCountry(models.Model):
     country_valid_from = models.DateField(default=datetime.date.today)
     country_valid_to = models.DateField(blank=True, null=True)
 
+    def add_source_note(self, flag_msg):
+        if len(self.country_source_note) > 0:
+            self.country_source_note += '; %s' % flag_msg
+        else:
+            self.country_source_note = flag_msg
+        self.save()
+
     class Meta:
         db_table = 'deqar_institution_countries'
         indexes = [
@@ -129,6 +168,13 @@ class InstitutionNQFLevel(models.Model):
     def __str__(self):
         return self.nqf_level
 
+    def add_source_note(self, flag_msg):
+        if len(self.nqf_level_source_note) > 0:
+            self.nqf_level_source_note += '; %s' % flag_msg
+        else:
+            self.nqf_level_source_note = flag_msg
+        self.save()
+
     class Meta:
         db_table = 'deqar_institution_nqf_levels'
         indexes = [
@@ -150,6 +196,13 @@ class InstitutionQFEHEALevel(models.Model):
 
     def __str__(self):
         return self.qf_ehea_level.level
+
+    def add_source_note(self, flag_msg):
+        if len(self.qf_ehea_level_source_note) > 0:
+            self.qf_ehea_level_source_note += '; %s' % flag_msg
+        else:
+            self.qf_ehea_level_source_note = flag_msg
+        self.save()
 
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'
@@ -181,6 +234,13 @@ class InstitutionETERRecord(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.eter_id, self.name)
+
+    def create_institution_from_eter(self):
+        Institution(
+            eter_id=self.eter_id,
+            name_primary=self.name_english,
+            website_link=self.website
+        )
 
     class Meta:
         db_table = 'deqar_institution_eter_records'
