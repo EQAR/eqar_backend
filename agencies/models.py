@@ -1,6 +1,9 @@
 import datetime
 from datetime import date
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
 
 
 class Agency(models.Model):
@@ -270,6 +273,15 @@ class SubmittingAgency(models.Model):
             return str(self.agency)
         else:
             return "%s - %s" % (self.external_agency_acronym, self.external_agency)
+
+    def agency_allowed(self, agency):
+        ap = AgencyProxy.objects.filter(
+            Q(submitting_agency=self) & Q(allowed_agency=agency) &
+            (
+                Q(proxy_to__isnull=True) | Q(proxy_to__lte=datetime.datetime.now())
+            )
+        ).count()
+        return ap > 0
 
 
 class AgencyProxy(models.Model):

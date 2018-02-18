@@ -10,3 +10,15 @@
     external_agency: German Accreditation Council
     external_agency_acronym: GAC
     registration_from: 2009-04-08
+
+- model: agencies.AgencyProxy
+  pk: 1
+  fields:
+    submitting_agency: 1
+    allowed_agency: 5
+
+- model: agencies.AgencyProxy
+  pk: 2
+  fields:
+    submitting_agency: 2
+    allowed_agency: 5
