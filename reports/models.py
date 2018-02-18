@@ -23,6 +23,7 @@ class Report(models.Model):
             models.Index(fields=['valid_from']),
             models.Index(fields=['valid_to']),
         ]
+        unique_together = ('agency', 'local_identifier')
 
 
 class ReportStatus(models.Model):
@@ -72,8 +73,8 @@ class ReportFile(models.Model):
     """
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('Report')
-    file_display_name = models.CharField(max_length=100)
-    file_original_location = models.CharField(max_length=200)
+    file_display_name = models.CharField(max_length=100, blank=True)
+    file_original_location = models.CharField(max_length=200, blank=True)
     file = models.FileField()
     languages = models.ManyToManyField('lists.Language')
 
