@@ -1,34 +1,18 @@
 from datetime import datetime
+
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
-from agencies.models import AgencyESGActivity, Agency
-from countries.models import Country
+from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionETERRecord
-from lists.models import QFEHEALevel, Language
-from reports.models import ReportStatus, ReportDecision
+from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
+    QFEHEALevelField, CountryField
 
 
 class IdentifierSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=255, required=True)
     resource = serializers.CharField(max_length=255, required=False)
-
-
-class QFEHEALevelSerializer(serializers.Serializer):
-    qf_ehea_level = serializers.CharField(max_length=20, required=False)
-
-    def validate_qf_ehea_level(self, value):
-        if value.isdigit():
-            try:
-                QFEHEALevel.objects.get(code=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid QF EHEA ID.")
-        else:
-            try:
-                QFEHEALevel.objects.get(level=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid QF EHEA level.")
-        return value
 
 
 class InstitutionAlternativeNameSerializer(serializers.Serializer):
@@ -37,27 +21,10 @@ class InstitutionAlternativeNameSerializer(serializers.Serializer):
 
 
 class InstitutionLocatonSerializer(serializers.Serializer):
-    country = serializers.CharField(max_length=3, required=True)
+    country = CountryField(required=True)
     city = serializers.CharField(max_length=100, required=False)
     latitude = serializers.FloatField(required=False)
     longitude = serializers.FloatField(required=False)
-
-    def validate_country(self, value):
-        value = value.upper()
-        if len(value) == 2:
-            try:
-                Country.objects.get(iso_3166_alpha2=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid country code.")
-        elif len(value) == 3:
-            try:
-                Country.objects.get(iso_3166_alpha3=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid country code.")
-        else:
-            raise serializers.ValidationError("Please provide valid country code.")
-
-        return value
 
     def validate(self, data):
         city = data.get('city', None)
@@ -97,7 +64,7 @@ class InstitutionSerializer(serializers.Serializer):
     locations = InstitutionLocatonSerializer(many=True, required=False)
 
     # Level
-    qf_ehea_levels = QFEHEALevelSerializer(many=True, required=False)
+    qf_ehea_levels = serializers.ListField(child=QFEHEALevelField(required=False), required=False)
 
     # Website
     website = serializers.URLField(max_length=200, required=False)
@@ -114,7 +81,7 @@ class InstitutionSerializer(serializers.Serializer):
         if count > 1:
             raise serializers.ValidationError("You can only submit one identifier without resource.")
 
-        # Validate if resource values are uniqe
+        # Validate if resource values are unique
         if len(resources) != len(set(resources)):
             raise serializers.ValidationError("You can only submit different type of resources.")
         return value
@@ -185,64 +152,36 @@ class ProgrammeSerializer(serializers.Serializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False)
 
     # Country
-    countries = serializers.ListField(child=serializers.CharField(max_length=3, required=False), required=False)
+    countries = serializers.ListField(child=CountryField(required=False), required=False)
 
     # Level
     nqf_level = serializers.ChoiceField(choices=[('level 6', 'level 6'),
                                                  ('level 7', 'level 7'),
                                                  ('level 8', 'level 8')], required=False)
-    qf_ehea_level = serializers.CharField(max_length=20, required=False)
+    qf_ehea_level = QFEHEALevelField(required=False)
 
-    def validate_qf_ehea_level(self, value):
-        if value.isdigit():
-            try:
-                QFEHEALevel.objects.get(code=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid QF EHEA ID.")
-        else:
-            try:
-                QFEHEALevel.objects.get(level=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid QF EHEA level.")
-        return value
-
-    def validate_countries(self, value):
-        for country in value:
-            country = country.upper()
-            if len(country) == 2:
-                try:
-                    Country.objects.get(iso_3166_alpha2=country)
-                except ObjectDoesNotExist:
-                    raise serializers.ValidationError("Please provide valid country code.")
-            elif len(country) == 3:
-                try:
-                    Country.objects.get(iso_3166_alpha3=country)
-                except ObjectDoesNotExist:
-                    raise serializers.ValidationError("Please provide valid country code.")
+    def validate_identifiers(self, value):
+        # Validate if there is only one identifier without resource id
+        count = 0
+        resources = []
+        for identifier in value:
+            if 'resource' not in identifier.keys():
+                count += 1
             else:
-                raise serializers.ValidationError("Please provide valid country code.")
+                resources.append(identifier['resource'])
+        if count > 1:
+            raise serializers.ValidationError("You can only submit one identifier without resource.")
 
+        # Validate if resource values are unique
+        if len(resources) != len(set(resources)):
+            raise serializers.ValidationError("You can only submit different type of resources.")
         return value
 
 
 class ReportFileSerializer(serializers.Serializer):
-    file_original_location = serializers.URLField(max_length=255, required=False)
+    original_location = serializers.URLField(max_length=255, required=False)
     display_name = serializers.CharField(max_length=255, required=False)
-    report_language = serializers.CharField(max_length=3, required=True)
-
-    def validate_report_language(self, value):
-        if len(value) == 2:
-            try:
-                Language.objects.get(iso_639_1=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid language code.")
-        elif len(value) == 3:
-            try:
-                Language.objects.get(iso_639_2=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid language code.")
-        else:
-            raise serializers.ValidationError("Please provide valid language code.")
+    report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True)
 
 
 class ReportLinkSerializer(serializers.Serializer):
@@ -252,7 +191,7 @@ class ReportLinkSerializer(serializers.Serializer):
 
 class SubmissionPackageSerializer(serializers.Serializer):
     # Report Creator
-    agency = serializers.CharField(max_length=20, required=True)
+    agency = AgencyField(required=True)
 
     # Record Identification
     local_identifier = serializers.CharField(max_length=255, required=False)
@@ -262,8 +201,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
     activity_local_identifier = serializers.CharField(max_length=20, required=False)
 
     # Report Details
-    status = serializers.CharField(max_length=50, required=True)
-    decision = serializers.CharField(max_length=50, required=True)
+    status = ReportStatusField(required=True)
+    decision = ReportDecisionField(required=True)
 
     # Report Validity
     valid_from = serializers.CharField(max_length=20, required=True)
@@ -282,55 +221,10 @@ class SubmissionPackageSerializer(serializers.Serializer):
     # Programmes
     programmes = ProgrammeSerializer(many=True, required=False)
 
-    def validate_agency(self, value):
-        """
-        Validate if the submitted Agency is valid.
-        """
-        if value.isdigit():
-            try:
-                Agency.objects.get(deqar_id=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Agency DEQAR ID.")
-        else:
-            try:
-                Agency.objects.get(acronym_primary=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Agency Acronym.")
-        return value
+    def to_internal_value(self, data):
+        errors = []
+        data = super(SubmissionPackageSerializer, self).to_internal_value(data)
 
-    def validate_status(self, value):
-        """
-        Validate if the submitted ReportStatus is valid.
-        """
-        if value.isdigit():
-            try:
-                ReportStatus.objects.get(pk=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Report Status ID.")
-        else:
-            try:
-                ReportStatus.objects.get(status=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Report Status.")
-        return value
-
-    def validate_decision(self, value):
-        """
-        Validate if the submitted ReportDecision is valid.
-        """
-        if value.isdigit():
-            try:
-                ReportDecision.objects.get(pk=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Report Decision ID.")
-        else:
-            try:
-                ReportDecision.objects.get(decision=value)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Report Decision.")
-        return value
-
-    def validate(self, data):
         #
         # Validate if date format is applicable, default format is %Y-%m-%d
         #
@@ -339,73 +233,83 @@ class SubmissionPackageSerializer(serializers.Serializer):
         valid_to = data.get('valid_to', None)
 
         try:
-            datetime.strptime(valid_from, date_format)
+            date_from = datetime.strptime(valid_from, date_format)
+            data['valid_from'] = date_from.strftime("%Y-%m-%d")
             if valid_to:
-                datetime.strptime(valid_to, date_format)
+                date_to = datetime.strptime(valid_to, date_format)
+                data['valid_to'] = date_to.strftime("%Y-%m-%d")
         except ValueError:
-            raise serializers.ValidationError("Date format string is not applicable to the submitted date.")
+            errors.append("Date format string is not applicable to the submitted date.")
+
+        #
+        # Validate if Agency registration start is earlier then report validation start date.
+        #
+        agency = data.get('agency', None)
+        if datetime.date(date_from) < agency.registration_start:
+            errors.append("Agency registration start date should be an earlier date then report valid from date.")
 
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
         #
-        agency = data.get('agency', None)
         activity = data.get('activity', None)
         activity_local_identifier = data.get('activity_local_identifier', None)
 
         if activity is not None or activity_local_identifier is not None:
-            if agency.isdigit():
-                agency = Agency.objects.get(deqar_id=agency)
-            else:
-                agency = Agency.objects.get(acronym_primary=agency)
-
             if activity is not None:
                 if activity.isdigit():
                     try:
-                        esg_activity = AgencyESGActivity.objects.get(pk=activity, agency=agency)
+                        data['esg_activity'] = AgencyESGActivity.objects.get(pk=activity, agency=agency)
                     except ObjectDoesNotExist:
-                        raise serializers.ValidationError("Please provide valid ESG Activity ID.")
+                        errors.append("Please provide valid ESG Activity ID.")
                 else:
                     try:
-                        esg_activity = AgencyESGActivity.objects.get(activity=activity, agency=agency)
+                        data['esg_activity'] = AgencyESGActivity.objects.get(activity=activity, agency=agency)
                     except ObjectDoesNotExist:
-                        raise serializers.ValidationError("Please provide valid ESG Activity.")
+                        errors.append("Please provide valid ESG Activity.")
 
             if activity_local_identifier is not None:
                 try:
-                    esg_activity = AgencyESGActivity.objects.get(activity_local_identifier=activity_local_identifier)
+                    data['esg_activity'] = AgencyESGActivity.objects.get(
+                        activity_local_identifier=activity_local_identifier)
                 except ObjectDoesNotExist:
-                    raise serializers.ValidationError("Please provide valid ESG Activity local identifier.")
-
-            #
-            # WP01-008-002
-            #
-            institutions = data.get('institutions', None)
-            programmes = data.get('programmes', None)
-
-            if 'esg_activity' in locals():
-                # institutional
-                if esg_activity.activity_type_id == 2:
-                    if programmes is not None:
-                        raise serializers.ValidationError("Please remove programme information "
-                                                          "with this particular Activity type.")
-                # programme or institutional/programme
-                elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
-                    if len(institutions) > 1:
-                        raise serializers.ValidationError("Please provide only one institution "
-                                                          "with this particular Activity type.")
-                    if programmes is None:
-                        raise serializers.ValidationError("Please provide at least one programme "
-                                                          "with this particular Activity type.")
-                # joint programme
-                else:
-                    if len(institutions) == 1:
-                        raise serializers.ValidationError("Please provide data for all of the institutions "
-                                                          "with this particular Activity type.")
-                    if programmes is None:
-                        raise serializers.ValidationError("Please provide at least one programme "
-                                                          "with this particular Activity type.")
+                    errors.append("Please provide valid ESG Activity local identifier.")
         else:
-            raise serializers.ValidationError("Either ESG Activity ID, ESG Activity text or ESG Activity local "
-                                              "identifier is needed.")
+            errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
 
+        #
+        # If there are errors raise ValidationError
+        #
+        if errors:
+            raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
+        return data
+
+    def validate(self, data):
+        #
+        # WP01-008-002
+        #
+        institutions = data.get('institutions', None)
+        programmes = data.get('programmes', None)
+        esg_activity = data.get('esg_activity', None)
+
+        # institutional
+        if esg_activity.activity_type_id == 2:
+            if programmes is not None:
+                raise serializers.ValidationError("Please remove programme information "
+                                                  "with this particular Activity type.")
+        # programme or institutional/programme
+        elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
+            if len(institutions) > 1:
+                raise serializers.ValidationError("Please provide only one institution "
+                                                  "with this particular Activity type.")
+            if programmes is None:
+                raise serializers.ValidationError("Please provide at least one programme "
+                                                  "with this particular Activity type.")
+        # joint programme
+        else:
+            if len(institutions) == 1:
+                raise serializers.ValidationError("Please provide data for all of the institutions "
+                                                  "with this particular Activity type.")
+            if programmes is None:
+                raise serializers.ValidationError("Please provide at least one programme "
+                                                  "with this particular Activity type.")
         return data
