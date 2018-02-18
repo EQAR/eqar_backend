@@ -107,3 +107,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+NON_FIELD_ERRORS_KEY = 'non_field_errors'

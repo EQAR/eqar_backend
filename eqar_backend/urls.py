@@ -2,7 +2,6 @@ import debug_toolbar
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
-from django.contrib import admin
 
 from eqar_backend.admin import admin_site
 
