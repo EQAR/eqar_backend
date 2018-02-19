@@ -33,8 +33,14 @@
     institution: 3
     country: 10
     city: Vienna
-    lat: 48.210033
-    long: 16.363449
+    country_valid_from: 2008-01-01
+    country_valid_to: 2010-01-01
+
+- model: institutions.InstitutionCountry
+  pk: 6
+  fields:
+    institution: 3
+    country: 74
     country_valid_from: 2008-01-01
     country_valid_to: 2010-01-01
 
@@ -43,8 +49,13 @@
   fields:
     institution: 3
     name_official: Hessische Hochschule für Polizei und Verwaltung
-    name_english: University of Applied Sciences for Police and Public Administration
     acronym: HfPV
+
+- model: institutions.InstitutionNameVersion
+  pk: 1
+  fields:
+    institution_name: 3
+    name: Hessische Highschool
 
 - model: institutions.InstitutionName
   pk: 4
