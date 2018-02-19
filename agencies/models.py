@@ -29,6 +29,7 @@ class Agency(models.Model):
     registration_note = models.TextField(blank=True)
     related_agencies = models.ManyToManyField('self', through='AgencyRelationship', symmetrical=False)
     flag = models.ForeignKey('lists.Flag', default=1)
+    flag_log = models.TextField(blank=True)
 
     def __str__(self):
         return "%s - %s" % (self.acronym_primary, self.name_primary)

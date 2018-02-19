@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
 
+from lists.models import Flag
+
 
 class Institution(models.Model):
     """
@@ -12,6 +14,7 @@ class Institution(models.Model):
     name_primary = models.CharField(max_length=200, blank=True)
     website_link = models.CharField(max_length=150)
     flag = models.ForeignKey('lists.Flag', default=1)
+    flag_log = models.TextField(blank=True)
 
     def __str__(self):
         return self.name_primary
@@ -21,17 +24,21 @@ class Institution(models.Model):
         self.save()
 
     def set_flag_low(self):
-        self.flag_id = 2
-        self.save()
+        if self.flag_id != 3:
+            self.flag = Flag.objects.get(pk=2)
+            self.save()
 
     def set_flag_high(self):
-        self.flag_id = 3
+        self.flag = Flag.objects.get(pk=3)
         self.save()
 
     def set_primary_name(self):
         inst_name_primary = self.institutionname_set.filter(name_valid_to__isnull=True).first()
         if inst_name_primary is not None:
-            self.name_primary = inst_name_primary.name
+            if inst_name_primary.name_english != "":
+                self.name_primary = inst_name_primary.name_english
+            else:
+                self.name_primary = inst_name_primary.name_official
             self.save()
 
     class Meta:
@@ -77,11 +84,14 @@ class InstitutionName(models.Model):
     name_valid_to = models.DateField(blank=True, null=True)
 
     def add_source_note(self, flag_msg):
-        if len(self.name_source_note) > 0:
-            self.name_source_note += '; %s' % flag_msg
-        else:
-            self.name_source_note = flag_msg
-        self.save()
+        if flag_msg not in self.name_source_note:
+            flag_msg += ' on [%s]' % datetime.date.today().strftime("%Y-%m-%d")
+            if len(self.name_source_note) > 0:
+                if flag_msg not in self.name_source_note:
+                    self.name_source_note += '; %s' % flag_msg
+            else:
+                self.name_source_note = flag_msg
+            self.save()
 
     class Meta:
         db_table = 'deqar_institution_names'
@@ -109,11 +119,13 @@ class InstitutionNameVersion(models.Model):
     name_version_source_note = models.CharField(max_length=200, blank=True)
 
     def add_source_note(self, flag_msg):
-        if len(self.name_version_source_note) > 0:
-            self.name_version_source_note += '; %s' % flag_msg
-        else:
-            self.name_version_source_note = flag_msg
-        self.save()
+        if flag_msg not in self.name_version_source_note:
+            flag_msg += ' on [%s]' % datetime.date.today().strftime("%Y-%m-%d")
+            if len(self.name_version_source_note) > 0:
+                self.name_version_source_note += '; %s' % flag_msg
+            else:
+                self.name_version_source_note = flag_msg
+            self.save()
 
     class Meta:
         db_table = 'deqar_institution_name_versions'
@@ -137,13 +149,16 @@ class InstitutionCountry(models.Model):
     country_source_note = models.CharField(max_length=200, blank=True)
     country_valid_from = models.DateField(default=datetime.date.today)
     country_valid_to = models.DateField(blank=True, null=True)
+    country_verified = models.BooleanField(default=True)
 
     def add_source_note(self, flag_msg):
-        if len(self.country_source_note) > 0:
-            self.country_source_note += '; %s' % flag_msg
-        else:
-            self.country_source_note = flag_msg
-        self.save()
+        if flag_msg not in self.country_source_note:
+            flag_msg += ' on [%s]' % datetime.date.today().strftime("%Y-%m-%d")
+            if len(self.country_source_note) > 0:
+                self.country_source_note += '; %s' % flag_msg
+            else:
+                self.country_source_note = flag_msg
+            self.save()
 
     class Meta:
         db_table = 'deqar_institution_countries'
@@ -169,11 +184,13 @@ class InstitutionNQFLevel(models.Model):
         return self.nqf_level
 
     def add_source_note(self, flag_msg):
-        if len(self.nqf_level_source_note) > 0:
-            self.nqf_level_source_note += '; %s' % flag_msg
-        else:
-            self.nqf_level_source_note = flag_msg
-        self.save()
+        if flag_msg not in self.nqf_level_source_note:
+            flag_msg += ' on [%s]' % datetime.date.today().strftime("%Y-%m-%d")
+            if len(self.nqf_level_source_note) > 0:
+                self.nqf_level_source_note += '; %s' % flag_msg
+            else:
+                self.nqf_level_source_note = flag_msg
+            self.save()
 
     class Meta:
         db_table = 'deqar_institution_nqf_levels'
@@ -193,16 +210,19 @@ class InstitutionQFEHEALevel(models.Model):
     qf_ehea_level_source_note = models.CharField(max_length=200, blank=True)
     qf_ehea_level_valid_from = models.DateField(default=datetime.date.today)
     qf_ehea_level_valid_to = models.DateField(blank=True, null=True)
+    qf_ehea_level_verified = models.BooleanField(default=True)
 
     def __str__(self):
         return self.qf_ehea_level.level
 
     def add_source_note(self, flag_msg):
-        if len(self.qf_ehea_level_source_note) > 0:
-            self.qf_ehea_level_source_note += '; %s' % flag_msg
-        else:
-            self.qf_ehea_level_source_note = flag_msg
-        self.save()
+        if flag_msg not in self.qf_ehea_level_source_note:
+            flag_msg += ' on [%s]' % datetime.date.today().strftime("%Y-%m-%d")
+            if len(self.qf_ehea_level_source_note) > 0:
+                self.qf_ehea_level_source_note += '; %s' % flag_msg
+            else:
+                self.qf_ehea_level_source_note = flag_msg
+            self.save()
 
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'

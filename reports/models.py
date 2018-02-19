@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 
@@ -12,10 +13,11 @@ class Report(models.Model):
     name = models.CharField(max_length=300)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
     decision = models.ForeignKey('ReportDecision', on_delete=models.PROTECT)
-    valid_from = models.DateField()
+    valid_from = models.DateField(default=datetime.date.today)
     valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
     flag = models.ForeignKey('lists.Flag', default=1)
+    flag_log = models.TextField(blank=True)
 
     class Meta:
         db_table = 'deqar_reports'

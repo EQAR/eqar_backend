@@ -23,6 +23,7 @@ class Country(models.Model):
     european_approach_note = models.TextField(blank=True, null=True)
     general_note = models.TextField(blank=True)
     flag = models.ForeignKey('lists.Flag', default=1)
+    flag_log = models.TextField(blank=True)
 
     def __str__(self):
         return self.name_english
