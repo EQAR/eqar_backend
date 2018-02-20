@@ -1,7 +1,7 @@
 import datetime
 
 
-class InstitutionFlagger():
+class InstitutionFlagMessageCreator:
     """
     Class to create flag messages in institution records.
     """
