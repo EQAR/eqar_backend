@@ -288,23 +288,24 @@ class InstitutionPopulator():
         """
         name_english = self.submission.get('name_english', None)
 
-        iname_primary = InstitutionName.objects.get(institution=self.institution, name_valid_to__isnull=True)
-        if iname_primary.name_english == '':
-            iname_primary.name_english = name_english
-            iname_primary.add_source_note(self.flagger.get_message('name_english', name_english))
-            self.institution.set_flag_low()
-        else:
-            iname_ver_count = InstitutionNameVersion.objects.filter(
-                Q(institution_name=iname_primary) & Q(name=name_english)
-            ).count()
-            if iname_ver_count == 0:
-                InstitutionNameVersion.objects.create(
-                    institution_name=iname_primary,
-                    name=name_english,
-                    name_version_source=self.agency.acronym_primary,
-                    name_version_source_note=self.flagger.get_message('name_alternative', name_english)
-                )
+        if name_english is not None:
+            iname_primary = InstitutionName.objects.get(institution=self.institution, name_valid_to__isnull=True)
+            if iname_primary.name_english == '':
+                iname_primary.name_english = name_english
+                iname_primary.add_source_note(self.flagger.get_message('name_english', name_english))
                 self.institution.set_flag_low()
+            else:
+                iname_ver_count = InstitutionNameVersion.objects.filter(
+                    Q(institution_name=iname_primary) & Q(name=name_english)
+                ).count()
+                if iname_ver_count == 0:
+                    InstitutionNameVersion.objects.create(
+                        institution_name=iname_primary,
+                        name=name_english,
+                        name_version_source=self.agency.acronym_primary,
+                        name_version_source_note=self.flagger.get_message('name_alternative', name_english)
+                    )
+                    self.institution.set_flag_low()
 
     def _institution_existing_populate_acronym(self):
         """
@@ -312,16 +313,16 @@ class InstitutionPopulator():
         """
         acronym = self.submission.get('acronym', None)
 
-        iname_primary = InstitutionName.objects.get(institution=self.institution, name_valid_to__isnull=True)
-        if iname_primary.acronym == '':
-            iname_primary.acronym = acronym
-            iname_primary.add_source_note(self.flagger.get_message('acronym', acronym))
-            self.institution.set_flag_low()
-
-        else:
-            if iname_primary.acronym != acronym:
+        if acronym is not None:
+            iname_primary = InstitutionName.objects.get(institution=self.institution, name_valid_to__isnull=True)
+            if iname_primary.acronym == '':
+                iname_primary.acronym = acronym
                 iname_primary.add_source_note(self.flagger.get_message('acronym', acronym))
                 self.institution.set_flag_low()
+            else:
+                if iname_primary.acronym != acronym:
+                    iname_primary.add_source_note(self.flagger.get_message('acronym', acronym))
+                    self.institution.set_flag_low()
 
     def _institution_existing_populate_name_official(self):
         """
