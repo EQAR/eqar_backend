@@ -220,7 +220,7 @@
     country_valid_from: 2010-01-01
 
 - model: agencies.AgencyFocusCountry
-  pk: 12
+  pk: 13
   fields:
     agency: 5
     country: 74
