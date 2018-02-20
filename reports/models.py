@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
 
+from lists.models import Flag
+
 
 class Report(models.Model):
     """
@@ -18,6 +20,15 @@ class Report(models.Model):
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
     flag = models.ForeignKey('lists.Flag', default=1)
     flag_log = models.TextField(blank=True)
+
+    def set_flag_low(self):
+        if self.flag_id != 3:
+            self.flag = Flag.objects.get(pk=2)
+            self.save()
+
+    def set_flag_high(self):
+        self.flag = Flag.objects.get(pk=3)
+        self.save()
 
     class Meta:
         db_table = 'deqar_reports'
@@ -77,7 +88,7 @@ class ReportFile(models.Model):
     report = models.ForeignKey('Report')
     file_display_name = models.CharField(max_length=100, blank=True)
     file_original_location = models.CharField(max_length=200, blank=True)
-    file = models.FileField()
+    file = models.FileField(blank=True)
     languages = models.ManyToManyField('lists.Language')
 
     class Meta:
