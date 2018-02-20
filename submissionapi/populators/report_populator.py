@@ -11,8 +11,6 @@ class ReportPopulator():
         self.submission = submission
         self.agency = agency
         self.report = None
-        self.sanity_check_status = "success"
-        self.sanity_check_warnings = []
 
     def populate(self):
         self.get_report_if_exists()
