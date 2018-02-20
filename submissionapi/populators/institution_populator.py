@@ -8,7 +8,7 @@ from countries.models import Country
 from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionCountry
 from lists.models import QFEHEALevel
-from submissionapi.flaggers.institution_flagger import InstitutionFlagger
+from submissionapi.flaggers.institution_flag_message_creator import InstitutionFlagMessageCreator
 
 
 class InstitutionPopulator():
@@ -19,9 +19,8 @@ class InstitutionPopulator():
         self.submission = submission
         self.agency = agency
         self.institution = None
-        self.sanity_check_status = "success"
-        self.sanity_check_warnings = []
-        self.flagger = InstitutionFlagger(agency=agency)
+        self.flag_log = []
+        self.flagger = InstitutionFlagMessageCreator(agency=agency)
 
     def populate(self):
         self._get_institution_if_exists()
@@ -36,6 +35,8 @@ class InstitutionPopulator():
             self._institution_existing_populate_qf_ehea_level()
         else:
             self._institution_create()
+
+        self.flag_log = self.flagger.collected_flag_msg
 
     def _get_institution_if_exists(self):
         """
