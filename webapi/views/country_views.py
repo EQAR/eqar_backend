@@ -50,12 +50,14 @@ class CountryListByAgency(generics.ListAPIView):
         include_history = self.request.query_params.get('history', None)
 
         if include_history == 'true':
-            return AgencyFocusCountry.objects.filter(agency=self.kwargs['agency'])
+            qs = AgencyFocusCountry.objects.filter(agency=self.kwargs['agency'])
+            return qs
         else:
-            return AgencyFocusCountry.objects.filter(agency=self.kwargs['agency']).filter(
+            qs = AgencyFocusCountry.objects.filter(agency=self.kwargs['agency']).filter(
                 Q(country_valid_to__isnull=True) |
                 Q(country_valid_to__gt=datetime.datetime.now())
             )
+            return qs
 
 
 class CountryDetail(generics.RetrieveAPIView):
