@@ -2,10 +2,10 @@
     {
         "agency": "MusiQuE",
         "local_identifier": "CRDB-October14",
-        "activity": "institutional evaluation",
+        "activity": "quality enhancement reviews of institutions",
         "status": "part of obligatory EQA system",
         "decision": "positive",
-        "valid_from": "2014-10-28",
+        "valid_from": "2016-10-28",
         "valid_to": "2018-01-15",
         "date_format": "%Y-%m-%d",
         "report_files": [
@@ -30,7 +30,7 @@
     }, {
         "agency": "MusiQuE",
         "local_identifier": "HAMU-June15",
-        "activity": "institutional review",
+        "activity": "Quality enhancement reviews of institutions",
         "status": "part of obligatory EQA system",
         "decision": "positive",
         "valid_from": "2015-06-15",
