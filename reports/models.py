@@ -81,7 +81,7 @@ class ReportLink(models.Model):
 
 
 def set_directory_path(instance, filename):
-    return '{0}/{1}'.format(instance.report.agency.acronym_primary, filename)
+    return '{0}/%Y%m%d-{1}'.format(instance.report.agency.acronym_primary, filename)
 
 
 class ReportFile(models.Model):

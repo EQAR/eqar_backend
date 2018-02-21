@@ -1,13 +1,16 @@
 import json
 
+import datetime
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from submissionapi.flaggers.report_flagger import ReportFlagger
+from submissionapi.models import SubmissionLog
 from submissionapi.populators.populator import Populator
 from submissionapi.serializers.response_serializers import ReportResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
+from submissionapi.tasks import send_submission_email
 
 
 class Submission(APIView):
@@ -24,6 +27,7 @@ class Submission(APIView):
                     populator.populate()
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
+                    self.create_log_entry(request.data, populator, flagger)
                     response_list.append(self.make_success_response(populator, flagger))
                 else:
                     response_contains_error = True
@@ -32,6 +36,7 @@ class Submission(APIView):
             if response_contains_error:
                 return Response(response_list, status=status.HTTP_400_BAD_REQUEST)
             else:
+                send_submission_email.delay(response_list, request.user.email)
                 return Response(response_list, status=status.HTTP_200_OK)
 
         # If request is not a list
@@ -42,6 +47,8 @@ class Submission(APIView):
                 populator.populate()
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
+                self.create_log_entry(request.data, populator, flagger)
+                send_submission_email.delay([self.make_success_response(populator, flagger)], request.user.email)
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
@@ -72,3 +79,14 @@ class Submission(APIView):
             'original_data': original_data,
             'errors': serializer.errors
         }
+
+    def create_log_entry(self, original_data, populator, flagger):
+        SubmissionLog.objects.create(
+            agency=populator.agency,
+            report=flagger.report,
+            submitted_data=json.dumps(original_data),
+            report_status=flagger.report.flag,
+            report_warnings=json.dumps(flagger.flag_log),
+            institution_warnings=json.dumps(populator.institution_flag_log),
+            submission_date=datetime.date.today()
+        )

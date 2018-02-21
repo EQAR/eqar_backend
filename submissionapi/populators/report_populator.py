@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
+from submissionapi.tasks import download_file
 
-from reports.models import Report, ReportLink, ReportFile
+from reports.models import Report
 
 
 class ReportPopulator():
@@ -88,9 +89,15 @@ class ReportPopulator():
                 if file_display_name is None:
                     url = report_file.get('original_location', "")
                     file_display_name = url[url.rfind("/")+1:]
+
+                original_location = report_file.get('original_location', "")
                 rf = self.report.reportfile_set.create(
                     file_display_name=file_display_name,
-                    file_original_location=report_file.get('original_location', "")
+                    file_original_location=original_location
                 )
+
+                # Async file download with celery
+                download_file.delay(original_location, rf.id, self.agency.acronym_primary)
+
                 for lang in languages:
                     rf.languages.add(lang)

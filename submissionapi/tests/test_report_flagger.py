@@ -1,11 +1,9 @@
 from django.test import TestCase
 
-from agencies.models import Agency, AgencyESGActivity
 from countries.models import Country
-from lists.models import Language, QFEHEALevel
-from reports.models import ReportStatus, ReportDecision, Report
+from lists.models import QFEHEALevel
+from reports.models import Report
 from submissionapi.flaggers.report_flagger import ReportFlagger
-from submissionapi.populators.report_populator import ReportPopulator
 
 
 class ReportFlaggerTestCase(TestCase):

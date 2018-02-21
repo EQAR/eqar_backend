@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.test import TestCase
 
 from agencies.models import Agency, AgencyESGActivity
@@ -28,6 +29,7 @@ class ReportPopulatorTestCase(TestCase):
             submission={},
             agency=Agency.objects.get(pk=5)
         )
+        settings.TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
         self.assertEqual(populator.agency.acronym_primary, "ACQUIN")
 
     def test_get_report_if_exists_valid_identifier(self):

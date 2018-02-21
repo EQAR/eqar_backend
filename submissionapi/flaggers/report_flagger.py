@@ -101,6 +101,6 @@ class ReportFlagger():
 
     def check_report_file(self):
         for rf in self.report.reportfile_set.all():
-            if not rf.file.name:
+            if rf.file_original_location == "" and rf.file.name == "":
                 self.report.set_flag_low()
-                self.flag_log.append("File was not provided yet.")
+                self.flag_log.append("File location was not provided.")
