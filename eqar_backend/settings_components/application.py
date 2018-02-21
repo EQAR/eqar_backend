@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'corsheaders',
-    'storages',
     'suit_ckeditor',
     'accounts',
     'agencies',
