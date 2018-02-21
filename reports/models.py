@@ -80,6 +80,10 @@ class ReportLink(models.Model):
         db_table = 'deqar_report_links'
 
 
+def set_directory_path(instance, filename):
+    return '{0}/{1}'.format(instance.report.agency.acronym_primary, filename)
+
+
 class ReportFile(models.Model):
     """
     PDF versions of reports and evaluations.
@@ -88,7 +92,7 @@ class ReportFile(models.Model):
     report = models.ForeignKey('Report')
     file_display_name = models.CharField(max_length=100, blank=True)
     file_original_location = models.CharField(max_length=200, blank=True)
-    file = models.FileField(blank=True)
+    file = models.FileField(blank=True, upload_to=set_directory_path)
     languages = models.ManyToManyField('lists.Language')
 
     class Meta:
