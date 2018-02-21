@@ -85,3 +85,4 @@ class BrowseCountryAPITest(APITestCase):
         response = self.client.get('/webapi/v1/browse/countries/64/', {'history': 'true'})
         self.assertEqual(response.data['name_english'], 'Germany')
         self.assertEqual(len(response.data['historical_data']), 1)
+ 
