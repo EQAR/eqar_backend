@@ -5515,7 +5515,7 @@
     name_english: 'University of Freiburg '
     national_identifier: '10105'
     valid_from_year: '2014-01-01'
-    website: www.uni-freiburg.de/
+    website: http://www.uni-freiburg.de/
   model: institutions.InstitutionETERRecord
   pk: 316
 - fields:
@@ -5532,7 +5532,7 @@
     name_english: Heidelberg University
     national_identifier: '10110'
     valid_from_year: '2014-01-01'
-    website: www.uni-heidelberg.de/
+    website: http://www.uni-heidelberg.de/
   model: institutions.InstitutionETERRecord
   pk: 317
 - fields:
@@ -5549,7 +5549,7 @@
     name_english: University of Hohenheim
     national_identifier: '10115'
     valid_from_year: '2014-01-01'
-    website: www.uni-hohenheim.de
+    website: http://www.uni-hohenheim.de
   model: institutions.InstitutionETERRecord
   pk: 318
 - fields:
@@ -5566,7 +5566,7 @@
     name_english: Karlsruhe Institute of Technology
     national_identifier: '10120'
     valid_from_year: '2014-01-01'
-    website: www.uni-karlsruhe.de
+    website: http://www.uni-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 319
 - fields:
@@ -5583,7 +5583,7 @@
     name_english: 'University of Konstanz '
     national_identifier: '10125'
     valid_from_year: '2014-01-01'
-    website: www.uni-konstanz.de
+    website: http://www.uni-konstanz.de
   model: institutions.InstitutionETERRecord
   pk: 320
 - fields:
@@ -5617,7 +5617,7 @@
     name_english: University of Stuttgart
     national_identifier: '10135'
     valid_from_year: '2014-01-01'
-    website: www.uni-stuttgart.de
+    website: http://www.uni-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 322
 - fields:
@@ -5634,7 +5634,7 @@
     name_english: "T\xFCbingen University"
     national_identifier: '10140'
     valid_from_year: '2014-01-01'
-    website: www.uni-tuebingen.de/
+    website: http://www.uni-tuebingen.de/
   model: institutions.InstitutionETERRecord
   pk: 323
 - fields:
@@ -5651,7 +5651,7 @@
     name_english: Ulm University
     national_identifier: '10145'
     valid_from_year: '2014-01-01'
-    website: www.uni-ulm.de/
+    website: http://www.uni-ulm.de/
   model: institutions.InstitutionETERRecord
   pk: 324
 - fields:
@@ -5668,7 +5668,7 @@
     name_english: Zeppelin University Friedrichshafen (Priv. H)
     national_identifier: '10160'
     valid_from_year: '2014-01-01'
-    website: www.zeppelin-university.de
+    website: http://www.zeppelin-university.de
   model: institutions.InstitutionETERRecord
   pk: 325
 - fields:
@@ -5703,7 +5703,7 @@
     name_english: Freie Hochschule Stuttgart - Seminar for Waldorf Pedagogy
     national_identifier: '10170'
     valid_from_year: '2014-01-01'
-    website: www.freie-hochschule-stuttgart.de
+    website: http://www.freie-hochschule-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 327
 - fields:
@@ -5737,7 +5737,7 @@
     name_english: Augsburg University
     national_identifier: '10205'
     valid_from_year: '2014-01-01'
-    website: www.uni-augsburg.de
+    website: http://www.uni-augsburg.de
   model: institutions.InstitutionETERRecord
   pk: 329
 - fields:
@@ -5754,7 +5754,7 @@
     name_english: University of Bamberg
     national_identifier: '10210'
     valid_from_year: '2014-01-01'
-    website: www.uni-bamberg.de
+    website: http://www.uni-bamberg.de
   model: institutions.InstitutionETERRecord
   pk: 330
 - fields:
@@ -5771,7 +5771,7 @@
     name_english: University of Bayreuth
     national_identifier: '10215'
     valid_from_year: '2014-01-01'
-    website: www.uni-bayreuth.de
+    website: http://www.uni-bayreuth.de
   model: institutions.InstitutionETERRecord
   pk: 331
 - fields:
@@ -5788,7 +5788,7 @@
     name_english: "Catholic University Eichst\xE4tt-Ingolstadt"
     national_identifier: '10220'
     valid_from_year: '2014-01-01'
-    website: www.ku-eichstaett.de/
+    website: http://www.ku-eichstaett.de/
   model: institutions.InstitutionETERRecord
   pk: 332
 - fields:
@@ -5805,7 +5805,7 @@
     name_english: "University of Erlangen-N\xFCrnberg "
     national_identifier: '10225'
     valid_from_year: '2014-01-01'
-    website: www.uni-erlangen.de
+    website: http://www.uni-erlangen.de
   model: institutions.InstitutionETERRecord
   pk: 333
 - fields:
@@ -5856,7 +5856,7 @@
     name_english: Bundeswehr University Munich
     national_identifier: '10240'
     valid_from_year: '2014-01-01'
-    website: www.unibw.de
+    website: http://www.unibw.de
   model: institutions.InstitutionETERRecord
   pk: 336
 - fields:
@@ -5873,7 +5873,7 @@
     name_english: Bavarian School of Public Policy
     national_identifier: '10245'
     valid_from_year: '2014-01-01'
-    website: www.hfp.mhn.de
+    website: http://www.hfp.mhn.de
   model: institutions.InstitutionETERRecord
   pk: 337
 - fields:
@@ -5890,7 +5890,7 @@
     name_english: University of Passau
     national_identifier: '10250'
     valid_from_year: '2014-01-01'
-    website: www.uni-passau.de
+    website: http://www.uni-passau.de
   model: institutions.InstitutionETERRecord
   pk: 338
 - fields:
@@ -5907,7 +5907,7 @@
     name_english: University of Regensburg
     national_identifier: '10255'
     valid_from_year: '2014-01-01'
-    website: www.uni-regensburg.de
+    website: http://www.uni-regensburg.de
   model: institutions.InstitutionETERRecord
   pk: 339
 - fields:
@@ -5924,7 +5924,7 @@
     name_english: "University of W\xFCrzburg"
     national_identifier: '10260'
     valid_from_year: '2014-01-01'
-    website: www.uni-wuerzburg.de
+    website: http://www.uni-wuerzburg.de
   model: institutions.InstitutionETERRecord
   pk: 340
 - fields:
@@ -5941,7 +5941,7 @@
     name_english: Free University of Berlin
     national_identifier: '10305'
     valid_from_year: '2014-01-01'
-    website: www.fu-berlin.de
+    website: http://www.fu-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 341
 - fields:
@@ -5958,7 +5958,7 @@
     name_english: Technical University of Berlin
     national_identifier: '10310'
     valid_from_year: '2014-01-01'
-    website: www.tu-berlin.de
+    website: http://www.tu-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 342
 - fields:
@@ -5975,7 +5975,7 @@
     name_english: "Charit\xE9 - Universit\xE4tsmedizin Berlin"
     national_identifier: '10315'
     valid_from_year: '2014-01-01'
-    website: www.charite.de
+    website: http://www.charite.de
   model: institutions.InstitutionETERRecord
   pk: 343
 - fields:
@@ -5992,7 +5992,7 @@
     name_english: Humboldt University of Berlin
     national_identifier: '10320'
     valid_from_year: '2014-01-01'
-    website: www.hu-berlin.de
+    website: http://www.hu-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 344
 - fields:
@@ -6009,7 +6009,7 @@
     name_english: ESCP-EAP European School of Management
     national_identifier: '10325'
     valid_from_year: '2014-01-01'
-    website: www.escpeurope.eu
+    website: http://www.escpeurope.eu
   model: institutions.InstitutionETERRecord
   pk: 345
 - fields:
@@ -6026,7 +6026,7 @@
     name_english: European School of Management and Technology, Berlin
     national_identifier: '10330'
     valid_from_year: '2014-01-01'
-    website: www.esmt.org
+    website: http://www.esmt.org
   model: institutions.InstitutionETERRecord
   pk: 346
 - fields:
@@ -6043,7 +6043,7 @@
     name_english: Hertie School of Governance
     national_identifier: '10335'
     valid_from_year: '2014-01-01'
-    website: www.hertie-school.org
+    website: http://www.hertie-school.org
   model: institutions.InstitutionETERRecord
   pk: 347
 - fields:
@@ -6060,7 +6060,7 @@
     name_english: Steinbeis University Berlin
     national_identifier: '10340'
     valid_from_year: '2014-01-01'
-    website: www.steinbeis-hochschule.de
+    website: http://www.steinbeis-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 348
 - fields:
@@ -6077,7 +6077,7 @@
     name_english: 'Berlin University for Professional Studies '
     national_identifier: '10345'
     valid_from_year: '2014-01-01'
-    website: www.duw-berlin.de
+    website: http://www.duw-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 349
 - fields:
@@ -6094,7 +6094,7 @@
     name_english: Viadrina European University
     national_identifier: '10410'
     valid_from_year: '2014-01-01'
-    website: www.euv-frankfurt-o.de
+    website: http://www.euv-frankfurt-o.de
   model: institutions.InstitutionETERRecord
   pk: 350
 - fields:
@@ -6111,7 +6111,7 @@
     name_english: University of Potsdam
     national_identifier: '10415'
     valid_from_year: '2014-01-01'
-    website: www.uni-potsdam.de
+    website: http://www.uni-potsdam.de
   model: institutions.InstitutionETERRecord
   pk: 351
 - fields:
@@ -6128,7 +6128,7 @@
     name_english: University of Bremen
     national_identifier: '10505'
     valid_from_year: '2014-01-01'
-    website: www.uni-bremen.de
+    website: http://www.uni-bremen.de
   model: institutions.InstitutionETERRecord
   pk: 352
 - fields:
@@ -6145,7 +6145,7 @@
     name_english: Jacobs University Bremen
     national_identifier: '10510'
     valid_from_year: '2014-01-01'
-    website: www.jacobs-university.de
+    website: http://www.jacobs-university.de
   model: institutions.InstitutionETERRecord
   pk: 353
 - fields:
@@ -6162,7 +6162,7 @@
     name_english: University of Hamburg
     national_identifier: '10605'
     valid_from_year: '2014-01-01'
-    website: www.uni-hamburg.de
+    website: http://www.uni-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 354
 - fields:
@@ -6179,7 +6179,7 @@
     name_english: 'Hamburg University of Technology '
     national_identifier: '10610'
     valid_from_year: '2014-01-01'
-    website: www.tu-harburg.de
+    website: http://www.tu-harburg.de
   model: institutions.InstitutionETERRecord
   pk: 355
 - fields:
@@ -6196,7 +6196,7 @@
     name_english: HafenCity University Hamburg
     national_identifier: '10615'
     valid_from_year: '2014-01-01'
-    website: www.hcu-hamburg.de
+    website: http://www.hcu-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 356
 - fields:
@@ -6213,7 +6213,7 @@
     name_english: Helmut Schmidt University of the Federal Armed Forces Hamburg
     national_identifier: '10620'
     valid_from_year: '2014-01-01'
-    website: www.hsu-hh.de
+    website: http://www.hsu-hh.de
   model: institutions.InstitutionETERRecord
   pk: 357
 - fields:
@@ -6230,7 +6230,7 @@
     name_english: Bucerius Law School
     national_identifier: '10625'
     valid_from_year: '2014-01-01'
-    website: www.law-school.de
+    website: http://www.law-school.de
   model: institutions.InstitutionETERRecord
   pk: 358
 - fields:
@@ -6247,7 +6247,7 @@
     name_english: Technical University of Darmstadt
     national_identifier: '10705'
     valid_from_year: '2014-01-01'
-    website: www.tu-darmstadt.de
+    website: http://www.tu-darmstadt.de
   model: institutions.InstitutionETERRecord
   pk: 359
 - fields:
@@ -6264,7 +6264,7 @@
     name_english: Frankfurt University
     national_identifier: '10710'
     valid_from_year: '2014-01-01'
-    website: www.uni-frankfurt.de
+    website: http://www.uni-frankfurt.de
   model: institutions.InstitutionETERRecord
   pk: 360
 - fields:
@@ -6281,7 +6281,7 @@
     name_english: Justus Liebig University Giessen
     national_identifier: '10715'
     valid_from_year: '2014-01-01'
-    website: www.uni-giessen.de
+    website: http://www.uni-giessen.de
   model: institutions.InstitutionETERRecord
   pk: 361
 - fields:
@@ -6315,7 +6315,7 @@
     name_english: University of Kassel
     national_identifier: '10725'
     valid_from_year: '2014-01-01'
-    website: www.uni-kassel.de
+    website: http://www.uni-kassel.de
   model: institutions.InstitutionETERRecord
   pk: 363
 - fields:
@@ -6332,7 +6332,7 @@
     name_english: Philipps University of Marburg
     national_identifier: '10730'
     valid_from_year: '2014-01-01'
-    website: www.uni-marburg.de
+    website: http://www.uni-marburg.de
   model: institutions.InstitutionETERRecord
   pk: 364
 - fields:
@@ -6349,7 +6349,7 @@
     name_english: Frankfurt School of Finance & Management-HfB (Priv. H)
     national_identifier: '10735'
     valid_from_year: '2014-01-01'
-    website: www.frankfurt-school.de
+    website: http://www.frankfurt-school.de
   model: institutions.InstitutionETERRecord
   pk: 365
 - fields:
@@ -6366,7 +6366,7 @@
     name_english: EBS University of Business and Law
     national_identifier: '10740'
     valid_from_year: '2014-01-01'
-    website: www.ebs.edu
+    website: http://www.ebs.edu
   model: institutions.InstitutionETERRecord
   pk: 366
 - fields:
@@ -6383,7 +6383,7 @@
     name_english: Ernst Moritz Arndt University of Greifswald
     national_identifier: '10805'
     valid_from_year: '2014-01-01'
-    website: www.uni-greifswald.de
+    website: http://www.uni-greifswald.de
   model: institutions.InstitutionETERRecord
   pk: 367
 - fields:
@@ -6400,7 +6400,7 @@
     name_english: University of Rostock
     national_identifier: '10810'
     valid_from_year: '2014-01-01'
-    website: www.uni-rostock.de
+    website: http://www.uni-rostock.de
   model: institutions.InstitutionETERRecord
   pk: 368
 - fields:
@@ -6417,7 +6417,7 @@
     name_english: Brunswick University of Technology
     national_identifier: '10905'
     valid_from_year: '2014-01-01'
-    website: www.tu-braunschweig.de
+    website: http://www.tu-braunschweig.de
   model: institutions.InstitutionETERRecord
   pk: 369
 - fields:
@@ -6434,7 +6434,7 @@
     name_english: Clausthal University of Technology
     national_identifier: '10910'
     valid_from_year: '2014-01-01'
-    website: www.tu-clausthal.de
+    website: http://www.tu-clausthal.de
   model: institutions.InstitutionETERRecord
   pk: 370
 - fields:
@@ -6451,7 +6451,7 @@
     name_english: "Georg August G\xF6ttingen University "
     national_identifier: '10915'
     valid_from_year: '2014-01-01'
-    website: www.uni-goettingen.de
+    website: http://www.uni-goettingen.de
   model: institutions.InstitutionETERRecord
   pk: 371
 - fields:
@@ -6468,7 +6468,7 @@
     name_english: University of Hannover
     national_identifier: '10920'
     valid_from_year: '2014-01-01'
-    website: www.uni-hannover.de
+    website: http://www.uni-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 372
 - fields:
@@ -6485,7 +6485,7 @@
     name_english: Hannover Medical School
     national_identifier: '10925'
     valid_from_year: '2014-01-01'
-    website: www.mhh.de
+    website: http://www.mhh.de
   model: institutions.InstitutionETERRecord
   pk: 373
 - fields:
@@ -6502,7 +6502,7 @@
     name_english: University of Veterinary Medicine Hannover
     national_identifier: '10930'
     valid_from_year: '2014-01-01'
-    website: www.tiho-hannover.de
+    website: http://www.tiho-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 374
 - fields:
@@ -6519,7 +6519,7 @@
     name_english: University of Hildesheim
     national_identifier: '10935'
     valid_from_year: '2014-01-01'
-    website: www.uni-hildesheim.de
+    website: http://www.uni-hildesheim.de
   model: institutions.InstitutionETERRecord
   pk: 375
 - fields:
@@ -6536,7 +6536,7 @@
     name_english: "Leuphana University of L\xFCneburg"
     national_identifier: '10940'
     valid_from_year: '2014-01-01'
-    website: www.leuphana.de
+    website: http://www.leuphana.de
   model: institutions.InstitutionETERRecord
   pk: 376
 - fields:
@@ -6553,7 +6553,7 @@
     name_english: 'Carl von Ossietzky the University of Oldenburg '
     national_identifier: '10945'
     valid_from_year: '2014-01-01'
-    website: www.uni-oldenburg.de
+    website: http://www.uni-oldenburg.de
   model: institutions.InstitutionETERRecord
   pk: 377
 - fields:
@@ -6570,7 +6570,7 @@
     name_english: "Osnabr\xFCck University"
     national_identifier: '10950'
     valid_from_year: '2014-01-01'
-    website: www.uni-osnabrueck.de
+    website: http://www.uni-osnabrueck.de
   model: institutions.InstitutionETERRecord
   pk: 378
 - fields:
@@ -6587,7 +6587,7 @@
     name_english: 'University of Vechta '
     national_identifier: '10955'
     valid_from_year: '2014-01-01'
-    website: www.uni-vechta.de
+    website: http://www.uni-vechta.de
   model: institutions.InstitutionETERRecord
   pk: 379
 - fields:
@@ -6604,7 +6604,7 @@
     name_english: Aachen University
     national_identifier: '11005'
     valid_from_year: '2014-01-01'
-    website: www.rwth-aachen.de
+    website: http://www.rwth-aachen.de
   model: institutions.InstitutionETERRecord
   pk: 380
 - fields:
@@ -6621,7 +6621,7 @@
     name_english: Bielefeld University
     national_identifier: '11010'
     valid_from_year: '2014-01-01'
-    website: www.uni-bielefeld.de
+    website: http://www.uni-bielefeld.de
   model: institutions.InstitutionETERRecord
   pk: 381
 - fields:
@@ -6655,7 +6655,7 @@
     name_english: 'University of Bonn '
     national_identifier: '11020'
     valid_from_year: '2014-01-01'
-    website: www.uni-bonn.de
+    website: http://www.uni-bonn.de
   model: institutions.InstitutionETERRecord
   pk: 383
 - fields:
@@ -6672,7 +6672,7 @@
     name_english: Technical University of Dortmund
     national_identifier: '11025'
     valid_from_year: '2014-01-01'
-    website: www.uni-dortmund.de
+    website: http://www.uni-dortmund.de
   model: institutions.InstitutionETERRecord
   pk: 384
 - fields:
@@ -6689,7 +6689,7 @@
     name_english: "Heinrich Hein University D\xFCsseldorf"
     national_identifier: '11030'
     valid_from_year: '2014-01-01'
-    website: www.uni-duesseldorf.de/
+    website: http://www.uni-duesseldorf.de/
   model: institutions.InstitutionETERRecord
   pk: 385
 - fields:
@@ -6706,7 +6706,7 @@
     name_english: University of Duisburg-Essen
     national_identifier: '11034'
     valid_from_year: '2014-01-01'
-    website: www.uni-due.de
+    website: http://www.uni-due.de
   model: institutions.InstitutionETERRecord
   pk: 386
 - fields:
@@ -6723,7 +6723,7 @@
     name_english: Univresity of Hagen
     national_identifier: '11040'
     valid_from_year: '2014-01-01'
-    website: www.fernuni-hagen.de
+    website: http://www.fernuni-hagen.de
   model: institutions.InstitutionETERRecord
   pk: 387
 - fields:
@@ -6740,7 +6740,7 @@
     name_english: University of Cologne
     national_identifier: '11045'
     valid_from_year: '2014-01-01'
-    website: www.uni-koeln.de
+    website: http://www.uni-koeln.de
   model: institutions.InstitutionETERRecord
   pk: 388
 - fields:
@@ -6757,7 +6757,7 @@
     name_english: German Sport University Cologne
     national_identifier: '11050'
     valid_from_year: '2014-01-01'
-    website: www.dshs-koeln.de
+    website: http://www.dshs-koeln.de
   model: institutions.InstitutionETERRecord
   pk: 389
 - fields:
@@ -6774,7 +6774,7 @@
     name_english: "University of M\xFCnster"
     national_identifier: '11055'
     valid_from_year: '2014-01-01'
-    website: www.uni-muenster.de
+    website: http://www.uni-muenster.de
   model: institutions.InstitutionETERRecord
   pk: 390
 - fields:
@@ -6791,7 +6791,7 @@
     name_english: 'University of Paderborn '
     national_identifier: '11060'
     valid_from_year: '2014-01-01'
-    website: www.uni-paderborn.de
+    website: http://www.uni-paderborn.de
   model: institutions.InstitutionETERRecord
   pk: 391
 - fields:
@@ -6808,7 +6808,7 @@
     name_english: University of Siegen
     national_identifier: '11065'
     valid_from_year: '2014-01-01'
-    website: www.uni-siegen.de
+    website: http://www.uni-siegen.de
   model: institutions.InstitutionETERRecord
   pk: 392
 - fields:
@@ -6825,7 +6825,7 @@
     name_english: University of Wuppertal
     national_identifier: '11070'
     valid_from_year: '2014-01-01'
-    website: www.uni-wuppertal.de
+    website: http://www.uni-wuppertal.de
   model: institutions.InstitutionETERRecord
   pk: 393
 - fields:
@@ -6842,7 +6842,7 @@
     name_english: University Witten/Herdecke
     national_identifier: '11075'
     valid_from_year: '2014-01-01'
-    website: www.uni-wh.de
+    website: http://www.uni-wh.de
   model: institutions.InstitutionETERRecord
   pk: 394
 - fields:
@@ -6859,7 +6859,7 @@
     name_english: German Police University
     national_identifier: '11080'
     valid_from_year: '2014-01-01'
-    website: www.dhpol.de
+    website: http://www.dhpol.de
   model: institutions.InstitutionETERRecord
   pk: 395
 - fields:
@@ -6876,7 +6876,7 @@
     name_english: 'University of Kaiserslautern '
     national_identifier: '11105'
     valid_from_year: '2014-01-01'
-    website: www.tu-kaiserslautern.de
+    website: http://www.tu-kaiserslautern.de
   model: institutions.InstitutionETERRecord
   pk: 396
 - fields:
@@ -6893,7 +6893,7 @@
     name_english: University of Koblenz and Landau
     national_identifier: '11110'
     valid_from_year: '2014-01-01'
-    website: www.uni-koblenz-landau.de
+    website: http://www.uni-koblenz-landau.de
   model: institutions.InstitutionETERRecord
   pk: 397
 - fields:
@@ -6910,7 +6910,7 @@
     name_english: Johannes Gutenberg University Mainz
     national_identifier: '11115'
     valid_from_year: '2014-01-01'
-    website: www.uni-mainz.de
+    website: http://www.uni-mainz.de
   model: institutions.InstitutionETERRecord
   pk: 398
 - fields:
@@ -6927,7 +6927,7 @@
     name_english: University Medical Center of the Johannes Gutenberg University Mainz
     national_identifier: '11120'
     valid_from_year: '2014-01-01'
-    website: www.unimedizin-mainz.de
+    website: http://www.unimedizin-mainz.de
   model: institutions.InstitutionETERRecord
   pk: 399
 - fields:
@@ -6944,7 +6944,7 @@
     name_english: German University of Administrative Sciences Speyer
     national_identifier: '11125'
     valid_from_year: '2014-01-01'
-    website: www.dhv-speyer.de
+    website: http://www.dhv-speyer.de
   model: institutions.InstitutionETERRecord
   pk: 400
 - fields:
@@ -6961,7 +6961,7 @@
     name_english: 'University of Trier '
     national_identifier: '11130'
     valid_from_year: '2014-01-01'
-    website: www.uni-trier.de
+    website: http://www.uni-trier.de
   model: institutions.InstitutionETERRecord
   pk: 401
 - fields:
@@ -6978,7 +6978,7 @@
     name_english: "WHU \u2013 Otto Beisheim School of Management"
     national_identifier: '11135'
     valid_from_year: '2014-01-01'
-    website: www.whu.edu
+    website: http://www.whu.edu
   model: institutions.InstitutionETERRecord
   pk: 402
 - fields:
@@ -6995,7 +6995,7 @@
     name_english: Saarland University
     national_identifier: '11205'
     valid_from_year: '2014-01-01'
-    website: www.uni-saarland.de
+    website: http://www.uni-saarland.de
   model: institutions.InstitutionETERRecord
   pk: 403
 - fields:
@@ -7012,7 +7012,7 @@
     name_english: Chemnitz University of Technology
     national_identifier: '11305'
     valid_from_year: '2014-01-01'
-    website: www.tu-chemnitz.de
+    website: http://www.tu-chemnitz.de
   model: institutions.InstitutionETERRecord
   pk: 404
 - fields:
@@ -7029,7 +7029,7 @@
     name_english: "Technische Universit\xE4t Dresden"
     national_identifier: '11310'
     valid_from_year: '2014-01-01'
-    website: www.tu-dresden.de
+    website: http://www.tu-dresden.de
   model: institutions.InstitutionETERRecord
   pk: 405
 - fields:
@@ -7046,7 +7046,7 @@
     name_english: ''
     national_identifier: '11315'
     valid_from_year: '2014-01-01'
-    website: www.medizin.tu-dresden.de
+    website: http://www.medizin.tu-dresden.de
   model: institutions.InstitutionETERRecord
   pk: 406
 - fields:
@@ -7063,7 +7063,7 @@
     name_english: "Technische Universit\xE4t Bergakademie Freiberg"
     national_identifier: '11320'
     valid_from_year: '2014-01-01'
-    website: www.tu-freiberg.de
+    website: http://www.tu-freiberg.de
   model: institutions.InstitutionETERRecord
   pk: 407
 - fields:
@@ -7080,7 +7080,7 @@
     name_english: Leipzig University
     national_identifier: '11325'
     valid_from_year: '2014-01-01'
-    website: www.uni-leipzig.de
+    website: http://www.uni-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 408
 - fields:
@@ -7097,7 +7097,7 @@
     name_english: ''
     national_identifier: '11330'
     valid_from_year: '2014-01-01'
-    website: www.uniklinikum-leipzig.de
+    website: http://www.uniklinikum-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 409
 - fields:
@@ -7114,7 +7114,7 @@
     name_english: Dresden International University GmbH
     national_identifier: '11340'
     valid_from_year: '2014-01-01'
-    website: www.di-uni.de
+    website: http://www.di-uni.de
   model: institutions.InstitutionETERRecord
   pk: 410
 - fields:
@@ -7131,7 +7131,7 @@
     name_english: HHL Leipzig Graduate School of Management
     national_identifier: '11345'
     valid_from_year: '2014-01-01'
-    website: www.hhl.de
+    website: http://www.hhl.de
   model: institutions.InstitutionETERRecord
   pk: 411
 - fields:
@@ -7148,7 +7148,7 @@
     name_english: 'Martin Luther University '
     national_identifier: '11405'
     valid_from_year: '2014-01-01'
-    website: www.uni-halle.de
+    website: http://www.uni-halle.de
   model: institutions.InstitutionETERRecord
   pk: 412
 - fields:
@@ -7165,7 +7165,7 @@
     name_english: 'Otto von Guericke University of Magdeburg '
     national_identifier: '11410'
     valid_from_year: '2014-01-01'
-    website: www.ovgu.de
+    website: http://www.ovgu.de
   model: institutions.InstitutionETERRecord
   pk: 413
 - fields:
@@ -7182,7 +7182,7 @@
     name_english: University of Flensburg
     national_identifier: '11505'
     valid_from_year: '2014-01-01'
-    website: www.uni-flensburg.de
+    website: http://www.uni-flensburg.de
   model: institutions.InstitutionETERRecord
   pk: 414
 - fields:
@@ -7199,7 +7199,7 @@
     name_english: University of Kiel
     national_identifier: '11510'
     valid_from_year: '2014-01-01'
-    website: www.uni-kiel.de
+    website: http://www.uni-kiel.de
   model: institutions.InstitutionETERRecord
   pk: 415
 - fields:
@@ -7233,7 +7233,7 @@
     name_english: University Medical Center Schleswig-Holstein
     national_identifier: '11530'
     valid_from_year: '2014-01-01'
-    website: www.uk-sh.de
+    website: http://www.uk-sh.de
   model: institutions.InstitutionETERRecord
   pk: 417
 - fields:
@@ -7250,7 +7250,7 @@
     name_english: University of Erfurt
     national_identifier: '11605'
     valid_from_year: '2014-01-01'
-    website: www.uni-erfurt.de
+    website: http://www.uni-erfurt.de
   model: institutions.InstitutionETERRecord
   pk: 418
 - fields:
@@ -7267,7 +7267,7 @@
     name_english: Ilmenau University of Technology
     national_identifier: '11610'
     valid_from_year: '2014-01-01'
-    website: www.tu-ilmenau.de
+    website: http://www.tu-ilmenau.de
   model: institutions.InstitutionETERRecord
   pk: 419
 - fields:
@@ -7284,7 +7284,7 @@
     name_english: 'Friedrich-Schiller-University of Jena '
     national_identifier: '11615'
     valid_from_year: '2014-01-01'
-    website: www.uni-jena.de
+    website: http://www.uni-jena.de
   model: institutions.InstitutionETERRecord
   pk: 420
 - fields:
@@ -7301,7 +7301,7 @@
     name_english: "Bauhaus-Universit\xE4t Weimar"
     national_identifier: '11620'
     valid_from_year: '2014-01-01'
-    website: www.uni-weimar.de
+    website: http://www.uni-weimar.de
   model: institutions.InstitutionETERRecord
   pk: 421
 - fields:
@@ -7318,7 +7318,7 @@
     name_english: University of Education Freiburg
     national_identifier: '30105'
     valid_from_year: '2014-01-01'
-    website: www.ph-freiburg.de
+    website: http://www.ph-freiburg.de
   model: institutions.InstitutionETERRecord
   pk: 422
 - fields:
@@ -7335,7 +7335,7 @@
     name_english: University of Education Heidelberg
     national_identifier: '30110'
     valid_from_year: '2014-01-01'
-    website: www.ph-heidelberg.de
+    website: http://www.ph-heidelberg.de
   model: institutions.InstitutionETERRecord
   pk: 423
 - fields:
@@ -7352,7 +7352,7 @@
     name_english: University of Education Karlsruhe
     national_identifier: '30115'
     valid_from_year: '2014-01-01'
-    website: www.ph-karlsruhe.de
+    website: http://www.ph-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 424
 - fields:
@@ -7369,7 +7369,7 @@
     name_english: University of Education Ludwigsburg
     national_identifier: '30120'
     valid_from_year: '2014-01-01'
-    website: www.ph-ludwigsburg.de
+    website: http://www.ph-ludwigsburg.de
   model: institutions.InstitutionETERRecord
   pk: 425
 - fields:
@@ -7386,7 +7386,7 @@
     name_english: "University of Education Schw\xE4bisch Gm\xFCnd"
     national_identifier: '30125'
     valid_from_year: '2014-01-01'
-    website: www.ph-gmuend.de
+    website: http://www.ph-gmuend.de
   model: institutions.InstitutionETERRecord
   pk: 426
 - fields:
@@ -7403,7 +7403,7 @@
     name_english: University of Education Weingarten
     national_identifier: '30130'
     valid_from_year: '2014-01-01'
-    website: www.ph-weingarten.de
+    website: http://www.ph-weingarten.de
   model: institutions.InstitutionETERRecord
   pk: 427
 - fields:
@@ -7420,7 +7420,7 @@
     name_english: 'Munich School of Philosophy '
     national_identifier: '40210'
     valid_from_year: '2014-01-01'
-    website: www.hfph.de
+    website: http://www.hfph.de
   model: institutions.InstitutionETERRecord
   pk: 428
 - fields:
@@ -7437,7 +7437,7 @@
     name_english: Augustana-Hochschule Neuendettelsau (ev)
     national_identifier: '40215'
     valid_from_year: '2014-01-01'
-    website: www.augustana.de
+    website: http://www.augustana.de
   model: institutions.InstitutionETERRecord
   pk: 429
 - fields:
@@ -7454,7 +7454,7 @@
     name_english: Philosophisch-Theologische Hochschule Frankfurt a.M. (rk)
     national_identifier: '40705'
     valid_from_year: '2014-01-01'
-    website: www.sankt-georgen.de
+    website: http://www.sankt-georgen.de
   model: institutions.InstitutionETERRecord
   pk: 430
 - fields:
@@ -7471,7 +7471,7 @@
     name_english: Fulda Theology Faculty
     national_identifier: '40710'
     valid_from_year: '2014-01-01'
-    website: www.thf-fulda.de
+    website: http://www.thf-fulda.de
   model: institutions.InstitutionETERRecord
   pk: 431
 - fields:
@@ -7488,7 +7488,7 @@
     name_english: Giessen School of Theology
     national_identifier: '40720'
     valid_from_year: '2014-01-01'
-    website: www.fthgiessen.de
+    website: http://www.fthgiessen.de
   model: institutions.InstitutionETERRecord
   pk: 432
 - fields:
@@ -7505,7 +7505,7 @@
     name_english: Faculty of Theology in Paderborn
     national_identifier: '41020'
     valid_from_year: '2014-01-01'
-    website: www.theol-fakultaet-pb.de
+    website: http://www.theol-fakultaet-pb.de
   model: institutions.InstitutionETERRecord
   pk: 433
 - fields:
@@ -7522,7 +7522,7 @@
     name_english: Philosophisch-Theologische Hochschule St. Augustin (rk)
     national_identifier: '41025'
     valid_from_year: '2014-01-01'
-    website: www.philtheol-augustin.de
+    website: http://www.philtheol-augustin.de
   model: institutions.InstitutionETERRecord
   pk: 434
 - fields:
@@ -7539,7 +7539,7 @@
     name_english: Kirchliche Hochschule Wuppertal / Bethel (ev)
     national_identifier: '41035'
     valid_from_year: '2014-01-01'
-    website: www.kiho-wuppertal-bethel.de
+    website: http://www.kiho-wuppertal-bethel.de
   model: institutions.InstitutionETERRecord
   pk: 435
 - fields:
@@ -7556,7 +7556,7 @@
     name_english: Faculty of Theology Trier
     national_identifier: '41105'
     valid_from_year: '2014-01-01'
-    website: www.theo.uni-trier.de
+    website: http://www.theo.uni-trier.de
   model: institutions.InstitutionETERRecord
   pk: 436
 - fields:
@@ -7573,7 +7573,7 @@
     name_english: College of Philosophy and Theology, Vallendar
     national_identifier: '41110'
     valid_from_year: '2014-01-01'
-    website: www.pthv.de
+    website: http://www.pthv.de
   model: institutions.InstitutionETERRecord
   pk: 437
 - fields:
@@ -7590,7 +7590,7 @@
     name_english: University of Music Freiburg
     national_identifier: '50105'
     valid_from_year: '2014-01-01'
-    website: www.mh-freiburg.de
+    website: http://www.mh-freiburg.de
   model: institutions.InstitutionETERRecord
   pk: 438
 - fields:
@@ -7607,7 +7607,7 @@
     name_english: State Academy of Fine Arts Karlsruhe
     national_identifier: '50110'
     valid_from_year: '2014-01-01'
-    website: www.kunstakademie-karlsruhe.de
+    website: http://www.kunstakademie-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 439
 - fields:
@@ -7624,7 +7624,7 @@
     name_english: Karlsruhe College of Arts and Design
     national_identifier: '50115'
     valid_from_year: '2014-01-01'
-    website: www.hfg-karlsruhe.de
+    website: http://www.hfg-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 440
 - fields:
@@ -7641,7 +7641,7 @@
     name_english: University of Music Karlsruhe
     national_identifier: '50120'
     valid_from_year: '2014-01-01'
-    website: www.hfm-karlsruhe.de
+    website: http://www.hfm-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 441
 - fields:
@@ -7658,7 +7658,7 @@
     name_english: Mannheim University of Music and Performing Arts
     national_identifier: '50125'
     valid_from_year: '2014-01-01'
-    website: www.muho-mannheim.de
+    website: http://www.muho-mannheim.de
   model: institutions.InstitutionETERRecord
   pk: 442
 - fields:
@@ -7675,7 +7675,7 @@
     name_english: 'Stuttgart State Academy of Art and Design '
     national_identifier: '50130'
     valid_from_year: '2014-01-01'
-    website: www.abk-stuttgart.de
+    website: http://www.abk-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 443
 - fields:
@@ -7692,7 +7692,7 @@
     name_english: State University of Music and the Performing Arts Stuttgart
     national_identifier: '50135'
     valid_from_year: '2014-01-01'
-    website: www.mh-stuttgart.de
+    website: http://www.mh-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 444
 - fields:
@@ -7709,7 +7709,7 @@
     name_english: 'Trossingen School of Music '
     national_identifier: '50140'
     valid_from_year: '2014-01-01'
-    website: www.mh-trossingen.de
+    website: http://www.mh-trossingen.de
   model: institutions.InstitutionETERRecord
   pk: 445
 - fields:
@@ -7726,7 +7726,7 @@
     name_english: Academy of Fine Arts in Munich
     national_identifier: '50205'
     valid_from_year: '2014-01-01'
-    website: www.adbk.de
+    website: http://www.adbk.de
   model: institutions.InstitutionETERRecord
   pk: 446
 - fields:
@@ -7743,7 +7743,7 @@
     name_english: University of Television and Film Munich
     national_identifier: '50210'
     valid_from_year: '2014-01-01'
-    website: www.hff-muc.de
+    website: http://www.hff-muc.de
   model: institutions.InstitutionETERRecord
   pk: 447
 - fields:
@@ -7760,7 +7760,7 @@
     name_english: University of Music and Performing Arts Munich
     national_identifier: '50215'
     valid_from_year: '2014-01-01'
-    website: www.musikhochschule-muenchen.mhn.de
+    website: http://www.musikhochschule-muenchen.mhn.de
   model: institutions.InstitutionETERRecord
   pk: 448
 - fields:
@@ -7777,7 +7777,7 @@
     name_english: Academy of Fine Arts in Nuremberg
     national_identifier: '50220'
     valid_from_year: '2014-01-01'
-    website: www.adbk-nuernberg.de
+    website: http://www.adbk-nuernberg.de
   model: institutions.InstitutionETERRecord
   pk: 449
 - fields:
@@ -7794,7 +7794,7 @@
     name_english: Nuremberg School of Music
     national_identifier: '50225'
     valid_from_year: '2014-01-01'
-    website: www.hfm-nuernberg.de
+    website: http://www.hfm-nuernberg.de
   model: institutions.InstitutionETERRecord
   pk: 450
 - fields:
@@ -7811,7 +7811,7 @@
     name_english: "University of Music W\xFCrzburg"
     national_identifier: '50230'
     valid_from_year: '2014-01-01'
-    website: www.hfm-wuerzburg.de
+    website: http://www.hfm-wuerzburg.de
   model: institutions.InstitutionETERRecord
   pk: 451
 - fields:
@@ -7828,7 +7828,7 @@
     name_english: 'Berlin University of the Arts '
     national_identifier: '50305'
     valid_from_year: '2014-01-01'
-    website: www.udk-berlin.de
+    website: http://www.udk-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 452
 - fields:
@@ -7845,7 +7845,7 @@
     name_english: "Wei\xDFensee Academy of Art Berlin"
     national_identifier: '50310'
     valid_from_year: '2014-01-01'
-    website: www.kh-berlin.de
+    website: http://www.kh-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 453
 - fields:
@@ -7862,7 +7862,7 @@
     name_english: Academy of Music Hanns Eisler Berlin
     national_identifier: '50315'
     valid_from_year: '2014-01-01'
-    website: www.hfm-berlin.de
+    website: http://www.hfm-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 454
 - fields:
@@ -7879,7 +7879,7 @@
     name_english: Ernst Busch Academy of  Dramatic Art
     national_identifier: '50320'
     valid_from_year: '2014-01-01'
-    website: www.hfs-berlin.de
+    website: http://www.hfs-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 455
 - fields:
@@ -7896,7 +7896,7 @@
     name_english: Film University Babelsberg Konrad Wolf
     national_identifier: '10425'
     valid_from_year: '2014-01-01'
-    website: www.hff-potsdam.de
+    website: http://www.hff-potsdam.de
   model: institutions.InstitutionETERRecord
   pk: 456
 - fields:
@@ -7913,7 +7913,7 @@
     name_english: University of the Arts Bremen
     national_identifier: '50505'
     valid_from_year: '2014-01-01'
-    website: www.hfk-bremen.de
+    website: http://www.hfk-bremen.de
   model: institutions.InstitutionETERRecord
   pk: 457
 - fields:
@@ -7930,7 +7930,7 @@
     name_english: University of Fine Arts of Hamburg
     national_identifier: '50605'
     valid_from_year: '2014-01-01'
-    website: www.hfbk-hamburg.de
+    website: http://www.hfbk-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 458
 - fields:
@@ -7947,7 +7947,7 @@
     name_english: Hamburg University of Music and Theater
     national_identifier: '50610'
     valid_from_year: '2014-01-01'
-    website: www.musikhochschule-hamburg.de
+    website: http://www.musikhochschule-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 459
 - fields:
@@ -7964,7 +7964,7 @@
     name_english: Frankfurt University of Music and Performing Arts
     national_identifier: '50710'
     valid_from_year: '2014-01-01'
-    website: www.hfmdk-frankfurt.de
+    website: http://www.hfmdk-frankfurt.de
   model: institutions.InstitutionETERRecord
   pk: 460
 - fields:
@@ -7981,7 +7981,7 @@
     name_english: 'Offenbach Academy of Art and Design '
     national_identifier: '50715'
     valid_from_year: '2014-01-01'
-    website: www.hfg-offenbach.de
+    website: http://www.hfg-offenbach.de
   model: institutions.InstitutionETERRecord
   pk: 461
 - fields:
@@ -7998,7 +7998,7 @@
     name_english: Rostock University of Music and Drama
     national_identifier: '50805'
     valid_from_year: '2014-01-01'
-    website: www.hmt-rostock.de
+    website: http://www.hmt-rostock.de
   model: institutions.InstitutionETERRecord
   pk: 462
 - fields:
@@ -8015,7 +8015,7 @@
     name_english: Braunschweig University of Art
     national_identifier: '50905'
     valid_from_year: '2014-01-01'
-    website: www.hbk-bs.de
+    website: http://www.hbk-bs.de
   model: institutions.InstitutionETERRecord
   pk: 463
 - fields:
@@ -8032,7 +8032,7 @@
     name_english: Hanover University of Music, Drama and Media
     national_identifier: '50910'
     valid_from_year: '2014-01-01'
-    website: www.hmt-hannover.de
+    website: http://www.hmt-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 464
 - fields:
@@ -8049,7 +8049,7 @@
     name_english: Detmold Music School
     national_identifier: '51005'
     valid_from_year: '2014-01-01'
-    website: www.hfm-detmold.de
+    website: http://www.hfm-detmold.de
   model: institutions.InstitutionETERRecord
   pk: 465
 - fields:
@@ -8066,7 +8066,7 @@
     name_english: "Kunstakademie D\xFCsseldorf"
     national_identifier: '51010'
     valid_from_year: '2014-01-01'
-    website: www.kunstakademie-duesseldorf.de
+    website: http://www.kunstakademie-duesseldorf.de
   model: institutions.InstitutionETERRecord
   pk: 466
 - fields:
@@ -8083,7 +8083,7 @@
     name_english: Robert Schumann School of Music and Media
     national_identifier: '51015'
     valid_from_year: '2014-01-01'
-    website: www.rsh-duesseldorf.de
+    website: http://www.rsh-duesseldorf.de
   model: institutions.InstitutionETERRecord
   pk: 467
 - fields:
@@ -8100,7 +8100,7 @@
     name_english: Folkwang University of the Arts
     national_identifier: '51020'
     valid_from_year: '2014-01-01'
-    website: www.folkwang-uni.de
+    website: http://www.folkwang-uni.de
   model: institutions.InstitutionETERRecord
   pk: 468
 - fields:
@@ -8117,7 +8117,7 @@
     name_english: 'Academy of Media Arts '
     national_identifier: '51025'
     valid_from_year: '2014-01-01'
-    website: www.khm.de
+    website: http://www.khm.de
   model: institutions.InstitutionETERRecord
   pk: 469
 - fields:
@@ -8134,7 +8134,7 @@
     name_english: Cologne University of Music and Dance
     national_identifier: '51030'
     valid_from_year: '2014-01-01'
-    website: www.mhs-koeln.de
+    website: http://www.mhs-koeln.de
   model: institutions.InstitutionETERRecord
   pk: 470
 - fields:
@@ -8151,7 +8151,7 @@
     name_english: "Academy of Fine Arts M\xFCnster"
     national_identifier: '51035'
     valid_from_year: '2014-01-01'
-    website: www.kunstakademie-muenster.de
+    website: http://www.kunstakademie-muenster.de
   model: institutions.InstitutionETERRecord
   pk: 471
 - fields:
@@ -8168,7 +8168,7 @@
     name_english: ''
     national_identifier: '51040'
     valid_from_year: '2014-01-01'
-    website: www.alanus.edu
+    website: http://www.alanus.edu
   model: institutions.InstitutionETERRecord
   pk: 472
 - fields:
@@ -8185,7 +8185,7 @@
     name_english: "Hochschule der Bildenden K\xFCnste Saarbr\xFCcken"
     national_identifier: '51205'
     valid_from_year: '2014-01-01'
-    website: www.hbksaar.de
+    website: http://www.hbksaar.de
   model: institutions.InstitutionETERRecord
   pk: 473
 - fields:
@@ -8202,7 +8202,7 @@
     name_english: "University of Music Saarbr\xFCcken"
     national_identifier: '51210'
     valid_from_year: '2014-01-01'
-    website: www.hfm.saarland.de
+    website: http://www.hfm.saarland.de
   model: institutions.InstitutionETERRecord
   pk: 474
 - fields:
@@ -8219,7 +8219,7 @@
     name_english: Dresden Academy of Fine Arts
     national_identifier: '51305'
     valid_from_year: '2014-01-01'
-    website: www.hfbk-dresden.de
+    website: http://www.hfbk-dresden.de
   model: institutions.InstitutionETERRecord
   pk: 475
 - fields:
@@ -8236,7 +8236,7 @@
     name_english: University of Music Carl Maria von Weber Dresden
     national_identifier: '51315'
     valid_from_year: '2014-01-01'
-    website: www.hfmdd.de
+    website: http://www.hfmdd.de
   model: institutions.InstitutionETERRecord
   pk: 476
 - fields:
@@ -8253,7 +8253,7 @@
     name_english: Palucca University of Dance Dresden
     national_identifier: '51320'
     valid_from_year: '2014-01-01'
-    website: www.palucca.eu
+    website: http://www.palucca.eu
   model: institutions.InstitutionETERRecord
   pk: 477
 - fields:
@@ -8270,7 +8270,7 @@
     name_english: Academy of Visual Arts Leipzig
     national_identifier: '51325'
     valid_from_year: '2014-01-01'
-    website: www.hgb-leipzig.de
+    website: http://www.hgb-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 478
 - fields:
@@ -8287,7 +8287,7 @@
     name_english: University of Music & Theatre Leipzig
     national_identifier: '51330'
     valid_from_year: '2014-01-01'
-    website: www.hmt-leipzig.de
+    website: http://www.hmt-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 479
 - fields:
@@ -8304,7 +8304,7 @@
     name_english: Burg Giebichenstein University of Art and Design Halle
     national_identifier: '51405'
     valid_from_year: '2014-01-01'
-    website: www.burg-halle.de
+    website: http://www.burg-halle.de
   model: institutions.InstitutionETERRecord
   pk: 480
 - fields:
@@ -8321,7 +8321,7 @@
     name_english: 'Muthesius Academy of Fine Arts and Design '
     national_identifier: '51505'
     valid_from_year: '2014-01-01'
-    website: www.muthesius-kunsthochschule.de
+    website: http://www.muthesius-kunsthochschule.de
   model: institutions.InstitutionETERRecord
   pk: 481
 - fields:
@@ -8338,7 +8338,7 @@
     name_english: "University of Music L\xFCbeck "
     national_identifier: '51510'
     valid_from_year: '2014-01-01'
-    website: www.mh-luebeck.de
+    website: http://www.mh-luebeck.de
   model: institutions.InstitutionETERRecord
   pk: 482
 - fields:
@@ -8355,7 +8355,7 @@
     name_english: University of Music Franz Liszt Weimar
     national_identifier: '51605'
     valid_from_year: '2014-01-01'
-    website: www.hfm-weimar.de
+    website: http://www.hfm-weimar.de
   model: institutions.InstitutionETERRecord
   pk: 483
 - fields:
@@ -8372,7 +8372,7 @@
     name_english: Aalen University
     national_identifier: '60103'
     valid_from_year: '2014-01-01'
-    website: www.htw-aalen.de
+    website: http://www.htw-aalen.de
   model: institutions.InstitutionETERRecord
   pk: 484
 - fields:
@@ -8389,7 +8389,7 @@
     name_english: Albstadt-Sigmaringen University
     national_identifier: '60106'
     valid_from_year: '2014-01-01'
-    website: www.hs-albsig.de
+    website: http://www.hs-albsig.de
   model: institutions.InstitutionETERRecord
   pk: 485
 - fields:
@@ -8406,7 +8406,7 @@
     name_english: Biberach University of Applied Sciences
     national_identifier: '60109'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-biberach.de
+    website: http://www.hochschule-biberach.de
   model: institutions.InstitutionETERRecord
   pk: 486
 - fields:
@@ -8423,7 +8423,7 @@
     name_english: University of Applied Sciences Esslingen
     national_identifier: '60115'
     valid_from_year: '2014-01-01'
-    website: www.hs-esslingen.de
+    website: http://www.hs-esslingen.de
   model: institutions.InstitutionETERRecord
   pk: 487
 - fields:
@@ -8440,7 +8440,7 @@
     name_english: Furtwangen University
     national_identifier: '60118'
     valid_from_year: '2014-01-01'
-    website: www.hs-furtwangen.de
+    website: http://www.hs-furtwangen.de
   model: institutions.InstitutionETERRecord
   pk: 488
 - fields:
@@ -8457,7 +8457,7 @@
     name_english: Heilbronn University
     national_identifier: '60121'
     valid_from_year: '2014-01-01'
-    website: www.hs-heilbronn.de
+    website: http://www.hs-heilbronn.de
   model: institutions.InstitutionETERRecord
   pk: 489
 - fields:
@@ -8474,7 +8474,7 @@
     name_english: University of Applied Sciences Karlsruhe
     national_identifier: '60124'
     valid_from_year: '2014-01-01'
-    website: www.hs-karlsruhe.de
+    website: http://www.hs-karlsruhe.de
   model: institutions.InstitutionETERRecord
   pk: 490
 - fields:
@@ -8491,7 +8491,7 @@
     name_english: Konstanz University of Applied Sciences
     national_identifier: '60127'
     valid_from_year: '2014-01-01'
-    website: www.htwg-konstanz.de
+    website: http://www.htwg-konstanz.de
   model: institutions.InstitutionETERRecord
   pk: 491
 - fields:
@@ -8508,7 +8508,7 @@
     name_english: University of Applied Labour Studies of the Federal Employment Agency
     national_identifier: '60129'
     valid_from_year: '2014-01-01'
-    website: www.HdBA.de
+    website: http://www.HdBA.de
   model: institutions.InstitutionETERRecord
   pk: 492
 - fields:
@@ -8525,7 +8525,7 @@
     name_english: University of Applied Sciences Mannheim
     national_identifier: '60132'
     valid_from_year: '2014-01-01'
-    website: www.hs-mannheim.de
+    website: http://www.hs-mannheim.de
   model: institutions.InstitutionETERRecord
   pk: 493
 - fields:
@@ -8542,7 +8542,7 @@
     name_english: Nuertingen-Geislingen University
     national_identifier: '60134'
     valid_from_year: '2014-01-01'
-    website: www.hfwu.de
+    website: http://www.hfwu.de
   model: institutions.InstitutionETERRecord
   pk: 494
 - fields:
@@ -8559,7 +8559,7 @@
     name_english: Offenburg University
     national_identifier: '60137'
     valid_from_year: '2014-01-01'
-    website: www.fh-offenburg.de
+    website: http://www.fh-offenburg.de
   model: institutions.InstitutionETERRecord
   pk: 495
 - fields:
@@ -8576,7 +8576,7 @@
     name_english: Pforzheim University
     national_identifier: '60140'
     valid_from_year: '2014-01-01'
-    website: www.hs-pforzheim.de
+    website: http://www.hs-pforzheim.de
   model: institutions.InstitutionETERRecord
   pk: 496
 - fields:
@@ -8593,7 +8593,7 @@
     name_english: Baden-Wuerttemberg Cooperative State University
     national_identifier: '60142'
     valid_from_year: '2014-01-01'
-    website: www.dhbw-stuttgart.de/
+    website: http://www.dhbw-stuttgart.de/
   model: institutions.InstitutionETERRecord
   pk: 497
 - fields:
@@ -8610,7 +8610,7 @@
     name_english: University of Applied Sciences Ravensburg-Weingarten
     national_identifier: '60143'
     valid_from_year: '2014-01-01'
-    website: www.hs-weingarten.de
+    website: http://www.hs-weingarten.de
   model: institutions.InstitutionETERRecord
   pk: 498
 - fields:
@@ -8627,7 +8627,7 @@
     name_english: Reutlingen University
     national_identifier: '60146'
     valid_from_year: '2014-01-01'
-    website: www.reutlingen-university.de
+    website: http://www.reutlingen-university.de
   model: institutions.InstitutionETERRecord
   pk: 499
 - fields:
@@ -8644,7 +8644,7 @@
     name_english: University of Applied Forest Sciences Rottenburg
     national_identifier: '60149'
     valid_from_year: '2014-01-01'
-    website: www.hs-rottenburg.net
+    website: http://www.hs-rottenburg.net
   model: institutions.InstitutionETERRecord
   pk: 500
 - fields:
@@ -8661,7 +8661,7 @@
     name_english: "University of Design Schw\xE4bisch-Gm\xFCnd"
     national_identifier: '60152'
     valid_from_year: '2014-01-01'
-    website: www.hfg-gmuend.de
+    website: http://www.hfg-gmuend.de
   model: institutions.InstitutionETERRecord
   pk: 501
 - fields:
@@ -8678,7 +8678,7 @@
     name_english: Stuttgart Media University
     national_identifier: '60155'
     valid_from_year: '2014-01-01'
-    website: www.hdm-stuttgart.de
+    website: http://www.hdm-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 502
 - fields:
@@ -8695,7 +8695,7 @@
     name_english: Stuttgart University of Applied Sciences
     national_identifier: '60158'
     valid_from_year: '2014-01-01'
-    website: www.hft-stuttgart.de
+    website: http://www.hft-stuttgart.de
   model: institutions.InstitutionETERRecord
   pk: 503
 - fields:
@@ -8712,7 +8712,7 @@
     name_english: University of Applied Sciences Ulm
     national_identifier: '60161'
     valid_from_year: '2014-01-01'
-    website: www.hs-ulm.de
+    website: http://www.hs-ulm.de
   model: institutions.InstitutionETERRecord
   pk: 504
 - fields:
@@ -8729,7 +8729,7 @@
     name_english: "SRH Hochschule f\xFCr Wirtschaft und Medien Calw"
     national_identifier: '60170'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-calw.de
+    website: http://www.hochschule-calw.de
   model: institutions.InstitutionETERRecord
   pk: 505
 - fields:
@@ -8748,7 +8748,7 @@
       \ Heidelberg (Priv. FH)"
     national_identifier: '60171'
     valid_from_year: '2014-01-01'
-    website: www.fh-heidelberg.de
+    website: http://www.fh-heidelberg.de
   model: institutions.InstitutionETERRecord
   pk: 506
 - fields:
@@ -8765,7 +8765,7 @@
     name_english: Karlshochschule International University
     national_identifier: '60174'
     valid_from_year: '2014-01-01'
-    website: www.karlshochschule.de
+    website: http://www.karlshochschule.de
   model: institutions.InstitutionETERRecord
   pk: 507
 - fields:
@@ -8782,7 +8782,7 @@
     name_english: "Private Fachhochschule f\xFCr Kunsttherapie N\xFCrtingen"
     national_identifier: '60176'
     valid_from_year: '2014-01-01'
-    website: www.hkt-nuertingen.de
+    website: http://www.hkt-nuertingen.de
   model: institutions.InstitutionETERRecord
   pk: 508
 - fields:
@@ -8799,7 +8799,7 @@
     name_english: SRH Fernhochschule Riedlingen
     national_identifier: '60179'
     valid_from_year: '2014-01-01'
-    website: www.fh-riedlingen.de
+    website: http://www.fh-riedlingen.de
   model: institutions.InstitutionETERRecord
   pk: 509
 - fields:
@@ -8816,7 +8816,7 @@
     name_english: AKAD University of Applied Sciences Stuttgart
     national_identifier: '60183'
     valid_from_year: '2014-01-01'
-    website: www.akad.de
+    website: http://www.akad.de
   model: institutions.InstitutionETERRecord
   pk: 510
 - fields:
@@ -8834,7 +8834,7 @@
     name_english: Merz Akademie
     national_identifier: '60186'
     valid_from_year: '2014-01-01'
-    website: www.merz-akademie.de
+    website: http://www.merz-akademie.de
   model: institutions.InstitutionETERRecord
   pk: 511
 - fields:
@@ -8851,7 +8851,7 @@
     name_english: Protestant University of Applied Sciences Darmstadt
     national_identifier: '60189'
     valid_from_year: '2014-01-01'
-    website: www.eh-freiburg.de
+    website: http://www.eh-freiburg.de
   model: institutions.InstitutionETERRecord
   pk: 512
 - fields:
@@ -8868,7 +8868,7 @@
     name_english: Evangelische Hochschule Ludwigsburg
     national_identifier: '60195'
     valid_from_year: '2014-01-01'
-    website: www.efh-ludwigsburg.de
+    website: http://www.efh-ludwigsburg.de
   model: institutions.InstitutionETERRecord
   pk: 513
 - fields:
@@ -8885,7 +8885,7 @@
     name_english: Catholic University of Applied Sciences Freiburg
     national_identifier: '60198'
     valid_from_year: '2014-01-01'
-    website: www.kfh-freiburg.de
+    website: http://www.kfh-freiburg.de
   model: institutions.InstitutionETERRecord
   pk: 514
 - fields:
@@ -8919,7 +8919,7 @@
     name_english: Ansbach University of Applied Sciences
     national_identifier: '60206'
     valid_from_year: '2014-01-01'
-    website: www.hs-ansbach.de
+    website: http://www.hs-ansbach.de
   model: institutions.InstitutionETERRecord
   pk: 516
 - fields:
@@ -8936,7 +8936,7 @@
     name_english: 'Aschaffenburg University of Applied Sciences '
     national_identifier: '60210'
     valid_from_year: '2014-01-01'
-    website: www.fh-aschaffenburg.de
+    website: http://www.fh-aschaffenburg.de
   model: institutions.InstitutionETERRecord
   pk: 517
 - fields:
@@ -8953,7 +8953,7 @@
     name_english: 'Augsburg University of Applied Sciences '
     national_identifier: '60213'
     valid_from_year: '2014-01-01'
-    website: www.hs-augsburg.de
+    website: http://www.hs-augsburg.de
   model: institutions.InstitutionETERRecord
   pk: 518
 - fields:
@@ -8970,7 +8970,7 @@
     name_english: Coburg University of Applied Sciences
     national_identifier: '60215'
     valid_from_year: '2014-01-01'
-    website: www.hs-coburg.de
+    website: http://www.hs-coburg.de
   model: institutions.InstitutionETERRecord
   pk: 519
 - fields:
@@ -8987,7 +8987,7 @@
     name_english: Deggerndorf Institute of Technology
     national_identifier: '60220'
     valid_from_year: '2014-01-01'
-    website: www.fh-deggendorf.de
+    website: http://www.fh-deggendorf.de
   model: institutions.InstitutionETERRecord
   pk: 520
 - fields:
@@ -9021,7 +9021,7 @@
     name_english: Technische Hochschule Ingolstadt
     national_identifier: '60228'
     valid_from_year: '2014-01-01'
-    website: www.fh-ingolstadt.de
+    website: http://www.fh-ingolstadt.de
   model: institutions.InstitutionETERRecord
   pk: 522
 - fields:
@@ -9038,7 +9038,7 @@
     name_english: Kempten University of Applied Sciences
     national_identifier: '60231'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-kempten.de
+    website: http://www.hochschule-kempten.de
   model: institutions.InstitutionETERRecord
   pk: 523
 - fields:
@@ -9055,7 +9055,7 @@
     name_english: University of Applied Sciences Landshut
     national_identifier: '60234'
     valid_from_year: '2014-01-01'
-    website: www.fh-landshut.de
+    website: http://www.fh-landshut.de
   model: institutions.InstitutionETERRecord
   pk: 524
 - fields:
@@ -9072,7 +9072,7 @@
     name_english: Munich University of Applied Sciences
     national_identifier: '60238'
     valid_from_year: '2014-01-01'
-    website: www.hm.edu
+    website: http://www.hm.edu
   model: institutions.InstitutionETERRecord
   pk: 525
 - fields:
@@ -9089,7 +9089,7 @@
     name_english: Neu-Ulm University of Applied Sciences
     national_identifier: '60241'
     valid_from_year: '2014-01-01'
-    website: www.hs-neu-ulm.de
+    website: http://www.hs-neu-ulm.de
   model: institutions.InstitutionETERRecord
   pk: 526
 - fields:
@@ -9106,7 +9106,7 @@
     name_english: "Technische Hochschule N\xFCrnberg Georg Simon Ohm"
     national_identifier: '60244'
     valid_from_year: '2014-01-01'
-    website: www.ohm-hochschule.de
+    website: http://www.ohm-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 527
 - fields:
@@ -9123,7 +9123,7 @@
     name_english: Ostbayerische Technische Hochschule Regensburg
     national_identifier: '60247'
     valid_from_year: '2014-01-01'
-    website: www.hs-regensburg.de
+    website: http://www.hs-regensburg.de
   model: institutions.InstitutionETERRecord
   pk: 528
 - fields:
@@ -9140,7 +9140,7 @@
     name_english: Rosenheim University of Applied Sciences
     national_identifier: '60250'
     valid_from_year: '2014-01-01'
-    website: www.fh-rosenheim.de
+    website: http://www.fh-rosenheim.de
   model: institutions.InstitutionETERRecord
   pk: 529
 - fields:
@@ -9157,7 +9157,7 @@
     name_english: Weihenstephan-Triesdorf University of Applied Sciences
     national_identifier: '60253'
     valid_from_year: '2014-01-01'
-    website: www.hswt.de
+    website: http://www.hswt.de
   model: institutions.InstitutionETERRecord
   pk: 530
 - fields:
@@ -9174,7 +9174,7 @@
     name_english: "University of Applied Sciences W\xFCrzburg-Schweinfurt"
     national_identifier: '60257'
     valid_from_year: '2014-01-01'
-    website: www.fhws.de
+    website: http://www.fhws.de
   model: institutions.InstitutionETERRecord
   pk: 531
 - fields:
@@ -9191,7 +9191,7 @@
     name_english: University of Applied Management, Erding
     national_identifier: '60263'
     valid_from_year: '2014-01-01'
-    website: www.myfham.de
+    website: http://www.myfham.de
   model: institutions.InstitutionETERRecord
   pk: 532
 - fields:
@@ -9208,7 +9208,7 @@
     name_english: University of Applied Languages Munich
     national_identifier: '60264'
     valid_from_year: '2014-01-01'
-    website: www.sdi-muenchen.de/hochschule
+    website: http://www.sdi-muenchen.de/hochschule
   model: institutions.InstitutionETERRecord
   pk: 533
 - fields:
@@ -9225,7 +9225,7 @@
     name_english: Macromedia University of Applied Sciences
     national_identifier: '60265'
     valid_from_year: '2014-01-01'
-    website: www.macromedia-fachhochschule.de
+    website: http://www.macromedia-fachhochschule.de
   model: institutions.InstitutionETERRecord
   pk: 534
 - fields:
@@ -9242,7 +9242,7 @@
     name_english: "Munich Business School M\xFCnchen (Priv. FH)"
     national_identifier: '60266'
     valid_from_year: '2014-01-01'
-    website: www.munich-business-school.de
+    website: http://www.munich-business-school.de
   model: institutions.InstitutionETERRecord
   pk: 535
 - fields:
@@ -9259,7 +9259,7 @@
     name_english: "Evangelische Hochschule N\xFCrnberg (FH)"
     national_identifier: '60272'
     valid_from_year: '2014-01-01'
-    website: www.evfh-nuernberg.de
+    website: http://www.evfh-nuernberg.de
   model: institutions.InstitutionETERRecord
   pk: 536
 - fields:
@@ -9276,7 +9276,7 @@
     name_english: "Katholische Stiftungs Fachhochschule M\xFCnchen"
     national_identifier: '60275'
     valid_from_year: '2014-01-01'
-    website: www.ksfh.de
+    website: http://www.ksfh.de
   model: institutions.InstitutionETERRecord
   pk: 537
 - fields:
@@ -9293,7 +9293,7 @@
     name_english: Alice Salomon Hochschule Berlin
     national_identifier: '60305'
     valid_from_year: '2014-01-01'
-    website: www.asfh-berlin.de
+    website: http://www.asfh-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 538
 - fields:
@@ -9310,7 +9310,7 @@
     name_english: Beuth University of Applied Sciences
     national_identifier: '60310'
     valid_from_year: '2014-01-01'
-    website: www.beuth-hochschule.de
+    website: http://www.beuth-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 539
 - fields:
@@ -9327,7 +9327,7 @@
     name_english: Berlin University of Applied Sciences
     national_identifier: '60315'
     valid_from_year: '2014-01-01'
-    website: www.htw-berlin.de
+    website: http://www.htw-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 540
 - fields:
@@ -9344,7 +9344,7 @@
     name_english: Berlin School of Economics and Law
     national_identifier: '60320'
     valid_from_year: '2014-01-01'
-    website: www.hwr-berlin.de
+    website: http://www.hwr-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 541
 - fields:
@@ -9361,7 +9361,7 @@
     name_english: bbw University of Applied Sciences
     national_identifier: '60335'
     valid_from_year: '2014-01-01'
-    website: www.bbw-hochschule.de
+    website: http://www.bbw-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 542
 - fields:
@@ -9378,7 +9378,7 @@
     name_english: Design Akademie Berlin (Priv. FH)
     national_identifier: '60341'
     valid_from_year: '2014-01-01'
-    website: www.design-akademie-berlin.de
+    website: http://www.design-akademie-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 543
 - fields:
@@ -9395,7 +9395,7 @@
     name_english: "Hochschule f\xFCr Gesundheit und Sport Berlin (Priv. FH)"
     national_identifier: HS203
     valid_from_year: '2014-01-01'
-    website: www.my-campus-berlin.com
+    website: http://www.my-campus-berlin.com
   model: institutions.InstitutionETERRecord
   pk: 544
 - fields:
@@ -9412,7 +9412,7 @@
     name_english: IB-Hochschule Berlin (Priv. FH)
     national_identifier: '60347'
     valid_from_year: '2014-01-01'
-    website: www.ib-hochschule.de
+    website: http://www.ib-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 545
 - fields:
@@ -9446,7 +9446,7 @@
     name_english: Mediadesign University of Applied Sciences
     national_identifier: '60353'
     valid_from_year: '2014-01-01'
-    website: www.mediadesign.de
+    website: http://www.mediadesign.de
   model: institutions.InstitutionETERRecord
   pk: 547
 - fields:
@@ -9463,7 +9463,7 @@
     name_english: SRH University Berlin
     national_identifier: HS803
     valid_from_year: '2014-01-01'
-    website: www.srh-hochschule-berlin.de
+    website: http://www.srh-hochschule-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 548
 - fields:
@@ -9480,7 +9480,7 @@
     name_english: BTK University of Applied Sciences
     national_identifier: HS603
     valid_from_year: '2014-01-01'
-    website: www.btk-fh.de
+    website: http://www.btk-fh.de
   model: institutions.InstitutionETERRecord
   pk: 549
 - fields:
@@ -9497,7 +9497,7 @@
     name_english: 'Protestant Fachhochschule Berlin '
     national_identifier: '60370'
     valid_from_year: '2014-01-01'
-    website: www.evfh-berlin.de
+    website: http://www.evfh-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 550
 - fields:
@@ -9514,7 +9514,7 @@
     name_english: 'Catholic University for Applied Sciences Berlin '
     national_identifier: '60380'
     valid_from_year: '2014-01-01'
-    website: www.khsb-berlin.de
+    website: http://www.khsb-berlin.de
   model: institutions.InstitutionETERRecord
   pk: 551
 - fields:
@@ -9531,7 +9531,7 @@
     name_english: Brandenburg University of Applied Sciences
     national_identifier: '60405'
     valid_from_year: '2014-01-01'
-    website: www.fh-brandenburg.de
+    website: http://www.fh-brandenburg.de
   model: institutions.InstitutionETERRecord
   pk: 552
 - fields:
@@ -9548,7 +9548,7 @@
     name_english: 'University of Applied Sciences in Eberswalde '
     national_identifier: '60410'
     valid_from_year: '2014-01-01'
-    website: www.fh-eberswalde.de
+    website: http://www.fh-eberswalde.de
   model: institutions.InstitutionETERRecord
   pk: 553
 - fields:
@@ -9565,7 +9565,7 @@
     name_english: Potsdam University of Applied Sciences
     national_identifier: '60420'
     valid_from_year: '2014-01-01'
-    website: www.fh-potsdam.de
+    website: http://www.fh-potsdam.de
   model: institutions.InstitutionETERRecord
   pk: 554
 - fields:
@@ -9582,7 +9582,7 @@
     name_english: Technical University of Applied Sciences Wildau
     national_identifier: '60425'
     valid_from_year: '2014-01-01'
-    website: www.tfh-wildau.de
+    website: http://www.tfh-wildau.de
   model: institutions.InstitutionETERRecord
   pk: 555
 - fields:
@@ -9599,7 +9599,7 @@
     name_english: Bremen University of Applied Sciences
     national_identifier: '60505'
     valid_from_year: '2014-01-01'
-    website: www.hs-bremen.de
+    website: http://www.hs-bremen.de
   model: institutions.InstitutionETERRecord
   pk: 556
 - fields:
@@ -9616,7 +9616,7 @@
     name_english: University of Applied Sciences Bremerhaven
     national_identifier: '60510'
     valid_from_year: '2014-01-01'
-    website: www.hs-bremerhaven.de
+    website: http://www.hs-bremerhaven.de
   model: institutions.InstitutionETERRecord
   pk: 557
 - fields:
@@ -9633,7 +9633,7 @@
     name_english: University of Applied Sciences Appollon
     national_identifier: '60515'
     valid_from_year: '2014-01-01'
-    website: www.apollon-hochschule.de
+    website: http://www.apollon-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 558
 - fields:
@@ -9650,7 +9650,7 @@
     name_english: Hamburg University of Applied Sciences
     national_identifier: '60605'
     valid_from_year: '2014-01-01'
-    website: www.haw-hamburg.de
+    website: http://www.haw-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 559
 - fields:
@@ -9667,7 +9667,7 @@
     name_english: "Europ\xE4ische Fern-Hochschule Hamburg GmbH Hamburg (Priv. FH)"
     national_identifier: '60615'
     valid_from_year: '2014-01-01'
-    website: www.hamburger-fh.de
+    website: http://www.hamburger-fh.de
   model: institutions.InstitutionETERRecord
   pk: 560
 - fields:
@@ -9684,7 +9684,7 @@
     name_english: HFH Hamburger Fern-Hochschule (Priv. FH)
     national_identifier: '60620'
     valid_from_year: '2014-01-01'
-    website: www.hamburger-fh.de
+    website: http://www.hamburger-fh.de
   model: institutions.InstitutionETERRecord
   pk: 561
 - fields:
@@ -9701,7 +9701,7 @@
     name_english: HSBA Hamburg School of Business Administration (Priv. FH)
     national_identifier: '60625'
     valid_from_year: '2014-01-01'
-    website: www.hsba.de
+    website: http://www.hsba.de
   model: institutions.InstitutionETERRecord
   pk: 562
 - fields:
@@ -9719,7 +9719,7 @@
       \ (FH)"
     national_identifier: '60630'
     valid_from_year: '2014-01-01'
-    website: www.ev-fachhochschule-hamburg.de
+    website: http://www.ev-fachhochschule-hamburg.de
   model: institutions.InstitutionETERRecord
   pk: 563
 - fields:
@@ -9736,7 +9736,7 @@
     name_english: EBC Euro Business College Hamburg (Priv. FH)
     national_identifier: '60635'
     valid_from_year: '2014-01-01'
-    website: www.hamburg.euro-business-college.de
+    website: http://www.hamburg.euro-business-college.de
   model: institutions.InstitutionETERRecord
   pk: 564
 - fields:
@@ -9753,7 +9753,7 @@
     name_english: Darmstadt University of Applied Sciences
     national_identifier: '60705'
     valid_from_year: '2014-01-01'
-    website: www.h-da.de
+    website: http://www.h-da.de
   model: institutions.InstitutionETERRecord
   pk: 565
 - fields:
@@ -9770,7 +9770,7 @@
     name_english: Frankfurt University of Applied Sciences
     national_identifier: '60710'
     valid_from_year: '2014-01-01'
-    website: www.fh-frankfurt.de
+    website: http://www.fh-frankfurt.de
   model: institutions.InstitutionETERRecord
   pk: 566
 - fields:
@@ -9787,7 +9787,7 @@
     name_english: Fulda University of Applied Sciences
     national_identifier: '60715'
     valid_from_year: '2014-01-01'
-    website: www.hs-fulda.de
+    website: http://www.hs-fulda.de
   model: institutions.InstitutionETERRecord
   pk: 567
 - fields:
@@ -9821,7 +9821,7 @@
     name_english: RheinMain University of Applied Sciences
     national_identifier: '60725'
     valid_from_year: '2014-01-01'
-    website: www.hs-rm.de
+    website: http://www.hs-rm.de
   model: institutions.InstitutionETERRecord
   pk: 569
 - fields:
@@ -9856,7 +9856,7 @@
     name_english: accadis Hochschule Bad Homburg (Priv. FH)
     national_identifier: '60735'
     valid_from_year: '2014-01-01'
-    website: www.accadis.com
+    website: http://www.accadis.com
   model: institutions.InstitutionETERRecord
   pk: 571
 - fields:
@@ -9873,7 +9873,7 @@
     name_english: "Wilhelm B\xFCchner Hochschule Darmstadt (Priv. Fern-FH)"
     national_identifier: '60740'
     valid_from_year: '2014-01-01'
-    website: www.wb-fernstudium.de
+    website: http://www.wb-fernstudium.de
   model: institutions.InstitutionETERRecord
   pk: 572
 - fields:
@@ -9892,7 +9892,7 @@
       a.M. (Priv. FH)
     national_identifier: '60745'
     valid_from_year: '2014-01-01'
-    website: www.provadis-hochschule.
+    website: http://www.provadis-hochschule.
   model: institutions.InstitutionETERRecord
   pk: 573
 - fields:
@@ -9909,7 +9909,7 @@
     name_english: Fresenius of University Applied Sciences
     national_identifier: HS107
     valid_from_year: '2014-01-01'
-    website: www.hs-fresenius.de
+    website: http://www.hs-fresenius.de
   model: institutions.InstitutionETERRecord
   pk: 574
 - fields:
@@ -9926,7 +9926,7 @@
     name_english: DIPLOMA Hochschule
     national_identifier: '60755'
     valid_from_year: '2014-01-01'
-    website: diploma.de
+    website: http://www.diploma.de
   model: institutions.InstitutionETERRecord
   pk: 575
 - fields:
@@ -9943,7 +9943,7 @@
     name_english: Protestant University of Applied Sciences Darmstadt
     national_identifier: '60760'
     valid_from_year: '2014-01-01'
-    website: www.efh-darmstadt.de
+    website: http://www.efh-darmstadt.de
   model: institutions.InstitutionETERRecord
   pk: 576
 - fields:
@@ -9960,7 +9960,7 @@
     name_english: Neubrandenburg University of Applied Sciences
     national_identifier: '60805'
     valid_from_year: '2014-01-01'
-    website: www.hs-nb.de
+    website: http://www.hs-nb.de
   model: institutions.InstitutionETERRecord
   pk: 577
 - fields:
@@ -9977,7 +9977,7 @@
     name_english: Stralsund University of Applied Sciences
     national_identifier: '60810'
     valid_from_year: '2014-01-01'
-    website: www.fh-stralsund.de
+    website: http://www.fh-stralsund.de
   model: institutions.InstitutionETERRecord
   pk: 578
 - fields:
@@ -9994,7 +9994,7 @@
     name_english: Wismar University of Applied Sciences Technology, Business and Design
     national_identifier: '60815'
     valid_from_year: '2014-01-01'
-    website: www.hs-wismar.de
+    website: http://www.hs-wismar.de
   model: institutions.InstitutionETERRecord
   pk: 579
 - fields:
@@ -10011,7 +10011,7 @@
     name_english: Ostfalia University of Applied Sciences
     national_identifier: '60905'
     valid_from_year: '2014-01-01'
-    website: ostfalia.de
+    website: http://www.ostfalia.de
   model: institutions.InstitutionETERRecord
   pk: 580
 - fields:
@@ -10028,7 +10028,7 @@
     name_english: Hannover University of Applied Sciences and Arts
     national_identifier: '60910'
     valid_from_year: '2014-01-01'
-    website: www.fh-hannover.de
+    website: http://www.fh-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 581
 - fields:
@@ -10047,7 +10047,7 @@
       ttingen"
     national_identifier: '60915'
     valid_from_year: '2014-01-01'
-    website: www.hawk-hhg.de
+    website: http://www.hawk-hhg.de
   model: institutions.InstitutionETERRecord
   pk: 582
 - fields:
@@ -10064,7 +10064,7 @@
     name_english: "Osnabr\xFCck University of Applied Sciences"
     national_identifier: '60925'
     valid_from_year: '2014-01-01'
-    website: www.fh-osnabrueck.de
+    website: http://www.fh-osnabrueck.de
   model: institutions.InstitutionETERRecord
   pk: 583
 - fields:
@@ -10081,7 +10081,7 @@
     name_english: Hochschule 21, Buxtehude (Priv. FH)
     national_identifier: '60927'
     valid_from_year: '2014-01-01'
-    website: www.hs21.de
+    website: http://www.hs21.de
   model: institutions.InstitutionETERRecord
   pk: 584
 - fields:
@@ -10098,7 +10098,7 @@
     name_english: "PFH \u2013 Private University of Applied Sciences"
     national_identifier: '60935'
     valid_from_year: '2014-01-01'
-    website: www.pfh.de
+    website: http://www.pfh.de
   model: institutions.InstitutionETERRecord
   pk: 585
 - fields:
@@ -10115,7 +10115,7 @@
     name_english: University of Applied Sciences in Hannover
     national_identifier: '60940'
     valid_from_year: '2014-01-01'
-    website: www.fhdw-hannover.de
+    website: http://www.fhdw-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 586
 - fields:
@@ -10132,7 +10132,7 @@
     name_english: HKS - University of applied sciences and arts in Ottersberg
     national_identifier: '60945'
     valid_from_year: '2014-01-01'
-    website: www.fh-ottersberg.de
+    website: http://www.fh-ottersberg.de
   model: institutions.InstitutionETERRecord
   pk: 587
 - fields:
@@ -10149,7 +10149,7 @@
     name_english: "Private Hochschule f\xFCr Wirtschaft und Technik Vechta/Diepholz/Oldenburg"
     national_identifier: '60950'
     valid_from_year: '2014-01-01'
-    website: www.fhwt.de
+    website: http://www.fhwt.de
   model: institutions.InstitutionETERRecord
   pk: 588
 - fields:
@@ -10166,7 +10166,7 @@
     name_english: Aachen University of Applied Sciences
     national_identifier: '61003'
     valid_from_year: '2014-01-01'
-    website: www.fh-aachen.de
+    website: http://www.fh-aachen.de
   model: institutions.InstitutionETERRecord
   pk: 589
 - fields:
@@ -10183,7 +10183,7 @@
     name_english: Bielefeld University of Applied Sciences
     national_identifier: '61006'
     valid_from_year: '2014-01-01'
-    website: www.fh-bielefeld.de
+    website: http://www.fh-bielefeld.de
   model: institutions.InstitutionETERRecord
   pk: 590
 - fields:
@@ -10200,7 +10200,7 @@
     name_english: Bochum University of Applied Sciences
     national_identifier: '61009'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-bochum.de
+    website: http://www.hochschule-bochum.de
   model: institutions.InstitutionETERRecord
   pk: 591
 - fields:
@@ -10217,7 +10217,7 @@
     name_english: University of Applied Sciences Bonn-Rhein-Sieg
     national_identifier: '61012'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-bonn-rhein-sieg.de
+    website: http://www.hochschule-bonn-rhein-sieg.de
   model: institutions.InstitutionETERRecord
   pk: 592
 - fields:
@@ -10234,7 +10234,7 @@
     name_english: Dortmund University of Applied Sciences and Arts
     national_identifier: '61015'
     valid_from_year: '2014-01-01'
-    website: www.fh-dortmund.de
+    website: http://www.fh-dortmund.de
   model: institutions.InstitutionETERRecord
   pk: 593
 - fields:
@@ -10251,7 +10251,7 @@
     name_english: "D\xFCsseldorf University of Applied Sciences"
     national_identifier: '61018'
     valid_from_year: '2014-01-01'
-    website: www.fh-duesseldorf.de
+    website: http://www.fh-duesseldorf.de
   model: institutions.InstitutionETERRecord
   pk: 594
 - fields:
@@ -10268,7 +10268,7 @@
     name_english: "Westf\xE4lische Hochschule Gelsenkirchen Bocholt Recklinghausen"
     national_identifier: '61021'
     valid_from_year: '2014-01-01'
-    website: www.fh-gelsenkirchen.de
+    website: http://www.fh-gelsenkirchen.de
   model: institutions.InstitutionETERRecord
   pk: 595
 - fields:
@@ -10285,7 +10285,7 @@
     name_english: Cologne University of Applied Sciences
     national_identifier: '61024'
     valid_from_year: '2014-01-01'
-    website: www.fh-koeln.de
+    website: http://www.fh-koeln.de
   model: institutions.InstitutionETERRecord
   pk: 596
 - fields:
@@ -10302,7 +10302,7 @@
     name_english: Ostwestfalen-Lippe University of Applied Sciences
     national_identifier: '61027'
     valid_from_year: '2014-01-01'
-    website: www.hochschule-owl.de
+    website: http://www.hochschule-owl.de
   model: institutions.InstitutionETERRecord
   pk: 597
 - fields:
@@ -10319,7 +10319,7 @@
     name_english: "M\xFCnster University of Applied Sciences"
     national_identifier: '61030'
     valid_from_year: '2014-01-01'
-    website: www.fh-muenster.de
+    website: http://www.fh-muenster.de
   model: institutions.InstitutionETERRecord
   pk: 598
 - fields:
@@ -10336,7 +10336,7 @@
     name_english: Niederrhein University of Applied Sciences
     national_identifier: '61033'
     valid_from_year: '2014-01-01'
-    website: www.hs-niederrhein.de
+    website: http://www.hs-niederrhein.de
   model: institutions.InstitutionETERRecord
   pk: 599
 - fields:
@@ -10353,7 +10353,7 @@
     name_english: 'South Westphalia University of Applied Sciences '
     national_identifier: '61036'
     valid_from_year: '2014-01-01'
-    website: www.fh-swf.de
+    website: http://www.fh-swf.de
   model: institutions.InstitutionETERRecord
   pk: 600
 - fields:
@@ -10370,7 +10370,7 @@
     name_english: Bad Honnef-Bonn International University of Applied Sciences
     national_identifier: '61039'
     valid_from_year: '2014-01-01'
-    website: www.fh-bad-honnef.de
+    website: http://www.fh-bad-honnef.de
   model: institutions.InstitutionETERRecord
   pk: 601
 - fields:
@@ -10404,7 +10404,7 @@
     name_english: Georg Agricola University of Applied Sciences
     national_identifier: '61045'
     valid_from_year: '2014-01-01'
-    website: www.tfh-bochum.de
+    website: http://www.tfh-bochum.de
   model: institutions.InstitutionETERRecord
   pk: 603
 - fields:
@@ -10421,7 +10421,7 @@
     name_english: EBZ Business School Bochum (Priv. FH)
     national_identifier: '61047'
     valid_from_year: '2014-01-01'
-    website: www.ebz-business-school.de
+    website: http://www.ebz-business-school.de
   model: institutions.InstitutionETERRecord
   pk: 604
 - fields:
@@ -10438,7 +10438,7 @@
     name_english: University of Applied Sciences - Bonn
     national_identifier: '61048'
     valid_from_year: '2014-01-01'
-    website: www.s-hochschule.de
+    website: http://www.s-hochschule.de
   model: institutions.InstitutionETERRecord
   pk: 605
 - fields:
@@ -10455,7 +10455,7 @@
     name_english: Dual Studies of Business Economics
     national_identifier: '61051'
     valid_from_year: '2014-01-01'
-    website: www.eufh.de
+    website: http://www.eufh.de
   model: institutions.InstitutionETERRecord
   pk: 606
 - fields:
@@ -10472,7 +10472,7 @@
     name_english: Private Fachhochschule International School of Management, Dortmund
     national_identifier: '61054'
     valid_from_year: '2014-01-01'
-    website: www.ism.de
+    website: http://www.ism.de
   model: institutions.InstitutionETERRecord
   pk: 607
 - fields:
@@ -10489,7 +10489,7 @@
     name_english: 'FOM University of Applied Sciences '
     national_identifier: '61057'
     valid_from_year: '2014-01-01'
-    website: www.fom.de
+    website: http://www.fom.de
   model: institutions.InstitutionETERRecord
   pk: 608
 - fields:
@@ -10506,7 +10506,7 @@
     name_english: "SRH Hochschule f\xFCr Logistik und Wirtschaft Hamm (Priv. FH)"
     national_identifier: '61060'
     valid_from_year: '2014-01-01'
-    website: www.srh.de
+    website: http://www.srh.de
   model: institutions.InstitutionETERRecord
   pk: 609
 - fields:
@@ -10523,7 +10523,7 @@
     name_english: Business and Information Technology School Iserlohn (Priv. FH)
     national_identifier: '61063'
     valid_from_year: '2014-01-01'
-    website: www.bits-iserlohn.de
+    website: http://www.bits-iserlohn.de
   model: institutions.InstitutionETERRecord
   pk: 610
 - fields:
@@ -10540,7 +10540,7 @@
     name_english: Rheinische Fachhochschule Cologne
     national_identifier: '61069'
     valid_from_year: '2014-01-01'
-    website: www.rfh-koeln.de
+    website: http://www.rfh-koeln.de
   model: institutions.InstitutionETERRecord
   pk: 611
 - fields:
@@ -10557,7 +10557,7 @@
     name_english: Private Fachhochschule der Wirtschaft Paderborn
     national_identifier: '61072'
     valid_from_year: '2014-01-01'
-    website: www.fhdw.de
+    website: http://www.fhdw.de
   model: institutions.InstitutionETERRecord
   pk: 612
 - fields:
@@ -10574,7 +10574,7 @@
     name_english: Fachhochschule der Diakonie Bielefeld-Bethel
     national_identifier: '61074'
     valid_from_year: '2014-01-01'
-    website: www.fhdd.de
+    website: http://www.fhdd.de
   model: institutions.InstitutionETERRecord
   pk: 613
 - fields:
@@ -10591,7 +10591,7 @@
     name_english: Rheinland-Westfalen-Lippe University of Applied Sciences
     national_identifier: '61075'
     valid_from_year: '2014-01-01'
-    website: www.efh-bochum.de
+    website: http://www.efh-bochum.de
   model: institutions.InstitutionETERRecord
   pk: 614
 - fields:
@@ -10608,7 +10608,7 @@
     name_english: Nordrhein-Westfalen Catholic University of Applied Sciences
     national_identifier: '61078'
     valid_from_year: '2014-01-01'
-    website: www.katho-nrw.de
+    website: http://www.katho-nrw.de
   model: institutions.InstitutionETERRecord
   pk: 615
 - fields:
@@ -10625,7 +10625,7 @@
     name_english: Bingen University of Applied Sciences
     national_identifier: '61105'
     valid_from_year: '2014-01-01'
-    website: www.fh-bingen.de
+    website: http://www.fh-bingen.de
   model: institutions.InstitutionETERRecord
   pk: 616
 - fields:
@@ -10642,7 +10642,7 @@
     name_english: Kaiserslautern University of Applied Sciences
     national_identifier: '61110'
     valid_from_year: '2014-01-01'
-    website: www.fh-kl.de
+    website: http://www.fh-kl.de
   model: institutions.InstitutionETERRecord
   pk: 617
 - fields:
@@ -10659,7 +10659,7 @@
     name_english: Koblenz University of Applied Sciences
     national_identifier: '61115'
     valid_from_year: '2014-01-01'
-    website: www.fh-koblenz.de
+    website: http://www.fh-koblenz.de
   model: institutions.InstitutionETERRecord
   pk: 618
 - fields:
@@ -10676,7 +10676,7 @@
     name_english: University of Applied Sciences Ludwigshafen am Rhein
     national_identifier: '61120'
     valid_from_year: '2014-01-01'
-    website: www.fh-ludwigshafen.de
+    website: http://www.fh-ludwigshafen.de
   model: institutions.InstitutionETERRecord
   pk: 619
 - fields:
@@ -10693,7 +10693,7 @@
     name_english: Mainz University of Applied Sciences
     national_identifier: '61125'
     valid_from_year: '2014-01-01'
-    website: www.fh-mainz.de
+    website: http://www.fh-mainz.de
   model: institutions.InstitutionETERRecord
   pk: 620
 - fields:
@@ -10710,7 +10710,7 @@
     name_english: Trier University of Applied Sciences
     national_identifier: '61130'
     valid_from_year: '2014-01-01'
-    website: www.fh-trier.de
+    website: http://www.fh-trier.de
   model: institutions.InstitutionETERRecord
   pk: 621
 - fields:
@@ -10727,7 +10727,7 @@
     name_english: Worms University of Applied Sciences
     national_identifier: '61135'
     valid_from_year: '2014-01-01'
-    website: www.fh-worms.de
+    website: http://www.fh-worms.de
   model: institutions.InstitutionETERRecord
   pk: 622
 - fields:
@@ -10744,7 +10744,7 @@
     name_english: Mainz Catholic University of Applied Sciences
     national_identifier: '61145'
     valid_from_year: '2014-01-01'
-    website: www.kfh-mainz.de
+    website: http://www.kfh-mainz.de
   model: institutions.InstitutionETERRecord
   pk: 623
 - fields:
@@ -10761,7 +10761,7 @@
     name_english: "University of Applied Sciences Saarbr\xFCcken"
     national_identifier: '61205'
     valid_from_year: '2014-01-01'
-    website: www.htw-saarland.de
+    website: http://www.htw-saarland.de
   model: institutions.InstitutionETERRecord
   pk: 624
 - fields:
@@ -10780,7 +10780,7 @@
       \ Saarbr\xFCcken (Priv. FH)"
     national_identifier: '61215'
     valid_from_year: '2014-01-01'
-    website: www.dhfpg.org
+    website: http://www.dhfpg.org
   model: institutions.InstitutionETERRecord
   pk: 625
 - fields:
@@ -10797,7 +10797,7 @@
     name_english: Dresden University of Applied Sciences
     national_identifier: '61305'
     valid_from_year: '2014-01-01'
-    website: www.htw-dresden.de
+    website: http://www.htw-dresden.de
   model: institutions.InstitutionETERRecord
   pk: 626
 - fields:
@@ -10814,7 +10814,7 @@
     name_english: Leipzig University of Applied Sciences
     national_identifier: '61310'
     valid_from_year: '2014-01-01'
-    website: www.htwk-leipzig.de
+    website: http://www.htwk-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 627
 - fields:
@@ -10831,7 +10831,7 @@
     name_english: University of Applied Sciences Mittweida
     national_identifier: '61315'
     valid_from_year: '2014-01-01'
-    website: www.hs-mittweida.de
+    website: http://www.hs-mittweida.de
   model: institutions.InstitutionETERRecord
   pk: 628
 - fields:
@@ -10848,7 +10848,7 @@
     name_english: "Zittau/G\xF6rlitz University of Applied Sciences"
     national_identifier: '61320'
     valid_from_year: '2014-01-01'
-    website: www.hs-zigr.de
+    website: http://www.hs-zigr.de
   model: institutions.InstitutionETERRecord
   pk: 629
 - fields:
@@ -10865,7 +10865,7 @@
     name_english: University of Applied Sciences Zwickau
     national_identifier: '61325'
     valid_from_year: '2014-01-01'
-    website: www.fh-zwickau.de
+    website: http://www.fh-zwickau.de
   model: institutions.InstitutionETERRecord
   pk: 630
 - fields:
@@ -10883,7 +10883,7 @@
       \ FH)"
     national_identifier: '61335'
     valid_from_year: '2014-01-01'
-    website: www.hft-leipzig.de
+    website: http://www.hft-leipzig.de
   model: institutions.InstitutionETERRecord
   pk: 631
 - fields:
@@ -10900,7 +10900,7 @@
     name_english: "Evangelische Hochschule f\xFCr Soziale Arbeit, Dresden (FH)"
     national_identifier: '61355'
     valid_from_year: '2014-01-01'
-    website: www.ehs-dresden.de
+    website: http://www.ehs-dresden.de
   model: institutions.InstitutionETERRecord
   pk: 632
 - fields:
@@ -10917,7 +10917,7 @@
     name_english: Anhalt University of Applied Sciences
     national_identifier: '61405'
     valid_from_year: '2014-01-01'
-    website: www.hs-anhalt.de
+    website: http://www.hs-anhalt.de
   model: institutions.InstitutionETERRecord
   pk: 633
 - fields:
@@ -10934,7 +10934,7 @@
     name_english: Harz University of Applied Sciences
     national_identifier: '61410'
     valid_from_year: '2014-01-01'
-    website: www.hs-harz.de
+    website: http://www.hs-harz.de
   model: institutions.InstitutionETERRecord
   pk: 634
 - fields:
@@ -10951,7 +10951,7 @@
     name_english: Magdeburg-Stendal University of Applied Sciences
     national_identifier: '61415'
     valid_from_year: '2014-01-01'
-    website: www.hs-magdeburg.de
+    website: http://www.hs-magdeburg.de
   model: institutions.InstitutionETERRecord
   pk: 635
 - fields:
@@ -10968,7 +10968,7 @@
     name_english: Merseburg University of Applied Sciences
     national_identifier: '61420'
     valid_from_year: '2014-01-01'
-    website: www.hs-merseburg.de
+    website: http://www.hs-merseburg.de
   model: institutions.InstitutionETERRecord
   pk: 636
 - fields:
@@ -10985,7 +10985,7 @@
     name_english: Flensburg University of Applied Sciences
     national_identifier: '61505'
     valid_from_year: '2014-01-01'
-    website: www.fh-flensburg.de
+    website: http://www.fh-flensburg.de
   model: institutions.InstitutionETERRecord
   pk: 637
 - fields:
@@ -11002,7 +11002,7 @@
     name_english: Westcoast University of Applied Sciences
     national_identifier: '61510'
     valid_from_year: '2014-01-01'
-    website: www.fh-westkueste.de
+    website: http://www.fh-westkueste.de
   model: institutions.InstitutionETERRecord
   pk: 638
 - fields:
@@ -11019,7 +11019,7 @@
     name_english: Kiel University of Applied Sciences
     national_identifier: '61515'
     valid_from_year: '2014-01-01'
-    website: www.fh-kiel.de
+    website: http://www.fh-kiel.de
   model: institutions.InstitutionETERRecord
   pk: 639
 - fields:
@@ -11036,7 +11036,7 @@
     name_english: Luebeck University of Applied Sciences
     national_identifier: '61520'
     valid_from_year: '2014-01-01'
-    website: www.fh-luebeck.de
+    website: http://www.fh-luebeck.de
   model: institutions.InstitutionETERRecord
   pk: 640
 - fields:
@@ -11053,7 +11053,7 @@
     name_english: Private Fachhochschule Elmshorn (Nordakademie)
     national_identifier: '61525'
     valid_from_year: '2014-01-01'
-    website: www.nordakademie.de
+    website: http://www.nordakademie.de
   model: institutions.InstitutionETERRecord
   pk: 641
 - fields:
@@ -11070,7 +11070,7 @@
     name_english: University of Applied Sciences, Wedel
     national_identifier: '61535'
     valid_from_year: '2014-01-01'
-    website: www.fh-wedel.de
+    website: http://www.fh-wedel.de
   model: institutions.InstitutionETERRecord
   pk: 642
 - fields:
@@ -11087,7 +11087,7 @@
     name_english: Erfurt University of Applied Sciences
     national_identifier: '61605'
     valid_from_year: '2014-01-01'
-    website: www.fh-erfurt.de
+    website: http://www.fh-erfurt.de
   model: institutions.InstitutionETERRecord
   pk: 643
 - fields:
@@ -11104,7 +11104,7 @@
     name_english: University of Apllied Sciences Jena
     national_identifier: '61610'
     valid_from_year: '2014-01-01'
-    website: www.fh-jena.de
+    website: http://www.fh-jena.de
   model: institutions.InstitutionETERRecord
   pk: 644
 - fields:
@@ -11121,7 +11121,7 @@
     name_english: 'Nordhausen University of Applied Sciences '
     national_identifier: '61615'
     valid_from_year: '2014-01-01'
-    website: www.fh-nordhausen.de
+    website: http://www.fh-nordhausen.de
   model: institutions.InstitutionETERRecord
   pk: 645
 - fields:
@@ -11138,7 +11138,7 @@
     name_english: University of Applied Sciences Schmalkalden
     national_identifier: '61620'
     valid_from_year: '2014-01-01'
-    website: www.fh-schmalkalden.de
+    website: http://www.fh-schmalkalden.de
   model: institutions.InstitutionETERRecord
   pk: 646
 - fields:
@@ -11155,7 +11155,7 @@
     name_english: 'SRH University of Applied Sciences Gera '
     national_identifier: '61640'
     valid_from_year: '2014-01-01'
-    website: www.gesundheitshochschule.de
+    website: http://www.gesundheitshochschule.de
   model: institutions.InstitutionETERRecord
   pk: 647
 - fields:
@@ -11172,7 +11172,7 @@
     name_english: University of Public Administration Kehl
     national_identifier: '70105'
     valid_from_year: '2014-01-01'
-    website: www.hs-kehl.de
+    website: http://www.hs-kehl.de
   model: institutions.InstitutionETERRecord
   pk: 648
 - fields:
@@ -11190,7 +11190,7 @@
       Ludwigsburg
     national_identifier: '70110'
     valid_from_year: '2014-01-01'
-    website: www.hs-ludwigsburg.de
+    website: http://www.hs-ludwigsburg.de
   model: institutions.InstitutionETERRecord
   pk: 649
 - fields:
@@ -11207,7 +11207,7 @@
     name_english: Schwetzingen Technical Institute & Graduate Court Registrars' College
     national_identifier: '70115'
     valid_from_year: '2014-01-01'
-    website: www.fh-schwetzingen.de
+    website: http://www.fh-schwetzingen.de
   model: institutions.InstitutionETERRecord
   pk: 650
 - fields:
@@ -11224,7 +11224,7 @@
     name_english: "Hochschule der Polizei Baden-W\xFCrttemberg"
     national_identifier: '70120'
     valid_from_year: '2014-01-01'
-    website: www.hfpol-vs.de
+    website: http://www.hfpol-vs.de
   model: institutions.InstitutionETERRecord
   pk: 651
 - fields:
@@ -11242,7 +11242,7 @@
       \ in Bayern"
     national_identifier: '70205'
     valid_from_year: '2014-01-01'
-    website: www.beamtenfachhochschule.bayern.de
+    website: http://www.beamtenfachhochschule.bayern.de
   model: institutions.InstitutionETERRecord
   pk: 652
 - fields:
@@ -11259,7 +11259,7 @@
     name_english: FH der Polizei Brandenburg (VerwFH) in Oranienburg
     national_identifier: '70405'
     valid_from_year: '2014-01-01'
-    website: www.internetwache.brandenburg.de
+    website: http://www.internetwache.brandenburg.de
   model: institutions.InstitutionETERRecord
   pk: 653
 - fields:
@@ -11276,7 +11276,7 @@
     name_english: "Fachhochschule f\xFCr Finanzen Brandenburg in K\xF6nigs Wusterhausen"
     national_identifier: '70410'
     valid_from_year: '2014-01-01'
-    website: www.fhf-kw.brandenburg.de
+    website: http://www.fhf-kw.brandenburg.de
   model: institutions.InstitutionETERRecord
   pk: 654
 - fields:
@@ -11293,7 +11293,7 @@
     name_english: "Hochschule f\xFCr \xF6ffentliche Verwaltung Bremen"
     national_identifier: '70505'
     valid_from_year: '2014-01-01'
-    website: www.hfoev.bremen.de
+    website: http://www.hfoev.bremen.de
   model: institutions.InstitutionETERRecord
   pk: 655
 - fields:
@@ -11344,7 +11344,7 @@
     name_english: "Hessische Hochschule f\xFCr Finanzen und Rechtspflege"
     national_identifier: '70710'
     valid_from_year: '2014-01-01'
-    website: www.studienzentrum-rotenburg.de
+    website: http://www.studienzentrum-rotenburg.de
   model: institutions.InstitutionETERRecord
   pk: 658
 - fields:
@@ -11361,7 +11361,7 @@
     name_english: "Hessische Hochschule f\xFCr Polizei und Verwaltung"
     national_identifier: '70715'
     valid_from_year: '2014-01-01'
-    website: www.vfh.hessen.de
+    website: http://www.vfh.hessen.de
   model: institutions.InstitutionETERRecord
   pk: 659
 - fields:
@@ -11379,7 +11379,7 @@
       \ and Administration of Justice in G\xFCstrow"
     national_identifier: '70805'
     valid_from_year: '2014-01-01'
-    website: www.fh-guestrow.de
+    website: http://www.fh-guestrow.de
   model: institutions.InstitutionETERRecord
   pk: 660
 - fields:
@@ -11396,7 +11396,7 @@
     name_english: "Norddeutsche Hochschule f\xFCr Rechtspflege, Hildesheim"
     national_identifier: '70910'
     valid_from_year: '2014-01-01'
-    website: www.fhr-nord.niedersachsen.de
+    website: http://www.fhr-nord.niedersachsen.de
   model: institutions.InstitutionETERRecord
   pk: 661
 - fields:
@@ -11413,7 +11413,7 @@
     name_english: "Kommunale Hochschule f\xFCr Verwaltung in Niedersachsen"
     national_identifier: '70930'
     valid_from_year: '2014-01-01'
-    website: www.nsi-hannover.de
+    website: http://www.nsi-hannover.de
   model: institutions.InstitutionETERRecord
   pk: 662
 - fields:
@@ -11431,7 +11431,7 @@
       of North Rhine-Westphalia
     national_identifier: '71005'
     valid_from_year: '2014-01-01'
-    website: www.fhr.nrw.de
+    website: http://www.fhr.nrw.de
   model: institutions.InstitutionETERRecord
   pk: 663
 - fields:
@@ -11448,7 +11448,7 @@
     name_english: "Fachhochschule f\xFCr Finanzen NW, Nordkirchen"
     national_identifier: '71010'
     valid_from_year: '2014-01-01'
-    website: www.fhf-nordkirchen.de
+    website: http://www.fhf-nordkirchen.de
   model: institutions.InstitutionETERRecord
   pk: 664
 - fields:
@@ -11466,7 +11466,7 @@
       of North Rhine-Westphalia
     national_identifier: '71015'
     valid_from_year: '2014-01-01'
-    website: www.fhoev.nrw.de
+    website: http://www.fhoev.nrw.de
   model: institutions.InstitutionETERRecord
   pk: 665
 - fields:
@@ -11483,7 +11483,7 @@
     name_english: Federal University of Applied Administrative Sciences
     national_identifier: HS410
     valid_from_year: '2014-01-01'
-    website: www.fhbund.de
+    website: http://www.fhbund.de
   model: institutions.InstitutionETERRecord
   pk: 666
 - fields:
@@ -11500,7 +11500,7 @@
     name_english: "Fachhochschule f\xFCr Finanzen Edenkoben"
     national_identifier: '71105'
     valid_from_year: '2014-01-01'
-    website: www.fachhochschule-edenkoben.de
+    website: http://www.fachhochschule-edenkoben.de
   model: institutions.InstitutionETERRecord
   pk: 667
 - fields:
@@ -11534,7 +11534,7 @@
     name_english: "Fachhochschule f\xFCr \xF6ffentliche Verwaltung Mayen"
     national_identifier: '71115'
     valid_from_year: '2014-01-01'
-    website: www.fhoev-rlp.de
+    website: http://www.fhoev-rlp.de
   model: institutions.InstitutionETERRecord
   pk: 669
 - fields:
@@ -11551,7 +11551,7 @@
     name_english: "Fachhochschule f\xFCr Verwaltung Saarbr\xFCcken"
     national_identifier: '71205'
     valid_from_year: '2014-01-01'
-    website: www.saarland.de
+    website: http://www.saarland.de
   model: institutions.InstitutionETERRecord
   pk: 670
 - fields:
@@ -11568,7 +11568,7 @@
     name_english: "Fachhochschule der S\xE4chsischen Verwaltung Mei\xDFen"
     national_identifier: '71305'
     valid_from_year: '2014-01-01'
-    website: www.fhsv.sachsen.de
+    website: http://www.fhsv.sachsen.de
   model: institutions.InstitutionETERRecord
   pk: 671
 - fields:
@@ -11585,7 +11585,7 @@
     name_english: "University of Applied Police\_Sciences in Rothenburg"
     national_identifier: '71310'
     valid_from_year: '2014-01-01'
-    website: www.polizei.sachsen.de/fhpol
+    website: http://www.polizei.sachsen.de/fhpol
   model: institutions.InstitutionETERRecord
   pk: 672
 - fields:
@@ -11602,7 +11602,7 @@
     name_english: University of Applied Police Sciences Saxony-Anhalt
     national_identifier: '71405'
     valid_from_year: '2014-01-01'
-    website: www.polizei.sachsen-anhalt.de
+    website: http://www.polizei.sachsen-anhalt.de
   model: institutions.InstitutionETERRecord
   pk: 673
 - fields:
@@ -11619,7 +11619,7 @@
     name_english: "Fachhochschule f\xFCr Verwaltung und Dienstleistung Altenholz"
     national_identifier: '71505'
     valid_from_year: '2014-01-01'
-    website: www.fhvd.de
+    website: http://www.fhvd.de
   model: institutions.InstitutionETERRecord
   pk: 674
 - fields:
@@ -11636,7 +11636,7 @@
     name_english: "Th\xFCringer Fachhochschule f\xFCr \xF6ffentliche Verwaltung Gotha"
     national_identifier: '71610'
     valid_from_year: '2014-01-01'
-    website: www.vfhs-thueringen.de
+    website: http://www.vfhs-thueringen.de
   model: institutions.InstitutionETERRecord
   pk: 675
 - fields:
@@ -12135,7 +12135,7 @@
     name_english: "Medical School Berlin, H f\xFCr Gesundheit und Medizin (Priv. FH)"
     national_identifier: '60340'
     valid_from_year: '2014-01-01'
-    website: www.medicalschool-berlin.de/
+    website: http://www.medicalschool-berlin.de/
   model: institutions.InstitutionETERRecord
   pk: 704
 - fields:
@@ -15878,7 +15878,7 @@
     name_english: ''
     national_identifier: 0310154Z
     valid_from_year: '2014-01-01'
-    website: www.purpan.fr/?
+    website: http://www.purpan.fr/?
   model: institutions.InstitutionETERRecord
   pk: 924
 - fields:
@@ -16134,7 +16134,7 @@
     name_english: ''
     national_identifier: 0340132J
     valid_from_year: '2014-01-01'
-    website: www.montpellier.archi.fr/?
+    website: http://www.montpellier.archi.fr/?
   model: institutions.InstitutionETERRecord
   pk: 939
 - fields:
@@ -16952,7 +16952,7 @@
     name_english: School of architecture of Nancy
     national_identifier: 0540135D
     valid_from_year: '2014-01-01'
-    website: www.nancy.archi.fr/?
+    website: http://www.nancy.archi.fr/?
   model: institutions.InstitutionETERRecord
   pk: 987
 - fields:
@@ -17208,7 +17208,7 @@
     name_english: ''
     national_identifier: 0590344D
     valid_from_year: '2014-01-01'
-    website: www.univ-catholille.fr/?
+    website: http://www.univ-catholille.fr/?
   model: institutions.InstitutionETERRecord
   pk: 1002
 - fields:
@@ -17854,7 +17854,7 @@
     name_english: Catholic University of Lyon
     national_identifier: 0690195M
     valid_from_year: '2014-01-01'
-    website: www.univ-catholyon.fr
+    website: http://www.univ-catholyon.fr
   model: institutions.InstitutionETERRecord
   pk: 1040
 - fields:
@@ -18008,7 +18008,7 @@
     name_english: ''
     national_identifier: 0693364G
     valid_from_year: '2014-01-01'
-    website: www.itech.fr
+    website: http://www.itech.fr
   model: institutions.InstitutionETERRecord
   pk: 1049
 - fields:
@@ -18587,7 +18587,7 @@
     name_english: ''
     national_identifier: 0753493P
     valid_from_year: '2014-01-01'
-    website: www.mines-paristech.eu
+    website: http://www.mines-paristech.eu
   model: institutions.InstitutionETERRecord
   pk: 1083
 - fields:
@@ -22405,7 +22405,7 @@
     name_english: Corvinus University of Budapest
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-corvinus.hu
+    website: http://www.uni-corvinus.hu
   model: institutions.InstitutionETERRecord
   pk: 1301
 - fields:
@@ -22422,7 +22422,7 @@
     name_english: Budapest University of Technology and Economics
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.bme.hu
+    website: http://www.bme.hu
   model: institutions.InstitutionETERRecord
   pk: 1302
 - fields:
@@ -22439,7 +22439,7 @@
     name_english: University of Debrecen
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.unideb.hu
+    website: http://www.unideb.hu
   model: institutions.InstitutionETERRecord
   pk: 1303
 - fields:
@@ -22456,7 +22456,7 @@
     name_english: "E\xF6tv\xF6s Lor\xE1nd University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.elte.hu
+    website: http://www.elte.hu
   model: institutions.InstitutionETERRecord
   pk: 1304
 - fields:
@@ -22473,7 +22473,7 @@
     name_english: "Kaposv\xE1r University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ke.hu
+    website: http://www.ke.hu
   model: institutions.InstitutionETERRecord
   pk: 1305
 - fields:
@@ -22490,7 +22490,7 @@
     name_english: Liszt Ferenc Academy of Music (University)
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.lfze.hu
+    website: http://www.lfze.hu
   model: institutions.InstitutionETERRecord
   pk: 1306
 - fields:
@@ -22507,7 +22507,7 @@
     name_english: Hungarian Academy of Fine Arts
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.mke.hu
+    website: http://www.mke.hu
   model: institutions.InstitutionETERRecord
   pk: 1307
 - fields:
@@ -22524,7 +22524,7 @@
     name_english: University of Miskolc
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-miskolc.hu
+    website: http://www.uni-miskolc.hu
   model: institutions.InstitutionETERRecord
   pk: 1308
 - fields:
@@ -22541,7 +22541,7 @@
     name_english: Moholy-Nagy University of Art and Design, Budapest
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.mome.hu
+    website: http://www.mome.hu
   model: institutions.InstitutionETERRecord
   pk: 1309
 - fields:
@@ -22558,7 +22558,7 @@
     name_english: University of West Hungary
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.nyme.hu
+    website: http://www.nyme.hu
   model: institutions.InstitutionETERRecord
   pk: 1310
 - fields:
@@ -22575,7 +22575,7 @@
     name_english: Unviersity of Pannonia
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-pannon.hu
+    website: http://www.uni-pannon.hu
   model: institutions.InstitutionETERRecord
   pk: 1311
 - fields:
@@ -22592,7 +22592,7 @@
     name_english: "University of P\xE9cs"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.pte.hu
+    website: http://www.pte.hu
   model: institutions.InstitutionETERRecord
   pk: 1312
 - fields:
@@ -22609,7 +22609,7 @@
     name_english: Semmelweis University
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.semmelweis.hu
+    website: http://www.semmelweis.hu
   model: institutions.InstitutionETERRecord
   pk: 1313
 - fields:
@@ -22626,7 +22626,7 @@
     name_english: "Sz\xE9chenyi Istv\xE1n University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: uni.sze.hu
+    website: http://uni.sze.hu
   model: institutions.InstitutionETERRecord
   pk: 1314
 - fields:
@@ -22643,7 +22643,7 @@
     name_english: University of Szeged
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.u-szeged.hu
+    website: http://www.u-szeged.hu
   model: institutions.InstitutionETERRecord
   pk: 1315
 - fields:
@@ -22660,7 +22660,7 @@
     name_english: "Szent Istv\xE1n University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.szie.hu
+    website: http://www.szie.hu
   model: institutions.InstitutionETERRecord
   pk: 1316
 - fields:
@@ -22677,7 +22677,7 @@
     name_english: University of Theatre and Film Arts
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.szfe.hu
+    website: http://www.szfe.hu
   model: institutions.InstitutionETERRecord
   pk: 1317
 - fields:
@@ -22694,7 +22694,7 @@
     name_english: Debrecen Reformed Theological University
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.drhe.hu
+    website: http://www.drhe.hu
   model: institutions.InstitutionETERRecord
   pk: 1318
 - fields:
@@ -22711,7 +22711,7 @@
     name_english: "K\xE1roli G\xE1sp\xE1r University of the Reformed Church in Hungary"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.kre.hu
+    website: http://www.kre.hu
   model: institutions.InstitutionETERRecord
   pk: 1319
 - fields:
@@ -22728,7 +22728,7 @@
     name_english: Central European University (Budapest)
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ceu.hu
+    website: http://www.ceu.hu
   model: institutions.InstitutionETERRecord
   pk: 1320
 - fields:
@@ -22745,7 +22745,7 @@
     name_english: "P\xE1zm\xE1ny P\xE9ter Catholic University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ppke.hu
+    website: http://www.ppke.hu
   model: institutions.InstitutionETERRecord
   pk: 1321
 - fields:
@@ -22762,7 +22762,7 @@
     name_english: Budapest Business School
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-bge.hu
+    website: http://www.uni-bge.hu
   model: institutions.InstitutionETERRecord
   pk: 1322
 - fields:
@@ -22779,7 +22779,7 @@
     name_english: "\xD3buda University"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-obuda.hu
+    website: http://www.uni-obuda.hu
   model: institutions.InstitutionETERRecord
   pk: 1323
 - fields:
@@ -22796,7 +22796,7 @@
     name_english: "College of Duna\xFAjv\xE1ros"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uniduna.hu
+    website: http://www.uniduna.hu
   model: institutions.InstitutionETERRecord
   pk: 1324
 - fields:
@@ -22813,7 +22813,7 @@
     name_english: "E\xF6tv\xF6s J\xF3zsef College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ejf.hu
+    website: http://www.ejf.hu
   model: institutions.InstitutionETERRecord
   pk: 1325
 - fields:
@@ -22830,7 +22830,7 @@
     name_english: "Eszterh\xE1zy K\xE1roly College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-eszterhazy.hu
+    website: http://www.uni-eszterhazy.hu
   model: institutions.InstitutionETERRecord
   pk: 1326
 - fields:
@@ -22847,7 +22847,7 @@
     name_english: "K\xE1roly R\xF3bert College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-eszterhazy.hu
+    website: http://www.uni-eszterhazy.hu
   model: institutions.InstitutionETERRecord
   pk: 1327
 - fields:
@@ -22864,7 +22864,7 @@
     name_english: "Kecskem\xE9t College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-pae.hu
+    website: http://www.uni-pae.hu
   model: institutions.InstitutionETERRecord
   pk: 1328
 - fields:
@@ -22881,7 +22881,7 @@
     name_english: Hungarian Dance Academy
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.mtf.hu
+    website: http://www.mtf.hu
   model: institutions.InstitutionETERRecord
   pk: 1329
 - fields:
@@ -22898,7 +22898,7 @@
     name_english: "College of Ny\xEDregyh\xE1za"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.nye.hu
+    website: http://www.nye.hu
   model: institutions.InstitutionETERRecord
   pk: 1330
 - fields:
@@ -22915,7 +22915,7 @@
     name_english: College of Szolnok
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uni-pae.hu
+    website: http://www.uni-pae.hu
   model: institutions.InstitutionETERRecord
   pk: 1331
 - fields:
@@ -22932,7 +22932,7 @@
     name_english: '"The Gate of the Teaching" Buddhist College'
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.tkbf.hu
+    website: http://www.tkbf.hu
   model: institutions.InstitutionETERRecord
   pk: 1332
 - fields:
@@ -22949,7 +22949,7 @@
     name_english: Budapest College of Management
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ibs-b.hu
+    website: http://www.ibs-b.hu
   model: institutions.InstitutionETERRecord
   pk: 1333
 - fields:
@@ -22966,7 +22966,7 @@
     name_english: Apor Vilmos Catholic College
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.avkf.hu
+    website: http://www.avkf.hu
   model: institutions.InstitutionETERRecord
   pk: 1334
 - fields:
@@ -22983,7 +22983,7 @@
     name_english: Baptist Theological Seminary
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.bta.hu
+    website: http://www.bta.hu
   model: institutions.InstitutionETERRecord
   pk: 1335
 - fields:
@@ -23000,7 +23000,7 @@
     name_english: Budapest College of Communication and Business
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.metropolitan.hu
+    website: http://www.metropolitan.hu
   model: institutions.InstitutionETERRecord
   pk: 1336
 - fields:
@@ -23017,7 +23017,7 @@
     name_english: Dennis Gabor College
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.gdf.hu
+    website: http://www.gdf.hu
   model: institutions.InstitutionETERRecord
   pk: 1337
 - fields:
@@ -23034,7 +23034,7 @@
     name_english: "G\xE1l Ferenc College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.gff-szeged.hu
+    website: http://www.gff-szeged.hu
   model: institutions.InstitutionETERRecord
   pk: 1338
 - fields:
@@ -23051,7 +23051,7 @@
     name_english: International Business School
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ibs-b.hu
+    website: http://www.ibs-b.hu
   model: institutions.InstitutionETERRecord
   pk: 1339
 - fields:
@@ -23068,7 +23068,7 @@
     name_english: "Kodol\xE1nyi J\xE1nos College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.kodolanyi.hu
+    website: http://www.kodolanyi.hu
   model: institutions.InstitutionETERRecord
   pk: 1340
 - fields:
@@ -23087,7 +23087,7 @@
       \ for the Motor Disabled and Conductor-Teacher Training College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.peto.hu
+    website: http://www.peto.hu
   model: institutions.InstitutionETERRecord
   pk: 1341
 - fields:
@@ -23104,7 +23104,7 @@
     name_english: Sapientia College of Theology of Religious Orders
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.sapientia.hu
+    website: http://www.sapientia.hu
   model: institutions.InstitutionETERRecord
   pk: 1342
 - fields:
@@ -23121,7 +23121,7 @@
     name_english: "S\xE1rospatak Theological Academy of the Reformed Church"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.srta.hu
+    website: http://www.srta.hu
   model: institutions.InstitutionETERRecord
   pk: 1343
 - fields:
@@ -23139,7 +23139,7 @@
     name_english: Sola Scriptura College of Theology
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.sola.hu
+    website: http://www.sola.hu
   model: institutions.InstitutionETERRecord
   pk: 1344
 - fields:
@@ -23156,7 +23156,7 @@
     name_english: Saint Paul Academy
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.szpa.hu
+    website: http://www.szpa.hu
   model: institutions.InstitutionETERRecord
   pk: 1345
 - fields:
@@ -23173,7 +23173,7 @@
     name_english: "Tomori P\xE1l College"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.tpfk.hu
+    website: http://www.tpfk.hu
   model: institutions.InstitutionETERRecord
   pk: 1346
 - fields:
@@ -23190,7 +23190,7 @@
     name_english: "Theological College of Veszpr\xE9m"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vhf.hu
+    website: http://www.vhf.hu
   model: institutions.InstitutionETERRecord
   pk: 1347
 - fields:
@@ -23207,7 +23207,7 @@
     name_english: "Wekerle S\xE1ndor Business School"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.wsuf.hu
+    website: http://www.wsuf.hu
   model: institutions.InstitutionETERRecord
   pk: 1348
 - fields:
@@ -23224,7 +23224,7 @@
     name_english: John Wesley Theological College
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.wesley.hu
+    website: http://www.wesley.hu
   model: institutions.InstitutionETERRecord
   pk: 1349
 - fields:
@@ -23241,7 +23241,7 @@
     name_english: King Sigismund Business School
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.zskf.hu
+    website: http://www.zskf.hu
   model: institutions.InstitutionETERRecord
   pk: 1350
 - fields:
@@ -23258,7 +23258,7 @@
     name_english: National University of Public Service
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: uni-nke.hu
+    website: http://uni-nke.hu
   model: institutions.InstitutionETERRecord
   pk: 1351
 - fields:
@@ -23275,7 +23275,7 @@
     name_english: Edutus College
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.edutus.hu
+    website: http://www.edutus.hu
   model: institutions.InstitutionETERRecord
   pk: 1352
 - fields:
@@ -29086,7 +29086,7 @@
     name_english: University of Montenegro
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ucg.ac.me
+    website: http://www.ucg.ac.me
   model: institutions.InstitutionETERRecord
   pk: 1692
 - fields:
@@ -29103,7 +29103,7 @@
     name_english: University of Donja Gorica
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.udgedu.me
+    website: http://www.udgedu.me
   model: institutions.InstitutionETERRecord
   pk: 1693
 - fields:
@@ -29120,7 +29120,7 @@
     name_english: University Mediterranean
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.unimediteran.net
+    website: http://www.unimediteran.net
   model: institutions.InstitutionETERRecord
   pk: 1694
 - fields:
@@ -29137,7 +29137,7 @@
     name_english: Faculty of Public and European Studies
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.fdes.me
+    website: http://www.fdes.me
   model: institutions.InstitutionETERRecord
   pk: 1695
 - fields:
@@ -29154,7 +29154,7 @@
     name_english: Faculty of Business Management in Bar
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.fpm.me
+    website: http://www.fpm.me
   model: institutions.InstitutionETERRecord
   pk: 1696
 - fields:
@@ -29171,7 +29171,7 @@
     name_english: Faculty of Mediterranean Business Studies
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.fms-tivat.me
+    website: http://www.fms-tivat.me
   model: institutions.InstitutionETERRecord
   pk: 1697
 - fields:
@@ -29188,7 +29188,7 @@
     name_english: Faculty of Management, Herceg Novi
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.fm-hn.com
+    website: http://www.fm-hn.com
   model: institutions.InstitutionETERRecord
   pk: 1698
 - fields:
@@ -29222,7 +29222,7 @@
     name_english: Faculty of Business Economy
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.fpebar.me
+    website: http://www.fpebar.me
   model: institutions.InstitutionETERRecord
   pk: 1700
 - fields:
@@ -38761,7 +38761,7 @@
     name_english: '"Dragan" European University of Lugoj'
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.universitateaeuropeanadragan.ro
+    website: http://www.universitateaeuropeanadragan.ro
   model: institutions.InstitutionETERRecord
   pk: 2255
 - fields:
@@ -39205,7 +39205,7 @@
     name_english: University of Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.bg.ac.rs
+    website: http://www.bg.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2281
 - fields:
@@ -39224,7 +39224,7 @@
     name_english: University of Defence Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uo.mod.gov.rs
+    website: http://www.uo.mod.gov.rs
   model: institutions.InstitutionETERRecord
   pk: 2282
 - fields:
@@ -39242,7 +39242,7 @@
     name_english: University of Novi Sad
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uns.ac.rs
+    website: http://www.uns.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2283
 - fields:
@@ -39260,7 +39260,7 @@
     name_english: "University of Ni\u0161"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ni.ac.rs
+    website: http://www.ni.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2284
 - fields:
@@ -39278,7 +39278,7 @@
     name_english: University of Kragujevac
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.kg.ac.rs
+    website: http://www.kg.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2285
 - fields:
@@ -39297,7 +39297,7 @@
     name_english: University of Pristina, Kosovska Mitrovica
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.pr.ac.rs
+    website: http://www.pr.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2286
 - fields:
@@ -39316,7 +39316,7 @@
     name_english: University of Arts Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.arts.bg.ac.rs
+    website: http://www.arts.bg.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2287
 - fields:
@@ -39335,7 +39335,7 @@
     name_english: State University of Novi Pazar
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.np.ac.rs
+    website: http://www.np.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2288
 - fields:
@@ -39354,7 +39354,7 @@
     name_english: European University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.eu.ac.rs
+    website: http://www.eu.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2289
 - fields:
@@ -39372,7 +39372,7 @@
     name_english: Educons University Sremska Kamenica
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.educons.edu.rs
+    website: http://www.educons.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2290
 - fields:
@@ -39391,7 +39391,7 @@
     name_english: Megatrend University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.megatrend.edu.rs
+    website: http://www.megatrend.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2291
 - fields:
@@ -39410,7 +39410,7 @@
     name_english: Metropolitan University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.metropolitan.edu.rs
+    website: http://www.metropolitan.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2292
 - fields:
@@ -39429,7 +39429,7 @@
     name_english: Singidunum University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.singidunum.ac.rs
+    website: http://www.singidunum.ac.rs
   model: institutions.InstitutionETERRecord
   pk: 2293
 - fields:
@@ -39447,7 +39447,7 @@
     name_english: Union University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.union.edu.rs
+    website: http://www.union.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2294
 - fields:
@@ -39466,7 +39466,7 @@
     name_english: Nikola Tesla - Union University Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.unionnikolatesla.edu.rs
+    website: http://www.unionnikolatesla.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2295
 - fields:
@@ -39484,7 +39484,7 @@
     name_english: Economics Academy Novi Sad
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.privrednaakademija.edu.rs
+    website: http://www.privrednaakademija.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2296
 - fields:
@@ -39502,7 +39502,7 @@
     name_english: University Alfa Belgrade
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.alfa.edu.rs
+    website: http://www.alfa.edu.rs
   model: institutions.InstitutionETERRecord
   pk: 2297
 - fields:
@@ -40968,7 +40968,7 @@
     name_english: Comenius University in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uniba.sk
+    website: http://www.uniba.sk
   model: institutions.InstitutionETERRecord
   pk: 2383
 - fields:
@@ -40985,7 +40985,7 @@
     name_english: "Pavol Jozef \u0160af\xE1rik University in Ko\u0161ice"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.upjs.sk
+    website: http://www.upjs.sk
   model: institutions.InstitutionETERRecord
   pk: 2384
 - fields:
@@ -41002,7 +41002,7 @@
     name_english: "University of Pre\u0161ov in Pre\u0161ov"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.unipo.sk
+    website: http://www.unipo.sk
   model: institutions.InstitutionETERRecord
   pk: 2385
 - fields:
@@ -41019,7 +41019,7 @@
     name_english: University of St. Cyril and Methodius in Trnava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ucm.sk
+    website: http://www.ucm.sk
   model: institutions.InstitutionETERRecord
   pk: 2386
 - fields:
@@ -41036,7 +41036,7 @@
     name_english: "Catholic University in Ru\u017Eomberok"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ku.sk
+    website: http://www.ku.sk
   model: institutions.InstitutionETERRecord
   pk: 2387
 - fields:
@@ -41053,7 +41053,7 @@
     name_english: "Selye J\xE1nos University in Kom\xE1rno"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.selyeuni.sk
+    website: http://www.selyeuni.sk
   model: institutions.InstitutionETERRecord
   pk: 2388
 - fields:
@@ -41070,7 +41070,7 @@
     name_english: College Danubius
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsdanubius.sk
+    website: http://www.vsdanubius.sk
   model: institutions.InstitutionETERRecord
   pk: 2389
 - fields:
@@ -41087,7 +41087,7 @@
     name_english: Pan-European University
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.paneurouni.com
+    website: http://www.paneurouni.com
   model: institutions.InstitutionETERRecord
   pk: 2390
 - fields:
@@ -41104,7 +41104,7 @@
     name_english: Slovak Medical University in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.szu.sk
+    website: http://www.szu.sk
   model: institutions.InstitutionETERRecord
   pk: 2391
 - fields:
@@ -41123,7 +41123,7 @@
       o.
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vssvalzbety.sk
+    website: http://www.vssvalzbety.sk
   model: institutions.InstitutionETERRecord
   pk: 2392
 - fields:
@@ -41140,7 +41140,7 @@
     name_english: "University of Veterinary Medicine in Ko\u0161ice"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uvlf.sk
+    website: http://www.uvlf.sk
   model: institutions.InstitutionETERRecord
   pk: 2393
 - fields:
@@ -41157,7 +41157,7 @@
     name_english: University of Constantinus the Philosopher in Nitra
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ukf.sk
+    website: http://www.ukf.sk
   model: institutions.InstitutionETERRecord
   pk: 2394
 - fields:
@@ -41174,7 +41174,7 @@
     name_english: "Matej Bel University in Bansk\xE1 Bystrica"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.umb.sk
+    website: http://www.umb.sk
   model: institutions.InstitutionETERRecord
   pk: 2395
 - fields:
@@ -41191,7 +41191,7 @@
     name_english: University of Trnava in Trnava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.truni.sk
+    website: http://www.truni.sk
   model: institutions.InstitutionETERRecord
   pk: 2396
 - fields:
@@ -41208,7 +41208,7 @@
     name_english: Slovak University of Technology in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.stuba.sk
+    website: http://www.stuba.sk
   model: institutions.InstitutionETERRecord
   pk: 2397
 - fields:
@@ -41225,7 +41225,7 @@
     name_english: "Technical University of Ko\u0161ice"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.tuke.sk
+    website: http://www.tuke.sk
   model: institutions.InstitutionETERRecord
   pk: 2398
 - fields:
@@ -41242,7 +41242,7 @@
     name_english: "Dubnica Technology Institute in Dubnica nad V\xE1hom"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.dti.sk
+    website: http://www.dti.sk
   model: institutions.InstitutionETERRecord
   pk: 2399
 - fields:
@@ -41259,7 +41259,7 @@
     name_english: "University of \u017Dilina in \u017Dilina"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uniza.sk
+    website: http://www.uniza.sk
   model: institutions.InstitutionETERRecord
   pk: 2400
 - fields:
@@ -41277,7 +41277,7 @@
       \xEDn"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.tnuni.sk
+    website: http://www.tnuni.sk
   model: institutions.InstitutionETERRecord
   pk: 2401
 - fields:
@@ -41294,7 +41294,7 @@
     name_english: University of Economics in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.euba.sk
+    website: http://www.euba.sk
   model: institutions.InstitutionETERRecord
   pk: 2402
 - fields:
@@ -41312,7 +41312,7 @@
     name_english: College of Public Administration Economics and Management in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsemvs.sk
+    website: http://www.vsemvs.sk
   model: institutions.InstitutionETERRecord
   pk: 2403
 - fields:
@@ -41329,7 +41329,7 @@
     name_english: "College of Management in Tren\u010D\xEDn"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsm.sk
+    website: http://www.vsm.sk
   model: institutions.InstitutionETERRecord
   pk: 2404
 - fields:
@@ -41346,7 +41346,7 @@
     name_english: Central European College in Skalica
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.sevs.sk
+    website: http://www.sevs.sk
   model: institutions.InstitutionETERRecord
   pk: 2405
 - fields:
@@ -41364,7 +41364,7 @@
     name_english: "International Business College ISM Slovakia in Pre\u0161ov"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.ismpo.sk
+    website: http://www.ismpo.sk
   model: institutions.InstitutionETERRecord
   pk: 2406
 - fields:
@@ -41381,7 +41381,7 @@
     name_english: Slovak University of Agriculture in Nitra
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.uniag.sk
+    website: http://www.uniag.sk
   model: institutions.InstitutionETERRecord
   pk: 2407
 - fields:
@@ -41398,7 +41398,7 @@
     name_english: University of Technology in Zvolen
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.tuzvo.sk
+    website: http://www.tuzvo.sk
   model: institutions.InstitutionETERRecord
   pk: 2408
 - fields:
@@ -41415,7 +41415,7 @@
     name_english: Academy of Performing Arts in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsmu.sk
+    website: http://www.vsmu.sk
   model: institutions.InstitutionETERRecord
   pk: 2409
 - fields:
@@ -41432,7 +41432,7 @@
     name_english: Academy of Fine Arts and Design in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsvu.sk
+    website: http://www.vsvu.sk
   model: institutions.InstitutionETERRecord
   pk: 2410
 - fields:
@@ -41449,7 +41449,7 @@
     name_english: "Academy of Arts in Bansk\xE1 Bystrica"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.aku.sk
+    website: http://www.aku.sk
   model: institutions.InstitutionETERRecord
   pk: 2411
 - fields:
@@ -41468,7 +41468,7 @@
       \ Liptovsk\xFD Mikul\xE1\u0161"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.aos.sk
+    website: http://www.aos.sk
   model: institutions.InstitutionETERRecord
   pk: 2412
 - fields:
@@ -41485,7 +41485,7 @@
     name_english: Police Academy in Bratislava
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.akademiapz.sk
+    website: http://www.akademiapz.sk
   model: institutions.InstitutionETERRecord
   pk: 2413
 - fields:
@@ -41503,7 +41503,7 @@
     name_english: "Security Management College in Ko\u0161ice"
     national_identifier: a
     valid_from_year: '2014-01-01'
-    website: www.vsbm.sk
+    website: http://www.vsbm.sk
   model: institutions.InstitutionETERRecord
   pk: 2414
 - fields:
@@ -44725,7 +44725,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Chelmsford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0001
     lat: 0
@@ -44742,7 +44742,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Birmingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0002
     lat: 0
@@ -44759,7 +44759,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bath
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0003
     lat: 0
@@ -44776,7 +44776,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bath
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0004
     lat: 0
@@ -44793,7 +44793,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Luton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0005
     lat: 0
@@ -44810,7 +44810,7 @@
     ISCED_lowest: ISCED 5
     acronym: BBK
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0006
     lat: 0
@@ -44827,7 +44827,7 @@
     ISCED_lowest: ISCED 5
     acronym: BCU
     city: Birmingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0007
     lat: 0
@@ -44844,7 +44844,7 @@
     ISCED_lowest: ISCED 5
     acronym: BHAM
     city: Birmingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0008
     lat: 0
@@ -44861,7 +44861,7 @@
     ISCED_lowest: ISCED 5
     acronym: UCB
     city: Birmingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0009
     lat: 0
@@ -44878,7 +44878,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Lincoln
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0010
     lat: 0
@@ -44895,7 +44895,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bolton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0011
     lat: 0
@@ -44912,7 +44912,7 @@
     ISCED_lowest: ISCED 5
     acronym: AUB
     city: Poole
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0012
     lat: 0
@@ -44929,7 +44929,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Poole
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0013
     lat: 0
@@ -44946,7 +44946,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bradford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0014
     lat: 0
@@ -44963,7 +44963,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Brighton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0015
     lat: 0
@@ -44980,7 +44980,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bristol
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0016
     lat: 0
@@ -44997,7 +44997,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Uxbridge
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0017
     lat: 0
@@ -45014,7 +45014,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: High Wycombe
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0018
     lat: 0
@@ -45031,7 +45031,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Buckingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0019
     lat: 0
@@ -45048,7 +45048,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Cambridge
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0020
     lat: 0
@@ -45065,7 +45065,7 @@
     ISCED_lowest: ISCED 7
     acronym: ICR
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0021
     lat: 0
@@ -45082,7 +45082,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Canterbury
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0022
     lat: 0
@@ -45099,7 +45099,7 @@
     ISCED_lowest: ISCED 5
     acronym: UCLAN
     city: Preston
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0023
     lat: 0
@@ -45116,7 +45116,7 @@
     ISCED_lowest: ISCED 5
     acronym: CSSD
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0024
     lat: 0
@@ -45133,7 +45133,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Chester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0025
     lat: 0
@@ -45150,7 +45150,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Chichester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0026
     lat: 0
@@ -45167,7 +45167,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0027
     lat: 0
@@ -45184,7 +45184,7 @@
     ISCED_lowest: ISCED 6
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0029
     lat: 0
@@ -45201,7 +45201,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Coventry
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0030
     lat: 0
@@ -45218,7 +45218,7 @@
     ISCED_lowest: ISCED 7
     acronym: m
     city: Cranfield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0031
     lat: 0
@@ -45235,7 +45235,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Farnham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0032
     lat: 0
@@ -45252,7 +45252,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Carlisle
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0033
     lat: 0
@@ -45269,7 +45269,7 @@
     ISCED_lowest: ISCED 5
     acronym: DMU
     city: Leicester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0035
     lat: 0
@@ -45286,7 +45286,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Derby
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0036
     lat: 0
@@ -45303,7 +45303,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Durham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0037
     lat: 0
@@ -45320,7 +45320,7 @@
     ISCED_lowest: ISCED 5
     acronym: UEA
     city: Norwich
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0038
     lat: 0
@@ -45337,7 +45337,7 @@
     ISCED_lowest: ISCED 5
     acronym: UEL
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0039
     lat: 0
@@ -45354,7 +45354,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Ormskirk
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0040
     lat: 0
@@ -45371,7 +45371,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Colchester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0041
     lat: 0
@@ -45388,7 +45388,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Exeter
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0042
     lat: 0
@@ -45405,7 +45405,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Falmouth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0043
     lat: 0
@@ -45422,7 +45422,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Cheltenham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0044
     lat: 0
@@ -45439,7 +45439,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0045
     lat: 0
@@ -45456,7 +45456,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Greenwich
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0046
     lat: 0
@@ -45473,7 +45473,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Newport
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0048
     lat: 0
@@ -45490,7 +45490,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Hatfield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0049
     lat: 0
@@ -45507,7 +45507,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0050
     lat: 0
@@ -45524,7 +45524,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Huddersfield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0051
     lat: 0
@@ -45541,7 +45541,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Hull
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0052
     lat: 0
@@ -45558,7 +45558,7 @@
     ISCED_lowest: ISCED 6
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0053
     lat: 0
@@ -45575,7 +45575,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Keele
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0055
     lat: 0
@@ -45592,7 +45592,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Canterbury
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0056
     lat: 0
@@ -45609,7 +45609,7 @@
     ISCED_lowest: ISCED 5
     acronym: KCL
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0057
     lat: 0
@@ -45626,7 +45626,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Kingston upon Thames
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0058
     lat: 0
@@ -45643,7 +45643,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bailrigg
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0059
     lat: 0
@@ -45660,7 +45660,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Leeds
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0061
     lat: 0
@@ -45677,7 +45677,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Leeds
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0062
     lat: 0
@@ -45694,7 +45694,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Leeds
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0063
     lat: 0
@@ -45711,7 +45711,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Leicester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0064
     lat: 0
@@ -45728,7 +45728,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Lincoln
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0065
     lat: 0
@@ -45745,7 +45745,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Liverpool
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0066
     lat: 0
@@ -45762,7 +45762,7 @@
     ISCED_lowest: ISCED 5
     acronym: LJMU
     city: Liverpool
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0067
     lat: 0
@@ -45779,7 +45779,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Liverpool
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0069
     lat: 0
@@ -45796,7 +45796,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0070
     lat: 0
@@ -45813,7 +45813,7 @@
     ISCED_lowest: ISCED 7
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0071
     lat: 0
@@ -45830,7 +45830,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0073
     lat: 0
@@ -45847,7 +45847,7 @@
     ISCED_lowest: ISCED 5
     acronym: LSBU
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0074
     lat: 0
@@ -45864,7 +45864,7 @@
     ISCED_lowest: ISCED 6
     acronym: LSE
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0075
     lat: 0
@@ -45881,7 +45881,7 @@
     ISCED_lowest: ISCED 7
     acronym: LSHTM
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0076
     lat: 0
@@ -45898,7 +45898,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Loughborough
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0077
     lat: 0
@@ -45915,7 +45915,7 @@
     ISCED_lowest: ISCED 5
     acronym: MMU
     city: Manchester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0078
     lat: 0
@@ -45932,7 +45932,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Manchester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0079
     lat: 0
@@ -45949,7 +45949,7 @@
     ISCED_lowest: ISCED 5
     acronym: MDX
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0080
     lat: 0
@@ -45966,7 +45966,7 @@
     ISCED_lowest: ISCED 5
     acronym: NCL
     city: Newcastle
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0081
     lat: 0
@@ -45983,7 +45983,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Birmingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0082
     lat: 0
@@ -46000,7 +46000,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Northampton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0083
     lat: 0
@@ -46017,7 +46017,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Newcastle
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0084
     lat: 0
@@ -46034,7 +46034,7 @@
     ISCED_lowest: ISCED 5
     acronym: NUA
     city: Norwich
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0085
     lat: 0
@@ -46051,7 +46051,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Nottingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0086
     lat: 0
@@ -46068,7 +46068,7 @@
     ISCED_lowest: ISCED 5
     acronym: NTU
     city: Nottingham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0087
     lat: 0
@@ -46085,7 +46085,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Milton Keynes
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0088
     lat: 0
@@ -46102,7 +46102,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Oxford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0089
     lat: 0
@@ -46119,7 +46119,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Oxford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0090
     lat: 0
@@ -46136,7 +46136,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Plymouth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0091
     lat: 0
@@ -46153,7 +46153,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Plymouth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0092
     lat: 0
@@ -46170,7 +46170,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Portsmouth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0093
     lat: 0
@@ -46187,7 +46187,7 @@
     ISCED_lowest: ISCED 5
     acronym: QMUL
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0094
     lat: 0
@@ -46204,7 +46204,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Reading
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0096
     lat: 0
@@ -46221,7 +46221,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0097
     lat: 0
@@ -46238,7 +46238,7 @@
     ISCED_lowest: ISCED 5
     acronym: RAM
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0099
     lat: 0
@@ -46255,7 +46255,7 @@
     ISCED_lowest: ISCED 5
     acronym: RAU
     city: Cirencester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0100
     lat: 0
@@ -46272,7 +46272,7 @@
     ISCED_lowest: ISCED 7
     acronym: RCA
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0101
     lat: 0
@@ -46289,7 +46289,7 @@
     ISCED_lowest: ISCED 5
     acronym: RCM
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0102
     lat: 0
@@ -46306,7 +46306,7 @@
     ISCED_lowest: ISCED 5
     acronym: RHUL
     city: Egham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0103
     lat: 0
@@ -46323,7 +46323,7 @@
     ISCED_lowest: ISCED 5
     acronym: RNCM
     city: Manchester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0104
     lat: 0
@@ -46340,7 +46340,7 @@
     ISCED_lowest: ISCED 5
     acronym: RVC
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0105
     lat: 0
@@ -46357,7 +46357,7 @@
     ISCED_lowest: ISCED 5
     acronym: SGUL
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0106
     lat: 0
@@ -46374,7 +46374,7 @@
     ISCED_lowest: ISCED 5
     acronym: SMUC
     city: Twickenham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0107
     lat: 0
@@ -46391,7 +46391,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Salford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0108
     lat: 0
@@ -46408,7 +46408,7 @@
     ISCED_lowest: ISCED 5
     acronym: SOAS
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0109
     lat: 0
@@ -46425,7 +46425,7 @@
     ISCED_lowest: ISCED 5
     acronym: SHU
     city: Sheffield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0111
     lat: 0
@@ -46442,7 +46442,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Sheffield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0112
     lat: 0
@@ -46459,7 +46459,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Southampton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0113
     lat: 0
@@ -46476,7 +46476,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Southampton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0114
     lat: 0
@@ -46493,7 +46493,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Stoke-on-Trent
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0115
     lat: 0
@@ -46510,7 +46510,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Sunderland
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0117
     lat: 0
@@ -46527,7 +46527,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Guildford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0118
     lat: 0
@@ -46544,7 +46544,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Brighton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0119
     lat: 0
@@ -46561,7 +46561,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Middlesbrough
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0120
     lat: 0
@@ -46578,7 +46578,7 @@
     ISCED_lowest: ISCED 5
     acronym: UWL
     city: Ealing
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0121
     lat: 0
@@ -46595,7 +46595,7 @@
     ISCED_lowest: ISCED 5
     acronym: UCL
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0123
     lat: 0
@@ -46612,7 +46612,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Coventry
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0124
     lat: 0
@@ -46629,7 +46629,7 @@
     ISCED_lowest: ISCED 5
     acronym: UWE
     city: Bristol
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0125
     lat: 0
@@ -46646,7 +46646,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0126
     lat: 0
@@ -46663,7 +46663,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Winchester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0127
     lat: 0
@@ -46680,7 +46680,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Wolverhampton
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0128
     lat: 0
@@ -46697,7 +46697,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Worcester
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0129
     lat: 0
@@ -46714,7 +46714,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: York
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0131
     lat: 0
@@ -46731,7 +46731,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: York
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0132
     lat: 0
@@ -46748,7 +46748,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Aberystwyth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0133
     lat: 0
@@ -46765,7 +46765,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Bangor
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0134
     lat: 0
@@ -46782,7 +46782,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Cardiff
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0135
     lat: 0
@@ -46799,7 +46799,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Cardiff
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0136
     lat: 0
@@ -46816,7 +46816,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Wrexham
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0138
     lat: 0
@@ -46833,7 +46833,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Swansea
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0142
     lat: 0
@@ -46850,7 +46850,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Aberdeen
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0144
     lat: 0
@@ -46867,7 +46867,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Dundee
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0145
     lat: 0
@@ -46884,7 +46884,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Dundee
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0146
     lat: 0
@@ -46901,7 +46901,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Edinburgh
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0148
     lat: 0
@@ -46918,7 +46918,7 @@
     ISCED_lowest: ISCED 5
     acronym: GCAL
     city: Glasgow
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0149
     lat: 0
@@ -46935,7 +46935,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Glasgow
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0151
     lat: 0
@@ -46952,7 +46952,7 @@
     ISCED_lowest: ISCED 5
     acronym: HW
     city: Edinburgh
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0152
     lat: 0
@@ -46969,7 +46969,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Edinburgh
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0153
     lat: 0
@@ -46986,7 +46986,7 @@
     ISCED_lowest: ISCED 5
     acronym: QMU
     city: Edinburgh
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0154
     lat: 0
@@ -47003,7 +47003,7 @@
     ISCED_lowest: ISCED 5
     acronym: RGU
     city: Aberdeen
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0155
     lat: 0
@@ -47020,7 +47020,7 @@
     ISCED_lowest: ISCED 5
     acronym: RCS
     city: Glasgow
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0156
     lat: 0
@@ -47037,7 +47037,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: St Andrews
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0157
     lat: 0
@@ -47054,7 +47054,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Stirling
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0159
     lat: 0
@@ -47071,7 +47071,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Glasgow
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0160
     lat: 0
@@ -47088,7 +47088,7 @@
     ISCED_lowest: ISCED 5
     acronym: UHI
     city: Argyll
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0161
     lat: 0
@@ -47105,7 +47105,7 @@
     ISCED_lowest: ISCED 5
     acronym: UWS
     city: Paisley
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0162
     lat: 0
@@ -47122,7 +47122,7 @@
     ISCED_lowest: ISCED 5
     acronym: QUB
     city: Belfast
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0163
     lat: 0
@@ -47139,7 +47139,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Coleraine
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0166
     lat: 0
@@ -47156,7 +47156,7 @@
     ISCED_lowest: ISCED 5
     acronym: GSMD
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0167
     lat: 0
@@ -47173,7 +47173,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Leeds
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0168
     lat: 0
@@ -47190,7 +47190,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0169
     lat: 0
@@ -47207,7 +47207,7 @@
     ISCED_lowest: ISCED 5
     acronym: UWTSD
     city: Carmarthen
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0170
     lat: 0
@@ -47224,7 +47224,7 @@
     ISCED_lowest: ISCED 7
     acronym: LSTM
     city: Liverpool
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0171
     lat: 0
@@ -47241,7 +47241,7 @@
     ISCED_lowest: ISCED 5
     acronym: m
     city: Pontypridd
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0172
     lat: 0
@@ -47258,7 +47258,7 @@
     ISCED_lowest: ''
     acronym: CDD
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0173
     lat: 0
@@ -47275,7 +47275,7 @@
     ISCED_lowest: ''
     acronym: LIPA
     city: Liverpool
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0174
     lat: 0
@@ -47292,7 +47292,7 @@
     ISCED_lowest: ''
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0175
     lat: 0
@@ -47301,7 +47301,7 @@
     name_english: Ravensbourne College of Design and Communication
     national_identifier: '0030'
     valid_from_year: '2014-01-01'
-    website: www.ravensbourne.ac.uk
+    website: http://www.ravensbourne.ac.uk
   model: institutions.InstitutionETERRecord
   pk: 2755
 - fields:
@@ -47309,7 +47309,7 @@
     ISCED_lowest: ''
     acronym: m
     city: London
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0176
     lat: 0
@@ -47326,7 +47326,7 @@
     ISCED_lowest: ''
     acronym: UCS
     city: 'Ipswich '
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0177
     lat: 0
@@ -47343,7 +47343,7 @@
     ISCED_lowest: ''
     acronym: m
     city: Chelmsford
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0178
     lat: 0
@@ -47352,7 +47352,7 @@
     name_english: Writtle University College
     national_identifier: 0189
     valid_from_year: '2014-01-01'
-    website: writtle.ac.uk
+    website: http://writtle.ac.uk
   model: institutions.InstitutionETERRecord
   pk: 2758
 - fields:
@@ -47360,7 +47360,7 @@
     ISCED_lowest: ''
     acronym: GSA
     city: Glasgow
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0179
     lat: 0
@@ -47369,7 +47369,7 @@
     name_english: Glasgow School of Art
     national_identifier: 0097
     valid_from_year: '2014-01-01'
-    website: www.gsa.ac.uk
+    website: http://www.gsa.ac.uk
   model: institutions.InstitutionETERRecord
   pk: 2759
 - fields:
@@ -47377,7 +47377,7 @@
     ISCED_lowest: ''
     acronym: SRUC
     city: Edinburgh
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0180
     lat: 0
@@ -47394,7 +47394,7 @@
     ISCED_lowest: ''
     acronym: m
     city: Belfast
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0181
     lat: 0
@@ -47411,7 +47411,7 @@
     ISCED_lowest: ''
     acronym: m
     city: Belfast
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0182
     lat: 0
@@ -47420,7 +47420,7 @@
     name_english: Stranmillis University College
     national_identifier: 0193
     valid_from_year: '2014-01-01'
-    website: www.stran.ac.uk
+    website: http://www.stran.ac.uk
   model: institutions.InstitutionETERRecord
   pk: 2762
 - fields:
@@ -47428,7 +47428,7 @@
     ISCED_lowest: ''
     acronym: NFTS
     city: Beaconsfield
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0183
     lat: 0
@@ -47445,7 +47445,7 @@
     ISCED_lowest: ''
     acronym: m
     city: Plymouth
-    country: UK
+    country: GB
     data_updated: '2018-02-20'
     eter_id: UK0184
     lat: 0
@@ -47454,6 +47454,6 @@
     name_english: Plymouth College of Art
     national_identifier: '0230'
     valid_from_year: '2014-01-01'
-    website: www.plymouthart.ac.uk
+    website: http://www.plymouthart.ac.uk
   model: institutions.InstitutionETERRecord
   pk: 2764
