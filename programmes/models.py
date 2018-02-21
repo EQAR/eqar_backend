@@ -13,13 +13,19 @@ class Programme(models.Model):
                                           ('level 7', 'level 7'),
                                           ('level 8', 'level 8')])
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.SET_NULL, blank=True, null=True)
-    countries = models.ManyToManyField('countries.Country')
+    countries = models.ManyToManyField('countries.Country', blank=True)
 
     class Meta:
         db_table = 'deqar_programmes'
         indexes = [
             models.Index(fields=['name_primary']),
         ]
+
+    def set_primary_name(self):
+        prg_name_primary = self.programmename_set.filter(name_is_primary=True).first()
+        if prg_name_primary is not None:
+            self.name_primary = prg_name_primary.name
+            self.save()
 
 
 class ProgrammeName(models.Model):
@@ -46,7 +52,7 @@ class ProgrammeIdentifier(models.Model):
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
     identifier = models.CharField(max_length=50)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
-    resource = models.CharField(max_length=30, blank=True)
+    resource = models.CharField(max_length=30, blank=True, default='local identifier')
 
     class Meta:
         db_table = 'deqar_programme_identifiers'

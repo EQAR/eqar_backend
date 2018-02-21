@@ -22,7 +22,6 @@
     institution: 2
     name_official: Fachhochschule für öffentliche Verwaltung, Rechtspflege und Polizei Güstrow
     name_english: University of Applied Sciences of Public Administration, Police and Administration of Justice in Güstrow
-    acronym: FHöVPR
 
 - model: institutions.InstitutionNQFLevel
   pk: 2

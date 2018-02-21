@@ -23,13 +23,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
     'corsheaders',
-    'storages',
     'suit_ckeditor',
+    'mail_templated',
+
     'accounts',
     'agencies',
     'countries',
@@ -107,3 +109,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+NON_FIELD_ERRORS_KEY = 'non_field_errors'

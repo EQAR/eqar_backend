@@ -52,9 +52,11 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
 
 
 class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
+    decision_type = serializers.StringRelatedField()
+
     class Meta:
         model = AgencyEQARDecision
-        fields = ['decision_date', 'decision_type__type', 'decision_file', 'decision_file_extra']
+        fields = ['decision_date', 'decision_type', 'decision_file', 'decision_file_extra']
 
 
 class AgencyHistoricalDataSerializer(serializers.ModelSerializer):

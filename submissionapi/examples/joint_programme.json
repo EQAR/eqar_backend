@@ -1,0 +1,72 @@
+{
+    "agency": "MusiQuE",
+    "local_identifier": "EAMT-September13",
+    "activity": "joint-programme review",
+    "status": "part of obligatory EQA system",
+    "decision": "positive",
+    "valid_from": "2013-01-15",
+    "valid_to": "2015-01-15",
+    "date_format": "%Y-%m-%d",
+    "report_files": [
+        {
+            "original_location": "http://www.musique-qe.eu/userfiles/File/final-reportaec-programme-reviewcopeco.pdf",
+            "display_name": "AEC Programme Review - CoPeCo – Masters in Contemporary Performance and Composition",
+            "report_language": [
+                "eng"
+            ]
+        }
+    ],
+    "institutions": [
+        {
+            "eter_id": "EE0022",
+            "identifiers": [
+                {
+                    "identifier": "11"
+                }
+            ]
+        }, {
+            "eter_id": "SE0037",
+            "identifiers": [
+                {
+                    "identifier": "12"
+                }
+            ]
+        }, {
+            "eter_id": "FR0164",
+            "identifiers": [
+                {
+                    "identifier": "34"
+                }
+            ]
+        }, {
+            "identifiers": [
+                {
+                    "identifier": "54"
+                }
+            ],
+            "name_official": "Hochschule für Musik und Theater Hamburg",
+            "name_english": "Hamburg University of Music and Theatre",
+            "locations": [
+                {
+                    "country": "DE",
+                    "city": "Hamburg"
+                }
+            ],
+            "qf_ehea_levels": ["short cycle", "first cycle", "second cycle"],
+            "website": "http://www.musikhochschule-hamburg.de"
+        }
+    ],
+    "programmes": [
+        {
+            "identifiers": [
+                {
+                    "identifier": "18"
+                }
+            ],
+            "name_primary": "CoPeCo – Masters in Contemporary Performance and Composition",
+            "qualification_primary": "Master (no joint degree)",
+            "nqf_level": "level 6",
+            "qf_ehea_level": "second cycle"
+        }
+    ]
+}

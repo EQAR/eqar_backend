@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from programmes.models import Programme, ProgrammeName
+from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
 from webapi.serializers.report_serializers import ReportSerializer
 
 
@@ -13,7 +13,7 @@ class ProgrammeIdentifierSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
 
     class Meta:
-        model = ProgrammeName
+        model = ProgrammeIdentifier
         fields = ['identifier', 'agency', 'resource']
 
 

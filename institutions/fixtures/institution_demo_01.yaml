@@ -6,6 +6,24 @@
     name_primary: Hochschule für öffentliche Verwaltung Rheinland-Pfalz
     website_link: www.hoev-rlp.de
 
+- model: institutions.InstitutionIdentifier
+  pk: 1
+  fields:
+    institution: 1
+    identifier: LOCAL001
+    agency: 5
+    resource: local identifier
+    identifier_valid_from: 2010-01-01
+
+- model: institutions.InstitutionIdentifier
+  pk: 2
+  fields:
+    institution: 1
+    identifier: DE0001
+    agency: 5
+    resource: national identifier
+    identifier_valid_from: 2009-01-01
+
 - model: institutions.InstitutionCountry
   pk: 1
   fields:

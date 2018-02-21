@@ -28,3 +28,16 @@ class ReportTestCase(TestCase):
     def test_report_decision_str(self):
         report_status = Report.objects.get(id=1).decision
         self.assertEqual(str(report_status), 'positive')
+
+    def test_report_set_flag_low(self):
+        rep = Report.objects.get(id=1)
+        rep.set_flag_low()
+        self.assertEqual('low level', rep.flag.flag)
+        rep.set_flag_high()
+        rep.set_flag_low()
+        self.assertEqual('high level', rep.flag.flag)
+
+    def test_report_set_flag_high(self):
+        rep = Report.objects.get(id=1)
+        rep.set_flag_high()
+        self.assertEqual('high level', rep.flag.flag)

@@ -1,0 +1,44 @@
+{
+    "agency": "ARACIS",
+    "local_identifier": "UAUIMB-September28",
+    "activity": "Institutional Review",
+    "status": "part of obligatory EQA system",
+    "decision": "positive",
+    "valid_from": "2017-09-28",
+    "valid_to": "2022-09-28",
+    "date_format": "%Y-%m-%d",
+    "report_links": [
+        {
+            "link": "http://www.aracis.ro/rezultate-evaluari/evaluari-institutionale/rezultate/universitatea-de-arhitectura-si-urbanism-ion-mincu-din-bucuresti/",
+        }
+    ],
+    "report_files": [
+        {
+            "original_location": "http://www.aracis.ro/uploads/media/Raport_Departament_de_evaluare_13882b.pdf",
+            "report_language": [
+                "rom"
+            ]
+        }
+    ],
+    "institutions": [
+        {
+            "eter_id": "RO0042",
+            "identifiers": [
+                {
+                    "identifier": "S003"
+                }
+            ]
+        }
+    ],
+    "programmes": [
+        {
+            "name_primary": "Architecture",
+            "qualification_primary": "BA",
+            "qf_ehea_level": "second cycle"
+        }, {
+            "name_primary": "Furniture and Interior Design",
+            "qualification_primary": "BA",
+            "qf_ehea_level": "second cycle"
+        }
+    ]
+}

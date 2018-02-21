@@ -7,7 +7,7 @@ class ReportFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportFile
-        fields = ['file_name', 'file', 'languages']
+        fields = ['file_display_name', 'file', 'languages']
 
 
 class ReportSerializer(serializers.ModelSerializer):
