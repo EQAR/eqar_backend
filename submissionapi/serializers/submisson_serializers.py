@@ -263,7 +263,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                         errors.append("Please provide valid ESG Activity ID.")
                 else:
                     try:
-                        data['esg_activity'] = AgencyESGActivity.objects.get(activity=activity, agency=agency)
+                        data['esg_activity'] = AgencyESGActivity.objects.get(activity__iexact=activity, agency=agency)
                     except ObjectDoesNotExist:
                         errors.append("Please provide valid ESG Activity.")
 

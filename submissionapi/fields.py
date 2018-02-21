@@ -21,7 +21,7 @@ class AgencyField(serializers.Field):
                 raise serializers.ValidationError("Please provide valid Agency DEQAR ID.")
         else:
             try:
-                agency = Agency.objects.get(acronym_primary=data)
+                agency = Agency.objects.get(acronym_primary__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid Agency Acronym.")
 
@@ -45,7 +45,7 @@ class ReportStatusField(serializers.Field):
                 raise serializers.ValidationError("Please provide valid Report Status ID.")
         else:
             try:
-                status = ReportStatus.objects.get(status=data)
+                status = ReportStatus.objects.get(status__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid Report Status.")
         return status
@@ -64,7 +64,7 @@ class ReportDecisionField(serializers.Field):
                 raise serializers.ValidationError("Please provide valid Report Decision ID.")
         else:
             try:
-                decision = ReportDecision.objects.get(decision=data)
+                decision = ReportDecision.objects.get(decision__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid Report Decision.")
         return decision
@@ -78,12 +78,12 @@ class ReportLanguageField(serializers.Field):
 
         if len(data) == 2:
             try:
-                language = Language.objects.get(iso_639_1=data)
+                language = Language.objects.get(iso_639_1__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid language code.")
         elif len(data) == 3:
             try:
-                language = Language.objects.get(iso_639_2=data)
+                language = Language.objects.get(iso_639_2__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid language code.")
         else:
@@ -104,7 +104,7 @@ class QFEHEALevelField(serializers.Field):
                 raise serializers.ValidationError("Please provide valid QF EHEA ID.")
         else:
             try:
-                qf_ehea_level = QFEHEALevel.objects.get(level=data)
+                qf_ehea_level = QFEHEALevel.objects.get(level__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid QF EHEA level.")
         return qf_ehea_level
@@ -119,12 +119,12 @@ class CountryField(serializers.Field):
         country = data.upper()
         if len(country) == 2:
             try:
-                c = Country.objects.get(iso_3166_alpha2=country)
+                c = Country.objects.get(iso_3166_alpha2__iexact=country)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid country code.")
         elif len(country) == 3:
             try:
-                c= Country.objects.get(iso_3166_alpha3=country)
+                c= Country.objects.get(iso_3166_alpha3__iexact=country)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid country code.")
         else:
