@@ -22,3 +22,5 @@ eqar_backend/settings_components/local.py
 loaddata_test.sh
 accounts/management
 static/media
+*.rdb
+*.db
