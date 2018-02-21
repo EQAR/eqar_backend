@@ -13,7 +13,7 @@ class Programme(models.Model):
                                           ('level 7', 'level 7'),
                                           ('level 8', 'level 8')])
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.SET_NULL, blank=True, null=True)
-    countries = models.ManyToManyField('countries.Country')
+    countries = models.ManyToManyField('countries.Country', blank=True)
 
     class Meta:
         db_table = 'deqar_programmes'
