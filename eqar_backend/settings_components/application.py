@@ -23,12 +23,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
     'corsheaders',
     'suit_ckeditor',
+    'mail_templated',
+
     'accounts',
     'agencies',
     'countries',
