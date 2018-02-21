@@ -79,7 +79,7 @@ class InstitutionName(models.Model):
     name_official = models.CharField(max_length=200)
     name_official_transliterated = models.CharField(max_length=200, blank=True)
     name_english = models.CharField(max_length=200, blank=True)
-    acronym = models.CharField(max_length=20, blank=True)
+    acronym = models.CharField(max_length=30, blank=True)
     name_source_note = models.TextField()
     name_valid_to = models.DateField(blank=True, null=True)
 
