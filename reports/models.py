@@ -90,8 +90,8 @@ class ReportFile(models.Model):
     """
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('Report')
-    file_display_name = models.CharField(max_length=100, blank=True)
-    file_original_location = models.CharField(max_length=200, blank=True)
+    file_display_name = models.CharField(max_length=255, blank=True)
+    file_original_location = models.CharField(max_length=255, blank=True)
     file = models.FileField(blank=True, upload_to=set_directory_path)
     languages = models.ManyToManyField('lists.Language')
 
