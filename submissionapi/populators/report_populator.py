@@ -97,7 +97,8 @@ class ReportPopulator():
                 )
 
                 # Async file download with celery
-                download_file.delay(original_location, rf.id, self.agency.acronym_primary)
+                if original_location != "":
+                    download_file.delay(original_location, rf.id, self.agency.acronym_primary)
 
                 for lang in languages:
                     rf.languages.add(lang)
