@@ -16,4 +16,4 @@
 - model: reports.ReportDecision
   pk: 4
   fields:
-    decision: applicable
+    decision: not applicable
