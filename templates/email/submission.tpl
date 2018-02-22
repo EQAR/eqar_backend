@@ -17,7 +17,7 @@
             <i>Sanity check status:</i> {{ resp.sanity_check_status }}<br/>
             <i>Warnings about the report:</i>
             <ul>
-                {% for rw in report_warnings %}
+                {% for rw in resp.report_warnings %}
                     <li>{{ rw }}</li>
                 {% endfor %}
             </ul>
@@ -29,7 +29,7 @@
             </ul>
             <i>Warnings about institution records:</i>
             <ul>
-                {% for iw in institution_warnings %}
+                {% for iw in resp.institution_warnings %}
                     <li>{{ iw }}</li>
                 {% endfor %}
             </ul>
