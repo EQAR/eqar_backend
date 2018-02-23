@@ -18,7 +18,7 @@ from submissionapi.serializers.submisson_serializers import SubmissionPackageSer
 from submissionapi.tasks import send_submission_email
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login")
 def upload_csv(request, csv_file=None):
     response_list = []
     response_contains_error = False
