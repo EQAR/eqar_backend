@@ -45,6 +45,9 @@ def upload_csv(request, csv_file=None):
 
     # CSV File manage
     csv_file.seek(0)
+    original_data = csv_file.read().decode('utf-8')
+
+    csv_file.seek(0)
     csv_file = io.StringIO(csv_file.read().decode('utf-8'))
 
     csv_hanlder = CSVHandler(
@@ -60,7 +63,7 @@ def upload_csv(request, csv_file=None):
             populator.populate()
             flagger = ReportFlagger(report=populator.report)
             flagger.check_and_set_flags()
-            create_log_entry(request.data, populator, flagger)
+            create_log_entry(original_data, populator, flagger)
             response_list.append(make_success_response(populator, flagger))
         else:
             response_list.append(make_error_response(serializer, original_data={}))
