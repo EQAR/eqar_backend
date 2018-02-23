@@ -18,7 +18,7 @@ class CSVHandler:
         r'date_format',
         r'link\[\d+\]',
         r'link_display_name\[\d+\]',
-        r'file\[\d+\]\.file_original_location',
+        r'file\[\d+\]\.original_location',
         r'file\[\d+\]\.display_name',
         r'file\[\d+\]\.report_language\[\d+\]',
         r'institution\[\d+\]\.deqar_id',
@@ -153,6 +153,8 @@ class CSVHandler:
                                     wrapper02 = self.WRAPPERS.get(field_base02, None)
                                 # If there is no wrapper we should add the values to a list
                                     if wrapper02 is None:
+                                        if len(self.report[wrapper]) == 0:
+                                            self.report[wrapper].append({})
                                         first_level_array = self.report[wrapper][index01-1]
                                         # We should check if key exists
                                         if field_base02 not in first_level_array.keys():
@@ -163,7 +165,7 @@ class CSVHandler:
                                 # If there is a wrapper then we should add the values to the wrapper
                                     else:
                                         # We should check if wrapper exists
-                                        if len(self.report[wrapper]) > 0:
+                                        if len(self.report[wrapper]) > index01-1:
                                             first_level_array = self.report[wrapper][index01-1]
                                             existing_wrapper02 = first_level_array.get(wrapper02, None)
 
