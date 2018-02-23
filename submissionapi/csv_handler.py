@@ -116,11 +116,11 @@ class CSVHandler:
                                         fieldz = fld.split('.')
                                         field_base = fieldz[0]
                                         field_name = fieldz[1]
-                                        self._add_field(fld, field_base, field_name, row[fld])
+                                        self._add_dotted_field(fld, field_base, field_name, row[fld])
 
                                     # Columns with one [] and without a '.'
                                     else:
-                                        self._add_field(fld, fld, fld, row[fld])
+                                        self._add_plain_field(fld, fld, row[fld])
 
                                 # Columns with many []
                                 else:
@@ -194,7 +194,7 @@ class CSVHandler:
 
             self.submission_data.append(self.report)
 
-    def _add_field(self, field, field_base, field_name, value):
+    def _add_dotted_field(self, field, field_base, field_name, value):
         index = re.search(r"\[\d+\]", field).group()
         field_base = field_base.replace(index, "")
         index = int(re.search(r"\d+", index).group())
@@ -207,4 +207,19 @@ class CSVHandler:
             d = {}
             self.report[wrapper] = []
             d[field_name] = value
+            self.report[wrapper].append(d)
+
+    def _add_plain_field(self, field, field_base, value):
+        index = re.search(r"\[\d+\]", field).group()
+        field_base = field_base.replace(index, "")
+        index = int(re.search(r"\d+", index).group())
+        wrapper = self.WRAPPERS.get(field_base, None)
+        existing_wrapper = self.report.get(wrapper, None)
+        if existing_wrapper:
+            if len(existing_wrapper) >= index:
+                existing_wrapper[index-1][field_base] = value
+        else:
+            d = {}
+            self.report[wrapper] = []
+            d[field_base] = value
             self.report[wrapper].append(d)
