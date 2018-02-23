@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'programmes',
     'reports',
     'submissionapi',
-    'webapi'
+    'webapi',
+    'csvtest'
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'eqar_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,3 +112,6 @@ USE_L10N = True
 USE_TZ = True
 
 NON_FIELD_ERRORS_KEY = 'non_field_errors'
+
+LOGIN_REDIRECT_URL = '/csvtest/upload'
+
