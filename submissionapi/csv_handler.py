@@ -6,220 +6,270 @@ class CSVHandler:
     """
         Class to handle CSV upload, transform it to a submission request object
     """
-    VALID_FIELD = [
-        r'agency',
-        r'local_identifier',
-        r'activity',
-        r'activity_local_identifier',
-        r'status',
-        r'decision',
-        r'valid_from',
-        r'valid_to',
-        r'date_format',
-        r'link\[\d+\]',
-        r'link_display_name\[\d+\]',
-        r'file\[\d+\]\.original_location',
-        r'file\[\d+\]\.display_name',
-        r'file\[\d+\]\.report_language\[\d+\]',
-        r'institution\[\d+\]\.deqar_id',
-        r'institution\[\d+\]\.eter_id',
-        r'institution\[\d+\]\.identifier\[\d+\]',
-        r'institution\[\d+\]\.resource\[\d+\]',
-        r'institution\[\d+\]\.name_official',
-        r'institution\[\d+\]\.name_official_transliterated',
-        r'institution\[\d+\]\.name_english',
-        r'institution\[\d+\]\.name_alternative\[\d+\]',
-        r'institution\[\d+\]\.name_alternative_transliterated\[\d+\]',
-        r'institution\[\d+\]\.acronym',
-        r'institution\[\d+\]\.country\[\d+\]',
-        r'institution\[\d+\]\.city\[\d+\]',
-        r'institution\[\d+\]\.latitude\[\d+\]',
-        r'institution\[\d+\]\.longitude\[\d+\]',
-        r'institution\[\d+\]\.qf_ehea_level\[\d+\]',
-        r'institution\[\d+\]\.website_link',
-        r'programme\[\d+\]\.identifier\[\d+\]',
-        r'programme\[\d+\]\.resource\[\d+\]',
-        r'programme\[\d+\]\.name_primary',
-        r'programme\[\d+\]\.qualification_primary',
-        r'programme\[\d+\]\.name_alternative\[\d+\]',
-        r'programme\[\d+\]\.qualification_alternative\[\d+\]',
-        r'programme\[\d+\]\.country\[\d+\]',
-        r'programme\[\d+\]\.nqf_level',
-        r'programme\[\d+\]\.qf_ehea_level'
-    ]
-
-    WRAPPERS = {
-        'institution': 'institutions',
-        'file': 'report_files',
-        'programme': 'programmes',
-        'link': 'report_links',
-        'link_display_name': 'report_links',
-        'identifier': 'identifiers',
-        'resource': 'identifiers',
-        'name_alternative': 'alternative_names',
-        'name_alternative_transliterated': 'alternative_names',
-        'country': 'locations',
-        'city': 'locations',
-        'latitude': 'locations',
-        'longitude': 'locations',
-        'qualification_alternative': 'alternative_names'
+    FIELDS = {
+        'reports': [
+            r'agency',
+            r'local_identifier',
+            r'activity',
+            r'activity_local_identifier',
+            r'status',
+            r'decision',
+            r'valid_from',
+            r'valid_to',
+            r'date_format'
+        ],
+        'report_links': [
+            r'link\[\d+\]',
+            r'link_display_name\[\d+\]'
+        ],
+        'report_files': [
+            r'file\[\d+\]\.original_location',
+            r'file\[\d+\]\.display_name',
+        ],
+        'report_files__report_language': [
+            r'file\[\d+\]\.report_language\[\d+\]',
+        ],
+        'institutions': [
+            r'institution\[\d+\]\.deqar_id',
+            r'institution\[\d+\]\.eter_id',
+            r'institution\[\d+\]\.name_official',
+            r'institution\[\d+\]\.name_official_transliterated',
+            r'institution\[\d+\]\.name_english',
+            r'institution\[\d+\]\.acronym',
+            r'institution\[\d+\]\.website_link'
+        ],
+        'institutions__identifiers': [
+            r'institution\[\d+\]\.identifier\[\d+\]',
+            r'institution\[\d+\]\.resource\[\d+\]',
+        ],
+        'institutions__alternative_names': [
+            r'institution\[\d+\]\.name_alternative\[\d+\]',
+            r'institution\[\d+\]\.name_alternative_transliterated\[\d+\]',
+        ],
+        'institutions__locations': [
+            r'institution\[\d+\]\.country\[\d+\]',
+            r'institution\[\d+\]\.city\[\d+\]',
+            r'institution\[\d+\]\.latitude\[\d+\]',
+            r'institution\[\d+\]\.longitude\[\d+\]',
+        ],
+        'institutions__qf_ehea_levels': [
+            r'institution\[\d+\]\.qf_ehea_level\[\d+\]',
+        ],
+        'programmes': [
+            r'programme\[\d+\]\.name_primary',
+            r'programme\[\d+\]\.qualification_primary',
+            r'programme\[\d+\]\.nqf_level',
+            r'programme\[\d+\]\.qf_ehea_level'
+        ],
+        'programmes__identifiers': [
+            r'programme\[\d+\]\.identifier\[\d+\]',
+            r'programme\[\d+\]\.resource\[\d+\]',
+        ],
+        'programmes__alternative_names': [
+            r'programme\[\d+\]\.name_alternative\[\d+\]',
+            r'programme\[\d+\]\.qualification_alternative\[\d+\]',
+        ],
+        'programmes__countries': [
+            r'programme\[\d+\]\.country\[\d+\]',
+        ]
     }
 
-    def __init__(self, csvfile, separator):
+    def __init__(self, csvfile):
         self.csvfile = csvfile
-        self.separator = separator
         self.submission_data = []
+        self.report_record = {}
         self.error = False
         self.error_messages = []
+        self.dialect = None
+        self.reader = None
 
     def handle(self):
         if self._csv_is_valid():
-            self._create_submission_data()
+            self._read_csv()
+            for row in self.reader:
+                self._create_report(row)
+                self._create_report_links(row)
+                self._create_report_files(row)
+                self._create_institutions(row)
+                self._create_institutions_identifiers(row)
+                self._create_institutions_alternative_names(row)
+                self._create_institutions_locations(row)
+                self._create_institutions_qf_ehea_levels(row)
+                self._create_programmes(row)
+                self._create_programmes_alternative_names(row)
+                self._create_programmes_identifiers(row)
+                self._create_programmes_countries(row)
+                self._clear_submission_data()
         else:
             self.error = True
-            self.error_messages.append("CSV format is not valid.")
+            self.error_messages = ['The CSV file appears to be invalid.']
 
     def _csv_is_valid(self):
         try:
-            # csv.Sniffer().sniff(self.csvfile.read(1024))
             self.csvfile.seek(0)
+            self.dialect = csv.Sniffer().sniff(self.csvfile.read())
             return True
         except csv.Error:
             return False
 
-    def _create_submission_data(self):
-        reader = csv.DictReader(self.csvfile)
-        csv_fields = reader.fieldnames
+    def _read_csv(self):
+        self.csvfile.seek(0)
+        self.reader = csv.DictReader(self.csvfile, dialect=self.dialect)
 
-        # Iterate rows
-        for row in reader:
-            self.report = {}
+    def _create_report(self, row):
+        csv_fields = self.reader.fieldnames
+        for field in self.FIELDS['reports']:
+            r = re.compile(field)
+            rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower)
 
-            for field in self.VALID_FIELD:
-                r = re.compile(field)
-                rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower)
+            if len(rematch) > 0:
+                self.report_record[rematch[0]] = row[rematch[0]]
 
-                if len(rematch) > 0:
-                    # Columns with plain column name
-                    if '[' not in rematch[0]:
-                        self.report[rematch[0]] = row[rematch[0]]
-                    else:
-                        for fld in rematch:
+    def _create_institutions(self, row):
+        self._create_first_level_placeholder(['institutions',
+                                              'institutions__identifiers',
+                                              'institutions__alternative_names',
+                                              'institutions__locations',
+                                              'institutions__qf_ehea_levels'])
+        self._create_first_level_values('institutions', row, dotted=True)
 
-                            if row[fld] != "-":
+    def _create_institutions_identifiers(self, row):
+        self._create_second_level_placeholder('institutions__identifiers', dictkey=True)
+        self._create_second_level_values('institutions__identifiers', row, dictkey=True)
 
-                                # Columns with one []
-                                if fld.count('[') == 1:
+    def _create_institutions_alternative_names(self, row):
+        self._create_second_level_placeholder('institutions__alternative_names', dictkey=True)
+        self._create_second_level_values('institutions__alternative_names', row, dictkey=True)
 
-                                    # Columns with one [] and a '.'
-                                    if fld.count('.') == 1:
-                                        fieldz = fld.split('.')
-                                        field_base = fieldz[0]
-                                        field_name = fieldz[1]
-                                        self._add_dotted_field(fld, field_base, field_name, row[fld])
+    def _create_institutions_locations(self, row):
+        self._create_second_level_placeholder('institutions__locations', dictkey=True)
+        self._create_second_level_values('institutions__locations', row, dictkey=True)
 
-                                    # Columns with one [] and without a '.'
-                                    else:
-                                        self._add_plain_field(fld, fld, row[fld])
+    def _create_institutions_qf_ehea_levels(self, row):
+        self._create_second_level_placeholder('institutions__qf_ehea_levels')
+        self._create_second_level_values('institutions__qf_ehea_levels', row)
 
-                                # Columns with many []
-                                else:
-                                    fieldz = fld.split('.')
-                                    field01 = fieldz[0]
-                                    field02 = fieldz[1]
+    def _create_programmes(self, row):
+        self._create_first_level_placeholder(['programmes',
+                                              'programmes__identifiers',
+                                              'programmes__alternative_names',
+                                              'programmes__countries'])
+        self._create_first_level_values('programmes', row, dotted=True)
 
-                                # I have to check if field01 already exists:
-                                    index01 = re.search(r"\[\d+\]", field01).group()
-                                    field_base01 = field01.replace(index01, "")
-                                    index01 = int(re.search(r"\d+", index01).group())
+    def _create_programmes_identifiers(self, row):
+        self._create_second_level_placeholder('programmes__identifiers', dictkey=True)
+        self._create_second_level_values('programmes__identifiers', row, dictkey=True)
 
-                                # Check if field01 has a wrapper
-                                    wrapper = self.WRAPPERS.get(field_base01, None)
+    def _create_programmes_alternative_names(self, row):
+        self._create_second_level_placeholder('programmes__alternative_names', dictkey=True)
+        self._create_second_level_values('programmes__alternative_names', row, dictkey=True)
 
-                                # Check if wrapper already exists
-                                    existing_wrapper = self.report.get(wrapper, None)
+    def _create_programmes_countries(self, row):
+        self._create_second_level_placeholder('programmes__countries')
+        self._create_second_level_values('programmes__countries', row)
 
-                                # If wrapper doesn't exists we should create it
-                                    if not existing_wrapper:
-                                        self.report[wrapper] = []
+    def _create_report_links(self, row):
+        self._create_first_level_placeholder(['report_links'])
+        self._create_first_level_values('report_links', row)
 
-                                # Time to make the subfield
-                                    index02 = re.search(r"\[\d+\]", field02).group()
-                                    field_base02 = field02.replace(index02, "")
-                                    index02 = int(re.search(r"\d+", index02).group())
-                                # Subfield name is in field_base02, index number is in index02
+    def _create_report_files(self, row):
+        self._create_first_level_placeholder(['report_files', 'report_files__report_language'])
+        self._create_first_level_values('report_files', row, dotted=True)
 
-                                # Check if there is any wrapper
-                                    wrapper02 = self.WRAPPERS.get(field_base02, None)
-                                # If there is no wrapper we should add the values to a list
-                                    if wrapper02 is None:
-                                        if len(self.report[wrapper]) == 0:
-                                            self.report[wrapper].append({})
-                                        first_level_array = self.report[wrapper][index01-1]
-                                        # We should check if key exists
-                                        if field_base02 not in first_level_array.keys():
-                                            first_level_array[field_base02] = [row[fld]]
-                                        else:
-                                            first_level_array[field_base02].append(row[fld])
+        self._create_second_level_placeholder('report_files__report_language')
+        self._create_second_level_values('report_files__report_language', row)
 
-                                # If there is a wrapper then we should add the values to the wrapper
-                                    else:
-                                        # We should check if wrapper exists
-                                        if len(self.report[wrapper]) > index01-1:
-                                            first_level_array = self.report[wrapper][index01-1]
-                                            existing_wrapper02 = first_level_array.get(wrapper02, None)
+    def _create_first_level_placeholder(self, field_key_array):
+        fields = []
+        wrapper = field_key_array[0].split('__')[0]
+        csv_fields = self.reader.fieldnames
 
-                                            # If there is a wrapper already we should add the value
-                                            if existing_wrapper02:
-                                                if len(existing_wrapper02) >= index02:
-                                                    second_level_array = first_level_array[wrapper02][index02-1]
-                                                    existing_field = second_level_array.get(field_base02, None)
+        for fk in field_key_array:
+            fields += self.FIELDS[fk]
 
-                                                    if existing_field is None:
-                                                        second_level_array[field_base02] = row[fld]
+        # Create wrapper
+        self.report_record[wrapper] = []
 
-                                            # If there is not a wrapper present we should create it
-                                            else:
-                                                first_level_array[wrapper02] = []
-                                                d2 = {}
-                                                d2[field_base02] = row[fld]
-                                                first_level_array[wrapper02].append(d2)
-                                        else:
-                                            d = {}
-                                            d[wrapper02] = []
-                                            d2 = {}
-                                            d2[field_base02] = row[fld]
-                                            d[wrapper02].append(d2)
-                                            self.report[wrapper].append(d)
+        for field in fields:
+            r = re.compile(field)
+            rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower, reverse=True)
 
-            self.submission_data.append(self.report)
+            # Create plaholder if it doesn't exists yet
+            if len(rematch) > 0:
+                rematch[0] = rematch[0].split('.')[0]
+                max_index = int(re.search(r"\d+", rematch[0]).group())
+                for i in range(0, max_index):
+                    if len(self.report_record[wrapper]) < i+1:
+                        self.report_record[wrapper].append({})
 
-    def _add_dotted_field(self, field, field_base, field_name, value):
-        index = re.search(r"\[\d+\]", field).group()
-        field_base = field_base.replace(index, "")
-        index = int(re.search(r"\d+", index).group())
-        wrapper = self.WRAPPERS.get(field_base, None)
-        existing_wrapper = self.report.get(wrapper, None)
-        if existing_wrapper:
-            if len(existing_wrapper) >= index:
-                existing_wrapper[index-1][field_name] = value
-        else:
-            d = {}
-            self.report[wrapper] = []
-            d[field_name] = value
-            self.report[wrapper].append(d)
+    def _create_first_level_values(self, wrapper, row, dotted=False):
+        csv_fields = self.reader.fieldnames
+        for field in self.FIELDS[wrapper]:
+            r = re.compile(field)
+            rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower)
 
-    def _add_plain_field(self, field, field_base, value):
-        index = re.search(r"\[\d+\]", field).group()
-        field_base = field_base.replace(index, "")
-        index = int(re.search(r"\d+", index).group())
-        wrapper = self.WRAPPERS.get(field_base, None)
-        existing_wrapper = self.report.get(wrapper, None)
-        if existing_wrapper:
-            if len(existing_wrapper) >= index:
-                existing_wrapper[index-1][field_base] = value
-        else:
-            d = {}
-            self.report[wrapper] = []
-            d[field_base] = value
-            self.report[wrapper].append(d)
+            if len(rematch) > 0:
+                for fld in rematch:
+                    if row[fld] != '-':
+                        index = re.search(r"\[\d+\]", fld).group()
+                        field = fld.replace(index, "")
+                        index = int(re.search(r"\d+", index).group())-1
+                        if dotted:
+                            field = field.split('.')[1]
+                        self.report_record[wrapper][index][field] = row[fld]
+
+    def _create_second_level_placeholder(self, field_key, dictkey=None):
+        csv_fields = self.reader.fieldnames
+        first_level_wrapper_name, wrapper = field_key.split('__')
+
+        # Create second level wrapper
+        first_level_wrapper = self.report_record[first_level_wrapper_name]
+
+        for first_level_wrapper_item in first_level_wrapper:
+            first_level_wrapper_item[wrapper] = []
+
+            if dictkey:
+                for field in self.FIELDS[field_key]:
+                    r = re.compile(field)
+                    rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower, reverse=True)
+
+                    # Create plaholder if it doesn't exists yet
+                    if len(rematch) > 0:
+                        field02 = rematch[0].split('.')[1]
+                        max_index = int(re.search(r"\d+", field02).group())
+                        for i in range(0, max_index):
+                            if len(first_level_wrapper_item[wrapper]) < i+1:
+                                first_level_wrapper_item[wrapper].append({})
+
+    def _create_second_level_values(self, field_key, row, dictkey=None):
+        csv_fields = self.reader.fieldnames
+        first_level_wrapper_name, wrapper = field_key.split('__')
+        first_level_wrapper = self.report_record[first_level_wrapper_name]
+
+        for field in self.FIELDS[field_key]:
+            r = re.compile(field)
+            rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower)
+
+            if len(rematch) > 0:
+                for fld in rematch:
+                    if row[fld] != '-':
+                        [field01, field02] = rematch[0].split('.')
+                        index01 = int(re.search(r"\d+", field01).group())
+
+                        index02 = re.search(r"\[\d+\]", field02).group()
+                        field02 = field02.replace(index02, "")
+                        index02 = int(re.search(r"\d+", index02).group())
+                        if dictkey:
+                            first_level_wrapper[index01-1][wrapper][index02-1][field02] = row[fld]
+                        else:
+                            first_level_wrapper[index01-1][wrapper].append(row[fld])
+
+    def _clear_submission_data(self):
+        self.submission_data.append(self.clean_empty(self.report_record))
+
+    def clean_empty(self, d):
+        if not isinstance(d, (dict, list)):
+            return d
+        if isinstance(d, list):
+            return [v for v in (self.clean_empty(v) for v in d) if v]
+        return {k: v for k, v in ((k, self.clean_empty(v)) for k, v in d.items()) if v}

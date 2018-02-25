@@ -33,8 +33,8 @@
                 <thead>
                     <tr>
                         <th>Row</th>
-                        <th>Submission_status</th>
-                        <th>Sanity_check_status</th>
+                        <th>Submission Status</th>
+                        <th>Sanity Check</th>
                         <th>Errors</th>
                         <th>Report Flag</th>
                         <th>Report Warnings</th>
@@ -43,14 +43,53 @@
                 </thead>
                 <tbody>
                     {% for response in response_list %}
-                        <tr>
+                        <tr style="vertical-align: middle;">
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ response.submission_status }}</td>
-                            <td>{{ response.sanity_check_status }}</td>
-                            <td>{{ response.errors }}</td>
-                            <td>{{ response.report_flag }}</td>
-                            <td>{{ response.report_warnings }}</td>
-                            <td>{{ response.institution_warnings }}</td>
+                            <td>
+                                {% if response.submission_status == 'success' %}
+                                    <span class="label label-success">Success</span>
+                                {% else %}
+                                    <span class="label label-danger">Errors</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if response.sanity_check_status == 'success' %}
+                                    <span class="label label-success">Success</span>
+                                {% endif %}
+                                {% if response.sanity_check_status == 'warnings' %}
+                                    <span class="label label-warning">Warning</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for key, value in response.errors.items %}
+                                    <dl>
+                                        <dt>{{ key }}</dt>
+                                        <dd>{{ value|join:", " }}</dd>
+                                    </dl>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if response.report_flag == 'high level' %}
+                                    <span class="label label-danger">High</span>
+                                {% endif %}
+                                {% if response.report_flag == 'low level' %}
+                                    <span class="label label-warning">Low</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <ul>
+                                {% for warning in response.report_warnings %}
+                                    <li>{{ warning }}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                {% for warning in response.institution_warnings %}
+                                    <li>{{ warning }}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

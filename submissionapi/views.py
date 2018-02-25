@@ -24,7 +24,8 @@ class Submission(APIView):
     def post(self, request, format=None):
         # Check if request is a list:
         if isinstance(request.data, list):
-            response_list = []
+            accepted_reports = []
+            rejected_reports = []
             response_contains_error = False
 
             for data in request.data:
@@ -35,16 +36,16 @@ class Submission(APIView):
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
                     self.create_log_entry(request.data, populator, flagger)
-                    response_list.append(self.make_success_response(populator, flagger))
+                    accepted_reports.append(self.make_success_response(populator, flagger))
                 else:
                     response_contains_error = True
-                    response_list.append(self.make_error_response(serializer, data))
+                    rejected_reports.append(self.make_error_response(serializer, data))
 
             if response_contains_error:
-                return Response(response_list, status=status.HTTP_400_BAD_REQUEST)
+                return Response(accepted_reports + rejected_reports, status=status.HTTP_400_BAD_REQUEST)
             else:
-                send_submission_email.delay(response_list, request.user.email)
-                return Response(response_list, status=status.HTTP_200_OK)
+                send_submission_email.delay(accepted_reports, request.user.email)
+                return Response(accepted_reports + rejected_reports, status=status.HTTP_200_OK)
 
         # If request is not a list
         else:
