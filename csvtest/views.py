@@ -1,6 +1,7 @@
 import json
 
 import datetime
+
 import io
 
 from django.contrib import messages
@@ -20,8 +21,9 @@ from submissionapi.tasks import send_submission_email
 
 @login_required(login_url="/login")
 def upload_csv(request, csv_file=None):
-    response_list = []
-    response_contains_error = False
+    rejected_reports = []
+    accepted_reports = []
+    response_contains_valid = False
 
     data = {}
     if "GET" == request.method:
@@ -30,7 +32,6 @@ def upload_csv(request, csv_file=None):
     # if not GET, then proceed
     try:
         csv_file = request.FILES["csv_file"]
-        separator = request.POST.get("delimiter", ",")
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'File is not CSV type')
             return HttpResponseRedirect(reverse("csvtest:upload_csv"))
@@ -46,14 +47,9 @@ def upload_csv(request, csv_file=None):
     # CSV File manage
     csv_file.seek(0)
     original_data = csv_file.read().decode('utf-8')
+    csv_object = io.StringIO(original_data)
 
-    csv_file.seek(0)
-    csv_file = io.StringIO(csv_file.read().decode('utf-8'))
-
-    csv_hanlder = CSVHandler(
-        csvfile=csv_file,
-        separator=separator
-    )
+    csv_hanlder = CSVHandler(csvfile=csv_object)
     csv_hanlder.handle()
 
     for data in csv_hanlder.submission_data:
@@ -64,16 +60,16 @@ def upload_csv(request, csv_file=None):
             flagger = ReportFlagger(report=populator.report)
             flagger.check_and_set_flags()
             create_log_entry(original_data, populator, flagger)
-            response_list.append(make_success_response(populator, flagger))
+            accepted_reports.append(make_success_response(populator, flagger))
+            response_contains_valid = True
         else:
-            response_list.append(make_error_response(serializer, original_data={}))
-            response_contains_error = True
+            rejected_reports.append(make_error_response(serializer, original_data={}))
 
-    if response_contains_error:
-        return render(request, 'csvtest/upload_csv.html', context={'response_list': response_list})
+    if response_contains_valid:
+        send_submission_email.delay(accepted_reports, request.user.email)
+        return render(request, 'csvtest/upload_csv.html', context={'response_list': accepted_reports + rejected_reports})
     else:
-        send_submission_email.delay(response_list, request.user.email)
-        return render(request, 'csvtest/upload_csv.html', context={'response_list': response_list})
+        return render(request, 'csvtest/upload_csv.html', context={'response_list': accepted_reports + rejected_reports})
 
 
 def make_success_response(populator, flagger):
