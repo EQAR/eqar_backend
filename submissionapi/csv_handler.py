@@ -79,7 +79,7 @@ class CSVHandler:
         self.submission_data = []
         self.report_record = {}
         self.error = False
-        self.error_messages = []
+        self.error_message = ""
         self.dialect = None
         self.reader = None
 
@@ -102,7 +102,7 @@ class CSVHandler:
                 self._clear_submission_data()
         else:
             self.error = True
-            self.error_messages = ['The CSV file appears to be invalid.']
+            self.error_message = 'The CSV file appears to be invalid.'
 
     def _csv_is_valid(self):
         try:

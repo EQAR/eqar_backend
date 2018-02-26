@@ -18,6 +18,8 @@ from submissionapi.serializers.response_serializers import ReportResponseSeriali
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
 
+from bs4 import UnicodeDammit
+
 
 @login_required(login_url="/login")
 def upload_csv(request, csv_file=None):
@@ -38,21 +40,27 @@ def upload_csv(request, csv_file=None):
 
         #if file is too large, return
         if csv_file.multiple_chunks():
-            messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+            messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
             return HttpResponseRedirect(reverse("csvtest:upload_csv"))
 
     except Exception as e:
         messages.error(request, "Unable to upload file. " + repr(e))
+        return HttpResponseRedirect(reverse("csvtest:upload_csv"))
 
     # CSV File manage
     csv_file.seek(0)
-    original_data = csv_file.read().decode('utf-8')
+    dammit = UnicodeDammit(csv_file.read())
+    original_data = dammit.unicode_markup
     csv_object = io.StringIO(original_data)
 
-    csv_hanlder = CSVHandler(csvfile=csv_object)
-    csv_hanlder.handle()
+    csv_handler = CSVHandler(csvfile=csv_object)
+    csv_handler.handle()
 
-    for data in csv_hanlder.submission_data:
+    if csv_handler.error:
+        messages.error(request, csv_handler.error_message)
+        return HttpResponseRedirect(reverse("csvtest:upload_csv"))
+
+    for data in csv_handler.submission_data:
         serializer = SubmissionPackageSerializer(data=data, context={'request': request})
         if serializer.is_valid():
             populator = Populator(data=serializer.validated_data)
