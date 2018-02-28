@@ -1,4 +1,3 @@
-from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.populators.institution_populator import InstitutionPopulator
 from submissionapi.populators.programme_populator import ProgrammePopulator
 from submissionapi.populators.report_populator import ReportPopulator
@@ -41,7 +40,7 @@ class Populator():
         """
         Create or insert Institution instance.
         """
-        self.report.institutions.all().delete()
+        self.report.institutions.clear()
         institutions = self.data.get('institutions', None)
 
         for institution in institutions:

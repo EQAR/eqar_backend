@@ -7,7 +7,7 @@ class Programme(models.Model):
     """
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('reports.Report', on_delete=models.CASCADE)
-    name_primary = models.CharField(max_length=100, blank=True)
+    name_primary = models.CharField(max_length=255, blank=True)
     nqf_level = models.CharField(max_length=10, blank=True,
                                  choices=[('level 6', 'level 6'),
                                           ('level 7', 'level 7'),
@@ -34,9 +34,9 @@ class ProgrammeName(models.Model):
     """
     id = models.AutoField(primary_key=True)
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=255, blank=True)
     name_is_primary = models.BooleanField(default=False)
-    qualification = models.CharField(max_length=100, blank=True)
+    qualification = models.CharField(max_length=255, blank=True)
 
     class Meta:
         db_table = 'deqar_programme_names'
