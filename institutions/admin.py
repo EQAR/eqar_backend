@@ -39,8 +39,7 @@ class InstitutionAdmin(DEQARModelAdmin):
     list_display = ('name_primary', 'website_link')
     list_display_links = ('name_primary',)
     ordering = ('name_primary',)
-    search_fields = ('institutionname_set__name_official', 'institutionname_set__name_english',
-                     'institutionname_set__acronym')
+    search_fields = ('name_primary', 'website_link')
 
     fieldsets = (
         ('Basic Information', {
