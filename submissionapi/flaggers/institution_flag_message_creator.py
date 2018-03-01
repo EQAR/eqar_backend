@@ -16,10 +16,9 @@ class InstitutionFlagMessageCreator:
         'qf_ehea_level': 'Additional [qf_ehea_level] [%s] suggested by [%s]'
     }
 
-    collected_flag_msg = []
-
     def __init__(self, agency):
         self.agency = agency
+        self.collected_flag_msg = []
 
     def get_message(self, message_code, value):
         if message_code in self.messages:
