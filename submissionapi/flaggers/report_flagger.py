@@ -78,7 +78,10 @@ class ReportFlagger():
         for programme in self.report.programme_set.all():
             qf_ehea_level = programme.qf_ehea_level
             if qf_ehea_level is not None:
-                qf_count = self.report.institutions.filter(institutionqfehealevel__id=qf_ehea_level.id).count()
+                qf_count = self.report.institutions.filter(
+                    institutionqfehealevel__qf_ehea_level=qf_ehea_level,
+                    institutionqfehealevel__qf_ehea_level_verified=True
+                ).count()
                 if qf_count == 0:
                     self.report.set_flag_high()
                     flag_msg = "QF-EHEA Level [%s] for programme [%s] should be in the institutions QF-EHEA level list."
