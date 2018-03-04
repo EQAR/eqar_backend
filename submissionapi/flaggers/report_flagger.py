@@ -63,9 +63,10 @@ class ReportFlagger():
         if self.report.status_id == 1:
             if not agency_focus_country.country_is_official:
                 self.report.set_flag_high()
-                flag_msg = "Country [%s] should be official on the Agency Focus country for [%s]."
-                self.flag_log.append(flag_msg % (agency_focus_country.country.name_english,
-                                                 self.report.agency.acronym_primary))
+                flag_msg = "Report was listed as obligatory, but the Agency (%s) does not have official status " \
+                           "in the institution's country (%s)"
+                self.flag_log.append(flag_msg % (self.report.agency.acronym_primary,
+                                                 agency_focus_country.country.name_english))
 
     def _check_programme_country_id(self, country):
         ic_count = self.report.institutions.filter(institutioncountry__country=country).count()
