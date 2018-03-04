@@ -92,14 +92,14 @@ class InstitutionSerializer(serializers.Serializer):
         identifiers = data.get('identifiers', [])
         name_official = data.get('name_official', None)
         locations = data.get('locations', [])
-        website_link = data.get('website_link', None)
+        website = data.get('website', None)
 
         #
-        # Either ETER or DEQAR or at least one identifier or (name_official, location, website_link) should
+        # Either ETER or DEQAR or at least one identifier or (name_official, location, website) should
         # be provided.
         #
         if eter_id is not None or deqar_id is not None or len(identifiers) > 0 or \
-                (name_official is not None and len(locations) > 0 and website_link is not None):
+                (name_official is not None and len(locations) > 0 and website is not None):
 
             institution_eter = None
             institution_deqar = None
@@ -123,9 +123,9 @@ class InstitutionSerializer(serializers.Serializer):
                 if institution_deqar.eter_id != institution_eter.id:
                     raise serializers.ValidationError("The provided DEQAR and ETER ID does not match.")
         else:
-            raise serializers.ValidationError("You have to provide either ETER/DEQAR/Identifier to identify institution"
-                                              "or name_official and location and website to identify or create a "
-                                              "new record.")
+            raise serializers.ValidationError("This report cannot be linked to an institution. "
+                                              "It is missing either a valid ETER ID, DEQAR ID, or local identifier "
+                                              "or a combination of institution official name, location and website. ")
 
         # Name official transliterated can only exists, when name official was submitted
         name_official = data.get('name_official', None)
@@ -246,7 +246,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
         # Validate if valid_to date is larger than valid_from
         if date_to:
             if date_from >= date_to:
-                errors.append("Valid to date should be earlier than valid from.")
+                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
         #
         # Validate if Agency registration start is earlier then report validation start date.
