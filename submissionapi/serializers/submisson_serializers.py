@@ -92,14 +92,14 @@ class InstitutionSerializer(serializers.Serializer):
         identifiers = data.get('identifiers', [])
         name_official = data.get('name_official', None)
         locations = data.get('locations', [])
-        website_link = data.get('website_link', None)
+        website = data.get('website', None)
 
         #
-        # Either ETER or DEQAR or at least one identifier or (name_official, location, website_link) should
+        # Either ETER or DEQAR or at least one identifier or (name_official, location, website) should
         # be provided.
         #
         if eter_id is not None or deqar_id is not None or len(identifiers) > 0 or \
-                (name_official is not None and len(locations) > 0 and website_link is not None):
+                (name_official is not None and len(locations) > 0 and website is not None):
 
             institution_eter = None
             institution_deqar = None
