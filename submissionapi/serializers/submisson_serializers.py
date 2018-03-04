@@ -231,6 +231,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         date_format = data.get('date_format', '%Y-%m-%d')
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
+        date_from = None
+        date_to = None
 
         try:
             date_from = datetime.strptime(valid_from, date_format)
@@ -240,6 +242,11 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 data['valid_to'] = date_to.strftime("%Y-%m-%d")
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
+
+        # Validate if valid_to date is larger than valid_from
+        if date_to:
+            if date_from >= date_to:
+                errors.append("Valid to date should be earlier than valid from.")
 
         #
         # Validate if Agency registration start is earlier then report validation start date.
