@@ -270,6 +270,16 @@ class SubmissionValidationTestCase(APITestCase):
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
+    def test_date_format_default_validation_error(self):
+        """
+        Test if serializer rejects records with proper default date format.
+        """
+        data = self.valid_data
+        data['valid_from'] = '2010-04-10'
+        data['valid_to'] = '2009-11-02'
+        serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
     def test_date_format_custom_validation_error(self):
         """
         Test if serializer rejects records with wrong custom date format.

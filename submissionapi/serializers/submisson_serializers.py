@@ -89,10 +89,10 @@ class InstitutionSerializer(serializers.Serializer):
     def validate(self, data):
         eter_id = data.get('eter_id', None)
         deqar_id = data.get('deqar_id', None)
-        identifiers = data.get('identifiers', "")
+        identifiers = data.get('identifiers', [])
         name_official = data.get('name_official', None)
-        locations = data.get('locations', "")
-        website_link = data.get('website', None)
+        locations = data.get('locations', [])
+        website_link = data.get('website_link', None)
 
         #
         # Either ETER or DEQAR or at least one identifier or (name_official, location, website_link) should
@@ -231,6 +231,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         date_format = data.get('date_format', '%Y-%m-%d')
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
+        date_from = None
+        date_to = None
 
         try:
             date_from = datetime.strptime(valid_from, date_format)
@@ -240,6 +242,11 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 data['valid_to'] = date_to.strftime("%Y-%m-%d")
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
+
+        # Validate if valid_to date is larger than valid_from
+        if date_to:
+            if date_from >= date_to:
+                errors.append("Valid to date should be earlier than valid from.")
 
         #
         # Validate if Agency registration start is earlier then report validation start date.
