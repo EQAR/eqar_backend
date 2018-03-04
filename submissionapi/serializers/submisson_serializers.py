@@ -123,9 +123,9 @@ class InstitutionSerializer(serializers.Serializer):
                 if institution_deqar.eter_id != institution_eter.id:
                     raise serializers.ValidationError("The provided DEQAR and ETER ID does not match.")
         else:
-            raise serializers.ValidationError("You have to provide either ETER/DEQAR/Identifier to identify institution"
-                                              "or name_official and location and website to identify or create a "
-                                              "new record.")
+            raise serializers.ValidationError("This report cannot be linked to an institution. "
+                                              "It is missing either a valid ETER ID, DEQAR ID, or local identifier "
+                                              "or a combination of institution official name, location and website. ")
 
         # Name official transliterated can only exists, when name official was submitted
         name_official = data.get('name_official', None)
