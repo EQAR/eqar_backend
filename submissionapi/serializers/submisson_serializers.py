@@ -89,10 +89,10 @@ class InstitutionSerializer(serializers.Serializer):
     def validate(self, data):
         eter_id = data.get('eter_id', None)
         deqar_id = data.get('deqar_id', None)
-        identifiers = data.get('identifiers', "")
+        identifiers = data.get('identifiers', [])
         name_official = data.get('name_official', None)
-        locations = data.get('locations', "")
-        website_link = data.get('website', None)
+        locations = data.get('locations', [])
+        website_link = data.get('website_link', None)
 
         #
         # Either ETER or DEQAR or at least one identifier or (name_official, location, website_link) should
