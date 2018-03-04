@@ -103,8 +103,9 @@ class ReportFlagger():
                 if ic.country.ehea_is_member:
                     if institution.institutionqfehealevel_set.count() == 0:
                         self.report.set_flag_low()
-                        flag_msg = "Country [%s] is marked as EHEA member, but QF EHEA level information is missing."
-                        self.flag_log.append(flag_msg % ic.country.name_english)
+                        flag_msg = "A new record was created for an institution (%s) " \
+                                   "in an EHEA member country (%s) without including QF-EHEA levels."
+                        self.flag_log.append(flag_msg % (ic.institution.name_primary, ic.country.name_english))
 
     def check_report_file(self):
         for rf in self.report.reportfile_set.all():
