@@ -15,6 +15,7 @@ class ReportFlagger():
         self.flag_log = []
 
     def check_and_set_flags(self):
+        self.report.reset_flag()
         self.check_countries()
         self.check_programme_qf_ehea_level()
         self.check_ehea_is_member()
@@ -79,14 +80,16 @@ class ReportFlagger():
         for programme in self.report.programme_set.all():
             qf_ehea_level = programme.qf_ehea_level
             if qf_ehea_level is not None:
-                qf_filter_count = self.report.institutions.filter(
-                    institutionqfehealevel__qf_ehea_level=qf_ehea_level,
-                    institutionqfehealevel__qf_ehea_level_verified=True
-                ).count()
-                if qf_filter_count == 0:
-                    self.report.set_flag_high()
-                    flag_msg = "QF-EHEA Level [%s] for programme [%s] should be in the institutions QF-EHEA level list."
-                    self.flag_log.append(flag_msg % (qf_ehea_level, programme.name_primary))
+                for institution in self.report.institutions.all():
+                    if institution.institutionqfehealevel_set.count() != 0:
+                        if institution.institutionqfehealevel_set.filter(
+                            qf_ehea_level=qf_ehea_level,
+                            qf_ehea_level_verified=True
+                        ).count() == 0:
+                            self.report.set_flag_high()
+                            flag_msg = "QF-EHEA Level [%s] for programme [%s] should be in the institutions " \
+                                       "QF-EHEA level list."
+                            self.flag_log.append(flag_msg % (qf_ehea_level, programme.name_primary))
 
     def check_validity_date(self):
         if self.report.valid_to < datetime.datetime.now() - relativedelta(years=1):

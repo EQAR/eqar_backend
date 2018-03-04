@@ -21,6 +21,11 @@ class Report(models.Model):
     flag = models.ForeignKey('lists.Flag', default=1)
     flag_log = models.TextField(blank=True)
 
+    def reset_flag(self):
+        self.flag = Flag.objects.get(pk=1)
+        self.flag_log = ""
+        self.save()
+
     def set_flag_low(self):
         if self.flag_id != 3:
             self.flag = Flag.objects.get(pk=2)
