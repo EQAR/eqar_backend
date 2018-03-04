@@ -253,7 +253,7 @@ class CSVHandler:
             if len(rematch) > 0:
                 for fld in rematch:
                     if row[fld] != '-':
-                        [field01, field02] = rematch[0].split('.')
+                        [field01, field02] = fld.split('.')
                         index01 = int(re.search(r"\d+", field01).group())
 
                         index02 = re.search(r"\[\d+\]", field02).group()
