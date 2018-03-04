@@ -246,7 +246,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
         # Validate if valid_to date is larger than valid_from
         if date_to:
             if date_from >= date_to:
-                errors.append("Valid to date should be earlier than valid from.")
+                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
         #
         # Validate if Agency registration start is earlier then report validation start date.
