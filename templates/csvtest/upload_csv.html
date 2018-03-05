@@ -33,9 +33,10 @@
                 <thead>
                     <tr>
                         <th>Row</th>
+                        <th>Agency Record ID</th>
                         <th>Submission Status</th>
-                        <th>Sanity Check</th>
                         <th>Errors</th>
+                        <th>Sanity Check</th>
                         <th>Report Flag</th>
                         <th>Report Warnings</th>
                         <th>Institution Warnings</th>
@@ -45,19 +46,12 @@
                     {% for response in response_list %}
                         <tr style="vertical-align: middle;">
                             <td>{{ forloop.counter }}</td>
+                            <td>{{ response.agency }}</td>
                             <td>
                                 {% if response.submission_status == 'success' %}
                                     <span class="label label-success">Success</span>
                                 {% else %}
                                     <span class="label label-danger">Errors</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if response.sanity_check_status == 'success' %}
-                                    <span class="label label-success">Success</span>
-                                {% endif %}
-                                {% if response.sanity_check_status == 'warnings' %}
-                                    <span class="label label-warning">Warning</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -67,6 +61,14 @@
                                         <dd>{{ value|join:", " }}</dd>
                                     </dl>
                                 {% endfor %}
+                            </td>
+                            <td>
+                                {% if response.sanity_check_status == 'success' %}
+                                    <span class="label label-success">Success</span>
+                                {% endif %}
+                                {% if response.sanity_check_status == 'warnings' %}
+                                    <span class="label label-warning">Warning</span>
+                                {% endif %}
                             </td>
                             <td>
                                 {% if response.report_flag == 'high level' %}
