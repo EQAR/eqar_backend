@@ -251,8 +251,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         #
         # Validate if Agency registration start is earlier then report validation start date.
         #
+        agency = data.get('agency', None)
         if date_from:
-            agency = data.get('agency', None)
             if datetime.date(date_from) < agency.registration_start:
                 errors.append("Agency registration start date should be an earlier date then report valid from date.")
 
