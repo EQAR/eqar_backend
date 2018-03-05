@@ -6,10 +6,12 @@ import io
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from institutions.models import Institution
 from submissionapi.csv_handler import CSVHandler
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.models import SubmissionLog
@@ -23,6 +25,12 @@ from bs4 import UnicodeDammit
 
 @login_required(login_url="/login")
 def upload_csv(request, csv_file=None):
+    # Save the highest institution id
+    try:
+        max_inst = Institution.objects.latest('id').id
+    except ObjectDoesNotExist:
+        max_inst = 0
+
     rejected_reports = []
     accepted_reports = []
     response_contains_valid = False
@@ -74,10 +82,15 @@ def upload_csv(request, csv_file=None):
             rejected_reports.append(make_error_response(serializer, original_data={}))
 
     if response_contains_valid:
-        send_submission_email.delay(accepted_reports, request.user.email)
-        return render(request, 'csvtest/upload_csv.html', context={'response_list': accepted_reports + rejected_reports})
+        send_submission_email.delay(response=accepted_reports,
+                                    institution_id_max=max_inst,
+                                    total_submission=len(rejected_reports)+len(accepted_reports),
+                                    agency_email=request.user.email)
+        return render(request, 'csvtest/upload_csv.html',
+                      context={'response_list': accepted_reports + rejected_reports})
     else:
-        return render(request, 'csvtest/upload_csv.html', context={'response_list': accepted_reports + rejected_reports})
+        return render(request, 'csvtest/upload_csv.html',
+                      context={'response_list': accepted_reports + rejected_reports})
 
 
 def make_success_response(populator, flagger):
@@ -92,6 +105,7 @@ def make_success_response(populator, flagger):
     serializer = ReportResponseSerializer(flagger.report)
 
     return {
+        'agency': populator.report.agency.deqar_id,
         'submission_status': 'success',
         'submitted_report': serializer.data,
         'sanity_check_status': sanity_check_status,

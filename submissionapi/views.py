@@ -10,6 +10,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from institutions.models import Institution
 from reports.models import ReportFile
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.models import SubmissionLog
@@ -22,6 +23,12 @@ from submissionapi.tasks import send_submission_email
 
 class Submission(APIView):
     def post(self, request, format=None):
+        # Save the highest institution id
+        try:
+            max_inst = Institution.objects.latest('id').id
+        except ObjectDoesNotExist:
+            max_inst = 0
+
         # Check if request is a list:
         if isinstance(request.data, list):
             accepted_reports = []
@@ -44,7 +51,10 @@ class Submission(APIView):
             if response_contains_error:
                 return Response(accepted_reports + rejected_reports, status=status.HTTP_400_BAD_REQUEST)
             else:
-                send_submission_email.delay(accepted_reports, request.user.email)
+                send_submission_email.delay(response=accepted_reports,
+                                            institution_id_max=max_inst,
+                                            total_submission=len(rejected_reports)+len(accepted_reports),
+                                            agency_email=request.user.email)
                 return Response(accepted_reports + rejected_reports, status=status.HTTP_200_OK)
 
         # If request is not a list
@@ -56,7 +66,10 @@ class Submission(APIView):
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
                 self.create_log_entry(request.data, populator, flagger)
-                send_submission_email.delay([self.make_success_response(populator, flagger)], request.user.email)
+                send_submission_email.delay(response=[self.make_success_response(populator, flagger)],
+                                            institution_id_max=max_inst,
+                                            total_submission=1,
+                                            agency_email=request.user.email)
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
