@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
 from agencies.models import AgencyESGActivity
-from institutions.models import Institution, InstitutionETERRecord
+from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
 from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
     QFEHEALevelField, CountryField
 
@@ -246,7 +246,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
         # Validate if valid_to date is larger than valid_from
         if date_to:
             if date_from >= date_to:
-                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+                errors.append("Report's validity start should be earlier then validity end.")
 
         #
         # Validate if Agency registration start is earlier then report validation start date.
@@ -254,7 +254,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
         agency = data.get('agency', None)
         if date_from:
             if datetime.date(date_from) < agency.registration_start:
-                errors.append("Agency registration start date should be an earlier date then report valid from date.")
+                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
@@ -283,6 +283,39 @@ class SubmissionPackageSerializer(serializers.Serializer):
                     errors.append("Please provide valid ESG Activity local identifier.")
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
+
+        # Check if Institution ID exists
+        institutions = data.get('institutions', [])
+        inst_exists = False
+
+        for institution in institutions:
+            eter_id = institution.get('eter_id', None)
+            deqar_id = institution.get('deqar_id', None)
+
+            name_official = institution.get('name_official', None)
+            locations = institution.get('locations', [])
+            website = institution.get('website', None)
+
+            if eter_id is None and deqar_id is None:
+                identifiers = institution.get('identifiers', [])
+                for idf in identifiers:
+                    identifier = idf.get('identifier', None)
+                    resource = idf.get('resource', 'local identifier')
+                    try:
+                        InstitutionIdentifier.objects.get(
+                            identifier=identifier,
+                            resource=resource,
+                            agency=agency
+                        )
+                        inst_exists = True
+                    except ObjectDoesNotExist:
+                        pass
+
+                if not inst_exists:
+                    if name_official is None or len(locations) == 0 or website is None:
+                        errors.append("This report cannot be linked to an institution. "
+                                      "It is missing a combination of institution official name, "
+                                      "location and website. ")
 
         #
         # If there are errors raise ValidationError
@@ -320,4 +353,5 @@ class SubmissionPackageSerializer(serializers.Serializer):
             if programmes is None:
                 raise serializers.ValidationError("Please provide at least one programme "
                                                   "with this particular Activity type.")
+
         return data
