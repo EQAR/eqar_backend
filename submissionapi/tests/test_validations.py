@@ -503,7 +503,7 @@ class SubmissionValidationTestCase(APITestCase):
             'locations': [
                 {'country': 'deu'}
             ],
-            'website': 'http://www.example.com'
+            'website_link': 'http://www.example.com'
         })
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -511,7 +511,7 @@ class SubmissionValidationTestCase(APITestCase):
     def test_institution_other_data_error(self):
         """
         Test if serializer rejects without DEQAR ID, ETER ID and identifiers but with name_official, location
-        and missing website.f
+        and missing website.
         """
         data = self.valid_data
         data['institutions'][0].pop('eter_id', None)
