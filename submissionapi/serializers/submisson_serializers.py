@@ -67,7 +67,7 @@ class InstitutionSerializer(serializers.Serializer):
     qf_ehea_levels = serializers.ListField(child=QFEHEALevelField(required=False), required=False)
 
     # Website
-    website = serializers.URLField(max_length=200, required=False)
+    website_link = serializers.URLField(max_length=200, required=False)
 
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
@@ -92,14 +92,14 @@ class InstitutionSerializer(serializers.Serializer):
         identifiers = data.get('identifiers', [])
         name_official = data.get('name_official', None)
         locations = data.get('locations', [])
-        website = data.get('website', None)
+        website_link = data.get('website_link', None)
 
         #
         # Either ETER or DEQAR or at least one identifier or (name_official, location, website) should
         # be provided.
         #
         if eter_id is not None or deqar_id is not None or len(identifiers) > 0 or \
-                (name_official is not None and len(locations) > 0 and website is not None):
+                (name_official is not None and len(locations) > 0 and website_link is not None):
 
             institution_eter = None
             institution_deqar = None
@@ -294,7 +294,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
             name_official = institution.get('name_official', None)
             locations = institution.get('locations', [])
-            website = institution.get('website', None)
+            website_link = institution.get('website_link', None)
 
             if eter_id is None and deqar_id is None:
                 identifiers = institution.get('identifiers', [])
@@ -312,7 +312,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                         pass
 
                 if not inst_exists:
-                    if name_official is None or len(locations) == 0 or website is None:
+                    if name_official is None or len(locations) == 0 or website_link is None:
                         errors.append("This report cannot be linked to an institution. "
                                       "It is missing a combination of institution official name, "
                                       "location and website. ")
