@@ -42,7 +42,7 @@ class SubmissionValidationTestCase(APITestCase):
                     "eter_id": "DE0392",
                     "identifiers": [
                         {
-                            "identifier": "004",
+                            "identifier": "LOCAL001",
                             "resource": "local identifier"
                         }, {
                             "identifier": "DE0876",
@@ -480,6 +480,16 @@ class SubmissionValidationTestCase(APITestCase):
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
+    def test_institution_identifiers_error(self):
+        """
+        Test if serializer accepts records without DEQAR and ETER ID but with wrong identifiers.
+        """
+        data = self.valid_data
+        data['institutions'][0].pop('eter_id', None)
+        data['institutions'][0]['identifiers'][0]['identifier'] = 'NOT_EXISTING_LOCAL'
+        serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
     def test_institution_other_data_ok(self):
         """
         Test if serializer accepts records without DEQAR ID, ETER ID and identifiers but with name_official, location
@@ -501,7 +511,7 @@ class SubmissionValidationTestCase(APITestCase):
     def test_institution_other_data_error(self):
         """
         Test if serializer rejects without DEQAR ID, ETER ID and identifiers but with name_official, location
-        and missing website.
+        and missing website.f
         """
         data = self.valid_data
         data['institutions'][0].pop('eter_id', None)
