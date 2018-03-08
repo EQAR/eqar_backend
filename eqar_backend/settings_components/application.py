@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'reports',
     'submissionapi',
     'webapi',
+    'adminapi',
     'csvtest'
 ]
 
