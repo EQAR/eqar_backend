@@ -23,8 +23,8 @@ class ReportFileInline(DEQARStackedInline):
 
 
 class ReportAdmin(DEQARModelAdmin):
-    list_display = ('get_agency_acronym', 'name')
-    list_display_links = ('get_agency_acronym', 'name')
+    list_display = ('id', 'local_identifier', 'agency_esg_activity', 'get_institutions', 'get_programme')
+    list_display_links = ('id', 'agency_esg_activity')
     ordering = ('agency', 'name')
     list_filter = ('agency',)
     filter_horizontal = ('institutions',)
@@ -46,8 +46,12 @@ class ReportAdmin(DEQARModelAdmin):
     )
     inlines = [ReportFileInline, ReportProgrammeInline]
 
-    def get_agency_acronym(self, obj):
-        return obj.agency.acronym_primary
-    get_agency_acronym.short_description = 'Agency'
+    def get_institutions(self, obj):
+        return ", ".join(str(inst) for inst in obj.institutions.all())
+    get_institutions.short_description = 'Institution(s)'
+
+    def get_programme(self, obj):
+        return ", ".join(prg.name_primary for prg in obj.programme_set.all())
+    get_programme.short_description = 'Programme(s)'
 
 admin_site.register(Report, ReportAdmin)
