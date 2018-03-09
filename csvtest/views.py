@@ -1,9 +1,8 @@
+import datetime
 import json
 
-import datetime
-
 import io
-
+from bs4 import UnicodeDammit
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,15 +11,13 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from institutions.models import Institution
-from submissionapi.csv_handler import CSVHandler
+from submissionapi.csv_functions.csv_handler import CSVHandler
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.models import SubmissionLog
 from submissionapi.populators.populator import Populator
 from submissionapi.serializers.response_serializers import ReportResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
-
-from bs4 import UnicodeDammit
 
 
 @login_required(login_url="/login")
