@@ -1,5 +1,9 @@
 import csv
+
+import itertools
 import re
+
+from submissionapi.csv_functions.csv_insensitive_dict_reader import DictReaderInsensitive
 
 
 class CSVHandler:
@@ -114,7 +118,7 @@ class CSVHandler:
 
     def _read_csv(self):
         self.csvfile.seek(0)
-        self.reader = csv.DictReader(self.csvfile, dialect=self.dialect)
+        self.reader = DictReaderInsensitive(self.csvfile, dialect=self.dialect)
 
     def _create_report(self, row):
         csv_fields = self.reader.fieldnames
