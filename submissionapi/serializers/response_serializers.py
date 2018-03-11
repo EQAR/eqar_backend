@@ -22,7 +22,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
 
 class ReportFileSerializer(serializers.ModelSerializer):
-    languages = serializers.StringRelatedField(many=True)
+    report_language = serializers.StringRelatedField(many=True, source='languages')
 
     class Meta:
         model = ReportFile
