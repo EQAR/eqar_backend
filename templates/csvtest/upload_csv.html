@@ -36,10 +36,8 @@
                         <th>Agency Record ID</th>
                         <th>Submission Status</th>
                         <th>Errors</th>
-                        <th>Sanity Check</th>
-                        <th>Report Flag</th>
+                        <th>Sanity Check Flag</th>
                         <th>Report Warnings</th>
-                        <th>Institution Warnings</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,14 +61,6 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                {% if response.sanity_check_status == 'success' %}
-                                    <span class="label label-success">Success</span>
-                                {% endif %}
-                                {% if response.sanity_check_status == 'warnings' %}
-                                    <span class="label label-warning">Warning</span>
-                                {% endif %}
-                            </td>
-                            <td>
                                 {% if response.report_flag == 'high level' %}
                                     <span class="label label-danger">High</span>
                                 {% endif %}
@@ -81,13 +71,6 @@
                             <td>
                                 <ul>
                                 {% for warning in response.report_warnings %}
-                                    <li>{{ warning }}</li>
-                                {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                {% for warning in response.institution_warnings %}
                                     <li>{{ warning }}</li>
                                 {% endfor %}
                                 </ul>

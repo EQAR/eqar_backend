@@ -31,8 +31,9 @@ class Submission(APIView):
 
         # Check if request is a list:
         if isinstance(request.data, list):
+            submitted_reports = []
             accepted_reports = []
-            rejected_reports = []
+            response_contains_success = False
             response_contains_error = False
 
             for data in request.data:
@@ -43,19 +44,23 @@ class Submission(APIView):
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
                     self.create_log_entry(request.data, populator, flagger)
+                    submitted_reports.append(self.make_success_response(populator, flagger))
                     accepted_reports.append(self.make_success_response(populator, flagger))
+                    response_contains_success = True
                 else:
+                    submitted_reports.append(self.make_error_response(serializer, data))
                     response_contains_error = True
-                    rejected_reports.append(self.make_error_response(serializer, data))
 
-            if response_contains_error:
-                return Response(accepted_reports + rejected_reports, status=status.HTTP_400_BAD_REQUEST)
-            else:
+            if response_contains_success:
                 send_submission_email.delay(response=accepted_reports,
                                             institution_id_max=max_inst,
-                                            total_submission=len(rejected_reports)+len(accepted_reports),
+                                            total_submission=len(submitted_reports),
                                             agency_email=request.user.email)
-                return Response(accepted_reports + rejected_reports, status=status.HTTP_200_OK)
+
+            if response_contains_error:
+                return Response(submitted_reports, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(submitted_reports, status=status.HTTP_200_OK)
 
         # If request is not a list
         else:
@@ -73,6 +78,8 @@ class Submission(APIView):
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
+
+
 
     def make_success_response(self, populator, flagger):
         institution_warnings = populator.institution_flag_log
