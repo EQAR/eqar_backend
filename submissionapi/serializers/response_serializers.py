@@ -26,7 +26,7 @@ class ReportFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportFile
-        fields = ('id', 'file_display_name', 'file_original_location', 'file', 'languages')
+        fields = ('id', 'file_display_name', 'file_original_location', 'file', 'report_language')
 
 
 class ReportResponseSerializer(serializers.ModelSerializer):
