@@ -28,7 +28,7 @@ def upload_csv(request, csv_file=None):
     except ObjectDoesNotExist:
         max_inst = 0
 
-    rejected_reports = []
+    submitted_reports = []
     accepted_reports = []
     response_contains_valid = False
 
@@ -73,21 +73,22 @@ def upload_csv(request, csv_file=None):
             flagger = ReportFlagger(report=populator.report)
             flagger.check_and_set_flags()
             create_log_entry(original_data, populator, flagger)
+            submitted_reports.append(make_success_response(populator, flagger))
             accepted_reports.append(make_success_response(populator, flagger))
             response_contains_valid = True
         else:
-            rejected_reports.append(make_error_response(serializer, original_data={}))
+            submitted_reports.append(make_error_response(serializer, original_data={}))
 
     if response_contains_valid:
         send_submission_email.delay(response=accepted_reports,
                                     institution_id_max=max_inst,
-                                    total_submission=len(rejected_reports)+len(accepted_reports),
+                                    total_submission=len(submitted_reports),
                                     agency_email=request.user.email)
         return render(request, 'csvtest/upload_csv.html',
-                      context={'response_list': accepted_reports + rejected_reports})
+                      context={'response_list': submitted_reports})
     else:
         return render(request, 'csvtest/upload_csv.html',
-                      context={'response_list': accepted_reports + rejected_reports})
+                      context={'response_list': submitted_reports})
 
 
 def make_success_response(populator, flagger):
