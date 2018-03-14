@@ -104,6 +104,7 @@ def make_success_response(populator, flagger):
 
     return {
         'agency': populator.report.agency.deqar_id,
+        'report': populator.report.id,
         'submission_status': 'success',
         'submitted_report': serializer.data,
         'sanity_check_status': sanity_check_status,

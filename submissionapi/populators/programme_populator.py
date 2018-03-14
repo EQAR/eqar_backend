@@ -1,8 +1,12 @@
+import logging
+
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 
 from institutions.models import InstitutionCountry
 from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
 
+logger = logging.getLogger(__name__)
 
 class ProgrammePopulator():
     """
@@ -39,6 +43,7 @@ class ProgrammePopulator():
         """
         Create ProgrammeName instance.
         """
+        primary_name = self.submission.get('name_primary', "")
         alternative_names = self.submission.get('alternative_names', [])
         self.programme.programmename_set.create(
             name=self.submission.get('name_primary', ""),
@@ -46,11 +51,17 @@ class ProgrammePopulator():
             name_is_primary=True
         )
         for an in alternative_names:
-            self.programme.programmename_set.create(
-                name=an.get('name_alternative', ""),
-                qualification=an.get('qualification_alternative', ""),
-                name_is_primary=False
-            )
+            alt_name = an.get('name_alternative', "")
+            if alt_name != primary_name:
+                try:
+                    self.programme.programmename_set.create(
+                        name=alt_name,
+                        qualification=an.get('qualification_alternative', ""),
+                        name_is_primary=False
+                    )
+                except IntegrityError:
+                    logger.error('Duplicated alternative name (%s) in report: %s! SKIPPING' %
+                                 (alt_name, self.report.id))
         self.programme.set_primary_name()
 
     def _programme_identifier_insert(self):
