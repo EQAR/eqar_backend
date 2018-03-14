@@ -33,7 +33,7 @@
                 <thead>
                     <tr>
                         <th>Row</th>
-                        <th>Agency Record ID</th>
+                        <th>Report ID</th>
                         <th>Submission Status</th>
                         <th>Errors</th>
                         <th>Sanity Check Flag</th>
@@ -44,7 +44,7 @@
                     {% for response in response_list %}
                         <tr style="vertical-align: middle;">
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ response.agency }}</td>
+                            <td>{{ response.report }}</td>
                             <td>
                                 {% if response.submission_status == 'success' %}
                                     <span class="label label-success">Success</span>
