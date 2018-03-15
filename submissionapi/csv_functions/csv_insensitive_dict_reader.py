@@ -17,9 +17,13 @@ class DictReaderInsensitive(csv.DictReader):
 
         # store all pairs from the old dict in the new, custom one
         for key, value in dOriginal.items():
-            dInsensitive[key] = value.strip()
+            if value:
+                dInsensitive[key] = value.strip()
+            else:
+                dInsensitive[key] = ""
 
         return dInsensitive
+
 
 class DictInsensitive(dict):
     # This class overrides the __getitem__ method to automatically strip() and lower() the input key
