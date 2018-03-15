@@ -5,6 +5,7 @@ import datetime
 import os
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from ipware import get_client_ip
 from rest_framework import status
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
@@ -19,15 +20,24 @@ from submissionapi.populators.populator import Populator
 from submissionapi.serializers.response_serializers import ReportResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
+from submissionapi.trackers.submission_tracker import SubmissionTracker
 
 
 class Submission(APIView):
-    def post(self, request, format=None):
+    def post(self, request):
         # Save the highest institution id
         try:
             max_inst = Institution.objects.latest('id').id
         except ObjectDoesNotExist:
             max_inst = 0
+
+        # Tracking
+        client_ip, is_routable = get_client_ip(request)
+        tracker = SubmissionTracker(original_data=request.data,
+                                    origin='api',
+                                    user_profile=request.user.deqarprofile,
+                                    ip_address=client_ip)
+        tracker.log_package()
 
         # Check if request is a list:
         if isinstance(request.data, list):
@@ -43,7 +53,7 @@ class Submission(APIView):
                     populator.populate()
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
-                    self.create_log_entry(request.data, populator, flagger)
+                    tracker.log_report(populator, flagger)
                     submitted_reports.append(self.make_success_response(populator, flagger))
                     accepted_reports.append(self.make_success_response(populator, flagger))
                     response_contains_success = True
@@ -70,7 +80,7 @@ class Submission(APIView):
                 populator.populate()
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
-                self.create_log_entry(request.data, populator, flagger)
+                tracker.log_report(populator, flagger)
                 send_submission_email.delay(response=[self.make_success_response(populator, flagger)],
                                             institution_id_max=max_inst,
                                             total_submission=1,
@@ -78,8 +88,6 @@ class Submission(APIView):
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
-
-
 
     def make_success_response(self, populator, flagger):
         institution_warnings = populator.institution_flag_log
@@ -107,17 +115,6 @@ class Submission(APIView):
             'original_data': original_data,
             'errors': serializer.errors
         }
-
-    def create_log_entry(self, original_data, populator, flagger):
-        SubmissionLog.objects.create(
-            agency=populator.agency,
-            report=flagger.report,
-            submitted_data=json.dumps(original_data),
-            report_status=flagger.report.flag,
-            report_warnings=json.dumps(flagger.flag_log),
-            institution_warnings=json.dumps(populator.institution_flag_log),
-            submission_date=datetime.date.today()
-        )
 
 
 class ReportFileUploadView(APIView):

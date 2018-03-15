@@ -1,6 +1,3 @@
-import datetime
-import json
-
 import io
 from bs4 import UnicodeDammit
 from django.contrib import messages
@@ -9,15 +6,16 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from ipware import get_client_ip
 
 from institutions.models import Institution
 from submissionapi.csv_functions.csv_handler import CSVHandler
 from submissionapi.flaggers.report_flagger import ReportFlagger
-from submissionapi.models import SubmissionLog
 from submissionapi.populators.populator import Populator
 from submissionapi.serializers.response_serializers import ReportResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
+from submissionapi.trackers.submission_tracker import SubmissionTracker
 
 
 @login_required(login_url="/login")
@@ -61,6 +59,14 @@ def upload_csv(request, csv_file=None):
     csv_handler = CSVHandler(csvfile=csv_object)
     csv_handler.handle()
 
+    # Tracking
+    client_ip, is_routable = get_client_ip(request)
+    tracker = SubmissionTracker(original_data=original_data,
+                                origin='csv',
+                                user_profile=request.user.deqarprofile,
+                                ip_address=client_ip)
+    tracker.log_package()
+
     if csv_handler.error:
         messages.error(request, csv_handler.error_message)
         return HttpResponseRedirect(reverse("csvtest:upload_csv"))
@@ -72,12 +78,13 @@ def upload_csv(request, csv_file=None):
             populator.populate()
             flagger = ReportFlagger(report=populator.report)
             flagger.check_and_set_flags()
-            create_log_entry(original_data, populator, flagger)
+            tracker.log_report(populator, flagger)
             submitted_reports.append(make_success_response(populator, flagger))
             accepted_reports.append(make_success_response(populator, flagger))
             response_contains_valid = True
         else:
             submitted_reports.append(make_error_response(serializer, original_data={}))
+
 
     if response_contains_valid:
         send_submission_email.delay(response=accepted_reports,
@@ -120,15 +127,3 @@ def make_error_response(serializer, original_data):
         'original_data': original_data,
         'errors': serializer.errors
     }
-
-
-def create_log_entry(original_data, populator, flagger):
-    SubmissionLog.objects.create(
-        agency=populator.agency,
-        report=flagger.report,
-        submitted_data=json.dumps(original_data),
-        report_status=flagger.report.flag,
-        report_warnings=json.dumps(flagger.flag_log),
-        institution_warnings=json.dumps(populator.institution_flag_log),
-        submission_date=datetime.date.today()
-    )
