@@ -1,12 +1,10 @@
 from django.conf.urls import url
 
-from adminapi.serializers.select_serializer import IdentifierResourceSelectSerializer
 from adminapi.views.dashboard_views import ReportsByAgency
 from adminapi.views.institution_views import InstitutionSelectList
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList
-from submissionapi.views import Submission, ReportFileUploadView
 
 urlpatterns = [
     url(r'^reports_by_agency$', ReportsByAgency.as_view(), name='submit-report'),
