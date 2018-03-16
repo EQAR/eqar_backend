@@ -12,11 +12,12 @@ class AgencySelectSerializer(serializers.ModelSerializer):
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
+    agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
     activity_type = serializers.StringRelatedField()
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['id', 'activity', 'activity_type']
+        fields = ['id', 'agency', 'activity', 'activity_type']
 
 
 class CountrySelectSerializer(serializers.ModelSerializer):
