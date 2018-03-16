@@ -21,6 +21,9 @@ class Programme(models.Model):
             models.Index(fields=['name_primary']),
         ]
 
+    def __str__(self):
+        return self.name_primary
+
     def set_primary_name(self):
         prg_name_primary = self.programmename_set.filter(name_is_primary=True).first()
         if prg_name_primary is not None:

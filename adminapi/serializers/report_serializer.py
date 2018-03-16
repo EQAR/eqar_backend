@@ -4,6 +4,7 @@ from reports.models import Report
 
 
 class ReportDashboardSerializer(serializers.ModelSerializer):
+    agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
     institutions = serializers.StringRelatedField(many=True)
     programmes = serializers.StringRelatedField(many=True, source='programme_set')
     flag = serializers.StringRelatedField()
@@ -11,7 +12,7 @@ class ReportDashboardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'name', 'institutions', 'programmes', 'flag', 'date']
+        fields = ['id', 'agency', 'name', 'institutions', 'programmes', 'flag', 'date']
 
     def get_date(self, obj):
         try:
