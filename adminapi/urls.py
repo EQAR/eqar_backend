@@ -4,7 +4,7 @@ from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_views import InstitutionSelectList
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
-    PermissionTypeSelectList, QFEHEALevelSelectList
+    PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList
 
 urlpatterns = [
     # Dashboard
@@ -13,6 +13,8 @@ urlpatterns = [
 
     # Select Endpoints
     url(r'^select/agency/$', AgencySelectList.as_view(), name='agency-select'),
+    url(r'^select/agency_esg_activity/$', AgencyESGActivitySelectAllList.as_view(),
+        name='agency-activity-select'),
     url(r'^select/agency_esg_activity/(?P<pk>[0-9]+)/$', AgencyESGActivitySelectList.as_view(),
         name='agency-activity-select'),
     url(r'^select/country/$', CountrySelectList.as_view(), name='country-select'),
