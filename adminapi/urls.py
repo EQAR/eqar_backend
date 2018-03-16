@@ -1,13 +1,15 @@
 from django.conf.urls import url
 
-from adminapi.views.dashboard_views import ReportsByAgency
+from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_views import InstitutionSelectList
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList
 
 urlpatterns = [
+    # Dashboard
     url(r'^reports_by_agency$', ReportsByAgency.as_view(), name='submit-report'),
+    url(r'^dashboard/badges', DashboardBadgesView.as_view(), name='dashboard-badges'),
 
     # Select Endpoints
     url(r'^select/agency/$', AgencySelectList.as_view(), name='agency-select'),
