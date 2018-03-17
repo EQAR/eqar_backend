@@ -9,12 +9,12 @@
     <p>The following reports were submitted on {{ date }}
 
     <p>
-        <strong>SUBMISSION INGEST SUMMMARY</strong><br/>
+        <strong>SUBMISSION INGEST SUMMARY</strong><br/>
         <strong>Total number of reports submitted: {{ total_submission }}</strong><br/>
         Total accepted: {{ total_accepted }}<br/>
         Total rejected: {{ total_rejected }}<br/>
         <strong>Total number of institution records identified or created: {{ institution_total}}</strong><br/>
-        Total existing institution records identifed: {{ institution_existing }}<br/>
+        Total existing institution records identified: {{ institution_existing }}<br/>
         Total new institution records created: {{ institution_new }}<br/>
     </p>
     <hr/>
