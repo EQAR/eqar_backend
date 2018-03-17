@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 # Create your views here.
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.status import HTTP_401_UNAUTHORIZED
 
 
 class GetAuthToken(ObtainAuthToken):
@@ -21,4 +22,4 @@ class GetAuthToken(ObtainAuthToken):
             return Response({
                 'state': 'error',
                 'errorMessage': "Unable to log in with provided credentials."
-            })
+            }, status=HTTP_401_UNAUTHORIZED)

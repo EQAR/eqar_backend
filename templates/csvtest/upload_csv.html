@@ -43,7 +43,7 @@
                 <tbody>
                     {% for response in response_list %}
                         <tr style="vertical-align: middle;">
-                            <td>{{ forloop.counter }}</td>
+                            <td>{{ forloop.counter|add:"1" }}</td>
                             <td>{{ response.report }}</td>
                             <td>
                                 {% if response.submission_status == 'success' %}
