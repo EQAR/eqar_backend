@@ -103,7 +103,7 @@ class ReportFlagger():
                 if ic.country.ehea_is_member:
                     if institution.institutionqfehealevel_set.count() == 0:
                         self.report.set_flag_low()
-                        flag_msg = "A new record was created for an institution (%s) " \
+                        flag_msg = "A record was created/identified for an institution (%s) " \
                                    "in an EHEA member country (%s) without including QF-EHEA levels."
                         self.flag_log.append(flag_msg % (ic.institution.name_primary, ic.country.name_english))
 

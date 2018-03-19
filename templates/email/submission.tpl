@@ -56,6 +56,4 @@
         </p>
         <hr/>
     {% endfor %}
-
-    <p><strong>This message will be cc-d to {{ agency_email }} when the agency test starts.</strong></p>
 {% endblock %}
