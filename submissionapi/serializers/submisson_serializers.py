@@ -155,9 +155,7 @@ class ProgrammeSerializer(serializers.Serializer):
     countries = serializers.ListField(child=CountryField(required=False), required=False)
 
     # Level
-    nqf_level = serializers.ChoiceField(choices=[('level 6', 'level 6'),
-                                                 ('level 7', 'level 7'),
-                                                 ('level 8', 'level 8')], required=False)
+    nqf_level = serializers.CharField(max_length=255, required=False)
     qf_ehea_level = QFEHEALevelField(required=False)
 
     def validate_identifiers(self, value):
@@ -179,7 +177,7 @@ class ProgrammeSerializer(serializers.Serializer):
 
 
 class ReportFileSerializer(serializers.Serializer):
-    original_location = serializers.URLField(max_length=255, required=False)
+    original_location = serializers.URLField(max_length=500, required=False)
     display_name = serializers.CharField(max_length=255, required=False)
     report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True)
 
