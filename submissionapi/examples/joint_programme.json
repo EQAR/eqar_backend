@@ -53,7 +53,7 @@
                 }
             ],
             "qf_ehea_levels": ["short cycle", "first cycle", "second cycle"],
-            "website": "http://www.musikhochschule-hamburg.de"
+            "website_link": "http://www.musikhochschule-hamburg.de"
         }
     ],
     "programmes": [
