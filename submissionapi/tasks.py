@@ -34,7 +34,6 @@ def download_file(url, report_file_id, agency_acronym):
 def send_submission_email(response, institution_id_max, total_submission, agency_email):
     from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
     cc = getattr(settings, "EMAIL_CC", "")
-    to_email = getattr(settings, "EMAIL_TO", "")
     total_accepted = len(response)
     total_rejected = total_submission-total_accepted
 
@@ -62,6 +61,6 @@ def send_submission_email(response, institution_id_max, total_submission, agency
     }
     message = EmailMessage('email/submission.tpl', context=context,
                            from_email=from_email,
-                           to=to_email,
+                           to=agency_email,
                            cc=cc)
     message.send()
