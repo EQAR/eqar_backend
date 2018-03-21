@@ -8,7 +8,8 @@ from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from lists.models import PermissionType
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
-from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer
+from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
+    CountryListSerializer, CountryReportListSerializer
 
 
 class CountryFilterClass(filters.FilterSet):
@@ -36,7 +37,7 @@ class CountryList(generics.ListAPIView):
     filter_class = CountryFilterClass
 
     def get_queryset(self):
-        qs = Country.objects.exclude(agency=None).annotate(Count('agency'))
+        qs = Country.objects.filter(ehea_is_member=True).annotate(Count('agency'))
         return qs
 
 
@@ -58,6 +59,20 @@ class CountryListByAgency(generics.ListAPIView):
                 Q(country_valid_to__gt=datetime.datetime.now())
             )
             return qs
+
+
+class CountryListByReports(generics.ListAPIView):
+    """
+        Returns a list of countries appearing in reports.
+    """
+    serializer_class = CountryReportListSerializer
+
+    def get_queryset(self):
+        qs = Country.objects.filter(
+            Q(institutioncountry__institution__reports__isnull=False)
+        ).annotate(Count('id'))
+        return qs
+
 
 
 class CountryDetail(generics.RetrieveAPIView):

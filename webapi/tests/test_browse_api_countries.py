@@ -27,7 +27,7 @@ class BrowseCountryAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/countries/')
-        self.assertEqual(response.data['count'], 2)
+        self.assertEqual(response.data['count'], 49)
 
     def test_country_list_external_qaa_filter(self):
         """
@@ -35,13 +35,13 @@ class BrowseCountryAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response_1 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 1})
-        self.assertEqual(response_1.data['results'][0]['name_english'], 'Germany')
+        self.assertEqual(response_1.data['results'][0]['name_english'], 'Armenia')
 
         response_2 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 2})
-        self.assertEqual(response_2.data['count'], 0)
+        self.assertEqual(response_2.data['count'], 32)
 
         response_3 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 3})
-        self.assertEqual(response_3.data['results'][0]['name_english'], 'Estonia')
+        self.assertEqual(response_3.data['results'][0]['name_english'], 'Albania')
 
     def test_country_list_european_approach_filter(self):
         """
@@ -49,10 +49,10 @@ class BrowseCountryAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response_1 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 1})
-        self.assertEqual(response_1.data['results'][0]['name_english'], 'Germany')
+        self.assertEqual(response_1.data['results'][0]['name_english'], 'Armenia')
 
         response_2 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 2})
-        self.assertEqual(response_2.data['results'][0]['name_english'], 'Estonia')
+        self.assertEqual(response_2.data['results'][0]['name_english'], 'Albania')
 
         response_3 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 3})
         self.assertEqual(response_3.data['count'], 0)
@@ -63,10 +63,10 @@ class BrowseCountryAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response_true = self.client.get('/webapi/v1/browse/countries/', {'eqar_governmental_member': 'true'})
-        self.assertEqual(response_true.data['count'], 2)
+        self.assertEqual(response_true.data['count'], 38)
 
         response_false = self.client.get('/webapi/v1/browse/countries/', {'eqar_governmental_member': 'false'})
-        self.assertEqual(response_false.data['count'], 0)
+        self.assertEqual(response_false.data['count'], 11)
 
     def test_country_detail(self):
         """
