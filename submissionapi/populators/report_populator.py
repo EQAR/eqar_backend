@@ -46,6 +46,7 @@ class ReportPopulator():
             self.report.status = self.submission.get('status', None)
             self.report.decision = self.submission.get('decision', None)
             self.report.valid_from = self.submission.get('valid_from', None)
+            self.report.valid_to = self.submission.get('valid_to', None)
 
         # Create report
         else:
