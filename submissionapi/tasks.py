@@ -13,7 +13,8 @@ from submissionapi.flaggers.report_flagger import ReportFlagger
 def download_file(url, report_file_id, agency_acronym):
     local_filename = url.split('/')[-1]
     local_filename = "%s_%s" % ((datetime.datetime.now().strftime("%Y%m%d_%H%M")), local_filename)
-    r = requests.get(url, stream=True)
+    headers = {'User-Agent': 'DEQAR File Downlaoder'}
+    r = requests.get(url, headers=headers, stream=True)
     if r.status_code == requests.codes.ok:
         rf = ReportFile.objects.get(pk=report_file_id)
         file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym, local_filename)
@@ -61,6 +62,5 @@ def send_submission_email(response, institution_id_max, total_submission, agency
     }
     message = EmailMessage('email/submission.tpl', context=context,
                            from_email=from_email,
-                           to=[agency_email],
-                           cc=cc)
+                           to=cc)
     message.send()
