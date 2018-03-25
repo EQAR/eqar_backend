@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'suit_ckeditor',
     'mail_templated',
+    'django_unused_media',
 
     'accounts',
     'agencies',
