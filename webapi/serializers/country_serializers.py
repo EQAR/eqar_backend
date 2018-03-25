@@ -13,7 +13,7 @@ class CountryListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
-    institution_count = serializers.IntegerField(source='id__count')
+    institution_count = serializers.IntegerField(source='inst_count')
 
     class Meta:
         model = Country

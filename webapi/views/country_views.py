@@ -9,7 +9,7 @@ from countries.models import Country
 from lists.models import PermissionType
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
 from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
-    CountryListSerializer, CountryReportListSerializer
+    CountryReportListSerializer
 
 
 class CountryFilterClass(filters.FilterSet):
@@ -66,13 +66,47 @@ class CountryListByReports(generics.ListAPIView):
         Returns a list of countries appearing in reports.
     """
     serializer_class = CountryReportListSerializer
+    pagination_class = None
 
     def get_queryset(self):
-        qs = Country.objects.filter(
-            Q(institutioncountry__institution__reports__isnull=False)
-        ).annotate(Count('id'))
-        return qs
+        include_history = self.request.query_params.get('history', False)
 
+        sql = '''
+            SELECT
+            id, iso_3166_alpha2, iso_3166_alpha3, name_english, COUNT(institution_id) as inst_count
+            FROM
+            (SELECT DISTINCT deqar_countries."id",
+                deqar_countries.iso_3166_alpha2,
+                deqar_countries.iso_3166_alpha3,
+                deqar_countries.name_english,
+                deqar_institution_countries.institution_id
+            FROM deqar_countries
+                INNER JOIN deqar_institution_countries ON
+                  deqar_countries."id" = deqar_institution_countries.country_id
+                INNER JOIN deqar_reports_institutions ON
+                  deqar_institution_countries.institution_id = deqar_reports_institutions.institution_id
+                INNER JOIN deqar_reports ON
+                  deqar_reports_institutions.report_id = deqar_reports."id"
+            WHERE deqar_reports.flag_id != 3
+            %s
+            GROUP BY deqar_countries."id",
+                deqar_countries.iso_3166_alpha2,
+                deqar_countries.iso_3166_alpha3,
+                deqar_countries.name_english,
+                deqar_institution_countries.institution_id
+            ORDER BY name_english) AS filtered_countries
+            GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english
+        '''
+
+        if include_history:
+            sql %= ""
+            qs = Country.objects.raw(sql)
+        else:
+            history_sql = '''AND (deqar_institution_countries.country_valid_to >= %s OR
+                             deqar_institution_countries.country_valid_to IS NULL)'''
+            sql %= history_sql
+            qs = Country.objects.raw(sql, params=[datetime.datetime.now()])
+        return qs
 
 
 class CountryDetail(generics.RetrieveAPIView):
