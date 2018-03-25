@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^browse/countries/(?P<pk>[0-9]+)/$', CountryDetail.as_view(), name='country-detail'),
     url(r'^browse/countries/by-agency-focus/(?P<agency>[0-9]+)/$', CountryListByAgency.as_view(),
         name='country-list-by-agency'),
-    url(r'^browse/countries/by-reports/', CountryListByReports.as_view(), name='country-list-by-reports'),
+    url(r'^browse/countries/by-reports/$', CountryListByReports.as_view(), name='country-list-by-reports'),
 
     url(r'^browse/institutions/$', InstitutionList.as_view(), name='institution-list'),
     url(r'^browse/institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-detail'),
