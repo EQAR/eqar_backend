@@ -35,6 +35,7 @@ class CountryList(generics.ListAPIView):
     ordering_fields = ('name_english', 'agency__count')
     ordering = ('name_english',)
     filter_class = CountryFilterClass
+    pagination_class = None
 
     def get_queryset(self):
         qs = Country.objects.filter(ehea_is_member=True).annotate(Count('agency'))
