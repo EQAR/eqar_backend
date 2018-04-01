@@ -268,6 +268,40 @@ class InstitutionETERRecord(models.Model):
         verbose_name_plural = 'ETER Records'
 
 
+class InstitutionRelationshipType(models.Model):
+    """
+    Relatinship types between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    type_from = models.CharField(max_length=200)
+    type_to = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "=> %s / %s <=" % (self.type_from, self.type_to)
+
+    class Meta:
+        db_table = 'deqar_institution_relationship_types'
+        verbose_name = 'Institution Relationship Type'
+        verbose_name_plural = 'Institution Relationship Types'
+
+
+class InstitutionRelationship(models.Model):
+    """
+    Relationships between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    institution_source = models.ForeignKey('Institution', related_name='relationship_source', on_delete=models.CASCADE)
+    institution_target = models.ForeignKey('Institution', related_name='relationship_target', on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey('InstitutionRelationshipType', on_delete=models.CASCADE)
+    relationship_note = models.CharField(max_length=300, blank=True, null=True)
+    relationship_date = models.DateField(default=datetime.date.today)
+
+    class Meta:
+        db_table = 'deqar_institution_relationships'
+        verbose_name = 'Institution Relationship'
+        verbose_name_plural = 'Institution Relationships'
+
+
 class InstitutionHistoricalField(models.Model):
     """
     Name of the db_fields which can contain historical data of the institution.

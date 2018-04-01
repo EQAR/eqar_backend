@@ -1,7 +1,7 @@
 import datetime
 from django.test import TestCase
 
-from institutions.models import Institution, InstitutionHistoricalField
+from institutions.models import Institution, InstitutionHistoricalField, InstitutionRelationshipType
 
 
 class InstitutionTestCase(TestCase):
@@ -14,7 +14,9 @@ class InstitutionTestCase(TestCase):
         'agency_activity_type', 'agency_focus', 'identifier_resource',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
-        'submitting_agency_demo',        'institution_demo_01', 'institution_demo_02', 'institution_demo_03'
+        'submitting_agency_demo',
+        'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
+        'institution_relationship_type'
     ]
 
     def test_institution_nqf_level_str(self):
@@ -111,3 +113,7 @@ class InstitutionTestCase(TestCase):
         self.assertEqual('%s on [%s]; %s on [%s]' % (msg1, cur_date, msg2, cur_date), inst_qf.qf_ehea_level_source_note)
         inst_qf.add_source_note(msg2)
         self.assertEqual('%s on [%s]; %s on [%s]' % (msg1, cur_date, msg2, cur_date), inst_qf.qf_ehea_level_source_note)
+
+    def test_institution_relationship_type_str(self):
+        relationship_type = InstitutionRelationshipType.objects.get(id=1)
+        self.assertEqual(str(relationship_type), '=> parent / child <=')
