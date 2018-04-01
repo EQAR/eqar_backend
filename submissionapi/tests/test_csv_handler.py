@@ -100,3 +100,15 @@ class SerializerFieldValidationTestCase(TestCase):
                 csv_handler._clear_submission_data()
                 self.assertFalse('reports' in csv_handler.submission_data[0])
                 break
+
+    def test_handle(self):
+        file = os.path.join(self.current_dir, "csv_test_files", "test_programme.csv")
+        with open(file, 'r') as csv_file:
+            csv_handler = CSVHandler(csvfile=csv_file)
+            csv_handler._read_csv()
+            csv_handler.handle()
+            self.assertEqual(len(csv_handler.submission_data), 2)
+            self.assertEqual(csv_handler.submission_data[0]['institutions'][0]['name_official'],
+                             'Prince Claus Conservatoire')
+            self.assertEqual(csv_handler.submission_data[1]['institutions'][0]['eter_id'],
+                             'DE0140')
