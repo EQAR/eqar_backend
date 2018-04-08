@@ -1,7 +1,7 @@
 import datetime
 from django.db.models import Q
 from rest_framework import generics
-from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.filters import OrderingFilter
 
 from agencies.models import Agency
 from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer

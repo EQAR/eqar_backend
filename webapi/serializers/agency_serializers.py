@@ -78,15 +78,19 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     decisions = serializers.SerializerMethodField()
     historical_data = AgencyHistoricalDataSerializer(many=True, read_only=True, source='agencyhistoricaldata_set')
     geographical_focus = serializers.StringRelatedField(read_only=True)
+    report_count = serializers.SerializerMethodField()
 
     def get_decisions(self, obj):
         queryset = AgencyEQARDecision.objects.filter(agency=self.instance).order_by('-decision_date')
         return AgencyEQARDecisionSerializer(queryset, many=True, context=self.context).data
 
+    def get_report_count(self, obj):
+        return obj.report_set.count()
+
     class Meta:
         model = Agency
         fields = ('id', 'deqar_id', 'names', 'contact_person', 'registration_start', 'registration_valid_to', 'registration_note',
                   'phone_numbers', 'address', 'country', 'emails', 'website_link', 'logo',
-                  'activities', 'associations', 'decisions', 'specialisation_note',
+                  'report_count', 'activities', 'associations', 'decisions', 'specialisation_note',
                   'description_note', 'geographical_focus', 'historical_data',)
 
