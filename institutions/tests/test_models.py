@@ -1,7 +1,7 @@
 import datetime
 from django.test import TestCase
 
-from institutions.models import Institution, InstitutionHistoricalField, InstitutionRelationshipType
+from institutions.models import Institution, InstitutionHistoricalField, InstitutionHistoricalRelationshipType
 
 
 class InstitutionTestCase(TestCase):
@@ -114,6 +114,6 @@ class InstitutionTestCase(TestCase):
         inst_qf.add_source_note(msg2)
         self.assertEqual('%s on [%s]; %s on [%s]' % (msg1, cur_date, msg2, cur_date), inst_qf.qf_ehea_level_source_note)
 
-    def test_institution_relationship_type_str(self):
-        relationship_type = InstitutionRelationshipType.objects.get(id=1)
-        self.assertEqual(str(relationship_type), '=> parent / child <=')
+    def test_institution_historical_relationship_type_str(self):
+        relationship_type = InstitutionHistoricalRelationshipType.objects.get(id=1)
+        self.assertEqual(str(relationship_type), '=> precedes / succeeds <=')
