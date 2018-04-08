@@ -111,7 +111,7 @@ class CSVHandler:
     def _csv_is_valid(self):
         try:
             self.csvfile.seek(0)
-            self.dialect = csv.Sniffer().sniff(self.csvfile.read())
+            self.dialect = csv.Sniffer().sniff(self.csvfile.read(), delimiters=['\t', ',', ';'])
             return True
         except csv.Error:
             return False

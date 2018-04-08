@@ -13,6 +13,10 @@ class Institution(models.Model):
     eter = models.ForeignKey('institutions.InstitutionETERRecord', blank=True, null=True, on_delete=models.PROTECT)
     name_primary = models.CharField(max_length=200, blank=True)
     website_link = models.CharField(max_length=150)
+    founding_date = models.DateField(blank=True, null=True)
+    closure_date = models.DateField(blank=True, null=True)
+    national_identifier = models.CharField(max_length=50, blank=True, null=True)
+    source_note = models.TextField(blank=True, null=True)
     flag = models.ForeignKey('lists.Flag', default=1)
     flag_log = models.TextField(blank=True)
 
@@ -266,6 +270,57 @@ class InstitutionETERRecord(models.Model):
         db_table = 'deqar_institution_eter_records'
         verbose_name = 'ETER Record'
         verbose_name_plural = 'ETER Records'
+
+
+class InstitutionHistoricalRelationshipType(models.Model):
+    """
+    Historical relationship types between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    type_from = models.CharField(max_length=200)
+    type_to = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "=> %s / %s <=" % (self.type_from, self.type_to)
+
+    class Meta:
+        db_table = 'deqar_institution_historical_relationship_types'
+        verbose_name = 'Institution Historical Relationship Type'
+        verbose_name_plural = 'Institution Historical Relationship Types'
+
+
+class InstitutionHistoricalRelationship(models.Model):
+    """
+    Historical relationships between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    institution_source = models.ForeignKey('Institution', related_name='relationship_source', on_delete=models.CASCADE)
+    institution_target = models.ForeignKey('Institution', related_name='relationship_target', on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey('InstitutionHistoricalRelationshipType', on_delete=models.CASCADE)
+    relationship_note = models.CharField(max_length=300, blank=True, null=True)
+    relationship_date = models.DateField(default=datetime.date.today)
+
+    class Meta:
+        db_table = 'deqar_institution_historical_relationships'
+        verbose_name = 'Institution Historical Relationship'
+        verbose_name_plural = 'Institution Historical Relationships'
+
+
+class InstitutionHierarchicalRelationship(models.Model):
+    """
+    Hierarchival relationships between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    institution_parent = models.ForeignKey('Institution', related_name='relationship_parent', on_delete=models.CASCADE)
+    institution_child = models.ForeignKey('Institution', related_name='relationship_child', on_delete=models.CASCADE)
+    relationship_note = models.CharField(max_length=300, blank=True, null=True)
+    valid_from = models.DateField(blank=True, null=True)
+    valid_to = models.DateField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_institution_hierarchical_relationships'
+        verbose_name = 'Institution Hierarchical Relationship'
+        verbose_name_plural = 'Institution Hierarchical Relationships'
 
 
 class InstitutionHistoricalField(models.Model):

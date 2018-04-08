@@ -20,3 +20,5 @@ python manage.py loaddata agency
 python manage.py loaddata eter
 
 python manage.py loaddata institution_historical_field
+python manage.py loaddata institution_relationship_type
+

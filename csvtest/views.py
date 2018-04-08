@@ -54,7 +54,7 @@ def upload_csv(request, csv_file=None):
     csv_file.seek(0)
     dammit = UnicodeDammit(csv_file.read())
     original_data = dammit.unicode_markup
-    csv_object = io.StringIO(original_data)
+    csv_object = io.StringIO(original_data, newline=None)
 
     csv_handler = CSVHandler(csvfile=csv_object)
     csv_handler.handle()
