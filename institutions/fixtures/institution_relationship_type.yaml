@@ -1,23 +1,17 @@
-- model: institutions.InstitutionRelationshipType
+- model: institutions.InstitutionHistoricalRelationshipType
   pk: 1
-  fields:
-    type_from: parent
-    type_to: child
-
-- model: institutions.InstitutionRelationshipType
-  pk: 2
   fields:
     type_from: precedes
     type_to: succeeds
 
-- model: institutions.InstitutionRelationshipType
-  pk: 3
+- model: institutions.InstitutionHistoricalRelationshipType
+  pk: 2
   fields:
     type_from: absorbs
     type_to: is absorbed by
 
-- model: institutions.InstitutionRelationshipType
-  pk: 4
+- model: institutions.InstitutionHistoricalRelationshipType
+  pk: 3
   fields:
     type_from: spins off
     type_to: is spun off from

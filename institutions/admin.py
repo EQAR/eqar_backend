@@ -4,7 +4,8 @@ from django.forms import TextInput, Textarea, Select
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
-    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData
+    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData, \
+    InstitutionHistoricalRelationship, InstitutionHierarchicalRelationship
 
 
 class InstitutionIdentifierInline(StackedInline):
@@ -80,6 +81,22 @@ class InstitutionNameAdmin(DEQARModelAdmin):
     inlines = (InstitutionNameVersionInline, )
 
 
+class InstitutionHistoricalRelationshipAdmin(DEQARModelAdmin):
+    fields = ('institution_source', 'relationship_type', 'institution_target', 'relationship_note', 'relationship_date')
+    list_display = ('institution_source', 'relationship_type', 'institution_target')
+    ordering = ('institution_source', 'institution_target')
+    list_filter = ('institution_source', 'institution_target')
+
+
+class InstitutionHierarchicalRelationshipAdmin(DEQARModelAdmin):
+    list_display = ('institution_parent', 'institution_child')
+    ordering = ('institution_parent', 'institution_child')
+    list_filter = ('institution_parent', 'institution_child')
+
+
 admin_site.register(InstitutionName, InstitutionNameAdmin)
 admin_site.register(Institution, InstitutionAdmin)
 admin_site.register(InstitutionETERRecord, InstitutionETERAdmin)
+admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
+admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
+
