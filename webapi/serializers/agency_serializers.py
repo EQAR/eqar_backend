@@ -75,9 +75,13 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
     activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
-    decisions = AgencyEQARDecisionSerializer(many=True, read_only=True, source='agencyeqardecision_set')
+    decisions = serializers.SerializerMethodField()
     historical_data = AgencyHistoricalDataSerializer(many=True, read_only=True, source='agencyhistoricaldata_set')
     geographical_focus = serializers.StringRelatedField(read_only=True)
+
+    def get_decisions(self, obj):
+        queryset = AgencyEQARDecision.objects.filter(agency=self.instance).order_by('-decision_date')
+        return AgencyEQARDecisionSerializer(queryset, many=True, context=self.context).data
 
     class Meta:
         model = Agency
