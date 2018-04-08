@@ -1,7 +1,6 @@
 import datetime
 from datetime import date
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Q
 
@@ -35,11 +34,15 @@ class Agency(models.Model):
         return "%s - %s" % (self.acronym_primary, self.name_primary)
 
     def get_primary_name(self):
-        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), name_is_primary=True).first()
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(),
+                                               agency_name__name_valid_to__isnull=True,
+                                               name_is_primary=True).first()
         return anv.name if anv else ""
 
     def get_primary_acronym(self):
-        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(), acronym_is_primary=True).first()
+        anv = AgencyNameVersion.objects.filter(agency_name__in=self.agencyname_set.all(),
+                                               agency_name__name_valid_to__isnull=True,
+                                               acronym_is_primary=True).first()
         return anv.acronym if anv else ""
 
     class Meta:
