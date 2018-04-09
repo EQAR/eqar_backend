@@ -1,0 +1,6 @@
+- model: institutions.InstitutionHierarchicalRelationship
+  pk: 1
+  fields:
+    institution_parent: 1
+    institution_child: 2
+    valid_from: 2018-01-01
