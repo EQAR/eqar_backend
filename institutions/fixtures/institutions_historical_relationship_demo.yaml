@@ -1,0 +1,7 @@
+- model: institutions.InstitutionHistoricalRelationship
+  pk: 1
+  fields:
+    institution_source: 1
+    institution_target: 3
+    relationship_type: 3
+    relationship_date: 2018-01-01

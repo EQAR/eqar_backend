@@ -86,8 +86,41 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     countries = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
     # nqf_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionnqflevel_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, read_only=True, source='institutionqfehealevel_set')
+    historical_relationships = serializers.SerializerMethodField()
+    hierarchical_relationships = serializers.SerializerMethodField()
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
+
+    def get_historical_relationships(self, obj):
+        includes = []
+        part_of = []
+
+        for relation in obj.relationship_parent.all():
+            includes.append(InstitutionListSerializer(relation.institution_child, context=self.context).data)
+
+        for relation in obj.relationship_child.all():
+            part_of.append(InstitutionListSerializer(relation.institution_parent, context=self.context).data)
+
+        return {'includes': includes, 'part_of': part_of}
+
+    def get_hierarchical_relationships(self, obj):
+        relationships = []
+
+        for relation in obj.relationship_source.all():
+            relationships.append({
+                'institution': InstitutionListSerializer(relation.institution_target, context=self.context).data,
+                'relationship_type': relation.relationship_type.type_to,
+                'relationship_date': relation.relationship_date
+            })
+
+        for relation in obj.relationship_target.all():
+            relationships.append({
+                'institution': InstitutionListSerializer(relation.institution_source, context=self.context).data,
+                'relationship_type': relation.relationship_type.type_from,
+                'relationship_date': relation.relationship_date
+            })
+        return relationships
 
     class Meta:
         model = Institution
-        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'qf_ehea_levels', 'historical_data')
+        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries',
+                  'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
