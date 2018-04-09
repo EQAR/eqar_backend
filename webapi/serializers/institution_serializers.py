@@ -90,7 +90,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     hierarchical_relationships = serializers.SerializerMethodField()
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
 
-    def get_historical_relationships(self, obj):
+    def get_hierarchical_relationships(self, obj):
         includes = []
         part_of = []
 
@@ -102,7 +102,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
         return {'includes': includes, 'part_of': part_of}
 
-    def get_hierarchical_relationships(self, obj):
+    def get_historical_relationships(self, obj):
         relationships = []
 
         for relation in obj.relationship_source.all():
