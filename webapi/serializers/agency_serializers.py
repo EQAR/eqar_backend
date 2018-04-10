@@ -38,7 +38,6 @@ class AgencyNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyName
-        list_serializer_class = HistoryFilteredListSerializer
         fields = ['id', 'name_versions', 'name_note', 'name_valid_to']
 
 
