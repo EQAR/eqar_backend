@@ -71,7 +71,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     names = AgencyNameSerializer(many=True, read_only=True, source='agencyname_set')
     phone_numbers = serializers.StringRelatedField(many=True, source='agencyphone_set')
     emails = serializers.StringRelatedField(many=True, source='agencyemail_set')
-    country = serializers.StringRelatedField()
+    country = CountryListSerializer()
     activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
     decisions = serializers.SerializerMethodField()
