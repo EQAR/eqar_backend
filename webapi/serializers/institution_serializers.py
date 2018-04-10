@@ -18,10 +18,31 @@ class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
     eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     countries = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
+    hierarchical_relationships = serializers.SerializerMethodField()
+
+    def get_hierarchical_relationships(self, obj):
+        includes = []
+        part_of = []
+
+        for relation in obj.relationship_parent.all():
+            includes.append(InstitutionHierarchicalRelationshipSerializer(relation.institution_child, context=self.context).data)
+
+        for relation in obj.relationship_child.all():
+            part_of.append(InstitutionHierarchicalRelationshipSerializer(relation.institution_parent, context=self.context).data)
+
+        return {'includes': includes, 'part_of': part_of}
 
     class Meta:
         model = Institution
-        fields = ['id', 'eter_id', 'url', 'name_primary', 'website_link', 'countries']
+        fields = ['id', 'eter_id', 'url', 'name_primary', 'website_link', 'countries', 'hierarchical_relationships']
+
+
+class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
+
+    class Meta:
+        model = Institution
+        fields = ['id', 'url', 'name_primary', 'website_link']
 
 
 class InstitutionIdentifierSerializer(serializers.ModelSerializer):

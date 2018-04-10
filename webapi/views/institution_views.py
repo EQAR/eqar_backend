@@ -186,6 +186,8 @@ class InstitutionList(generics.ListAPIView):
             ).distinct()
             qs = qs.select_related('eter')
             qs = qs.prefetch_related('institutioncountry_set')
+            qs = qs.prefetch_related('relationship_parent')
+            qs = qs.prefetch_related('relationship_child')
             return qs
 
 
