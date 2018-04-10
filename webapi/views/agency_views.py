@@ -12,7 +12,7 @@ class AgencyList(generics.ListAPIView):
         Returns a list of all the agencies in DEQAR.
     """
     queryset = Agency.objects.filter(
-        Q(registration_valid_to__lte=datetime.datetime.now()) |
+        Q(registration_valid_to__gte=datetime.datetime.now()) |
         Q(registration_valid_to__isnull=True)
     )
     serializer_class = AgencyListSerializer
