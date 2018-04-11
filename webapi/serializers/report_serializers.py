@@ -32,9 +32,11 @@ class ReportSerializer(serializers.ModelSerializer):
         valid_to = obj.valid_to
         valid = True
 
-        if valid_from <= datetime.date.today()-datedelta(years=6):
+        # Check if valid_from less than equal then todays date - 6 years and valid_to isn't set
+        if valid_from <= datetime.date.today()-datedelta(years=6) and valid_to is None:
             valid = False
 
+        # Check if valid_to lest than equal then todays date
         if valid_to:
             if valid_to <= datetime.date.today():
                 valid = False
