@@ -35,10 +35,10 @@ class BrowseAPIReportTest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/reports/institutional/by-institution/3/')
-        self.assertEqual(response.data['count'], 1)
-
-        response = self.client.get('/webapi/v1/browse/reports/institutional/by-institution/3/', {'history': 'true'})
         self.assertEqual(response.data['count'], 2)
+
+        response = self.client.get('/webapi/v1/browse/reports/institutional/by-institution/3/', {'history': 'false'})
+        self.assertEqual(response.data['count'], 1)
 
     def test_programme_reports_list_by_institution(self):
         """
@@ -46,7 +46,7 @@ class BrowseAPIReportTest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/reports/programme/by-institution/3/')
-        self.assertEqual(response.data['count'], 3)
-
-        response = self.client.get('/webapi/v1/browse/reports/programme/by-institution/3/', {'history': 'true'})
         self.assertEqual(response.data['count'], 7)
+
+        response = self.client.get('/webapi/v1/browse/reports/programme/by-institution/3/', {'history': 'false'})
+        self.assertEqual(response.data['count'], 3)

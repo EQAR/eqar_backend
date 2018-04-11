@@ -1,3 +1,6 @@
+import datetime
+
+from datedelta import datedelta
 from rest_framework import serializers
 
 from institutions.models import Institution
@@ -22,6 +25,21 @@ class ReportSerializer(serializers.ModelSerializer):
     decision = serializers.StringRelatedField()
     flag = serializers.StringRelatedField()
     institution_relationship_context = serializers.SerializerMethodField()
+    report_valid = serializers.SerializerMethodField()
+
+    def get_report_valid(self, obj):
+        valid_from = obj.valid_from
+        valid_to = obj.valid_to
+        valid = True
+
+        if valid_from <= datetime.date.today()-datedelta(years=6):
+            valid = False
+
+        if valid_to:
+            if valid_to <= datetime.date.today():
+                valid = False
+
+        return valid
 
     def get_institution_relationship_context(self, obj):
         related_institutions = []
@@ -47,5 +65,5 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_url', 'agency_esg_activity', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+        fields = ['agency_name', 'agency_url', 'agency_esg_activity', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
                   'local_identifier', 'name', 'flag', 'institution_relationship_context']

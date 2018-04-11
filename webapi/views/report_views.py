@@ -41,7 +41,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         return context
 
     def get_queryset(self):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
         institution = Institution.objects.get(pk=self.kwargs['institution'])
         institution_ids = [institution.id]
 
@@ -101,7 +101,7 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
         return context
 
     def get_queryset(self):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
         institution = Institution.objects.get(pk=self.kwargs['institution'])
         institution_ids = [institution.id]
 
