@@ -4,7 +4,8 @@ from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_views import InstitutionSelectList
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
-    PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList
+    PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
+    ReportStatusSelectList
 
 urlpatterns = [
     # Dashboard
@@ -25,5 +26,7 @@ urlpatterns = [
         name='identifier-resource-select'),
     url(r'^select/permission_type', PermissionTypeSelectList.as_view(), name='permission-type-select'),
     url(r'^select/qf_ehea_level', QFEHEALevelSelectList.as_view(), name='qf_ehea_level-select'),
-    url(r'^select/institutions', InstitutionSelectList.as_view(), name='institution-select')
+    url(r'^select/institutions', InstitutionSelectList.as_view(), name='institution-select'),
+    url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
+    url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
 ]
