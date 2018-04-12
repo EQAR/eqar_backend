@@ -3,6 +3,7 @@ from rest_framework import serializers
 from agencies.models import Agency, AgencyESGActivity
 from countries.models import Country
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel
+from reports.models import ReportDecision, ReportStatus
 
 
 class AgencySelectSerializer(serializers.ModelSerializer):
@@ -60,3 +61,15 @@ class QFEHEALevelSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = QFEHEALevel
         fields = ['id', 'level', 'code']
+
+
+class ReportDecisionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportDecision
+        fields = ['id', 'decision']
+
+
+class ReportStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportStatus
+        fields = ['id', 'status']

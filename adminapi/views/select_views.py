@@ -7,10 +7,12 @@ from rest_framework.generics import get_object_or_404
 
 from adminapi.serializers.select_serializer import CountrySelectSerializer, AgencySelectSerializer, \
     AgencyESGActivitySerializer, LanguageSelectSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer, \
-    IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer
+    IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
+    ReportDecisionSerializer, ReportStatusSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity
 from countries.models import Country
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel
+from reports.models import ReportDecision, ReportStatus
 
 
 class AgencySelectList(generics.ListAPIView):
@@ -79,12 +81,28 @@ class AssociationSelectList(generics.ListAPIView):
     queryset = Association.objects.all().order_by('association')
 
 
+class ReportDecisionSelectList(generics.ListAPIView):
+    serializer_class = ReportDecisionSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('decision',)
+    queryset = ReportDecision.objects.all().order_by('decision')
+
+
 class EQARDecisionTypeSelectList(generics.ListAPIView):
     serializer_class = EQARDecisionTypeSelectSerializer
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('type',)
     queryset = EQARDecisionType.objects.all().order_by('type')
+
+
+class ReportStatusSelectList(generics.ListAPIView):
+    serializer_class = ReportStatusSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('status',)
+    queryset = ReportStatus.objects.all().order_by('status')
 
 
 class IdentifierResourceSelectList(generics.ListAPIView):
