@@ -68,6 +68,23 @@ class InstitutionPopulatorTestCase(TestCase):
         self.assertIsNotNone(populator.institution)
         self.assertEqual(populator.institution.website_link, "www.hoev-rlp.de")
 
+    def test_get_institution_if_exists_identifiers_other(self):
+        populator = InstitutionPopulator(
+            submission={
+                "deqar_id": "EQARIN9999",
+                "identifiers": [
+                    {
+                        "identifier": "DE0001",
+                        "resource": "national identifier"
+                    }
+                ]
+            },
+            agency=Agency.objects.get(pk=5),
+        )
+        populator._get_institution_if_exists()
+        self.assertIsNotNone(populator.institution)
+        self.assertEqual(populator.institution.website_link, "www.hoev-rlp.de")
+
     def test_get_institution_if_exists_website_link(self):
         populator = InstitutionPopulator(
             submission={
@@ -149,7 +166,7 @@ class InstitutionPopulatorTestCase(TestCase):
                 "website": "http://www.new.uni",
                 "identifiers": [
                     {
-                        "identifier": "LOCAL0001"
+                        "identifier": "LOCAL005"
                     }
                 ],
                 "alternative_names": [
@@ -184,6 +201,24 @@ class InstitutionPopulatorTestCase(TestCase):
                 "identifiers": [
                     {
                         "identifier": "LOCAL002",
+                    }
+                ]
+            },
+            agency=Agency.objects.get(pk=5)
+        )
+        populator._get_institution_if_exists()
+        populator._institution_existing_populate_identifiers()
+        self.assertEqual(populator.institution.institutionidentifier_set.count(), 2)
+        self.assertEqual(populator.institution.institutionidentifier_set.first().identifier, "LOCAL001")
+
+    def test_institution_existing_populate_identifiers_local_existing_other(self):
+        populator = InstitutionPopulator(
+            submission={
+                "deqar_id": "EQARIN0001",
+                "identifiers": [
+                    {
+                        "identifier": "DE0002",
+                        "resource": "national identifier"
                     }
                 ]
             },
