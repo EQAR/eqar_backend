@@ -3,6 +3,7 @@ from rest_framework import serializers
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion
+from webapi.serializers.country_serializers import CountryQARequirementSerializer, CountryDetailSerializer
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
@@ -90,8 +91,8 @@ class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
                   'qf_ehea_level_valid_from', 'qf_ehea_level_valid_to']
 
 
-class InstitutionCountrySerializer(serializers.ModelSerializer):
-    country = serializers.StringRelatedField()
+class InstitutionCountryDetailSerializer(serializers.ModelSerializer):
+    country = CountryDetailSerializer()
 
     class Meta:
         model = InstitutionCountry
@@ -104,7 +105,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     eter =serializers.StringRelatedField()
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, read_only=True, source='institutionname_set')
-    countries = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
+    countries = InstitutionCountryDetailSerializer(many=True, read_only=True, source='institutioncountry_set')
     # nqf_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionnqflevel_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, read_only=True, source='institutionqfehealevel_set')
     historical_relationships = serializers.SerializerMethodField()

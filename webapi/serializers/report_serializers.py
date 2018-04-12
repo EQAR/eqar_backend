@@ -2,7 +2,6 @@ import datetime
 
 from datedelta import datedelta
 from rest_framework import serializers
-
 from institutions.models import Institution
 from reports.models import Report, ReportFile
 
@@ -18,7 +17,8 @@ class ReportFileSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v1:agency-detail",
                                                      source='agency')
-    agency_name = serializers.StringRelatedField(source='agency')
+    agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
+    agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
     agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     status = serializers.StringRelatedField()
@@ -67,5 +67,5 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_url', 'agency_esg_activity', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
                   'local_identifier', 'name', 'flag', 'institution_relationship_context']

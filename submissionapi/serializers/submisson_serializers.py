@@ -276,7 +276,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
             if activity_local_identifier is not None:
                 try:
                     data['esg_activity'] = AgencyESGActivity.objects.get(
-                        activity_local_identifier=activity_local_identifier)
+                        activity_local_identifier=activity_local_identifier, agency=agency)
                 except ObjectDoesNotExist:
                     errors.append("Please provide valid ESG Activity local identifier.")
         else:
