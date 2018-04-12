@@ -76,11 +76,17 @@ class InstitutionPopulator():
                 identifier = idf.get('identifier', None)
                 resource = idf.get('resource', 'local identifier')
                 try:
-                    inst_id = InstitutionIdentifier.objects.get(
-                        identifier=identifier,
-                        resource=resource,
-                        agency=self.agency
-                    )
+                    if resource == 'local identifier':
+                        inst_id = InstitutionIdentifier.objects.get(
+                            identifier=identifier,
+                            resource=resource,
+                            agency=self.agency
+                        )
+                    else:
+                        inst_id = InstitutionIdentifier.objects.get(
+                            identifier=identifier,
+                            resource=resource
+                        )
                     self.institution = inst_id.institution
                     return
                 except ObjectDoesNotExist:
@@ -146,18 +152,32 @@ class InstitutionPopulator():
 
         identifiers = self.submission.get("identifiers", [])
         for idf in identifiers:
+            identifier = idf.get('identifier', None)
             resource = idf.get('resource', 'local identifier')
             if resource == 'local identifier':
-                self.institution.institutionidentifier_set.create(
-                    identifier=idf.get('identifier', None),
-                    resource=resource,
-                    agency=self.agency
-                )
+                try:
+                    InstitutionIdentifier.objects.get(
+                        identifier=identifier,
+                        resource=resource,
+                        agency=self.agency
+                    )
+                except ObjectDoesNotExist:
+                    self.institution.institutionidentifier_set.create(
+                        identifier=idf.get('identifier', None),
+                        resource=resource,
+                        agency=self.agency
+                    )
             else:
-                self.institution.institutionidentifier_set.create(
-                    identifier=idf.get('identifier', None),
-                    resource=resource
-                )
+                try:
+                    InstitutionIdentifier.objects.get(
+                        identifier=identifier,
+                        resource=resource,
+                    )
+                except ObjectDoesNotExist:
+                    self.institution.institutionidentifier_set.create(
+                        identifier=idf.get('identifier', None),
+                        resource=resource
+                    )
 
         inst_name_msg = "Name information supplied by [%s]." % self.agency.acronym_primary
 

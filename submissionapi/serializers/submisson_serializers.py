@@ -296,18 +296,33 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
             if eter_id is None and deqar_id is None:
                 identifiers = institution.get('identifiers', [])
+                institutions = set()
                 for idf in identifiers:
                     identifier = idf.get('identifier', None)
                     resource = idf.get('resource', 'local identifier')
                     try:
-                        InstitutionIdentifier.objects.get(
-                            identifier=identifier,
-                            resource=resource,
-                            agency=agency
-                        )
-                        inst_exists = True
+                        if resource == 'local identifier':
+                            inst = InstitutionIdentifier.objects.get(
+                                identifier=identifier,
+                                resource=resource,
+                                agency=agency
+                            )
+                            institutions.add(inst.id)
+                        else:
+                            inst = InstitutionIdentifier.objects.get(
+                                identifier=identifier,
+                                resource=resource
+                            )
+                            institutions.add(inst.id)
                     except ObjectDoesNotExist:
                         pass
+
+                    # Inspect the unique list of identified institutions
+                    if len(institutions) > 1:
+                        errors.append("The submitted institution identifiers are identifying "
+                                                          "more institutions. Please correct them.")
+                    if len(institutions) == 1:
+                        inst_exists = True
 
                 if not inst_exists:
                     if name_official is None or len(locations) == 0 or website_link is None:
