@@ -15,6 +15,7 @@ class ReportFileSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(slug_field='activity_description', read_only=True, source='agency_esg_activity')
     agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v1:agency-detail",
                                                      source='agency')
     agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
@@ -45,27 +46,28 @@ class ReportSerializer(serializers.ModelSerializer):
 
     def get_institution_relationship_context(self, obj):
         related_institutions = []
-        related_institution = {}
 
         for child_id in self.context['children']:
             inst = Institution.objects.get(pk=child_id)
             if obj.institutions.filter(pk=inst.pk).exists():
-                related_institution['id'] = inst.pk
-                related_institution['relationship'] = 'child'
-                related_institution['name_primary'] = inst.name_primary
-                related_institutions.append(related_institution)
+                related_institutions.append({
+                    'id': inst.pk,
+                    'relationship': 'child',
+                    'name_primary': inst.name_primary
+                })
 
         for parent_id in self.context['parents']:
             inst = Institution.objects.get(pk=parent_id)
             if obj.institutions.filter(pk=inst.pk).exists():
-                related_institution['id'] = inst.pk
-                related_institution['relationship'] = 'parent'
-                related_institution['name_primary'] = inst.name_primary
-                related_institutions.append(related_institution)
+                related_institutions.append({
+                    'id': inst.pk,
+                    'relationship': 'parent',
+                    'name_primary': inst.name_primary
+                })
 
         return related_institutions
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
-                  'local_identifier', 'name', 'flag', 'institution_relationship_context']
+        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'name', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+                  'local_identifier', 'flag', 'institution_relationship_context']

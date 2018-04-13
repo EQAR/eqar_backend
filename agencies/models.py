@@ -173,7 +173,7 @@ class AgencyESGActivity(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     activity = models.CharField(max_length=500)
-    activity_local_identifier = models.CharField(max_length=20, blank=True)
+    activity_local_identifier = models.CharField(max_length=100, blank=True)
     activity_description = models.CharField(max_length=300, blank=True)
     activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
     reports_link = models.URLField(blank=True, null=True)
