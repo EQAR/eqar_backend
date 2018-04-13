@@ -15,6 +15,7 @@ class ReportFileSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(slug_field='activity_description', read_only=True, source='agency_esg_activity')
     agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v1:agency-detail",
                                                      source='agency')
     agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
@@ -67,5 +68,5 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
-                  'local_identifier', 'name', 'flag', 'institution_relationship_context']
+        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'name', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+                  'local_identifier', 'flag', 'institution_relationship_context']
