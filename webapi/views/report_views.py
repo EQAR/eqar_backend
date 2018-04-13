@@ -56,7 +56,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         if include_history == 'true':
             qs = Programme.objects.filter(
                 Q(report__institutions__id__in=institution_ids) & ~Q(report__flag=3)
-            )
+            ).distinct()
         else:
             qs = Programme.objects.filter(
                 Q(report__institutions__id__in=institution_ids) & ~Q(report__flag=3) &
@@ -66,7 +66,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
                         Q(report__valid_from__gte=datetime.datetime.now()-datedelta(years=6))
                     )
                 )
-            )
+            ).distinct()
         qs = qs.select_related('report', 'report__agency', 'report__status', 'report__decision')
         qs = qs.prefetch_related('programmename_set', 'programmeidentifier_set', 'countries')
         return qs

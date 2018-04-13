@@ -46,23 +46,24 @@ class ReportSerializer(serializers.ModelSerializer):
 
     def get_institution_relationship_context(self, obj):
         related_institutions = []
-        related_institution = {}
 
         for child_id in self.context['children']:
             inst = Institution.objects.get(pk=child_id)
             if obj.institutions.filter(pk=inst.pk).exists():
-                related_institution['id'] = inst.pk
-                related_institution['relationship'] = 'child'
-                related_institution['name_primary'] = inst.name_primary
-                related_institutions.append(related_institution)
+                related_institutions.append({
+                    'id': inst.pk,
+                    'relationship': 'child',
+                    'name_primary': inst.name_primary
+                })
 
         for parent_id in self.context['parents']:
             inst = Institution.objects.get(pk=parent_id)
             if obj.institutions.filter(pk=inst.pk).exists():
-                related_institution['id'] = inst.pk
-                related_institution['relationship'] = 'parent'
-                related_institution['name_primary'] = inst.name_primary
-                related_institutions.append(related_institution)
+                related_institutions.append({
+                    'id': inst.pk,
+                    'relationship': 'parent',
+                    'name_primary': inst.name_primary
+                })
 
         return related_institutions
 
