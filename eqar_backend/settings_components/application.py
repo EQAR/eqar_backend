@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'suit_ckeditor',
     'mail_templated',
     'django_unused_media',
+    'djoser',
 
     'accounts',
     'agencies',
