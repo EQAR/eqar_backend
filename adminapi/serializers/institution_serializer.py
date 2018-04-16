@@ -9,4 +9,4 @@ class InstitutionSelectListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ['id', 'eter_id', 'name_primary', 'website_link', 'countries']
+        fields = ['id', 'eter_id', 'deqar_id', 'name_primary', 'website_link', 'countries']
