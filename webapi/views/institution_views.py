@@ -195,5 +195,8 @@ class InstitutionDetail(generics.RetrieveAPIView):
     """
         Returns all the data available of the selected institution.
     """
-    queryset = Institution.objects.all()
     serializer_class = InstitutionDetailSerializer
+
+    def get_queryset(self):
+        qs = Institution.objects.filter(pk=self.kwargs['pk'])
+        return qs
