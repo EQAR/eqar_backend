@@ -52,7 +52,6 @@ class InstitutionIdentifierSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionIdentifier
-        list_serializer_class = HistoryFilteredListSerializer
         fields = ['identifier', 'agency', 'resource', 'identifier_valid_from', 'identifier_valid_to']
 
 
@@ -67,7 +66,6 @@ class InstitutionNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionName
-        list_serializer_class = HistoryFilteredListSerializer
         fields = ['name_official', 'name_official_transliterated', 'name_english', 'name_versions', 'acronym',
                   'name_source_note', 'name_valid_to']
 
