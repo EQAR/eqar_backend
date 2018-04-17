@@ -18,7 +18,7 @@ class ReportFlagger():
         self.report.reset_flag()
         self.check_countries()
         self.check_programme_qf_ehea_level()
-        self.check_ehea_is_member()
+        # self.check_ehea_is_member()
         self.check_report_file()
         self.report.flag_log = "; ".join(self.flag_log)
 

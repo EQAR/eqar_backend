@@ -62,5 +62,6 @@ def send_submission_email(response, institution_id_max, total_submission, agency
     }
     message = EmailMessage('email/submission.tpl', context=context,
                            from_email=from_email,
-                           to=cc)
+                           to=[agency_email],
+                           cc=cc)
     message.send()
