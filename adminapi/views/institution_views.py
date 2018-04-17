@@ -13,6 +13,8 @@ from lists.models import QFEHEALevel
 
 class InstitutionSelectFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Query', method='search_institution')
+    deqar_id = filters.CharFilter(label='Search DEQAR ID', method='search_deqar_id')
+    eter_id = filters.CharFilter(label='Search ETER ID', method='search_eter_id')
     country = filters.ModelChoiceFilter(label='Country', queryset=Country.objects.all(), method='filter_country')
     qf_ehea_level = filters.ModelChoiceFilter(label='QF EHEA Level', queryset=QFEHEALevel.objects.all(),
                                               method='filter_qf_ehea_level')
@@ -23,6 +25,16 @@ class InstitutionSelectFilterClass(filters.FilterSet):
             Q(institutionname__name_official_transliterated__icontains=value) |
             Q(institutionname__name_english__icontains=value) |
             Q(institutionname__acronym__icontains=value)
+        )
+
+    def search_deqar_id(self, queryset, name, value):
+        return queryset.filter(
+            deqar_id__icontains=value
+        )
+
+    def search_eter_id(self, queryset, name, value):
+         return queryset.filter(
+            eter__eter_id__istartswith=value
         )
 
     def filter_country(self, queryset, name, value):
@@ -41,7 +53,7 @@ class InstitutionSelectFilterClass(filters.FilterSet):
 class InstitutionSelectList(generics.ListAPIView):
     serializer_class = InstitutionSelectListSerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering_fields = ('name_primary',)
-    ordering = ('name_primary',)
+    ordering_fields = ('deqar_id', 'eter_id', 'name_primary')
+    ordering = ('eter_id', 'name_primary')
     queryset = Institution.objects.all().order_by('name_primary')
     filter_class = InstitutionSelectFilterClass
