@@ -97,6 +97,7 @@ class CountryListByReports(generics.ListAPIView):
                 deqar_institution_countries.institution_id
             ORDER BY name_english) AS filtered_countries
             GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english
+            ORDER BY name_english
         '''
 
         if include_history:
