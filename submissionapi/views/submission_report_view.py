@@ -1,29 +1,19 @@
-import json
-
-import datetime
-
-import os
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from ipware import get_client_ip
 from rest_framework import status
-from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from institutions.models import Institution
-from reports.models import ReportFile
 from submissionapi.flaggers.report_flagger import ReportFlagger
-from submissionapi.models import SubmissionLog
-from submissionapi.permissions import CanSubmitToAgency
 from submissionapi.populators.populator import Populator
 from submissionapi.serializers.response_serializers import ReportResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
-from submissionapi.tasks import send_submission_email
 from submissionapi.trackers.submission_tracker import SubmissionTracker
+from submissionapi.tasks import send_submission_email
 
 
-class Submission(APIView):
+class SubmissionReportView(APIView):
     def post(self, request):
         # Save the highest institution id
         try:
@@ -115,26 +105,3 @@ class Submission(APIView):
             'original_data': original_data,
             'errors': serializer.errors
         }
-
-
-class ReportFileUploadView(APIView):
-    parser_classes = (FileUploadParser,)
-    permission_classes = (CanSubmitToAgency,)
-
-    def put(self, request, filename, pk, format=None):
-        file_obj = request.data['file']
-        filename = "%s_%s" % ((datetime.datetime.now().strftime("%Y%m%d_%H%M")), filename)
-        try:
-            report_file = ReportFile.objects.get(pk=pk)
-            agency_acronym = report_file.report.agency.acronym_primary
-            file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym, filename)
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
-            with open(file_path, 'wb') as f:
-                for chunk in file_obj.chunks():
-                    f.write(chunk)
-
-            report_file.file.name = os.path.join(agency_acronym, filename)
-            report_file.save()
-            return Response(status=204)
-        except ObjectDoesNotExist:
-            return Response(status=404)
