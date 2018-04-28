@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency
 from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField
+    QFEHEALevelField, CountryField, ReportIdentifierField
 
 
 class SerializerFieldValidationTestCase(APITestCase):
@@ -16,7 +16,9 @@ class SerializerFieldValidationTestCase(APITestCase):
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
-        'report_status', 'report_decision'
+        'institution_historical_field',
+        'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
+        'report_status', 'report_decision', 'report_demo_01'
     ]
 
     def setUp(self):
@@ -166,7 +168,6 @@ class SerializerFieldValidationTestCase(APITestCase):
         with self.assertRaisesRegexp(ValidationError, 'Please provide valid QF EHEA level.'):
             field.to_internal_value("shortest cycle :)")
 
-
     # CountryField tests
     def test_country_not_string(self):
         field = CountryField()
@@ -197,3 +198,17 @@ class SerializerFieldValidationTestCase(APITestCase):
         field = CountryField()
         with self.assertRaisesRegexp(ValidationError, 'Please provide valid country code.'):
             field.to_internal_value("x")
+
+    # Report Identifier tests
+    def test_report_identifier_not_string(self):
+        field = ReportIdentifierField()
+        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+            field.to_internal_value(1)
+
+    def test_report_identifier_valid(self):
+        pass
+
+    def test_report_identifier_invalid(self):
+        field = ReportIdentifierField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report ID.'):
+            field.to_internal_value("999")

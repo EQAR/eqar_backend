@@ -21,8 +21,13 @@ class ReportPopulator():
 
     def get_report_if_exists(self):
         """
-        Checks if there is a record existing with the submitted local identifier.
+        Checks if there is a record existing with the submitted report_id or local identifier.
         """
+        report = self.submission.get('report_id', None)
+        if report:
+            self.report = report
+            return
+
         local_identifier = self.submission.get('local_identifier', None)
         if local_identifier is not None:
             try:
