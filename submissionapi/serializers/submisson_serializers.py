@@ -6,8 +6,9 @@ from rest_framework import serializers
 
 from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
+from reports.models import Report
 from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField
+    QFEHEALevelField, CountryField, ReportIdentifierField
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -188,6 +189,9 @@ class ReportLinkSerializer(serializers.Serializer):
 
 
 class SubmissionPackageSerializer(serializers.Serializer):
+    # Report Identifier
+    report_id = ReportIdentifierField(required=False)
+
     # Report Creator
     agency = AgencyField(required=True)
 
@@ -223,6 +227,23 @@ class SubmissionPackageSerializer(serializers.Serializer):
         errors = []
         data = super(SubmissionPackageSerializer, self).to_internal_value(data)
 
+        agency = data.get('agency', None)
+        #
+        # Validate if report_id and local_identifier resolving to the same record,
+        # or local_identifier is non-existent
+        #
+        report = data.get('report_id', None)
+        local_identifier = data.get('local_identifier', None)
+
+        if report and local_identifier:
+            try:
+                report_with_local_id = Report.objects.get(agency=agency, local_identifier=local_identifier)
+                if report.id != report_with_local_id.id:
+                    errors.append("The submitted report_id is pointing to a different report, "
+                                  "than the submitted local identifier.")
+            except ObjectDoesNotExist:
+                pass
+
         #
         # Validate if date format is applicable, default format is %Y-%m-%d
         #
@@ -249,7 +270,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
         #
         # Validate if Agency registration start is earlier then report validation start date.
         #
-        agency = data.get('agency', None)
         if date_from:
             if datetime.date(date_from) < agency.registration_start:
                 errors.append("Report's validity date must fall after the Agency was registered with EQAR.")

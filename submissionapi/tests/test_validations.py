@@ -70,6 +70,35 @@ class SubmissionValidationTestCase(APITestCase):
         self.request = factory.post('/submissionapi/v1/submit/report')
         self.request.user = self.user
 
+    def test_report_id_existing(self):
+        """
+        Test if serializer accepts an existing report_id.
+        """
+        data = self.valid_data
+        data['report_id'] = '1'
+        data['local_identifier'] = 'ad;fajfasdjf;adkfja;'
+        serializer = SubmissionPackageSerializer(data=self.valid_data, context={'request': self.request})
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
+    def test_report_id_non_existing(self):
+        """
+        Test if serializer rejects a non existing report_id.
+        """
+        data = self.valid_data
+        data['report_id'] = '999'
+        serializer = SubmissionPackageSerializer(data=self.valid_data, context={'request': self.request})
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_id_local_identifier_dont_match(self):
+        """
+        Test if serializer accepts an existing report_id with a different local_identifier.
+        """
+        data = self.valid_data
+        data['report_id'] = '1'
+        data['local_identifier'] = 'EQARAG0021-EQARIN0002-01'
+        serializer = SubmissionPackageSerializer(data=self.valid_data, context={'request': self.request})
+        self.assertFalse(serializer.is_valid(), serializer.errors)
+
     def test_agency_acronym_ok(self):
         """
         Test if serializer accepts records with Agency Acronym.
