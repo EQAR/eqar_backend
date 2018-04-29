@@ -65,6 +65,17 @@ class CountrySelectList(generics.ListAPIView):
     queryset = Country.objects.all().order_by('name_english')
 
 
+class InstitutionCountrySelectList(generics.ListAPIView):
+    serializer_class = CountrySelectSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('name_english',)
+    queryset = Country.objects.all().order_by('name_english')
+
+    def get_queryset(self):
+        return Country.objects.filter(institutioncountry__isnull=False).distinct()
+
+
 class LanguageSelectList(generics.ListAPIView):
     serializer_class = LanguageSelectSerializer
     pagination_class = None
