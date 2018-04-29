@@ -57,7 +57,8 @@ class SubmissionCSVView(APIView):
                 accepted_reports.append(self.make_success_response(populator, flagger))
                 response_contains_valid = True
             else:
-                submitted_reports.append(self.make_error_response(serializer, original_data={}))
+                report_id = data.get('report_id', None)
+                submitted_reports.append(self.make_error_response(serializer, original_data={}, report_id=report_id))
 
         if response_contains_valid:
             send_submission_email.delay(response=accepted_reports,
@@ -88,8 +89,9 @@ class SubmissionCSVView(APIView):
             'institution_warnings': institution_warnings
         }
 
-    def make_error_response(self, serializer, original_data):
+    def make_error_response(self, serializer, original_data, report_id):
         return {
+            'report': report_id,
             'submission_status': 'errors',
             'original_data': original_data,
             'errors': serializer.errors
