@@ -6,6 +6,12 @@ from institutions.models import Institution
 from reports.models import Report, ReportFile
 
 
+class ReportLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportFile
+        fields = ['link_display_name', 'link']
+
+
 class ReportFileSerializer(serializers.ModelSerializer):
     languages = serializers.StringRelatedField(many=True, read_only=True)
 
@@ -22,6 +28,7 @@ class ReportSerializer(serializers.ModelSerializer):
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
     agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
+    report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     flag = serializers.StringRelatedField()
@@ -69,5 +76,6 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'name', 'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
-                  'local_identifier', 'flag', 'institution_relationship_context']
+        fields = ['agency_name', 'agency_acronym', 'agency_url', 'agency_esg_activity', 'name', 'report_valid',
+                  'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+                  'report_links', 'local_identifier', 'flag', 'institution_relationship_context']
