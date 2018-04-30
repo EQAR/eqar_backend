@@ -1,6 +1,13 @@
 from rest_framework import serializers
-from institutions.models import Institution
-from webapi.serializers.institution_serializers import InstitutionCountrySerializer
+from institutions.models import Institution, InstitutionCountry
+
+
+class InstitutionCountrySerializer(serializers.ModelSerializer):
+    country = serializers.StringRelatedField()
+
+    class Meta:
+        model = InstitutionCountry
+        fields = ['country', 'city', 'lat', 'long']
 
 
 class InstitutionSelectListSerializer(serializers.ModelSerializer):
