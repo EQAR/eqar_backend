@@ -3,12 +3,12 @@ import datetime
 from datedelta import datedelta
 from rest_framework import serializers
 from institutions.models import Institution
-from reports.models import Report, ReportFile
+from reports.models import Report, ReportFile, ReportLink
 
 
 class ReportLinkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReportFile
+        model = ReportLink
         fields = ['link_display_name', 'link']
 
 
