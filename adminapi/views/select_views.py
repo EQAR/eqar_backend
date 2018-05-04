@@ -89,7 +89,7 @@ class AssociationSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('association',)
-    queryset = Association.objects.all().order_by('association')
+    queryset = Association.objects.all().order_by('id')
 
 
 class ReportDecisionSelectList(generics.ListAPIView):
@@ -97,7 +97,7 @@ class ReportDecisionSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('decision',)
-    queryset = ReportDecision.objects.all().order_by('decision')
+    queryset = ReportDecision.objects.all().order_by('id')
 
 
 class EQARDecisionTypeSelectList(generics.ListAPIView):
@@ -105,7 +105,7 @@ class EQARDecisionTypeSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('type',)
-    queryset = EQARDecisionType.objects.all().order_by('type')
+    queryset = EQARDecisionType.objects.all().order_by('id')
 
 
 class ReportStatusSelectList(generics.ListAPIView):
@@ -113,7 +113,7 @@ class ReportStatusSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('status',)
-    queryset = ReportStatus.objects.all().order_by('status')
+    queryset = ReportStatus.objects.all().order_by('id')
 
 
 class IdentifierResourceSelectList(generics.ListAPIView):
