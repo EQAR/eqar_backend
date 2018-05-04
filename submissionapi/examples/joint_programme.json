@@ -1,7 +1,7 @@
 {
     "agency": "MusiQuE",
     "local_identifier": "EAMT-September13",
-    "activity": "joint-programme review",
+    "activity": "Quality enhancement reviews of joint programmes",
     "status": "part of obligatory EQA system",
     "decision": "positive",
     "valid_from": "2013-01-15",
@@ -10,7 +10,7 @@
     "report_files": [
         {
             "original_location": "http://www.musique-qe.eu/userfiles/File/final-reportaec-programme-reviewcopeco.pdf",
-            "display_name": "AEC Programme Review - CoPeCo – Masters in Contemporary Performance and Composition",
+            "display_name": "Review report",
             "report_language": [
                 "eng"
             ]
@@ -18,32 +18,12 @@
     ],
     "institutions": [
         {
-            "eter_id": "EE0022",
-            "identifiers": [
-                {
-                    "identifier": "11"
-                }
-            ]
+            "eter_id": "EE0022"
         }, {
-            "eter_id": "SE0037",
-            "identifiers": [
-                {
-                    "identifier": "12"
-                }
-            ]
+            "eter_id": "SE0037"
         }, {
-            "eter_id": "FR0164",
-            "identifiers": [
-                {
-                    "identifier": "34"
-                }
-            ]
+            "eter_id": "FR0164"
         }, {
-            "identifiers": [
-                {
-                    "identifier": "54"
-                }
-            ],
             "name_official": "Hochschule für Musik und Theater Hamburg",
             "name_english": "Hamburg University of Music and Theatre",
             "locations": [

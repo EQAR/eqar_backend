@@ -2,7 +2,7 @@
     {
         "agency": "MusiQuE",
         "local_identifier": "CRDB-October14",
-        "activity": "quality enhancement reviews of institutions",
+        "activity": "Quality enhancement reviews of institutions",
         "status": "part of obligatory EQA system",
         "decision": "positive",
         "valid_from": "2016-10-28",
@@ -11,7 +11,7 @@
         "report_files": [
             {
                 "original_location": "http://www.musique-qe.eu/userfiles/File/2014-10-bruxelles-website.pdf",
-                "display_name": "Évaluation du cursus « Musique »",
+                "display_name": "Evaluation report",
                 "report_language": [
                     "fre"
                 ]
@@ -19,12 +19,7 @@
         ],
         "institutions": [
             {
-                "eter_id": "BE0035",
-                "identifiers": [
-                    {
-                        "identifier": "14"
-                    }
-                ]
+                "eter_id": "BE0035"
             }
         ]
     }, {
@@ -39,7 +34,7 @@
         "report_files": [
             {
                 "original_location": "http://www.musique-qe.eu/userfiles/File/2015-06-25-hamu-review-reportfinal.pdf",
-                "display_name": "Institutional Review of the Music and Dance Faculty of the Academy of Performing Arts in Prague (HAMU)",
+                "display_name": "Review report",
                 "report_language": [
                     "eng"
                 ]
@@ -47,12 +42,7 @@
         ],
         "institutions": [
             {
-                "eter_id": "CZ0001",
-                "identifiers": [
-                    {
-                        "identifier": "16"
-                    }
-                ]
+                "deqar_id": "DEQARINST0245"
             }
         ]
     }
