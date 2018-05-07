@@ -54,6 +54,17 @@ class BrowseAgencyAPITest(APITestCase):
         response = self.client.get('/webapi/v1/browse/agencies/based-in/64/')
         self.assertEqual(response.data['count'], 1)
 
+    def test_agency_list_by_location_country_with_history(self):
+        """
+            Test if we can display a list of agencies by country of location.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/agencies/based-in/56/')
+        response2 = self.client.get('/webapi/v1/browse/agencies/based-in/56/', {'history': 'true'})
+        self.assertEqual(response.data['count'], 0)
+        self.assertEqual(response2.data['count'], 1)
+
+
     def test_agency_list_by_country_focusing_to_without_history(self):
         """
             Test if we can display a list of agencies by country of focus without searching in historical data.
