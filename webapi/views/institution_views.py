@@ -31,7 +31,7 @@ class InstitutionFilterClass(filters.FilterSet):
                                                          method='filter_focus_country_is_crossborder')
 
     def search_institution(self, queryset, name, value):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', True)
 
         if include_history == 'true':
             return queryset.filter(
