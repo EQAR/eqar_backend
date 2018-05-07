@@ -170,7 +170,7 @@ class InstitutionList(generics.ListAPIView):
     filter_class = InstitutionFilterClass
 
     def get_queryset(self):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
 
         if include_history == 'true':
             return Institution.objects.filter(reports__isnull=False).distinct()
