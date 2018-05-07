@@ -249,8 +249,8 @@ class AgencyEQARDecision(models.Model):
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     decision_date = models.DateField()
     decision_type = models.ForeignKey('lists.EQARDecisionType')
-    decision_file = models.FileField()
-    decision_file_extra = models.FileField(blank=True)
+    decision_file = models.FileField(upload_to='EQAR/')
+    decision_file_extra = models.FileField(blank=True, upload_to='EQAR/')
 
     class Meta:
         db_table = 'deqar_agency_eqar_decisions'
