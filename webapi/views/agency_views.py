@@ -44,7 +44,17 @@ class AgencyListByOriginCountry(AgencyList):
         Returns a list of all the agencies in DEQAR based in the submitted country.
     """
     def get_queryset(self):
-        return Agency.objects.filter(Q(country=self.kwargs['country']))
+        include_history = self.request.query_params.get('history', None)
+
+        if include_history == 'true':
+            return Agency.objects.filter(Q(country=self.kwargs['country']))
+        else:
+            return Agency.objects.filter(
+                Q(country=self.kwargs['country']) & (
+                    Q(registration_valid_to__gte=datetime.datetime.now()) |
+                    Q(registration_valid_to__isnull=True)
+                )
+            )
 
 
 class AgencyDetail(generics.RetrieveAPIView):
