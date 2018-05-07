@@ -46,10 +46,10 @@ class BrowseAPIInstitutionTest(APITestCase):
         self.assertEqual(response.data['count'], 1)
 
         response_wh_1 = self.client.get('/webapi/v1/browse/institutions/', {'query': 'München'})
-        self.assertEqual(response_wh_1.data['count'], 0)
+        self.assertEqual(response_wh_1.data['count'], 1)
 
-        response_wh_2 = self.client.get('/webapi/v1/browse/institutions/', {'query': 'München', 'history': 'true'})
-        self.assertEqual(response_wh_2.data['count'], 1)
+        response_wh_2 = self.client.get('/webapi/v1/browse/institutions/', {'query': 'München', 'history': 'false'})
+        self.assertEqual(response_wh_2.data['count'], 0)
 
     def test_institution_agency_filter(self):
         """
@@ -68,10 +68,10 @@ class BrowseAPIInstitutionTest(APITestCase):
         self.assertEqual(response.data['count'], 3)
 
         response_2 = self.client.get('/webapi/v1/browse/institutions/', {'country': '10'})
-        self.assertEqual(response_2.data['count'], 0)
+        self.assertEqual(response_2.data['count'], 1)
 
-        response_wh = self.client.get('/webapi/v1/browse/institutions/', {'country': '10', 'history': 'true'})
-        self.assertEqual(response_wh.data['count'], 1)
+        response_wh = self.client.get('/webapi/v1/browse/institutions/', {'country': '10', 'history': 'false'})
+        self.assertEqual(response_wh.data['count'], 0)
 
     def test_institution_qf_ehea_level_filter(self):
         """
@@ -82,10 +82,10 @@ class BrowseAPIInstitutionTest(APITestCase):
         self.assertEqual(response.data['count'], 3)
 
         response = self.client.get('/webapi/v1/browse/institutions/', {'qf_ehea_level': '3'})
-        self.assertEqual(response.data['count'], 0)
-
-        response = self.client.get('/webapi/v1/browse/institutions/', {'qf_ehea_level': '3', 'history': 'true'})
         self.assertEqual(response.data['count'], 1)
+
+        response = self.client.get('/webapi/v1/browse/institutions/', {'qf_ehea_level': '3', 'history': 'false'})
+        self.assertEqual(response.data['count'], 0)
 
     def test_institution_status_filter(self):
         """
@@ -105,12 +105,12 @@ class BrowseAPIInstitutionTest(APITestCase):
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/institutions/', {'focus_country_is_crossborder': 'true'})
-        self.assertEqual(response.data['count'], 0)
+        self.assertEqual(response.data['count'], 3)
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/institutions/', {'focus_country_is_crossborder': 'true',
-                                                                       'history': 'true'})
-        self.assertEqual(response.data['count'], 3)
+                                                                       'history': 'false'})
+        self.assertEqual(response.data['count'], 0)
 
     def test_institution_report_year(self):
         """

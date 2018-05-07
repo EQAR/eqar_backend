@@ -31,7 +31,7 @@ class InstitutionFilterClass(filters.FilterSet):
                                                          method='filter_focus_country_is_crossborder')
 
     def search_institution(self, queryset, name, value):
-        include_history = self.request.query_params.get('history', True)
+        include_history = self.request.query_params.get('history', 'true')
 
         if include_history == 'true':
             return queryset.filter(
@@ -97,7 +97,7 @@ class InstitutionFilterClass(filters.FilterSet):
         return queryset.filter(reports__agency_esg_activity=value)
 
     def filter_country(self, queryset, name, value):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
 
         if include_history == 'true':
             return queryset.filter(
@@ -114,7 +114,7 @@ class InstitutionFilterClass(filters.FilterSet):
             )
 
     def filter_qf_ehea_level(self, queryset, name, value):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
 
         if include_history == 'true':
             return queryset.filter(institutionqfehealevel__qf_ehea_level=value)
@@ -130,7 +130,7 @@ class InstitutionFilterClass(filters.FilterSet):
         return queryset.filter(reports__status=value)
 
     def filter_focus_country_is_crossborder(self, queryset, name, value):
-        include_history = self.request.query_params.get('history', None)
+        include_history = self.request.query_params.get('history', 'true')
 
         if include_history == 'true':
             return queryset.filter(
