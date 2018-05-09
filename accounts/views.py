@@ -5,6 +5,7 @@ from rest_framework.response import Response
 # Create your views here.
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 
 from accounts.serializers import ChangeEmailSerializer
 
@@ -30,21 +31,13 @@ class GetAuthToken(ObtainAuthToken):
 
 class GetNewAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-
-        if serializer.is_valid():
-            user = serializer.validated_data['user']
-            token = Token.objects.create(user=user)
-            return Response({
-                'state': 'success',
-                'token': token.key,
-            })
-        else:
-            return Response({
-                'state': 'error',
-                'errorMessage': "Unable to log in with provided credentials."
-            }, status=HTTP_401_UNAUTHORIZED)
+        user = self.request.user
+        Token.objects.filter(user=user).delete()
+        token = Token.objects.get_or_create(user=user)
+        return Response({
+            'state': 'success',
+            'token': token[0].key,
+        })
 
 
 class ChangeEmailView(CreateAPIView):
