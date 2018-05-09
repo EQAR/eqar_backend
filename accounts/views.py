@@ -28,6 +28,25 @@ class GetAuthToken(ObtainAuthToken):
             }, status=HTTP_401_UNAUTHORIZED)
 
 
+class GetNewAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token = Token.objects.create(user=user)
+            return Response({
+                'state': 'success',
+                'token': token.key,
+            })
+        else:
+            return Response({
+                'state': 'error',
+                'errorMessage': "Unable to log in with provided credentials."
+            }, status=HTTP_401_UNAUTHORIZED)
+
+
 class ChangeEmailView(CreateAPIView):
     serializer_class = ChangeEmailSerializer
 
