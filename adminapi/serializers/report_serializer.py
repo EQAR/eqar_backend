@@ -1,6 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
-from reports.models import Report
+from reports.models import Report, ReportFile
+
+
+class ReportFileDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportFile
+        fields = ['file_display_name', 'file']
 
 
 class ReportDashboardSerializer(serializers.ModelSerializer):
@@ -9,10 +15,11 @@ class ReportDashboardSerializer(serializers.ModelSerializer):
     programmes = serializers.StringRelatedField(many=True, source='programme_set')
     flag = serializers.StringRelatedField()
     date = serializers.SerializerMethodField()
+    report_files = ReportFileDashboardSerializer(many=True, read_only=True, source='reportfile_set')
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'name', 'institutions', 'programmes', 'flag', 'date']
+        fields = ['id', 'agency', 'name', 'institutions', 'programmes', 'flag', 'date', 'report_files']
 
     def get_date(self, obj):
         try:
