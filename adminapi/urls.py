@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
-from adminapi.views.institution_views import InstitutionSelectList
+from adminapi.views.institution_views import InstitutionSelectList, InstitutionDetail
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
@@ -32,4 +32,7 @@ urlpatterns = [
 
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
+
+    # Management endpoints
+    url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit')
 ]
