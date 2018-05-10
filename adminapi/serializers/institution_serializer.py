@@ -37,13 +37,14 @@ class InstitutionNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionName
-        fields = ['id', 'name_official', 'name_official_transliterated', 'name_english', 'acronym', 'alternative_names']
+        fields = ['id', 'name_official', 'name_official_transliterated', 'name_english', 'acronym',
+                  'name_valid_to', 'alternative_names']
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = InstitutionCountry
-        fields = ['id', 'country', 'city', 'lat', 'long']
+        fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to']
 
 
 class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
