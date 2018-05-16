@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 
-from adminapi.serializers.institution_serializer import InstitutionSelectListSerializer
+from adminapi.serializers.institution_serializer import InstitutionSelectListSerializer, InstitutionSerializer
 from countries.models import Country
 from institutions.models import Institution
 from lists.models import QFEHEALevel
@@ -57,3 +57,8 @@ class InstitutionSelectList(generics.ListAPIView):
     ordering = ('eter_id', 'name_primary')
     queryset = Institution.objects.all().order_by('name_primary')
     filter_class = InstitutionSelectFilterClass
+
+
+class InstitutionDetail(generics.RetrieveUpdateAPIView):
+    queryset = Institution.objects.all()
+    serializer_class = InstitutionSerializer

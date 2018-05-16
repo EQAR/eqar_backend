@@ -200,7 +200,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
     # Report Activity
     activity = serializers.CharField(max_length=500, required=False)
-    activity_local_identifier = serializers.CharField(max_length=20, required=False)
+    activity_local_identifier = serializers.CharField(max_length=200, required=False)
 
     # Report Details
     status = ReportStatusField(required=True)
