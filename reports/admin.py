@@ -1,6 +1,6 @@
 from eqar_backend.admin import DEQARModelAdmin, admin_site, DEQARStackedInline
 from programmes.models import Programme
-from reports.models import Report, ReportFile
+from reports.models import Report, ReportFile, ReportLink
 
 
 class ReportProgrammeInline(DEQARStackedInline):
@@ -20,6 +20,14 @@ class ReportFileInline(DEQARStackedInline):
     verbose_name = 'File'
     verbose_name_plural = 'Files'
     filter_horizontal = ('languages',)
+
+
+class ReportLinkInline(DEQARStackedInline):
+    model = ReportLink
+    extra = 1
+    suit_classes = 'suit-tab suit-tab-report'
+    verbose_name = 'Link'
+    verbose_name_plural = 'Links'
 
 
 class ReportAdmin(DEQARModelAdmin):
@@ -44,7 +52,7 @@ class ReportAdmin(DEQARModelAdmin):
             'classes': ('suit-tab', 'suit-tab-institution')
         })
     )
-    inlines = [ReportFileInline, ReportProgrammeInline]
+    inlines = [ReportFileInline, ReportProgrammeInline, ReportLinkInline]
 
     def get_institutions(self, obj):
         return ", ".join(str(inst) for inst in obj.institutions.all())
