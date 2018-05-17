@@ -24,5 +24,5 @@ class Command(BaseCommand):
         reports = Report.objects.filter(agency=agency)
 
         for report in reports:
-            for rf in report.reportfile_set:
+            for rf in report.reportfile_set.all():
                 download_file.delay(rf.file_original_location, rf.id, agency.acronym_primary)
