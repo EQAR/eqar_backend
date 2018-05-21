@@ -55,7 +55,7 @@ class InstitutionSelectList(generics.ListAPIView):
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
     ordering_fields = ('deqar_id', 'eter_id', 'name_primary')
     ordering = ('eter_id', 'name_primary')
-    queryset = Institution.objects.all().order_by('name_primary')
+    queryset = Institution.objects.all().order_by('name_primary').distinct()
     filter_class = InstitutionSelectFilterClass
 
 
