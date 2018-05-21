@@ -1,0 +1,24 @@
+- model: institutions.Institution
+  pk: 4
+  fields:
+    deqar_id: EQARIN0004
+    closure_date: 2013-12-31
+    website_link: http://www.uniarts.fi/en/
+
+- model: institutions.InstitutionCountry
+  pk: 4
+  fields:
+    institution: 4
+    country: 59
+    city: Helsinki
+    lat: 60.322132
+    long: 23.521138
+    country_valid_from: 2013-12-31
+
+- model: institutions.InstitutionName
+  pk: 4
+  fields:
+    institution: 4
+    name_official: Sibelius-Akatemia
+    name_english: Sibelius Academy
+    name_valid_to: 2013-12-31

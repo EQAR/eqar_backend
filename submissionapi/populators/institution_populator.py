@@ -27,12 +27,13 @@ class InstitutionPopulator():
 
         if self.institution is not None:
             self._institution_existing_populate_identifiers()
-            self._institution_existing_populate_name_english()
-            self._institution_existing_populate_acronym()
-            self._institution_existing_populate_name_official()
-            self._institution_existing_populate_alternative_names()
-            self._institution_existing_populate_locations()
-            self._institution_existing_populate_qf_ehea_level()
+            if not self.institution.closure_date:
+                self._institution_existing_populate_name_english()
+                self._institution_existing_populate_acronym()
+                self._institution_existing_populate_name_official()
+                self._institution_existing_populate_alternative_names()
+                self._institution_existing_populate_locations()
+                self._institution_existing_populate_qf_ehea_level()
         else:
             self._institution_create()
 

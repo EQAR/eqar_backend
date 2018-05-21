@@ -37,7 +37,10 @@ class Institution(models.Model):
         self.save()
 
     def set_primary_name(self):
-        inst_name_primary = self.institutionname_set.filter(name_valid_to__isnull=True).first()
+        if self.closure_date:
+            inst_name_primary = self.institutionname_set.all().order_by('-name_valid_to').first()
+        else:
+            inst_name_primary = self.institutionname_set.filter(name_valid_to__isnull=True).first()
         if inst_name_primary is not None:
             if inst_name_primary.name_english != "":
                 self.name_primary = inst_name_primary.name_english

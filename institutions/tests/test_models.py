@@ -15,7 +15,7 @@ class InstitutionTestCase(TestCase):
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
-        'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
+        'institution_demo_01', 'institution_demo_02', 'institution_demo_03', 'institution_demo_closed',
         'institution_relationship_type'
     ]
 
@@ -117,3 +117,13 @@ class InstitutionTestCase(TestCase):
     def test_institution_historical_relationship_type_str(self):
         relationship_type = InstitutionHistoricalRelationshipType.objects.get(id=1)
         self.assertEqual(str(relationship_type), '=> precedes / succeeds <=')
+
+    def test_institution_set_primary_name_ongoing(self):
+        inst = Institution.objects.get(id=3)
+        inst.set_primary_name()
+        self.assertEqual(inst.name_primary, 'Hessische Hochschule für Polizei und Verwaltung')
+
+    def test_institution_set_primary_closed(self):
+        inst = Institution.objects.get(id=4)
+        inst.set_primary_name()
+        self.assertEqual(inst.name_primary, 'Sibelius Academy')
