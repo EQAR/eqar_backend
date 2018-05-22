@@ -22,6 +22,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
     programme_identifiers = ProgrammeIdentifierSerializer(many=True, read_only=True, source='programmeidentifier_set')
     countries = serializers.StringRelatedField(many=True, read_only=True)
     report = ReportSerializer()
+    qf_ehea_level = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Programme
