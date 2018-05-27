@@ -4,6 +4,7 @@ from datedelta import datedelta
 from django.db.models import Q
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
+from django.shortcuts import get_object_or_404
 
 from institutions.models import Institution
 from programmes.models import Programme
@@ -25,7 +26,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         context = super(ReportProgrammeListByInstitution, self).get_serializer_context()
         parents = []
         children = []
-        institution = Institution.objects.get(pk=self.kwargs['institution'])
+        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
         # Children
         for inst in institution.relationship_parent.all():
@@ -42,7 +43,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
 
     def get_queryset(self):
         include_history = self.request.query_params.get('history', 'true')
-        institution = Institution.objects.get(pk=self.kwargs['institution'])
+        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
         institution_ids = [institution.id]
 
         # Add Children
@@ -85,7 +86,7 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
         context = super(ReportInstitutionListByInstitution, self).get_serializer_context()
         parents = []
         children = []
-        institution = Institution.objects.get(pk=self.kwargs['institution'])
+        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
         # Children
         for inst in institution.relationship_parent.all():
@@ -102,7 +103,7 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
 
     def get_queryset(self):
         include_history = self.request.query_params.get('history', 'true')
-        institution = Institution.objects.get(pk=self.kwargs['institution'])
+        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
         institution_ids = [institution.id]
 
         # Add Children
