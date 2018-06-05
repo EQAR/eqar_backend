@@ -421,10 +421,10 @@ class InstitutionPopulator():
                     if ic.lat is None:
                         ic.lat = latitude
                         ic.long = longitude
-                if ic.city != "" and ic.city != city:
+                if ic.city is not None and ic.city != city:
                     ic.add_source_note(self.flagger.get_message('city', city))
                     self.institution.set_flag_low()
-                if ic.city == "":
+                if ic.city is None:
                     ic.city = city
                     ic.lat = latitude
                     ic.long = longitude
