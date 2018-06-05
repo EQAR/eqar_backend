@@ -149,7 +149,7 @@ class InstitutionCountry(models.Model):
     id = models.AutoField(primary_key=True)
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
     country = models.ForeignKey('countries.Country', on_delete=models.PROTECT)
-    city = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
     country_source = models.CharField(max_length=20)
