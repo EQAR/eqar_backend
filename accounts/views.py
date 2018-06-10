@@ -5,8 +5,6 @@ from rest_framework.response import Response
 # Create your views here.
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
-
 from accounts.serializers import ChangeEmailSerializer
 
 

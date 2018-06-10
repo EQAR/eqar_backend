@@ -4,7 +4,7 @@ from django.test import TestCase
 from submissionapi.csv_functions.csv_handler import CSVHandler
 
 
-class SerializerFieldValidationTestCase(TestCase):
+class CSVHandlerTestCase(TestCase):
     def setUp(self):
         self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
