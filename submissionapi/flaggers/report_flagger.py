@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from agencies.models import AgencyFocusCountry
 
 
-class ReportFlagger():
+class ReportFlagger:
     """
     Class to check and create flags in report records.
     """

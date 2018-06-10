@@ -1,34 +1,21 @@
 import datetime
-import os
-import requests
 from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
 
-from reports.models import ReportFile
+from reports.models import Report
+from submissionapi.downloaders.report_downloader import ReportDownloader
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
 
 @task(name="download_file")
 def download_file(url, report_file_id, agency_acronym):
-    local_filename = url.split('/')[-1]
-    local_filename = "%s_%s" % ((datetime.datetime.now().strftime("%Y%m%d_%H%M")), local_filename)
-    headers = {'User-Agent': 'DEQAR File Downlaoder'}
-    r = requests.get(url, headers=headers, stream=True)
-    if r.status_code == requests.codes.ok:
-        rf = ReportFile.objects.get(pk=report_file_id)
-        file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym, local_filename)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:
-                    f.write(chunk)
-
-        rf.file.name = os.path.join(agency_acronym, local_filename)
-        rf.save()
-
-        flagger = ReportFlagger(rf.report)
-        flagger.check_and_set_flags()
+    downloader = ReportDownloader(
+        url=url,
+        report_file_id=report_file_id,
+        agency_acronym=agency_acronym
+    )
+    downloader.download()
 
 
 @task(name="send_submission_email")
@@ -65,3 +52,10 @@ def send_submission_email(response, institution_id_max, total_submission, agency
                            to=[agency_email],
                            cc=cc)
     message.send()
+
+
+@task(name="recheck_flag")
+def recheck_flag(report_id):
+    report = Report.objects.get(id=report_id)
+    report_flagger = ReportFlagger(report)
+    report_flagger.check_and_set_flags()

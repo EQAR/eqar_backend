@@ -7,7 +7,7 @@ from submissionapi.tasks import download_file
 
 
 class Command(BaseCommand):
-    help = 'Reharvest files.'
+    help = 'Reharvest files from agency.'
 
     def add_arguments(self, parser):
         parser.add_argument('--agency', dest='agency_acronym', help='The acronym of the Agency.')
