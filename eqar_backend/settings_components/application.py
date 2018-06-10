@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'reports',
     'submissionapi',
     'webapi',
-    'adminapi',
-    'csvtest'
+    'adminapi'
 ]
 
 MIDDLEWARE = [
@@ -115,6 +114,3 @@ USE_L10N = True
 USE_TZ = True
 
 NON_FIELD_ERRORS_KEY = 'non_field_errors'
-
-LOGIN_REDIRECT_URL = '/csvtest/upload'
-
