@@ -23,5 +23,5 @@ class Command(BaseCommand):
             raise CommandError('Report ID "%s" does not exist' % options['report'])
 
         for rf in report.reportfile_set.all():
-            download_file.delay(rf.file_original_location, rf.id, agency.acronym_primary)
+            download_file.delay(rf.file_original_location, rf.id, report.agency.acronym_primary)
 
