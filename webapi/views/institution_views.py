@@ -1,10 +1,9 @@
 import re
-
 import datetime
 
 from datedelta import datedelta
-from django.db.models import Q, QuerySet
-from django_filters import rest_framework as filters
+from django.db.models import Q
+from django_filters import rest_framework as filters, FilterSet
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 
@@ -29,9 +28,23 @@ class InstitutionFilterClass(filters.FilterSet):
     report_year = filters.CharFilter(label='Report Year', method='filter_report_date')
     focus_country_is_crossborder = filters.BooleanFilter(label='Focus Country Cross-Border',
                                                          method='filter_focus_country_is_crossborder')
+    history = filters.BooleanFilter(label='Historical Data', method='filter_history')
+
+    def filter_history(self, queryset, name, value):
+        queryset._next_is_sticky()
+        if not value:
+            return queryset.filter(
+                Q(reports__valid_to__gte=datetime.datetime.now()) | (
+                    Q(reports__valid_to__isnull=True) &
+                    Q(reports__valid_from__gte=datetime.datetime.now()-datedelta(years=6))
+                )
+            )
+        else:
+            return queryset
 
     def search_institution(self, queryset, name, value):
         include_history = self.request.query_params.get('history', 'true')
+        queryset._next_is_sticky()
 
         if include_history == 'true':
             return queryset.filter(
@@ -91,19 +104,24 @@ class InstitutionFilterClass(filters.FilterSet):
             )
 
     def filter_agency(self, queryset, name, value):
-        return queryset.filter(reports__agency=value)
+        queryset._next_is_sticky()
+        qs = queryset.filter(reports__agency=value)
+        return qs
 
     def filter_esg_activity(self, queryset, name, value):
+        queryset._next_is_sticky()
         return queryset.filter(reports__agency_esg_activity=value)
 
     def filter_country(self, queryset, name, value):
         include_history = self.request.query_params.get('history', 'true')
+        queryset._next_is_sticky()
 
         if include_history == 'true':
-            return queryset.filter(
+            queryset = queryset.filter(
                 Q(institutioncountry__country=value) |
                 Q(reports__programme__countries=value)
             )
+            return queryset
         else:
             return queryset.filter(
                 Q(institutioncountry__country=value) & (
@@ -115,6 +133,7 @@ class InstitutionFilterClass(filters.FilterSet):
 
     def filter_qf_ehea_level(self, queryset, name, value):
         include_history = self.request.query_params.get('history', 'true')
+        queryset._next_is_sticky()
 
         if include_history == 'true':
             return queryset.filter(institutionqfehealevel__qf_ehea_level=value)
@@ -127,29 +146,35 @@ class InstitutionFilterClass(filters.FilterSet):
             )
 
     def filter_report_status(self, queryset, name, value):
+        queryset._next_is_sticky()
         return queryset.filter(reports__status=value)
 
     def filter_focus_country_is_crossborder(self, queryset, name, value):
         include_history = self.request.query_params.get('history', 'true')
+        queryset._next_is_sticky()
 
         if include_history == 'true':
             return queryset.filter(
-                Q(reports__agency__agencyfocuscountry__country_is_crossborder__isnull=value) | (
+                Q(reports__agency__agencyfocuscountry__country_is_crossborder=value) | (
                     Q(reports__agency__agencyhistoricaldata__field=8) &
                     Q(reports__agency__agencyhistoricaldata__value='True')
                 )
             )
         else:
             return queryset.filter(
-                Q(reports__agency__agencyfocuscountry__country_is_crossborder__isnull=value) & (
+                Q(reports__agency__agencyfocuscountry__country_is_crossborder=value) & (
                     Q(reports__agency__agencyfocuscountry__country_valid_to__isnull=True) |
                     Q(reports__agency__agencyfocuscountry__country_valid_to__gte=datetime.datetime.now())
                 )
             )
 
     def filter_report_date(self, queryset, name, value):
+        queryset._next_is_sticky()
         if re.search(r"[1-2][0-9]{3}$", value):
-            return queryset.filter(reports__valid_from__year__lte=value, reports__valid_to__year__gte=value)
+            qs = queryset.filter(
+                Q(reports__valid_from__year__lte=value) & Q(reports__valid_to__year__gte=value)
+            )
+            return qs
         else:
             return Institution.objects.none()
 
@@ -170,25 +195,8 @@ class InstitutionList(generics.ListAPIView):
     filter_class = InstitutionFilterClass
 
     def get_queryset(self):
-        include_history = self.request.query_params.get('history', 'true')
-
-        if include_history == 'true':
-            return Institution.objects.filter(reports__isnull=False).distinct()
-        else:
-            qs = Institution.objects.filter(
-                Q(reports__isnull=False) &
-                (
-                    Q(reports__valid_to__gte=datetime.datetime.now()) | (
-                        Q(reports__valid_to__isnull=True) &
-                        Q(reports__valid_from__gte=datetime.datetime.now()-datedelta(years=6))
-                    )
-                )
-            ).distinct()
-            qs = qs.select_related('eter')
-            qs = qs.prefetch_related('institutioncountry_set')
-            qs = qs.prefetch_related('relationship_parent')
-            qs = qs.prefetch_related('relationship_child')
-            return qs
+        qs = Institution.objects.filter(has_report=True).distinct()
+        return qs
 
 
 class InstitutionDetail(generics.RetrieveAPIView):

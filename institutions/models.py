@@ -19,6 +19,7 @@ class Institution(models.Model):
     source_note = models.TextField(blank=True, null=True)
     flag = models.ForeignKey('lists.Flag', default=1)
     flag_log = models.TextField(blank=True)
+    has_report = models.BooleanField(default=0)
 
     def __str__(self):
         return self.name_primary
