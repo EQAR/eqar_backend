@@ -142,5 +142,5 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries',
+        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
