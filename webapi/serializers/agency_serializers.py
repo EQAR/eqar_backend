@@ -26,16 +26,16 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AgencyListByFocusCountrySerializer(AgencyListSerializer):
-    country_is_crossborder = serializers.SerializerMethodField()
+    country_is_official = serializers.SerializerMethodField()
 
-    def get_country_is_crossborder(self, obj):
+    def get_country_is_official(self, obj):
         focus_country = obj.agencyfocuscountry_set.filter(country_id=self.context['country_id']).first()
-        return focus_country.country_is_crossborder
+        return focus_country.country_is_official
 
     class Meta:
         model = Agency
         fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities',
-                  'country_is_crossborder', 'registration_start', 'registration_valid_to']
+                  'country_is_official', 'registration_start', 'registration_valid_to']
 
 
 class AgencyFocusCountrySerializer(serializers.ModelSerializer):
