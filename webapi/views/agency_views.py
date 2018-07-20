@@ -4,7 +4,8 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 
 from agencies.models import Agency
-from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer
+from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
+    AgencyListByFocusCountrySerializer
 
 
 class AgencyList(generics.ListAPIView):
@@ -25,6 +26,13 @@ class AgencyListByFocusCountry(AgencyList):
     """
         Returns a list of all the agencies in DEQAR operating in the submitted country.
     """
+    serializer_class = AgencyListByFocusCountrySerializer
+
+    def get_serializer_context(self):
+        context = super(AgencyListByFocusCountry, self).get_serializer_context()
+        context['country_id'] = self.kwargs['country']
+        return context
+
     def get_queryset(self):
         include_history = self.request.query_params.get('history', None)
 
