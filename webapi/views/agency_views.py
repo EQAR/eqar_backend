@@ -30,7 +30,8 @@ class AgencyListByFocusCountry(AgencyList):
 
     def get_serializer_context(self):
         context = super(AgencyListByFocusCountry, self).get_serializer_context()
-        context['country_id'] = self.kwargs['country']
+        if 'country' in self.kwargs:
+            context['country_id'] = self.kwargs['country']
         return context
 
     def get_queryset(self):

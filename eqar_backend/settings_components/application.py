@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'mail_templated',
     'django_unused_media',
     'djoser',
+    'drf_yasg',
 
     'accounts',
     'agencies',
