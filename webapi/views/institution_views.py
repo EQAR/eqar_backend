@@ -193,7 +193,7 @@ class InstitutionList(generics.ListAPIView):
     filter_class = InstitutionFilterClass
 
     def get_queryset(self):
-        qs = Institution.objects.filter(has_report=True).order_by('name_sort')
+        qs = Institution.objects.filter(has_report=True).order_by('name_sort').distinct()
         return qs
 
 
