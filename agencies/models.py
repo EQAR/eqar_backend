@@ -173,6 +173,7 @@ class AgencyESGActivity(models.Model):
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
     activity = models.CharField(max_length=500)
+    activity_display = models.CharField(max_length=500, blank=True, null=True)
     activity_local_identifier = models.CharField(max_length=100, blank=True)
     activity_description = models.CharField(max_length=300, blank=True)
     activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
@@ -181,12 +182,20 @@ class AgencyESGActivity(models.Model):
     activity_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return "%s -> %s (%s)" % (self.agency.acronym_primary, self.activity, self.activity_type)
+        return self.activity_display
+
+    def set_activity_display(self):
+        self.activity_display = "%s -> %s (%s)" % (self.agency.acronym_primary, self.activity, self.activity_type)
+
+    def save(self, *args, **kwargs):
+        self.set_activity_display()
+        super(AgencyESGActivity, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'deqar_agency_esg_activities'
         ordering = ('agency', 'activity')
         indexes = [
+            models.Index(fields=['activity_display']),
             models.Index(fields=['activity_valid_to'])
         ]
 
