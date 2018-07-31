@@ -65,6 +65,7 @@ class AgencyTestCase(TestCase):
 
     def test_agency_esg_activity_str(self):
         aea = AgencyESGActivity.objects.get(id=1)
+        aea.save()
         self.assertEqual(str(aea), 'ACQUIN -> System Accreditation in Germany (programme)')
 
     def test_submitting_agency_str(self):
