@@ -225,6 +225,7 @@
     agency: 5
     country: 74
     country_is_official: true
+    country_is_crossborder: true
     country_valid_from: 2010-01-01
     country_valid_to: 2012-01-01
 
