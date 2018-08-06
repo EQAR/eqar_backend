@@ -26,7 +26,11 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         context = super(ReportProgrammeListByInstitution, self).get_serializer_context()
         parents = []
         children = []
-        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
+
+        if 'institution' in self.kwargs:
+            institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
+        else:
+            return context
 
         # Children
         for inst in institution.relationship_parent.all():
@@ -86,7 +90,11 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
         context = super(ReportInstitutionListByInstitution, self).get_serializer_context()
         parents = []
         children = []
-        institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
+
+        if 'institution' in self.kwargs:
+            institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
+        else:
+            return context
 
         # Children
         for inst in institution.relationship_parent.all():

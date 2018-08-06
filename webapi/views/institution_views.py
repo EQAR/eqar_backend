@@ -189,13 +189,11 @@ class InstitutionList(generics.ListAPIView):
     Returns a list of all the institutions to which report was submitted in DEQAR.
     """
     serializer_class = InstitutionListSerializer
-    filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering_fields = ('name_primary',)
-    ordering = ('name_primary',)
+    filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilterClass
 
     def get_queryset(self):
-        qs = Institution.objects.filter(has_report=True).distinct()
+        qs = Institution.objects.filter(has_report=True).order_by('name_sort').distinct()
         return qs
 
 
@@ -206,5 +204,5 @@ class InstitutionDetail(generics.RetrieveAPIView):
     serializer_class = InstitutionDetailSerializer
 
     def get_queryset(self):
-        qs = Institution.objects.filter(pk=self.kwargs['pk'])
+        qs = Institution.objects.filter(pk=self.kwargs['pk'], has_report=True)
         return qs

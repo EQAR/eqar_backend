@@ -19,6 +19,7 @@ class Institution(models.Model):
     source_note = models.TextField(blank=True, null=True)
     flag = models.ForeignKey('lists.Flag', default=1)
     flag_log = models.TextField(blank=True)
+    name_sort = models.CharField(max_length=500, blank=True)
     has_report = models.BooleanField(default=0)
 
     def __str__(self):
@@ -37,24 +38,45 @@ class Institution(models.Model):
         self.flag = Flag.objects.get(pk=3)
         self.save()
 
+    def save(self, *args, **kwargs):
+        self.set_primary_name()
+        self.set_name_sort()
+        super(Institution, self).save(*args, **kwargs)
+
     def set_primary_name(self):
         if self.closure_date:
             inst_name_primary = self.institutionname_set.all().order_by('-name_valid_to').first()
         else:
             inst_name_primary = self.institutionname_set.filter(name_valid_to__isnull=True).first()
+
         if inst_name_primary is not None:
             if inst_name_primary.name_english != "":
                 self.name_primary = inst_name_primary.name_english
             else:
                 self.name_primary = inst_name_primary.name_official
-            self.save()
+
+            children = InstitutionHierarchicalRelationship.objects.filter(institution_parent=self)
+            if children.count() > 0:
+                for child in children:
+                    child.institution_child.name_sort = "%s / %s" % (self.name_primary,
+                                                                     child.institution_child.name_primary)
+                    child.save()
+
+    def set_name_sort(self):
+        parents = InstitutionHierarchicalRelationship.objects.filter(institution_child=self)
+        if parents.count() > 0:
+            parent_name = parents.first().institution_parent.name_primary
+            self.name_sort = "%s / %s" % (parent_name, self.name_primary)
+        else:
+            self.name_sort = self.name_primary
 
     class Meta:
         db_table = 'deqar_institutions'
         ordering = ('name_primary',)
         indexes = [
             models.Index(fields=['deqar_id']),
-            models.Index(fields=['name_primary'])
+            models.Index(fields=['name_primary']),
+            models.Index(fields=['name_sort'])
         ]
 
 

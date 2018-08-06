@@ -35,7 +35,7 @@ class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ['id', 'eter_id', 'url', 'name_primary', 'website_link', 'countries', 'hierarchical_relationships']
+        fields = ['id', 'eter_id', 'url', 'name_primary', 'name_sort', 'website_link', 'countries', 'hierarchical_relationships']
 
 
 class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModelSerializer):
