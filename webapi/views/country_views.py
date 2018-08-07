@@ -1,15 +1,21 @@
 import datetime
 from django.db.models import Q, Count
+from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from agencies.models import AgencyFocusCountry
+from agencies.models import AgencyFocusCountry, Agency
 from countries.models import Country
+from institutions.models import Institution
 from lists.models import PermissionType
+from reports.models import Report
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
 from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
-    CountryReportListSerializer
+    CountryReportListSerializer, CountryStatsSerializer
 
 
 class CountryFilterClass(filters.FilterSet):
@@ -123,3 +129,58 @@ class CountryDetail(generics.RetrieveAPIView):
         qs = qs.select_related('external_QAA_is_permitted', 'european_approach_is_permitted')
         qs = qs.prefetch_related('countryqarequirement_set', 'countryqaaregulation_set', 'countryhistoricaldata_set')
         return qs
+
+
+class CountryStatsView(APIView):
+    """
+        Returns the number of institutions and reports per country and per country plus agency.
+    """
+    @swagger_auto_schema(responses={200: CountryStatsSerializer()})
+    def get(self, request, country):
+        country_counter = {}
+        agency_based_in_counters = []
+        agency_focused_on_counters = []
+
+        country_record = get_object_or_404(Country, pk=country)
+        agencies_based_in = Agency.objects.filter(country=country)
+        agencies_focused_on = Agency.objects.filter(agencyfocuscountry__country=country)
+
+        reports_count = Report.objects.filter(
+            institutions__institutioncountry__country=country_record
+        ).distinct().count()
+        institution_count = Institution.objects.filter(
+            Q(has_report=True) & (
+                Q(institutioncountry__country=country_record) |
+                Q(reports__programme__countries=country_record)
+            )
+        ).distinct().count()
+        country_counter['reports'] = reports_count
+        country_counter['institutions'] = institution_count
+
+        for agency in agencies_based_in:
+            counter = {}
+            reports_count = Report.objects.filter(agency=agency).count()
+            institution_count = Institution.objects.filter(
+                Q(has_report=True) & Q(reports__agency=agency)
+            ).distinct().count()
+            counter['agency_id'] = agency.id
+            counter['reports'] = reports_count
+            counter['institutions'] = institution_count
+            agency_based_in_counters.append(counter)
+
+        for agency in agencies_focused_on:
+            counter = {}
+            reports_count = Report.objects.filter(agency=agency).count()
+            institution_count = Institution.objects.filter(
+                Q(has_report=True) & Q(reports__agency=agency)
+            ).distinct().count()
+            counter['agency_id'] = agency.id
+            counter['reports'] = reports_count
+            counter['institutions'] = institution_count
+            agency_focused_on_counters.append(counter)
+
+        return Response(CountryStatsSerializer({
+            'country_counter': country_counter,
+            'country_agency_based_in_counter': agency_based_in_counters,
+            'country_agency_focused_on_counter': agency_focused_on_counters
+        }).data)
