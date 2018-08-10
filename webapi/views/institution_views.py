@@ -204,5 +204,5 @@ class InstitutionDetail(generics.RetrieveAPIView):
     serializer_class = InstitutionDetailSerializer
 
     def get_queryset(self):
-        qs = Institution.objects.filter(pk=self.kwargs['pk'], has_report=True)
+        qs = Institution.objects.filter(pk=self.kwargs['pk'])
         return qs
