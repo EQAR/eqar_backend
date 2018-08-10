@@ -74,3 +74,20 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'eligibility', 'conditions', 'recognition',
                   'european_approach_is_permitted', 'european_approach_note',
                   'general_note', 'qaa_regulations', 'historical_data']
+
+
+class CountryCounterSerializer(serializers.Serializer):
+    reports = serializers.IntegerField()
+    institutions = serializers.IntegerField()
+
+
+class CountryAgencySerializer(serializers.Serializer):
+    agency_id = serializers.IntegerField()
+    reports = serializers.IntegerField()
+    institutions = serializers.IntegerField()
+
+
+class CountryStatsSerializer(serializers.Serializer):
+    country_counter = CountryCounterSerializer()
+    country_agency_based_in_counter = CountryAgencySerializer(many=True, required=False)
+    country_agency_focused_on_counter = CountryAgencySerializer(many=True, required=False)
