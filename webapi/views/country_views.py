@@ -19,9 +19,11 @@ from webapi.serializers.country_serializers import CountryDetailSerializer, Coun
 
 
 class CountryFilterClass(filters.FilterSet):
-    external_qaa = filters.ModelChoiceFilter(name='external_QAA_is_permitted', queryset=PermissionType.objects.all())
-    european_approach = filters.ModelChoiceFilter(name='european_approach_is_permitted', queryset=PermissionType.objects.all())
-    eqar_governmental_member = filters.BooleanFilter(name='eqar_governmental_member_start',
+    external_qaa = filters.ModelChoiceFilter(field_name='external_QAA_is_permitted',
+                                             queryset=PermissionType.objects.all())
+    european_approach = filters.ModelChoiceFilter(field_name='european_approach_is_permitted',
+                                                  queryset=PermissionType.objects.all())
+    eqar_governmental_member = filters.BooleanFilter(field_name='eqar_governmental_member_start',
                                                      method='filter_eqar_governmental_member')
 
     def filter_eqar_governmental_member(self, queryset, name, value):
@@ -38,13 +40,15 @@ class CountryList(generics.ListAPIView):
     """
     serializer_class = CountryLargeListSerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering_fields = ('name_english', 'agency__count')
+    ordering_fields = ('name_english', 'agency_count')
     ordering = ('name_english',)
     filter_class = CountryFilterClass
     pagination_class = None
 
     def get_queryset(self):
-        qs = Country.objects.filter(ehea_is_member=True).annotate(Count('agency'))
+        qs = Country.objects.filter(ehea_is_member=True).annotate(
+            agency_count=Count('agency', filter=Q(agency__is_registered=True))
+        )
         return qs
 
 
@@ -157,6 +161,7 @@ class CountryStatsView(APIView):
         country_counter['reports'] = reports_count
         country_counter['institutions'] = institution_count
 
+        # KILL
         for agency in agencies_based_in:
             counter = {}
             reports_count = Report.objects.filter(agency=agency).count()

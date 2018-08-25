@@ -109,17 +109,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
                   'description_note', 'geographical_focus', 'historical_data',)
 
 
-class AgencyCounterSerializer(serializers.Serializer):
-    reports = serializers.IntegerField()
-    institutions = serializers.IntegerField()
-
-
 class AgencyActivityCounterSerializer(serializers.Serializer):
     activity_id = serializers.IntegerField()
     reports = serializers.IntegerField()
     institutions = serializers.IntegerField()
-
-
-class AgencyStatsSerializer(serializers.Serializer):
-    agency_counter = AgencyCounterSerializer()
-    activity_counters = AgencyActivityCounterSerializer(many=True)

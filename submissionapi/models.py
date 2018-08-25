@@ -20,7 +20,7 @@ class SubmissionLog(models.Model):
 
 class SubmissionPackageLog(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey('accounts.DEQARProfile')
+    user = models.ForeignKey('accounts.DEQARProfile', on_delete=models.CASCADE)
     user_ip_address = models.GenericIPAddressField(blank=True, null=True)
     origin = models.CharField(max_length=10, blank=True, null=True)
     submitted_data = models.TextField(blank=True)

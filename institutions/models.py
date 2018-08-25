@@ -17,7 +17,7 @@ class Institution(models.Model):
     closure_date = models.DateField(blank=True, null=True)
     national_identifier = models.CharField(max_length=50, blank=True, null=True)
     source_note = models.TextField(blank=True, null=True)
-    flag = models.ForeignKey('lists.Flag', default=1)
+    flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
     name_sort = models.CharField(max_length=500, blank=True)
     has_report = models.BooleanField(default=0)

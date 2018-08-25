@@ -18,7 +18,7 @@ class Report(models.Model):
     valid_from = models.DateField(default=datetime.date.today)
     valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
-    flag = models.ForeignKey('lists.Flag', default=1)
+    flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
 
     def reset_flag(self):
@@ -77,7 +77,7 @@ class ReportLink(models.Model):
     Links to records on individual reports and evaluations at agency’s site.
     """
     id = models.AutoField(primary_key=True)
-    report = models.ForeignKey('Report')
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
     link_display_name = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(max_length=255, blank=True, null=True)
 
@@ -94,7 +94,7 @@ class ReportFile(models.Model):
     PDF versions of reports and evaluations.
     """
     id = models.AutoField(primary_key=True)
-    report = models.ForeignKey('Report')
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
     file_display_name = models.CharField(max_length=255, blank=True)
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)

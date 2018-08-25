@@ -63,6 +63,8 @@ class AgencyHistoricalDataInline(DEQARStackedInline):
 
 
 class AgencyForm(ModelForm):
+    default_renderer = None
+
     class Meta:
         _ck_editor_toolbar = [
             {'name': 'basicstyles', 'groups': ['basicstyles', 'cleanup']},
@@ -111,8 +113,8 @@ class AgencyAdmin(DEQARModelAdmin):
             'classes': ('suit-tab', 'suit-tab-contact',),
         }),
         (None, {
-            'fields': ('reports_link', 'geographical_focus', 'specialisation_note', 'description_note', 'registration_start',
-                       'registration_valid_to', 'registration_note'),
+            'fields': ('reports_link', 'geographical_focus', 'specialisation_note', 'description_note',
+                       'is_registered', 'registration_start', 'registration_valid_to', 'registration_note'),
             'classes': ('suit-tab', 'suit-tab-other',),
         })
     )

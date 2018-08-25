@@ -14,15 +14,17 @@ class Country(models.Model):
     ehea_is_member = models.BooleanField(default=False)
     eqar_governmental_member_start = models.DateField(blank=True, null=True)
     qa_requirement_note = models.TextField(blank=True)
-    external_QAA_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_external_qaa', default=2)
+    external_QAA_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_external_qaa',
+                                                  default=2, on_delete=models.PROTECT)
     external_QAA_note = models.TextField(blank=True, null=True)
     eligibility = models.TextField(blank=True, null=True)
     conditions = models.TextField(blank=True, null=True)
     recognition = models.TextField(blank=True, null=True)
-    european_approach_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_european_approach', default=2)
+    european_approach_is_permitted = models.ForeignKey('lists.PermissionType', related_name='country_european_approach',
+                                                       default=2, on_delete=models.PROTECT)
     european_approach_note = models.TextField(blank=True, null=True)
     general_note = models.TextField(blank=True)
-    flag = models.ForeignKey('lists.Flag', default=1)
+    flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
 
     def __str__(self):

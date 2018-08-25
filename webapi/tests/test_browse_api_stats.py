@@ -29,16 +29,6 @@ class BrowseStatsAPITest(APITestCase):
         self.user.save()
         self.token = Token.objects.get(user__username='testuser')
 
-    def test_stats_by_agency(self):
-        """
-            Test if we can display stats by agency.
-        """
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/stats/by-agency/5/')
-        self.assertEqual(response.data['agency_counter']['reports'], 10)
-        self.assertEqual(response.data['agency_counter']['institutions'], 3)
-        self.assertEqual(len(response.data['activity_counters']), 2)
-
     def test_stats_by_country(self):
         """
             Test if we can display stats by country.

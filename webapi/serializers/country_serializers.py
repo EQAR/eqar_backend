@@ -24,7 +24,7 @@ class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
-    agency_count = serializers.IntegerField(source='agency__count')
+    agency_count = serializers.IntegerField()
 
     class Meta:
         model = Country
