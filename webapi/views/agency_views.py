@@ -1,29 +1,52 @@
 import datetime
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django_filters import rest_framework as filters
 
 from agencies.models import Agency
-from institutions.models import Institution
-from reports.models import Report
+from webapi.inspectors.agency_list_inspector import AgencyListInspector
 from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
     AgencyListByFocusCountrySerializer
 
+AGENCY_REGISTERED_CHOICES = (
+    ('True', 'True'),
+    ('False', 'False'),
+    ('All', 'All'),
+)
 
+
+class AgencyFilterClass(filters.FilterSet):
+    """
+        Filter class for Agency List filtering...
+    """
+    registered = filters.ChoiceFilter(label='Is Registered', method='filter_registered',
+                                      choices=AGENCY_REGISTERED_CHOICES)
+
+    def filter_registered(self, queryset, name, value):
+        if value == 'True':
+            queryset = Agency.objects.filter(is_registered=True)
+        elif value == 'False':
+            queryset = Agency.objects.filter(is_registered=False)
+        elif value == 'All':
+            queryset = Agency.objects.all()
+        return queryset
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+   filter_inspectors=[AgencyListInspector],
+))
 class AgencyList(generics.ListAPIView):
     """
         Returns a list of all the agencies in DEQAR.
     """
-    queryset = Agency.objects.filter(
-        Q(registration_valid_to__gte=datetime.datetime.now()) |
-        Q(registration_valid_to__isnull=True)
-    )
+    queryset = Agency.objects.filter(is_registered=True)
     serializer_class = AgencyListSerializer
-    filter_backends = (OrderingFilter, )
+    filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
+    filter_class = AgencyFilterClass
     ordering_fields = ('name_primary', 'acronym_primary')
     ordering = ('acronym_primary', 'name_primary')
 

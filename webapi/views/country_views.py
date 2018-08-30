@@ -1,6 +1,7 @@
 import datetime
 from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
@@ -13,6 +14,7 @@ from countries.models import Country
 from institutions.models import Institution
 from lists.models import PermissionType
 from reports.models import Report
+from webapi.inspectors.country_list_inspector import CountryListInspector
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
 from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
     CountryReportListSerializer, CountryStatsSerializer
@@ -34,6 +36,9 @@ class CountryFilterClass(filters.FilterSet):
         fields = ['external_qaa', 'european_approach', 'eqar_governmental_member']
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+   filter_inspectors=[CountryListInspector],
+))
 class CountryList(generics.ListAPIView):
     """
         Returns a list of countries where agencies are located.
