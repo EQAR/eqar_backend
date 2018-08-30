@@ -19,6 +19,8 @@ ALLOWED_HOSTS = ['.herokuapp.com']
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 
+MEDIA_URL = '/reports/'
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CELERY STUFF
