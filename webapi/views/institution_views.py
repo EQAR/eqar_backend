@@ -3,15 +3,17 @@ import datetime
 
 from datedelta import datedelta
 from django.db.models import Q
-from django_filters import rest_framework as filters, FilterSet
+from django.utils.decorators import method_decorator
+from django_filters import rest_framework as filters
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
-from rest_framework.filters import OrderingFilter
 
 from agencies.models import Agency, AgencyESGActivity
 from countries.models import Country
 from institutions.models import Institution
 from lists.models import QFEHEALevel
 from reports.models import ReportStatus
+from webapi.inspectors.institution_list_inspector import InstitutionListInspector
 from webapi.serializers.institution_serializers import InstitutionListSerializer, InstitutionDetailSerializer
 
 
@@ -184,6 +186,9 @@ class InstitutionFilterClass(filters.FilterSet):
                   'focus_country_is_crossborder']
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+   filter_inspectors=[InstitutionListInspector],
+))
 class InstitutionList(generics.ListAPIView):
     """
     Returns a list of all the institutions to which report was submitted in DEQAR.

@@ -7,6 +7,8 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList
 
+app_name = 'adminapi'
+
 urlpatterns = [
     # Dashboard
     url(r'^reports_by_agency/$', ReportsByAgency.as_view(), name='submit-report'),

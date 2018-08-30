@@ -1,6 +1,7 @@
 import datetime
 from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
@@ -13,15 +14,18 @@ from countries.models import Country
 from institutions.models import Institution
 from lists.models import PermissionType
 from reports.models import Report
+from webapi.inspectors.country_list_inspector import CountryListInspector
 from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
 from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
     CountryReportListSerializer, CountryStatsSerializer
 
 
 class CountryFilterClass(filters.FilterSet):
-    external_qaa = filters.ModelChoiceFilter(name='external_QAA_is_permitted', queryset=PermissionType.objects.all())
-    european_approach = filters.ModelChoiceFilter(name='european_approach_is_permitted', queryset=PermissionType.objects.all())
-    eqar_governmental_member = filters.BooleanFilter(name='eqar_governmental_member_start',
+    external_qaa = filters.ModelChoiceFilter(field_name='external_QAA_is_permitted',
+                                             queryset=PermissionType.objects.all())
+    european_approach = filters.ModelChoiceFilter(field_name='european_approach_is_permitted',
+                                                  queryset=PermissionType.objects.all())
+    eqar_governmental_member = filters.BooleanFilter(field_name='eqar_governmental_member_start',
                                                      method='filter_eqar_governmental_member')
 
     def filter_eqar_governmental_member(self, queryset, name, value):
@@ -32,19 +36,24 @@ class CountryFilterClass(filters.FilterSet):
         fields = ['external_qaa', 'european_approach', 'eqar_governmental_member']
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+   filter_inspectors=[CountryListInspector],
+))
 class CountryList(generics.ListAPIView):
     """
         Returns a list of countries where agencies are located.
     """
     serializer_class = CountryLargeListSerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering_fields = ('name_english', 'agency__count')
+    ordering_fields = ('name_english', 'agency_count')
     ordering = ('name_english',)
     filter_class = CountryFilterClass
     pagination_class = None
 
     def get_queryset(self):
-        qs = Country.objects.filter(ehea_is_member=True).annotate(Count('agency'))
+        qs = Country.objects.filter(ehea_is_member=True).annotate(
+            agency_count=Count('agency', filter=Q(agency__is_registered=True))
+        )
         return qs
 
 
@@ -157,6 +166,7 @@ class CountryStatsView(APIView):
         country_counter['reports'] = reports_count
         country_counter['institutions'] = institution_count
 
+        # KILL
         for agency in agencies_based_in:
             counter = {}
             reports_count = Report.objects.filter(agency=agency).count()

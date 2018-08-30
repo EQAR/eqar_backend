@@ -26,7 +26,7 @@ class BrowseAgencyAPITest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v1/browse/agencies/')
-        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 2)
 
     def test_agency_detail(self):
         """

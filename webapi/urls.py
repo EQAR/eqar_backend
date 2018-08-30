@@ -21,6 +21,8 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+app_name = 'webapi'
+
 urlpatterns = [
     url(r'^browse/agencies/$', AgencyList.as_view(), name='agency-list'),
     url(r'^browse/agencies/(?P<pk>[0-9]+)/$', AgencyDetail.as_view(), name='agency-detail'),
@@ -43,7 +45,6 @@ urlpatterns = [
     url(r'^browse/reports/institutional/by-institution/(?P<institution>[0-9]+)/$',
         ReportInstitutionListByInstitution.as_view(), name='institutional-report-list-by-institution'),
 
-    url(r'^browse/stats/by-agency/(?P<agency>[0-9]+)/$', AgencyStatsView.as_view(), name='stats-by-agency'),
     url(r'^browse/stats/by-country/(?P<country>[0-9]+)/$', CountryStatsView.as_view(), name='stats-by-country'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
