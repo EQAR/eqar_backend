@@ -10,7 +10,7 @@ from submissionapi.csv_functions.csv_handler import CSVHandler
 from submissionapi.csv_functions.csv_parser import CSVParser
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.populators.populator import Populator
-from submissionapi.serializers.response_serializers import ReportResponseSerializer
+from submissionapi.serializers.response_serializers import ResponseReportSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
 from submissionapi.trackers.submission_tracker import SubmissionTracker
@@ -77,7 +77,7 @@ class SubmissionCSVView(APIView):
         else:
             sanity_check_status = "success"
 
-        serializer = ReportResponseSerializer(flagger.report)
+        serializer = ResponseReportSerializer(flagger.report)
 
         return {
             'agency': populator.report.agency.deqar_id,
