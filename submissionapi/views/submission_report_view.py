@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from drf_yasg.utils import swagger_auto_schema
 from ipware import get_client_ip
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,13 +8,21 @@ from rest_framework.views import APIView
 from institutions.models import Institution
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.populators.populator import Populator
-from submissionapi.serializers.response_serializers import ReportResponseSerializer
+from submissionapi.serializers.response_serializers import ResponseReportSerializer, \
+    ResponseReportSuccessResponseSerializer, ResponseReportErrorResponseSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.trackers.submission_tracker import SubmissionTracker
 from submissionapi.tasks import send_submission_email
 
 
 class SubmissionReportView(APIView):
+    """
+        Submission of report data
+    """
+    @swagger_auto_schema(request_body=SubmissionPackageSerializer,
+                         responses={'200': ResponseReportSuccessResponseSerializer,
+                                    '201': None,
+                                    '400': ResponseReportErrorResponseSerializer})
     def post(self, request):
         # Save the highest institution id
         try:
@@ -88,7 +97,7 @@ class SubmissionReportView(APIView):
         else:
             sanity_check_status = "success"
 
-        serializer = ReportResponseSerializer(flagger.report)
+        serializer = ResponseReportSerializer(flagger.report)
 
         return {
             'submission_status': 'success',
