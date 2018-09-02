@@ -88,10 +88,7 @@ class AgencyListByOriginCountry(AgencyList):
             return Agency.objects.filter(Q(country=self.kwargs['country']))
         else:
             return Agency.objects.filter(
-                Q(country=self.kwargs['country']) & (
-                    Q(registration_valid_to__gte=datetime.datetime.now()) |
-                    Q(registration_valid_to__isnull=True)
-                )
+                Q(country=self.kwargs['country']) & Q(is_registered=True)
             )
 
 
