@@ -12,20 +12,42 @@ from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionF
 
 
 class IdentifierSerializer(serializers.Serializer):
-    identifier = serializers.CharField(max_length=255, required=True)
-    resource = serializers.CharField(max_length=255, required=False)
+    identifier = serializers.CharField(max_length=255, required=True,
+                                       label='An identifier used by the Agency to identify each institution/programme.',
+                                       help_text='example: HCERES21')
+    resource = serializers.CharField(max_length=255, required=False,
+                                     label='If the identifer is from another source, the source should be recorded as '
+                                           'well. If no source is recorded, the source will be recorded as the '
+                                           'Agency itself.',
+                                     help_text='example: national authority')
 
 
 class InstitutionAlternativeNameSerializer(serializers.Serializer):
-    name_alternative = serializers.CharField(max_length=200, required=True)
-    name_alternative_transliterated = serializers.CharField(max_length=200, required=False)
+    name_alternative = serializers.CharField(max_length=200, required=True,
+                                             label='Alternative name(s) or alternative language name(s) of each '
+                                                   'institution in the original alphabet')
+    name_alternative_transliterated = serializers.CharField(max_length=200, required=False,
+                                                            label='Alternative name(s) or alternative language name(s) '
+                                                                  'of each institution in a transliterated form')
 
 
 class InstitutionLocatonSerializer(serializers.Serializer):
-    country = CountryField(required=True)
-    city = serializers.CharField(max_length=100, required=False)
-    latitude = serializers.FloatField(required=False)
-    longitude = serializers.FloatField(required=False)
+    country = CountryField(required=True,
+                           label='The country where each institution is located, submitted in the form of an '
+                                 'ISO 3166 alpha2 or ISO 3166 alpha3 country code.',
+                           help_text='examples: "BG", "BGR"')
+    city = serializers.CharField(max_length=100, required=False,
+                                 label='The city name, preferrably in English, where the institution is located '
+                                       'in each country.',
+                                 help_text='example: Sofia')
+    latitude = serializers.FloatField(required=False,
+                                      label='The exact latitude of the institution in the city or the '
+                                            'general latitude and longitude of the city itself.',
+                                      help_text='example: 42.698334')
+    longitude = serializers.FloatField(required=False,
+                                       label='The exact longitude of the institution in the city or the '
+                                             'general latitude and longitude of the city itself.',
+                                       help_text='example: 23.319941')
 
     def validate(self, data):
         city = data.get('city', None)
@@ -48,27 +70,43 @@ class InstitutionLocatonSerializer(serializers.Serializer):
 
 class InstitutionSerializer(serializers.Serializer):
     # Reference
-    deqar_id = serializers.CharField(max_length=25, required=False)
-    eter_id = serializers.CharField(max_length=15, required=False)
+    deqar_id = serializers.CharField(max_length=25, required=False, label='DEQAR ID of the institution',
+                                     help_text='example: "EQARInst66"')
+    eter_id = serializers.CharField(max_length=15, required=False, label='ETER ID of the institution',
+                                    help_text='example: AT0005')
 
     # Identification
     identifiers = IdentifierSerializer(many=True, required=False)
 
     # Name
-    name_official = serializers.CharField(max_length=255, required=False)
-    name_official_transliterated = serializers.CharField(max_length=255, required=False)
-    name_english = serializers.CharField(max_length=255, required=False)
-    acronym = serializers.CharField(max_length=30, required=False)
+    name_official = serializers.CharField(max_length=255, required=False,
+                                          label='The official form of the name of the institution',
+                                          help_text='example: Югозападен университет Неофит Рилски')
+    name_official_transliterated = serializers.CharField(max_length=255, required=False,
+                                                         label='The english form of the name of the institution',
+                                                         help_text='example: Yugo-zapaden universitet Neofit Rilski')
+    name_english = serializers.CharField(max_length=255, required=False,
+                                         label='The english form of the name of the institution',
+                                         help_text='example: Yugo-zapaden universitet Neofit Rilski')
+    acronym = serializers.CharField(max_length=30, required=False,
+                                    label='The official form of the acronym of the institution',
+                                    help_text='example: SWU')
     alternative_names = InstitutionAlternativeNameSerializer(many=True, required=False)
 
     # Location
-    locations = InstitutionLocatonSerializer(many=True, required=False)
+    locations = InstitutionLocatonSerializer(many=True, required=False,
+                                             label='List of locations where the institution is located')
 
     # Level
-    qf_ehea_levels = serializers.ListField(child=QFEHEALevelField(required=False), required=False)
+    qf_ehea_levels = serializers.ListField(child=QFEHEALevelField(required=False), required=False,
+                                           label='List of identifiers or QF-EHEA levels that are valid for '
+                                                 'each institution',
+                                           help_text='accepted values: "0", "1", "2", "3", "short cycle", '
+                                                     '"first cycle", "second cycle", "third cycle"')
 
     # Website
-    website_link = serializers.URLField(max_length=200, required=False)
+    website_link = serializers.URLField(max_length=200, required=False, label='Website of the institution.',
+                                        help_text='example: https://www.tuwien.ac.at')
 
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
@@ -139,8 +177,15 @@ class InstitutionSerializer(serializers.Serializer):
 
 
 class ProgrammeAlternativeNameSerializer(serializers.Serializer):
-    name_alternative = serializers.CharField(max_length=200, required=True)
-    qualification_alternative = serializers.CharField(max_length=200, required=False)
+    name_alternative = serializers.CharField(max_length=200, required=True,
+                                             label='Any alternative or other language name for a programme.',
+                                             help_text='example: Medical Natural Sciences')
+    qualification_alternative = serializers.CharField(max_length=200, required=False,
+                                                      label='The qualification offered by each programme recorded in '
+                                                            'the same language that is used for the alternative '
+                                                            'name version.',
+                                                      help_text='example: Master of Medicine in de specialistische '
+                                                                'geneeskunde')
 
 
 class ProgrammeSerializer(serializers.Serializer):
@@ -148,16 +193,30 @@ class ProgrammeSerializer(serializers.Serializer):
     identifiers = IdentifierSerializer(many=True, required=False)
 
     # Name
-    name_primary = serializers.CharField(max_length=255, required=True)
-    qualification_primary = serializers.CharField(max_length=255, required=False)
+    name_primary = serializers.CharField(max_length=255, required=True, label='The primary name of each programme.',
+                                         help_text='example: Medical Natural Sciences')
+    qualification_primary = serializers.CharField(max_length=255, required=False,
+                                                  label='The qualification offered by each programme recorded in the '
+                                                        'same language that is used for primary name.',
+                                                  help_text='example: Master of Medicine in de specialistische '
+                                                            'geneeskunde')
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False)
 
     # Country
-    countries = serializers.ListField(child=CountryField(required=False), required=False)
+    countries = serializers.ListField(child=CountryField(required=False), required=False,
+                                      label='The countries where each programme is located, when different from the '
+                                            'main country/ies of the institution(s), in the form of an ISO 3166 alpha2 '
+                                            'or ISO 3166 alpha3 country code.',
+                                      help_text='examples: "BE", "BEL"')
 
     # Level
-    nqf_level = serializers.CharField(max_length=255, required=False)
-    qf_ehea_level = QFEHEALevelField(required=False)
+    nqf_level = serializers.CharField(max_length=255, required=False,
+                                      label='Programme NQF level (Either this or QF EHEA level is required)',
+                                      help_text='example: "level 6"')
+    qf_ehea_level = QFEHEALevelField(required=False,
+                                     label='Prgoramme QF EHEA level (Either this or NQF level is required)',
+                                     help_text='accepted values: "0", "1", "2", "3", "short cycle", '
+                                               '"first cycle", "second cycle", "third cycle"')
 
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
@@ -178,38 +237,59 @@ class ProgrammeSerializer(serializers.Serializer):
 
 
 class ReportFileSerializer(serializers.Serializer):
-    original_location = serializers.URLField(max_length=500, required=False)
-    display_name = serializers.CharField(max_length=255, required=False)
-    report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True)
+    original_location = serializers.URLField(max_length=500, required=False, label='The URL of the report file',
+                                             help_text='example: "http://estudis.aqu.cat/MAD2014_UPC_es.pdf"')
+    display_name = serializers.CharField(max_length=255, required=False, label='Display value of the file',
+                                         help_text='example: "Ev. de la Solicitud de Verification de Título oficial"')
+    report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True,
+                                            label='Language(s) of the report',
+                                            help_text='example: ["eng", "ger"]')
 
 
 class ReportLinkSerializer(serializers.Serializer):
-    link = serializers.URLField(max_length=255, required=True)
-    link_display_name = serializers.CharField(max_length=200, required=False)
+    link = serializers.URLField(max_length=255, required=True,
+                                label="Links to the Report records/pages on the Agency's website.",
+                                help_text='example: "http://srv.aneca.es/ListadoTitulos/node/1182321350"')
+    link_display_name = serializers.CharField(max_length=200, required=False,
+                                              label='Display the report records link.',
+                                              help_text='example: "General information on programme"')
 
 
 class SubmissionPackageSerializer(serializers.Serializer):
     # Report Identifier
-    report_id = ReportIdentifierField(required=False)
+    report_id = ReportIdentifierField(required=False, label='DEQAR identifier of the report')
 
     # Report Creator
-    agency = AgencyField(required=True)
+    agency = AgencyField(required=True, label='Identifier or the acronym of the agency',
+                         help_text='examples: "33", "ACQUIN"')
 
     # Record Identification
-    local_identifier = serializers.CharField(max_length=255, required=False)
+    local_identifier = serializers.CharField(max_length=255, required=False, label='Local identifier of the report',
+                                             help_text='example: "QAA1153-March15"')
 
     # Report Activity
-    activity = serializers.CharField(max_length=500, required=False)
-    activity_local_identifier = serializers.CharField(max_length=200, required=False)
+    activity = serializers.CharField(max_length=500, required=False,
+                                     label='Identifier or the description of the Agency ESG Activity',
+                                     help_text='examples: "2", "institutional audit"')
+    activity_local_identifier = serializers.CharField(max_length=200, required=False,
+                                                      label='Local identifier of the ESG Activity',
+                                                      help_text='example: "inst_audit')
 
     # Report Details
-    status = ReportStatusField(required=True)
-    decision = ReportDecisionField(required=True)
+    status = ReportStatusField(required=True, label='Identifier or the status of the report',
+                               help_text='accepted values: "1", "2", "part of obligatory EQA system", "voluntary"')
+    decision = ReportDecisionField(required=True, label='Identifier or the decision described in the report',
+                                   help_text='accepted values: "1", "2", "3", "4", "positive", '
+                                             '"positive with conditions or restrictions", "no, negative", '
+                                             '"not applicable"')
 
     # Report Validity
-    valid_from = serializers.CharField(max_length=20, required=True)
-    valid_to = serializers.CharField(max_length=20, required=False)
-    date_format = serializers.CharField(max_length=20, required=True)
+    valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',
+                                       help_text='example: 15-01-2015')
+    valid_to = serializers.CharField(max_length=20, required=False, label='End date of the report validity',
+                                     help_text='example: 15-01-2015')
+    date_format = serializers.CharField(max_length=20, required=True, label='The date format of the validation dates.',
+                                        help_text='example: %d-%M-%Y')
 
     # Report Links
     report_links = ReportLinkSerializer(many=True, required=False)
@@ -218,10 +298,16 @@ class SubmissionPackageSerializer(serializers.Serializer):
     report_files = ReportFileSerializer(many=True, required=True)
 
     # Institutions
-    institutions = InstitutionSerializer(many=True, required=True)
+    institutions = InstitutionSerializer(many=True, required=True,
+                                         label='Institution(s) which are the subject of the report. '
+                                               '(If programme information is submitted, then the report considered '
+                                               'to be about the programme itself.)')
 
     # Programmes
-    programmes = ProgrammeSerializer(many=True, required=False)
+    programmes = ProgrammeSerializer(many=True, required=False,
+                                     label='rogramme(s) which are the subject of the report. '
+                                           '(If programme information is NOT submitted, then the report considered '
+                                           'to be about the institution.)')
 
     def to_internal_value(self, data):
         errors = []

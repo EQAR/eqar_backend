@@ -3,6 +3,7 @@ from rest_framework import serializers
 from institutions.models import Institution
 from programmes.models import Programme
 from reports.models import Report, ReportFile
+from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -42,3 +43,26 @@ class ReportResponseSerializer(serializers.ModelSerializer):
         model = Report
         fields = ('id', 'agency', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision',
                   'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
+
+
+class ReportSubmissionSuccessResponseSerializer(serializers.Serializer):
+    submission_status = serializers.CharField(default="success")
+    submitted_report = ReportResponseSerializer()
+    sanity_check_status = serializers.ChoiceField(choices=["success", "warnings"])
+    report_flag = serializers.ChoiceField(choices=["none", "low level", "high level"])
+    report_warnings = serializers.CharField()
+    institution_warnings = serializers.CharField()
+
+
+class FieldErrorSerializer(serializers.Serializer):
+    field = serializers.CharField()
+    error = serializers.CharField()
+
+
+class ReportSubmissionErrorResponseSerializer(serializers.Serializer):
+    submission_status = serializers.CharField(default="error")
+    original_data = SubmissionPackageSerializer()
+    errors = FieldErrorSerializer(many=True)
+
+
+

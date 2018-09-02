@@ -18,6 +18,7 @@ from submissionapi.trackers.submission_tracker import SubmissionTracker
 
 class SubmissionCSVView(APIView):
     parser_classes = (CSVParser,)
+    swagger_schema = None
 
     def post(self, request):
         # Save the highest institution id
