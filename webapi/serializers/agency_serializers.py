@@ -75,7 +75,7 @@ class AgencyFocusCountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyFocusCountry
-        fields = ['country_url', 'country', 'report_count', 'country_is_official', 'country_is_crossborder', 'country_valid_from',
+        fields = ['country_url', 'country', 'country_is_official', 'country_is_crossborder', 'country_valid_from',
                   'country_valid_to']
 
 
