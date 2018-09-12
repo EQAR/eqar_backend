@@ -23,7 +23,7 @@ class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
         return obj.report_set.count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(reports__agency_esg_activity=obj).count()
+        return Institution.objects.filter(reports__agency_esg_activity=obj).distint().count()
 
     class Meta:
         model = AgencyESGActivity
@@ -55,7 +55,7 @@ class AgencyListByFocusCountrySerializer(AgencyListSerializer):
 
     def get_institution_count(self, obj):
         return Institution.objects.filter(has_report=True, reports__agency=obj,
-                                          institutioncountry__country_id=self.context['country_id']).count()
+                                          institutioncountry__country_id=self.context['country_id']).distinct().count()
 
     def get_country_is_official(self, obj):
         focus_country = obj.agencyfocuscountry_set.filter(country_id=self.context['country_id']).first()
@@ -132,7 +132,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
         return obj.report_set.count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(reports__agency=obj).count()
+        return Institution.objects.filter(reports__agency=obj).distinct().count()
 
     class Meta:
         model = Agency

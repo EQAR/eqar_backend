@@ -45,8 +45,6 @@ urlpatterns = [
     url(r'^browse/reports/institutional/by-institution/(?P<institution>[0-9]+)/$',
         ReportInstitutionListByInstitution.as_view(), name='institutional-report-list-by-institution'),
 
-    url(r'^browse/stats/by-country/(?P<country>[0-9]+)/$', CountryStatsView.as_view(), name='stats-by-country'),
-
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),

@@ -73,7 +73,7 @@ class CountryDetailSerializer(serializers.ModelSerializer):
         return Report.objects.filter(institutions__institutioncountry__country=obj).count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(has_report=True, institutioncountry__country=obj).count()
+        return Institution.objects.filter(has_report=True, institutioncountry__country=obj).distinct().count()
 
     class Meta:
         model = Country
