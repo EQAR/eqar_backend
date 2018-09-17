@@ -41,7 +41,8 @@ class ReportSerializer(serializers.ModelSerializer):
 
     def get_institutions(self, obj):
         insitutions = obj.institutions.exclude(id=self.context['institution'])
-        serializer = InstitutionListSerializer(instance=insitutions, many=True)
+        serializer = InstitutionListSerializer(instance=insitutions, many=True,
+                                               context={'request': self.context['request']})
         return serializer.data
 
     def get_agency_esg_activity_type(self, obj):
