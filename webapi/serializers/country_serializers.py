@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from countries.models import Country, CountryQAARegulation, CountryHistoricalData, CountryQARequirement
 from eqar_backend.serializers import HistoryFilteredListSerializer
+from institutions.models import Institution
+from reports.models import Report
 
 
 class CountryListSerializer(serializers.HyperlinkedModelSerializer):
@@ -64,6 +66,14 @@ class CountryDetailSerializer(serializers.ModelSerializer):
     historical_data = CountryHistoricalDataSerializer(many=True, read_only=True, source='countryhistoricaldata_set')
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
+    report_count = serializers.SerializerMethodField()
+    institution_count = serializers.SerializerMethodField()
+
+    def get_report_count(self, obj):
+        return Report.objects.filter(institutions__institutioncountry__country=obj).count()
+
+    def get_institution_count(self, obj):
+        return Institution.objects.filter(has_report=True, institutioncountry__country=obj).distinct().count()
 
     class Meta:
         model = Country
@@ -73,7 +83,9 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'external_QAA_is_permitted', 'external_QAA_note',
                   'eligibility', 'conditions', 'recognition',
                   'european_approach_is_permitted', 'european_approach_note',
-                  'general_note', 'qaa_regulations', 'historical_data']
+                  'general_note', 'qaa_regulations',
+                  'report_count', 'institution_count',
+                  'historical_data']
 
 
 class CountryCounterSerializer(serializers.Serializer):

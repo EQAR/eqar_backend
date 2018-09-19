@@ -4,6 +4,7 @@ from datedelta import datedelta
 from rest_framework import serializers
 from institutions.models import Institution
 from reports.models import Report, ReportFile, ReportLink
+from webapi.serializers.institution_serializers import InstitutionListSerializer
 
 
 class ReportLinkSerializer(serializers.ModelSerializer):
@@ -28,13 +29,24 @@ class ReportSerializer(serializers.ModelSerializer):
     agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
     agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
+    agency_esg_activity_type = serializers.SerializerMethodField()
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     flag = serializers.StringRelatedField()
+    institutions = serializers.SerializerMethodField()
     institution_relationship_context = serializers.SerializerMethodField()
     report_valid = serializers.SerializerMethodField()
+
+    def get_institutions(self, obj):
+        insitutions = obj.institutions.exclude(id=self.context['institution'])
+        serializer = InstitutionListSerializer(instance=insitutions, many=True,
+                                               context={'request': self.context['request']})
+        return serializer.data
+
+    def get_agency_esg_activity_type(self, obj):
+        return obj.agency_esg_activity.activity_type.type
 
     def get_report_valid(self, obj):
         valid_from = obj.valid_from
@@ -77,6 +89,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_id', 'agency_url', 'agency_esg_activity', 'name',
+        fields = ['institutions', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+                  'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
                   'report_links', 'local_identifier', 'flag', 'institution_relationship_context']

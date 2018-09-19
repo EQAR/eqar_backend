@@ -43,6 +43,7 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         context['institution'] = institution.id
         context['children'] = children
         context['parents'] = parents
+        context['request'] = self.request
         return context
 
     def get_queryset(self):
@@ -153,6 +154,7 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
         context['institution'] = institution.id
         context['children'] = children
         context['parents'] = parents
+        context['request'] = self.request
         return context
 
     def get_queryset(self):
