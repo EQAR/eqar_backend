@@ -5,6 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
+from rest_framework.response import Response
 
 from agencies.models import Agency
 from webapi.inspectors.agency_list_inspector import AgencyListInspector
@@ -55,6 +56,7 @@ class AgencyListByFocusCountry(AgencyList):
         Returns a list of all the agencies in DEQAR operating in the submitted country.
     """
     serializer_class = AgencyListByFocusCountrySerializer
+    filter_backends = (filters.DjangoFilterBackend,)
 
     def get_serializer_context(self):
         context = super(AgencyListByFocusCountry, self).get_serializer_context()
@@ -74,6 +76,16 @@ class AgencyListByFocusCountry(AgencyList):
                     Q(agencyfocuscountry__country_valid_to__gte=datetime.datetime.now())
                 )
             )
+
+    def get_paginated_response(self, data):
+        data = sorted(data, key=lambda d: (
+                -d['is_registered'],
+                -d['country_is_official'],
+                d['acronym_primary'],
+                d['name_primary']
+        ))
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
 
 
 class AgencyListByOriginCountry(AgencyList):
