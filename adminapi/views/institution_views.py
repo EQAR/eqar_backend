@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db.models import Q
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
@@ -60,5 +58,10 @@ class InstitutionSelectList(generics.ListAPIView):
 
 
 class InstitutionDetail(generics.RetrieveUpdateAPIView):
+    queryset = Institution.objects.all()
+    serializer_class = InstitutionSerializer
+
+
+class InstitutionCreate(generics.CreateAPIView):
     queryset = Institution.objects.all()
     serializer_class = InstitutionSerializer
