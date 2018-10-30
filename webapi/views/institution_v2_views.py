@@ -5,6 +5,7 @@ from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from agencies.models import Agency
 from countries.models import Country
@@ -96,13 +97,20 @@ class InstitutionList(ListAPIView):
             'fl': 'id,eter_id,name_primary,name_sort,place,website_link,score'
         }
         while not fetch_done:
-            results = solr.search(q=search,
-                                  cursorMark=cursor_mark,
-                                  sort=sort,
-                                  **search_kwargs)
+            results = solr.search(
+                q=search,
+                cursorMark=cursor_mark,
+                sort=sort,
+                **search_kwargs
+            )
             if cursor_mark == results.nextCursorMark:
                 fetch_done = True
             institutions += results.docs
+
+            # Ingest URL
+            for i in institutions:
+                i['url'] = reverse('webapi-v1:institution-detail', args=[i['id']], request=request)
+
             cursor_mark = results.nextCursorMark
             hits = results.hits
         return Response({'count': hits, 'results': institutions})
