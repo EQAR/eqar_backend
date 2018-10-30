@@ -102,7 +102,7 @@ class InstitutionList(ListAPIView):
                                   **search_kwargs)
             if cursor_mark == results.nextCursorMark:
                 fetch_done = True
-            institutions.append(results.docs)
+            institutions += results.docs
             cursor_mark = results.nextCursorMark
             hits = results.hits
         return Response({'count': hits, 'results': institutions})
