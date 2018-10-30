@@ -79,8 +79,8 @@ class InstitutionIndexer:
         # Index places
         for icountry in self.institution.institutioncountry_set.iterator():
             self.doc['country'].append(icountry.country.name_english.strip())
-            self.doc['city'].append(icountry.city.strip())
             if icountry.city:
+                self.doc['city'].append(icountry.city.strip())
                 self.doc['place'].append("%s (%s)" % (icountry.city.strip(),
                                                       icountry.country.name_english.strip()))
             else:
