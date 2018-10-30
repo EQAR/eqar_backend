@@ -59,6 +59,9 @@ class InstitutionList(ListAPIView):
         # Ordering params
         ordering_direction = 'asc'
         ordering = request.query_params.get('ordering', '-score')
+        if ordering == '-':
+            ordering = '-score'
+
         if ordering[0] == '-':
             ordering = ordering[1:]
             ordering_direction = 'desc'
@@ -72,7 +75,7 @@ class InstitutionList(ListAPIView):
         solr = pysolr.Solr(getattr(settings, "SOLR_URL", "http://localhost:8983/solr"))
         fetch_done = False
         search_kwargs = {
-            'defType': 'dismax',
+            'defType': 'edismax',
             'qf': ' '.join(
                 [
                     'name_official^2.5',
