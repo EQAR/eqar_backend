@@ -59,7 +59,7 @@ class InstitutionList(ListAPIView):
         # Ordering params
         ordering_direction = 'asc'
         ordering = request.query_params.get('ordering', '-score')
-        if ordering == '-':
+        if ordering == '':
             ordering = '-score'
 
         if ordering[0] == '-':
