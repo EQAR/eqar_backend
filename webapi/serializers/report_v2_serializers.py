@@ -41,8 +41,8 @@ class ReportSerializer(serializers.ModelSerializer):
     def generate_name_display(self, obj):
         institution = self.context['institution']
         report_type = self.context['report_type']
-        programme = self.context['programme_name']
-        programme_qf_ehea_level = self.context['qf_ehea_level']
+        programme = self.context.get('programme_name', "")
+        programme_qf_ehea_level = self.context.get('qf_ehea_level', "")
 
         if institution in obj.institutions.all():
             if report_type == 'institutional':
