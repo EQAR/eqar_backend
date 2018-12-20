@@ -41,7 +41,8 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agency
-        fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities']
+        fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities',
+                  'registration_start', 'registration_valid_to', 'registration_note']
 
 
 class AgencyListByFocusCountrySerializer(AgencyListSerializer):
