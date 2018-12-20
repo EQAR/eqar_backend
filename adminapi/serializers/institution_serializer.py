@@ -1,3 +1,4 @@
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel
@@ -8,7 +9,7 @@ class InstitutionCountrySelectListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionCountry
-        fields = ['country', 'city', 'lat', 'long']
+        fields = ['id', 'country', 'city', 'lat', 'long']
 
 
 class InstitutionSelectListSerializer(serializers.ModelSerializer):
@@ -32,7 +33,7 @@ class InstitutionNameVersionSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'transliteration']
 
 
-class InstitutionNameSerializer(serializers.ModelSerializer):
+class InstitutionNameSerializer(WritableNestedModelSerializer):
     alternative_names = InstitutionNameVersionSerializer(many=True, source='institutionnameversion_set')
 
     class Meta:
@@ -53,7 +54,7 @@ class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
         fields = ['id', 'qf_ehea_level']
 
 
-class InstitutionSerializer(serializers.ModelSerializer):
+class InstitutionSerializer(WritableNestedModelSerializer):
     identifiers = InstitutionIdentifierSerializer(many=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountrySerializer(many=True, source='institutioncountry_set')
