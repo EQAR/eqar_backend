@@ -89,6 +89,7 @@ class CountryListByReports(generics.ListAPIView):
             (SELECT DISTINCT deqar_countries."id",
                 deqar_countries.iso_3166_alpha2,
                 deqar_countries.iso_3166_alpha3,
+                deqar_countries.ehea_is_member,
                 deqar_countries.name_english,
                 deqar_institution_countries.institution_id
             FROM deqar_countries
@@ -106,7 +107,7 @@ class CountryListByReports(generics.ListAPIView):
                 deqar_countries.name_english,
                 deqar_institution_countries.institution_id
             ORDER BY name_english) AS filtered_countries
-            GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english
+            GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english, ehea_is_member
             ORDER BY name_english
         '''
 
