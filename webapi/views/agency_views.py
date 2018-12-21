@@ -7,10 +7,10 @@ from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 from rest_framework.response import Response
 
-from agencies.models import Agency
+from agencies.models import Agency, AgencyEQARDecision
 from webapi.inspectors.agency_list_inspector import AgencyListInspector
 from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
-    AgencyListByFocusCountrySerializer
+    AgencyListByFocusCountrySerializer, AgencyEQARDecisionListSerializer
 
 AGENCY_REGISTERED_CHOICES = (
     ('True', 'True'),
@@ -109,3 +109,12 @@ class AgencyDetail(generics.RetrieveAPIView):
     """
     queryset = Agency.objects.all()
     serializer_class = AgencyDetailSerializer
+
+
+class AgencyDecisionList(generics.ListAPIView):
+    """
+        Returns all the EQAR decisions in chronological order.
+    """
+    queryset = AgencyEQARDecision.objects.all().order_by('-decision_date', 'agency__acronym_primary')
+    serializer_class = AgencyEQARDecisionListSerializer
+    pagination_class = None

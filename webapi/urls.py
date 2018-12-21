@@ -30,6 +30,7 @@ urlpatterns = [
         name='agency-list-by-focuscountry'),
     url(r'^browse/agencies/based-in/(?P<country>[0-9]+)/$', AgencyListByOriginCountry.as_view(),
         name='agency-list-by-country'),
+    url(r'^browse/agencies/decisions/$', AgencyDecisionList.as_view(), name='agency-decision-list'),
 
     url(r'^browse/countries/$', CountryList.as_view(), name='country-list'),
     url(r'^browse/countries/(?P<pk>[0-9]+)/$', CountryDetail.as_view(), name='country-detail'),

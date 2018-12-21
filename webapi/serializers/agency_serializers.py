@@ -148,3 +148,15 @@ class AgencyActivityCounterSerializer(serializers.Serializer):
     activity_id = serializers.IntegerField()
     reports = serializers.IntegerField()
     institutions = serializers.IntegerField()
+
+
+class AgencyEQARDecisionListSerializer(serializers.ModelSerializer):
+    agency_acronym = serializers.SerializerMethodField()
+    decision_type = serializers.StringRelatedField()
+
+    def get_agency_acronym(self, obj):
+        return obj.agency.acronym_primary
+
+    class Meta:
+        model = AgencyEQARDecision
+        fields = ('agency_acronym', 'decision_date', 'decision_type', 'decision_file', 'decision_file_extra')
