@@ -13,6 +13,7 @@ class InstitutionTestCase(TestCase):
         'qf_ehea_level', 'eter_demo', 'institution_historical_field',
         'agency_activity_type', 'agency_focus', 'identifier_resource',
         'agency_historical_field',
+        'eqar_decision_type',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
         'institution_demo_01', 'institution_demo_02', 'institution_demo_03', 'institution_demo_closed',
