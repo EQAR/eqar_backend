@@ -19,7 +19,7 @@ class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Country
-        fields = ['id', 'url', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3', 'institution_count']
+        fields = ['id', 'url', 'name_english', 'ehea_is_member', 'iso_3166_alpha2', 'iso_3166_alpha3', 'institution_count']
 
 
 class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):

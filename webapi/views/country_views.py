@@ -84,7 +84,7 @@ class CountryListByReports(generics.ListAPIView):
 
         sql = '''
             SELECT
-            id, iso_3166_alpha2, iso_3166_alpha3, name_english, COUNT(institution_id) as inst_count
+            id, iso_3166_alpha2, iso_3166_alpha3, ehea_is_member, name_english, COUNT(institution_id) as inst_count
             FROM
             (SELECT DISTINCT deqar_countries."id",
                 deqar_countries.iso_3166_alpha2,
