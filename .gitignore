@@ -23,4 +23,4 @@ loaddata_test.sh
 accounts/management
 static/media
 *.rdb
-*.db
+data_cleaning*.*

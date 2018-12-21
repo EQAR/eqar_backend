@@ -11,6 +11,7 @@ class BrowseAgencyAPITest(APITestCase):
                 'country_qa_requirement_type', 'country',
                 'flag', 'permission_type',
                 'agency_historical_field',
+                'eqar_decision_type',
                 'agency_demo_01', 'agency_demo_02']
 
     def setUp(self):
@@ -84,3 +85,12 @@ class BrowseAgencyAPITest(APITestCase):
         response_2 = self.client.get('/webapi/v1/browse/agencies/focusing-to/74/', {'history': 'true'})
         self.assertEqual(response_1.data['count'], 1)
         self.assertEqual(response_2.data['count'], 1)
+
+    def test_agency_decision_list(self):
+        """
+            Test if we can display a list of agency decisions.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v1/browse/agencies/decisions/')
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['agency_acronym'], 'EKKA')
