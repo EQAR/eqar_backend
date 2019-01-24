@@ -17,6 +17,7 @@ class Programme(models.Model):
         indexes = [
             models.Index(fields=['name_primary']),
         ]
+        ordering = ['id', 'report']
 
     def __str__(self):
         return self.name_primary
