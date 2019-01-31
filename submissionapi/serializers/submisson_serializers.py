@@ -12,10 +12,10 @@ from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionF
 
 
 class IdentifierSerializer(serializers.Serializer):
-    identifier = serializers.CharField(max_length=255, required=True,
+    identifier = serializers.CharField(max_length=50, required=True,
                                        label='An identifier used by the Agency to identify each institution/programme.',
                                        help_text='example: HCERES21')
-    resource = serializers.CharField(max_length=255, required=False,
+    resource = serializers.CharField(max_length=200, required=False,
                                      label='If the identifer is from another source, the source should be recorded as '
                                            'well. If no source is recorded, the source will be recorded as the '
                                            'Agency itself.',
