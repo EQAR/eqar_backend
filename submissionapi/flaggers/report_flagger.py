@@ -21,6 +21,7 @@ class ReportFlagger:
         # self.check_ehea_is_member()
         self.check_report_file()
         self.report.flag_log = "; ".join(self.flag_log)
+        self.report.save()
 
     def check_countries(self):
         # InstitutionCountries

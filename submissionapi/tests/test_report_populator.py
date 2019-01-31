@@ -146,9 +146,9 @@ class ReportPopulatorTestCase(TestCase):
         populator._report_upsert()
         populator._report_file_upsert()
         self.assertEqual(populator.report.reportfile_set.count(), 2)
-        self.assertEqual(populator.report.reportfile_set.first().file_display_name,
-                         "example.pdf")
         self.assertEqual(populator.report.reportfile_set.all()[0].file_display_name,
+                         "example.pdf")
+        self.assertEqual(populator.report.reportfile_set.all()[1].file_display_name,
                          "2nd example document")
-        self.assertEqual(populator.report.reportfile_set.first().languages.count(), 1)
-        self.assertEqual(populator.report.reportfile_set.all()[0].languages.count(), 2)
+        self.assertEqual(populator.report.reportfile_set.all()[0].languages.count(), 1)
+        self.assertEqual(populator.report.reportfile_set.all()[1].languages.count(), 2)

@@ -102,4 +102,5 @@ class ReportFile(models.Model):
 
     class Meta:
         db_table = 'deqar_report_files'
+        ordering = ['id', 'report']
 

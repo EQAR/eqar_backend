@@ -16,7 +16,7 @@ class Institution(models.Model):
     founding_date = models.DateField(blank=True, null=True)
     closure_date = models.DateField(blank=True, null=True)
     national_identifier = models.CharField(max_length=50, blank=True, null=True)
-    source_note = models.TextField(blank=True, null=True)
+    source_note = models.TextField(blank=True, default="")
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
     name_sort = models.CharField(max_length=500, blank=True)
@@ -110,7 +110,7 @@ class InstitutionName(models.Model):
     name_official_transliterated = models.CharField(max_length=200, blank=True)
     name_english = models.CharField(max_length=200, blank=True)
     acronym = models.CharField(max_length=30, blank=True)
-    name_source_note = models.TextField()
+    name_source_note = models.TextField(blank=True, default="")
     name_valid_to = models.DateField(blank=True, null=True)
 
     def add_source_note(self, flag_msg):
@@ -146,7 +146,7 @@ class InstitutionNameVersion(models.Model):
     name = models.CharField(max_length=200)
     transliteration = models.CharField(max_length=200, blank=True)
     name_version_source = models.CharField(max_length=20, blank=True)
-    name_version_source_note = models.CharField(max_length=200, blank=True)
+    name_version_source_note = models.TextField(blank=True, default="")
 
     def add_source_note(self, flag_msg):
         if flag_msg not in self.name_version_source_note:
@@ -176,7 +176,7 @@ class InstitutionCountry(models.Model):
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
     country_source = models.CharField(max_length=20)
-    country_source_note = models.CharField(max_length=200, blank=True)
+    country_source_note = models.TextField(blank=True, default="")
     country_valid_from = models.DateField(default=datetime.date.today)
     country_valid_to = models.DateField(blank=True, null=True)
     country_verified = models.BooleanField(default=True)
@@ -206,7 +206,7 @@ class InstitutionNQFLevel(models.Model):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
     nqf_level = models.CharField(max_length=10)
     nqf_level_source = models.CharField(max_length=20)
-    nqf_level_source_note = models.CharField(max_length=200, blank=True)
+    nqf_level_source_note = models.TextField(blank=True, default="")
     nqf_level_valid_from = models.DateField(default=datetime.date.today)
     nqf_level_valid_to = models.DateField(blank=True, null=True)
 
@@ -237,7 +237,7 @@ class InstitutionQFEHEALevel(models.Model):
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.PROTECT)
     qf_ehea_level_source = models.CharField(max_length=20)
-    qf_ehea_level_source_note = models.CharField(max_length=200, blank=True)
+    qf_ehea_level_source_note = models.TextField(blank=True, default="")
     qf_ehea_level_valid_from = models.DateField(default=datetime.date.today)
     qf_ehea_level_valid_to = models.DateField(blank=True, null=True)
     qf_ehea_level_verified = models.BooleanField(default=True)
