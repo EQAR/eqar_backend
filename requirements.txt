@@ -19,7 +19,7 @@ django-ipware==2.0.1
 django-mail-templated==2.6.5
 django-split-settings==0.2.5
 django-suit==0.2.26
--e git://github.com/JoshBone/django-suit-ckeditor.git#egg=suit_ckeditor
+-e git://github.com/JoshBone/django-suit-ckeditor.git#egg=django-suit-ckeditor
 django-templated-mail==1.1.1
 django-unused-media==0.1.12
 djangorestframework==3.8.2
@@ -41,7 +41,6 @@ jsonpointer==1.14
 kombu==4.1.0
 Markdown==2.6.9
 MarkupSafe==1.0
-mysqlclient==1.3.12
 openapi-codec==1.3.2
 psycopg2==2.7.3.2
 pysolr==3.7.0
