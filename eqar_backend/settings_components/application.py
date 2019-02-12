@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',
+    'modelsdoc',
     'django_filters',
     'corsheaders',
     'suit_ckeditor',
