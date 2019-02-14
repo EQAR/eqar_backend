@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from institutions.indexers.institution_report_indexer import InstitutionReportIndexer
+from institutions.indexers.institution_all_indexer import InstitutionAllIndexer
 from institutions.models import Institution
 
 
@@ -9,5 +9,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for inst in Institution.objects.iterator():
-            indexer = InstitutionReportIndexer(inst)
+            indexer = InstitutionAllIndexer(inst)
             indexer.index()
