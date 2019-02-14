@@ -7,8 +7,11 @@ from eqar_backend.admin import admin_site
 urlpatterns = [
     url(r'^webapi/v1/', include('webapi.urls', namespace='webapi-v1')),
     url(r'^webapi/v2/', include('webapi.urls_v2', namespace='webapi-v2')),
+
     url(r'^submissionapi/v1/', include('submissionapi.urls', namespace='submissionapi-v1')),
+
     url(r'^adminapi/v1/', include('adminapi.urls', namespace='adminapi-v1')),
+    url(r'^adminapi/v2/', include('adminapi.urls_v2', namespace='adminapi-v2')),
 
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^admin/', admin_site.urls),
