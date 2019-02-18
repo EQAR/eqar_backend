@@ -6,7 +6,7 @@ from reports.models import Report
 
 class InstitutionAllIndexer:
     """
-    Class to index Institution and their corresponding Report records to Solr.
+    Class to index Institution records to Solr.
     """
 
     def __init__(self, institution):
