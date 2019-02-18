@@ -32,6 +32,9 @@ class Searcher:
         filters = params.get('filters', [])
         self.set_fq(filters)
 
+        date_filters = params.get('date_filters', [])
+        self.set_date_fq(date_filters)
+
         ordering = params.get('ordering', "")
         self.set_order(ordering)
 
@@ -73,7 +76,12 @@ class Searcher:
     def set_fq(self, filters):
         for f in filters:
             for k, v in f.items():
-                self.fq.append("%s:%s" % (k, v))
+                self.fq.append('%s:"%s"' % (k, v))
+
+    def set_date_fq(self, date_filters):
+        for f in date_filters:
+            for k, v in f.items():
+                self.fq.append('%s:%s' % (k, v))
 
     def get_tie_breaker(self, ordering):
         # Tie breaker
