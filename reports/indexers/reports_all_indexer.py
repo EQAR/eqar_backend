@@ -98,7 +98,7 @@ class ReportsAllIndexer:
                 self.doc['programme_name'].append(pname.name.strip())
 
             for c in programme.countries.all():
-                self.doc['country'].append(c.country)
+                self.doc['country'].append(c.country.name_english)
 
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
