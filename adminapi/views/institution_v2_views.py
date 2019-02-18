@@ -31,7 +31,7 @@ class InstitutionAllList(ListAPIView):
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilterClass
-    core = getattr(settings, "SOLR_CORE_INSTITUTION_ALL", "deqar-institutions-all")
+    core = getattr(settings, "SOLR_CORE_INSTITUTIONS_ALL", "deqar-institutions-all")
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
