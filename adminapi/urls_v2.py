@@ -4,6 +4,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from adminapi.views.institution_v2_views import InstitutionAllList
+from adminapi.views.report_views import ReportAllList
 
 app_name = 'adminapi'
 
@@ -22,6 +23,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(r'^select/institutions/$', InstitutionAllList.as_view(), name='institution-select-all'),
+    url(r'^browse/reports/$', ReportAllList.as_view(), name='report-list-all'),
 
     # Swagger endpoints
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
