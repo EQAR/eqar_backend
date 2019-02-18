@@ -8,7 +8,8 @@ from adminapi.views.institution_views import InstitutionSelectList, InstitutionD
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
-    ReportStatusSelectList, InstitutionCountrySelectList
+    ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
+    FlagSelectList
 
 app_name = 'adminapi'
 
@@ -32,10 +33,13 @@ urlpatterns = [
 
     # Select Endpoints
     url(r'^select/agency/$', AgencySelectList.as_view(), name='agency-select'),
+    url(r'^select/agency_all/$', AgencySelectAllList.as_view(), name='agency-select-all'),
     url(r'^select/agency_esg_activity/$', AgencyESGActivitySelectAllList.as_view(),
         name='agency-activity-select'),
     url(r'^select/agency_esg_activity/(?P<pk>[0-9]+)/$', AgencyESGActivitySelectList.as_view(),
         name='agency-activity-select'),
+    url(r'^select/activity_type/$', AgencyActivityTypeSelectList.as_view(),
+        name='agency-activity-type-select'),
     url(r'^select/country/$', CountrySelectList.as_view(), name='country-select'),
     url(r'^select/language/$', LanguageSelectList.as_view(), name='language-select'),
     url(r'^select/association/$', AssociationSelectList.as_view(), name='association-select'),
@@ -50,6 +54,7 @@ urlpatterns = [
 
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
+    url(r'^select/flag/$', FlagSelectList.as_view(), name='flag-select'),
 
     # Management endpoints
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
