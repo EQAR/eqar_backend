@@ -73,7 +73,10 @@ class InstitutionList(ListAPIView):
             tie_brekaer = 'score desc,id asc'
         sort = "%s %s,%s" % (ordering, ordering_direction, tie_brekaer)
 
-        solr = pysolr.Solr(getattr(settings, "SOLR_URL", "http://localhost:8983/solr"))
+        solr_url = getattr(settings, "SOLR_URL", "http://localhost:8983/solr")
+        core = getattr(settings, "SOLR_CORE_INSTITUTIONS_REPORTS", "deqar-institutions-reports")
+
+        solr = pysolr.Solr("%s/%s" % (solr_url, core))
         fetch_done = False
         search_kwargs = {
             'defType': 'edismax',
