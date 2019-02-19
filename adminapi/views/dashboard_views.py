@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adminapi.serializers.report_serializer import ReportDashboardSerializer
+from adminapi.serializers.report_dashboard_serializers import ReportDashboardSerializer
 from institutions.models import Institution
 from programmes.models import Programme
 from reports.models import Report

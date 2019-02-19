@@ -4,7 +4,10 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
-from adminapi.views.institution_views import InstitutionSelectList, InstitutionDetail, InstitutionCreate
+from adminapi.views.institution_search_views import InstitutionAllList
+from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
+from adminapi.views.report_search_views import ReportAllList
+from adminapi.views.report_views import ReportDetail
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
@@ -49,7 +52,7 @@ urlpatterns = [
     url(r'^select/permission_type/$', PermissionTypeSelectList.as_view(), name='permission-type-select'),
     url(r'^select/qf_ehea_level/$', QFEHEALevelSelectList.as_view(), name='qf_ehea_level-select'),
 
-    url(r'^select/institutions/$', InstitutionSelectList.as_view(), name='institution-select'),
+    url(r'^select/institutions/$', InstitutionAllList.as_view(), name='institution-select-all'),
     url(r'^select/institutions/country/$', InstitutionCountrySelectList.as_view(), name='institution-country-select'),
 
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
@@ -59,6 +62,11 @@ urlpatterns = [
     # Management endpoints
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
     url(r'^institutions/$', InstitutionCreate.as_view(), name='institution-create'),
+
+    url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
+
+    # Browse endpoints
+    url(r'^browse/reports/$', ReportAllList.as_view(), name='report-list-all'),
 
     # Swagger endpoints
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
