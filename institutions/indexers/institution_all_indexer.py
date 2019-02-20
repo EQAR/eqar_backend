@@ -17,6 +17,7 @@ class InstitutionAllIndexer:
         self.doc = {
             'id': None,
             'eter_id': None,
+            'deqar_id': None,
             'national_identifier': None,
             'name_primary': None,
             'name_select_display': None,
@@ -47,6 +48,7 @@ class InstitutionAllIndexer:
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['name_sort'] = self.institution.name_sort.strip()
         self.doc['website_link'] = self.institution.website_link.strip()
+        self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
 
         select_display = self.institution.name_primary.strip()
         if self.institution.eter:
