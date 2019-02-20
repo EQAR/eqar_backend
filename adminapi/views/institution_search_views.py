@@ -46,22 +46,27 @@ class InstitutionAllList(ListAPIView):
             'name_version_transliterated^1.5',
             'country^1.5',
             'city^2',
-            'eter_id^2'
+            'eter_id^2',
+            'deqar_id^2',
         ]
         params = {
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,name_primary,name_select_display,name_sort,place,website_link,country,score'
+            'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score'
         }
 
         country = request.query_params.get('country', None)
         eter_id = request.query_params.get('eter_id', None)
+        deqar_id = request.query_params.get('deqar_id', None)
 
         if country:
             filters.append({'country': country})
         if eter_id:
             filters.append({'eter_id': eter_id})
+        if deqar_id:
+            filters.append({'id': deqar_id})
+
         params['filters'] = filters
 
         searcher = Searcher(self.core)
