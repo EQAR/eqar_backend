@@ -29,7 +29,9 @@ class InstitutionAllIndexer:
             'name_version_transliterated': [],
             'place': [],
             'country': [],
-            'city': []
+            'country_search': [],
+            'city': [],
+            'city_search': []
         }
 
     def index(self):
@@ -84,7 +86,9 @@ class InstitutionAllIndexer:
 
         self.doc['place'] = list(filter(None, self.doc['place']))
         self.doc['country'] = list(filter(None, self.doc['country']))
+        self.doc['country_search'] = list(filter(None, self.doc['country']))
         self.doc['city'] = list(filter(None, self.doc['city']))
+        self.doc['city_search'] = list(filter(None, self.doc['city']))
 
     def _remove_duplicates(self):
         for k, v in self.doc.items():

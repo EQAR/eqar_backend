@@ -39,13 +39,13 @@ class InstitutionAllList(ListAPIView):
 
         filters = []
         qf = [
-            'name_official^2.5',
+            'name_official^5',
             'name_official_transliterated',
             'name_english^2.5',
             'name_version^1.5',
             'name_version_transliterated^1.5',
-            'country^1.5',
-            'city^2',
+            'country_search^2.5',
+            'city_search^2.5',
             'eter_id^2',
             'deqar_id^2',
         ]
