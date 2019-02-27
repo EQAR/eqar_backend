@@ -1,5 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
+
+from adminapi.serializers.select_serializers import CountrySelectSerializer
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel
 
@@ -26,6 +28,8 @@ class InstitutionNameSerializer(WritableNestedModelSerializer):
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
+    country = CountrySelectSerializer(required=False)
+
     class Meta:
         model = InstitutionCountry
         fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to']
@@ -38,6 +42,7 @@ class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
 
 
 class InstitutionSerializer(WritableNestedModelSerializer):
+    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     identifiers = InstitutionIdentifierSerializer(many=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountrySerializer(many=True, source='institutioncountry_set')
@@ -45,5 +50,5 @@ class InstitutionSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ['id', 'deqar_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
+        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers', 'names', 'countries', 'qf_ehea_levels']

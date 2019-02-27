@@ -6,7 +6,7 @@ from rest_framework import permissions
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
-from adminapi.views.report_search_views import ReportAllList
+from adminapi.views.report_search_views import ReportList, MyReportList
 from adminapi.views.report_views import ReportDetail
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
@@ -66,7 +66,8 @@ urlpatterns = [
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
 
     # Browse endpoints
-    url(r'^browse/reports/$', ReportAllList.as_view(), name='report-list-all'),
+    url(r'^browse/reports/$', ReportList.as_view(), name='report-list'),
+    url(r'^browse/my-reports/$', MyReportList.as_view(), name='my-report-list'),
 
     # Swagger endpoints
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),

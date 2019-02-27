@@ -1,3 +1,4 @@
+from drf_writable_nested import UniqueFieldsMixin
 from rest_framework import serializers
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
@@ -27,13 +28,13 @@ class AgencyActivityTypeSerializer(serializers.ModelSerializer):
         fields = ['id', 'type']
 
 
-class CountrySelectSerializer(serializers.ModelSerializer):
+class CountrySelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = ['id', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
 
 
-class LanguageSelectSerializer(serializers.ModelSerializer):
+class LanguageSelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Language
         fields = ['id', 'language_name_en', 'iso_639_1', 'iso_639_2']
