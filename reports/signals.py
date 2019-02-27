@@ -1,3 +1,5 @@
+import sys
+
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 
@@ -25,4 +27,5 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
 
 @receiver([post_save], sender=Report)
 def do_index_report(sender, instance, **kwargs):
-    index_report(instance.id)
+    if 'test' not in sys.argv:
+        index_report(instance.id)
