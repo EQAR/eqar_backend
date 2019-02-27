@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.test import TestCase
 
 from agencies.models import Agency, AgencyESGActivity
@@ -21,13 +22,20 @@ class ReportPopulatorTestCase(TestCase):
         'programme_demo_07', 'programme_demo_08', 'programme_demo_09',
         'programme_demo_10', 'programme_demo_11', 'programme_demo_12',
         'report_decision', 'report_status',
-        'report_demo_01'
+        'users', 'report_demo_01'
     ]
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='testuser',
+                                                  email='testuser@eqar.eu',
+                                                  password='testpassword')
+        self.user.save()
 
     def test_init(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         settings.TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
         self.assertEqual(populator.agency.acronym_primary, "ACQUIN")
@@ -35,7 +43,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_get_report_if_exists_valid_identifier(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         populator.submission = {'local_identifier': "EQARAG0021-EQARIN0001-01"}
         populator.get_report_if_exists()
@@ -44,7 +53,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_get_report_if_exists_invalid_identifier(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         populator.submission = {'local_identifier': "Random Non existent ID"}
         populator.get_report_if_exists()
@@ -53,7 +63,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_report_upsert_existing_report(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         esg_activity = AgencyESGActivity.objects.get(pk=1)
         status = ReportStatus.objects.get(pk=2)
@@ -72,7 +83,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_repot_upsert_non_existing_report(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         esg_activity = AgencyESGActivity.objects.get(pk=1)
         status = ReportStatus.objects.get(pk=2)
@@ -92,7 +104,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_report_link_upsert(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         esg_activity = AgencyESGActivity.objects.get(pk=1)
         status = ReportStatus.objects.get(pk=2)
@@ -121,7 +134,8 @@ class ReportPopulatorTestCase(TestCase):
     def test_report_file_upsert(self):
         populator = ReportPopulator(
             submission={},
-            agency=Agency.objects.get(pk=5)
+            agency=Agency.objects.get(pk=5),
+            user=self.user
         )
         esg_activity = AgencyESGActivity.objects.get(pk=1)
         status = ReportStatus.objects.get(pk=2)

@@ -48,7 +48,7 @@ class SubmissionReportView(APIView):
             for data in request.data:
                 serializer = SubmissionPackageSerializer(data=data, context={'request': request})
                 if serializer.is_valid():
-                    populator = Populator(data=serializer.validated_data)
+                    populator = Populator(data=serializer.validated_data, user=request.user)
                     populator.populate()
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
@@ -75,7 +75,7 @@ class SubmissionReportView(APIView):
         else:
             serializer = SubmissionPackageSerializer(data=request.data, context={'request': request})
             if serializer.is_valid():
-                populator = Populator(data=serializer.validated_data)
+                populator = Populator(data=serializer.validated_data, user=request.user)
                 populator.populate()
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
@@ -90,7 +90,7 @@ class SubmissionReportView(APIView):
 
     def make_success_response(self, populator, flagger):
         institution_warnings = populator.institution_flag_log
-        report_warnings = flagger.flag_log
+        report_warnings = "; ".join([fl.flag_message for fl in flagger.report.reportflag_set.all()])
 
         if len(institution_warnings) > 0 or len(report_warnings) > 0:
             sanity_check_status = "warnings"

@@ -28,6 +28,6 @@ class SubmissionTracker:
             agency=populator.agency,
             report=flagger.report,
             report_status=flagger.report.flag,
-            report_warnings=json.dumps(flagger.flag_log),
+            report_warnings=json.dumps([fl.flag_message for fl in flagger.report.reportflag_set.all()]),
             institution_warnings=json.dumps(populator.institution_flag_log)
         )
