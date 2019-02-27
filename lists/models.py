@@ -95,4 +95,4 @@ class Flag(models.Model):
         db_table = 'deqar_list_flags'
         verbose_name = 'Flag'
         verbose_name_plural = 'Flags'
-        ordering = ('flag',)
+        ordering = ('id', 'flag')
