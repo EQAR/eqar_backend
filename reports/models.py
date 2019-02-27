@@ -1,7 +1,7 @@
 import datetime
+from django.contrib.auth.models import User
 from django.db import models
-
-from lists.models import Flag
+from django.utils import timezone
 
 
 class Report(models.Model):
@@ -21,19 +21,13 @@ class Report(models.Model):
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
 
-    def reset_flag(self):
-        self.flag = Flag.objects.get(pk=1)
-        self.flag_log = ""
-        self.save()
-
-    def set_flag_low(self):
-        if self.flag_id != 3:
-            self.flag = Flag.objects.get(pk=2)
-            self.save()
-
-    def set_flag_high(self):
-        self.flag = Flag.objects.get(pk=3)
-        self.save()
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='reports_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(default=timezone.now)
+    updated_by = models.ForeignKey(User, related_name='reports_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_reports'
@@ -104,3 +98,23 @@ class ReportFile(models.Model):
         db_table = 'deqar_report_files'
         ordering = ['id', 'report']
 
+
+class ReportFlag(models.Model):
+    """
+    Flags belonging to a report
+    """
+    id = models.AutoField(primary_key=True)
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
+    flag = models.ForeignKey('lists.Flag', on_delete=models.PROTECT)
+    flag_message = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
+    removed_by_eqar = models.BooleanField(default=False)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'deqar_report_flags'
+        ordering = ['id', 'flag__id']
+        unique_together = ['report', 'flag_message']

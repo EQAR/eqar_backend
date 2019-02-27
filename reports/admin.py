@@ -44,7 +44,7 @@ class ReportAdmin(DEQARModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('agency', 'agency_esg_activity', 'local_identifier', 'name', 'status', 'decision',
-                       'valid_from', 'valid_to', 'flag', 'flag_log'),
+                       'valid_from', 'valid_to', 'flag'),
             'classes': ('suit-tab', 'suit-tab-report',)
         }),
         (None, {

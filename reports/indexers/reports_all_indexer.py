@@ -31,7 +31,10 @@ class ReportsAllIndexer:
             'programme_name': [],
             'flag_level': None,
             'valid_from': None,
-            'valid_to': None
+            'valid_to': None,
+            'user_created': None,
+            'date_created': None,
+            'date_updated': None
         }
 
     def index(self):
@@ -40,7 +43,6 @@ class ReportsAllIndexer:
         self._remove_empty_keys()
         try:
             self.solr.add([self.doc])
-            print('Indexed Report No. %s!' % self.doc['id'])
         except pysolr.SolrError as e:
             print('Error with Report No. %s! Error: %s' % (self.doc['id'], e))
 
@@ -50,6 +52,11 @@ class ReportsAllIndexer:
         self.doc['activity'] = self.report.agency_esg_activity.activity
         self.doc['activity_type'] = self.report.agency_esg_activity.activity_type.type
         self.doc['flag_level'] = self.report.flag.flag
+
+        self.doc['user_created'] = self.report.created_by.username
+        self.doc['date_created'] = "%sZ" % self.report.created_at.isoformat()
+        self.doc['date_updated'] = "%sZ" % self.report.updated_at.isoformat()
+
         self.doc['valid_from'] = "%sZ" % datetime.combine(self.report.valid_from, datetime.min.time()).isoformat()
         if self.report.valid_to:
             valid_to = "%sZ" % datetime.combine(self.report.valid_to, datetime.min.time()).isoformat()

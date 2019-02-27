@@ -25,4 +25,4 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
 
 @receiver([post_save], sender=Report)
 def do_index_report(sender, instance, **kwargs):
-    index_report.delay(instance.id)
+    index_report(instance.id)
