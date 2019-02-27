@@ -20,7 +20,7 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
                 'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
                 'institution_relationship_type',
                 'institutions_hierarchical_relationship_demo', 'institutions_historical_relationship_demo',
-                'report_demo_01',
+                'users', 'report_demo_01',
                 'programme_demo_01', 'programme_demo_02', 'programme_demo_03', 'programme_demo_04',
                 'programme_demo_05', 'programme_demo_06', 'programme_demo_07', 'programme_demo_08',
                 'programme_demo_09', 'programme_demo_10', 'programme_demo_11', 'programme_demo_12']
