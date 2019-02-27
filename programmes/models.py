@@ -41,7 +41,7 @@ class ProgrammeName(models.Model):
 
     class Meta:
         db_table = 'deqar_programme_names'
-        ordering = ('name_is_primary', 'name')
+        ordering = ('-name_is_primary', 'name')
         unique_together = ('programme', 'name')
 
 
