@@ -155,7 +155,7 @@ class QFEHEALevelSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('level',)
-    queryset = QFEHEALevel.objects.all().order_by('level')
+    queryset = QFEHEALevel.objects.all().order_by('code')
 
 
 class FlagSelectList(generics.ListAPIView):
