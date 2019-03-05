@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
@@ -45,6 +46,14 @@ class ReportReadSerializer(serializers.ModelSerializer):
     institutions = InstitutionSerializer(many=True)
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
+    created_by = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
+    updated_by = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
 
     class Meta:
         model = Report
@@ -52,7 +61,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
                   'status', 'decision',
                   'institutions', 'programmes', 'report_files',
                   'valid_from', 'valid_to', 'flags',
-                  'created_at', 'updated_at']
+                  'created_at', 'updated_at', 'created_by', 'updated_by']
 
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
