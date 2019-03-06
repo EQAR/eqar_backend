@@ -21,7 +21,7 @@ class SubmissionValidationTestCase(APITestCase):
         'programme_demo_07', 'programme_demo_08', 'programme_demo_09',
         'programme_demo_10', 'programme_demo_11', 'programme_demo_12',
         'report_decision', 'report_status',
-        'report_demo_01'
+        'users', 'report_demo_01'
     ]
 
     def setUp(self):

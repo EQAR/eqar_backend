@@ -49,7 +49,7 @@ class SubmissionCSVView(APIView):
         for data in csv_handler.submission_data:
             serializer = SubmissionPackageSerializer(data=data, context={'request': request})
             if serializer.is_valid():
-                populator = Populator(data=serializer.validated_data)
+                populator = Populator(data=serializer.validated_data, user=request.user)
                 populator.populate()
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()

@@ -30,4 +30,3 @@ class ReportDashboardSerializer(serializers.ModelSerializer):
                 return None
         except ObjectDoesNotExist:
             return None
-

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from submissionapi.tasks import download_file
 
@@ -8,9 +10,10 @@ class ReportPopulator():
     """
     Class to handle the population of report records from the submission endpoints.
     """
-    def __init__(self, submission, agency):
+    def __init__(self, submission, agency, user):
         self.submission = submission
         self.agency = agency
+        self.user = user
         self.report = None
 
     def populate(self):
@@ -52,6 +55,8 @@ class ReportPopulator():
             self.report.decision = self.submission.get('decision', None)
             self.report.valid_from = self.submission.get('valid_from', None)
             self.report.valid_to = self.submission.get('valid_to', None)
+            self.report.updated_by = self.user
+            self.report.updated_at = datetime.now()
 
         # Create report
         else:
@@ -64,6 +69,7 @@ class ReportPopulator():
                 decision=self.submission.get('decision', None),
                 valid_from=self.submission.get('valid_from', None),
                 valid_to=self.submission.get('valid_to', None),
+                created_by=self.user
             )
         self.report.save()
 

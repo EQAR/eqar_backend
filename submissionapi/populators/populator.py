@@ -7,8 +7,9 @@ class Populator():
     """
     Class to handle the population of data from the submission endpoints.
     """
-    def __init__(self, data):
+    def __init__(self, data, user):
         self.data = data
+        self.user = user
         self.submission_status = "success"
         self.sanity_check_status = "success"
         self.institution_flag_log = []
@@ -32,7 +33,7 @@ class Populator():
         """
         Create or insert Report instance.
         """
-        rp = ReportPopulator(self.data, self.agency)
+        rp = ReportPopulator(self.data, self.agency, self.user)
         rp.populate()
         self.report = rp.report
 

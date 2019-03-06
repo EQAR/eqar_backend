@@ -1,7 +1,6 @@
-import pysolr
 from django.core.management import BaseCommand
 
-from institutions.indexer import InstitutionIndexer
+from institutions.indexers.institution_report_indexer import InstitutionReportIndexer
 from institutions.models import Institution
 
 
@@ -10,5 +9,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for inst in Institution.objects.iterator():
-            indexer = InstitutionIndexer(inst)
+            indexer = InstitutionReportIndexer(inst)
             indexer.index()

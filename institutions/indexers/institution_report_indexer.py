@@ -4,14 +4,16 @@ from django.conf import settings
 from reports.models import Report
 
 
-class InstitutionIndexer:
+class InstitutionReportIndexer:
     """
     Class to index Institution and their corresponding Report records to Solr.
     """
 
     def __init__(self, institution):
         self.institution = institution
-        self.solr = pysolr.Solr(getattr(settings, "SOLR_URL", "http://localhost:8983/solr"))
+        self.solr_core = getattr(settings, "SOLR_CORE_INSTITUTIONS_REPORTS", "deqar-institutions-reports")
+        self.solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), self.solr_core)
+        self.solr = pysolr.Solr(self.solr_url)
         self.doc = {
             'id': None,
             'eter_id': None,
@@ -23,9 +25,9 @@ class InstitutionIndexer:
             'name_english': [],
             'name_version': [],
             'name_version_transliterated': [],
-            'place': [],
             'country': [],
             'city': [],
+            'place': [],
             # Facets
             'place_facet': [],
             'qf_ehea_level_facet': [],
@@ -130,28 +132,6 @@ class InstitutionIndexer:
         self.doc['aggregated_name_english'] = list(filter(None, aggregated_name_english))
         self.doc['aggregated_name_version'] = list(filter(None, aggregated_name_version))
         self.doc['aggregated_name_version_transliterated'] = list(filter(None, aggregated_name_version_transliterated))
-
-        # Index places
-        # for icountry in related_institution.institutioncountry_set.iterator():
-        #     self.doc['country'].append(icountry.country.name_english.strip())
-        #     self.doc['city'].append(icountry.city.strip())
-        #     if icountry.city:
-        #         self.doc['place'].append("%s (%s)" % (icountry.city.strip(),
-        #                                               icountry.country.name_english.strip()))
-        #     else:
-        #         self.doc['place'].append(icountry.country.name_english.strip())
-        #
-        # self.doc['place'] = list(filter(None, self.doc['place']))
-        # self.doc['place_facet'] = list(filter(None, self.doc['place']))
-        #
-        # self.doc['country'] = list(filter(None, self.doc['country']))
-        # self.doc['city'] = list(filter(None, self.doc['city']))
-        #
-        # # Index QF-EHEA level
-        # for iqfehealevel in related_institution.institutionqfehealevel_set.iterator():
-        #     self.doc['qf_ehea_level_facet'].append(iqfehealevel.qf_ehea_level.level.strip())
-        #
-        # self.doc['qf_ehea_level_facet'] = list(filter(None, self.doc['qf_ehea_level_facet']))
 
     def _remove_duplicates(self):
         for k, v in self.doc.items():

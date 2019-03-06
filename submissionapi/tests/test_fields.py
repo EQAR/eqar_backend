@@ -18,7 +18,7 @@ class SerializerFieldValidationTestCase(APITestCase):
         'submitting_agency_demo',
         'institution_historical_field',
         'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
-        'report_status', 'report_decision', 'report_demo_01'
+        'report_status', 'report_decision', 'users', 'report_demo_01'
     ]
 
     def setUp(self):
