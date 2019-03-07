@@ -40,22 +40,6 @@ class AgencySelectAllList(generics.ListAPIView):
     queryset = Agency.objects.all()
 
 
-class AgencyESGActivitySelectAllList(generics.ListAPIView):
-    serializer_class = AgencyESGActivitySerializer
-    pagination_class = None
-    filter_backends = (SearchFilter,)
-    search_fields = ('activity',)
-
-    def get_queryset(self):
-        user = self.request.user
-        submitting_agency = user.deqarprofile.submitting_agency
-        agency_proxies = AgencyProxy.objects.filter(
-            Q(submitting_agency=submitting_agency) &
-            (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
-        agencies = Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
-        return AgencyESGActivity.objects.filter(agency__in=agencies).order_by('agency', 'activity')
-
-
 class AgencyESGActivitySelectList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     pagination_class = None

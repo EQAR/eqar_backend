@@ -3,6 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from adminapi.views.agency_views import AgencyESGActivityList
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
@@ -10,7 +11,7 @@ from adminapi.views.report_search_views import ReportList, MyReportList
 from adminapi.views.report_views import ReportDetail
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
-    PermissionTypeSelectList, QFEHEALevelSelectList, AgencyESGActivitySelectAllList, ReportDecisionSelectList, \
+    PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
     FlagSelectList
 
@@ -37,7 +38,7 @@ urlpatterns = [
     # Select Endpoints
     url(r'^select/agency/$', AgencySelectList.as_view(), name='agency-select'),
     url(r'^select/agency_all/$', AgencySelectAllList.as_view(), name='agency-select-all'),
-    url(r'^select/agency_esg_activity/$', AgencyESGActivitySelectAllList.as_view(),
+    url(r'^select/agency_esg_activity/$', AgencyESGActivityList.as_view(),
         name='agency-activity-select'),
     url(r'^select/agency_esg_activity/(?P<pk>[0-9]+)/$', AgencyESGActivitySelectList.as_view(),
         name='agency-activity-select'),

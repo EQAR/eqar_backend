@@ -68,6 +68,7 @@ class ReportList(ListAPIView):
                   'flag_level,score'
         }
 
+        id = request.query_params.get('id', None)
         country = request.query_params.get('country', None)
         agency = request.query_params.get('agency', None)
         activity_type = request.query_params.get('activity_type', None)
@@ -75,6 +76,8 @@ class ReportList(ListAPIView):
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
 
+        if id:
+            filters.append({'id': id})
         if country:
             filters.append({'country': country})
         if agency:
@@ -150,17 +153,20 @@ class MyReportList(ListAPIView):
                   'flag_level,score,date_created,date_updated'
         }
 
+        id = request.query_params.get('id', None)
         country = request.query_params.get('country', None)
-        activity = request.query_params.get('activity', None)
+        activity = request.query_params.get('activity_type', None)
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
         year_created = request.query_params.get('year_created', False)
 
+        if id:
+            filters.append({'id': id})
         if country:
             filters.append({'country': country})
         if activity:
-            filters.append({'activity': activity})
+            filters.append({'activity_type': activity})
         if flag:
             filters.append({'flag_level': flag})
         if active:
