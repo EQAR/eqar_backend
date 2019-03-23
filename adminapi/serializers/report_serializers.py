@@ -17,7 +17,10 @@ class ReportReadFileSerializer(WritableNestedModelSerializer):
     filesize = serializers.SerializerMethodField(source='file')
 
     def get_filename(self, obj):
-        return obj.file.name
+        if len(obj.file_original_location) == 0:
+            return obj.file.name
+        else:
+            return None
 
     def get_filesize(self, obj):
         try:
