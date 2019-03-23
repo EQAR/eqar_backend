@@ -13,10 +13,21 @@ class ReportReadFileSerializer(WritableNestedModelSerializer):
     display_name = serializers.CharField(source='file_display_name')
     original_location = serializers.CharField(source='file_original_location')
     report_language = LanguageSelectSerializer(many=True, source='languages')
+    filename = serializers.SerializerMethodField(source='file')
+    filesize = serializers.SerializerMethodField(source='file')
+
+    def get_filename(self, obj):
+        return obj.file.name
+
+    def get_filesize(self, obj):
+        try:
+            return obj.file.size
+        except Exception:
+            return 0
 
     class Meta:
         model = ReportFile
-        fields = ('id', 'display_name', 'original_location', 'file', 'report_language')
+        fields = ('id', 'display_name', 'original_location', 'file', 'filename', 'filesize', 'report_language')
 
 
 class ReportWriteFileSerializer(WritableNestedModelSerializer):
