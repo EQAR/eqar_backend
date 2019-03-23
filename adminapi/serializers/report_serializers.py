@@ -20,7 +20,7 @@ class ReportReadFileSerializer(WritableNestedModelSerializer):
         if len(obj.file_original_location) == 0:
             return obj.file.name
         else:
-            return None
+            return ''
 
     def get_filesize(self, obj):
         try:
