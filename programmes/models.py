@@ -14,6 +14,7 @@ class Programme(models.Model):
 
     class Meta:
         db_table = 'deqar_programmes'
+        verbose_name = 'Programmme'
         indexes = [
             models.Index(fields=['name_primary']),
         ]
@@ -41,6 +42,7 @@ class ProgrammeName(models.Model):
 
     class Meta:
         db_table = 'deqar_programme_names'
+        verbose_name = 'Programme Name'
         ordering = ('-name_is_primary', 'name')
         unique_together = ('programme', 'name')
 
@@ -57,4 +59,5 @@ class ProgrammeIdentifier(models.Model):
 
     class Meta:
         db_table = 'deqar_programme_identifiers'
+        verbose_name = 'Programme Identifier'
         unique_together = ('programme', 'agency', 'resource')
