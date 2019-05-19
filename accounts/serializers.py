@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 
@@ -13,3 +14,14 @@ class ChangeEmailSerializer(serializers.Serializer):
             raise serializers.ValidationError("Please provide identical e-mail addresses.")
 
         return data
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    is_admin = serializers.SerializerMethodField()
+
+    def get_is_admin(self, obj):
+        return obj.is_superuser
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'is_admin')
