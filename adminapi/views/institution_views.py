@@ -1,14 +1,16 @@
-from rest_framework import generics
+from rest_framework.generics import CreateAPIView
+from drf_rw_serializers.generics import RetrieveUpdateAPIView
 
-from adminapi.serializers.institution_serializers import InstitutionSerializer
+from adminapi.serializers.institution_serializers import InstitutionReadSerializer, InstitutionWriteSerializer
 from institutions.models import Institution
 
 
-class InstitutionDetail(generics.RetrieveUpdateAPIView):
+class InstitutionDetail(RetrieveUpdateAPIView):
     queryset = Institution.objects.all()
-    serializer_class = InstitutionSerializer
+    read_serializer_class = InstitutionReadSerializer
+    write_serializer_class = InstitutionWriteSerializer
 
 
-class InstitutionCreate(generics.CreateAPIView):
+class InstitutionCreate(CreateAPIView):
     queryset = Institution.objects.all()
-    serializer_class = InstitutionSerializer
+    serializer_class = InstitutionWriteSerializer

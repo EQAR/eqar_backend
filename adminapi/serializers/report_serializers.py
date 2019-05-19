@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
@@ -6,7 +5,7 @@ from adminapi.serializers.programme_serializers import ProgrammeSerializer
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from reports.models import Report, ReportFile, ReportFlag
-from adminapi.serializers.institution_serializers import InstitutionSerializer
+from adminapi.serializers.institution_serializers import InstitutionReadSerializer
 
 
 class ReportReadFileSerializer(WritableNestedModelSerializer):
@@ -57,7 +56,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     status = ReportStatusSerializer()
     decision = ReportDecisionSerializer()
     report_files = ReportReadFileSerializer(many=True, source='reportfile_set', read_only=True)
-    institutions = InstitutionSerializer(many=True)
+    institutions = InstitutionReadSerializer(many=True)
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
     created_by = serializers.SlugRelatedField(

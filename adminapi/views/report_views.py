@@ -1,5 +1,4 @@
 from django.utils import timezone
-
 from drf_rw_serializers import generics
 
 from adminapi.serializers.report_serializers import ReportReadSerializer, ReportWriteSerializer
