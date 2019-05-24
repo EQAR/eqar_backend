@@ -1,7 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
-from adminapi.serializers.select_serializers import CountrySelectSerializer, QFEHEALevelSelectSerializer
+from adminapi.serializers.select_serializers import QFEHEALevelSelectSerializer
 from programmes.models import Programme, ProgrammeName
 
 
@@ -17,7 +17,6 @@ class ProgrammeAlternativeNameSerializer(serializers.ModelSerializer):
 
 class ProgrammeSerializer(WritableNestedModelSerializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
-    countries = CountrySelectSerializer(many=True, required=False)
     qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
 
     class Meta:

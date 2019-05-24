@@ -4,6 +4,8 @@ from rest_framework import serializers
 from adminapi.serializers.programme_serializers import ProgrammeSerializer
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
+from agencies.models import AgencyESGActivity
+from lists.models import Language
 from reports.models import Report, ReportFile, ReportFlag
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
 
@@ -35,7 +37,7 @@ class ReportReadFileSerializer(WritableNestedModelSerializer):
 class ReportWriteFileSerializer(WritableNestedModelSerializer):
     display_name = serializers.CharField(source='file_display_name', required=False, allow_blank=True)
     original_location = serializers.CharField(source='file_original_location', required=False, allow_blank=True)
-    report_language = LanguageSelectSerializer(many=True, source='languages')
+    report_language = serializers.PrimaryKeyRelatedField(many=True, queryset=Language.objects.all(), source='languages')
 
     class Meta:
         model = ReportFile
@@ -79,10 +81,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
-    agency = AgencySelectSerializer()
-    activity = AgencyESGActivitySerializer(source='agency_esg_activity')
-    status = ReportStatusSerializer()
-    decision = ReportDecisionSerializer()
+    activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeSerializer(many=True, source='programme_set')
 
