@@ -113,3 +113,11 @@
     country: 114
     country_is_official: true
     country_valid_from: 2010-01-01
+
+- model: agencies.AgencyEQARDecision
+  pk: 1
+  fields:
+    agency: 2
+    decision_date: 2018-06-13
+    decision_type: 1
+    decision_file: https://backend.deqar.eu/reports/EQAR/2016-11_EKKA_Renewal_Decision_x7ksGPz.pdf

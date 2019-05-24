@@ -41,7 +41,8 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Agency
-        fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities']
+        fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities',
+                  'registration_start', 'registration_valid_to', 'registration_note']
 
 
 class AgencyListByFocusCountrySerializer(AgencyListSerializer):
@@ -147,3 +148,15 @@ class AgencyActivityCounterSerializer(serializers.Serializer):
     activity_id = serializers.IntegerField()
     reports = serializers.IntegerField()
     institutions = serializers.IntegerField()
+
+
+class AgencyEQARDecisionListSerializer(serializers.ModelSerializer):
+    agency_acronym = serializers.SerializerMethodField()
+    decision_type = serializers.StringRelatedField()
+
+    def get_agency_acronym(self, obj):
+        return obj.agency.acronym_primary
+
+    class Meta:
+        model = AgencyEQARDecision
+        fields = ('agency_acronym', 'decision_date', 'decision_type', 'decision_file', 'decision_file_extra')

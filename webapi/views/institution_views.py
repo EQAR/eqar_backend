@@ -49,7 +49,7 @@ class InstitutionFilterClass(filters.FilterSet):
         queryset._next_is_sticky()
 
         if include_history == 'true':
-            return queryset.filter(
+            qs = queryset.filter(
                 Q(institutionname__name_official__icontains=value) |
                 Q(institutionname__name_official_transliterated__icontains=value) |
                 Q(institutionname__name_english__icontains=value) |
@@ -70,6 +70,7 @@ class InstitutionFilterClass(filters.FilterSet):
                     Q(institutionhistoricaldata__value__icontains=value)
                 )
             )
+            return qs
         else:
             return queryset.filter(
                 (

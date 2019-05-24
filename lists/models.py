@@ -12,6 +12,7 @@ class Language(models.Model):
 
     class Meta:
         db_table = 'deqar_list_languages'
+        verbose_name = 'Language'
         ordering = ('language_name_en',)
 
 
@@ -39,6 +40,7 @@ class Association(models.Model):
 
     class Meta:
         db_table = 'deqar_list_associations'
+        verbose_name = 'Association'
         ordering = ('association',)
 
 
@@ -95,4 +97,4 @@ class Flag(models.Model):
         db_table = 'deqar_list_flags'
         verbose_name = 'Flag'
         verbose_name_plural = 'Flags'
-        ordering = ('flag',)
+        ordering = ('id', 'flag')

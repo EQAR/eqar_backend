@@ -2,16 +2,18 @@ import datetime
 
 from django.db.models import Q
 from rest_framework import generics
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import get_object_or_404
 
-from adminapi.serializers.select_serializer import CountrySelectSerializer, AgencySelectSerializer, \
-    AgencyESGActivitySerializer, LanguageSelectSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer, \
+from adminapi.serializers.select_serializers import CountrySelectSerializer, \
+    LanguageSelectSerializer, AssociationSelectSerializer, \
+    EQARDecisionTypeSelectSerializer, \
     IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
-    ReportDecisionSerializer, ReportStatusSerializer
-from agencies.models import Agency, AgencyProxy, AgencyESGActivity
+    ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
+    AgencyESGActivitySerializer, AgencyActivityTypeSerializer
+from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
-from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel
+from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -30,20 +32,12 @@ class AgencySelectList(generics.ListAPIView):
         return Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
 
 
-class AgencyESGActivitySelectAllList(generics.ListAPIView):
-    serializer_class = AgencyESGActivitySerializer
+class AgencySelectAllList(generics.ListAPIView):
+    serializer_class = AgencySelectSerializer
     pagination_class = None
     filter_backends = (SearchFilter,)
-    search_fields = ('activity',)
-
-    def get_queryset(self):
-        user = self.request.user
-        submitting_agency = user.deqarprofile.submitting_agency
-        agency_proxies = AgencyProxy.objects.filter(
-            Q(submitting_agency=submitting_agency) &
-            (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
-        agencies = Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
-        return AgencyESGActivity.objects.filter(agency__in=agencies).order_by('agency', 'activity')
+    search_fields = ('name_primary', 'acronym_primary')
+    queryset = Agency.objects.all()
 
 
 class AgencyESGActivitySelectList(generics.ListAPIView):
@@ -55,6 +49,14 @@ class AgencyESGActivitySelectList(generics.ListAPIView):
     def get_queryset(self):
         agency = get_object_or_404(Agency, pk=self.kwargs['pk'])
         return AgencyESGActivity.objects.filter(agency=agency).order_by('activity')
+
+
+class AgencyActivityTypeSelectList(generics.ListAPIView):
+    serializer_class = AgencyActivityTypeSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('type',)
+    queryset = AgencyActivityType.objects.all().order_by('type')
 
 
 class CountrySelectList(generics.ListAPIView):
@@ -137,4 +139,12 @@ class QFEHEALevelSelectList(generics.ListAPIView):
     pagination_class = None
     filter_backends = (SearchFilter,)
     search_fields = ('level',)
-    queryset = QFEHEALevel.objects.all().order_by('level')
+    queryset = QFEHEALevel.objects.all().order_by('code')
+
+
+class FlagSelectList(generics.ListAPIView):
+    serializer_class = FlagSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('flag',)
+    queryset = Flag.objects.all()

@@ -8,6 +8,7 @@ from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
 
 logger = logging.getLogger(__name__)
 
+
 class ProgrammePopulator():
     """
     Class to handle the population of programme records from the submission endpoints.

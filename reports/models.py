@@ -1,7 +1,7 @@
 import datetime
+from django.contrib.auth.models import User
 from django.db import models
-
-from lists.models import Flag
+from django.utils import timezone
 
 
 class Report(models.Model):
@@ -20,23 +20,20 @@ class Report(models.Model):
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
+    other_comment = models.TextField(blank=True)
+    internal_note = models.TextField(blank=True)
 
-    def reset_flag(self):
-        self.flag = Flag.objects.get(pk=1)
-        self.flag_log = ""
-        self.save()
-
-    def set_flag_low(self):
-        if self.flag_id != 3:
-            self.flag = Flag.objects.get(pk=2)
-            self.save()
-
-    def set_flag_high(self):
-        self.flag = Flag.objects.get(pk=3)
-        self.save()
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='reports_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(default=timezone.now)
+    updated_by = models.ForeignKey(User, related_name='reports_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_reports'
+        verbose_name = 'Report'
         indexes = [
             models.Index(fields=['valid_from']),
             models.Index(fields=['valid_to']),
@@ -56,6 +53,7 @@ class ReportStatus(models.Model):
 
     class Meta:
         db_table = 'deqar_report_statuses'
+        verbose_name = 'Report Status'
 
 
 class ReportDecision(models.Model):
@@ -70,6 +68,7 @@ class ReportDecision(models.Model):
 
     class Meta:
         db_table = 'deqar_report_decision'
+        verbose_name = 'Report Decision'
 
 
 class ReportLink(models.Model):
@@ -83,6 +82,7 @@ class ReportLink(models.Model):
 
     class Meta:
         db_table = 'deqar_report_links'
+        verbose_name = 'Report Link'
 
 
 def set_directory_path(instance, filename):
@@ -102,4 +102,43 @@ class ReportFile(models.Model):
 
     class Meta:
         db_table = 'deqar_report_files'
+        verbose_name = 'Report File'
+        ordering = ['id', 'report']
 
+
+class ReportFlag(models.Model):
+    """
+    Flags belonging to a report
+    """
+    id = models.AutoField(primary_key=True)
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
+    flag = models.ForeignKey('lists.Flag', on_delete=models.PROTECT)
+    flag_message = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
+    removed_by_eqar = models.BooleanField(default=False)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'deqar_report_flags'
+        verbose_name = 'Report Flag'
+        ordering = ['id', 'flag__id']
+        unique_together = ['report', 'flag_message']
+
+
+class ReportUpdateLog(models.Model):
+    """
+    Updates happened with a report
+    """
+    id = models.AutoField(primary_key=True)
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='reports_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_report_update_log'
+        verbose_name = 'Report Update Log'

@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from countries.models import Country
 from lists.models import QFEHEALevel
-from reports.models import Report
+from reports.models import Report, ReportFlag
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
 
@@ -20,7 +20,7 @@ class ReportFlaggerTestCase(TestCase):
         'programme_demo_07', 'programme_demo_08', 'programme_demo_09',
         'programme_demo_10', 'programme_demo_11', 'programme_demo_12',
         'report_decision', 'report_status',
-        'report_demo_01'
+        'users', 'report_demo_01'
     ]
 
     def test_init(self):
@@ -30,6 +30,7 @@ class ReportFlaggerTestCase(TestCase):
         self.assertEqual(flagger.report.agency.acronym_primary, "ACQUIN")
 
     def test_check_countries(self):
+        report = Report.objects.get(pk=1)
         flagger = ReportFlagger(
             report=Report.objects.get(pk=1)
         )
@@ -48,21 +49,30 @@ class ReportFlaggerTestCase(TestCase):
         flagger.check_countries()
         self.assertEqual(flagger.report.agency.agencyfocuscountry_set.count(), 15)
         self.assertEqual(flagger.report.flag.flag, 'high level')
-        self.assertEqual(len(flagger.flag_log), 5, flagger.flag_log)
+        report_flags = ReportFlag.objects.filter(report=report)
+        self.assertEqual(report_flags.count(), 5, report_flags.count())
+        msg = "Institution country [United Kingdom] was not on a list as an Agency Focus country for [ACQUIN]."
+        self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
 
     def test_check_programme_qf_ehea_level(self):
+        report = Report.objects.get(pk=1)
         flagger = ReportFlagger(
-            report=Report.objects.get(pk=1)
+            report=report
         )
         flagger.check_programme_qf_ehea_level()
-        self.assertEqual(flagger.report.flag.flag, 'none', flagger.flag_log)
+        self.assertEqual(report.flag.flag, 'none', report.flag.flag)
         prg = flagger.report.programme_set.first()
         prg.qf_ehea_level = QFEHEALevel.objects.get(pk=4)
         prg.save()
         flagger.check_programme_qf_ehea_level()
-        self.assertEqual(flagger.report.flag.flag, 'high level', flagger.flag_log)
+        report_flags = ReportFlag.objects.filter(report=report)
+        self.assertEqual(report_flags.first().flag.flag, 'high level', report_flags.first().flag.flag)
+        msg = "QF-EHEA Level [third cycle] for programme [Verwaltung (B.A.)] " \
+              "should be in the institutions QF-EHEA level list."
+        self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
 
     def test_check_ehea_is_member(self):
+        report = Report.objects.get(pk=1)
         flagger = ReportFlagger(
             report=Report.objects.get(pk=1)
         )
@@ -72,7 +82,12 @@ class ReportFlaggerTestCase(TestCase):
         ic.country.save()
         inst.institutionqfehealevel_set.all().delete()
         flagger.check_ehea_is_member()
-        self.assertEqual(flagger.report.flag.flag, 'low level')
+        report_flags = ReportFlag.objects.filter(report=report)
+        self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
+        msg = "A record was created/identified for an institution " \
+              "(University of applied sciences for Public Administration Rhineland-Palatinate) in an " \
+              "EHEA member country (Germany) without including QF-EHEA levels."
+        self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
 
     def test_check_report_file(self):
         flagger = ReportFlagger(

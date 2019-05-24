@@ -4,6 +4,7 @@
     deqar_id: EQARIN0004
     closure_date: 2013-12-31
     website_link: http://www.uniarts.fi/en/
+    created_at: 2019-01-01
 
 - model: institutions.InstitutionCountry
   pk: 4

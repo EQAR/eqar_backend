@@ -10,6 +10,7 @@ class InstitutionFlagMessageCreatorTestCase(TestCase):
         'country_qa_requirement_type', 'country', 'flag',
         'agency_historical_field',
         'agency_activity_type', 'agency_focus', 'permission_type',
+        'eqar_decision_type',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo'
     ]

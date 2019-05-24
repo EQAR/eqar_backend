@@ -14,9 +14,11 @@ class Programme(models.Model):
 
     class Meta:
         db_table = 'deqar_programmes'
+        verbose_name = 'Programmme'
         indexes = [
             models.Index(fields=['name_primary']),
         ]
+        ordering = ['id', 'report']
 
     def __str__(self):
         return self.name_primary
@@ -40,7 +42,8 @@ class ProgrammeName(models.Model):
 
     class Meta:
         db_table = 'deqar_programme_names'
-        ordering = ('name_is_primary', 'name')
+        verbose_name = 'Programme Name'
+        ordering = ('-name_is_primary', 'name')
         unique_together = ('programme', 'name')
 
 
@@ -52,8 +55,9 @@ class ProgrammeIdentifier(models.Model):
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
     identifier = models.CharField(max_length=50)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
-    resource = models.CharField(max_length=30, blank=True, default='local identifier')
+    resource = models.CharField(max_length=200, blank=True, default='local identifier')
 
     class Meta:
         db_table = 'deqar_programme_identifiers'
+        verbose_name = 'Programme Identifier'
         unique_together = ('programme', 'agency', 'resource')

@@ -10,3 +10,8 @@ class Command(BaseCommand):
         for institution in institutions:
             institution.has_report = True
             institution.save()
+
+        institutions = Institution.objects.filter(reports__isnull=True)
+        for institution in institutions:
+            institution.has_report = False
+            institution.save()

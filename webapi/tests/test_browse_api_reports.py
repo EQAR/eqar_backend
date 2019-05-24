@@ -13,11 +13,12 @@ class BrowseAPIReportTest(APITestCase):
                 'report_decision', 'report_status',
                 'flag', 'permission_type',
                 'eter_demo',
+                'eqar_decision_type',
                 'agency_historical_field',
                 'agency_demo_01', 'agency_demo_02',
                 'institution_historical_field',
                 'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
-                'report_demo_01',
+                'users', 'report_demo_01',
                 'programme_demo_01', 'programme_demo_02', 'programme_demo_03', 'programme_demo_04',
                 'programme_demo_05', 'programme_demo_06', 'programme_demo_07', 'programme_demo_08',
                 'programme_demo_09', 'programme_demo_10', 'programme_demo_11', 'programme_demo_12']

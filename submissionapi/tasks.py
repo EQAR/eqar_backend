@@ -55,7 +55,6 @@ def send_submission_email(response, institution_id_max, total_submission, agency
 
 
 @task(name="recheck_flag")
-def recheck_flag(report_id):
-    report = Report.objects.get(id=report_id)
-    report_flagger = ReportFlagger(report)
+def recheck_flag(report):
+    report_flagger = ReportFlagger(report=report)
     report_flagger.check_and_set_flags()

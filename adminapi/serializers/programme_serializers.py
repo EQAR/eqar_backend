@@ -1,0 +1,24 @@
+from drf_writable_nested import WritableNestedModelSerializer
+from rest_framework import serializers
+
+from adminapi.serializers.select_serializers import QFEHEALevelSelectSerializer
+from programmes.models import Programme, ProgrammeName
+
+
+class ProgrammeAlternativeNameSerializer(serializers.ModelSerializer):
+    name_alternative = serializers.CharField(max_length=200, source='name', required=False)
+    qualification_alternative = serializers.CharField(max_length=200, source='qualification',
+                                                      allow_blank=True, required=False)
+
+    class Meta:
+        model = ProgrammeName
+        fields = ['id', 'name_alternative', 'qualification_alternative', 'name_is_primary']
+
+
+class ProgrammeSerializer(WritableNestedModelSerializer):
+    alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
+    qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
+
+    class Meta:
+        model = Programme
+        fields = ['id', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries']

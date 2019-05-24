@@ -8,6 +8,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from reports.models import ReportFile
+from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.permissions import CanSubmitToAgency
 
 
@@ -33,6 +34,11 @@ class ReportFileUploadView(APIView):
 
             report_file.file.name = os.path.join(agency_acronym, filename)
             report_file.save()
+
+            # Recheck flags
+            flagger = ReportFlagger(report=report_file.report)
+            flagger.check_and_set_flags()
+
             return Response(status=204)
         except ObjectDoesNotExist:
             return Response(status=404)

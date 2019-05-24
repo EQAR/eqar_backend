@@ -10,7 +10,8 @@
     valid_from: 2015-03-31
     valid_to: 2021-09-30
     institutions: [1]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 2
@@ -26,7 +27,8 @@
     valid_from: 2014-09-30
     valid_to: 2021-03-31
     institutions: [2]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 3
@@ -42,7 +44,8 @@
     valid_from: 2013-09-24
     valid_to: 2020-09-30
     institutions: [2]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 4
@@ -58,7 +61,8 @@
     valid_from: 2010-03-23
     valid_to: 2022-09-30
     institutions: [2]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 5
@@ -73,7 +77,8 @@
     valid_from: 2010-06-16
     valid_to: 2022-09-30
     institutions: [3]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 6
@@ -89,7 +94,8 @@
     valid_from: 2010-03-23
     valid_to: 2017-09-30
     institutions: [3]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 7
@@ -104,7 +110,8 @@
     decision: 1
     valid_from: 2010-06-26
     institutions: [3]
-
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 8
@@ -120,6 +127,8 @@
     valid_from: 2016-03-31
     valid_to: 2021-09-30
     institutions: [3]
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 9
@@ -134,6 +143,8 @@
     valid_from: 2016-03-31
     valid_to: 2021-09-30
     institutions: [3]
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.Report
   pk: 10
@@ -148,6 +159,8 @@
     valid_from: 2011-03-31
     valid_to: 2015-09-30
     institutions: [3]
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
 
 - model: reports.ReportFile
   pk: 1
