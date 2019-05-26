@@ -1,0 +1,19 @@
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 1
+  fields:
+    type: consortium
+
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 2
+  fields:
+    type: faculty
+
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 3
+  fields:
+    type: supra-institution
+
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 4
+  fields:
+    type: sub-institution
