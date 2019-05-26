@@ -332,13 +332,31 @@ class InstitutionHistoricalRelationship(models.Model):
         verbose_name_plural = 'Institution Historical Relationships'
 
 
+class InstitutionHierarchicalRelationshipType(models.Model):
+    """
+    Hierarchical relationship types between institutions
+    """
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        db_table = 'deqar_institution_hierarchical_relationship_types'
+        verbose_name = 'Institution Hierarchical Relationship Type'
+        verbose_name_plural = 'Institution Hierarchical Relationship Types'
+
+
 class InstitutionHierarchicalRelationship(models.Model):
     """
-    Hierarchival relationships between institutions
+    Hierarchical relationships between institutions
     """
     id = models.AutoField(primary_key=True)
     institution_parent = models.ForeignKey('Institution', related_name='relationship_parent', on_delete=models.CASCADE)
     institution_child = models.ForeignKey('Institution', related_name='relationship_child', on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey('InstitutionHierarchicalRelationshipType',
+                                          on_delete=models.CASCADE, blank=True, null=True)
     relationship_note = models.CharField(max_length=300, blank=True, null=True)
     valid_from = models.DateField(blank=True, null=True)
     valid_to = models.DateField(blank=True, null=True)
