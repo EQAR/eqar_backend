@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 python manage.py loaddata flag
 python manage.py loaddata permission_type
 python manage.py loaddata association
@@ -21,4 +22,5 @@ python manage.py loaddata eter
 
 python manage.py loaddata institution_historical_field
 python manage.py loaddata institution_relationship_type
+python manage.py loaddata institution_hierarchical_relationship_type
 
