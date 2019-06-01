@@ -3,7 +3,7 @@ from drf_rw_serializers import generics
 from drf_yasg.utils import swagger_auto_schema
 
 from adminapi.serializers.report_serializers import ReportReadSerializer, ReportWriteSerializer
-from reports.models import Report
+from reports.models import Report, ReportUpdateLog
 
 
 class ReportDetail(generics.RetrieveUpdateAPIView):
@@ -18,7 +18,14 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
     @swagger_auto_schema(request_body=ReportWriteSerializer, responses={'200': ReportReadSerializer})
     def put(self, request, *args, **kwargs):
         report = Report.objects.get(id=kwargs.get('pk'))
-        report.updated_by = request.user
-        report.updated_at = timezone.now()
+
+        submit_comment = request.data.get('submit_comment', None)
+        if submit_comment:
+            ReportUpdateLog.objects.create(
+                report=report,
+                note=submit_comment,
+                updated_by=request.user
+            )
+
         report.save()
         return super(ReportDetail, self).put(request, *args, **kwargs)

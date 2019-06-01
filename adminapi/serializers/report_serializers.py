@@ -6,7 +6,7 @@ from adminapi.serializers.select_serializers import ReportStatusSerializer, Repo
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
 from lists.models import Language
-from reports.models import Report, ReportFile, ReportFlag
+from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
 
 
@@ -52,6 +52,14 @@ class ReportFlagSerializer(serializers.ModelSerializer):
         fields = ('id', 'flag', 'flag_message', 'active', 'removed_by_eqar')
 
 
+class ReportUpdateLogSerializer(serializers.ModelSerializer):
+    updated_by = serializers.SlugRelatedField(slug_field='username', read_only=True)
+
+    class Meta:
+        model = ReportUpdateLog
+        fields = ('id', 'note', 'updated_by', 'updated_at')
+
+
 class ReportReadSerializer(serializers.ModelSerializer):
     agency = AgencySelectSerializer()
     activity = AgencyESGActivitySerializer(source='agency_esg_activity')
@@ -61,11 +69,8 @@ class ReportReadSerializer(serializers.ModelSerializer):
     institutions = InstitutionReadSerializer(many=True)
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
+    update_log = ReportUpdateLogSerializer(many=True, source='reportupdatelog_set')
     created_by = serializers.SlugRelatedField(
-        slug_field='username',
-        read_only=True
-    )
-    updated_by = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True
     )
@@ -76,18 +81,18 @@ class ReportReadSerializer(serializers.ModelSerializer):
                   'status', 'decision',
                   'institutions', 'programmes', 'report_files',
                   'valid_from', 'valid_to', 'flags',
-                  'created_at', 'updated_at', 'created_by', 'updated_by',
+                  'created_at', 'updated_at', 'created_by', 'update_log',
                   'other_comment', 'internal_note']
 
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
     activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
-    programmes = ProgrammeSerializer(many=True, source='programme_set')
+    programmes = ProgrammeSerializer(many=True, source='programme_set', required=False)
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'activity', 'local_identifier', 'name',
+        fields = ['id', 'agency', 'activity', 'local_identifier',
                   'status', 'decision',
                   'institutions', 'programmes', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']
