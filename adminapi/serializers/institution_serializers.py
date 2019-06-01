@@ -13,7 +13,7 @@ class InstitutionIdentifierSerializer(UniqueFieldsMixin, serializers.ModelSerial
     class Meta:
         model = InstitutionIdentifier
         list_serializer_class = InstitutionIdentifierTypeSerializer
-        fields = ['id', 'agency', 'identifier', 'resource']
+        fields = ['id', 'agency', 'identifier', 'resource', 'note', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionNameVersionSerializer(serializers.ModelSerializer):
