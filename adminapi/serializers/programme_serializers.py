@@ -15,9 +15,17 @@ class ProgrammeAlternativeNameSerializer(serializers.ModelSerializer):
         fields = ['id', 'name_alternative', 'qualification_alternative', 'name_is_primary']
 
 
-class ProgrammeSerializer(WritableNestedModelSerializer):
+class ProgrammeReadSerializer(serializers.ModelSerializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
     qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
+
+    class Meta:
+        model = Programme
+        fields = ['id', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries']
+
+
+class ProgrammeWriteSerializer(WritableNestedModelSerializer):
+    alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
 
     class Meta:
         model = Programme

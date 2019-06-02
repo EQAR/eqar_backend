@@ -1,7 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
-from adminapi.serializers.programme_serializers import ProgrammeSerializer
+from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer, ProgrammeReadSerializer
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
@@ -67,7 +67,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     decision = ReportDecisionSerializer()
     report_files = ReportReadFileSerializer(many=True, source='reportfile_set', read_only=True)
     institutions = InstitutionReadSerializer(many=True)
-    programmes = ProgrammeSerializer(many=True, source='programme_set')
+    programmes = ProgrammeReadSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
     update_log = ReportUpdateLogSerializer(many=True, source='reportupdatelog_set')
     created_by = serializers.SlugRelatedField(
@@ -88,7 +88,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
 class ReportWriteSerializer(WritableNestedModelSerializer):
     activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
-    programmes = ProgrammeSerializer(many=True, source='programme_set', required=False)
+    programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
 
     class Meta:
         model = Report
