@@ -1,6 +1,8 @@
 from drf_rw_serializers import generics
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from adminapi.permissions import CanEditReport
 from adminapi.serializers.report_serializers import ReportReadSerializer, ReportWriteSerializer
@@ -41,12 +43,31 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
             report=report,
             flag=flag,
             flag_message='Deletion was requested.',
-            active=True
         )
-        if created:
+        if created or report_flag.active is False:
             ReportUpdateLog.objects.create(
                 report=report,
                 note='Deletion flag was assigned.',
                 updated_by=request.user
             )
+            report_flag.active = True
+            report_flag.removed_by_eqar = False
+            report_flag.save()
+        return Response(data={'OK'}, status=200)
+
+
+class ReportFlagRemove(APIView):
+    permission_classes = (IsAdminUser,)
+
+    @swagger_auto_schema(responses={'200': 'OK'})
+    def delete(self, request, *args, **kwargs):
+        report_flag = ReportFlag.objects.get(id=kwargs.get('pk'))
+        report_flag.active = False
+        report_flag.removed_by_eqar = True
+        report_flag.save()
+        ReportUpdateLog.objects.get_or_create(
+            report=report_flag.report,
+            note='%s flag was removed' % report_flag.flag.flag.title(),
+            updated_by=request.user
+        )
         return Response(data={'OK'}, status=200)
