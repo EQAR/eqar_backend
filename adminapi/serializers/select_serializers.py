@@ -96,4 +96,4 @@ class InstitutionHistoricalRelationshipTypeSerializer(serializers.ModelSerialize
 
     class Meta:
         model = InstitutionHistoricalRelationshipType
-        fields = ['id', 'relationship_id', 'relationship', 'institution_direction']
+        fields = ['id', 'relationship_type_id', 'relationship', 'institution_direction']

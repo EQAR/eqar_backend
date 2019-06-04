@@ -162,13 +162,13 @@ class InstitutionHistoricalRelationshipTypeSelect(APIView):
         for idx, relationship_type in enumerate(InstitutionHistoricalRelationshipType.objects.all().order_by('id')):
             response.append({
                 'id': idx*2+1,
-                'relationship_id': relationship_type.pk,
+                'relationship_type_id': relationship_type.pk,
                 'relationship': relationship_type.type_from,
                 'institution_direction': 'source'
             })
             response.append({
                 'id': idx*2+2,
-                'relationship_id': relationship_type.pk,
+                'relationship_type_id': relationship_type.pk,
                 'relationship': relationship_type.type_to,
                 'institution_direction': 'target'
             })
