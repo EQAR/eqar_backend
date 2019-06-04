@@ -5,7 +5,7 @@ from django.forms import TextInput, Textarea, Select
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
     InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData, \
-    InstitutionHistoricalRelationship, InstitutionHierarchicalRelationship
+    InstitutionHistoricalRelationship, InstitutionHierarchicalRelationship, InstitutionUpdateLog, InstitutionFlag
 
 
 class InstitutionIdentifierInline(StackedInline):
@@ -89,9 +89,15 @@ class InstitutionHistoricalRelationshipAdmin(DEQARModelAdmin):
 
 
 class InstitutionHierarchicalRelationshipAdmin(DEQARModelAdmin):
-    list_display = ('institution_parent', 'institution_child')
+    list_display = ('institution_parent', 'institution_child', 'relationship_type')
     ordering = ('institution_parent', 'institution_child')
-    list_filter = ('institution_parent', 'institution_child')
+    list_filter = ('institution_parent', 'institution_child', 'relationship_type')
+
+
+class InstitutionFlagAdmin(DEQARModelAdmin):
+    list_display = ('institution', 'flag', 'flag_message', 'active', 'removed_by_eqar')
+    ordering = ('institution', 'flag', 'active')
+    list_filter = ('institution', 'flag', 'active', 'removed_by_eqar')
 
 
 admin_site.register(InstitutionName, InstitutionNameAdmin)
@@ -99,4 +105,5 @@ admin_site.register(Institution, InstitutionAdmin)
 admin_site.register(InstitutionETERRecord, InstitutionETERAdmin)
 admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
 admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
+admin_site.register(InstitutionFlag, InstitutionFlagAdmin)
 
