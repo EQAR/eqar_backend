@@ -90,7 +90,7 @@ class FlagSerializer(serializers.ModelSerializer):
 
 
 class InstitutionHistoricalRelationshipTypeSerializer(serializers.ModelSerializer):
-    relationship_id = serializers.IntegerField()
+    relationship_type_id = serializers.IntegerField()
     relationship = serializers.CharField()
     institution_direction = serializers.CharField()
 
