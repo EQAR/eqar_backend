@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
+from institutions.models import InstitutionHistoricalRelationshipType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
 from reports.models import ReportDecision, ReportStatus
 
@@ -86,3 +87,13 @@ class FlagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flag
         fields = ['id', 'flag']
+
+
+class InstitutionHistoricalRelationshipTypeSerializer(serializers.ModelSerializer):
+    relationship_id = serializers.IntegerField()
+    relationship = serializers.CharField()
+    institution_direction = serializers.CharField()
+
+    class Meta:
+        model = InstitutionHistoricalRelationshipType
+        fields = ['id', 'relationship_id', 'relationship', 'institution_direction']

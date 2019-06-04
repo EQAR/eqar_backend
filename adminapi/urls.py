@@ -13,7 +13,7 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
-    FlagSelectList
+    FlagSelectList, InstitutionHistoricalRelationshipTypeSelect
 
 app_name = 'adminapi'
 
@@ -59,6 +59,8 @@ urlpatterns = [
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
     url(r'^select/flag/$', FlagSelectList.as_view(), name='flag-select'),
+    url(r'^select/institution_historical_relationship_types/$', InstitutionHistoricalRelationshipTypeSelect.as_view(),
+        name='institution-historical-relationship-type-select'),
 
     # Management endpoints
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
