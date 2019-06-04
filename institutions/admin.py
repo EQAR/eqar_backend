@@ -100,10 +100,17 @@ class InstitutionFlagAdmin(DEQARModelAdmin):
     list_filter = ('institution', 'flag', 'active', 'removed_by_eqar')
 
 
+class InstitutionUpdateLogAdmin(DEQARModelAdmin):
+    list_display = ('institution', 'updated_at', 'updated_by')
+    ordering = ('institution',)
+    list_filter = ('institution',)
+
+
 admin_site.register(InstitutionName, InstitutionNameAdmin)
 admin_site.register(Institution, InstitutionAdmin)
 admin_site.register(InstitutionETERRecord, InstitutionETERAdmin)
 admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
 admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
 admin_site.register(InstitutionFlag, InstitutionFlagAdmin)
+admin_site.register(InstitutionUpdateLog, InstitutionUpdateLogAdmin)
 
