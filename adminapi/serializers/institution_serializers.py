@@ -1,7 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
 
-from adminapi.serializers.select_serializers import CountrySelectSerializer
+from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer
 from countries.models import Country
 from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, InstitutionNameTypeSerializer
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
@@ -9,7 +9,16 @@ from institutions.models import Institution, InstitutionCountry, InstitutionIden
     InstitutionUpdateLog, InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipType
 
 
-class InstitutionIdentifierSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
+class InstitutionIdentifierReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
+    agency = AgencySelectSerializer()
+
+    class Meta:
+        model = InstitutionIdentifier
+        list_serializer_class = InstitutionIdentifierTypeSerializer
+        fields = ['id', 'agency', 'identifier', 'resource', 'note', 'identifier_valid_from', 'identifier_valid_to']
+
+
+class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = InstitutionIdentifier
         list_serializer_class = InstitutionIdentifierTypeSerializer
@@ -137,10 +146,10 @@ class InstitutionUpdateLogSerializer(serializers.ModelSerializer):
 
 class InstitutionReadSerializer(serializers.ModelSerializer):
     eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
-    identifiers_national = InstitutionIdentifierSerializer(many=True,
+    identifiers_national = InstitutionIdentifierReadSerializer(many=True,
                                                            source='institutionidentifier_set',
                                                            context={'type': 'national'})
-    identifiers_local = InstitutionIdentifierSerializer(many=True,
+    identifiers_local = InstitutionIdentifierReadSerializer(many=True,
                                                         source='institutionidentifier_set',
                                                         context={'type': 'local'})
     names_actual = InstitutionNameSerializer(many=True,
@@ -168,7 +177,7 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
 
 class InstitutionWriteSerializer(WritableNestedModelSerializer):
     eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
-    identifiers = InstitutionIdentifierSerializer(many=True, source='institutionidentifier_set')
+    identifiers = InstitutionIdentifierWriteSerializer(many=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountryWriteSerializer(many=True, source='institutioncountry_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, source='institutionqfehealevel_set')
