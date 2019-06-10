@@ -1,7 +1,8 @@
 import datetime
 from django.test import TestCase
 
-from institutions.models import Institution, InstitutionHistoricalField, InstitutionHistoricalRelationshipType
+from institutions.models import Institution, InstitutionHistoricalField, InstitutionHistoricalRelationshipType, \
+     InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
 
 
 class InstitutionTestCase(TestCase):
@@ -17,7 +18,7 @@ class InstitutionTestCase(TestCase):
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
         'institution_demo_01', 'institution_demo_02', 'institution_demo_03', 'institution_demo_closed',
-        'institution_relationship_type'
+        'institution_relationship_type', 'institution_hierarchical_relationship_type'
     ]
 
     def test_institution_nqf_level_str(self):
@@ -128,3 +129,33 @@ class InstitutionTestCase(TestCase):
         inst = Institution.objects.get(id=4)
         inst.set_primary_name()
         self.assertEqual(inst.name_primary, 'Sibelius Academy')
+
+    def test_institution_set_primary_name_consortium(self):
+        inst_parent = Institution.objects.get(id=1)
+        inst_child = Institution.objects.get(id=2)
+        relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='consortium')
+        InstitutionHierarchicalRelationship.objects.create(
+            institution_parent=inst_parent,
+            institution_child=inst_child,
+            relationship_type=relationship_type
+        )
+        inst_child.set_primary_name()
+        inst_child.set_name_sort()
+        self.assertEqual(inst_child.name_sort,
+                         'University of Applied Sciences of Public Administration, '
+                         'Police and Administration of Justice in Güstrow')
+
+    def test_institution_set_primary_name_faculty(self):
+        inst_parent = Institution.objects.get(id=1)
+        inst_child = Institution.objects.get(id=3)
+        relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='faculty')
+        InstitutionHierarchicalRelationship.objects.create(
+            institution_parent=inst_parent,
+            institution_child=inst_child,
+            relationship_type=relationship_type
+        )
+        inst_child.set_primary_name()
+        inst_child.set_name_sort()
+        self.assertEqual(inst_child.name_sort,
+                         'University of applied sciences for Public Administration Rhineland-Palatinate / '
+                         'Hessische Hochschule für Polizei und Verwaltung')
