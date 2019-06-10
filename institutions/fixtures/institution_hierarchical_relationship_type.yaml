@@ -16,4 +16,4 @@
 - model: institutions.InstitutionHierarchicalRelationshipType
   pk: 4
   fields:
-  type: sub-institution
+    type: sub-institution
