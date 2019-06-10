@@ -63,7 +63,9 @@ class Institution(models.Model):
             else:
                 self.name_primary = inst_name_primary.name_official
 
-            children = InstitutionHierarchicalRelationship.objects.filter(institution_parent=self)
+            children = InstitutionHierarchicalRelationship.objects\
+                .exclude(relationship_type_id=1)\
+                .filter(institution_parent=self)
             if children.count() > 0:
                 for child in children:
                     child.institution_child.name_sort = "%s / %s" % (self.name_primary,
@@ -71,7 +73,9 @@ class Institution(models.Model):
                     child.save()
 
     def set_name_sort(self):
-        parents = InstitutionHierarchicalRelationship.objects.filter(institution_child=self)
+        parents = InstitutionHierarchicalRelationship.objects\
+            .exclude(relationship_type_id=1)\
+            .filter(institution_child=self)
         if parents.count() > 0:
             parent_name = parents.first().institution_parent.name_primary
             self.name_sort = "%s / %s" % (parent_name, self.name_primary)
