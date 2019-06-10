@@ -17,7 +17,7 @@ class InstitutionDetail(RetrieveUpdateAPIView):
 
     @swagger_auto_schema(request_body=InstitutionWriteSerializer)
     def put(self, request, *args, **kwargs):
-        return super(InstitutionDetail, self).get(request, *args, **kwargs)
+        return super(InstitutionDetail, self).put(request, *args, **kwargs)
 
 
 class InstitutionCreate(CreateAPIView):
