@@ -65,7 +65,10 @@ class ReportList(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
-                  'flag_level,score'
+                  'flag_level,score',
+            'facet': True,
+            'facet_fields': ['country', 'flag_level', 'agency', 'activity_type'],
+            'facet_sort': 'index'
         }
 
         id = request.query_params.get('id', None)
@@ -109,6 +112,7 @@ class ReportList(ListAPIView):
         resp = {
             'count': response.hits,
             'results': response.docs,
+            'facets': response.facets
         }
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True

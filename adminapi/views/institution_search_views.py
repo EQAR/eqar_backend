@@ -53,7 +53,10 @@ class InstitutionAllList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score'
+            'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score',
+            'facet': True,
+            'facet_fields': ['country'],
+            'facet_sort': 'index'
         }
 
         country = request.query_params.get('country', None)
@@ -75,6 +78,7 @@ class InstitutionAllList(ListAPIView):
         resp = {
             'count': response.hits,
             'results': response.docs,
+            'facets': response.facets
         }
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True

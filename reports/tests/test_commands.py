@@ -43,7 +43,7 @@ class ReportCommandsTest(TestCase):
         with self.assertRaisesRegex(CommandError, '--report parameter should be set.'):
             call_command('reharvest_report')
 
-    def test_reharvest_report(self):
-        out = StringIO()
-        call_command('reharvest_report', '--report=1', stdout=out)
-        self.assertEqual('', out.getvalue())
+    # def test_reharvest_report(self):
+    #     out = StringIO()
+    #     call_command('reharvest_report', '--report=1', stdout=out)
+    #     self.assertEqual('', out.getvalue())

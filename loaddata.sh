@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 python manage.py loaddata flag
 python manage.py loaddata permission_type
 python manage.py loaddata association

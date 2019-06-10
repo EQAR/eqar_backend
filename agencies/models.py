@@ -69,6 +69,7 @@ class AgencyGeographicalFocus(models.Model):
         return self.focus
 
     class Meta:
+        verbose_name = 'Agency Geographical Focus'
         db_table = 'deqar_agency_geographical_focuses'
 
 
@@ -105,6 +106,7 @@ class AgencyNameVersion(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_name_versions'
+        verbose_name = 'Agency Name Version'
         ordering = ('name_is_primary', 'name')
 
 
@@ -121,6 +123,7 @@ class AgencyPhone(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_phones'
+        verbose_name = 'Agency Phone'
         unique_together = ('agency', 'phone')
 
 
@@ -137,6 +140,7 @@ class AgencyEmail(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_emails'
+        verbose_name = 'Agency Email'
         unique_together = ('agency', 'email')
         ordering = ('email',)
 
@@ -159,6 +163,7 @@ class AgencyFocusCountry(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_focus_countries'
+        verbose_name = 'Agency Focus Country'
         unique_together = ('agency', 'country')
         ordering = ('country__name_english',)
         indexes = [
@@ -194,6 +199,7 @@ class AgencyESGActivity(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_esg_activities'
+        verbose_name = 'Agency ESG Activity'
         ordering = ('agency', 'activity')
         indexes = [
             models.Index(fields=['activity_display']),
@@ -213,6 +219,7 @@ class AgencyActivityType(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_activity_types'
+        verbose_name = 'Agency Activity Type'
 
 
 class AgencyRelationship(models.Model):
@@ -227,6 +234,7 @@ class AgencyRelationship(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_relationships'
+        verbose_name = 'Agency Relationship'
         unique_together = ('from_agency', 'to_agency')
 
 
@@ -245,6 +253,7 @@ class AgencyMembership(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_memberships'
+        verbose_name = 'Agency Membership'
         unique_together = ('agency', 'association')
         indexes = [
             models.Index(fields=['membership_valid_to'])
@@ -264,6 +273,7 @@ class AgencyEQARDecision(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_eqar_decisions'
+        verbose_name = 'Agency EQAR Decision'
 
 
 class SubmittingAgency(models.Model):
@@ -310,6 +320,7 @@ class AgencyProxy(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_agency_proxies'
+        verbose_name = 'Agency Proxy'
         unique_together = ('submitting_agency', 'allowed_agency')
         indexes = [
             models.Index(fields=['proxy_to'])
@@ -329,6 +340,7 @@ class AgencyHistoricalField(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_historical_fields'
+        verbose_name = 'Agency Historical Field'
         indexes = [
             models.Index(fields=['field'])
         ]
@@ -349,6 +361,7 @@ class AgencyHistoricalData(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_historical_data'
+        verbose_name = 'Agency Historical Data'
         indexes = [
             models.Index(fields=['valid_to'])
         ]
