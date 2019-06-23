@@ -3,7 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from adminapi.views.agency_views import AgencyESGActivityList
+from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, AgencyList, MyAgencyDetail
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
@@ -63,16 +63,20 @@ urlpatterns = [
         name='institution-historical-relationship-type-select'),
 
     # Management endpoints
+    url(r'^agencies/(?P<pk>[0-9]+)/$', AgencyDetail.as_view(), name='agency-view-edit'),
+
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
     url(r'^institutions/$', InstitutionCreate.as_view(), name='institution-create'),
 
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
-
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
+
+    url(r'^my_agency/$', MyAgencyDetail.as_view(), name='my_agency-view-edit'),
 
     # Browse endpoints
     url(r'^browse/reports/$', ReportList.as_view(), name='report-list'),
     url(r'^browse/my-reports/$', MyReportList.as_view(), name='my-report-list'),
+    url(r'^browse/agencies/$', AgencyList.as_view(), name='agency-all'),
 
     # Swagger endpoints
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),

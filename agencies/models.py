@@ -3,6 +3,7 @@ from datetime import date
 
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 
 class Agency(models.Model):
@@ -107,7 +108,7 @@ class AgencyNameVersion(models.Model):
     class Meta:
         db_table = 'deqar_agency_name_versions'
         verbose_name = 'Agency Name Version'
-        ordering = ('name_is_primary', 'name')
+        ordering = ('-name_is_primary', 'name')
 
 
 class AgencyPhone(models.Model):
@@ -365,3 +366,41 @@ class AgencyHistoricalData(models.Model):
         indexes = [
             models.Index(fields=['valid_to'])
         ]
+
+
+class AgencyFlag(models.Model):
+    """
+    Flags belonging to an agency
+    """
+    id = models.AutoField(primary_key=True)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    flag = models.ForeignKey('lists.Flag', on_delete=models.PROTECT)
+    flag_message = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
+    removed_by_eqar = models.BooleanField(default=False)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'deqar_agency_flags'
+        verbose_name = 'Agency Flag'
+        ordering = ['id', 'flag__id']
+        unique_together = ['agency', 'flag_message']
+
+
+class AgencyUpdateLog(models.Model):
+    """
+    Updates happened with an agency
+    """
+    id = models.AutoField(primary_key=True)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='agency_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_agency_update_log'
+        verbose_name = 'Agency Update Log'
