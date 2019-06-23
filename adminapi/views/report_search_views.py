@@ -153,13 +153,16 @@ class MyReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
-                  'flag_level,score,date_created,date_updated'
+            'fl': 'id,agency,country,activity,institution_programme_primary,valid_from,valid_to,'
+                  'flag_level,score,date_created,date_updated',
+            'facet': True,
+            'facet_fields': ['country', 'flag_level', 'agency', 'activity'],
+            'facet_sort': 'index'
         }
 
         id = request.query_params.get('id', None)
         country = request.query_params.get('country', None)
-        activity = request.query_params.get('activity_type', None)
+        activity = request.query_params.get('activity', None)
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
@@ -170,7 +173,7 @@ class MyReportList(ListAPIView):
         if country:
             filters.append({'country': country})
         if activity:
-            filters.append({'activity_type': activity})
+            filters.append({'activity': activity})
         if flag:
             filters.append({'flag_level': flag})
         if active:
@@ -206,6 +209,7 @@ class MyReportList(ListAPIView):
         resp = {
             'count': response.hits,
             'results': response.docs,
+            'facets': response.facets
         }
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True
