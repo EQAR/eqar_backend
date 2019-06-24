@@ -38,7 +38,7 @@ class InstitutionNameSerializer(WritableNestedModelSerializer):
         model = InstitutionName
         list_serializer_class = InstitutionNameTypeSerializer
         fields = ['id', 'name_official', 'name_official_transliterated', 'name_english', 'acronym',
-                  'name_valid_to', 'alternative_names']
+                  'name_valid_to', 'alternative_names', 'name_source_note']
 
 
 class InstitutionCountryReadSerializer(WritableNestedModelSerializer):
