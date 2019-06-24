@@ -190,5 +190,6 @@ class InstitutionWriteSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Institution
         fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
-                  'identifiers', 'names', 'countries', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
+                  'identifiers', 'names', 'countries',
+                  'internal_note', 'other_comment', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
                   'historical_source', 'historical_target', 'flags']
