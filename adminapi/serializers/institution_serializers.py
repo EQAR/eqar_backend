@@ -32,7 +32,7 @@ class InstitutionNameVersionSerializer(serializers.ModelSerializer):
 
 
 class InstitutionNameSerializer(WritableNestedModelSerializer):
-    alternative_names = InstitutionNameVersionSerializer(many=True, source='institutionnameversion_set')
+    alternative_names = InstitutionNameVersionSerializer(many=True, source='institutionnameversion_set', required=False)
 
     class Meta:
         model = InstitutionName
@@ -177,14 +177,14 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
 
 class InstitutionWriteSerializer(WritableNestedModelSerializer):
     eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
-    identifiers = InstitutionIdentifierWriteSerializer(many=True, source='institutionidentifier_set')
+    identifiers = InstitutionIdentifierWriteSerializer(many=True, source='institutionidentifier_set', required=False)
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountryWriteSerializer(many=True, source='institutioncountry_set')
-    qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, source='institutionqfehealevel_set')
-    hierarchical_parent = InstitutionParentSerializer(many=True, source='relationship_child')
-    hierarchical_child = InstitutionChildSerializer(many=True, source='relationship_parent')
-    historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target')
-    historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source')
+    qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, source='institutionqfehealevel_set', required=False)
+    hierarchical_parent = InstitutionParentSerializer(many=True, source='relationship_child', required=False)
+    hierarchical_child = InstitutionChildSerializer(many=True, source='relationship_parent', required=False)
+    historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target', required=False)
+    historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source', required=False)
     flags = InstitutionFlagSerializer(many=True, source='institutionflag_set')
 
     class Meta:
