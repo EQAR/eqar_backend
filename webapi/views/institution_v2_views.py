@@ -1,8 +1,10 @@
 import pysolr
 from django.conf import settings
+from django.http import Http404
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import generics
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -11,6 +13,7 @@ from agencies.models import Agency
 from countries.models import Country
 from institutions.models import Institution
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from webapi.serializers.institution_serializers import InstitutionDetailSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -117,3 +120,16 @@ class InstitutionList(ListAPIView):
             cursor_mark = results.nextCursorMark
             hits = results.hits
         return Response({'count': hits, 'results': institutions})
+
+
+class InstitutionDetailByETER(generics.RetrieveAPIView):
+    """
+        Returns all the data available of the selected institution (via ETER).
+    """
+    serializer_class = InstitutionDetailSerializer
+
+    def get_object(self):
+        try:
+            return Institution.objects.get(eter__eter_id=self.kwargs['eter_id'])
+        except Institution.DoesNotExist:
+            raise Http404
