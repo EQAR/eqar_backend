@@ -4,6 +4,7 @@ from django.core.management import BaseCommand, CommandError
 from reports.models import Report
 from submissionapi.tasks import download_file
 
+
 class Command(BaseCommand):
     help = 'Reharvest files for report.'
 
