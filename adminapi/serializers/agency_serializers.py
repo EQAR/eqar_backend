@@ -1,3 +1,4 @@
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import CountrySelectSerializer, \
@@ -21,35 +22,41 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
 class AgencyNameVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyNameVersion
-        fields = '__all__'
+        exclude = ('agency_name',)
 
 
-class AgencyNameSerializer(serializers.ModelSerializer):
+class AgencyNameSerializer(WritableNestedModelSerializer):
     agency_name_versions = AgencyNameVersionSerializer(many=True, source='agencynameversion_set')
 
     class Meta:
         model = AgencyName
-        fields = '__all__'
+        exclude = ('agency',)
 
 
 class AgencyPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyPhone
-        fields = '__all__'
+        exclude = ('agency',)
 
 
 class AgencyEmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyEmail
-        fields = '__all__'
+        fields = ('id', 'email')
 
 
-class AgencyFocusCountrySerializer(serializers.ModelSerializer):
+class AgencyFocusCountryReadSerializer(serializers.ModelSerializer):
     country = CountrySelectSerializer()
 
     class Meta:
         model = AgencyFocusCountry
-        fields = '__all__'
+        exclude = ('agency',)
+
+
+class AgencyFocusCountryWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyFocusCountry
+        exclude = ('agency',)
 
 
 class AgencyESGActivityReadSerializer(serializers.ModelSerializer):
@@ -57,27 +64,63 @@ class AgencyESGActivityReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
-        fields = '__all__'
+        exclude = ('agency',)
 
 
-class AgencyMembershipSerializer(serializers.ModelSerializer):
+class AgencyESGActivityWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyESGActivity
+        exclude = ('agency',)
+
+
+class AgencyMembershipReadSerializer(serializers.ModelSerializer):
     association = AssociationSelectSerializer()
 
     class Meta:
         model = AgencyMembership
-        fields = '__all__'
+        exclude = ('agency',)
 
 
-class AgencyEQARDecisionSerializer(serializers.ModelSerializer):
+class AgencyMembershipWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyMembership
+        exclude = ('agency',)
+
+
+class AgencyEQARDecisionReadSerializer(serializers.ModelSerializer):
     decision_type = EQARDecisionTypeSelectSerializer()
-    decision_file_name = serializers.SerializerMethodField(source='decision_files')
+    decision_file_name = serializers.SerializerMethodField(source='decision_file')
+    decision_file_size = serializers.SerializerMethodField(source='decision_file')
+    decision_extra_file_name = serializers.SerializerMethodField(source='decision_file_extra')
+    decision_extra_file_size = serializers.SerializerMethodField(source='decision_file_extra')
 
     def get_decision_file_name(self, obj):
-        return obj.decision_file.name.replace('EQAR/', '')
+        return obj.decision_file.name
+
+    def get_decision_extra_file_name(self, obj):
+        return obj.decision_file_extra.name
+
+    def get_decision_file_size(self, obj):
+        try:
+            return obj.decision_file.size
+        except Exception:
+            return 0
+
+    def get_decision_extra_file_size(self, obj):
+        try:
+            return obj.decision_file_extra.size
+        except Exception:
+            return 0
 
     class Meta:
         model = AgencyEQARDecision
         fields = '__all__'
+
+
+class AgencyEQARDecisionWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyEQARDecision
+        fields = ('id', 'agency', 'decision_date', 'decision_type')
 
 
 class AgencyFlagSerializer(serializers.ModelSerializer):
@@ -104,16 +147,31 @@ class AgencyReadSerializer(serializers.ModelSerializer):
     names = AgencyNameSerializer(many=True, source='agencyname_set')
     phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
     emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
-    focus_countries = AgencyFocusCountrySerializer(many=True, source='agencyfocuscountry_set')
+    focus_countries = AgencyFocusCountryReadSerializer(many=True, source='agencyfocuscountry_set')
     activities = AgencyESGActivityReadSerializer(many=True, source='agencyesgactivity_set')
-    memberships = AgencyMembershipSerializer(many=True, source='agencymembership_set')
-    decisions = AgencyEQARDecisionSerializer(many=True, source='agencyeqardecision_set')
+    memberships = AgencyMembershipReadSerializer(many=True, source='agencymembership_set')
+    decisions = AgencyEQARDecisionReadSerializer(many=True, source='agencyeqardecision_set')
     country = CountrySelectSerializer()
     flags = AgencyFlagSerializer(many=True, source='agencyflag_set')
     update_log = AgencyUpdateLogSerializer(many=True, source='agencyupdatelog_set')
 
     def get_primary_name_acronym(self, obj):
         return "%s / %s" % (obj.name_primary, obj.acronym_primary)
+
+    class Meta:
+        model = Agency
+        fields = '__all__'
+
+
+class AgencyWriteSerializer(WritableNestedModelSerializer):
+    names = AgencyNameSerializer(many=True, source='agencyname_set')
+    phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
+    emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
+    focus_countries = AgencyFocusCountryWriteSerializer(many=True, source='agencyfocuscountry_set')
+    activities = AgencyESGActivityWriteSerializer(many=True, source='agencyesgactivity_set')
+    memberships = AgencyMembershipWriteSerializer(many=True, source='agencymembership_set', required=False)
+    decisions = AgencyEQARDecisionWriteSerializer(many=True, source='agencyeqardecision_set')
+    flags = AgencyFlagSerializer(many=True, source='agencyflag_set', required=False)
 
     class Meta:
         model = Agency

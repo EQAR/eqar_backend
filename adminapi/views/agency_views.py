@@ -1,6 +1,8 @@
 import datetime
+import os
 import re
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.timezone import now
 from django_filters import rest_framework as filters
@@ -8,11 +10,17 @@ from drf_rw_serializers.generics import RetrieveUpdateAPIView
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
+from rest_framework.parsers import FileUploadParser
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from adminapi.serializers.agency_serializers import AgencyReadSerializer, AgencyListSerializer
+from adminapi.serializers.agency_serializers import AgencyReadSerializer, AgencyListSerializer, AgencyWriteSerializer
 from adminapi.serializers.select_serializers import AgencyESGActivitySerializer
-from agencies.models import Agency, AgencyActivityType, AgencyProxy, AgencyESGActivity
+from agencies.models import Agency, AgencyActivityType, AgencyProxy, AgencyESGActivity, AgencyEQARDecision
 from countries.models import Country
+from eqar_backend import settings
+from submissionapi.permissions import CanSubmitToAgency
 
 
 class AgencyESGActivityFilterClass(filters.FilterSet):
@@ -96,9 +104,8 @@ class AgencyList(generics.ListAPIView):
 
 class AgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
-    # serializer_class = AgencyReadSerializer
     read_serializer_class = AgencyReadSerializer
-    # write_serializer_class = InstitutionWriteSerializer
+    write_serializer_class = AgencyWriteSerializer
 
     @swagger_auto_schema(responses={'200': AgencyReadSerializer})
     def get(self, request, *args, **kwargs):
@@ -107,9 +114,8 @@ class AgencyDetail(RetrieveUpdateAPIView):
 
 class MyAgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
-    # serializer_class = AgencyReadSerializer
     read_serializer_class = AgencyReadSerializer
-    # write_serializer_class = InstitutionWriteSerializer
+    write_serializer_class = AgencyWriteSerializer
 
     def get_object(self):
         return self.request.user.deqarprofile.submitting_agency.agency
@@ -118,3 +124,31 @@ class MyAgencyDetail(RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
         return super(MyAgencyDetail, self).get(request, *args, **kwargs)
 
+
+class AgencyDecisionFileUploadView(APIView):
+    """
+        Responsible for the submission of agency decision files
+    """
+    parser_classes = (FileUploadParser,)
+    permission_classes = (CanSubmitToAgency|IsAdminUser,)
+    swagger_schema = None
+
+    def put(self, request, filename, pk, file_type, format=None):
+        file_obj = request.data['file']
+        try:
+            agency_decision = AgencyEQARDecision.objects.get(pk=pk)
+            file_path = os.path.join(settings.MEDIA_ROOT, 'EQAR', filename)
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, 'wb') as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+
+            if file_type == 'decision':
+                agency_decision.decision_file.name = os.path.join('EQAR', filename)
+            if file_type == 'decision_extra':
+                agency_decision.decision_file_extra.name = os.path.join('EQAR', filename)
+            agency_decision.save()
+
+            return Response(status=204)
+        except ObjectDoesNotExist:
+            return Response(status=404)

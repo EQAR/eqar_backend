@@ -3,7 +3,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, AgencyList, MyAgencyDetail
+from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, AgencyList, MyAgencyDetail, \
+    AgencyDecisionFileUploadView
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
@@ -64,7 +65,8 @@ urlpatterns = [
 
     # Management endpoints
     url(r'^agencies/(?P<pk>[0-9]+)/$', AgencyDetail.as_view(), name='agency-view-edit'),
-
+    url(r'^submit/(?P<file_type>["decision"|"decision_extra"]+)/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$',
+        AgencyDecisionFileUploadView.as_view(), name='upload-agency_decision_file'),
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
     url(r'^institutions/$', InstitutionCreate.as_view(), name='institution-create'),
 
