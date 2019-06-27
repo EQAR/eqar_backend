@@ -69,7 +69,7 @@ class InstitutionRelationshipSerializer(serializers.ModelSerializer):
         fields = ['id', 'name_primary']
 
 
-class InstitutionParentSerializer(serializers.ModelSerializer):
+class InstitutionParentReadSerializer(serializers.ModelSerializer):
     institution = InstitutionRelationshipSerializer(source='institution_parent')
 
     class Meta:
@@ -77,8 +77,24 @@ class InstitutionParentSerializer(serializers.ModelSerializer):
         fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
 
 
-class InstitutionChildSerializer(serializers.ModelSerializer):
+class InstitutionParentWriteSerializer(serializers.ModelSerializer):
+    institution = serializers.PrimaryKeyRelatedField(source='institution_parent', queryset=Institution.objects.all())
+
+    class Meta:
+        model = InstitutionHierarchicalRelationship
+        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+
+
+class InstitutionChildReadSerializer(serializers.ModelSerializer):
     institution = InstitutionRelationshipSerializer(source='institution_child')
+
+    class Meta:
+        model = InstitutionHierarchicalRelationship
+        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+
+
+class InstitutionChildWriteSerializer(serializers.ModelSerializer):
+    institution = serializers.PrimaryKeyRelatedField(source='institution_parent', queryset=Institution.objects.all())
 
     class Meta:
         model = InstitutionHierarchicalRelationship
@@ -160,8 +176,8 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
                                              context={'type': 'former'})
     countries = InstitutionCountryReadSerializer(many=True, source='institutioncountry_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, source='institutionqfehealevel_set')
-    hierarchical_parent = InstitutionParentSerializer(many=True, source='relationship_child')
-    hierarchical_child = InstitutionChildSerializer(many=True, source='relationship_parent')
+    hierarchical_parent = InstitutionParentReadSerializer(many=True, source='relationship_child')
+    hierarchical_child = InstitutionChildReadSerializer(many=True, source='relationship_parent')
     historical_source = InstitutionSourceReadSerializer(many=True, source='relationship_target')
     historical_target = InstitutionTargetReadSerializer(many=True, source='relationship_source')
     flags = InstitutionFlagSerializer(many=True, source='institutionflag_set')
@@ -181,8 +197,8 @@ class InstitutionWriteSerializer(WritableNestedModelSerializer):
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountryWriteSerializer(many=True, source='institutioncountry_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, source='institutionqfehealevel_set', required=False)
-    hierarchical_parent = InstitutionParentSerializer(many=True, source='relationship_child', required=False)
-    hierarchical_child = InstitutionChildSerializer(many=True, source='relationship_parent', required=False)
+    hierarchical_parent = InstitutionParentWriteSerializer(many=True, source='relationship_child', required=False)
+    hierarchical_child = InstitutionChildWriteSerializer(many=True, source='relationship_parent', required=False)
     historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target', required=False)
     historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source', required=False)
     flags = InstitutionFlagSerializer(many=True, source='institutionflag_set')
