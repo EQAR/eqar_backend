@@ -1,7 +1,8 @@
+from django.db.models import Q
 from rest_framework import serializers
 from countries.models import Country, CountryQAARegulation, CountryHistoricalData, CountryQARequirement
 from eqar_backend.serializers import HistoryFilteredListSerializer
-from institutions.models import Institution
+from institutions.models import Institution, InstitutionCountry
 from reports.models import Report
 
 
@@ -16,10 +17,23 @@ class CountryListSerializer(serializers.HyperlinkedModelSerializer):
 class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
     institution_count = serializers.IntegerField(source='inst_count')
+    institution_total = serializers.SerializerMethodField()
+    institution_eter = serializers.SerializerMethodField()
+    reports_total = serializers.SerializerMethodField()
+
+    def get_institution_total(self, obj):
+        return Institution.objects.filter(institutioncountry__country__id=obj.id).count()
+
+    def get_institution_eter(self, obj):
+        return Institution.objects.filter(Q(institutioncountry__country__id=obj.id) & Q(eter__isnull=False)).count()
+
+    def get_reports_total(self, obj):
+        return Report.objects.filter(institutions__institutioncountry__country__id=obj.id).count()
 
     class Meta:
         model = Country
-        fields = ['id', 'url', 'name_english', 'ehea_is_member', 'iso_3166_alpha2', 'iso_3166_alpha3', 'institution_count']
+        fields = ['id', 'url', 'name_english', 'ehea_is_member', 'iso_3166_alpha2', 'iso_3166_alpha3',
+                  'institution_count', 'institution_total', 'institution_eter', 'reports_total']
 
 
 class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):
