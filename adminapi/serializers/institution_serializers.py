@@ -7,6 +7,7 @@ from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, Instit
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel, InstitutionHierarchicalRelationship, InstitutionFlag, \
     InstitutionUpdateLog, InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipType
+from lists.models import Flag
 
 
 class InstitutionIdentifierReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
@@ -94,7 +95,7 @@ class InstitutionChildReadSerializer(serializers.ModelSerializer):
 
 
 class InstitutionChildWriteSerializer(serializers.ModelSerializer):
-    institution = serializers.PrimaryKeyRelatedField(source='institution_parent', queryset=Institution.objects.all())
+    institution = serializers.PrimaryKeyRelatedField(source='institution_child', queryset=Institution.objects.all())
 
     class Meta:
         model = InstitutionHierarchicalRelationship
@@ -141,8 +142,16 @@ class InstitutionTargetWriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'institution', 'relationship_type', 'relationship_note', 'relationship_date']
 
 
-class InstitutionFlagSerializer(serializers.ModelSerializer):
+class InstitutionFlagReadSerializer(serializers.ModelSerializer):
     flag = serializers.StringRelatedField()
+
+    class Meta:
+        model = InstitutionFlag
+        fields = ('id', 'flag', 'flag_message', 'active', 'removed_by_eqar')
+
+
+class InstitutionFlagWriteSerializer(serializers.ModelSerializer):
+    flag = serializers.SlugRelatedField(slug_field='flag', queryset=Flag.objects.all())
 
     class Meta:
         model = InstitutionFlag
@@ -180,7 +189,7 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
     hierarchical_child = InstitutionChildReadSerializer(many=True, source='relationship_parent')
     historical_source = InstitutionSourceReadSerializer(many=True, source='relationship_target')
     historical_target = InstitutionTargetReadSerializer(many=True, source='relationship_source')
-    flags = InstitutionFlagSerializer(many=True, source='institutionflag_set')
+    flags = InstitutionFlagReadSerializer(many=True, source='institutionflag_set')
     update_log = InstitutionUpdateLogSerializer(many=True, source='institutionupdatelog_set')
 
     class Meta:
@@ -201,7 +210,7 @@ class InstitutionWriteSerializer(WritableNestedModelSerializer):
     hierarchical_child = InstitutionChildWriteSerializer(many=True, source='relationship_parent', required=False)
     historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target', required=False)
     historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source', required=False)
-    flags = InstitutionFlagSerializer(many=True, source='institutionflag_set')
+    flags = InstitutionFlagWriteSerializer(many=True, source='institutionflag_set')
 
     class Meta:
         model = Institution
