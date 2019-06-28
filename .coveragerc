@@ -1,0 +1,5 @@
+[report]
+omit =
+    manage.py
+    eqar_backend/wsgi.py
+    */management/commands/*
