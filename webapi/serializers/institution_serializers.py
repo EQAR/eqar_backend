@@ -28,14 +28,16 @@ class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
         for relation in obj.relationship_parent.all():
             data = InstitutionHierarchicalRelationshipSerializer(relation.institution_child, context=self.context).data
             data['relationship_type'] = relation.relationship_type.type if relation.relationship_type else None
-            data['relationship_data'] = relation.relationship_date if relation.relationship_type else None
+            data['relationship_date_from'] = relation.valid_from if relation.relationship_type else None
+            data['relationship_date_to'] = relation.valid_to if relation.relationship_type else None
 
             includes.append(data)
 
         for relation in obj.relationship_child.all():
             data = InstitutionHierarchicalRelationshipSerializer(relation.institution_parent, context=self.context).data
             data['relationship_type'] = relation.relationship_type.type if relation.relationship_type else None
-            data['relationship_data'] = relation.relationship_date if relation.relationship_type else None
+            data['relationship_date_from'] = relation.valid_from if relation.relationship_type else None
+            data['relationship_date_to'] = relation.valid_to if relation.relationship_type else None
             part_of.append(data)
 
         return {'includes': includes, 'part_of': part_of}
