@@ -5,7 +5,7 @@ from drf_yasg.inspectors import NotHandled, CoreAPICompatInspector
 
 class InstitutionSearchInspector(CoreAPICompatInspector):
     fields = {
-        'search': {
+        'query': {
             'description': 'Search string to search in institution names, countries and cities.',
             'type': 'string'
         },

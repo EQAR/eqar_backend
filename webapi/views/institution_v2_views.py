@@ -20,7 +20,7 @@ from webapi.serializers.institution_serializers import InstitutionDetailSerializ
 
 
 class InstitutionFilterClass(filters.FilterSet):
-    search = filters.CharFilter(label='Search')
+    query = filters.CharFilter(label='Search')
     country = filters.ModelChoiceFilter(label='Country', queryset=Country.objects.all(),
                                         to_field_name='name_english')
     country_id = filters.ModelChoiceFilter(label='Country ID', queryset=Country.objects.all(),
