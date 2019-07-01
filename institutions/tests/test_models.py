@@ -154,8 +154,8 @@ class InstitutionTestCase(TestCase):
             institution_child=inst_child,
             relationship_type=relationship_type
         )
-        inst_child.set_primary_name()
-        inst_child.set_name_sort()
+        inst_parent.save()
+        inst_child.save()
         self.assertEqual(inst_child.name_sort,
                          'University of applied sciences for Public Administration Rhineland-Palatinate / '
                          'Hessische Hochschule für Polizei und Verwaltung')
