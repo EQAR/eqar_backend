@@ -125,7 +125,7 @@ class InstitutionIndexer:
         for icountry in self.institution.institutioncountry_set.iterator():
             self.doc['place'].append({
                 'country': icountry.country.name_english.strip(),
-                'city': icountry.city.strip(),
+                'city': icountry.city.strip() if icountry.city else None,
                 'lat': icountry.lat,
                 'long': icountry.long
             })
@@ -133,6 +133,7 @@ class InstitutionIndexer:
             self.doc['country_id'].append(icountry.country.id)
             if icountry.city:
                 self.doc['city'].append(icountry.city.strip())
+
 
         self.doc['country'] = list(filter(None, self.doc['country']))
         self.doc['country_facet'] = list(filter(None, self.doc['country']))
