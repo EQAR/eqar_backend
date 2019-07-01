@@ -33,7 +33,7 @@ def do_index_institutions_upon_institution_identifier_save(sender, instance, **k
 
 @receiver([post_save, post_delete], sender=InstitutionNameVersion)
 def do_index_institutions_upon_institution_name_version_save(sender, instance, **kwargs):
-    institution = instance.institution_name_institution
+    institution = instance.institution_name.institution
     index_institution.delay(institution.id)
 
 
