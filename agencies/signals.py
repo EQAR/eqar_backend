@@ -7,5 +7,6 @@ from institutions.tasks import index_institution
 
 @receiver([post_save, post_delete], sender=Agency)
 def do_index_institutions_upon_agency_save(sender, instance, **kwargs):
-    for institution in instance.reports.institutions:
-        index_institution.delay(institution.id)
+    for report in instance.report_set.iterator():
+        for institution in report.institutions.iterator():
+            index_institution.delay(institution.id)

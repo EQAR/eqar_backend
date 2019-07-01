@@ -33,6 +33,6 @@ def do_index_report(sender, instance, **kwargs):
 
 
 @receiver([post_save, post_delete], sender=Report)
-def do_index_institutions_upon_report_save(sender, instance, action, **kwargs):
-    for institution in instance.institutions:
+def do_index_institutions_upon_report_save(sender, instance, **kwargs):
+    for institution in instance.institutions.iterator():
         index_institution.delay(institution.id)
