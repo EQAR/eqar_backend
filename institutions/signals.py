@@ -7,42 +7,6 @@ from institutions.models import InstitutionName, Institution, InstitutionIdentif
 from institutions.tasks import index_institution
 
 
-@receiver([post_save, post_delete], sender=InstitutionETERRecord)
-def do_index_institutions_upon_institution_eter_save(sender, instance, **kwargs):
-    institution = instance.institution
-    index_institution.delay(institution.id)
-
-
-@receiver([post_save, post_delete], sender=InstitutionQFEHEALevel)
-def do_index_institutions_upon_institution_qf_ehea_level_save(sender, instance, **kwargs):
-    institution = instance.institution
-    index_institution.delay(institution.id)
-
-
-@receiver([post_save, post_delete], sender=InstitutionCountry)
-def do_index_institutions_upon_institution_country_save(sender, instance, **kwargs):
-    institution = instance.institution
-    index_institution.delay(institution.id)
-
-
-@receiver([post_save, post_delete], sender=InstitutionIdentifier)
-def do_index_institutions_upon_institution_identifier_save(sender, instance, **kwargs):
-    institution = instance.institution
-    index_institution.delay(institution.id)
-
-
-@receiver([post_save, post_delete], sender=InstitutionNameVersion)
-def do_index_institutions_upon_institution_name_version_save(sender, instance, **kwargs):
-    institution = instance.institution_name.institution
-    index_institution.delay(institution.id)
-
-
-@receiver([post_save, post_delete], sender=InstitutionName)
-def do_index_institutions_upon_institution_name_save(sender, instance, **kwargs):
-    institution = instance.institution
-    index_institution.delay(institution.id)
-
-
 @receiver([post_save, post_delete], sender=Institution)
 def do_index_institutions_upon_institution_save(sender, instance, **kwargs):
     index_institution.delay(instance.id)
