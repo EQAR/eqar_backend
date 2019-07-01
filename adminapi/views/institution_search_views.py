@@ -31,7 +31,7 @@ class InstitutionAllList(ListAPIView):
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilterClass
-    core = getattr(settings, "SOLR_CORE_INSTITUTIONS_ALL", "deqar-institutions-all")
+    core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
@@ -55,7 +55,7 @@ class InstitutionAllList(ListAPIView):
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score',
             'facet': True,
-            'facet_fields': ['country'],
+            'facet_fields': ['country_facet'],
             'facet_sort': 'index'
         }
 
