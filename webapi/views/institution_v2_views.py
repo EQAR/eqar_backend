@@ -46,7 +46,6 @@ class InstitutionFilterClass(filters.FilterSet):
     qf_ehea_level_id = filters.ModelChoiceFilter(label='QF EHEA Level ID', queryset=QFEHEALevel.objects.all(),
                                                  to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
-    has_report = filters.BooleanFilter(label='Has report')
 
     ordering = OrderingFilter(
         fields=(

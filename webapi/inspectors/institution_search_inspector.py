@@ -74,10 +74,6 @@ class InstitutionSearchInspector(CoreAPICompatInspector):
                            'crossborder agency in the institutions country.',
             'type': 'boolean'
         },
-        'has_report': {
-            'description': 'Indicates if the institution has report directly or through relationships.',
-            'type': 'boolean'
-        },
         'ordering': {
             'description': 'Definition of the resultset ordering.',
             'type': 'string',

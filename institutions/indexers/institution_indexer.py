@@ -134,7 +134,6 @@ class InstitutionIndexer:
             if icountry.city:
                 self.doc['city'].append(icountry.city.strip())
 
-
         self.doc['country'] = list(filter(None, self.doc['country']))
         self.doc['country_facet'] = list(filter(None, self.doc['country']))
 
