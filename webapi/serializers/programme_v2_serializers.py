@@ -28,7 +28,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         report = obj.report
         self.context['programme_name'] = obj.name_primary
         self.context['report_type'] = 'programme'
-        self.context['qf_ehea_level'] = obj.qf_ehea_level.level
+        self.context['qf_ehea_level'] = obj.qf_ehea_level.level if obj.qf_ehea_level else None
         serializer = ReportSerializer(report, context=self.context)
         return serializer.data
 
