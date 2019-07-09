@@ -38,11 +38,20 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
     acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
     country = CountryListSerializer()
     activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
+    institution_count = serializers.SerializerMethodField()
+    report_count = serializers.SerializerMethodField()
+
+    def get_institution_count(self, obj):
+        return Institution.objects.filter(reports__agency=obj).distinct().count()
+
+    def get_report_count(self, obj):
+        return Report.objects.filter(agency=obj).count()
 
     class Meta:
         model = Agency
         fields = ['id', 'url', 'deqar_id', 'name_primary', 'acronym_primary', 'logo', 'country', 'activities',
-                  'registration_start', 'registration_valid_to', 'registration_note']
+                  'registration_start', 'registration_valid_to', 'registration_note',
+                  'institution_count', 'report_count']
 
 
 class AgencyListByFocusCountrySerializer(AgencyListSerializer):
@@ -73,17 +82,17 @@ class AgencyFocusCountrySerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
     country_url = serializers.HyperlinkedRelatedField(view_name="webapi-v2:country-detail", read_only=True,
                                                       source='country')
-    institutions_count = serializers.SerializerMethodField()
-    reports_count = serializers.SerializerMethodField()
+    institution_count = serializers.SerializerMethodField()
+    report_count = serializers.SerializerMethodField()
     country_is_ehea = serializers.SerializerMethodField()
 
-    def get_institutions_count(self, obj):
+    def get_institution_count(self, obj):
         return Institution.objects.filter(
             Q(institutioncountry__country=obj.country) &
             Q(reports__agency=obj.agency)
-        ).count()
+        ).distinct().count()
 
-    def get_reports_count(self, obj):
+    def get_report_count(self, obj):
         return Report.objects.filter(
             Q(institutions__institutioncountry__country=obj.country) &
             Q(agency=obj.agency)
