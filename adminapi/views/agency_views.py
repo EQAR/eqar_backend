@@ -2,6 +2,7 @@ import datetime
 import os
 import re
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.timezone import now
@@ -19,7 +20,6 @@ from adminapi.serializers.agency_serializers import AgencyReadSerializer, Agency
 from adminapi.serializers.select_serializers import AgencyESGActivitySerializer
 from agencies.models import Agency, AgencyActivityType, AgencyProxy, AgencyESGActivity, AgencyEQARDecision
 from countries.models import Country
-from eqar_backend import settings
 from submissionapi.permissions import CanSubmitToAgency
 
 

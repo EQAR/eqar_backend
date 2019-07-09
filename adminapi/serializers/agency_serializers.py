@@ -91,13 +91,13 @@ class AgencyEQARDecisionReadSerializer(serializers.ModelSerializer):
     decision_type = EQARDecisionTypeSelectSerializer()
     decision_file_name = serializers.SerializerMethodField(source='decision_file')
     decision_file_size = serializers.SerializerMethodField(source='decision_file')
-    decision_extra_file_name = serializers.SerializerMethodField(source='decision_file_extra')
-    decision_extra_file_size = serializers.SerializerMethodField(source='decision_file_extra')
+    decision_file_extra_name = serializers.SerializerMethodField(source='decision_file_extra')
+    decision_file_extra_size = serializers.SerializerMethodField(source='decision_file_extra')
 
     def get_decision_file_name(self, obj):
         return obj.decision_file.name
 
-    def get_decision_extra_file_name(self, obj):
+    def get_decision_file_extra_name(self, obj):
         return obj.decision_file_extra.name
 
     def get_decision_file_size(self, obj):
@@ -106,7 +106,7 @@ class AgencyEQARDecisionReadSerializer(serializers.ModelSerializer):
         except Exception:
             return 0
 
-    def get_decision_extra_file_size(self, obj):
+    def get_decision_file_extra_size(self, obj):
         try:
             return obj.decision_file_extra.size
         except Exception:
