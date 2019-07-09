@@ -33,7 +33,7 @@ class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:agency-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:agency-detail")
     name_primary = serializers.CharField(source='get_primary_name', read_only=True)
     acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
     country = CountryListSerializer()
@@ -71,13 +71,31 @@ class AgencyListByFocusCountrySerializer(AgencyListSerializer):
 
 class AgencyFocusCountrySerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
-    country_url = serializers.HyperlinkedRelatedField(view_name="webapi-v1:country-detail", read_only=True,
+    country_url = serializers.HyperlinkedRelatedField(view_name="webapi-v2:country-detail", read_only=True,
                                                       source='country')
+    institutions_count = serializers.SerializerMethodField()
+    reports_count = serializers.SerializerMethodField()
+    country_is_ehea = serializers.SerializerMethodField()
+
+    def get_institutions_count(self, obj):
+        return Institution.objects.filter(
+            Q(institutioncountry__country=obj.country) &
+            Q(reports__agency=obj.agency)
+        ).count()
+
+    def get_reports_count(self, obj):
+        return Report.objects.filter(
+            Q(institutions__institutioncountry__country=obj.country) &
+            Q(agency=obj.agency)
+        ).count()
+
+    def get_country_is_ehea(self, obj):
+        return obj.country.ehea_is_member
 
     class Meta:
         model = AgencyFocusCountry
         fields = ['country_url', 'country', 'country_is_official', 'country_is_crossborder', 'country_valid_from',
-                  'country_valid_to']
+                  'country_valid_to', 'institutions_count', 'reports_count', 'country_is_ehea']
 
 
 class AgencyNameVersionSerializer(serializers.ModelSerializer):
