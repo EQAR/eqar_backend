@@ -137,9 +137,9 @@ class InstitutionList(ListAPIView):
             filters.append({'activity_id': activity_id})
 
         if activity_type:
-            filters.append({'activity_type_facet': activity})
+            filters.append({'activity_type_facet': activity_type})
         if activity_type_id:
-            filters.append({'activity_type_id': activity_id})
+            filters.append({'activity_type_id': activity_type_id})
 
         if status:
             filters.append({'status_facet': status})
