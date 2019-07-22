@@ -41,10 +41,10 @@ def do_index_institutions_upon_report_save(sender, instance, **kwargs):
 
 @receiver([pre_save], sender=ReportFile)
 def do_reharvest_file_when_location_change(sender, instance, **kwargs):
-    if instance.id is not None:
-        original = ReportFile.objects.get(pk=instance.pk)
-        if original.file_original_location != instance.file_original_location:
-            if 'test' not in sys.argv:
+    if 'test' not in sys.argv:
+        if instance.id is not None:
+            original = ReportFile.objects.get(pk=instance.pk)
+            if original.file_original_location != instance.file_original_location:
                 download_file.delay(instance.file_original_location,
                                     instance.pk,
                                     instance.report.agency.acronym_primary)
