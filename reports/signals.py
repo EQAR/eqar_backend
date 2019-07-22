@@ -1,12 +1,13 @@
 import sys
 
-from django.db.models.signals import m2m_changed, post_save, post_delete
+from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
 from django.dispatch import receiver
 
-from reports.models import Report
+from reports.models import Report, ReportFile
 from institutions.models import Institution
 from reports.tasks import index_report
 from institutions.tasks import index_institution
+from submissionapi.tasks import download_file
 
 
 @receiver(m2m_changed, sender=Report.institutions.through)
@@ -36,3 +37,14 @@ def do_index_report(sender, instance, **kwargs):
 def do_index_institutions_upon_report_save(sender, instance, **kwargs):
     for institution in instance.institutions.iterator():
         index_institution.delay(institution.id)
+
+
+@receiver([pre_save], sender=ReportFile)
+def do_reharvest_file_when_location_change(sender, instance, **kwargs):
+    if instance.id is not None:
+        original = ReportFile.objects.get(pk=instance.pk)
+        if original.file_original_location != instance.file_original_location:
+            if 'test' not in sys.argv:
+                download_file.delay(instance.file_original_location,
+                                    instance.pk,
+                                    instance.report.agency.acronym_primary)
