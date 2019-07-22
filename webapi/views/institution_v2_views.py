@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
+from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
@@ -47,6 +48,9 @@ class InstitutionFilterClass(filters.FilterSet):
                                                  to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
 
+    limit = filters.NumberFilter(label='Limit', method='more_than_zero')
+    offset = filters.NumberFilter(label='Offset', method='more_than_zero')
+
     ordering = OrderingFilter(
         fields=(
             ('score', 'score'),
@@ -67,12 +71,16 @@ class InstitutionList(ListAPIView):
     filter_class = InstitutionFilterClass
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
-    def list(self, request, *args, **kwargs):
-        limit = request.query_params.get('limit', 10)
-        limit = 10 if limit == '' else limit
+    def zero_or_more(self, request, field, default):
+        value = request.query_params.get(field, default)
+        if not str(value).isdigit():
+            raise ParseError(detail='%s should be zero or larger number.' % field)
+        value = default if value == '' else value
+        return value
 
-        offset = request.query_params.get('offset', 0)
-        offset = 0 if offset == '' else offset
+    def list(self, request, *args, **kwargs):
+        limit = self.zero_or_more(request, 'limit', 10)
+        offset = self.zero_or_more(request, 'offset', 0)
 
         filters = [{'has_report': 'true'}]
         qf = [
