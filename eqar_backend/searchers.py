@@ -29,7 +29,7 @@ class Searcher:
         self.tie_breaker = tie_breaker
         self.paginated = paginated
 
-        search = params.get('search', '')
+        search = params.get('search', '*:*')
         self.set_q(search)
 
         filters = params.get('filters', [])

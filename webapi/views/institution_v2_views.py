@@ -69,7 +69,10 @@ class InstitutionList(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
+        limit = 10 if limit == '' else limit
+
         offset = request.query_params.get('offset', 0)
+        offset = 0 if offset == '' else offset
 
         filters = [{'has_report': 'true'}]
         qf = [
