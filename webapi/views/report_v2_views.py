@@ -10,6 +10,7 @@ from institutions.models import Institution
 from programmes.models import Programme
 from reports.models import Report
 from webapi.serializers.programme_v2_serializers import ProgrammeSerializer
+from webapi.serializers.report_detail_serializers import ReportDetailSerializer
 from webapi.serializers.report_v2_serializers import ReportSerializer
 
 
@@ -245,3 +246,11 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
 
         qs = qs.prefetch_related('reportfile_set')
         return qs.distinct()
+
+
+class ReportDetail(generics.RetrieveAPIView):
+    """
+        Returns all the data available of the selected institution.
+    """
+    serializer_class = ReportDetailSerializer
+    queryset = Report.objects.all()

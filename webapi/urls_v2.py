@@ -49,6 +49,7 @@ urlpatterns = [
         name='institution-eter_id-detail'),
 
     # Reports endpoints
+    url(r'^browse/reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-detail'),
     url(r'^browse/reports/programme/by-institution/(?P<institution>[0-9]+)/$',
         ReportProgrammeListByInstitution.as_view(), name='programme-report-list-by-institution'),
     url(r'^browse/reports/institutional/by-institution/(?P<institution>[0-9]+)/$',
