@@ -23,7 +23,8 @@ class InstitutionIndexer:
             'deqar_id': None,
             'eter_id': None,
             'name_primary': None,
-            'name_official': [],
+            'name_select_display': None,
+            'name_official_display': None,
             'national_identifier': None,
             'website_link': None,
             'place': [],
@@ -36,7 +37,7 @@ class InstitutionIndexer:
             # Search fields
             'name_english': [],
             'name_official_transliterated': [],
-            'name_select_display': None,
+            'name_official': [],
             'name_version': [],
             'name_version_transliterated': [],
             'city': [],
@@ -110,6 +111,9 @@ class InstitutionIndexer:
             self.doc['name_official'].append(iname.name_official.strip())
             self.doc['name_official_transliterated'].append(iname.name_official_transliterated.strip())
             self.doc['name_english'].append(iname.name_english.strip())
+
+            if not iname.name_valid_to or iname.name_valid_to == '':
+                self.doc['name_official_display'] = iname.name_official.strip()
 
             for iname_version in iname.institutionnameversion_set.all():
                 self.doc['name_version'].append(iname_version.name.strip())
