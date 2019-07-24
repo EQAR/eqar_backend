@@ -13,7 +13,7 @@ from webapi.serializers.programme_v2_serializers import ProgrammeIdentifierSeria
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ['deqar_id', 'name_primary', 'website_link']
+        fields = ['id', 'deqar_id', 'name_primary', 'website_link']
 
 
 class ProgrammeSerializer(serializers.ModelSerializer):
@@ -38,6 +38,8 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     institutions = InstitutionSerializer(many=True)
+    institutions_hierarchical = serializers.SerializerMethodField(source='institutions')
+    institutions_historical = serializers.SerializerMethodField(source='institutions')
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
@@ -63,10 +65,56 @@ class ReportDetailSerializer(serializers.ModelSerializer):
 
         return valid
 
+    def get_institutions_hierarchical(self, obj):
+        institutions = []
+        for institution in obj.institutions.iterator():
+
+            # Add Children
+            for inst in institution.relationship_parent.all():
+                s = InstitutionSerializer(inst.institution_child)
+                i = s.data
+                i['relationship'] = 'child'
+                i['relationship_type'] = inst.relationship_type.type
+                institutions.append(i)
+
+            # Add Parents
+            for inst in institution.relationship_child.all():
+                s = InstitutionSerializer(inst.institution_parent)
+                i = s.data
+                i['relationship'] = 'parent'
+                i['relationship_type'] = inst.relationship_type.type
+                institutions.append(i)
+
+        return institutions
+
+    def get_institutions_historical(self, obj):
+        institutions = []
+        for institution in obj.institutions.iterator():
+
+            # Add target
+            for inst in institution.relationship_source.all():
+                s = InstitutionSerializer(inst.institution_target)
+                i = s.data
+                i['relationship'] = 'target'
+                i['relationship_type'] = inst.relationship_type.type_to
+                i['relationship_date'] = inst.relationship_date
+                institutions.append(i)
+
+            # Add source
+            for inst in institution.relationship_target.all():
+                s = InstitutionSerializer(inst.institution_source)
+                i = s.data
+                i['relationship'] = 'source'
+                i['relationship_type'] = inst.relationship_type.type_from
+                i['relationship_date'] = inst.relationship_date
+                institutions.append(i)
+
+        return institutions
+
     class Meta:
         model = Report
         fields = ['agency_name', 'agency_acronym', 'agency_id', 'agency_url',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
-                  'institutions', 'programmes',
+                  'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
                   'report_links', 'local_identifier', 'flag']
