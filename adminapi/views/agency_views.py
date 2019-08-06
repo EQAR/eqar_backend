@@ -26,14 +26,18 @@ from submissionapi.permissions import CanSubmitToAgency
 class AgencyESGActivityFilterClass(filters.FilterSet):
     agency = filters.ModelChoiceFilter(field_name='agency', queryset=Agency.objects.all())
     activity = filters.CharFilter(label='Activity', method='search_activity')
+    activity_id = filters.CharFilter(label='Agency ID', method='search_activity_id')
     activity_type = filters.ModelChoiceFilter(field_name='activity_type', queryset=AgencyActivityType.objects.all())
 
     def search_activity(self, queryset, name, value):
         return queryset.filter(activity__icontains=value)
 
+    def search_activity_id(self, queryset, name, value):
+        return queryset.filter(id=value)
+
     class Meta:
         model = AgencyESGActivity
-        fields = ['agency', 'activity', 'activity_type']
+        fields = ['agency', 'activity', 'activity_type', 'activity_id']
 
 
 class AgencyESGActivityList(generics.ListAPIView):
@@ -41,15 +45,7 @@ class AgencyESGActivityList(generics.ListAPIView):
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
     ordering = ('agency', 'activity')
     filter_class = AgencyESGActivityFilterClass
-
-    def get_queryset(self):
-        user = self.request.user
-        submitting_agency = user.deqarprofile.submitting_agency
-        agency_proxies = AgencyProxy.objects.filter(
-            Q(submitting_agency=submitting_agency) &
-            (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
-        agencies = Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
-        return AgencyESGActivity.objects.filter(agency__in=agencies).order_by('agency', 'activity')
+    queryset = AgencyESGActivity.objects.all()
 
 
 class AgencyFilterClass(filters.FilterSet):
