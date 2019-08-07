@@ -53,6 +53,8 @@ class InstitutionIndexer:
 
             # Sort fields
             'name_sort': None,
+            'deqar_id_sort': None,
+            'eter_id_sort': None,
 
             # Aggregated search fields
             'aggregated_name_english': [],
@@ -93,6 +95,7 @@ class InstitutionIndexer:
         # Index display fields
         self.doc['id'] = self.institution.id
         self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id_sort'] = 'DEQARINST%04d' % self.institution.id
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
@@ -100,6 +103,7 @@ class InstitutionIndexer:
         select_display = self.institution.name_primary.strip()
         if self.institution.eter:
             self.doc['eter_id'] = self.institution.eter.eter_id
+            self.doc['eter_id_sort'] = self.institution.eter.eter_id
             select_display += ' (%s)' % self.institution.eter.eter_id
         self.doc['name_select_display'] = select_display
 
