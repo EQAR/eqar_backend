@@ -64,7 +64,7 @@ class ReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
+            'fl': 'id,local_id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
                   'flag_level,score',
             'facet': True,
             'facet_fields': ['country', 'flag_level', 'agency', 'activity_type'],
@@ -153,7 +153,7 @@ class MyReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,agency,country,activity,institution_programme_primary,valid_from,valid_to,'
+            'fl': 'id,local_id,agency,country,activity,institution_programme_primary,valid_from,valid_to,'
                   'flag_level,score,date_created,date_updated',
             'facet': True,
             'facet_fields': ['country', 'flag_level', 'agency', 'activity'],
@@ -161,6 +161,7 @@ class MyReportList(ListAPIView):
         }
 
         id = request.query_params.get('id', None)
+        local_id = request.query_params.get('local_id', None)
         country = request.query_params.get('country', None)
         activity = request.query_params.get('activity', None)
         flag = request.query_params.get('flag', None)
@@ -170,6 +171,8 @@ class MyReportList(ListAPIView):
 
         if id:
             filters.append({'id': id})
+        if local_id:
+            filters.append({'local_id': local_id})
         if country:
             filters.append({'country': country})
         if activity:

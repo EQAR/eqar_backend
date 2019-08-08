@@ -48,6 +48,7 @@ class ReportsAllIndexer:
 
     def _index_report(self):
         self.doc['id'] = self.report.id
+        self.doc['local_id'] = self.report.local_identifier
         self.doc['agency'] = self.report.agency.acronym_primary
         self.doc['activity'] = self.report.agency_esg_activity.activity
         self.doc['activity_type'] = self.report.agency_esg_activity.activity_type.type
