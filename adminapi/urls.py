@@ -3,7 +3,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, AgencyList, MyAgencyDetail, \
+from adminapi.views.agency_search_views import AgencyList
+from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyAgencyDetail, \
     AgencyDecisionFileUploadView
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
