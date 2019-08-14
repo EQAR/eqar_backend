@@ -33,7 +33,10 @@ class Searcher:
         self.set_q(search)
 
         filters = params.get('filters', [])
-        self.set_fq(filters)
+        self.set_fq(filters, ' AND ')
+
+        filters_or = params.get('filters_or', "")
+        self.set_fq(filters_or, ' OR ')
 
         date_filters = params.get('date_filters', [])
         self.set_date_fq(date_filters)
@@ -91,10 +94,12 @@ class Searcher:
         if search == "":
             self.q = "*:*"
 
-    def set_fq(self, filters):
+    def set_fq(self, filters, logic=' AND '):
+        fq_filters = []
         for f in filters:
             for k, v in f.items():
-                self.fq.append('%s:"%s"' % (k, v))
+                fq_filters.append('%s:"%s"' % (k, v))
+        self.fq.append(logic.join(fq_filters))
 
     def set_date_fq(self, date_filters):
         for f in date_filters:
