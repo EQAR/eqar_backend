@@ -80,7 +80,7 @@ class ReportList(ListAPIView):
         year = request.query_params.get('year', False)
 
         if id:
-            filters.append({'id': id})
+            filters.append({'id_search': id})
         if country:
             filters.append({'country': country})
         if agency:
@@ -134,8 +134,18 @@ class MyReportList(ListAPIView):
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
         offset = request.query_params.get('offset', 0)
+        filters = []
+        filters_or = []
 
-        filters = [{'user_created': request.user.username}]
+        user = request.user
+        filters_or.append({'user_created': user.username})
+
+        userprofile = request.user.deqarprofile
+        submitting_agency = userprofile.submitting_agency
+
+        if submitting_agency.agency:
+            filters_or.append({'agency': submitting_agency.agency.acronym_primary})
+
         date_filters = []
         qf = [
             'institution_programme_primary^5.0',
@@ -170,7 +180,7 @@ class MyReportList(ListAPIView):
         year_created = request.query_params.get('year_created', False)
 
         if id:
-            filters.append({'id': id})
+            filters.append({'id_search': id})
         if local_id:
             filters.append({'local_id': local_id})
         if country:
@@ -204,6 +214,7 @@ class MyReportList(ListAPIView):
                 pass
 
         params['filters'] = filters
+        params['filters_or'] = filters_or
         params['date_filters'] = date_filters
 
         searcher = Searcher(self.core)
