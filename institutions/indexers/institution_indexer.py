@@ -107,6 +107,16 @@ class InstitutionIndexer:
             select_display += ' (%s)' % self.institution.eter.eter_id
         self.doc['name_select_display'] = select_display
 
+        # Index name_display
+        name = self.institution.name_primary
+        for iname in self.institution.institutionname_set.all():
+            if not iname.name_valid_to:
+                if iname.name_official != self.institution.name_primary:
+                    name += " / " + iname.name_official
+                if iname.acronym:
+                    name += " (" + iname.acronym + ')'
+        self.doc['name_display'] = name
+
         # Index name_sort
         self.doc['name_sort'] = self.institution.name_sort.strip()
 
