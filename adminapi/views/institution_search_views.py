@@ -71,7 +71,8 @@ class InstitutionAllList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': self.get_order_filter(request.query_params.get('ordering', '-score')),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score',
+            'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
+                  'website_link,country,score',
             'facet': True,
             'facet_fields': ['country_facet'],
             'facet_sort': 'index'
