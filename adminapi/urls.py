@@ -9,7 +9,7 @@ from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyA
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
-from adminapi.views.report_search_views import ReportList, MyReportList
+from adminapi.views.report_search_views import ReportList
 from adminapi.views.report_views import ReportDetail, ReportFlagRemove
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
@@ -66,6 +66,8 @@ urlpatterns = [
 
     # Management endpoints
     url(r'^agencies/(?P<pk>[0-9]+)/$', AgencyDetail.as_view(), name='agency-view-edit'),
+    url(r'^my_agency/(?P<pk>[0-9]+)/$', MyAgencyDetail.as_view(), name='my_agency-view-edit'),
+
     url(r'^submit/(?P<file_type>["decision"|"decision_extra"]+)/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$',
         AgencyDecisionFileUploadView.as_view(), name='upload-agency_decision_file'),
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
@@ -74,12 +76,9 @@ urlpatterns = [
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
 
-    url(r'^my_agency/$', MyAgencyDetail.as_view(), name='my_agency-view-edit'),
-
     # Browse endpoints
-    url(r'^browse/reports/$', ReportList.as_view(), name='report-list'),
-    url(r'^browse/my-reports/$', MyReportList.as_view(), name='my-report-list'),
-    url(r'^browse/agencies/$', AgencyList.as_view(), name='agency-all'),
+    url(r'^browse/(?P<request_type>["all"|"my"]+)/reports/$', ReportList.as_view(), name='report-list'),
+    url(r'^browse/(?P<request_type>["all"|"my"]+)/agencies/$', AgencyList.as_view(), name='agency-all'),
 
     # Swagger endpoints
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),

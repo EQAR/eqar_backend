@@ -10,7 +10,6 @@ from rest_framework.response import Response
 
 from agencies.models import Agency
 from eqar_backend.searchers import Searcher
-from institutions.models import Institution
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 
 
@@ -39,12 +38,19 @@ class AgencyList(ListAPIView):
     filter_class = AgencyFilterClass
     core = getattr(settings, "SOLR_CORE_AGENCIES", "deqar-agencies")
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, request_type, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
         offset = request.query_params.get('offset', 0)
 
         filters = []
+        filters_or = []
         date_filters = []
+
+        if request_type == 'my':
+            userprofile = request.user.deqarprofile
+            submitting_agency = userprofile.submitting_agency
+            for agency_proxy in submitting_agency.submitting_agency.all():
+                filters_or.append({'id': agency_proxy.allowed_agency.id})
 
         qf = [
             'name_search^5',
@@ -87,6 +93,7 @@ class AgencyList(ListAPIView):
             filters.append({'focus_country_facet': focus_country})
 
         params['filters'] = filters
+        params['filters_or'] = filters_or
         params['date_filters'] = date_filters
 
         searcher = Searcher(self.core)
