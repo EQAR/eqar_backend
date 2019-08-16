@@ -86,7 +86,7 @@ class InstitutionAllList(ListAPIView):
         if country:
             filters.append({'country': country})
         if city:
-            filters.append({'city': country})
+            filters.append({'city': city})
         if eter_id:
             filters.append({'eter_id': eter_id})
         if deqar_id:
