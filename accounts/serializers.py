@@ -18,10 +18,15 @@ class ChangeEmailSerializer(serializers.Serializer):
 
 class CurrentUserSerializer(serializers.ModelSerializer):
     is_admin = serializers.SerializerMethodField()
+    agencies = serializers.SerializerMethodField()
 
     def get_is_admin(self, obj):
         return obj.is_superuser
 
+    def get_agencies(self, obj):
+        submitting_agency = obj.deqarprofile.submitting_agency
+        return [agency_proxy.allowed_agency.id for agency_proxy in submitting_agency.submitting_agency.all()]
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'is_admin')
+        fields = ('id', 'username', 'email', 'is_admin', 'agencies')
