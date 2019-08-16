@@ -4,8 +4,6 @@ import re
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
-from django.utils.timezone import now
 from django_filters import rest_framework as filters
 from drf_rw_serializers.generics import RetrieveUpdateAPIView
 from drf_yasg.utils import swagger_auto_schema
@@ -16,10 +14,10 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adminapi.serializers.agency_serializers import AgencyReadSerializer, AgencyListSerializer, AgencyWriteSerializer
+from adminapi.permissions import CanAccessAgency
+from adminapi.serializers.agency_serializers import AgencyReadSerializer, AgencyWriteSerializer
 from adminapi.serializers.select_serializers import AgencyESGActivitySerializer
-from agencies.models import Agency, AgencyActivityType, AgencyProxy, AgencyESGActivity, AgencyEQARDecision
-from countries.models import Country
+from agencies.models import Agency, AgencyActivityType, AgencyESGActivity, AgencyEQARDecision
 from submissionapi.permissions import CanSubmitToAgency
 
 
@@ -62,13 +60,7 @@ class MyAgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
     read_serializer_class = AgencyReadSerializer
     write_serializer_class = AgencyWriteSerializer
-
-    def get_object(self):
-        return self.request.user.deqarprofile.submitting_agency.agency
-
-    @swagger_auto_schema(responses={'200': AgencyReadSerializer})
-    def get(self, request, *args, **kwargs):
-        return super(MyAgencyDetail, self).get(request, *args, **kwargs)
+    permission_classes = (CanAccessAgency|IsAdminUser,)
 
 
 class AgencyDecisionFileUploadView(APIView):
