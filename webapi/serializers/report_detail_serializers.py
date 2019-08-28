@@ -74,7 +74,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
                 s = InstitutionSerializer(inst.institution_child)
                 i = s.data
                 i['relationship'] = 'child'
-                i['relationship_type'] = inst.relationship_type.type
+                i['relationship_type'] = inst.relationship_type.type if inst.relationship_type else 'N/A'
                 institutions.append(i)
 
             # Add Parents
@@ -82,7 +82,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
                 s = InstitutionSerializer(inst.institution_parent)
                 i = s.data
                 i['relationship'] = 'parent'
-                i['relationship_type'] = inst.relationship_type.type
+                i['relationship_type'] = inst.relationship_type.type if inst.relationship_type else 'N/A'
                 institutions.append(i)
 
         return institutions
