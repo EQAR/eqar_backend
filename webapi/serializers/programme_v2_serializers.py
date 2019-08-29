@@ -34,4 +34,5 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Programme
+        ref_name = 'ProgrammeSerializer_v2'
         fields = ['report', 'programme_names', 'programme_identifiers', 'nqf_level', 'qf_ehea_level', 'countries']

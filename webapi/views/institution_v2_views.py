@@ -48,9 +48,6 @@ class InstitutionFilterClass(filters.FilterSet):
                                                  to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
 
-    limit = filters.NumberFilter(label='Limit', method='more_than_zero')
-    offset = filters.NumberFilter(label='Offset', method='more_than_zero')
-
     ordering = OrderingFilter(
         fields=(
             ('score', 'score'),
