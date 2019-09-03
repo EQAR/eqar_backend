@@ -35,22 +35,6 @@ class InstitutionAllList(ListAPIView):
     filter_class = InstitutionFilterClass
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
-    def get_order_filter(self, ordering):
-        fields = {
-            'score': 'score',
-            'name_primary': 'name_sort',
-            'deqar_id': 'deqar_id_sort',
-            'eter_id': 'eter_id_sort'
-        }
-        if ordering.startswith('-'):
-            key = ordering.split('-')[1]
-            if key in fields.keys():
-                return "-%s" % fields[key]
-        else:
-            if ordering in fields.keys():
-                return "%s" % fields[ordering]
-        return '-score'
-
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
         offset = request.query_params.get('offset', 0)
@@ -69,7 +53,7 @@ class InstitutionAllList(ListAPIView):
         ]
         params = {
             'search': request.query_params.get('query', ''),
-            'ordering': self.get_order_filter(request.query_params.get('ordering', '-score')),
+            'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
                   'website_link,country,city,score',
