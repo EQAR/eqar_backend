@@ -85,6 +85,7 @@ class ReportList(ListAPIView):
 
         id = request.query_params.get('id', None)
         local_id = request.query_params.get('local_id', None)
+        agency = request.query_params.get('agency', None)
         country = request.query_params.get('country', None)
         activity = request.query_params.get('activity', None)
         flag = request.query_params.get('flag', None)
@@ -96,6 +97,8 @@ class ReportList(ListAPIView):
             filters.append({'id_search': id})
         if local_id:
             filters.append({'local_id': local_id})
+        if agency:
+            filters.append({'agency': agency})
         if country:
             filters.append({'country': country})
         if activity:
