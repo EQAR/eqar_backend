@@ -45,7 +45,8 @@ class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Country
         fields = ['id', 'url', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3', 'external_QAA_is_permitted',
-                  'european_approach_is_permitted', 'eqar_governmental_member_start', 'agency_count']
+                  'european_approach_is_permitted', 'has_full_institution_list', 'ehea_key_commitment',
+                  'eqar_governmental_member_start', 'agency_count']
 
 
 class CountryQAARegulationSerializer(serializers.ModelSerializer):
@@ -97,6 +98,7 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'external_QAA_is_permitted', 'external_QAA_note',
                   'eligibility', 'conditions', 'recognition',
                   'european_approach_is_permitted', 'european_approach_note',
+                  'has_full_institution_list', 'ehea_key_commitment',
                   'general_note', 'qaa_regulations',
                   'report_count', 'institution_count',
                   'historical_data']

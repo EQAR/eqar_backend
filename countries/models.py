@@ -24,6 +24,9 @@ class Country(models.Model):
                                                        default=2, on_delete=models.PROTECT)
     european_approach_note = models.TextField(blank=True, null=True)
     general_note = models.TextField(blank=True)
+    has_full_institution_list = models.BooleanField(default=False)
+    ehea_key_commitment = models.ForeignKey('lists.PermissionType', related_name='country_ehea_key_commitment',
+                                            default=2, on_delete=models.PROTECT)
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
 

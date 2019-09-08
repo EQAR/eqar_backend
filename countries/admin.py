@@ -65,6 +65,7 @@ class CountryAdmin(DEQARModelAdmin):
         ('Quality Assurance', {
             'fields': ('qa_requirement_note', 'external_QAA_is_permitted',
                        'eligibility', 'conditions', 'recognition', 'external_QAA_note',
+                       'has_full_institution_list', 'ehea_key_commitment',
                        'european_approach_is_permitted', 'european_approach_note', 'general_note')
         })
     )
