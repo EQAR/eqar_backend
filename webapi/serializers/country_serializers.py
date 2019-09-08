@@ -19,6 +19,7 @@ class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
     institution_count = serializers.IntegerField(source='inst_count')
     institution_total = serializers.SerializerMethodField()
     institution_eter = serializers.SerializerMethodField()
+    ehea_key_commitment = serializers.StringRelatedField()
     reports_total = serializers.SerializerMethodField()
 
     def get_institution_total(self, obj):
@@ -33,6 +34,7 @@ class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Country
         fields = ['id', 'url', 'name_english', 'ehea_is_member', 'iso_3166_alpha2', 'iso_3166_alpha3',
+                  'has_full_institution_list', 'ehea_key_commitment',
                   'institution_count', 'institution_total', 'institution_eter', 'reports_total']
 
 
