@@ -40,6 +40,7 @@ class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
+    ehea_key_commitment = serializers.StringRelatedField()
     agency_count = serializers.IntegerField()
 
     class Meta:
@@ -81,6 +82,7 @@ class CountryDetailSerializer(serializers.ModelSerializer):
     historical_data = CountryHistoricalDataSerializer(many=True, read_only=True, source='countryhistoricaldata_set')
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
+    ehea_key_commitment = serializers.StringRelatedField()
     report_count = serializers.SerializerMethodField()
     institution_count = serializers.SerializerMethodField()
 
