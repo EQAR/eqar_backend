@@ -75,7 +75,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+        fields = ['id', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name', 'name_display',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
-                  'report_links', 'local_identifier', 'flag']
+                  'report_links', 'local_identifier', 'other_comment', 'flag']
