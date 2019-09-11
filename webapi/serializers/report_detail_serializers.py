@@ -3,17 +3,24 @@ import datetime
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
-from programmes.models import Programme
+from programmes.models import Programme, ProgrammeIdentifier
 from rest_framework import serializers
 
 from webapi.serializers.report_v2_serializers import ReportFileSerializer, ReportLinkSerializer
-from webapi.serializers.programme_v2_serializers import ProgrammeIdentifierSerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
         fields = ['id', 'deqar_id', 'name_primary', 'website_link']
+
+
+class ProgrammeIdentifierSerializer(serializers.ModelSerializer):
+    agency = serializers.StringRelatedField()
+
+    class Meta:
+        model = ProgrammeIdentifier
+        fields = ['identifier', 'agency', 'resource']
 
 
 class ProgrammeSerializer(serializers.ModelSerializer):

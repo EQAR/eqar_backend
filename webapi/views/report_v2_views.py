@@ -137,7 +137,7 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
     """
         Returns a list of all the institutional level reports which were submitted to DEQAR filtered by institution.
     """
-    serializer_class = ReportSerializer
+    serializer_class = ReportDetailSerializer
     filter_backends = (OrderingFilter,)
     ordering_fields = ('name', 'agency')
     ordering = ('name', 'agency')

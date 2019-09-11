@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
-from webapi.serializers.report_v2_serializers import ReportSerializer
+from webapi.serializers.report_detail_serializers import ReportDetailSerializer
 
 
 class ProgrammeNameSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         self.context['programme_name'] = obj.name_primary
         self.context['report_type'] = 'programme'
         self.context['qf_ehea_level'] = obj.qf_ehea_level.level if obj.qf_ehea_level else None
-        serializer = ReportSerializer(report, context=self.context)
+        serializer = ReportDetailSerializer(report, context=self.context)
         return serializer.data
 
     class Meta:
