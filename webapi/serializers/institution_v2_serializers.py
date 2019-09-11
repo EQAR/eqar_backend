@@ -136,17 +136,17 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
         for relation in obj.relationship_parent.all():
             includes.append({
                 'institution': InstitutionRelationshipSerializer(relation.institution_child, context=self.context).data,
-                'relationship_type': relation.relationship_type.type,
-                'valid_from': relation.valid_from,
-                'valid_to': relation.valid_to
+                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
+                'valid_from': relation.valid_from if relation.relationship_type else None,
+                'valid_to': relation.valid_to if relation.relationship_type else None
             })
 
         for relation in obj.relationship_child.all():
             part_of.append({
                 'institution': InstitutionRelationshipSerializer(relation.institution_parent, context=self.context).data,
-                'relationship_type': relation.relationship_type.type,
-                'valid_from': relation.valid_from,
-                'valid_to': relation.valid_to
+                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
+                'valid_from': relation.valid_from if relation.relationship_type else None,
+                'valid_to': relation.valid_to if relation.relationship_type else None
             })
 
         return {'includes': includes, 'part_of': part_of}
