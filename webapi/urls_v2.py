@@ -51,9 +51,11 @@ urlpatterns = [
     # Reports endpoints
     url(r'^browse/reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-detail'),
     url(r'^browse/reports/programme/by-institution/(?P<institution>[0-9]+)/$',
-        ReportProgrammeListByInstitution.as_view(), name='programme-report-list-by-institution'),
+        ReportListByInstitution.as_view(), {'report_type': 'programme'},
+        name='programme-report-list-by-institution'),
     url(r'^browse/reports/institutional/by-institution/(?P<institution>[0-9]+)/$',
-        ReportInstitutionListByInstitution.as_view(), name='institutional-report-list-by-institution'),
+        ReportListByInstitution.as_view(), {'report_type': 'institutional'},
+        name='institutional-report-list-by-institution'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),

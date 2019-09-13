@@ -3,7 +3,7 @@ import datetime
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
-from programmes.models import Programme, ProgrammeIdentifier
+from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName
 from rest_framework import serializers
 
 from webapi.serializers.report_v2_serializers import ReportFileSerializer, ReportLinkSerializer
@@ -15,6 +15,12 @@ class InstitutionSerializer(serializers.ModelSerializer):
         fields = ['id', 'deqar_id', 'name_primary', 'website_link']
 
 
+class ProgrammeNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgrammeName
+        fields = ['name', 'name_is_primary', 'qualification']
+
+
 class ProgrammeIdentifierSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
 
@@ -24,13 +30,15 @@ class ProgrammeIdentifierSerializer(serializers.ModelSerializer):
 
 
 class ProgrammeSerializer(serializers.ModelSerializer):
+    programme_names = ProgrammeNameSerializer(many=True, read_only=True, source='programmename_set')
     programme_identifiers = ProgrammeIdentifierSerializer(many=True, read_only=True, source='programmeidentifier_set')
     countries = serializers.StringRelatedField(many=True, read_only=True)
     qf_ehea_level = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Programme
-        fields = ['name_primary', 'programme_identifiers', 'nqf_level', 'qf_ehea_level', 'countries']
+        fields = ['id', 'name_primary', 'programme_names', 'programme_identifiers',
+                  'nqf_level', 'qf_ehea_level', 'countries']
 
 
 class ReportDetailSerializer(serializers.ModelSerializer):
@@ -120,7 +128,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+        fields = ['id', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
