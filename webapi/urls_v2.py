@@ -8,6 +8,7 @@ from webapi.views.agency_views import AgencyList, AgencyDetail, AgencyListByFocu
 from webapi.views.country_views import CountryList, CountryDetail, CountryListByAgency, CountryListByReports
 from webapi.views.institution_v2_views import *
 from webapi.views.institution_views import InstitutionDetail
+from webapi.views.report_v2_search_views import ReportList
 from webapi.views.report_v2_views import *
 
 schema_view = get_schema_view(
@@ -49,6 +50,7 @@ urlpatterns = [
         name='institution-eter_id-detail'),
 
     # Reports endpoints
+    url(r'^browse/reports/', ReportList.as_view(), name='report-list'),
     url(r'^browse/reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-detail'),
     url(r'^browse/reports/programme/by-institution/(?P<institution>[0-9]+)/$',
         ReportListByInstitution.as_view(), {'report_type': 'programme'},
