@@ -151,9 +151,9 @@ class ReportList(ListAPIView):
             filters.append({'crossborder_facet': cross_border})
 
         if language:
-            filters.append({'language_facet', language})
+            filters.append({'language_facet': language})
         if language_id:
-            filters.append({'language_id', language_id})
+            filters.append({'language_id': language_id})
 
         if flag:
             filters.append({'flag_level_facet': flag})
