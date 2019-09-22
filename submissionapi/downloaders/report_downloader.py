@@ -35,7 +35,7 @@ class ReportDownloader:
         self.old_file_path = rf.file.name
 
     def _download_file(self, local_filename):
-        headers = {'User-Agent': 'DEQAR File Downlaoder'}
+        headers = {'User-Agent': 'DEQAR File Downloader'}
         r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
         if r.status_code == requests.codes.ok:
             rf = ReportFile.objects.get(pk=self.report_file_id)
@@ -61,7 +61,9 @@ class ReportDownloader:
         """
         Checks if url contain a downloadable resource
         """
-        h = requests.head(self.url, allow_redirects=True)
+        headers = {'User-Agent': 'DEQAR File Downloader'}
+        h = requests.head(self.url, headers=headers, allow_redirects=True)
+
         header = h.headers
         content_type = header.get('content-type')
         if 'text' in content_type.lower():

@@ -9,7 +9,6 @@ from institutions.tasks import index_institution
 def do_index_institutions_upon_institution_save(sender, instance, **kwargs):
     index_institution.delay(instance.id)
 
-
 @receiver([post_save, post_delete], sender=InstitutionHierarchicalRelationship)
 def do_index_institutions_upon_hierarchical_relationship_save(sender, instance, **kwargs):
     institution_parent = instance.institution_parent
@@ -24,5 +23,3 @@ def do_index_institutions_upon_historical_relationship_save(sender, instance, **
     institution_target = instance.institution_target
     index_institution.delay(institution_source.id)
     index_institution.delay(institution_target.id)
-
-
