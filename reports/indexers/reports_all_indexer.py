@@ -43,6 +43,7 @@ class ReportsAllIndexer:
         self._remove_empty_keys()
         try:
             self.solr.add([self.doc])
+            print('Indexed Report No. %s!' % self.doc['id'])
         except pysolr.SolrError as e:
             print('Error with Report No. %s! Error: %s' % (self.doc['id'], e))
 

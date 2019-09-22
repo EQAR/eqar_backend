@@ -1,16 +1,13 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from institutions.models import InstitutionName, Institution, InstitutionIdentifier, InstitutionNameVersion, \
-    InstitutionCountry, InstitutionQFEHEALevel, InstitutionETERRecord, InstitutionHierarchicalRelationship, \
-    InstitutionHistoricalRelationship
+from institutions.models import Institution, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
 from institutions.tasks import index_institution
 
 
 @receiver([post_save, post_delete], sender=Institution)
 def do_index_institutions_upon_institution_save(sender, instance, **kwargs):
     index_institution.delay(instance.id)
-
 
 @receiver([post_save, post_delete], sender=InstitutionHierarchicalRelationship)
 def do_index_institutions_upon_hierarchical_relationship_save(sender, instance, **kwargs):
@@ -26,5 +23,3 @@ def do_index_institutions_upon_historical_relationship_save(sender, instance, **
     institution_target = instance.institution_target
     index_institution.delay(institution_source.id)
     index_institution.delay(institution_target.id)
-
-
