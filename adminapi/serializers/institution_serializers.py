@@ -26,13 +26,13 @@ class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelS
         fields = ['id', 'agency', 'identifier', 'resource', 'note', 'identifier_valid_from', 'identifier_valid_to']
 
 
-class InstitutionNameVersionSerializer(serializers.ModelSerializer):
+class InstitutionNameVersionSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = InstitutionNameVersion
         fields = ['id', 'name', 'transliteration']
 
 
-class InstitutionNameSerializer(WritableNestedModelSerializer):
+class InstitutionNameSerializer(UniqueFieldsMixin, WritableNestedModelSerializer):
     alternative_names = InstitutionNameVersionSerializer(many=True, source='institutionnameversion_set', required=False)
 
     class Meta:

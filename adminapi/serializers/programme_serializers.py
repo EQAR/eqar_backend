@@ -1,11 +1,11 @@
-from drf_writable_nested import WritableNestedModelSerializer
+from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import QFEHEALevelSelectSerializer
 from programmes.models import Programme, ProgrammeName
 
 
-class ProgrammeAlternativeNameSerializer(serializers.ModelSerializer):
+class ProgrammeAlternativeNameSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     name_alternative = serializers.CharField(max_length=200, source='name', required=False)
     qualification_alternative = serializers.CharField(max_length=200, source='qualification',
                                                       allow_blank=True, required=False)

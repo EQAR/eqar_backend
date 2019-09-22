@@ -6,33 +6,40 @@ from drf_yasg.inspectors import NotHandled, CoreAPICompatInspector
 class ReportSearchInspector(CoreAPICompatInspector):
     fields = {
         'query': {
-            'description': 'Search string to search in institution names, countries and cities.',
+            'description': 'Search string to search in institution and programme names, countries and cities.',
             'type': 'string'
         },
         'agency': {
-            'description': 'Acronym of an agency. The resultset contains institutions, '
-                           'about which agencies were submitting reports.',
+            'description': 'Acronym of an agency. The resultset contains reports, '
+                           'submitted by the name the agency.',
             'type': 'string'
         },
         'country': {
-            'description': 'Name of a country. The resultset contains institutions located in the selected countries or'
-                           'a programme (from a report) was listed in the submitted country.',
+            'description': 'Name of a country. The resultset contains reports submitted for an institution located '
+                           'in the selected countries or'
+                           'for a programme (from a report) was listed in the submitted country.',
+            'type': 'string'
+        },
+        'activity': {
+            'description': 'Name of an activity. The resultset contains reports submitted under the defined activity.',
             'type': 'string'
         },
         'activity_type': {
-            'description': 'Activity type, under the report was submitted.',
+            'description': 'Name of an activity type. The resultset contains reports submitted '
+                           'under the defined activity type.',
             'type': 'string'
         },
-        'flag': {
-            'description': 'Flag level raised after ingest.',
+        'status': {
+            'description': 'Name of an agency status. The resultset contains reports '
+                           'submitted by agencies with the defined status.',
             'type': 'string'
         },
         'active': {
-            'description': 'Shows only reports, which are currently active.',
+            'description': 'Shows only reports, which are currently valid.',
             'type': 'boolean'
         },
         'year': {
-            'description': 'Shows only reports, which were active in the written year.',
+            'description': 'Shows only reports, which were valid in the written year.',
             'type': 'string'
         },
         'ordering': {
