@@ -1,9 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from institutions.models import InstitutionName, Institution, InstitutionIdentifier, InstitutionNameVersion, \
-    InstitutionCountry, InstitutionQFEHEALevel, InstitutionETERRecord, InstitutionHierarchicalRelationship, \
-    InstitutionHistoricalRelationship
+from institutions.models import Institution, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
 from institutions.tasks import index_institution
 
 

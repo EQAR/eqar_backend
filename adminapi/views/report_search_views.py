@@ -40,7 +40,7 @@ class ReportList(ListAPIView):
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = ReportFilterClass
-    core = getattr(settings, "SOLR_CORE_REPORTS_ALL", "deqar-reports-all")
+    core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
 
     def list(self, request, request_type, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
@@ -57,7 +57,7 @@ class ReportList(ListAPIView):
             submitting_agency = userprofile.submitting_agency
 
             if submitting_agency.agency:
-                filters_or.append({'agency': submitting_agency.agency.acronym_primary})
+                filters_or.append({'agency_facet': submitting_agency.agency.acronym_primary})
 
         date_filters = []
         qf = [
@@ -76,10 +76,13 @@ class ReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,local_id,agency,country,activity,institution_programme_primary,valid_from,valid_to,'
+            'fl': 'id,local_id,'
+                  'agency_acronym,country,agency_esg_activity,agency_esg_activity_type,'
+                  'institution_programme_primary,valid_from,valid_to,'
                   'flag_level,score,date_created,date_updated',
             'facet': True,
-            'facet_fields': ['country', 'flag_level', 'agency', 'activity'],
+            'facet_fields': ['country_facet', 'flag_level_facet', 'agency_facet',
+                             'activity_facet', 'activity_type_facet'],
             'facet_sort': 'index'
         }
 
@@ -87,7 +90,7 @@ class ReportList(ListAPIView):
         local_id = request.query_params.get('local_id', None)
         agency = request.query_params.get('agency', None)
         country = request.query_params.get('country', None)
-        activity = request.query_params.get('activity', None)
+        activity_type = request.query_params.get('activity_type', None)
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
@@ -98,13 +101,13 @@ class ReportList(ListAPIView):
         if local_id:
             filters.append({'local_id': local_id})
         if agency:
-            filters.append({'agency': agency})
+            filters.append({'agency_facet': agency})
         if country:
-            filters.append({'country': country})
-        if activity:
-            filters.append({'activity': activity})
+            filters.append({'country_facet': country})
+        if activity_type:
+            filters.append({'activity_type_facet': activity_type})
         if flag:
-            filters.append({'flag_level': flag})
+            filters.append({'flag_level_facet': flag})
         if active:
             if active == 'true':
                 now = datetime.datetime.now().replace(microsecond=0).isoformat()
