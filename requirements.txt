@@ -25,14 +25,14 @@ django-suit==0.2.26
 django-suit-ckeditor==0.0.2
 django-templated-mail==1.1.1
 django-unused-media==0.1.12
-djangorestframework==3.9.4
+djangorestframework<3.10
 djangorestframework-filters==0.10.2
 djoser==1.2.2
 docopt==0.6.2
 docutils==0.14
 drf-rw-serializers==1.0.1
 drf-writable-nested==0.5.1
-drf-yasg==1.10.0
+drf-yasg>=1.10.0
 flex==6.13.2
 future==0.16.0
 gunicorn==19.7.1

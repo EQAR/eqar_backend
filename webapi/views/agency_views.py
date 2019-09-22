@@ -5,7 +5,6 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
-from rest_framework.response import Response
 
 from agencies.models import Agency, AgencyEQARDecision
 from webapi.inspectors.agency_list_inspector import AgencyListInspector

@@ -32,3 +32,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Brussels'
 
 USE_TZ = False
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'accounts.serializers.CurrentUserSerializer',
+    },
+}

@@ -84,13 +84,17 @@ class CountryListByReports(generics.ListAPIView):
 
         sql = '''
             SELECT
-            id, iso_3166_alpha2, iso_3166_alpha3, ehea_is_member, name_english, COUNT(institution_id) as inst_count
+            id, iso_3166_alpha2, iso_3166_alpha3, ehea_is_member, name_english, 
+            has_full_institution_list, ehea_key_commitment_id,
+            COUNT(institution_id) as inst_count
             FROM
             (SELECT DISTINCT deqar_countries."id",
                 deqar_countries.iso_3166_alpha2,
                 deqar_countries.iso_3166_alpha3,
                 deqar_countries.ehea_is_member,
                 deqar_countries.name_english,
+                deqar_countries.has_full_institution_list,
+                deqar_countries.ehea_key_commitment_id,                
                 deqar_institution_countries.institution_id
             FROM deqar_countries
                 INNER JOIN deqar_institution_countries ON
@@ -105,9 +109,12 @@ class CountryListByReports(generics.ListAPIView):
                 deqar_countries.iso_3166_alpha2,
                 deqar_countries.iso_3166_alpha3,
                 deqar_countries.name_english,
+                deqar_countries.has_full_institution_list,
+                deqar_countries.ehea_key_commitment_id, 
                 deqar_institution_countries.institution_id
             ORDER BY name_english) AS filtered_countries
-            GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english, ehea_is_member
+            GROUP BY id, iso_3166_alpha2, iso_3166_alpha3, name_english, 
+                has_full_institution_list, ehea_key_commitment_id, ehea_is_member
             ORDER BY name_english
         '''
 

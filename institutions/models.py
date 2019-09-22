@@ -1,4 +1,6 @@
 import datetime
+
+from django.contrib.auth.models import User
 from django.db import models
 
 from lists.models import Flag
@@ -21,6 +23,12 @@ class Institution(models.Model):
     flag_log = models.TextField(blank=True)
     name_sort = models.CharField(max_length=500, blank=True)
     has_report = models.BooleanField(default=0)
+
+    other_comment = models.TextField(blank=True)
+    internal_note = models.TextField(blank=True)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name_primary
@@ -76,6 +84,7 @@ class Institution(models.Model):
 
     class Meta:
         db_table = 'deqar_institutions'
+        verbose_name = 'Institution'
         ordering = ('name_primary',)
         indexes = [
             models.Index(fields=['deqar_id']),
@@ -93,11 +102,13 @@ class InstitutionIdentifier(models.Model):
     identifier = models.CharField(max_length=50)
     agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.SET_NULL)
     resource = models.CharField(max_length=200, blank=True)
+    note = models.TextField(blank=True)
     identifier_valid_from = models.DateField(default=datetime.date.today)
     identifier_valid_to = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_institution_identifiers'
+        verbose_name = 'Institution Identifier'
         indexes = [
             models.Index(fields=['identifier_valid_to']),
         ]
@@ -163,6 +174,7 @@ class InstitutionNameVersion(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_name_versions'
+        verbose_name = 'Institution Name Version'
         indexes = [
             models.Index(fields=['name']),
             models.Index(fields=['transliteration']),
@@ -196,6 +208,7 @@ class InstitutionCountry(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_countries'
+        verbose_name = 'Institution Country'
         indexes = [
             models.Index(fields=['city']),
             models.Index(fields=['country_valid_to']),
@@ -228,6 +241,7 @@ class InstitutionNQFLevel(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_nqf_levels'
+        verbose_name = 'Institution NQF Level'
         indexes = [
             models.Index(fields=['nqf_level_valid_to']),
         ]
@@ -260,6 +274,7 @@ class InstitutionQFEHEALevel(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'
+        verbose_name = 'Institution QF-EHEA Level'
         indexes = [
             models.Index(fields=['qf_ehea_level_valid_to']),
         ]
@@ -383,9 +398,32 @@ class InstitutionHistoricalField(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_historical_fields'
+        verbose_name = 'Institution Historical Field'
         indexes = [
             models.Index(fields=['field']),
         ]
+
+
+class InstitutionFlag(models.Model):
+    """
+    Flags belonging to an institution
+    """
+    id = models.AutoField(primary_key=True)
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    flag = models.ForeignKey('lists.Flag', on_delete=models.PROTECT)
+    flag_message = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
+    removed_by_eqar = models.BooleanField(default=False)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'deqar_institution_flags'
+        verbose_name = 'Institution Flag'
+        ordering = ['id', 'flag__id']
+        unique_together = ['institution', 'flag_message']
 
 
 class InstitutionHistoricalData(models.Model):
@@ -402,6 +440,23 @@ class InstitutionHistoricalData(models.Model):
 
     class Meta:
         db_table = 'deqar_institution_historical_data'
+        verbose_name = 'Institution Historical Data'
         indexes = [
             models.Index(fields=['valid_to']),
         ]
+
+
+class InstitutionUpdateLog(models.Model):
+    """
+    Updates happened with a report
+    """
+    id = models.AutoField(primary_key=True)
+    institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='institutions_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_institution_update_log'
+        verbose_name = 'Institution Update Log'

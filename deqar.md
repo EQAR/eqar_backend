@@ -10,32 +10,32 @@
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|deqar id |deqar_id |integer | | | | | |
-|name primary |name_primary |varchar(200) | | | |Blank | |
-|acronym primary |acronym_primary |varchar(20) | | | |Blank | |
-|contact person |contact_person |varchar(150) | | | | | |
-|fax |fax |varchar(20) | | | |Blank | |
-|address |address |text | | | | | |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|website link |website_link |varchar(100) | | | | | |
-|logo |logo |varchar(100) | | | |Both | |
-|geographical focus |geographical_focus |integer | | |True |Both |FK:agencies.models.AgencyGeographicalFocus |
-|specialisation note |specialisation_note |text | | | |Blank | |
-|reports link |reports_link |varchar(200) | | | |Both | |
-|description note |description_note |text | | | | | |
-|is registered |is_registered |boolean | | | | | |
-|registration start |registration_start |date | | | | | |
-|registration valid to |registration_valid_to |date | | | | | |
-|registration note |registration_note |text | | | |Blank | |
-|flag |flag |integer | | |True | |FK:lists.models.Flag |
-|flag log |flag_log |text | | | |Blank | |
-|related agencies |related_agencies | | | | | |M2M:agencies.models.Agency (through: agencies.models.AgencyRelationship) |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|deqar_id |integer | | | | | |
+|name_primary |varchar(200) | | | |Blank | |
+|acronym_primary |varchar(20) | | | |Blank | |
+|contact_person |varchar(150) | | | | | |
+|fax |varchar(20) | | | |Blank | |
+|address |text | | | | | |
+|country |integer | | |True | |FK:countries.models.Country |
+|website_link |varchar(100) | | | | | |
+|logo |varchar(100) | | | |Both | |
+|geographical_focus |integer | | |True |Both |FK:agencies.models.AgencyGeographicalFocus |
+|specialisation_note |text | | | |Blank | |
+|reports_link |varchar(200) | | | |Both | |
+|description_note |text | | | | | |
+|is_registered |boolean | | | |Blank | |
+|registration_start |date | | | | | |
+|registration_valid_to |date | | | | | |
+|registration_note |text | | | |Blank | |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_log |text | | | |Blank | |
+|related_agencies | | | | | |M2M:agencies.models.Agency (through: agencies.models.AgencyRelationship) |
 
 
-## agency geographical focus(agencies.models.AgencyGeographicalFocus)
+## Agency Geographical Focus(agencies.models.AgencyGeographicalFocus)
 
 ```
 
@@ -43,10 +43,10 @@
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|focus |focus |varchar(20) | |True | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|focus |varchar(20) | |True | | | |
 
 
 ## Agency Name(agencies.models.AgencyName)
@@ -57,15 +57,15 @@
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|name note |name_note |text | | | |Blank | |
-|name valid to |name_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|name_note |text | | | |Blank | |
+|name_valid_to |date | | | |Both | |
 
 
-## agency name version(agencies.models.AgencyNameVersion)
+## Agency Name Version(agencies.models.AgencyNameVersion)
 
 ```
 
@@ -73,19 +73,19 @@
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency name |agency_name |integer | | |True | |FK:agencies.models.AgencyName |
-|name |name |varchar(200) | | | | | |
-|name transliterated |name_transliterated |varchar(200) | | | |Blank | |
-|name is primary |name_is_primary |boolean | | | | | |
-|acronym |acronym |varchar(20) | | | |Blank | |
-|acronym transliterated |acronym_transliterated |varchar(20) | | | |Blank | |
-|acronym is primary |acronym_is_primary |boolean | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency_name |integer | | |True | |FK:agencies.models.AgencyName |
+|name |varchar(200) | | | | | |
+|name_transliterated |varchar(200) | | | |Blank | |
+|name_is_primary |boolean | | | |Blank | |
+|acronym |varchar(20) | | | |Blank | |
+|acronym_transliterated |varchar(20) | | | |Blank | |
+|acronym_is_primary |boolean | | | |Blank | |
 
 
-## agency phone(agencies.models.AgencyPhone)
+## Agency Phone(agencies.models.AgencyPhone)
 
 ```
 
@@ -93,11 +93,11 @@
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|phone |phone |varchar(20) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|phone |varchar(20) | | | | | |
 
 Options
 ```
@@ -105,7 +105,7 @@ unique_together : (('agency', 'phone'),)
 ```
 
 
-## agency email(agencies.models.AgencyEmail)
+## Agency Email(agencies.models.AgencyEmail)
 
 ```
 
@@ -113,11 +113,11 @@ unique_together : (('agency', 'phone'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|email |email |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|email |varchar(50) | | | | | |
 
 Options
 ```
@@ -125,7 +125,7 @@ unique_together : (('agency', 'email'),)
 ```
 
 
-## agency focus country(agencies.models.AgencyFocusCountry)
+## Agency Focus Country(agencies.models.AgencyFocusCountry)
 
 ```
 
@@ -134,15 +134,15 @@ unique_together : (('agency', 'email'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|country is official |country_is_official |boolean | | | | | |
-|country is crossborder |country_is_crossborder |boolean | | | | | |
-|country valid from |country_valid_from |date | | | | | |
-|country valid to |country_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|country |integer | | |True | |FK:countries.models.Country |
+|country_is_official |boolean | | | |Blank | |
+|country_is_crossborder |boolean | | | |Blank | |
+|country_valid_from |date | | | | | |
+|country_valid_to |date | | | |Both | |
 
 Options
 ```
@@ -150,7 +150,7 @@ unique_together : (('agency', 'country'),)
 ```
 
 
-## agency esg activity(agencies.models.AgencyESGActivity)
+## Agency ESG Activity(agencies.models.AgencyESGActivity)
 
 ```
 
@@ -158,21 +158,21 @@ unique_together : (('agency', 'country'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|activity |activity |varchar(500) | | | | | |
-|activity display |activity_display |varchar(500) | | | |Both | |
-|activity local identifier |activity_local_identifier |varchar(100) | | | |Blank | |
-|activity description |activity_description |varchar(300) | | | |Blank | |
-|activity type |activity_type |integer | | |True | |FK:agencies.models.AgencyActivityType |
-|reports link |reports_link |varchar(200) | | | |Both | |
-|activity valid from |activity_valid_from |date | | | | | |
-|activity valid to |activity_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|activity |varchar(500) | | | | | |
+|activity_display |varchar(500) | | | |Both | |
+|activity_local_identifier |varchar(100) | | | |Blank | |
+|activity_description |varchar(300) | | | |Blank | |
+|activity_type |integer | | |True | |FK:agencies.models.AgencyActivityType |
+|reports_link |varchar(200) | | | |Both | |
+|activity_valid_from |date | | | | | |
+|activity_valid_to |date | | | |Both | |
 
 
-## agency activity type(agencies.models.AgencyActivityType)
+## Agency Activity Type(agencies.models.AgencyActivityType)
 
 ```
 
@@ -180,13 +180,13 @@ unique_together : (('agency', 'country'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|type |type |varchar(30) | |True | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|type |varchar(30) | |True | | | |
 
 
-## agency relationship(agencies.models.AgencyRelationship)
+## Agency Relationship(agencies.models.AgencyRelationship)
 
 ```
 
@@ -194,13 +194,13 @@ unique_together : (('agency', 'country'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|from agency |from_agency |integer | | |True | |FK:agencies.models.Agency |
-|to agency |to_agency |integer | | |True | |FK:agencies.models.Agency |
-|note |note |text | | | | | |
-|date |date |date | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|from_agency |integer | | |True | |FK:agencies.models.Agency |
+|to_agency |integer | | |True | |FK:agencies.models.Agency |
+|note |text | | | | | |
+|date |date | | | | | |
 
 Options
 ```
@@ -208,7 +208,7 @@ unique_together : (('from_agency', 'to_agency'),)
 ```
 
 
-## agency membership(agencies.models.AgencyMembership)
+## Agency Membership(agencies.models.AgencyMembership)
 
 ```
 
@@ -216,13 +216,13 @@ unique_together : (('from_agency', 'to_agency'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|association |association |integer | | |True | |FK:lists.models.Association |
-|membership valid from |membership_valid_from |date | | | | | |
-|membership valid to |membership_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|association |integer | | |True | |FK:lists.models.Association |
+|membership_valid_from |date | | | | | |
+|membership_valid_to |date | | | |Both | |
 
 Options
 ```
@@ -230,7 +230,7 @@ unique_together : (('agency', 'association'),)
 ```
 
 
-## agency eqar decision(agencies.models.AgencyEQARDecision)
+## Agency EQAR Decision(agencies.models.AgencyEQARDecision)
 
 ```
 
@@ -238,14 +238,14 @@ unique_together : (('agency', 'association'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|decision date |decision_date |date | | | | | |
-|decision type |decision_type |integer | | |True | |FK:lists.models.EQARDecisionType |
-|decision file |decision_file |varchar(100) | | | | | |
-|decision file extra |decision_file_extra |varchar(100) | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|decision_date |date | | | | | |
+|decision_type |integer | | |True | |FK:lists.models.EQARDecisionType |
+|decision_file |varchar(100) | | | | | |
+|decision_file_extra |varchar(100) | | | |Blank | |
 
 
 ## Submitting Agency(agencies.models.SubmittingAgency)
@@ -256,17 +256,17 @@ unique_together : (('agency', 'association'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True |Both |FK:agencies.models.Agency |
-|external agency |external_agency |varchar(200) | | | |Blank | |
-|external agency acronym |external_agency_acronym |varchar(20) | | | |Blank | |
-|registration from |registration_from |date | | | | | |
-|registration to |registration_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True |Both |FK:agencies.models.Agency |
+|external_agency |varchar(200) | | | |Blank | |
+|external_agency_acronym |varchar(20) | | | |Blank | |
+|registration_from |date | | | | | |
+|registration_to |date | | | |Both | |
 
 
-## agency proxy(agencies.models.AgencyProxy)
+## Agency Proxy(agencies.models.AgencyProxy)
 
 ```
 
@@ -274,13 +274,13 @@ unique_together : (('agency', 'association'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|submitting agency |submitting_agency |integer | | |True | |FK:agencies.models.SubmittingAgency |
-|allowed agency |allowed_agency |integer | | |True | |FK:agencies.models.Agency |
-|proxy from |proxy_from |date | | | | | |
-|proxy to |proxy_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|submitting_agency |integer | | |True | |FK:agencies.models.SubmittingAgency |
+|allowed_agency |integer | | |True | |FK:agencies.models.Agency |
+|proxy_from |date | | | | | |
+|proxy_to |date | | | |Both | |
 
 Options
 ```
@@ -288,7 +288,7 @@ unique_together : (('submitting_agency', 'allowed_agency'),)
 ```
 
 
-## agency historical field(agencies.models.AgencyHistoricalField)
+## Agency Historical Field(agencies.models.AgencyHistoricalField)
 
 ```
 
@@ -297,13 +297,13 @@ unique_together : (('submitting_agency', 'allowed_agency'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|field |field |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|field |varchar(50) | | | | | |
 
 
-## agency historical data(agencies.models.AgencyHistoricalData)
+## Agency Historical Data(agencies.models.AgencyHistoricalData)
 
 ```
 
@@ -312,15 +312,15 @@ unique_together : (('submitting_agency', 'allowed_agency'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|field |field |integer | | |True | |FK:agencies.models.AgencyHistoricalField |
-|record id |record_id |integer | | | |Both | |
-|value |value |varchar(200) | | | | | |
-|valid from |valid_from |date | | | |Both | |
-|valid to |valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|field |integer | | |True | |FK:agencies.models.AgencyHistoricalField |
+|record_id |integer | | | |Both | |
+|value |varchar(200) | | | | | |
+|valid_from |date | | | |Both | |
+|valid_to |date | | | |Both | |
 
 
 ## Country(countries.models.Country)
@@ -332,45 +332,45 @@ unique_together : (('submitting_agency', 'allowed_agency'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|iso 3166 alpha2 |iso_3166_alpha2 |varchar(2) | | | | | |
-|iso 3166 alpha3 |iso_3166_alpha3 |varchar(3) | | | | | |
-|name english |name_english |varchar(100) | |True | | | |
-|ehea is member |ehea_is_member |boolean | | | | | |
-|eqar governmental member start |eqar_governmental_member_start |date | | | |Both | |
-|qa requirement note |qa_requirement_note |text | | | |Blank | |
-|external QAA is permitted |external_QAA_is_permitted |integer | | |True | |FK:lists.models.PermissionType |
-|external QAA note |external_QAA_note |text | | | |Both | |
-|eligibility |eligibility |text | | | |Both | |
-|conditions |conditions |text | | | |Both | |
-|recognition |recognition |text | | | |Both | |
-|european approach is permitted |european_approach_is_permitted |integer | | |True | |FK:lists.models.PermissionType |
-|european approach note |european_approach_note |text | | | |Both | |
-|general note |general_note |text | | | |Blank | |
-|flag |flag |integer | | |True | |FK:lists.models.Flag |
-|flag log |flag_log |text | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|iso_3166_alpha2 |varchar(2) | | | | | |
+|iso_3166_alpha3 |varchar(3) | | | | | |
+|name_english |varchar(100) | |True | | | |
+|ehea_is_member |boolean | | | |Blank | |
+|eqar_governmental_member_start |date | | | |Both | |
+|qa_requirement_note |text | | | |Blank | |
+|external_QAA_is_permitted |integer | | |True | |FK:lists.models.PermissionType |
+|external_QAA_note |text | | | |Both | |
+|eligibility |text | | | |Both | |
+|conditions |text | | | |Both | |
+|recognition |text | | | |Both | |
+|european_approach_is_permitted |integer | | |True | |FK:lists.models.PermissionType |
+|european_approach_note |text | | | |Both | |
+|general_note |text | | | |Blank | |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_log |text | | | |Blank | |
 
 
-## country qa requirement(countries.models.CountryQARequirement)
+## Country QA Requirement(countries.models.CountryQARequirement)
 
 ```
 CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requirement_note, requirement_valid_from, requirement_valid_to)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|qa requirement |qa_requirement |varchar(200) | | | | | |
-|qa requirement type |qa_requirement_type |integer | | |True | |FK:countries.models.CountryQARequirementType |
-|qa requirement note |qa_requirement_note |text | | | |Blank | |
-|requirement valid from |requirement_valid_from |date | | | | | |
-|requirement valid to |requirement_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|country |integer | | |True | |FK:countries.models.Country |
+|qa_requirement |varchar(200) | | | | | |
+|qa_requirement_type |integer | | |True | |FK:countries.models.CountryQARequirementType |
+|qa_requirement_note |text | | | |Blank | |
+|requirement_valid_from |date | | | | | |
+|requirement_valid_to |date | | | |Both | |
 
 
-## country qa requirement type(countries.models.CountryQARequirementType)
+## Country QA Requirement Type(countries.models.CountryQARequirementType)
 
 ```
 
@@ -378,13 +378,13 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|qa requirement type |qa_requirement_type |varchar(200) | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|qa_requirement_type |varchar(200) | | | |Blank | |
 
 
-## country qaa regulation(countries.models.CountryQAARegulation)
+## Country QAA Regulation(countries.models.CountryQAARegulation)
 
 ```
 
@@ -392,17 +392,17 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|regulation |regulation |varchar(200) | | | |Blank | |
-|regulation url |regulation_url |varchar(200) | | | |Blank | |
-|regulation valid from |regulation_valid_from |date | | | | | |
-|regulation valid to |regulation_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|country |integer | | |True | |FK:countries.models.Country |
+|regulation |varchar(200) | | | |Blank | |
+|regulation_url |varchar(200) | | | |Blank | |
+|regulation_valid_from |date | | | | | |
+|regulation_valid_to |date | | | |Both | |
 
 
-## country historical field(countries.models.CountryHistoricalField)
+## Country Historical Field(countries.models.CountryHistoricalField)
 
 ```
 
@@ -410,13 +410,13 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|field |field |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|field |varchar(50) | | | | | |
 
 
-## country historical data(countries.models.CountryHistoricalData)
+## Country Historical Data(countries.models.CountryHistoricalData)
 
 ```
 
@@ -424,18 +424,18 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|field |field |integer | | |True | |FK:countries.models.CountryHistoricalField |
-|record id |record_id |integer | | | |Both | |
-|value |value |varchar(200) | | | | | |
-|valid from |valid_from |date | | | |Both | |
-|valid to |valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|country |integer | | |True | |FK:countries.models.Country |
+|field |integer | | |True | |FK:countries.models.CountryHistoricalField |
+|record_id |integer | | | |Both | |
+|value |varchar(200) | | | | | |
+|valid_from |date | | | |Both | |
+|valid_to |date | | | |Both | |
 
 
-## institution(institutions.models.Institution)
+## Institution(institutions.models.Institution)
 
 ```
 
@@ -443,24 +443,27 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|deqar id |deqar_id |varchar(25) | | | |Blank | |
-|eter |eter |integer | | |True |Both |FK:institutions.models.InstitutionETERRecord |
-|name primary |name_primary |varchar(200) | | | |Blank | |
-|website link |website_link |varchar(150) | | | | | |
-|founding date |founding_date |date | | | |Both | |
-|closure date |closure_date |date | | | |Both | |
-|national identifier |national_identifier |varchar(50) | | | |Both | |
-|source note |source_note |text | | | |Blank | |
-|flag |flag |integer | | |True | |FK:lists.models.Flag |
-|flag log |flag_log |text | | | |Blank | |
-|name sort |name_sort |varchar(500) | | | |Blank | |
-|has report |has_report |boolean | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|deqar_id |varchar(25) | | | |Blank | |
+|eter |integer | | |True |Both |FK:institutions.models.InstitutionETERRecord |
+|name_primary |varchar(200) | | | |Blank | |
+|website_link |varchar(150) | | | | | |
+|founding_date |date | | | |Both | |
+|closure_date |date | | | |Both | |
+|national_identifier |varchar(50) | | | |Both | |
+|source_note |text | | | |Blank | |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_log |text | | | |Blank | |
+|name_sort |varchar(500) | | | |Blank | |
+|has_report |boolean | | | |Blank | |
+|other_comment |text | | | |Blank | |
+|internal_note |text | | | |Blank | |
+|created_at |timestamp with time zone | | | |Blank | |
 
 
-## institution identifier(institutions.models.InstitutionIdentifier)
+## Institution Identifier(institutions.models.InstitutionIdentifier)
 
 ```
 
@@ -468,15 +471,16 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|identifier |identifier |varchar(50) | | | | | |
-|agency |agency |integer | | |True |Both |FK:agencies.models.Agency |
-|resource |resource |varchar(200) | | | |Blank | |
-|identifier valid from |identifier_valid_from |date | | | | | |
-|identifier valid to |identifier_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|identifier |varchar(50) | | | | | |
+|agency |integer | | |True |Both |FK:agencies.models.Agency |
+|resource |varchar(200) | | | |Blank | |
+|note |text | | | |Blank | |
+|identifier_valid_from |date | | | | | |
+|identifier_valid_to |date | | | |Both | |
 
 Options
 ```
@@ -492,19 +496,19 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|name official |name_official |varchar(200) | | | | | |
-|name official transliterated |name_official_transliterated |varchar(200) | | | |Blank | |
-|name english |name_english |varchar(200) | | | |Blank | |
-|acronym |acronym |varchar(30) | | | |Blank | |
-|name source note |name_source_note |text | | | |Blank | |
-|name valid to |name_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|name_official |varchar(200) | | | | | |
+|name_official_transliterated |varchar(200) | | | |Blank | |
+|name_english |varchar(200) | | | |Blank | |
+|acronym |varchar(30) | | | |Blank | |
+|name_source_note |text | | | |Blank | |
+|name_valid_to |date | | | |Both | |
 
 
-## institution name version(institutions.models.InstitutionNameVersion)
+## Institution Name Version(institutions.models.InstitutionNameVersion)
 
 ```
 
@@ -512,17 +516,17 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution name |institution_name |integer | | |True | |FK:institutions.models.InstitutionName |
-|name |name |varchar(200) | | | | | |
-|transliteration |transliteration |varchar(200) | | | |Blank | |
-|name version source |name_version_source |varchar(20) | | | |Blank | |
-|name version source note |name_version_source_note |text | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution_name |integer | | |True | |FK:institutions.models.InstitutionName |
+|name |varchar(200) | | | | | |
+|transliteration |varchar(200) | | | |Blank | |
+|name_version_source |varchar(20) | | | |Blank | |
+|name_version_source_note |text | | | |Blank | |
 
 
-## institution country(institutions.models.InstitutionCountry)
+## Institution Country(institutions.models.InstitutionCountry)
 
 ```
 
@@ -530,22 +534,22 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|country |country |integer | | |True | |FK:countries.models.Country |
-|city |city |varchar(100) | | | |Both | |
-|lat |lat |double precision | | | |Both | |
-|long |long |double precision | | | |Both | |
-|country source |country_source |varchar(20) | | | | | |
-|country source note |country_source_note |text | | | |Blank | |
-|country valid from |country_valid_from |date | | | | | |
-|country valid to |country_valid_to |date | | | |Both | |
-|country verified |country_verified |boolean | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|country |integer | | |True | |FK:countries.models.Country |
+|city |varchar(100) | | | |Both | |
+|lat |double precision | | | |Both | |
+|long |double precision | | | |Both | |
+|country_source |varchar(20) | | | | | |
+|country_source_note |text | | | |Blank | |
+|country_valid_from |date | | | | | |
+|country_valid_to |date | | | |Both | |
+|country_verified |boolean | | | |Blank | |
 
 
-## institution nqf level(institutions.models.InstitutionNQFLevel)
+## Institution NQF Level(institutions.models.InstitutionNQFLevel)
 
 ```
 
@@ -553,18 +557,18 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|nqf level |nqf_level |varchar(10) | | | | | |
-|nqf level source |nqf_level_source |varchar(20) | | | | | |
-|nqf level source note |nqf_level_source_note |text | | | |Blank | |
-|nqf level valid from |nqf_level_valid_from |date | | | | | |
-|nqf level valid to |nqf_level_valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|nqf_level |varchar(10) | | | | | |
+|nqf_level_source |varchar(20) | | | | | |
+|nqf_level_source_note |text | | | |Blank | |
+|nqf_level_valid_from |date | | | | | |
+|nqf_level_valid_to |date | | | |Both | |
 
 
-## institution qfehea level(institutions.models.InstitutionQFEHEALevel)
+## Institution QF-EHEA Level(institutions.models.InstitutionQFEHEALevel)
 
 ```
 
@@ -572,16 +576,16 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|qf ehea level |qf_ehea_level |integer | | |True | |FK:lists.models.QFEHEALevel |
-|qf ehea level source |qf_ehea_level_source |varchar(20) | | | | | |
-|qf ehea level source note |qf_ehea_level_source_note |text | | | |Blank | |
-|qf ehea level valid from |qf_ehea_level_valid_from |date | | | | | |
-|qf ehea level valid to |qf_ehea_level_valid_to |date | | | |Both | |
-|qf ehea level verified |qf_ehea_level_verified |boolean | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|qf_ehea_level |integer | | |True | |FK:lists.models.QFEHEALevel |
+|qf_ehea_level_source |varchar(20) | | | | | |
+|qf_ehea_level_source_note |text | | | |Blank | |
+|qf_ehea_level_valid_from |date | | | | | |
+|qf_ehea_level_valid_to |date | | | |Both | |
+|qf_ehea_level_verified |boolean | | | |Blank | |
 
 
 ## ETER Record(institutions.models.InstitutionETERRecord)
@@ -592,24 +596,24 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|eter id |eter_id |varchar(15) | | | | | |
-|national identifier |national_identifier |varchar(20) | | | | | |
-|name |name |varchar(200) | | | | | |
-|name english |name_english |varchar(200) | | | |Blank | |
-|acronym |acronym |varchar(30) | | | |Blank | |
-|country |country |varchar(3) | | | | | |
-|city |city |varchar(100) | | | |Blank | |
-|lat |lat |double precision | | | |Both | |
-|long |long |double precision | | | |Both | |
-|website |website |varchar(200) | | | | | |
-|ISCED lowest |ISCED_lowest |varchar(10) | | | | | |
-|ISCED highest |ISCED_highest |varchar(10) | | | | | |
-|valid from year |valid_from_year |date | | | | | |
-|data updated |data_updated |date | | | | | |
-|eter link |eter_link |varchar(200) | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|eter_id |varchar(15) | | | | | |
+|national_identifier |varchar(20) | | | | | |
+|name |varchar(200) | | | | | |
+|name_english |varchar(200) | | | |Blank | |
+|acronym |varchar(30) | | | |Blank | |
+|country |varchar(3) | | | | | |
+|city |varchar(100) | | | |Blank | |
+|lat |double precision | | | |Both | |
+|long |double precision | | | |Both | |
+|website |varchar(200) | | | | | |
+|ISCED_lowest |varchar(10) | | | | | |
+|ISCED_highest |varchar(10) | | | | | |
+|valid_from_year |date | | | | | |
+|data_updated |date | | | | | |
+|eter_link |varchar(200) | | | |Blank | |
 
 
 ## Institution Historical Relationship Type(institutions.models.InstitutionHistoricalRelationshipType)
@@ -620,11 +624,11 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|type from |type_from |varchar(200) | | | | | |
-|type to |type_to |varchar(200) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|type_from |varchar(200) | | | | | |
+|type_to |varchar(200) | | | | | |
 
 
 ## Institution Historical Relationship(institutions.models.InstitutionHistoricalRelationship)
@@ -635,14 +639,14 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution source |institution_source |integer | | |True | |FK:institutions.models.Institution |
-|institution target |institution_target |integer | | |True | |FK:institutions.models.Institution |
-|relationship type |relationship_type |integer | | |True | |FK:institutions.models.InstitutionHistoricalRelationshipType |
-|relationship note |relationship_note |varchar(300) | | | |Both | |
-|relationship date |relationship_date |date | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution_source |integer | | |True | |FK:institutions.models.Institution |
+|institution_target |integer | | |True | |FK:institutions.models.Institution |
+|relationship_type |integer | | |True | |FK:institutions.models.InstitutionHistoricalRelationshipType |
+|relationship_note |varchar(300) | | | |Both | |
+|relationship_date |date | | | | | |
 
 
 ## Institution Hierarchical Relationship(institutions.models.InstitutionHierarchicalRelationship)
@@ -653,17 +657,17 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution parent |institution_parent |integer | | |True | |FK:institutions.models.Institution |
-|institution child |institution_child |integer | | |True | |FK:institutions.models.Institution |
-|relationship note |relationship_note |varchar(300) | | | |Both | |
-|valid from |valid_from |date | | | |Both | |
-|valid to |valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution_parent |integer | | |True | |FK:institutions.models.Institution |
+|institution_child |integer | | |True | |FK:institutions.models.Institution |
+|relationship_note |varchar(300) | | | |Both | |
+|valid_from |date | | | |Both | |
+|valid_to |date | | | |Both | |
 
 
-## institution historical field(institutions.models.InstitutionHistoricalField)
+## Institution Historical Field(institutions.models.InstitutionHistoricalField)
 
 ```
 
@@ -671,13 +675,38 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|field |field |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|field |varchar(50) | | | | | |
 
 
-## institution historical data(institutions.models.InstitutionHistoricalData)
+## Institution Flag(institutions.models.InstitutionFlag)
+
+```
+
+    Flags belonging to an institution
+    
+```
+
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_message |text | | | |Blank | |
+|active |boolean | | | |Blank | |
+|removed_by_eqar |boolean | | | |Blank | |
+|created_at |timestamp with time zone | | | |Blank | |
+|updated_at |timestamp with time zone | | | |Blank | |
+
+Options
+```
+unique_together : (('institution', 'flag_message'),)
+```
+
+
+## Institution Historical Data(institutions.models.InstitutionHistoricalData)
 
 ```
 
@@ -685,29 +714,46 @@ unique_together : (('institution', 'agency', 'resource'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
-|field |field |integer | | |True | |FK:institutions.models.InstitutionHistoricalField |
-|record id |record_id |integer | | | |Both | |
-|value |value |varchar(200) | | | | | |
-|valid from |valid_from |date | | | |Both | |
-|valid to |valid_to |date | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|field |integer | | |True | |FK:institutions.models.InstitutionHistoricalField |
+|record_id |integer | | | |Both | |
+|value |varchar(200) | | | | | |
+|valid_from |date | | | |Both | |
+|valid_to |date | | | |Both | |
 
 
-## language(lists.models.Language)
+## Institution Update Log(institutions.models.InstitutionUpdateLog)
+
+```
+
+    Updates happened with a report
+    
+```
+
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|institution |integer | | |True | |FK:institutions.models.Institution |
+|note |text | | | |Both | |
+|updated_at |timestamp with time zone | | | |Blank | |
+|updated_by |integer | | |True |Both |FK:django.contrib.auth.models.User |
+
+
+## Language(lists.models.Language)
 
 ```
 Language(id, iso_639_1, iso_639_2, language_name_en)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|iso 639 1 |iso_639_1 |varchar(10) | | | | | |
-|iso 639 2 |iso_639_2 |varchar(10) | | | |Blank | |
-|language name en |language_name_en |varchar(100) | |True | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|iso_639_1 |varchar(10) | | | | | |
+|iso_639_2 |varchar(10) | | | |Blank | |
+|language_name_en |varchar(100) | |True | | | |
 
 
 ## QF-EHEA level(lists.models.QFEHEALevel)
@@ -716,23 +762,23 @@ Language(id, iso_639_1, iso_639_2, language_name_en)
 QFEHEALevel(id, code, level)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|code |code |integer | | | |Both | |
-|level |level |varchar(20) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|code |integer | | | |Both | |
+|level |varchar(20) | | | | | |
 
 
-## association(lists.models.Association)
+## Association(lists.models.Association)
 
 ```
 Association(id, association)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|association |association |varchar(200) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|association |varchar(200) | | | | | |
 
 
 ## EQAR Decision Type(lists.models.EQARDecisionType)
@@ -741,10 +787,10 @@ Association(id, association)
 EQARDecisionType(id, type)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|type |type |varchar(25) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|type |varchar(25) | | | | | |
 
 
 ## Identifier Resource(lists.models.IdentifierResource)
@@ -753,10 +799,10 @@ EQARDecisionType(id, type)
 IdentifierResource(id, resource)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|resource |resource |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|resource |varchar(50) | | | | | |
 
 
 ## Permission Type(lists.models.PermissionType)
@@ -765,10 +811,10 @@ IdentifierResource(id, resource)
 PermissionType(id, type)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|type |type |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|type |varchar(50) | | | | | |
 
 
 ## Flag(lists.models.Flag)
@@ -777,10 +823,10 @@ PermissionType(id, type)
 Flag(id, flag)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|flag |flag |varchar(20) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|flag |varchar(20) | | | | | |
 
 
 ## programme-country relationship(programmes.models.Programme_countries)
@@ -789,11 +835,11 @@ Flag(id, flag)
 Programme_countries(id, programme, country)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|ID |id |serial |True |True | |Blank | |
-|programme |programme |integer | | |True | |FK:programmes.models.Programme |
-|country |country |integer | | |True | |FK:countries.models.Country |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|programme |integer | | |True | |FK:programmes.models.Programme |
+|country |integer | | |True | |FK:countries.models.Country |
 
 Options
 ```
@@ -801,7 +847,7 @@ unique_together : (('programme', 'country'),)
 ```
 
 
-## programme(programmes.models.Programme)
+## Programmme(programmes.models.Programme)
 
 ```
 
@@ -809,17 +855,17 @@ unique_together : (('programme', 'country'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|report |report |integer | | |True | |FK:reports.models.Report |
-|name primary |name_primary |varchar(255) | | | |Blank | |
-|nqf level |nqf_level |varchar(255) | | | |Blank | |
-|qf ehea level |qf_ehea_level |integer | | |True |Both |FK:lists.models.QFEHEALevel |
-|countries |countries | | | | |Blank |M2M:countries.models.Country (through: programmes.models.Programme_countries) |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|name_primary |varchar(255) | | | |Blank | |
+|nqf_level |varchar(255) | | | |Blank | |
+|qf_ehea_level |integer | | |True |Both |FK:lists.models.QFEHEALevel |
+|countries | | | | |Blank |M2M:countries.models.Country (through: programmes.models.Programme_countries) |
 
 
-## programme name(programmes.models.ProgrammeName)
+## Programme Name(programmes.models.ProgrammeName)
 
 ```
 
@@ -827,13 +873,13 @@ unique_together : (('programme', 'country'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|programme |programme |integer | | |True | |FK:programmes.models.Programme |
-|name |name |varchar(255) | | | |Blank | |
-|name is primary |name_is_primary |boolean | | | | | |
-|qualification |qualification |varchar(255) | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|programme |integer | | |True | |FK:programmes.models.Programme |
+|name |varchar(255) | | | |Blank | |
+|name_is_primary |boolean | | | |Blank | |
+|qualification |varchar(255) | | | |Blank | |
 
 Options
 ```
@@ -841,7 +887,7 @@ unique_together : (('programme', 'name'),)
 ```
 
 
-## programme identifier(programmes.models.ProgrammeIdentifier)
+## Programme Identifier(programmes.models.ProgrammeIdentifier)
 
 ```
 
@@ -849,13 +895,13 @@ unique_together : (('programme', 'name'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|programme |programme |integer | | |True | |FK:programmes.models.Programme |
-|identifier |identifier |varchar(50) | | | | | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|resource |resource |varchar(200) | | | |Blank | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|programme |integer | | |True | |FK:programmes.models.Programme |
+|identifier |varchar(50) | | | | | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|resource |varchar(200) | | | |Blank | |
 
 Options
 ```
@@ -869,11 +915,11 @@ unique_together : (('programme', 'agency', 'resource'),)
 Report_institutions(id, report, institution)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|ID |id |serial |True |True | |Blank | |
-|report |report |integer | | |True | |FK:reports.models.Report |
-|institution |institution |integer | | |True | |FK:institutions.models.Institution |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|institution |integer | | |True | |FK:institutions.models.Institution |
 
 Options
 ```
@@ -881,7 +927,7 @@ unique_together : (('report', 'institution'),)
 ```
 
 
-## report(reports.models.Report)
+## Report(reports.models.Report)
 
 ```
 
@@ -889,20 +935,26 @@ unique_together : (('report', 'institution'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|agency |agency |integer | | |True | |FK:agencies.models.Agency |
-|local identifier |local_identifier |varchar(255) | | | |Both | |
-|agency esg activity |agency_esg_activity |integer | | |True | |FK:agencies.models.AgencyESGActivity |
-|name |name |varchar(300) | | | | | |
-|status |status |integer | | |True | |FK:reports.models.ReportStatus |
-|decision |decision |integer | | |True | |FK:reports.models.ReportDecision |
-|valid from |valid_from |date | | | | | |
-|valid to |valid_to |date | | | |Both | |
-|flag |flag |integer | | |True | |FK:lists.models.Flag |
-|flag log |flag_log |text | | | |Blank | |
-|institutions |institutions | | | | | |M2M:institutions.models.Institution (through: reports.models.Report_institutions) |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|agency |integer | | |True | |FK:agencies.models.Agency |
+|local_identifier |varchar(255) | | | |Both | |
+|agency_esg_activity |integer | | |True | |FK:agencies.models.AgencyESGActivity |
+|name |varchar(300) | | | | | |
+|status |integer | | |True | |FK:reports.models.ReportStatus |
+|decision |integer | | |True | |FK:reports.models.ReportDecision |
+|valid_from |date | | | | | |
+|valid_to |date | | | |Both | |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_log |text | | | |Blank | |
+|other_comment |text | | | |Blank | |
+|internal_note |text | | | |Blank | |
+|created_at |timestamp with time zone | | | |Blank | |
+|created_by |integer | | |True |Both |FK:django.contrib.auth.models.User |
+|updated_at |timestamp with time zone | | | | | |
+|updated_by |integer | | |True |Both |FK:django.contrib.auth.models.User |
+|institutions | | | | | |M2M:institutions.models.Institution (through: reports.models.Report_institutions) |
 
 Options
 ```
@@ -910,7 +962,7 @@ unique_together : (('agency', 'local_identifier'),)
 ```
 
 
-## report status(reports.models.ReportStatus)
+## Report Status(reports.models.ReportStatus)
 
 ```
 
@@ -918,13 +970,13 @@ unique_together : (('agency', 'local_identifier'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|status |status |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|status |varchar(50) | | | | | |
 
 
-## report decision(reports.models.ReportDecision)
+## Report Decision(reports.models.ReportDecision)
 
 ```
 
@@ -932,13 +984,13 @@ unique_together : (('agency', 'local_identifier'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|decision |decision |varchar(50) | | | | | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|decision |varchar(50) | | | | | |
 
 
-## report link(reports.models.ReportLink)
+## Report Link(reports.models.ReportLink)
 
 ```
 
@@ -946,12 +998,12 @@ unique_together : (('agency', 'local_identifier'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|report |report |integer | | |True | |FK:reports.models.Report |
-|link display name |link_display_name |varchar(200) | | | |Both | |
-|link |link |varchar(255) | | | |Both | |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|link_display_name |varchar(200) | | | |Both | |
+|link |varchar(255) | | | |Both | |
 
 
 ## reportfile-language relationship(reports.models.ReportFile_languages)
@@ -960,11 +1012,11 @@ unique_together : (('agency', 'local_identifier'),)
 ReportFile_languages(id, reportfile, language)
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|ID |id |serial |True |True | |Blank | |
-|reportfile |reportfile |integer | | |True | |FK:reports.models.ReportFile |
-|language |language |integer | | |True | |FK:lists.models.Language |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|reportfile |integer | | |True | |FK:reports.models.ReportFile |
+|language |integer | | |True | |FK:lists.models.Language |
 
 Options
 ```
@@ -972,7 +1024,7 @@ unique_together : (('reportfile', 'language'),)
 ```
 
 
-## report file(reports.models.ReportFile)
+## Report File(reports.models.ReportFile)
 
 ```
 
@@ -980,14 +1032,56 @@ unique_together : (('reportfile', 'language'),)
     
 ```
 
-|Fullname|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|---|
-|id |id |serial |True |True | |Blank | |
-|report |report |integer | | |True | |FK:reports.models.Report |
-|file display name |file_display_name |varchar(255) | | | |Blank | |
-|file original location |file_original_location |varchar(500) | | | |Blank | |
-|file |file |varchar(255) | | | |Blank | |
-|languages |languages | | | | | |M2M:lists.models.Language (through: reports.models.ReportFile_languages) |
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|file_display_name |varchar(255) | | | |Blank | |
+|file_original_location |varchar(500) | | | |Blank | |
+|file |varchar(255) | | | |Blank | |
+|languages | | | | | |M2M:lists.models.Language (through: reports.models.ReportFile_languages) |
+
+
+## Report Flag(reports.models.ReportFlag)
+
+```
+
+    Flags belonging to a report
+    
+```
+
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|flag |integer | | |True | |FK:lists.models.Flag |
+|flag_message |text | | | |Blank | |
+|active |boolean | | | |Blank | |
+|removed_by_eqar |boolean | | | |Blank | |
+|created_at |timestamp with time zone | | | |Blank | |
+|updated_at |timestamp with time zone | | | |Blank | |
+
+Options
+```
+unique_together : (('report', 'flag_message'),)
+```
+
+
+## Report Update Log(reports.models.ReportUpdateLog)
+
+```
+
+    Updates happened with a report
+    
+```
+
+|Name|Type|PK|Unique|Index|Null/Blank|Comment|
+|---|---|---|---|---|---|---|
+|id |serial |True |True | |Blank | |
+|report |integer | | |True | |FK:reports.models.Report |
+|note |text | | | |Both | |
+|updated_at |timestamp with time zone | | | |Blank | |
+|updated_by |integer | | |True |Both |FK:django.contrib.auth.models.User |
 
 
 

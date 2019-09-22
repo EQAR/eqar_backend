@@ -42,11 +42,23 @@ class ReportList(ListAPIView):
     filter_class = ReportFilterClass
     core = getattr(settings, "SOLR_CORE_REPORTS_ALL", "deqar-reports-all")
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, request_type, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
         offset = request.query_params.get('offset', 0)
 
         filters = []
+        filters_or = []
+
+        if request_type == 'my':
+            user = request.user
+            filters_or.append({'user_created': user.username})
+
+            userprofile = request.user.deqarprofile
+            submitting_agency = userprofile.submitting_agency
+
+            if submitting_agency.agency:
+                filters_or.append({'agency': submitting_agency.agency.acronym_primary})
+
         date_filters = []
         qf = [
             'institution_programme_primary^5.0',
@@ -64,109 +76,33 @@ class ReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
-                  'flag_level,score'
+            'fl': 'id,local_id,agency,country,activity,institution_programme_primary,valid_from,valid_to,'
+                  'flag_level,score,date_created,date_updated',
+            'facet': True,
+            'facet_fields': ['country', 'flag_level', 'agency', 'activity'],
+            'facet_sort': 'index'
         }
 
         id = request.query_params.get('id', None)
-        country = request.query_params.get('country', None)
+        local_id = request.query_params.get('local_id', None)
         agency = request.query_params.get('agency', None)
-        activity_type = request.query_params.get('activity_type', None)
-        flag = request.query_params.get('flag', None)
-        active = request.query_params.get('active', False)
-        year = request.query_params.get('year', False)
-
-        if id:
-            filters.append({'id': id})
-        if country:
-            filters.append({'country': country})
-        if agency:
-            filters.append({'agency': agency})
-        if activity_type:
-            filters.append({'activity_type': activity_type})
-        if flag:
-            filters.append({'flag_level': flag})
-        if active:
-            if active == 'true':
-                now = datetime.datetime.now().replace(microsecond=0).isoformat()
-                date_filters.append({'valid_to_calculated': '[%sZ TO *]' % now})
-        if year:
-            try:
-                if re.match(r'.*([1-3][0-9]{3})', year):
-                    date_from = datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).isoformat()
-                    date_filters.append({'valid_from': '[* TO %sZ]' % date_from})
-                    date_to = datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).isoformat()
-                    date_filters.append({'valid_to_calculated': '[%sZ TO *]' % date_to})
-            except ValueError:
-                pass
-
-        params['filters'] = filters
-        params['date_filters'] = date_filters
-
-        searcher = Searcher(self.core)
-        searcher.initialize(params, start=offset, rows_per_page=limit, tie_breaker='institution_programme_sort asc')
-        response = searcher.search()
-        resp = {
-            'count': response.hits,
-            'results': response.docs,
-        }
-        if (int(limit) + int(offset)) < int(response.hits):
-            resp['next'] = True
-        return Response(resp)
-
-
-@method_decorator(name='get', decorator=swagger_auto_schema(
-   filter_inspectors=[ReportSearchInspector]
-))
-class MyReportList(ListAPIView):
-    """
-    Returns a list of all the institutions to which report was submitted in DEQAR.
-    """
-    queryset = Report.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = ReportFilterClass
-    core = getattr(settings, "SOLR_CORE_REPORTS_ALL", "deqar-reports-all")
-
-    def list(self, request, *args, **kwargs):
-        limit = request.query_params.get('limit', 10)
-        offset = request.query_params.get('offset', 0)
-
-        filters = [{'user_created': request.user.username}]
-        date_filters = []
-        qf = [
-            'institution_programme_primary^5.0',
-            'institution_name_english^2.5',
-            'institution_name_official^2.5',
-            'institution_name_official_transliterated^2.5',
-            'institution_name_version^1.5',
-            'institution_name_version_transliterated^1.5',
-            'programme_name^2.5',
-            'country^1.5',
-            'city^2',
-            'eter_id^2'
-        ]
-        params = {
-            'search': request.query_params.get('query', ''),
-            'ordering': request.query_params.get('ordering', '-score'),
-            'qf': qf,
-            'fl': 'id,agency,country,activity,activity_type,institution_programme_primary,valid_from,valid_to,'
-                  'flag_level,score,date_created,date_updated'
-        }
-
-        id = request.query_params.get('id', None)
         country = request.query_params.get('country', None)
-        activity = request.query_params.get('activity_type', None)
+        activity = request.query_params.get('activity', None)
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
         year_created = request.query_params.get('year_created', False)
 
         if id:
-            filters.append({'id': id})
+            filters.append({'id_search': id})
+        if local_id:
+            filters.append({'local_id': local_id})
+        if agency:
+            filters.append({'agency': agency})
         if country:
             filters.append({'country': country})
         if activity:
-            filters.append({'activity_type': activity})
+            filters.append({'activity': activity})
         if flag:
             filters.append({'flag_level': flag})
         if active:
@@ -194,6 +130,7 @@ class MyReportList(ListAPIView):
                 pass
 
         params['filters'] = filters
+        params['filters_or'] = filters_or
         params['date_filters'] = date_filters
 
         searcher = Searcher(self.core)
@@ -202,6 +139,7 @@ class MyReportList(ListAPIView):
         resp = {
             'count': response.hits,
             'results': response.docs,
+            'facets': response.facets
         }
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True

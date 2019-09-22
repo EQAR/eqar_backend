@@ -33,6 +33,7 @@ class Report(models.Model):
 
     class Meta:
         db_table = 'deqar_reports'
+        verbose_name = 'Report'
         indexes = [
             models.Index(fields=['valid_from']),
             models.Index(fields=['valid_to']),
@@ -52,6 +53,7 @@ class ReportStatus(models.Model):
 
     class Meta:
         db_table = 'deqar_report_statuses'
+        verbose_name = 'Report Status'
 
 
 class ReportDecision(models.Model):
@@ -66,6 +68,7 @@ class ReportDecision(models.Model):
 
     class Meta:
         db_table = 'deqar_report_decision'
+        verbose_name = 'Report Decision'
 
 
 class ReportLink(models.Model):
@@ -79,6 +82,7 @@ class ReportLink(models.Model):
 
     class Meta:
         db_table = 'deqar_report_links'
+        verbose_name = 'Report Link'
 
 
 def set_directory_path(instance, filename):
@@ -98,6 +102,7 @@ class ReportFile(models.Model):
 
     class Meta:
         db_table = 'deqar_report_files'
+        verbose_name = 'Report File'
         ordering = ['id', 'report']
 
 
@@ -118,5 +123,22 @@ class ReportFlag(models.Model):
 
     class Meta:
         db_table = 'deqar_report_flags'
+        verbose_name = 'Report Flag'
         ordering = ['id', 'flag__id']
         unique_together = ['report', 'flag_message']
+
+
+class ReportUpdateLog(models.Model):
+    """
+    Updates happened with a report
+    """
+    id = models.AutoField(primary_key=True)
+    report = models.ForeignKey('Report', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='reports_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_report_update_log'
+        verbose_name = 'Report Update Log'

@@ -24,6 +24,9 @@ class Country(models.Model):
                                                        default=2, on_delete=models.PROTECT)
     european_approach_note = models.TextField(blank=True, null=True)
     general_note = models.TextField(blank=True)
+    has_full_institution_list = models.BooleanField(default=False)
+    ehea_key_commitment = models.ForeignKey('lists.PermissionType', related_name='country_ehea_key_commitment',
+                                            default=2, on_delete=models.PROTECT)
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
 
@@ -53,6 +56,7 @@ class CountryQARequirement(models.Model):
 
     class Meta:
         db_table = 'deqar_country_qa_requirements'
+        verbose_name = 'Country QA Requirement'
         indexes = [
             models.Index(fields=['requirement_valid_to']),
         ]
@@ -70,6 +74,7 @@ class CountryQARequirementType(models.Model):
 
     class Meta:
         db_table = 'deqar_country_qa_requirement_types'
+        verbose_name = 'Country QA Requirement Type'
 
 
 class CountryQAARegulation(models.Model):
@@ -85,6 +90,7 @@ class CountryQAARegulation(models.Model):
 
     class Meta:
         db_table = 'deqar_country_qaa_regulations'
+        verbose_name = 'Country QAA Regulation'
         indexes = [
             models.Index(fields=['regulation_valid_to']),
         ]
@@ -102,6 +108,7 @@ class CountryHistoricalField(models.Model):
 
     class Meta:
         db_table = 'deqar_country_historical_fields'
+        verbose_name = 'Country Historical Field'
         indexes = [
             models.Index(fields=['field']),
         ]
@@ -121,6 +128,7 @@ class CountryHistoricalData(models.Model):
 
     class Meta:
         db_table = 'deqar_country_historical_data'
+        verbose_name = 'Country Historical Data'
         indexes = [
             models.Index(fields=['valid_to']),
         ]

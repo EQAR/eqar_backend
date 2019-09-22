@@ -5,6 +5,7 @@
     eter_id:
     name_primary: Hochschule für öffentliche Verwaltung Rheinland-Pfalz
     website_link: www.hoev-rlp.de
+    created_at: 2019-01-01
 
 - model: institutions.InstitutionIdentifier
   pk: 1

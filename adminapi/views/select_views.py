@@ -1,18 +1,22 @@
 import datetime
 
 from django.db.models import Q
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     LanguageSelectSerializer, AssociationSelectSerializer, \
     EQARDecisionTypeSelectSerializer, \
     IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
-    AgencyESGActivitySerializer, AgencyActivityTypeSerializer
+    AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
+from institutions.models import InstitutionHistoricalRelationshipType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
 from reports.models import ReportDecision, ReportStatus
 
@@ -148,3 +152,24 @@ class FlagSelectList(generics.ListAPIView):
     filter_backends = (SearchFilter,)
     search_fields = ('flag',)
     queryset = Flag.objects.all()
+
+
+class InstitutionHistoricalRelationshipTypeSelect(APIView):
+
+    @swagger_auto_schema(responses={'200': InstitutionHistoricalRelationshipTypeSerializer})
+    def get(self, request, format=None):
+        response = []
+        for idx, relationship_type in enumerate(InstitutionHistoricalRelationshipType.objects.all().order_by('id')):
+            response.append({
+                'id': idx*2+1,
+                'relationship_type_id': relationship_type.pk,
+                'relationship': relationship_type.type_from,
+                'institution_direction': 'source'
+            })
+            response.append({
+                'id': idx*2+2,
+                'relationship_type_id': relationship_type.pk,
+                'relationship': relationship_type.type_to,
+                'institution_direction': 'target'
+            })
+        return Response(data=response, status=200)

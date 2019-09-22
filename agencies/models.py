@@ -3,6 +3,7 @@ from datetime import date
 
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 
 class Agency(models.Model):
@@ -69,6 +70,7 @@ class AgencyGeographicalFocus(models.Model):
         return self.focus
 
     class Meta:
+        verbose_name = 'Agency Geographical Focus'
         db_table = 'deqar_agency_geographical_focuses'
 
 
@@ -105,7 +107,8 @@ class AgencyNameVersion(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_name_versions'
-        ordering = ('name_is_primary', 'name')
+        verbose_name = 'Agency Name Version'
+        ordering = ('-name_is_primary', 'name')
 
 
 class AgencyPhone(models.Model):
@@ -121,6 +124,7 @@ class AgencyPhone(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_phones'
+        verbose_name = 'Agency Phone'
         unique_together = ('agency', 'phone')
 
 
@@ -137,6 +141,7 @@ class AgencyEmail(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_emails'
+        verbose_name = 'Agency Email'
         unique_together = ('agency', 'email')
         ordering = ('email',)
 
@@ -159,6 +164,7 @@ class AgencyFocusCountry(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_focus_countries'
+        verbose_name = 'Agency Focus Country'
         unique_together = ('agency', 'country')
         ordering = ('country__name_english',)
         indexes = [
@@ -194,6 +200,7 @@ class AgencyESGActivity(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_esg_activities'
+        verbose_name = 'Agency ESG Activity'
         ordering = ('agency', 'activity')
         indexes = [
             models.Index(fields=['activity_display']),
@@ -213,6 +220,7 @@ class AgencyActivityType(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_activity_types'
+        verbose_name = 'Agency Activity Type'
 
 
 class AgencyRelationship(models.Model):
@@ -227,6 +235,7 @@ class AgencyRelationship(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_relationships'
+        verbose_name = 'Agency Relationship'
         unique_together = ('from_agency', 'to_agency')
 
 
@@ -245,6 +254,7 @@ class AgencyMembership(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_memberships'
+        verbose_name = 'Agency Membership'
         unique_together = ('agency', 'association')
         indexes = [
             models.Index(fields=['membership_valid_to'])
@@ -264,6 +274,7 @@ class AgencyEQARDecision(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_eqar_decisions'
+        verbose_name = 'Agency EQAR Decision'
 
 
 class SubmittingAgency(models.Model):
@@ -310,6 +321,7 @@ class AgencyProxy(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_agency_proxies'
+        verbose_name = 'Agency Proxy'
         unique_together = ('submitting_agency', 'allowed_agency')
         indexes = [
             models.Index(fields=['proxy_to'])
@@ -329,6 +341,7 @@ class AgencyHistoricalField(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_historical_fields'
+        verbose_name = 'Agency Historical Field'
         indexes = [
             models.Index(fields=['field'])
         ]
@@ -349,6 +362,45 @@ class AgencyHistoricalData(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_historical_data'
+        verbose_name = 'Agency Historical Data'
         indexes = [
             models.Index(fields=['valid_to'])
         ]
+
+
+class AgencyFlag(models.Model):
+    """
+    Flags belonging to an agency
+    """
+    id = models.AutoField(primary_key=True)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    flag = models.ForeignKey('lists.Flag', on_delete=models.PROTECT)
+    flag_message = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
+    removed_by_eqar = models.BooleanField(default=False)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'deqar_agency_flags'
+        verbose_name = 'Agency Flag'
+        ordering = ['id', 'flag__id']
+        unique_together = ['agency', 'flag_message']
+
+
+class AgencyUpdateLog(models.Model):
+    """
+    Updates happened with an agency
+    """
+    id = models.AutoField(primary_key=True)
+    agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='agency_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_agency_update_log'
+        verbose_name = 'Agency Update Log'

@@ -3,7 +3,6 @@ from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
 
-from reports.models import Report
 from submissionapi.downloaders.report_downloader import ReportDownloader
 from submissionapi.flaggers.report_flagger import ReportFlagger
 

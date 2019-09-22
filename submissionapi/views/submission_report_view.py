@@ -31,12 +31,22 @@ class SubmissionReportView(APIView):
             max_inst = 0
 
         # Tracking
+        http_origin = request.META.get('HTTP_ORIGIN', None)
+        if http_origin:
+            if 'deqar.eu' in http_origin:
+                origin = 'form'
+            else:
+                origin = 'api'
+        else:
+            origin = 'api'
+
         client_ip, is_routable = get_client_ip(request)
         tracker = SubmissionTracker(original_data=request.data,
-                                    origin='api',
+                                    origin=origin,
                                     user_profile=request.user.deqarprofile,
                                     ip_address=client_ip)
         tracker.log_package()
+
 
         # Check if request is a list:
         if isinstance(request.data, list):

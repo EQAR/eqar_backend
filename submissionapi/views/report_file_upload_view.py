@@ -3,7 +3,6 @@ import datetime
 import os
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView

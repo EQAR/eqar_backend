@@ -5,6 +5,7 @@
     eter_id: 659
     name_primary: Hessische Hochschule für Polizei und Verwaltung
     website_link: https://www.hfpv.de
+    created_at: 2019-01-01
 
 - model: institutions.InstitutionCountry
   pk: 3

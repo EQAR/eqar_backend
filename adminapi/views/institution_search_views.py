@@ -16,7 +16,9 @@ class InstitutionFilterClass(filters.FilterSet):
     ordering = OrderingFilter(
         fields=(
             ('score', 'score'),
-            ('name', 'name_sort')
+            ('name_primary', 'name_sort'),
+            ('deqar_id', 'deqar_id_sort'),
+            ('eter_id', 'eter_id_sort')
         )
     )
 
@@ -31,7 +33,7 @@ class InstitutionAllList(ListAPIView):
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilterClass
-    core = getattr(settings, "SOLR_CORE_INSTITUTIONS_ALL", "deqar-institutions-all")
+    core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
@@ -53,15 +55,22 @@ class InstitutionAllList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_select_display,name_sort,place,website_link,country,score'
+            'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
+                  'website_link,country,city,score',
+            'facet': True,
+            'facet_fields': ['country_facet'],
+            'facet_sort': 'index'
         }
 
         country = request.query_params.get('country', None)
+        city = request.query_params.get('city', None)
         eter_id = request.query_params.get('eter_id', None)
         deqar_id = request.query_params.get('deqar_id', None)
 
         if country:
             filters.append({'country': country})
+        if city:
+            filters.append({'city': city})
         if eter_id:
             filters.append({'eter_id': eter_id})
         if deqar_id:
@@ -75,6 +84,7 @@ class InstitutionAllList(ListAPIView):
         resp = {
             'count': response.hits,
             'results': response.docs,
+            'facets': response.facets
         }
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True
