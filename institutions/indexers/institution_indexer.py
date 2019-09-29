@@ -1,4 +1,5 @@
 import json
+import re
 
 import pysolr
 from django.conf import settings
@@ -118,7 +119,7 @@ class InstitutionIndexer:
         self.doc['name_display'] = name
 
         # Index name_sort
-        self.doc['name_sort'] = self.institution.name_sort.strip()
+        self.doc['name_sort'] = re.sub(r'[\W_]+', u'', self.institution.name_sort.strip(), flags=re.UNICODE)
 
         # Index name versions
         for iname in self.institution.institutionname_set.all():
