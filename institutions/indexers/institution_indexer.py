@@ -95,7 +95,7 @@ class InstitutionIndexer:
         # Index display fields
         self.doc['id'] = self.institution.id
         self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
-        self.doc['deqar_id_sort'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id_sort'] = self.institution.id
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()

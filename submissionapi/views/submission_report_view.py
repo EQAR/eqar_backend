@@ -47,7 +47,6 @@ class SubmissionReportView(APIView):
                                     ip_address=client_ip)
         tracker.log_package()
 
-
         # Check if request is a list:
         if isinstance(request.data, list):
             submitted_reports = []
