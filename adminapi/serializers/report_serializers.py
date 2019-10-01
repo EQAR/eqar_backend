@@ -69,11 +69,15 @@ class ReportReadSerializer(serializers.ModelSerializer):
     institutions = InstitutionReadSerializer(many=True)
     programmes = ProgrammeReadSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
-    update_log = ReportUpdateLogSerializer(many=True, source='reportupdatelog_set')
+    update_log = serializers.SerializerMethodField()
     created_by = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True
     )
+
+    def get_update_log(self, obj):
+        queryset = obj.reportupdatelog_set.order_by('updated_at')
+        return ReportUpdateLogSerializer(queryset, many=True, context=self.context).data
 
     class Meta:
         model = Report
