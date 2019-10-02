@@ -36,6 +36,7 @@ class InstitutionIndexer:
             'qf_ehea_level': [],
 
             # Search fields
+            'deqar_id_search': None,
             'name_english': [],
             'name_official_transliterated': [],
             'name_official': [],
@@ -96,6 +97,7 @@ class InstitutionIndexer:
         # Index display fields
         self.doc['id'] = self.institution.id
         self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id_search'] = 'DEQARINST%04d' % self.institution.id
         self.doc['deqar_id_sort'] = self.institution.id
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
