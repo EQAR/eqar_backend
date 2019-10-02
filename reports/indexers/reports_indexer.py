@@ -65,6 +65,7 @@ class ReportsIndexer:
             'language_id': [],
 
             'id_sort': 0,
+            'agency_sort': None,
             'institution_programme_sort': None,
 
             'agency_facet': None,
@@ -106,6 +107,7 @@ class ReportsIndexer:
 
         self.doc['agency_name'] = self.report.agency.name_primary
         self.doc['agency_acronym'] = self.report.agency.acronym_primary
+        self.doc['agency_sort'] = self.report.agency.acronym_primary
         self.doc['agency_url'] = self.report.agency.website_link
         self.doc['agency_facet'] = self.report.agency.acronym_primary
         self.doc['agency_id'] = self.report.agency.id
