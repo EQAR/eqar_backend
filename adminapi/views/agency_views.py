@@ -31,7 +31,10 @@ class AgencyESGActivityFilterClass(filters.FilterSet):
         return queryset.filter(activity__icontains=value)
 
     def search_activity_id(self, queryset, name, value):
-        return queryset.filter(id=value)
+        if value.isnumeric():
+            return queryset.filter(id=value)
+        else:
+            return AgencyESGActivity.objects.none()
 
     class Meta:
         model = AgencyESGActivity
