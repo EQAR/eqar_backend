@@ -17,6 +17,7 @@ class ReportFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
     agency = filters.CharFilter(label='Agency')
     country = filters.CharFilter(label='Country')
+    activity = filters.CharFilter(label='Activity')
     activity_type = filters.CharFilter(label='Activity Type')
     flag = filters.CharFilter(label='flag')
     active = filters.BooleanFilter(label='active')
@@ -90,6 +91,7 @@ class ReportList(ListAPIView):
         local_id = request.query_params.get('local_id', None)
         agency = request.query_params.get('agency', None)
         country = request.query_params.get('country', None)
+        activity = request.query_params.get('activity', None)
         activity_type = request.query_params.get('activity_type', None)
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
@@ -104,6 +106,8 @@ class ReportList(ListAPIView):
             filters.append({'agency_facet': agency})
         if country:
             filters.append({'country_facet': country})
+        if activity:
+            filters.append({'activity_facet': activity})
         if activity_type:
             filters.append({'activity_type_facet': activity_type})
         if flag:
