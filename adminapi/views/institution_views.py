@@ -26,6 +26,12 @@ class InstitutionDetail(RetrieveUpdateAPIView):
                 note=submit_comment,
                 updated_by=request.user
             )
+        else:
+            InstitutionUpdateLog.objects.create(
+                institution=institution,
+                note='Report updated',
+                updated_by=request.user
+            )
         institution.save()
         return super(InstitutionDetail, self).put(request, *args, **kwargs)
 
