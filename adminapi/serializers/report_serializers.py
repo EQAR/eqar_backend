@@ -6,8 +6,14 @@ from adminapi.serializers.select_serializers import ReportStatusSerializer, Repo
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
 from lists.models import Language
-from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog
+from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog, ReportLink
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
+
+
+class ReportLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportLink
+        fields = ['link_display_name', 'link']
 
 
 class ReportReadFileSerializer(WritableNestedModelSerializer):
@@ -65,6 +71,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     activity = AgencyESGActivitySerializer(source='agency_esg_activity')
     status = ReportStatusSerializer()
     decision = ReportDecisionSerializer()
+    report_links = ReportLinkSerializer(many=True, source='reportlink_set', read_only=True)
     report_files = ReportReadFileSerializer(many=True, source='reportfile_set', read_only=True)
     institutions = InstitutionReadSerializer(many=True)
     programmes = ProgrammeReadSerializer(many=True, source='programme_set')
@@ -83,7 +90,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['id', 'agency', 'activity', 'local_identifier', 'name',
                   'status', 'decision',
-                  'institutions', 'programmes', 'report_files',
+                  'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
                   'other_comment', 'internal_note']
@@ -91,6 +98,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
     activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
+    report_links = ReportLinkSerializer(many=True, source='reportlink_set')
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
 
@@ -98,5 +106,5 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
         model = Report
         fields = ['id', 'agency', 'activity', 'local_identifier',
                   'status', 'decision',
-                  'institutions', 'programmes', 'report_files',
+                  'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']
