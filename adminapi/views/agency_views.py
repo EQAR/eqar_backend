@@ -44,7 +44,7 @@ class AgencyESGActivityFilterClass(filters.FilterSet):
 class AgencyESGActivityList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering = ('agency', 'activity')
+    ordering = ['agency__acronym_primary', 'id']
     filter_class = AgencyESGActivityFilterClass
     queryset = AgencyESGActivity.objects.all()
 
@@ -71,7 +71,7 @@ class AgencyDetail(RetrieveUpdateAPIView):
             )
         else:
             AgencyUpdateLog.objects.create(
-                report=agency,
+                agency=agency,
                 note='Agency updated',
                 updated_by=request.user
             )
@@ -79,11 +79,37 @@ class AgencyDetail(RetrieveUpdateAPIView):
         agency.save()
         return super(AgencyDetail, self).put(request, *args, **kwargs)
 
+
 class MyAgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
     read_serializer_class = AgencyReadSerializer
     write_serializer_class = AgencyWriteSerializer
     permission_classes = (CanAccessAgency|IsAdminUser,)
+
+    @swagger_auto_schema(responses={'200': AgencyReadSerializer})
+    def get(self, request, *args, **kwargs):
+        return super(MyAgencyDetail, self).get(request, *args, **kwargs)
+
+    @swagger_auto_schema(request_body=AgencyWriteSerializer, responses={'200': AgencyReadSerializer})
+    def put(self, request, *args, **kwargs):
+        agency = Agency.objects.get(id=kwargs.get('pk'))
+
+        submit_comment = request.data.get('submit_comment', None)
+        if submit_comment:
+            AgencyUpdateLog.objects.create(
+                agency=agency,
+                note=submit_comment,
+                updated_by=request.user
+            )
+        else:
+            AgencyUpdateLog.objects.create(
+                agency=agency,
+                note='Agency updated',
+                updated_by=request.user
+            )
+
+        agency.save()
+        return super(MyAgencyDetail, self).put(request, *args, **kwargs)
 
 
 class AgencyDecisionFileUploadView(APIView):
