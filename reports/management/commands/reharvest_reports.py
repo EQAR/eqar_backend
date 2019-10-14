@@ -72,4 +72,4 @@ class Command(BaseCommand):
                     harvest = True
 
             if harvest:
-                download_file(rf.file_original_location, rf.id, report.agency.acronym_primary)
+                download_file.delay(rf.file_original_location, rf.id, report.agency.acronym_primary)
