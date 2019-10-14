@@ -153,10 +153,14 @@ class AgencyReadSerializer(serializers.ModelSerializer):
     decisions = AgencyEQARDecisionReadSerializer(many=True, source='agencyeqardecision_set')
     country = CountrySelectSerializer()
     flags = AgencyFlagSerializer(many=True, source='agencyflag_set')
-    update_log = AgencyUpdateLogSerializer(many=True, source='agencyupdatelog_set')
+    update_log = serializers.SerializerMethodField()
 
     def get_primary_name_acronym(self, obj):
         return "%s / %s" % (obj.name_primary, obj.acronym_primary)
+
+    def get_update_log(self, obj):
+        queryset = obj.agencyupdatelog_set.order_by('updated_at')
+        return AgencyUpdateLogSerializer(queryset, many=True, context=self.context).data
 
     class Meta:
         model = Agency

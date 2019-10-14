@@ -74,7 +74,7 @@ class InstitutionAllList(ListAPIView):
         if eter_id:
             filters.append({'eter_id': eter_id})
         if deqar_id:
-            filters.append({'id': deqar_id})
+            filters.append({'deqar_id_search': deqar_id})
 
         params['filters'] = filters
 

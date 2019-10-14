@@ -1,4 +1,5 @@
 import json
+import re
 
 import pysolr
 from django.conf import settings
@@ -35,6 +36,7 @@ class InstitutionIndexer:
             'qf_ehea_level': [],
 
             # Search fields
+            'deqar_id_search': None,
             'name_english': [],
             'name_official_transliterated': [],
             'name_official': [],
@@ -95,7 +97,8 @@ class InstitutionIndexer:
         # Index display fields
         self.doc['id'] = self.institution.id
         self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
-        self.doc['deqar_id_sort'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id_search'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id_sort'] = self.institution.id
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
@@ -118,7 +121,7 @@ class InstitutionIndexer:
         self.doc['name_display'] = name
 
         # Index name_sort
-        self.doc['name_sort'] = self.institution.name_sort.strip()
+        self.doc['name_sort'] = re.sub(r'[\W_]+', u'', self.institution.name_sort.strip(), flags=re.UNICODE)
 
         # Index name versions
         for iname in self.institution.institutionname_set.all():

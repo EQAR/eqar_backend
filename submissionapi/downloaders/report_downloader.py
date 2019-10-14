@@ -55,7 +55,9 @@ class ReportDownloader:
 
     def _remove_old_file(self):
         if self.old_file_path != "":
-            os.remove(os.path.join(settings.MEDIA_ROOT, self.old_file_path))
+            old_file = os.path.join(settings.MEDIA_ROOT, self.old_file_path)
+            if os.path.exists(old_file):
+                os.remove(old_file)
 
     def _url_is_downloadable(self):
         """
@@ -84,26 +86,36 @@ class ReportDownloader:
         content-disposition header. If that fails as well, it assigns the timestamp
         plus the extension according to the mime-type.
         """
-        r = requests.get(self.url, allow_redirects=True)
-
         # Current datetime
         file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M")
 
-        # Get filename from url
-        fn = self.url.rsplit('/', 1)[1]
-        if fn != "":
+        # Step 1A. - Get content-disposition
+        r = requests.head(self.url, allow_redirects=True)
+        fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
+
+        # Step 1B. - Fallback to get request if head is not giving results.
+        if not fn:
+            r = requests.get(self.url, allow_redirects=True)
+            fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
+
+        if fn:
+            fn = fn.encode('iso-8859-1').decode('utf-8')
+
+        # Step 2. - Get filename from url
+        if not fn:
+            fn = self.url.rsplit('/', 1)[1]
             fn, ext = os.path.splitext(fn)
-            # If filename is valid filename + extension in URL
+
+            # Step 2A. - If filename is valid filename + extension in URL
             if fn != "" and ext != "":
-                file_name += "_%s%s" % (fn, ext)
-            # If not add report_file_id + extension from Content-Type header
+                fn = "%s%s" % (fn, ext)
+
+            # Step 2B. - If not add report_file_id + extension from Content-Type header
             else:
                 ext = mimetypes.guess_extension(r.headers.get('Content-Type'))
-                file_name += "_%s.%s" % (self.report_file_id, ext)
-        else:
-            # Get content-disposition
-            file_name += "_%s" % self._get_filename_from_cd(r.headers.get('content-disposition'))
+                fn = "%s.%s" % (self.report_file_id, ext)
 
+        file_name += "_%s" % fn
         return file_name
 
     @staticmethod
@@ -116,4 +128,6 @@ class ReportDownloader:
         fname = re.findall('filename=(.+)', cd)
         if len(fname) == 0:
             return None
-        return fname[0]
+        else:
+            fname = re.sub('\"|;', "", fname[0])
+        return fname

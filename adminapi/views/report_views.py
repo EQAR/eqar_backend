@@ -31,6 +31,12 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
                 note=submit_comment,
                 updated_by=request.user
             )
+        else:
+            ReportUpdateLog.objects.create(
+                report=report,
+                note='Report updated',
+                updated_by=request.user
+            )
 
         report.save()
         return super(ReportDetail, self).put(request, *args, **kwargs)
