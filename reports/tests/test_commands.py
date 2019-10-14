@@ -24,26 +24,17 @@ class ReportCommandsTest(TestCase):
 
     def test_reharvest_agency_wrong_acronym(self):
         with self.assertRaisesRegex(CommandError, 'Agency "NONEXISTING" does not exist'):
-            call_command('reharvest_agency', '--agency=NONEXISTING')
-
-    def test_reharvest_agency_without_agency(self):
-        with self.assertRaisesRegex(CommandError, '--agency parameter should be set.'):
-            call_command('reharvest_agency')
+            call_command('reharvest_reports', '--agency=NONEXISTING')
 
     def test_reharvest_agency(self):
         out = StringIO()
-        call_command('reharvest_agency', '--agency=EKKA', stdout=out)
+        call_command('reharvest_reports', '--agency=EKKA', stdout=out)
         self.assertEqual('', out.getvalue())
 
     def test_reharvest_report_wrong_id(self):
         with self.assertRaisesRegex(CommandError, 'Report ID "9999" does not exist'):
-            call_command('reharvest_report', '--report=9999')
+            call_command('reharvest_reports', '--report=9999')
 
-    def test_reharvest_report_without_id(self):
-        with self.assertRaisesRegex(CommandError, '--report parameter should be set.'):
-            call_command('reharvest_report')
-
-    # def test_reharvest_report(self):
-    #     out = StringIO()
-    #     call_command('reharvest_report', '--report=1', stdout=out)
-    #     self.assertEqual('', out.getvalue())
+    def test_reharvest_report_without_report_id_or_agency(self):
+        with self.assertRaisesRegex(CommandError, 'Report ID or Agency should be set.'):
+            call_command('reharvest_reports')
