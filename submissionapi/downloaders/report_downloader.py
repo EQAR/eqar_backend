@@ -38,10 +38,6 @@ class ReportDownloader:
         headers = {'User-Agent': 'DEQAR File Downloader'}
         r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
         if r.status_code == requests.codes.ok:
-            content_type = r.headers.get('content-type')
-            if content_type != 'application/pdf':
-                return False
-
             rf = ReportFile.objects.get(pk=self.report_file_id)
             file_path = os.path.join(settings.MEDIA_ROOT, self.agency_acronym, local_filename)
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -74,6 +70,14 @@ class ReportDownloader:
             return False
 
         header = h.headers
+        content_type = header.get('content-type')
+
+        # Fallback to GET if HEAD content-type is not application/pdf
+        if content_type != 'application/pdf':
+            r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
+            content_type = r.headers.get('content-type')
+            if content_type != 'application/pdf':
+                return False
 
         # Limit download to files less than 100MB
         content_length = header.get('content-length', None)
