@@ -47,6 +47,10 @@ class ReportDownloader:
                         f.write(chunk)
 
             self.saved_file_path = file_path
+
+            if rf.file_display_name == "":
+                rf.file_display_name = local_filename
+
             rf.file.name = os.path.join(self.agency_acronym, local_filename)
             rf.save()
 
