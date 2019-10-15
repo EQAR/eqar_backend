@@ -66,12 +66,18 @@ class ReportDownloader:
         headers = {'User-Agent': 'DEQAR File Downloader'}
         h = requests.head(self.url, headers=headers, allow_redirects=True)
 
+        if h.status_code != 200:
+            return False
+
         header = h.headers
         content_type = header.get('content-type')
-        if 'text' in content_type.lower():
-            return False
-        if 'html' in content_type.lower():
-            return False
+
+        # Fallback to GET if HEAD content-type is not application/pdf
+        if content_type != 'application/pdf':
+            r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
+            content_type = r.headers.get('content-type')
+            if content_type != 'application/pdf':
+                return False
 
         # Limit download to files less than 100MB
         content_length = header.get('content-length', None)
