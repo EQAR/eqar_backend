@@ -59,7 +59,10 @@ class Command(BaseCommand):
                 harvest = False
 
             if rf.file == '':
-                harvest = True
+                if rf.file_original_location == '':
+                    harvest = False
+                else:
+                    harvest = True
             else:
                 if os.path.exists(rf.file.path):
                     ft = filetype.guess(rf.file)
@@ -72,4 +75,4 @@ class Command(BaseCommand):
                     harvest = True
 
             if harvest:
-                download_file(rf.file_original_location, rf.id, report.agency.acronym_primary)
+                download_file.delay(rf.file_original_location, rf.id, report.agency.acronym_primary)
