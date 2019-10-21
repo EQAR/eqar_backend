@@ -5,8 +5,10 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
+from pysolr import SolrError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from agencies.models import Agency
 from eqar_backend.searchers import Searcher
@@ -98,7 +100,12 @@ class AgencyList(ListAPIView):
 
         searcher = Searcher(self.core)
         searcher.initialize(params, start=offset, rows_per_page=limit, tie_breaker='name_sort asc')
-        response = searcher.search()
+
+        try:
+            response = searcher.search()
+        except SolrError as e:
+            return Response(status=HTTP_400_BAD_REQUEST, data={'error': str(e)})
+
         resp = {
             'count': response.hits,
             'results': response.docs,
