@@ -33,7 +33,7 @@ class InstitutionPopulatorTestCase(TestCase):
 
     def test_get_institution_if_exists_deqar_id(self):
         populator = InstitutionPopulator(
-            submission={"deqar_id": "EQARIN0001"},
+            submission={"deqar_id": "DEQARINST0001"},
             agency=Agency.objects.get(pk=5),
         )
         populator._get_institution_if_exists()
@@ -43,7 +43,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_eter_id(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "eter_id": "DE0394"
             },
             agency=Agency.objects.get(pk=5),
@@ -55,7 +55,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_identifiers(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "identifiers": [
                     {
                         "identifier": "LOCAL001"
@@ -71,7 +71,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_identifiers_other(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "identifiers": [
                     {
                         "identifier": "DE0001",
@@ -88,7 +88,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_website_link(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "website": "www.hoev-rlp.de"
             },
             agency=Agency.objects.get(pk=5),
@@ -100,7 +100,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_name_official(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "name_official": "Hochschule für öffentliche Verwaltung Rheinland-Pfalz"
             },
             agency=Agency.objects.get(pk=5),
@@ -112,7 +112,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_exists_name_english(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "name_english": "University of applied sciences for Public Administration Rhineland-Palatinate"
             },
             agency=Agency.objects.get(pk=5),
@@ -124,7 +124,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_eter_exists_website(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "website": "www.fhr-nord.niedersachsen.de"
             },
             agency=Agency.objects.get(pk=5),
@@ -137,7 +137,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_eter_exists_name_official(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "name_official": "Norddeutsche Hochschule für Rechtspflege, Hildesheim"
             },
             agency=Agency.objects.get(pk=5),
@@ -149,7 +149,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_get_institution_if_eter_exists_name_english(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN9999",
+                "deqar_id": "DEQARINST9999",
                 "name_english": "North German College for Rights, Hildesheim"
             },
             agency=Agency.objects.get(pk=5),
@@ -197,7 +197,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_identifiers_local_existing(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0001",
+                "deqar_id": "DEQARINST0001",
                 "identifiers": [
                     {
                         "identifier": "LOCAL002",
@@ -214,7 +214,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_identifiers_local_existing_other(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0001",
+                "deqar_id": "DEQARINST0001",
                 "identifiers": [
                     {
                         "identifier": "DE0002",
@@ -232,7 +232,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_identifiers_local_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0002",
+                "deqar_id": "DEQARINST0002",
                 "identifiers": [
                     {
                         "identifier": "LOCAL001",
@@ -249,7 +249,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_identifiers_not_local_existing(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0001",
+                "deqar_id": "DEQARINST0001",
                 "identifiers": [
                     {
                         "identifier": "DE0003",
@@ -267,7 +267,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_identifiers_not_local_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0002",
+                "deqar_id": "DEQARINST0002",
                 "identifiers": [
                     {
                         "identifier": "DE0001",
@@ -285,7 +285,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_name_english_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "name_english": "University of Applied Sciences for Police and Public Administration"
             },
             agency=Agency.objects.get(pk=5)
@@ -299,7 +299,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_name_english_existing(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0001",
+                "deqar_id": "DEQARINST0001",
                 "name_english": "New suggested english title"
             },
             agency=Agency.objects.get(pk=5)
@@ -314,7 +314,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_acronym_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0002",
+                "deqar_id": "DEQARINST0002",
                 "acronym": "FHöVPR"
             },
             agency=Agency.objects.get(pk=5)
@@ -328,7 +328,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_acronym_existing(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "acronym": "HfPV2"
             },
             agency=Agency.objects.get(pk=5)
@@ -341,7 +341,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_name_official_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0002",
+                "deqar_id": "DEQARINST0002",
                 "name_official": "New suggested name official"
             },
             agency=Agency.objects.get(pk=5)
@@ -354,7 +354,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_name_official_existing(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "name_official": "Hessische Highschool"
             },
             agency=Agency.objects.get(pk=5)
@@ -367,7 +367,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_alternative_names_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "alternative_names": [
                     {
                         "name_alternative": "Hessische Highschool Alternative"
@@ -386,7 +386,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_locations_country_city_exists_lat_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "locations": [
                     {
                         "country": Country.objects.get(pk=10),
@@ -406,7 +406,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_locations_country_city_exists_city_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "locations": [
                     {
                         "country": Country.objects.get(pk=10),
@@ -426,7 +426,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_locations_country_exists_city_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "locations": [
                     {
                         "country": Country.objects.get(pk=74),
@@ -446,7 +446,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_locations_country_new(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "locations": [
                     {
                         "country": Country.objects.get(pk=56),
@@ -466,7 +466,7 @@ class InstitutionPopulatorTestCase(TestCase):
     def test_institution_existing_populate_qf_ehea_level(self):
         populator = InstitutionPopulator(
             submission={
-                "deqar_id": "EQARIN0003",
+                "deqar_id": "DEQARINST0003",
                 "qf_ehea_levels": [
                     QFEHEALevel.objects.get(pk=4),
                 ]

@@ -71,7 +71,7 @@ class InstitutionLocatonSerializer(serializers.Serializer):
 class InstitutionSerializer(serializers.Serializer):
     # Reference
     deqar_id = serializers.CharField(max_length=25, required=False, label='DEQAR ID of the institution',
-                                     help_text='example: "EQARInst66"')
+                                     help_text='example: "DEQARINST0066"')
     eter_id = serializers.CharField(max_length=15, required=False, label='ETER ID of the institution',
                                     help_text='example: AT0005')
 

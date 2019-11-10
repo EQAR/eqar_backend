@@ -34,8 +34,9 @@ class Institution(models.Model):
         return self.name_primary
 
     def create_deqar_id(self):
-        self.deqar_id = 'DEQARINST%04d' % self.id
-        self.save()
+        if not self.deqar_id:
+            self.deqar_id = 'DEQARINST%04d' % self.id
+            self.save()
 
     def set_flag_low(self):
         if self.flag_id != 3:

@@ -1,7 +1,7 @@
 - model: institutions.Institution
   pk: 4
   fields:
-    deqar_id: EQARIN0004
+    deqar_id: DEQARINST0004
     closure_date: 2013-12-31
     website_link: http://www.uniarts.fi/en/
     created_at: 2019-01-01
