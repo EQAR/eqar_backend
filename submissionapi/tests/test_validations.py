@@ -468,7 +468,7 @@ class SubmissionValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data['institutions'][0].pop('eter_id', None)
-        data['institutions'][0]['deqar_id'] = 'EQARIN0003'
+        data['institutions'][0]['deqar_id'] = 'DEQARINST0003'
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
@@ -478,7 +478,7 @@ class SubmissionValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data['institutions'][0].pop('eter_id', None)
-        data['institutions'][0]['deqar_id'] = 'EQARIN9999'
+        data['institutions'][0]['deqar_id'] = 'DEQARINST9999'
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -487,7 +487,7 @@ class SubmissionValidationTestCase(APITestCase):
         Test if serializer accepts records with DEQAR ID and matching ETER ID.
         """
         data = self.valid_data
-        data['institutions'][0]['deqar_id'] = 'EQARIN0003'
+        data['institutions'][0]['deqar_id'] = 'DEQARINST0003'
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
@@ -496,7 +496,7 @@ class SubmissionValidationTestCase(APITestCase):
         Test if serializer rejects records with DEQAR ID and non-matching ETER ID.
         """
         data = self.valid_data
-        data['institutions'][0]['deqar_id'] = 'EQARIN0001'
+        data['institutions'][0]['deqar_id'] = 'DEQARINST0001'
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 

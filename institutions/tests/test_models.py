@@ -34,9 +34,12 @@ class InstitutionTestCase(TestCase):
         self.assertEqual(str(ahf), 'institutioncountries__country_id')
 
     def test_institution_create_deqar_id(self):
-        inst = Institution.objects.get(id=1)
+        inst = Institution.objects.create(
+            name_primary='Tet Institution',
+            website_link='http://www.example.com',
+        )
         inst.create_deqar_id()
-        self.assertEqual('DEQARINST0001', inst.deqar_id)
+        self.assertEqual('DEQARINST%04d' % inst.id, inst.deqar_id)
 
     def test_institution_set_flag_low(self):
         inst = Institution.objects.get(id=1)
