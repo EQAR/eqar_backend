@@ -30,4 +30,4 @@ class ProgrammeWriteSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Programme
-        fields = ['id', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries']
+        fields = ['id', 'name_primary', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries']
