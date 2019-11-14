@@ -20,8 +20,8 @@ class Report(models.Model):
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
-    other_comment = models.TextField(blank=True)
-    internal_note = models.TextField(blank=True)
+    other_comment = models.TextField(blank=True, null=True)
+    internal_note = models.TextField(blank=True, null=True)
 
     # Audit log values
     created_at = models.DateTimeField(auto_now_add=True)
