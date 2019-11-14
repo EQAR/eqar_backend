@@ -305,9 +305,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
     # Programmes
     programmes = ProgrammeSerializer(many=True, required=False,
-                                     label='rogramme(s) which are the subject of the report. '
+                                     label='Programme(s) which are the subject of the report. '
                                            '(If programme information is NOT submitted, then the report considered '
                                            'to be about the institution.)')
+
+    # Comment
+    other_comment = serializers.CharField(required=False, label='Comment for the submission.')
 
     def to_internal_value(self, data):
         errors = []

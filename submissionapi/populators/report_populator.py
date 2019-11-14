@@ -57,6 +57,7 @@ class ReportPopulator():
             self.report.valid_to = self.submission.get('valid_to', None)
             self.report.updated_by = self.user
             self.report.updated_at = datetime.now()
+            self.report.other_comment = self.submission.get('other_comment', None)
 
         # Create report
         else:
@@ -69,7 +70,8 @@ class ReportPopulator():
                 decision=self.submission.get('decision', None),
                 valid_from=self.submission.get('valid_from', None),
                 valid_to=self.submission.get('valid_to', None),
-                created_by=self.user
+                created_by=self.user,
+                other_comment=self.submission.get('other_comment', None)
             )
         self.report.save()
 
