@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 from reports.models import Report, ReportFile
 from institutions.models import Institution
-from reports.tasks import index_report
+from reports.tasks import index_report, index_delete_report
 from institutions.tasks import index_institution
 from submissionapi.tasks import download_file
 
@@ -31,6 +31,11 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
 def do_index_report(sender, instance, **kwargs):
     if 'test' not in sys.argv:
         index_report.delay(instance.id)
+
+
+@receiver([post_delete], sender=Report)
+def do_delete_report(sender, instance, **kwargs):
+    index_delete_report.delay(instance)
 
 
 @receiver([post_save, post_delete], sender=Report)
