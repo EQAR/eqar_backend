@@ -89,8 +89,12 @@ class ReportListByInstitution(generics.ListAPIView):
             qs_h = Report.objects.filter(
                 Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
                 (
-                    Q(valid_to__gte=event_date) | (
-                        Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
+                    (
+                        Q(valid_from__lte=event_date) &
+                        Q(valid_to__gte=event_date)
+                    ) | (
+                        Q(valid_to__isnull=True) &
+                        Q(valid_from__gte=event_date - datedelta(years=6))
                     )
                 )
             )
@@ -103,8 +107,12 @@ class ReportListByInstitution(generics.ListAPIView):
             qs_h = Report.objects.filter(
                 Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
                 (
-                    Q(valid_to__gte=event_date) | (
-                        Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
+                    (
+                        Q(valid_from__lte=event_date) &
+                        Q(valid_to__gte=event_date)
+                    ) | (
+                        Q(valid_to__isnull=True) &
+                        Q(valid_from__gte=event_date - datedelta(years=6))
                     )
                 )
             )
@@ -117,8 +125,12 @@ class ReportListByInstitution(generics.ListAPIView):
             qs_h = Report.objects.filter(
                 Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
                 (
-                    Q(valid_to__gte=event_date) | (
-                        Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
+                    (
+                        Q(valid_from__lte=event_date) &
+                        Q(valid_to__gte=event_date)
+                    ) | (
+                        Q(valid_to__isnull=True) &
+                        Q(valid_from__gte=event_date-datedelta(years=6))
                     )
                 )
             )
