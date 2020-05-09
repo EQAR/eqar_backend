@@ -10,7 +10,7 @@ from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
 from adminapi.views.report_search_views import ReportList
-from adminapi.views.report_views import ReportDetail, ReportFlagRemove
+from adminapi.views.report_views import ReportDetail, ReportFlagRemove, ReportCreate
 from adminapi.views.select_views import CountrySelectList, AgencySelectList, AgencyESGActivitySelectList, \
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'^institutions/(?P<pk>[0-9]+)/$', InstitutionDetail.as_view(), name='institution-edit'),
     url(r'^institutions/$', InstitutionCreate.as_view(), name='institution-create'),
 
+    url(r'^reports/$', ReportCreate.as_view(), name='report-create'),
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
 

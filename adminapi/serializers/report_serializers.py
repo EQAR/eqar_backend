@@ -1,6 +1,8 @@
+import datetime
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
+from adminapi.fields import PDFBase64File
 from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer, ProgrammeReadSerializer
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
@@ -44,10 +46,43 @@ class ReportWriteFileSerializer(WritableNestedModelSerializer):
     display_name = serializers.CharField(source='file_display_name', required=False, allow_blank=True)
     original_location = serializers.CharField(source='file_original_location', required=False, allow_blank=True)
     report_language = serializers.PrimaryKeyRelatedField(many=True, queryset=Language.objects.all(), source='languages')
+    filename = serializers.CharField(required=False)
+    fileupload = PDFBase64File(required=False, source='file')
+
+    def create(self, validated_data):
+        report_file = ReportFile.objects.create(
+            report=validated_data.get('report', ''),
+            file_display_name=validated_data.get('file_display_name', ''),
+            file_original_location=validated_data.get('file_original_location', ''),
+        )
+        report_file.languages.set(validated_data.get('languages', ''))
+
+        filename = validated_data.get('filename', '')
+        fileupload = validated_data.get('file', '')
+        if fileupload:
+            fileupload.name = filename
+            report_file.file = fileupload
+
+        report_file.save()
+        return report_file
+
+    def update(self, instance, validated_data):
+        instance.file_display_name = validated_data.get('file_display_name', '')
+        instance.file_original_location = validated_data.get('file_original_location', '')
+        instance.languages.set(validated_data.get('languages'))
+
+        filename = validated_data.get('filename', '')
+        fileupload = validated_data.get('file', '')
+        if fileupload:
+            fileupload.name = filename
+            instance.file = fileupload
+
+        instance.save()
+        return instance
 
     class Meta:
         model = ReportFile
-        fields = ('id', 'display_name', 'original_location', 'report_language')
+        fields = ('id', 'display_name', 'original_location', 'report_language', 'filename', 'fileupload')
 
 
 class ReportFlagSerializer(serializers.ModelSerializer):
@@ -98,9 +133,10 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
     activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
-    report_links = ReportLinkSerializer(many=True, source='reportlink_set')
+    report_links = ReportLinkSerializer(many=True, source='reportlink_set', required=False)
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
+    local_identifier = serializers.CharField(max_length=255, required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = Report
