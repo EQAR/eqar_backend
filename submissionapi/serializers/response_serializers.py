@@ -31,6 +31,14 @@ class ResponseReportFileSerializer(serializers.ModelSerializer):
         fields = ('id', 'file_display_name', 'file_original_location', 'file', 'report_language')
 
 
+class ResponseCSVReportSerializer(serializers.ModelSerializer):
+    report_id = serializers.IntegerField(source='id')
+
+    class Meta:
+        model = Report
+        fields = ('report_id', )
+
+
 class ResponseReportSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
     agency_esg_activity = serializers.StringRelatedField()
