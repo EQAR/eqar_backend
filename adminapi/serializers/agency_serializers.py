@@ -167,7 +167,7 @@ class AgencyEQARDecisionWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyEQARDecision
-        fields = ('id', 'agency', 'decision_date', 'decision_type',
+        fields = ('id', 'decision_date', 'decision_type',
                   'decision_file_name', 'decision_file_upload',
                   'decision_file_extra_name', 'decision_file_extra_upload')
 
