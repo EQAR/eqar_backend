@@ -16,6 +16,7 @@ dj-database-url==0.4.2
 Django==2.0.13
 django-cors-headers==2.1.0
 django-debug-toolbar==1.9.1
+django-extra-fields==2.0.3
 django-filter==2.0.0
 django-ipware==2.0.1
 django-mail-templated==2.6.5
@@ -53,6 +54,7 @@ packaging==19.0
 psycopg2==2.7.3.2
 Pygments==2.3.1
 pyparsing==2.3.1
+PyPDF2==1.26.0
 pysolr==3.7.0
 python-dateutil==2.6.1
 pytz==2017.2
