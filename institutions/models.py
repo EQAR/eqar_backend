@@ -176,6 +176,7 @@ class InstitutionNameVersion(models.Model):
     class Meta:
         db_table = 'deqar_institution_name_versions'
         verbose_name = 'Institution Name Version'
+        ordering = ['-id']
         indexes = [
             models.Index(fields=['name']),
             models.Index(fields=['transliteration']),
@@ -210,6 +211,7 @@ class InstitutionCountry(models.Model):
     class Meta:
         db_table = 'deqar_institution_countries'
         verbose_name = 'Institution Country'
+        ordering = ['-id']
         indexes = [
             models.Index(fields=['city']),
             models.Index(fields=['country_valid_to']),
@@ -243,6 +245,7 @@ class InstitutionNQFLevel(models.Model):
     class Meta:
         db_table = 'deqar_institution_nqf_levels'
         verbose_name = 'Institution NQF Level'
+        ordering = ['-id']
         indexes = [
             models.Index(fields=['nqf_level_valid_to']),
         ]
@@ -276,6 +279,7 @@ class InstitutionQFEHEALevel(models.Model):
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'
         verbose_name = 'Institution QF-EHEA Level'
+        ordering = ['-id']
         indexes = [
             models.Index(fields=['qf_ehea_level_valid_to']),
         ]
