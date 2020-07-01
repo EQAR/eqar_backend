@@ -7,7 +7,7 @@ from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, Instit
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel, InstitutionHierarchicalRelationship, InstitutionFlag, \
     InstitutionUpdateLog, InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipType
-from lists.models import Flag
+from lists.models import Flag, QFEHEALevel
 
 
 class InstitutionIdentifierReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
@@ -59,6 +59,8 @@ class InstitutionCountryWriteSerializer(WritableNestedModelSerializer):
 
 
 class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
+    qf_ehea_level = serializers.SlugRelatedField(slug_field='level', queryset=QFEHEALevel.objects.all())
+
     class Meta:
         model = InstitutionQFEHEALevel
         fields = ['id', 'qf_ehea_level']

@@ -29,11 +29,14 @@ class AgencySelectList(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        submitting_agency = user.deqarprofile.submitting_agency
-        agency_proxies = AgencyProxy.objects.filter(
-            Q(submitting_agency=submitting_agency) &
-            (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
-        return Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
+        if user.is_staff:
+            return Agency.objects.all().order_by('acronym_primary')
+        else:
+            submitting_agency = user.deqarprofile.submitting_agency
+            agency_proxies = AgencyProxy.objects.filter(
+                Q(submitting_agency=submitting_agency) &
+                (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
+            return Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
 
 
 class AgencySelectAllList(generics.ListAPIView):
