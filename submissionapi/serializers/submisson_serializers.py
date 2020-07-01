@@ -287,7 +287,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
     valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',
                                        help_text='example: 15-01-2015')
     valid_to = serializers.CharField(max_length=20, required=False, label='End date of the report validity',
-                                     help_text='example: 15-01-2015')
+                                     help_text='example: 15-01-2015', allow_null=True)
     date_format = serializers.CharField(max_length=20, required=True, label='The date format of the validation dates.',
                                         help_text='example: %d-%M-%Y')
 
