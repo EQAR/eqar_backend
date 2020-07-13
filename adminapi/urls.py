@@ -6,6 +6,7 @@ from rest_framework import permissions
 from adminapi.views.agency_search_views import AgencyList
 from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyAgencyDetail, \
     AgencyDecisionFileUploadView
+from adminapi.views.country_views import CountryList
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
@@ -76,6 +77,8 @@ urlpatterns = [
     url(r'^reports/$', ReportCreate.as_view(), name='report-create'),
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
+
+    url(r'^countries/$', CountryList.as_view(), name='country-list-create'),
 
     # Browse endpoints
     url(r'^browse/(?P<request_type>["all"|"my"]+)/reports/$', ReportList.as_view(), name='report-list'),
