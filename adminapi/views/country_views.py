@@ -2,8 +2,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework import filters
+from drf_rw_serializers.generics import RetrieveUpdateAPIView
 
-from adminapi.serializers.country_serializer import CountryListSerializer
+
+from adminapi.serializers.country_serializer import CountryListSerializer, CountryReadSerializer
 from countries.models import Country
 
 
@@ -15,3 +17,9 @@ class CountryList(generics.ListCreateAPIView):
     ordering = ['name_english', 'iso_3166_alpha2', 'iso_3166_alpha3', 'ehea_is_member']
     search_fields = ['name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
     queryset = Country.objects.all()
+
+
+class CountryDetail(RetrieveUpdateAPIView):
+    queryset = Country.objects.all()
+    read_serializer_class = CountryReadSerializer
+    write_serializer_class = CountryReadSerializer

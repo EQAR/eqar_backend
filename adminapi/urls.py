@@ -6,7 +6,7 @@ from rest_framework import permissions
 from adminapi.views.agency_search_views import AgencyList
 from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyAgencyDetail, \
     AgencyDecisionFileUploadView
-from adminapi.views.country_views import CountryList
+from adminapi.views.country_views import CountryList, CountryDetail
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
@@ -16,7 +16,7 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
-    FlagSelectList, InstitutionHistoricalRelationshipTypeSelect
+    FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList
 
 app_name = 'adminapi'
 
@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
     url(r'^select/flag/$', FlagSelectList.as_view(), name='flag-select'),
+    url(r'^select/qa_requirement_type/$', QARequirementTypeSelectList.as_view(), name='qa_requirement_type-select'),
+
     url(r'^select/institution_historical_relationship_types/$', InstitutionHistoricalRelationshipTypeSelect.as_view(),
         name='institution-historical-relationship-type-select'),
 
@@ -79,6 +81,7 @@ urlpatterns = [
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
 
     url(r'^countries/$', CountryList.as_view(), name='country-list-create'),
+    url(r'^countries/(?P<pk>[0-9]+)/$', CountryDetail.as_view(), name='country-edit'),
 
     # Browse endpoints
     url(r'^browse/(?P<request_type>["all"|"my"]+)/reports/$', ReportList.as_view(), name='report-list'),
