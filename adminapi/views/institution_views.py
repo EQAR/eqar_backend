@@ -29,7 +29,7 @@ class InstitutionDetail(RetrieveUpdateAPIView):
         else:
             InstitutionUpdateLog.objects.create(
                 institution=institution,
-                note='Report updated',
+                note='Institution updated',
                 updated_by=request.user
             )
         institution.save()
@@ -39,3 +39,7 @@ class InstitutionDetail(RetrieveUpdateAPIView):
 class InstitutionCreate(CreateAPIView):
     queryset = Institution.objects.all()
     serializer_class = InstitutionWriteSerializer
+
+    def perform_create(self, serializer):
+        institution = serializer.save(created_by=self.request.user)
+        institution.save()

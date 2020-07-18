@@ -28,6 +28,8 @@ class Institution(models.Model):
     internal_note = models.TextField(blank=True)
 
     # Audit log values
+    created_by = models.ForeignKey(User, related_name='institutions_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

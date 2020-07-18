@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django_filters import rest_framework as filters
-from drf_rw_serializers.generics import RetrieveUpdateAPIView
+from drf_rw_serializers.generics import RetrieveUpdateAPIView, CreateAPIView
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
