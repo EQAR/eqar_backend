@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from ipware import get_client_ip
+from submissionapi.tasks import recheck_flag
 
 from adminapi.permissions import CanEditReport
 from adminapi.serializers.report_serializers import ReportReadSerializer, ReportWriteSerializer
@@ -109,4 +110,8 @@ class ReportFlagRemove(APIView):
             note='%s flag was removed' % report_flag.flag.flag.title(),
             updated_by=request.user
         )
+
+        # Reindex and recheck flag
+        recheck_flag(report=report_flag.report)
+
         return Response(data={'OK'}, status=200)
