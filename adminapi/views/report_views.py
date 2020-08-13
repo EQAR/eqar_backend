@@ -53,27 +53,26 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
 
     @swagger_auto_schema(request_body=ReportWriteSerializer, responses={'200': ReportReadSerializer})
     def put(self, request, *args, **kwargs):
-        report = Report.objects.get(id=kwargs.get('pk'))
-        response = super(ReportDetail, self).put(request, *args, **kwargs)
+        return super(ReportDetail, self).put(request, *args, **kwargs)
 
+    def perform_update(self, serializer):
+        report = serializer.save()
         flagger = ReportFlagger(report=report)
         flagger.check_and_set_flags()
 
-        submit_comment = request.data.get('submit_comment', None)
+        submit_comment = self.request.data.get('submit_comment', None)
         if submit_comment:
             ReportUpdateLog.objects.create(
                 report=report,
                 note=submit_comment,
-                updated_by=request.user
+                updated_by=self.request.user
             )
         else:
             ReportUpdateLog.objects.create(
                 report=report,
                 note='Report updated',
-                updated_by=request.user
+                updated_by=self.request.user
             )
-
-        return response
 
     @swagger_auto_schema(responses={'200': 'OK'})
     def delete(self, request, *args, **kwargs):

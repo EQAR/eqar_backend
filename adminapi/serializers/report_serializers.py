@@ -1,6 +1,7 @@
 import datetime
-from drf_writable_nested import WritableNestedModelSerializer
+from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from adminapi.fields import PDFBase64File
 from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer, ProgrammeReadSerializer
@@ -46,7 +47,7 @@ class ReportWriteFileSerializer(WritableNestedModelSerializer):
     display_name = serializers.CharField(source='file_display_name', required=False, allow_blank=True)
     original_location = serializers.CharField(source='file_original_location', required=False, allow_blank=True)
     report_language = serializers.PrimaryKeyRelatedField(many=True, queryset=Language.objects.all(), source='languages')
-    filename = serializers.CharField(required=False)
+    filename = serializers.CharField(required=False, allow_blank=True)
     fileupload = PDFBase64File(required=False, source='file')
 
     def create(self, validated_data):
@@ -136,7 +137,6 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
     report_links = ReportLinkSerializer(many=True, source='reportlink_set', required=False)
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
-    local_identifier = serializers.CharField(max_length=255, required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = Report
