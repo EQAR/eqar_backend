@@ -59,11 +59,11 @@ class InstitutionCountryWriteSerializer(WritableNestedModelSerializer):
 
 
 class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
-    qf_ehea_level = serializers.SlugRelatedField(slug_field='level', queryset=QFEHEALevel.objects.all())
+    level = serializers.SlugRelatedField(slug_field='level', queryset=QFEHEALevel.objects.all(), source='qf_ehea_level')
 
     class Meta:
         model = InstitutionQFEHEALevel
-        fields = ['id', 'qf_ehea_level']
+        fields = ['id', 'level']
 
 
 class InstitutionRelationshipSerializer(serializers.ModelSerializer):
