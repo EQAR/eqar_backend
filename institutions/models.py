@@ -281,7 +281,7 @@ class InstitutionQFEHEALevel(models.Model):
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'
         verbose_name = 'Institution QF-EHEA Level'
-        ordering = ['-id']
+        ordering = ['qf_ehea_level__code']
         indexes = [
             models.Index(fields=['qf_ehea_level_valid_to']),
         ]
