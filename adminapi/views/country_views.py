@@ -35,6 +35,10 @@ class CountryList(generics.ListCreateAPIView):
     search_fields = ['name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
     queryset = Country.objects.all()
 
+    def perform_create(self, serializer):
+        country = serializer.save(created_by=self.request.user)
+        country.save()
+
 
 class CountryDetail(RetrieveUpdateAPIView):
     queryset = Country.objects.all()
