@@ -27,7 +27,7 @@
     registration_start: 2009-04-08
     registration_valid_to: 2021-06-30
     geographical_focus: 3
-    created_at: "2019-01-01T12:00
+    created_at: "2019-01-01T12:00:00+00:00"
 
 - model: agencies.AgencyName
   pk: 1
