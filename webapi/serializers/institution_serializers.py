@@ -160,7 +160,8 @@ class InstitutionDEQARConnectListSerializer(serializers.HyperlinkedModelSerializ
     eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     city = serializers.SlugRelatedField(read_only=True, slug_field='city', many=True, source='institutioncountry_set')
     country = serializers.SlugRelatedField(read_only=True, slug_field='country__name_english', many=True, source='institutioncountry_set')
+    has_more = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Institution
-        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'city', 'country']
+        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'city', 'country', 'has_more']

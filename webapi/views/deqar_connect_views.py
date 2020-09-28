@@ -3,13 +3,16 @@ from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from pysolr import SolrError
+from rest_framework import generics
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
+from agencies.models import AgencyESGActivity
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution
 from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from webapi.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
 from webapi.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
 
 
@@ -102,3 +105,16 @@ class InstitutionDEQARConnectList(ListAPIView):
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True
         return Response(resp)
+
+
+class AgencyActivityDEQARConnectList(generics.ListAPIView):
+    """
+    Returns a list of the activities for each Agency where the user has the right to submit.
+    """
+    serializer_class = AgencyActivityDEQARConnectListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        submitting_agency = user.deqarprofile.submitting_agency.submitting_agency.all()
+        return AgencyESGActivity.objects.filter(agency__allowed_agency__in=submitting_agency)\
+            .order_by('agency__acronym_primary')

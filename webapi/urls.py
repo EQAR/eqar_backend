@@ -5,7 +5,7 @@ from rest_framework import permissions
 
 from webapi.views.agency_views import *
 from webapi.views.country_views import *
-from webapi.views.institution_connect_views import InstitutionDEQARConnectList
+from webapi.views.deqar_connect_views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList
 from webapi.views.institution_views import *
 from webapi.views.report_views import *
 
@@ -48,7 +48,8 @@ urlpatterns = [
         ReportInstitutionListByInstitution.as_view(), name='institutional-report-list-by-institution'),
 
     # DEQAR Connect endpoints
-    url(r'^connect/institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connectlist'),
+    url(r'^connect/institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
+    url(r'^connect/activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
