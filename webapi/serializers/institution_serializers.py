@@ -150,6 +150,17 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
         return relationships
 
     class Meta:
+        ref_name = 'Institution V1'
         model = Institution
         fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
+
+
+class InstitutionDEQARConnectListSerializer(serializers.HyperlinkedModelSerializer):
+    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
+    city = serializers.SlugRelatedField(read_only=True, slug_field='city', many=True, source='institutioncountry_set')
+    country = serializers.SlugRelatedField(read_only=True, slug_field='country__name_english', many=True, source='institutioncountry_set')
+
+    class Meta:
+        model = Institution
+        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'city', 'country']
