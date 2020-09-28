@@ -9,11 +9,15 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution
-from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 
 
 class InstitutionFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
+    country = filters.CharFilter(label='Country')
+    city = filters.CharFilter(label='City')
+    eter_id = filters.CharFilter(label='ETER ID')
+    deqar_id = filters.CharFilter(label='DEQAR ID')
 
     ordering = OrderingFilter(
         fields=(
@@ -30,7 +34,7 @@ class InstitutionFilterClass(filters.FilterSet):
 ))
 class InstitutionAllList(ListAPIView):
     """
-    Returns a list of all the institutions to which report was submitted in DEQAR.
+    Returns a list of all the institutions existing in DEQAR.
     """
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
