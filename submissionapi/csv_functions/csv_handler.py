@@ -197,12 +197,18 @@ class CSVHandler:
 
         for field in fields:
             r = re.compile(field)
-            rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower, reverse=True)
+
+            max_index = 0
+            for csv_field in csv_fields:
+                match = r.match(csv_field)
+                if match:
+                    groups = re.search(r"\d+", csv_field)
+                    index = int(groups.group(0))
+                    if index > max_index:
+                        max_index = index
 
             # Create plaholder if it doesn't exists yet
-            if len(rematch) > 0:
-                rematch[0] = rematch[0].split('.')[0]
-                max_index = int(re.search(r"\d+", rematch[0]).group())
+            if max_index > 0:
                 for i in range(0, max_index):
                     if len(self.report_record[wrapper]) < i+1:
                         self.report_record[wrapper].append({})
@@ -236,12 +242,18 @@ class CSVHandler:
             if dictkey:
                 for field in self.FIELDS[field_key]:
                     r = re.compile(field)
-                    rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower, reverse=True)
+
+                    max_index = 0
+                    for csv_field in csv_fields:
+                        match = r.match(csv_field)
+                        if match:
+                            groups = re.search(r"\d+", csv_field)
+                            index = int(groups.group(0))
+                            if index > max_index:
+                                max_index = index
 
                     # Create plaholder if it doesn't exists yet
-                    if len(rematch) > 0:
-                        field02 = rematch[0].split('.')[1]
-                        max_index = int(re.search(r"\d+", field02).group())
+                    if max_index > 0:
                         for i in range(0, max_index):
                             if len(first_level_wrapper_item[wrapper]) < i+1:
                                 first_level_wrapper_item[wrapper].append({})

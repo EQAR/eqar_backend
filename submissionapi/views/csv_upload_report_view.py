@@ -10,7 +10,7 @@ from submissionapi.csv_functions.csv_handler import CSVHandler
 from submissionapi.csv_functions.csv_parser import CSVParser
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.populators.populator import Populator
-from submissionapi.serializers.response_serializers import ResponseReportSerializer, ResponseCSVReportSerializer
+from submissionapi.serializers.response_serializers import ResponseCSVReportSerializer
 from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
 from submissionapi.tasks import send_submission_email
 from submissionapi.trackers.submission_tracker import SubmissionTracker

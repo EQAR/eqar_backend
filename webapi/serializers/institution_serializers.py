@@ -10,6 +10,7 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
 
     class Meta:
+        ref_name = 'InstitutionCountry v1'
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['country', 'city', 'lat', 'long']
@@ -51,6 +52,7 @@ class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModel
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
 
     class Meta:
+        ref_name = 'InstitutionHierarchicalRelationship v1'
         model = Institution
         fields = ['id', 'url', 'name_primary', 'website_link']
 
@@ -60,12 +62,14 @@ class InstitutionIdentifierSerializer(serializers.ModelSerializer):
     resource = serializers.StringRelatedField(read_only=True)
 
     class Meta:
+        ref_name = 'InstitutionIdentifier v1'
         model = InstitutionIdentifier
         fields = ['identifier', 'agency', 'resource', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionNameVersionSerializer(serializers.ModelSerializer):
     class Meta:
+        ref_name = 'InstitutionNameVersion v1'
         model = InstitutionNameVersion
         fields = ['name', 'transliteration']
 
@@ -74,6 +78,7 @@ class InstitutionNameSerializer(serializers.ModelSerializer):
     name_versions = InstitutionNameVersionSerializer(many=True, read_only=True, source='institutionnameversion_set')
 
     class Meta:
+        ref_name = 'InstitutionName v1'
         model = InstitutionName
         fields = ['name_official', 'name_official_transliterated', 'name_english', 'name_versions', 'acronym',
                   'name_source_note', 'name_valid_to']
@@ -83,6 +88,7 @@ class InstitutionHistoricalDataSerializer(serializers.ModelSerializer):
     field = serializers.StringRelatedField()
 
     class Meta:
+        ref_name = 'InstitutionHistoricalData v1'
         model = InstitutionHistoricalData
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['field', 'value', 'record_id', 'valid_from', 'valid_to']
@@ -92,6 +98,7 @@ class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
     qf_ehea_level = serializers.StringRelatedField()
 
     class Meta:
+        ref_name = 'InstitutionQFEHEALevel v1'
         model = InstitutionQFEHEALevel
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['qf_ehea_level', 'qf_ehea_level_source', 'qf_ehea_level_source_note',
@@ -102,6 +109,7 @@ class InstitutionCountryDetailSerializer(serializers.ModelSerializer):
     country = CountryDetailSerializer()
 
     class Meta:
+        ref_name = 'InstitutionCountry v1'
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['country', 'city', 'lat', 'long', 'country_source', 'country_source',
@@ -150,6 +158,19 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
         return relationships
 
     class Meta:
+        ref_name = 'Institution v1'
         model = Institution
         fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
+
+
+class InstitutionDEQARConnectListSerializer(serializers.HyperlinkedModelSerializer):
+    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
+    city = serializers.SlugRelatedField(read_only=True, slug_field='city', many=True, source='institutioncountry_set')
+    country = serializers.SlugRelatedField(read_only=True, slug_field='country__name_english', many=True, source='institutioncountry_set')
+    has_more = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        ref_name = 'Institution'
+        model = Institution
+        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'city', 'country', 'has_more']
