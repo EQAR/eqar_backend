@@ -3,13 +3,17 @@ from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from pysolr import SolrError
+from rest_framework import generics
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
+from agencies.models import AgencyESGActivity
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution
 from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from webapi.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
+from webapi.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -32,13 +36,14 @@ class InstitutionFilterClass(filters.FilterSet):
 @method_decorator(name='get', decorator=swagger_auto_schema(
    filter_inspectors=[InstitutionSearchInspector],
 ))
-class InstitutionAllList(ListAPIView):
+class InstitutionDEQARConnectList(ListAPIView):
     """
     Returns a list of all the institutions existing in DEQAR.
     """
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilterClass
+    serializer_class = InstitutionDEQARConnectListSerializer
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
     def list(self, request, *args, **kwargs):
@@ -61,8 +66,8 @@ class InstitutionAllList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
-                  'website_link,country,city,score',
+            'fl': 'id,eter_id,deqar_id,name_primary,'
+                  'website_link,country,city',
             'facet': True,
             'facet_fields': ['country_facet'],
             'facet_sort': 'index'
@@ -100,3 +105,16 @@ class InstitutionAllList(ListAPIView):
         if (int(limit) + int(offset)) < int(response.hits):
             resp['next'] = True
         return Response(resp)
+
+
+class AgencyActivityDEQARConnectList(generics.ListAPIView):
+    """
+    Returns a list of the activities for each Agency where the user has the right to submit.
+    """
+    serializer_class = AgencyActivityDEQARConnectListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        submitting_agency = user.deqarprofile.submitting_agency.submitting_agency.all()
+        return AgencyESGActivity.objects.filter(agency__allowed_agency__in=submitting_agency)\
+            .order_by('agency__acronym_primary')

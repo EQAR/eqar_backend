@@ -21,7 +21,7 @@ class InstitutionSearchInspector(CoreAPICompatInspector):
         },
         'country': {
             'description': 'Name of a country. The resultset contains institutions located in the selected countries or'
-                           'a programme (from a report) was listed in the submitted country.',
+                           ' a programme (from a report) was listed in the submitted country.',
             'type': 'string'
         },
         'country_id': {

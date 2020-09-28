@@ -187,3 +187,12 @@ class AgencyEQARDecisionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyEQARDecision
         fields = ('agency_acronym', 'decision_date', 'decision_type', 'decision_file', 'decision_file_extra')
+
+
+class AgencyActivityDEQARConnectListSerializer(serializers.ModelSerializer):
+    agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
+    activity_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = AgencyESGActivity
+        fields = ['id', 'agency', 'activity', 'activity_type']
