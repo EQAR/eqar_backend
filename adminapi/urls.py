@@ -8,6 +8,7 @@ from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyA
     AgencyDecisionFileUploadView
 from adminapi.views.country_views import CountryList, CountryDetail
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
+from adminapi.views.flag_views import ReportFlagList
 from adminapi.views.institution_search_views import InstitutionAllList
 from adminapi.views.institution_views import InstitutionDetail, InstitutionCreate
 from adminapi.views.report_search_views import ReportList
@@ -79,6 +80,8 @@ urlpatterns = [
     url(r'^reports/$', ReportCreate.as_view(), name='report-create'),
     url(r'^reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-view-edit'),
     url(r'^reports/remove_flag/(?P<pk>[0-9]+)/$', ReportFlagRemove.as_view(), name='report-flag-delete'),
+
+    url(r'^flags/reports/$', ReportFlagList.as_view(), name='report-flags'),
 
     url(r'^countries/$', CountryList.as_view(), name='country-list-create'),
     url(r'^countries/(?P<pk>[0-9]+)/$', CountryDetail.as_view(), name='country-edit'),
