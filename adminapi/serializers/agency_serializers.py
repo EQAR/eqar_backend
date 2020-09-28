@@ -1,6 +1,7 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
+from adminapi.fields import PDFBase64File
 from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     AgencyActivityTypeSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer
 from agencies.models import Agency, AgencyName, AgencyNameVersion, AgencyPhone, AgencyEmail, AgencyFocusCountry, \
@@ -36,7 +37,7 @@ class AgencyNameSerializer(WritableNestedModelSerializer):
 class AgencyPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyPhone
-        exclude = ('agency',)
+        fields = ('id', 'phone')
 
 
 class AgencyEmailSerializer(serializers.ModelSerializer):
@@ -118,9 +119,57 @@ class AgencyEQARDecisionReadSerializer(serializers.ModelSerializer):
 
 
 class AgencyEQARDecisionWriteSerializer(serializers.ModelSerializer):
+    decision_file_name = serializers.CharField(required=False, allow_blank=True)
+    decision_file_upload = PDFBase64File(required=False, source='decision_file')
+    decision_file_extra_name = serializers.CharField(required=False, allow_blank=True)
+    decision_file_extra_upload = PDFBase64File(required=False, source='decision_file_extra')
+
+    def create(self, validated_data):
+        agency_decision = AgencyEQARDecision.objects.create(
+            agency=validated_data.get('agency', ''),
+            decision_date=validated_data.get('decision_date', ''),
+            decision_type=validated_data.get('decision_type', ''),
+        )
+
+        decision_file_name = validated_data.get('decision_file_name', '')
+        decision_file = validated_data.get('decision_file', '')
+        if decision_file:
+            decision_file.name = decision_file_name
+            agency_decision.decision_file = decision_file
+
+        decision_file_extra_name = validated_data.get('decision_file_extra_name', '')
+        decision_file_extra = validated_data.get('decision_file_extra', '')
+        if decision_file_extra:
+            decision_file_extra.name = decision_file_extra_name
+            agency_decision.decision_file_extra = decision_file_extra
+
+        agency_decision.save()
+        return agency_decision
+
+    def update(self, instance, validated_data):
+        instance.decision_date = validated_data.get('decision_date', '')
+        instance.decision_type = validated_data.get('decision_type', '')
+
+        decision_file_name = validated_data.get('decision_file_name', '')
+        decision_file = validated_data.get('decision_file', '')
+        if decision_file:
+            decision_file.name = decision_file_name
+            instance.decision_file = decision_file
+
+        decision_file_extra_name = validated_data.get('decision_file_extra_name', '')
+        decision_file_extra = validated_data.get('decision_file_extra', '')
+        if decision_file_extra:
+            decision_file_extra.name = decision_file_extra_name
+            instance.decision_file_extra = decision_file_extra
+
+        instance.save()
+        return instance
+
     class Meta:
         model = AgencyEQARDecision
-        fields = ('id', 'agency', 'decision_date', 'decision_type')
+        fields = ('id', 'decision_date', 'decision_type',
+                  'decision_file_name', 'decision_file_upload',
+                  'decision_file_extra_name', 'decision_file_extra_upload')
 
 
 class AgencyFlagSerializer(serializers.ModelSerializer):

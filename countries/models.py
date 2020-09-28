@@ -1,4 +1,6 @@
 import datetime
+
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -29,6 +31,13 @@ class Country(models.Model):
                                             default=2, on_delete=models.PROTECT)
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
+
+    internal_note = models.TextField(blank=True, null=True)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='countries_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name_english
@@ -132,3 +141,19 @@ class CountryHistoricalData(models.Model):
         indexes = [
             models.Index(fields=['valid_to']),
         ]
+
+
+class CountryUpdateLog(models.Model):
+    """
+    Updates happened with a country record
+    """
+    id = models.AutoField(primary_key=True)
+    country = models.ForeignKey('Country', on_delete=models.CASCADE)
+    note = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, related_name='country_log_updated_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_country_update_log'
+        verbose_name = 'Country Update Log'

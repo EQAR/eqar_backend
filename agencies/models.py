@@ -31,6 +31,12 @@ class Agency(models.Model):
     related_agencies = models.ManyToManyField('self', through='AgencyRelationship', symmetrical=False)
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
+    internal_note = models.TextField(blank=True, null=True)
+
+    # Audit log values
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='agencies_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return "%s - %s" % (self.acronym_primary, self.name_primary)

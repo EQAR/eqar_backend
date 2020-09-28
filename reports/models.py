@@ -1,7 +1,10 @@
 import datetime
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+
+from eqar_backend.fields import CharNullField
 
 
 class Report(models.Model):
@@ -10,7 +13,7 @@ class Report(models.Model):
     """
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
-    local_identifier = models.CharField(max_length=255, blank=True, null=True)
+    local_identifier = CharNullField(max_length=255, blank=True, null=True)
     agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT)
     name = models.CharField(max_length=300)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
@@ -30,6 +33,24 @@ class Report(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     updated_by = models.ForeignKey(User, related_name='reports_updated_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+
+        if self.local_identifier != '':
+            conflicting_instance = Report.objects.filter(
+                agency=self.agency,
+                local_identifier=self.local_identifier
+            )
+
+            if self.id:
+                # This instance has already been saved. So we need to filter out
+                # this instance from our results.
+                conflicting_instance = conflicting_instance.exclude(pk=self.id)
+
+            if conflicting_instance.exists():
+                raise ValidationError('Report with this agency and local_identifier already exists.')
+
+        super(Report, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'deqar_reports'
@@ -86,7 +107,9 @@ class ReportLink(models.Model):
 
 
 def set_directory_path(instance, filename):
-    return '{0}/%Y%m%d-{1}'.format(instance.report.agency.acronym_primary, filename)
+    return '{0}/{1}-{2}'.format(instance.report.agency.acronym_primary,
+                                datetime.datetime.now().strftime("%Y%m%d_%H%M"),
+                                filename)
 
 
 class ReportFile(models.Model):

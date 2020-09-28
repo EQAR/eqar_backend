@@ -23,6 +23,7 @@
     registration_valid_to: '2019-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 2
   fields:
@@ -51,6 +52,7 @@
     registration_valid_to: '2019-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 3
   fields:
@@ -82,6 +84,7 @@
     registration_valid_to: '2021-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 4
   fields:
@@ -110,6 +113,7 @@
     registration_valid_to: '2021-08-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 5
   fields:
@@ -136,6 +140,7 @@
     registration_valid_to: '2021-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 6
   fields:
@@ -160,6 +165,7 @@
     registration_valid_to: '2019-12-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 7
   fields:
@@ -186,6 +192,7 @@
     registration_valid_to: '2019-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 8
   fields:
@@ -212,6 +219,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 9
   fields:
@@ -242,6 +250,7 @@
     registration_valid_to: '2019-02-27'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 10
   fields:
@@ -267,6 +276,7 @@
     registration_valid_to: '2021-09-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 11
   fields:
@@ -291,6 +301,7 @@
     registration_valid_to: '2019-10-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 12
   fields:
@@ -317,6 +328,7 @@
     registration_valid_to: '2017-11-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 13
   fields:
@@ -342,6 +354,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 14
   fields:
@@ -366,6 +379,7 @@
     registration_valid_to: '2019-05-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 15
   fields:
@@ -391,6 +405,7 @@
     registration_valid_to: '2022-01-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 16
   fields:
@@ -415,6 +430,7 @@
     registration_valid_to: '2017-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 17
   fields:
@@ -449,6 +465,7 @@
     registration_valid_to: '2018-09-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 18
   fields:
@@ -474,6 +491,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 19
   fields:
@@ -501,6 +519,7 @@
     registration_valid_to: '2021-05-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 20
   fields:
@@ -532,6 +551,7 @@
     registration_valid_to: '2020-01-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 21
   fields:
@@ -562,6 +582,7 @@
     registration_valid_to: '2017-12-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 22
   fields:
@@ -594,6 +615,7 @@
     registration_valid_to: '2019-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 23
   fields:
@@ -620,6 +642,7 @@
     registration_valid_to: '2018-10-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 24
   fields:
@@ -645,6 +668,7 @@
     registration_valid_to: '2018-03-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 25
   fields:
@@ -669,6 +693,7 @@
     registration_valid_to: '2019-08-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 26
   fields:
@@ -699,6 +724,7 @@
     registration_valid_to: '2022-01-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 27
   fields:
@@ -723,6 +749,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 28
   fields:
@@ -747,6 +774,7 @@
     registration_valid_to: '2020-02-29'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 29
   fields:
@@ -796,6 +824,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 30
   fields:
@@ -821,6 +850,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 31
   fields:
@@ -848,6 +878,7 @@
     registration_valid_to: '2019-01-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 32
   fields:
@@ -874,6 +905,7 @@
     registration_valid_to: '2022-02-28'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 33
   fields:
@@ -901,6 +933,7 @@
     registration_valid_to: '2019-04-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 34
   fields:
@@ -926,6 +959,7 @@
     registration_valid_to: '2020-11-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 35
   fields:
@@ -950,6 +984,7 @@
     registration_valid_to: '2019-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 36
   fields:
@@ -976,6 +1011,7 @@
     registration_valid_to: '2018-05-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 37
   fields:
@@ -1003,6 +1039,7 @@
     registration_valid_to: '2017-09-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 38
   fields:
@@ -1027,6 +1064,7 @@
     registration_valid_to: '2018-12-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 39
   fields:
@@ -1054,6 +1092,7 @@
     registration_valid_to: '2018-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 40
   fields:
@@ -1082,6 +1121,7 @@
     registration_valid_to: '2016-12-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 41
   fields:
@@ -1112,6 +1152,7 @@
     registration_valid_to: '2019-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 42
   fields:
@@ -1138,6 +1179,7 @@
     registration_valid_to: '2017-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 43
   fields:
@@ -1169,6 +1211,7 @@
     registration_valid_to: '2018-07-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 44
   fields:
@@ -1193,6 +1236,7 @@
     registration_valid_to: '2019-04-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 45
   fields:
@@ -1219,6 +1263,7 @@
     registration_valid_to: '2019-09-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 46
   fields:
@@ -1245,6 +1290,7 @@
     registration_valid_to: '2021-06-30'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agency
   pk: 47
   fields:
@@ -1265,6 +1311,7 @@
     registration_valid_to: '2018-12-31'
     registration_note: ''
     flag: 1
+    created_at: "2019-01-01T12:00:00+00:00"
 - model: agencies.agencygeographicalfocus
   pk: 1
   fields:

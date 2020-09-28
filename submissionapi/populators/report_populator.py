@@ -94,7 +94,7 @@ class ReportPopulator():
         Create or update a ReportFile instance.
         """
         report_files = self.submission.get('report_files', None)
-        if report_files is not None:
+        if report_files is not None or report_files != '' or report_files != []:
             # Remove existing report files
             self.report.reportfile_set.all().delete()
             for report_file in report_files:

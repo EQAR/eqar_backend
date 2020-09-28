@@ -28,6 +28,8 @@ class Institution(models.Model):
     internal_note = models.TextField(blank=True)
 
     # Audit log values
+    created_by = models.ForeignKey(User, related_name='institutions_created_by',
+                                   on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -279,7 +281,7 @@ class InstitutionQFEHEALevel(models.Model):
     class Meta:
         db_table = 'deqar_institution_qf_ehea_levels'
         verbose_name = 'Institution QF-EHEA Level'
-        ordering = ['-id']
+        ordering = ['qf_ehea_level__code']
         indexes = [
             models.Index(fields=['qf_ehea_level_valid_to']),
         ]
