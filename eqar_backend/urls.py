@@ -9,8 +9,8 @@ urlpatterns = [
     url(r'^webapi/v2/', include('webapi.urls_v2', namespace='webapi-v2')),
 
     url(r'^submissionapi/v1/', include('submissionapi.urls', namespace='submissionapi-v1')),
-
     url(r'^adminapi/v1/', include('adminapi.urls', namespace='adminapi-v1')),
+    url(r'^connectapi/v1/', include('connectapi.urls', namespace='connectapi-v1')),
 
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^admin/', admin_site.urls),
