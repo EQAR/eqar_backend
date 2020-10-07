@@ -97,7 +97,7 @@ class ReportDownloader:
         plus the extension according to the mime-type.
         """
         # Current datetime
-        file_name = self.report_file_id
+        file_name = str(self.report_file_id)
 
         # Step 1A. - Get content-disposition
         r = requests.head(self.url, allow_redirects=True)
