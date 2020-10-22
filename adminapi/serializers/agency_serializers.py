@@ -6,6 +6,7 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     AgencyActivityTypeSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer
 from agencies.models import Agency, AgencyName, AgencyNameVersion, AgencyPhone, AgencyEmail, AgencyFocusCountry, \
     AgencyESGActivity, AgencyMembership, AgencyEQARDecision, AgencyFlag, AgencyUpdateLog
+from eqar_backend.serializers import AgencyNameTypeSerializer
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,6 +32,7 @@ class AgencyNameSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = AgencyName
+        list_serializer_class = AgencyNameTypeSerializer
         exclude = ('agency',)
 
 
@@ -192,8 +194,8 @@ class AgencyUpdateLogSerializer(serializers.ModelSerializer):
 
 
 class AgencyReadSerializer(serializers.ModelSerializer):
-    primary_name_acronym = serializers.SerializerMethodField()
-    names = AgencyNameSerializer(many=True, source='agencyname_set')
+    names_actual = AgencyNameSerializer(many=True, source='agencyname_set', context={'type': 'actual'})
+    names_former = AgencyNameSerializer(many=True, source='agencyname_set', context={'type': 'former'})
     phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
     emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
     focus_countries = AgencyFocusCountryReadSerializer(many=True, source='agencyfocuscountry_set')
@@ -204,16 +206,13 @@ class AgencyReadSerializer(serializers.ModelSerializer):
     flags = AgencyFlagSerializer(many=True, source='agencyflag_set')
     update_log = serializers.SerializerMethodField()
 
-    def get_primary_name_acronym(self, obj):
-        return "%s / %s" % (obj.name_primary, obj.acronym_primary)
-
     def get_update_log(self, obj):
         queryset = obj.agencyupdatelog_set.order_by('updated_at')
         return AgencyUpdateLogSerializer(queryset, many=True, context=self.context).data
 
     class Meta:
         model = Agency
-        fields = '__all__'
+        exclude = ('acronym_primary', 'name_primary')
 
 
 class AgencyWriteSerializer(WritableNestedModelSerializer):
