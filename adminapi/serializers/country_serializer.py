@@ -1,4 +1,4 @@
-from drf_writable_nested import UniqueFieldsMixin
+from drf_writable_nested import UniqueFieldsMixin, WritableNestedModelSerializer
 from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import CountryQARequirementTypeSerializer
@@ -32,6 +32,12 @@ class CountryQARequirementReadSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CountryQARequirementWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CountryQARequirement
+        fields = '__all__'
+
+
 class CountryQAARegulationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountryQAARegulation
@@ -51,7 +57,9 @@ class CountryReadSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CountryWriteSerializer(serializers.ModelSerializer):
+class CountryWriteSerializer(WritableNestedModelSerializer):
+    qa_requirements = CountryQARequirementWriteSerializer(many=True, source='countryqarequirement_set')
+
     class Meta:
         model = Country
         fields = '__all__'
