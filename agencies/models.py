@@ -4,6 +4,7 @@ from datetime import date
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
+from rest_framework.exceptions import ValidationError
 
 
 class Agency(models.Model):
@@ -200,8 +201,19 @@ class AgencyESGActivity(models.Model):
     def set_activity_display(self):
         self.activity_display = "%s -> %s (%s)" % (self.agency.acronym_primary, self.activity, self.activity_type)
 
+    def validate_local_identifier(self):
+        if self.activity_local_identifier != '':
+            conflicting_instance = AgencyESGActivity.objects.filter(agency=self.agency,
+                                                                    activity_local_identifier=self.activity_local_identifier)
+            if self.id:
+                conflicting_instance = conflicting_instance.exclude(pk=self.id)
+
+            if conflicting_instance.exists():
+                raise ValidationError('ESG Activity with this name and parent already exists.')
+
     def save(self, *args, **kwargs):
         self.set_activity_display()
+        self.validate_local_identifier()
         super(AgencyESGActivity, self).save(*args, **kwargs)
 
     class Meta:
