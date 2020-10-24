@@ -77,7 +77,7 @@ class InstitutionParentReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionHierarchicalRelationship
-        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+        fields = ['id', 'institution', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to']
 
 
 class InstitutionParentWriteSerializer(serializers.ModelSerializer):
@@ -85,7 +85,7 @@ class InstitutionParentWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionHierarchicalRelationship
-        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+        fields = ['id', 'institution', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to']
 
 
 class InstitutionChildReadSerializer(serializers.ModelSerializer):
@@ -93,7 +93,7 @@ class InstitutionChildReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionHierarchicalRelationship
-        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+        fields = ['id', 'institution', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to']
 
 
 class InstitutionChildWriteSerializer(serializers.ModelSerializer):
@@ -101,7 +101,7 @@ class InstitutionChildWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionHierarchicalRelationship
-        fields = ['id', 'institution', 'relationship_note', 'valid_from', 'valid_to']
+        fields = ['id', 'institution', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to']
 
 
 class InstitutionHistoricalRelationshipTypeSerizlier(serializers.ModelSerializer):

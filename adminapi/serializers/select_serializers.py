@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country, CountryQARequirementType
-from institutions.models import InstitutionHistoricalRelationshipType
+from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
 from reports.models import ReportDecision, ReportStatus
 
@@ -93,6 +93,12 @@ class CountryQARequirementTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountryQARequirementType
         fields = ['id', 'qa_requirement_type']
+
+
+class InstitutionHierarchicalRelationshipTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionHierarchicalRelationshipType
+        fields = ['id', 'type']
 
 
 class InstitutionHistoricalRelationshipTypeSerializer(serializers.ModelSerializer):
