@@ -10,7 +10,8 @@ from reports.models import ReportFlag
 class ReportFlagList(generics.ListAPIView):
     serializer_class = ReportFlagSerializer
     filter_backends = (OrderingFilter, filters.SearchFilter, DjangoFilterBackend)
-    filterset_fields = ['flag']
+    filterset_fields = ['report', 'flag', 'report__agency']
+    ordering_fields = ['report', 'flag', 'flag_message', 'created_at']
     ordering = ['-updated_at', 'created_at', 'report']
     search_fields = ['flag_message']
     queryset = ReportFlag.objects.filter(active=True)
