@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter, BaseFilterBackend
 from rest_framework import filters
 from drf_rw_serializers.generics import RetrieveUpdateAPIView
-
+from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 
 from adminapi.serializers.country_serializer import CountryListSerializer, CountryReadSerializer, CountryWriteSerializer
 from countries.models import Country, CountryUpdateLog
@@ -35,6 +35,13 @@ class CountryList(generics.ListCreateAPIView):
     search_fields = ['name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
     queryset = Country.objects.all()
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
     def perform_create(self, serializer):
         country = serializer.save(created_by=self.request.user)
         country.save()
@@ -44,6 +51,13 @@ class CountryDetail(RetrieveUpdateAPIView):
     queryset = Country.objects.all()
     read_serializer_class = CountryReadSerializer
     write_serializer_class = CountryWriteSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'PUT':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     @swagger_auto_schema(request_body=CountryReadSerializer, responses={'200': CountryReadSerializer})
     def put(self, request, *args, **kwargs):

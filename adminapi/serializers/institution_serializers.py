@@ -202,7 +202,15 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
                   'historical_source', 'historical_target', 'created_at', 'flags', 'update_log']
 
 
-class InstitutionWriteSerializer(WritableNestedModelSerializer):
+class InstitutionUserWriteSerializer(WritableNestedModelSerializer):
+    names = InstitutionNameSerializer(many=True, source='institutionname_set')
+
+    class Meta:
+        model = Institution
+        fields = ['id', 'names']
+
+
+class InstitutionAdminWriteSerializer(WritableNestedModelSerializer):
     identifiers = InstitutionIdentifierWriteSerializer(many=True, source='institutionidentifier_set', required=False)
     names = InstitutionNameSerializer(many=True, source='institutionname_set')
     countries = InstitutionCountryWriteSerializer(many=True, source='institutioncountry_set')
@@ -216,6 +224,6 @@ class InstitutionWriteSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Institution
         fields = ['id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
-                  'identifiers', 'names', 'countries',
-                  'internal_note', 'other_comment', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
+                  'identifiers', 'names', 'countries', 'internal_note', 'other_comment',
+                  'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
                   'historical_source', 'historical_target', 'flags']

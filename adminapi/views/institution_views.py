@@ -1,21 +1,28 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import CreateAPIView
 from drf_rw_serializers.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import IsAdminUser
 
-from adminapi.serializers.institution_serializers import InstitutionReadSerializer, InstitutionWriteSerializer
+from adminapi.serializers.institution_serializers import InstitutionReadSerializer, \
+    InstitutionAdminWriteSerializer, InstitutionUserWriteSerializer
 from institutions.models import Institution, InstitutionUpdateLog
 
 
 class InstitutionDetail(RetrieveUpdateAPIView):
     queryset = Institution.objects.all()
     read_serializer_class = InstitutionReadSerializer
-    write_serializer_class = InstitutionWriteSerializer
+
+    def get_write_serializer_class(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            return InstitutionAdminWriteSerializer
+        else:
+            return InstitutionUserWriteSerializer
 
     @swagger_auto_schema(responses={'200': InstitutionReadSerializer})
     def get(self, request, *args, **kwargs):
         return super(InstitutionDetail, self).get(request, *args, **kwargs)
 
-    @swagger_auto_schema(request_body=InstitutionWriteSerializer)
+    @swagger_auto_schema(request_body=InstitutionAdminWriteSerializer)
     def put(self, request, *args, **kwargs):
         institution = Institution.objects.get(id=kwargs.get('pk'))
 
@@ -38,7 +45,8 @@ class InstitutionDetail(RetrieveUpdateAPIView):
 
 class InstitutionCreate(CreateAPIView):
     queryset = Institution.objects.all()
-    serializer_class = InstitutionWriteSerializer
+    serializer_class = InstitutionAdminWriteSerializer
+    permission_classes = [IsAdminUser]
 
     def perform_create(self, serializer):
         institution = serializer.save(created_by=self.request.user)

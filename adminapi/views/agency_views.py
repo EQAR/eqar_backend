@@ -8,12 +8,13 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.parsers import FileUploadParser
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminapi.permissions import CanAccessAgency
-from adminapi.serializers.agency_serializers import AgencyReadSerializer, AgencyWriteSerializer
+from adminapi.serializers.agency_serializers import AgencyReadSerializer, \
+    AgencyUserWriteSerializer, AgencyAdminWriteSerializer
 from adminapi.serializers.select_serializers import AgencyESGActivitySerializer
 from agencies.models import Agency, AgencyActivityType, AgencyESGActivity, AgencyEQARDecision, AgencyUpdateLog
 from submissionapi.permissions import CanSubmitToAgency
@@ -50,13 +51,20 @@ class AgencyESGActivityList(generics.ListAPIView):
 class AgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
     read_serializer_class = AgencyReadSerializer
-    write_serializer_class = AgencyWriteSerializer
+    write_serializer_class = AgencyAdminWriteSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'PUT':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
 
     @swagger_auto_schema(responses={'200': AgencyReadSerializer})
     def get(self, request, *args, **kwargs):
         return super(AgencyDetail, self).get(request, *args, **kwargs)
 
-    @swagger_auto_schema(request_body=AgencyWriteSerializer, responses={'200': AgencyReadSerializer})
+    @swagger_auto_schema(request_body=AgencyAdminWriteSerializer, responses={'200': AgencyReadSerializer})
     def put(self, request, *args, **kwargs):
         agency = Agency.objects.get(id=kwargs.get('pk'))
 
@@ -81,14 +89,14 @@ class AgencyDetail(RetrieveUpdateAPIView):
 class MyAgencyDetail(RetrieveUpdateAPIView):
     queryset = Agency.objects.all()
     read_serializer_class = AgencyReadSerializer
-    write_serializer_class = AgencyWriteSerializer
+    write_serializer_class = AgencyUserWriteSerializer
     permission_classes = (CanAccessAgency|IsAdminUser,)
 
     @swagger_auto_schema(responses={'200': AgencyReadSerializer})
     def get(self, request, *args, **kwargs):
         return super(MyAgencyDetail, self).get(request, *args, **kwargs)
 
-    @swagger_auto_schema(request_body=AgencyWriteSerializer, responses={'200': AgencyReadSerializer})
+    @swagger_auto_schema(request_body=AgencyUserWriteSerializer, responses={'200': AgencyReadSerializer})
     def put(self, request, *args, **kwargs):
         agency = Agency.objects.get(id=kwargs.get('pk'))
 

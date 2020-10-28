@@ -70,7 +70,13 @@ class AgencyESGActivityReadSerializer(serializers.ModelSerializer):
         exclude = ('agency',)
 
 
-class AgencyESGActivityWriteSerializer(serializers.ModelSerializer):
+class AgencyESGActivityUserWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyESGActivity
+        fields = ['id', 'activity_local_identifier']
+
+
+class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyESGActivity
         exclude = ('agency',)
@@ -215,12 +221,20 @@ class AgencyReadSerializer(serializers.ModelSerializer):
         exclude = ('acronym_primary', 'name_primary')
 
 
-class AgencyWriteSerializer(WritableNestedModelSerializer):
+class AgencyUserWriteSerializer(WritableNestedModelSerializer):
+    activities = AgencyESGActivityAdminWriteSerializer(many=True, source='agencyesgactivity_set')
+
+    class Meta:
+        model = Agency
+        fields = ['id', 'contact_person', 'fax', 'address', 'website_link', 'activities']
+
+
+class AgencyAdminWriteSerializer(WritableNestedModelSerializer):
     names = AgencyNameSerializer(many=True, source='agencyname_set')
     phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
     emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
     focus_countries = AgencyFocusCountryWriteSerializer(many=True, source='agencyfocuscountry_set')
-    activities = AgencyESGActivityWriteSerializer(many=True, source='agencyesgactivity_set')
+    activities = AgencyESGActivityUserWriteSerializer(many=True, source='agencyesgactivity_set')
     memberships = AgencyMembershipWriteSerializer(many=True, source='agencymembership_set', required=False)
     decisions = AgencyEQARDecisionWriteSerializer(many=True, source='agencyeqardecision_set')
     flags = AgencyFlagSerializer(many=True, source='agencyflag_set', required=False)
