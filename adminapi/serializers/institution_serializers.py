@@ -211,7 +211,7 @@ class InstitutionWriteSerializer(WritableNestedModelSerializer):
     hierarchical_child = InstitutionChildWriteSerializer(many=True, source='relationship_parent', required=False)
     historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target', required=False)
     historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source', required=False)
-    flags = InstitutionFlagWriteSerializer(many=True, source='institutionflag_set')
+    flags = InstitutionFlagWriteSerializer(many=True, source='institutionflag_set', required=False)
 
     class Meta:
         model = Institution
