@@ -39,3 +39,13 @@ class InstitutionNameTypeSerializer(serializers.ListSerializer):
         else:
             data = data.filter(name_valid_to__isnull=False)
         return super(InstitutionNameTypeSerializer, self).to_representation(data)
+
+
+class AgencyNameTypeSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        t = self._context.get('type', None)
+        if t == 'actual':
+            data = data.filter(name_valid_to__isnull=True)
+        else:
+            data = data.filter(name_valid_to__isnull=False)
+        return super(AgencyNameTypeSerializer, self).to_representation(data)

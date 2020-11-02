@@ -13,10 +13,11 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     EQARDecisionTypeSelectSerializer, \
     IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
-    AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer
+    AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer, \
+    CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
-from countries.models import Country
-from institutions.models import InstitutionHistoricalRelationshipType
+from countries.models import Country, CountryQARequirementType
+from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
 from reports.models import ReportDecision, ReportStatus
 
@@ -29,11 +30,14 @@ class AgencySelectList(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        submitting_agency = user.deqarprofile.submitting_agency
-        agency_proxies = AgencyProxy.objects.filter(
-            Q(submitting_agency=submitting_agency) &
-            (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
-        return Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
+        if user.is_staff:
+            return Agency.objects.all().order_by('acronym_primary')
+        else:
+            submitting_agency = user.deqarprofile.submitting_agency
+            agency_proxies = AgencyProxy.objects.filter(
+                Q(submitting_agency=submitting_agency) &
+                (Q(proxy_to__gte=datetime.date.today()) | Q(proxy_to__isnull=True)))
+            return Agency.objects.filter(allowed_agency__in=agency_proxies).order_by('acronym_primary')
 
 
 class AgencySelectAllList(generics.ListAPIView):
@@ -152,6 +156,22 @@ class FlagSelectList(generics.ListAPIView):
     filter_backends = (SearchFilter,)
     search_fields = ('flag',)
     queryset = Flag.objects.all()
+
+
+class QARequirementTypeSelectList(generics.ListAPIView):
+    serializer_class = CountryQARequirementTypeSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('qa_requirement_type',)
+    queryset = CountryQARequirementType.objects.all()
+
+
+class InstitutionHierarchicalRelationshipTypeSelect(generics.ListAPIView):
+    serializer_class = InstitutionHierarchicalRelationshipTypeSerializer
+    queryset = InstitutionHierarchicalRelationshipType.objects.all()
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('type',)
 
 
 class InstitutionHistoricalRelationshipTypeSelect(APIView):
