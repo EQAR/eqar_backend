@@ -97,7 +97,7 @@ class ReportDownloader:
         plus the extension according to the mime-type.
         """
         # Current datetime
-        file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        file_name = str(self.report_file_id)
 
         # Step 1A. - Get content-disposition
         r = requests.head(self.url, allow_redirects=True)
@@ -125,7 +125,7 @@ class ReportDownloader:
                 ext = mimetypes.guess_extension(r.headers.get('Content-Type'))
                 fn = "%s.%s" % (self.report_file_id, ext)
 
-        file_name += "_%s" % fn
+        file_name += "_%s_%s" % (fn, datetime.datetime.now().strftime("%Y%m%d_%H%M"))
         return file_name
 
     @staticmethod
