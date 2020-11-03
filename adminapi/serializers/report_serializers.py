@@ -44,10 +44,10 @@ class ReportReadFileSerializer(WritableNestedModelSerializer):
 
 
 class ReportWriteFileSerializer(WritableNestedModelSerializer):
-    display_name = serializers.CharField(source='file_display_name', required=False, allow_blank=True)
-    original_location = serializers.CharField(source='file_original_location', required=False, allow_blank=True)
+    display_name = serializers.CharField(source='file_display_name', max_length=255, required=False, allow_blank=True)
+    original_location = serializers.CharField(source='file_original_location', max_length=500, required=False, allow_blank=True)
     report_language = serializers.PrimaryKeyRelatedField(many=True, queryset=Language.objects.all(), source='languages')
-    filename = serializers.CharField(required=False, allow_blank=True)
+    filename = serializers.CharField(required=False, max_length=255, allow_blank=True)
     fileupload = PDFBase64File(required=False, source='file')
 
     def create(self, validated_data):
