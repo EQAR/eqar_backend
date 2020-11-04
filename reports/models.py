@@ -34,8 +34,7 @@ class Report(models.Model):
     updated_by = models.ForeignKey(User, related_name='reports_updated_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
 
-    def save(self, *args, **kwargs):
-
+    def validate_local_identifier(self):
         if self.local_identifier != '':
             conflicting_instance = Report.objects.filter(
                 agency=self.agency,
@@ -48,8 +47,12 @@ class Report(models.Model):
                 conflicting_instance = conflicting_instance.exclude(pk=self.id)
 
             if conflicting_instance.exists():
-                raise ValidationError('Report with this agency and local_identifier already exists.')
+                raise ValidationError({
+                    'non_field_errors': "Report with this Agency and Local Report Identifier already exists."
+                })
 
+    def save(self, *args, **kwargs):
+        self.validate_local_identifier()
         super(Report, self).save(*args, **kwargs)
 
     class Meta:
@@ -59,7 +62,6 @@ class Report(models.Model):
             models.Index(fields=['valid_from']),
             models.Index(fields=['valid_to']),
         ]
-        unique_together = ('agency', 'local_identifier')
 
 
 class ReportStatus(models.Model):
