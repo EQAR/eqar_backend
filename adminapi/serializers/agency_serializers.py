@@ -222,7 +222,7 @@ class AgencyReadSerializer(serializers.ModelSerializer):
 
 
 class AgencyUserWriteSerializer(WritableNestedModelSerializer):
-    activities = AgencyESGActivityAdminWriteSerializer(many=True, source='agencyesgactivity_set')
+    activities = AgencyESGActivityUserWriteSerializer(many=True, source='agencyesgactivity_set')
 
     class Meta:
         model = Agency
@@ -234,7 +234,7 @@ class AgencyAdminWriteSerializer(WritableNestedModelSerializer):
     phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
     emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
     focus_countries = AgencyFocusCountryWriteSerializer(many=True, source='agencyfocuscountry_set')
-    activities = AgencyESGActivityUserWriteSerializer(many=True, source='agencyesgactivity_set')
+    activities = AgencyESGActivityAdminWriteSerializer(many=True, source='agencyesgactivity_set')
     memberships = AgencyMembershipWriteSerializer(many=True, source='agencymembership_set', required=False)
     decisions = AgencyEQARDecisionWriteSerializer(many=True, source='agencyeqardecision_set')
     flags = AgencyFlagSerializer(many=True, source='agencyflag_set', required=False)
