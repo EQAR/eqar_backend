@@ -35,21 +35,22 @@ class Report(models.Model):
                                    on_delete=models.CASCADE, blank=True, null=True)
 
     def validate_local_identifier(self):
-        if self.local_identifier != '':
-            conflicting_instance = Report.objects.filter(
-                agency=self.agency,
-                local_identifier=self.local_identifier
-            )
+        if self.local_identifier:
+            if self.local_identifier != '':
+                conflicting_instance = Report.objects.filter(
+                    agency=self.agency,
+                    local_identifier=self.local_identifier
+                )
+    
+                if self.id:
+                    # This instance has already been saved. So we need to filter out
+                    # this instance from our results.
+                    conflicting_instance = conflicting_instance.exclude(pk=self.id)
 
-            if self.id:
-                # This instance has already been saved. So we need to filter out
-                # this instance from our results.
-                conflicting_instance = conflicting_instance.exclude(pk=self.id)
-
-            if conflicting_instance.exists():
-                raise ValidationError({
-                    'non_field_errors': "Report with this Agency and Local Report Identifier already exists."
-                })
+                if conflicting_instance.exists():
+                    raise ValidationError({
+                        'non_field_errors': "Report with this Agency and Local Report Identifier already exists."
+                    })
 
     def save(self, *args, **kwargs):
         self.validate_local_identifier()
