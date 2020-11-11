@@ -96,8 +96,8 @@ class ReportDownloader:
         content-disposition header. If that fails as well, it assigns the timestamp
         plus the extension according to the mime-type.
         """
-        # Current datetime
-        file_name = str(self.report_file_id)
+        # Report file ID
+        file_name = self.report_file_id
 
         # Step 1A. - Get content-disposition
         r = requests.head(self.url, allow_redirects=True)
@@ -125,8 +125,7 @@ class ReportDownloader:
                 ext = mimetypes.guess_extension(r.headers.get('Content-Type'))
                 fn = "%s.%s" % (self.report_file_id, ext)
 
-        file_name += "_%s_%s" % (fn, datetime.datetime.now().strftime("%Y%m%d_%H%M"))
-        return file_name
+        return "%06d_%s_%s" % (file_name, datetime.datetime.now().strftime("%Y%m%d_%H%M"), fn)
 
     @staticmethod
     def _get_filename_from_cd(cd):
