@@ -59,6 +59,7 @@ class CountryReadSerializer(serializers.ModelSerializer):
 
 class CountryWriteSerializer(WritableNestedModelSerializer):
     qa_requirements = CountryQARequirementWriteSerializer(many=True, source='countryqarequirement_set')
+    qaa_regulations = CountryQAARegulationSerializer(many=True, source='countryqaaregulation_set')
 
     class Meta:
         model = Country
