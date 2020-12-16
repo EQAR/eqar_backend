@@ -38,19 +38,22 @@ class ReportListByInstitution(generics.ListAPIView):
         report_type = self.kwargs.get('report_type', None)
         programme_is_null = False if report_type == 'programme' else True
 
+        if report_type == 'programme':
+            filter = Q(agency_esg_activity__activity_type=1) | \
+                     Q(agency_esg_activity__activity_type=3) | \
+                     Q(agency_esg_activity__activity_type=4)
+        else:
+            filter = Q(agency_esg_activity__activity_type=2) | \
+                     Q(agency_esg_activity__activity_type=4)
+
         # Add Original
         if include_history == 'true':
-            qs = Report.objects.filter(
-                Q(institutions__in=[institution]) & Q(programme__isnull=programme_is_null) & ~Q(flag=3)
-            )
+            qs = Report.objects.filter(Q(institutions__in=[institution])).filter(filter).filter(~Q(flag=3))
         else:
-            qs = Report.objects.filter(
-                Q(institutions__id__in=[institution]) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
-                (
-                    Q(valid_to__gte=datetime.datetime.now()) | (
+            qs = Report.objects.filter(Q(institutions__in=[institution])).filter(filter).filter(~Q(flag=3)).filter(
+                Q(valid_to__gte=datetime.datetime.now()) | (
                         Q(valid_to__isnull=True) &
-                        Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
-                    )
+                        Q(valid_from__gte=datetime.datetime.now() - datedelta(years=6))
                 )
             )
 
@@ -67,28 +70,23 @@ class ReportListByInstitution(generics.ListAPIView):
 
         if len(institution_ids) > 0:
             if include_history == 'true':
-                qs_h = Report.objects.filter(
-                    Q(institutions__id__in=institution_ids) & Q(programme__isnull=programme_is_null) & ~Q(flag=3)
-                )
+                qs_h = Report.objects.filter(Q(institutions__id__in=institution_ids)).filter(filter).filter(~Q(flag=3))
             else:
-                qs_h = Report.objects.filter(
-                    Q(institutions__id__in=institution_ids) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
-                    (
+                qs_h = Report.objects.filter(Q(institutions__id__in=institution_ids)).filter(filter).filter(~Q(flag=3))\
+                    .filter(
                         Q(valid_to__gte=datetime.datetime.now()) | (
-                            Q(valid_to__isnull=True) &
-                            Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
+                                Q(valid_to__isnull=True) &
+                                Q(valid_from__gte=datetime.datetime.now() - datedelta(years=6))
                         )
                     )
-                )
             qs = qs | qs_h
 
         # Succeeding target
         for inst_rel in institution.relationship_target.filter(relationship_type=2):
             institution_source = [inst_rel.institution_source]
             event_date = inst_rel.relationship_date
-            qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
-                (
+            qs_h = Report.objects.filter(Q(institutions__in=institution_source)).filter(filter).filter(~Q(flag=3))\
+                .filter(
                     (
                         Q(valid_from__lte=event_date) &
                         Q(valid_to__gte=event_date)
@@ -97,16 +95,14 @@ class ReportListByInstitution(generics.ListAPIView):
                         Q(valid_from__gte=event_date - datedelta(years=6))
                     )
                 )
-            )
             qs = qs | qs_h
 
         # Absorbing source
         for inst_rel in institution.relationship_source.filter(relationship_type=3):
             institution_source = [inst_rel.institution_target]
             event_date = inst_rel.relationship_date
-            qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
-                (
+            qs_h = Report.objects.filter(Q(institutions__in=institution_source)).filter(filter).filter(~Q(flag=3))\
+                .filter(
                     (
                         Q(valid_from__lte=event_date) &
                         Q(valid_to__gte=event_date)
@@ -115,25 +111,22 @@ class ReportListByInstitution(generics.ListAPIView):
                         Q(valid_from__gte=event_date - datedelta(years=6))
                     )
                 )
-            )
             qs = qs | qs_h
 
         # Spun off target
         for inst_rel in institution.relationship_target.filter(relationship_type=4):
             institution_source = [inst_rel.institution_source]
             event_date = inst_rel.relationship_date
-            qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=programme_is_null) & ~Q(flag=3) &
-                (
+            qs_h = Report.objects.filter(Q(institutions__in=institution_source)).filter(filter).filter(~Q(flag=3))\
+                .filter(
                     (
                         Q(valid_from__lte=event_date) &
                         Q(valid_to__gte=event_date)
                     ) | (
                         Q(valid_to__isnull=True) &
-                        Q(valid_from__gte=event_date-datedelta(years=6))
+                        Q(valid_from__gte=event_date - datedelta(years=6))
                     )
                 )
-            )
             qs = qs | qs_h
 
         qs = qs.prefetch_related('reportfile_set')
