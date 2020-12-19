@@ -35,19 +35,19 @@ class BrowseAPIReportTest(APITestCase):
             Test if we can display a list of institutional reports by institution.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/reports/institutional/by-institution/3/')
-        self.assertEqual(response.data['count'], 2)
+        response = self.client.get('/webapi/v2/browse/reports/institutional/by-institution/3/')
+        self.assertEqual(response.data['count'], 6)
 
-        response = self.client.get('/webapi/v1/browse/reports/institutional/by-institution/3/', {'history': 'false'})
-        self.assertEqual(response.data['count'], 1)
+        response = self.client.get('/webapi/v2/browse/reports/institutional/by-institution/3/', {'history': 'false'})
+        self.assertEqual(response.data['count'], 3)
 
     def test_programme_reports_list_by_institution(self):
         """
             Test if we can display a list of programme reports by institution.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/reports/programme/by-institution/3/')
-        self.assertEqual(response.data['count'], 7)
+        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/1/')
+        self.assertEqual(response.data['count'], 1)
 
-        response = self.client.get('/webapi/v1/browse/reports/programme/by-institution/3/', {'history': 'false'})
-        self.assertEqual(response.data['count'], 3)
+        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/1/', {'history': 'false'})
+        self.assertEqual(response.data['count'], 1)

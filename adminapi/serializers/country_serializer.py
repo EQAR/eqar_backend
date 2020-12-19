@@ -29,19 +29,19 @@ class CountryQARequirementReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CountryQARequirement
-        fields = '__all__'
+        exclude = ('country',)
 
 
 class CountryQARequirementWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountryQARequirement
-        fields = '__all__'
+        exclude = ('country',)
 
 
 class CountryQAARegulationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountryQAARegulation
-        fields = '__all__'
+        exclude = ('country',)
 
 
 class CountryReadSerializer(serializers.ModelSerializer):

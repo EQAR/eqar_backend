@@ -172,12 +172,18 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
 
         if include_history == 'true':
             qs = Report.objects.filter(
-                Q(institutions__id__in=institution_ids) & Q(programme__isnull=True) & ~Q(flag=3)
+                Q(institutions__id__in=institution_ids) & (
+                        Q(agency_esg_activity__activity_type=2) |
+                        Q(agency_esg_activity__activity_type=4)
+                )
+                & ~Q(flag=3)
             )
         else:
             qs = Report.objects.filter(
-                Q(institutions__id__in=institution_ids) & Q(programme__isnull=True) & ~Q(flag=3) &
-                (
+                Q(institutions__id__in=institution_ids) & (
+                        Q(agency_esg_activity__activity_type=2) |
+                        Q(agency_esg_activity__activity_type=4)
+                ) & ~Q(flag=3) & (
                     Q(valid_to__gte=datetime.datetime.now()) | (
                         Q(valid_to__isnull=True) &
                         Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
@@ -190,8 +196,10 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
             institution_source = [inst_rel.institution_source]
             event_date = inst_rel.relationship_date
             qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=True) & ~Q(flag=3) &
-                (
+                Q(institutions__in=institution_source) & (
+                        Q(agency_esg_activity__activity_type=2) |
+                        Q(agency_esg_activity__activity_type=4)
+                ) & ~Q(flag=3) & (
                     Q(valid_to__gte=event_date) | (
                         Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
                     )
@@ -204,8 +212,10 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
             institution_source = [inst_rel.institution_target]
             event_date = inst_rel.relationship_date
             qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=True) & ~Q(flag=3) &
-                (
+                Q(institutions__in=institution_source) & (
+                        Q(agency_esg_activity__activity_type=2) |
+                        Q(agency_esg_activity__activity_type=4)
+                ) & ~Q(flag=3) & (
                     Q(valid_to__gte=event_date) | (
                         Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
                     )
@@ -218,8 +228,10 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
             institution_source = [inst_rel.institution_source]
             event_date = inst_rel.relationship_date
             qs_h = Report.objects.filter(
-                Q(institutions__in=institution_source) & Q(programme__isnull=True) & ~Q(flag=3) &
-                (
+                Q(institutions__in=institution_source) & (
+                        Q(agency_esg_activity__activity_type=2) |
+                        Q(agency_esg_activity__activity_type=4)
+                ) & ~Q(flag=3) & (
                     Q(valid_to__gte=event_date) | (
                         Q(valid_to__isnull=True) & Q(valid_from__gte=datetime.datetime.now()-datedelta(years=6))
                     )

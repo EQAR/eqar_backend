@@ -41,7 +41,7 @@ class Report(models.Model):
                     agency=self.agency,
                     local_identifier=self.local_identifier
                 )
-    
+
                 if self.id:
                     # This instance has already been saved. So we need to filter out
                     # this instance from our results.
