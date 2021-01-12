@@ -3,7 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList
+from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
     url(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
-    # url(r'^europeana/accreditations/(?P<country_code>[a-zA-Z]{3})$', AccreditationXMLView.as_view(), name='europeana-accreditations'),
+    url(r'^europeana/accreditations/(?P<country_code>[a-zA-Z]{3})$', AccreditationXMLView.as_view(), name='europeana-accreditations'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
