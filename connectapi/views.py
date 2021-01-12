@@ -4,12 +4,17 @@ from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from pysolr import SolrError
 from rest_framework import generics
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 
 from agencies.models import AgencyESGActivity
+from connectapi.europeana.accrediation_xml_creator import AccrediationXMLCreator
+from countries.models import Country
 from eqar_backend.searchers import Searcher
+from eqar_backend.xml_renderer import XMLRenderer
 from institutions.models import Institution
 from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 from webapi.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
@@ -118,3 +123,13 @@ class AgencyActivityDEQARConnectList(generics.ListAPIView):
         submitting_agency = user.deqarprofile.submitting_agency.submitting_agency.all()
         return AgencyESGActivity.objects.filter(agency__allowed_agency__in=submitting_agency)\
             .order_by('agency__acronym_primary')
+
+
+class AccreditationXMLView(APIView):
+    renderer_classes = (XMLRenderer, JSONRenderer)
+
+    def get(self, request, *args, **kwargs):
+        country_code = self.kwargs['country_code']
+        country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
+        creator = AccrediationXMLCreator(country, request)
+        return Response(creator.create(), content_type='application/xml')
