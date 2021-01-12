@@ -91,6 +91,7 @@ class ReportFlagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportFlag
+        ref_name = 'ReportFlagSerializer'
         fields = ('id', 'flag', 'flag_message', 'active', 'removed_by_eqar')
 
 

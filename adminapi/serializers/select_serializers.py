@@ -86,6 +86,7 @@ class ReportStatusSerializer(serializers.ModelSerializer):
 class FlagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flag
+        ref_name = 'FlagSelectSerializer'
         fields = ['id', 'flag']
 
 

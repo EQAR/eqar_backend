@@ -30,4 +30,5 @@ class ReportFlagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportFlag
+        ref_name = 'ReportFlagListSerializer'
         fields = '__all__'
