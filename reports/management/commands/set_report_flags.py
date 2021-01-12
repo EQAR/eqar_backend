@@ -10,11 +10,21 @@ class Command(BaseCommand):
     help = 'Set Report record dates.'
 
     def add_arguments(self, parser):
+        parser.add_argument('--report', dest='report_id',
+                            help='The report ID of the Report.', default=0)
         parser.add_argument('--agency', dest='agency',
                             help='The acronym of the agency.', default=None)
 
     def handle(self, *args, **options):
+        report_id = int(options['report_id'])
         agency = options['agency']
+
+        if report_id != 0:
+            try:
+                report = Report.objects.get(id=report_id)
+            except ObjectDoesNotExist:
+                raise CommandError('Report ID "%s" does not exist' % report_id)
+
 
         if agency:
             try:
