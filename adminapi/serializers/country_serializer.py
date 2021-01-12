@@ -21,6 +21,7 @@ class PermissionTypeSerializer(serializers.ModelSerializer):
 class FlagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flag
+        ref_name = 'CountryFlagSerializer'
         fields = '__all__'
 
 
