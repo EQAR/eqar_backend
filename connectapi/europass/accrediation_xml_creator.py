@@ -328,3 +328,44 @@ class AccrediationXMLCreator:
             return CODES[language_code]
         else:
             return language_code.upper()
+
+    def guess_language_from_country(self, country_code):
+        CODES = {
+            # Belgium omitted on purpose, not possible
+            'bg': 'bg',
+            'cz': 'cs',
+            'dk': 'da',
+            'at': 'de',
+            'de': 'de',
+            'li': 'de',
+            'gr': 'el',
+            'cy': 'el',
+            'gb': 'en',
+            'ie': 'en',
+            'mt': 'en',
+            'es': 'es',
+            'ee': 'et',
+            'fi': 'fi',
+            'fr': 'fr',
+            'lu': 'fr',
+            'hr': 'hr',
+            'hu': 'hu',
+            'is': 'is',
+            'it': 'it',
+            'lt': 'lt',
+            'lv': 'lv',
+            'nl': 'nl',
+            'no': 'no',
+            'pl': 'pl',
+            'pt': 'pt',
+            'ro': 'ro',
+            'sk': 'sk',
+            'si': 'sl',
+            'se': 'sv',
+            'rs': 'sr'
+        }
+
+        if country_code in CODES:
+            return CODES[country_code]
+        else:
+            return 'en' # default
