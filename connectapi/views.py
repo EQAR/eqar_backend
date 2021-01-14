@@ -126,6 +126,7 @@ class AgencyActivityDEQARConnectList(generics.ListAPIView):
 
 
 class AccreditationXMLView(APIView):
+    permission_classes = []
     renderer_classes = (XMLRenderer,)
 
     def get(self, request, *args, **kwargs):
