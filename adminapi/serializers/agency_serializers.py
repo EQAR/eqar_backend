@@ -223,10 +223,12 @@ class AgencyReadSerializer(serializers.ModelSerializer):
 
 class AgencyUserWriteSerializer(WritableNestedModelSerializer):
     activities = AgencyESGActivityUserWriteSerializer(many=True, source='agencyesgactivity_set')
+    emails = AgencyEmailSerializer(many=True, source='agencyemail_set')
+    phone_numbers = AgencyPhoneSerializer(many=True, source='agencyphone_set')
 
     class Meta:
         model = Agency
-        fields = ['id', 'contact_person', 'fax', 'address', 'website_link', 'activities']
+        fields = ['id', 'contact_person', 'fax', 'address', 'emails', 'phone_numbers', 'website_link', 'activities']
 
 
 class AgencyAdminWriteSerializer(WritableNestedModelSerializer):
