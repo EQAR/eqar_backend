@@ -35,6 +35,6 @@ USE_TZ = False
 
 DJOSER = {
     'SERIALIZERS': {
-        'user': 'accounts.serializers.CurrentUserSerializer',
+        'current_user': 'accounts.serializers.CurrentUserSerializer',
     },
 }
