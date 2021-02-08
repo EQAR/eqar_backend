@@ -32,12 +32,11 @@ class ProgrammePopulator():
             qf_ehea_level=self.submission.get('qf_ehea_level', None)
         )
         for country in countries:
-            try:
-                InstitutionCountry.objects.get(
-                    institution__reports=self.report,
-                    country=country
-                )
-            except ObjectDoesNotExist:
+            count = InstitutionCountry.objects.filter(
+                institution__reports=self.report,
+                country=country
+            ).count()
+            if count == 0:
                 self.programme.countries.add(country)
 
     def _programme_name_insert(self):
