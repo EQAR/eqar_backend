@@ -59,8 +59,8 @@ class ResponseReportSuccessResponseSerializer(serializers.Serializer):
     submitted_report = ResponseReportSerializer()
     sanity_check_status = serializers.ChoiceField(choices=["success", "warnings"])
     report_flag = serializers.ChoiceField(choices=["none", "low level", "high level"])
-    report_warnings = serializers.CharField()
-    institution_warnings = serializers.CharField()
+    report_warnings = serializers.ListField(child=serializers.CharField(allow_blank=True), min_length=0)
+    institution_warnings = serializers.ListField(child=serializers.CharField(allow_blank=True), min_length=0)
 
 
 class FieldErrorSerializer(serializers.Serializer):
