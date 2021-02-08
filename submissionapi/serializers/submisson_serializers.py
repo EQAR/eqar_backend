@@ -80,33 +80,45 @@ class InstitutionSerializer(serializers.Serializer):
 
     # Name
     name_official = serializers.CharField(max_length=255, required=False,
-                                          label='The official form of the name of the institution',
-                                          help_text='example: Югозападен университет Неофит Рилски')
+                                          label="The official form of the name of the institution",
+                                          help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                                    "example: Югозападен университет Неофит Рилски)")
     name_official_transliterated = serializers.CharField(max_length=255, required=False,
                                                          label='The english form of the name of the institution',
-                                                         help_text='example: Yugo-zapaden universitet Neofit Rilski')
+                                                         help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                                                   'example: Yugo-zapaden universitet Neofit Rilski')
     name_english = serializers.CharField(max_length=255, required=False,
                                          label='The english form of the name of the institution',
-                                         help_text='example: Yugo-zapaden universitet Neofit Rilski')
+                                         help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                                   'example: Yugo-zapaden universitet Neofit Rilski')
     acronym = serializers.CharField(max_length=30, required=False,
                                     label='The official form of the acronym of the institution',
-                                    help_text='example: SWU')
-    alternative_names = InstitutionAlternativeNameSerializer(many=True, required=False)
+                                    help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                              'example: SWU')
+    alternative_names = InstitutionAlternativeNameSerializer(
+        many=True,
+        required=False,
+        help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. ***"
+    )
 
     # Location
     locations = InstitutionLocatonSerializer(many=True, required=False,
-                                             label='List of locations where the institution is located')
+                                             label='List of locations where the institution is located',
+                                             help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. ***"
+                                             )
 
     # Level
     qf_ehea_levels = serializers.ListField(child=QFEHEALevelField(required=False), required=False,
                                            label='List of identifiers or QF-EHEA levels that are valid for '
                                                  'each institution',
-                                           help_text='accepted values: "0", "1", "2", "3", "short cycle", '
+                                           help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                                    'accepted values: "0", "1", "2", "3", "short cycle", '
                                                      '"first cycle", "second cycle", "third cycle"')
 
     # Website
     website_link = serializers.URLField(max_length=200, required=False, label='Website of the institution.',
-                                        help_text='example: https://www.tuwien.ac.at')
+                                        help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
+                                                  'example: https://www.tuwien.ac.at')
 
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
