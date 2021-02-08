@@ -29,7 +29,7 @@ class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelS
 class InstitutionNameVersionSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = InstitutionNameVersion
-        fields = ['id', 'name', 'transliteration']
+        fields = ['id', 'name']
 
 
 class InstitutionNameSerializer(UniqueFieldsMixin, WritableNestedModelSerializer):
