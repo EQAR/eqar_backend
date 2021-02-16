@@ -92,6 +92,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
             report_flag.active = True
             report_flag.removed_by_eqar = False
             report_flag.save()
+        report.save()
         return Response(data={'OK'}, status=200)
 
 
