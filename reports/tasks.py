@@ -12,6 +12,7 @@ def index_report(report_id):
 
 
 @task(name="index_delete_report")
-def index_delete_report(report):
+def index_delete_report(report_id):
+    report = Report.objects.get(id=report_id)
     indexer = ReportsIndexer(report)
     indexer.delete()
