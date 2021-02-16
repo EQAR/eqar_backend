@@ -1,6 +1,6 @@
 import sys
 
-from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
+from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save, pre_delete
 from django.dispatch import receiver
 
 from reports.models import Report, ReportFile
@@ -33,9 +33,9 @@ def do_index_report(sender, instance, **kwargs):
         index_report.delay(instance.id)
 
 
-@receiver([post_delete], sender=Report)
+@receiver([pre_delete], sender=Report)
 def do_delete_report(sender, instance, **kwargs):
-    index_delete_report.delay(instance)
+    index_delete_report.delay(instance.id)
 
 
 @receiver([post_save, post_delete], sender=Report)
