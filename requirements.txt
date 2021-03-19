@@ -26,7 +26,7 @@ django-suit==0.2.26
 git+git://github.com/coredumperror/django-suit-ckeditor@master
 django-templated-mail==1.1.1
 django-unused-media==0.1.12
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 djangorestframework-filters==0.10.2
 djangorestframework-stubs==0.4.2
 djoser==2.1.0
