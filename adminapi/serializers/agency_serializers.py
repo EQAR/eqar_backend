@@ -81,6 +81,11 @@ class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):
         model = AgencyESGActivity
         exclude = ('agency',)
 
+    def to_internal_value(self, data):
+        if data['activity_valid_to'] == '':
+            data['activity_valid_to'] = None
+        return super(AgencyESGActivityAdminWriteSerializer, self).to_internal_value(data)
+
 
 class AgencyMembershipReadSerializer(serializers.ModelSerializer):
     association = AssociationSelectSerializer()
