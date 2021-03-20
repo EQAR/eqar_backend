@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer
 from countries.models import Country
+from eqar_backend.serializer_fields import DateBlankSerializer
 from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, InstitutionNameTypeSerializer
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel, InstitutionHierarchicalRelationship, InstitutionFlag, \
@@ -20,6 +21,8 @@ class InstitutionIdentifierReadSerializer(UniqueFieldsMixin, serializers.ModelSe
 
 
 class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
+    identifier_valid_to = DateBlankSerializer(allow_null=True)
+
     class Meta:
         model = InstitutionIdentifier
         list_serializer_class = InstitutionIdentifierTypeSerializer
@@ -34,6 +37,7 @@ class InstitutionNameVersionSerializer(UniqueFieldsMixin, serializers.ModelSeria
 
 class InstitutionNameSerializer(UniqueFieldsMixin, WritableNestedModelSerializer):
     alternative_names = InstitutionNameVersionSerializer(many=True, source='institutionnameversion_set', required=False)
+    name_valid_to = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = InstitutionName
@@ -52,6 +56,7 @@ class InstitutionCountryReadSerializer(WritableNestedModelSerializer):
 
 class InstitutionCountryWriteSerializer(WritableNestedModelSerializer):
     country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all())
+    country_valid_to = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = InstitutionCountry
@@ -82,6 +87,8 @@ class InstitutionParentReadSerializer(serializers.ModelSerializer):
 
 class InstitutionParentWriteSerializer(serializers.ModelSerializer):
     institution = serializers.PrimaryKeyRelatedField(source='institution_parent', queryset=Institution.objects.all())
+    valid_from = DateBlankSerializer(allow_null=True)
+    valid_to = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = InstitutionHierarchicalRelationship
@@ -98,6 +105,8 @@ class InstitutionChildReadSerializer(serializers.ModelSerializer):
 
 class InstitutionChildWriteSerializer(serializers.ModelSerializer):
     institution = serializers.PrimaryKeyRelatedField(source='institution_child', queryset=Institution.objects.all())
+    valid_from = DateBlankSerializer(allow_null=True)
+    valid_to = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = InstitutionHierarchicalRelationship
@@ -220,6 +229,8 @@ class InstitutionAdminWriteSerializer(WritableNestedModelSerializer):
     historical_source = InstitutionSourceWriteSerializer(many=True, source='relationship_target', required=False)
     historical_target = InstitutionTargetWriteSerializer(many=True, source='relationship_source', required=False)
     flags = InstitutionFlagWriteSerializer(many=True, source='institutionflag_set', required=False)
+    founding_date = DateBlankSerializer(allow_null=True)
+    closure_date = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = Institution

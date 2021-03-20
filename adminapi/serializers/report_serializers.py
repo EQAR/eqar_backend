@@ -8,6 +8,7 @@ from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer,
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
+from eqar_backend.serializer_fields import DateBlankSerializer
 from lists.models import Language
 from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog, ReportLink
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
@@ -138,6 +139,7 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
     report_links = ReportLinkSerializer(many=True, source='reportlink_set', required=False)
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
+    valid_to = DateBlankSerializer(allow_null=True)
 
     class Meta:
         model = Report
