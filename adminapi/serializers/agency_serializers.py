@@ -58,7 +58,7 @@ class AgencyFocusCountryReadSerializer(serializers.ModelSerializer):
 
 
 class AgencyFocusCountryWriteSerializer(serializers.ModelSerializer):
-    country_valid_to = DateBlankSerializer(allow_null=True)
+    country_valid_to = DateBlankSerializer(allow_null=True, required=False)
 
     class Meta:
         model = AgencyFocusCountry
@@ -80,7 +80,7 @@ class AgencyESGActivityUserWriteSerializer(serializers.ModelSerializer):
 
 
 class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):
-    activity_valid_to = DateBlankSerializer(allow_null=True)
+    activity_valid_to = DateBlankSerializer(allow_null=True, required=False)
 
     class Meta:
         model = AgencyESGActivity
@@ -96,7 +96,7 @@ class AgencyMembershipReadSerializer(serializers.ModelSerializer):
 
 
 class AgencyMembershipWriteSerializer(serializers.ModelSerializer):
-    membership_valid_to = DateBlankSerializer(allow_null=True)
+    membership_valid_to = DateBlankSerializer(allow_null=True, required=False)
 
     class Meta:
         model = AgencyMembership
