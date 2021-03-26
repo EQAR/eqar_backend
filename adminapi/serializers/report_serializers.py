@@ -139,7 +139,7 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
     report_links = ReportLinkSerializer(many=True, source='reportlink_set', required=False)
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
-    valid_to = DateBlankSerializer(allow_null=True)
+    valid_to = DateBlankSerializer(allow_null=True, required=False)
 
     class Meta:
         model = Report
