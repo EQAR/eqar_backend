@@ -65,6 +65,7 @@ class AccrediationXMLCreator:
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
             (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
+            Q(status=1) &
             ~Q(flag=3)
         ).order_by('id')
 
@@ -272,7 +273,7 @@ class AccrediationXMLCreator:
 
     def add_institutions(self):
         for institution in self.institutions:
-            country = institution.institutioncountry_set.first()
+            country = institution.institutioncountry_set.filter(country_verified=True).first()
 
             org = etree.SubElement(self.agentReferences, f"{self.NS}organization",
                                    id=f"https://data.deqar.eu/institution/{institution.id}")
@@ -284,6 +285,24 @@ class AccrediationXMLCreator:
                 spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
             )
             reg.text = f"https://data.deqar.eu/institution/{institution.id}"
+
+            # vatIdentifier
+            for identifier in institution.institutionidentifier_set.filter(resource='EU-VAT').iterator():
+                vat = etree.SubElement(
+                    org,
+                    f"{self.NS}vatIdentifier",
+                    spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                )
+                vat.text = identifier.identifier
+
+            # identifier
+            for identifier in institution.institutionidentifier_set.filter(resource='EU-Registration').iterator():
+                _id = etree.SubElement(
+                    org,
+                    f"{self.NS}identifier",
+                    spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                )
+                _id.text = identifier.identifier
 
             # prefLabel and altLabel
             for name in institution.institutionname_set.iterator():
