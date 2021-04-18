@@ -280,7 +280,7 @@ class AccrediationXMLCreator:
 
             # registration
             if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
-                identifier = institution.institutionidentifier_set.filter(resource='EU-VAT').first()
+                identifier = institution.institutionidentifier_set.filter(resource='EU-Registration').first()
                 reg = etree.SubElement(
                     org,
                     f"{self.NS}registration",
@@ -313,7 +313,17 @@ class AccrediationXMLCreator:
                     schemeID="DEQAR"
                 )
                 _id.text = f"https://data.deqar.eu/institution/{institution.id}"
-                
+
+            # ETER
+            if institution.eter.eter_id:
+                _id = etree.SubElement(
+                    org,
+                    f"{self.NS}identifier",
+                    schemeAgencyName="ETER",
+                    schemeID="https://www.eter-project.com/"
+                )
+                _id.text = institution.eter.eter_id
+
             # prefLabel and altLabel
             for name in institution.institutionname_set.iterator():
                 lang = country.country.iso_3166_alpha2.lower()
