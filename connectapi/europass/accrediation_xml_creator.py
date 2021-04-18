@@ -315,7 +315,7 @@ class AccrediationXMLCreator:
                 _id.text = f"https://data.deqar.eu/institution/{institution.id}"
 
             # ETER
-            if institution.eter.eter_id:
+            if institution.eter:
                 _id = etree.SubElement(
                     org,
                     f"{self.NS}identifier",
