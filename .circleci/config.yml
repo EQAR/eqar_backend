@@ -32,17 +32,17 @@ jobs:
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run:
           command: |
-            sudo pip install pipenv
-            pipenv install
+            pip install -r requirements.txt
+            pip install coveralls
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
-            - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.8/site-packages"
       - run:
           command: |
-            pipenv run python manage.py test
+            coverage run --source='.' manage.py test
+      - run: coveralls
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test-results
       - store_artifacts: # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
