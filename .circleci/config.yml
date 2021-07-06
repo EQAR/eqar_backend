@@ -18,7 +18,9 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
       - restore_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          keys:
+            - pip-packages-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - pip-packages
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -36,14 +38,13 @@ jobs:
             pipenv install
             pipenv install coveralls
       - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: pip-packages-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
+            - "Pipfile.lock"
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.8/site-packages"
       - run:
           command: |
             pipenv run coverage run --source='.' manage.py test
-      - run:
-          command: |
-            pipenv coveralls
+      
