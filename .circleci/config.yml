@@ -19,7 +19,6 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
       - restore_cache:
           keys:
-            - pip-packages-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             - pip-packages
       - run:
           name: install dockerize
@@ -47,4 +46,3 @@ jobs:
       - run:
           command: |
             pipenv run coverage run --source='.' manage.py test
-      
