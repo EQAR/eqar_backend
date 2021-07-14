@@ -12,16 +12,19 @@ class CanEditReport(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        deqar_profile = DEQARProfile.objects.get(user=request.user)
+        if not request.user.is_anonymous:
+            deqar_profile = DEQARProfile.objects.get(user=request.user)
 
-        if request.method == 'GET':
-            return True
+            if request.method == 'GET':
+                return True
+            else:
+                try:
+                    report = get_object_or_404(Report, pk=view.kwargs['pk'])
+                    return deqar_profile.submitting_agency.agency_allowed(report.agency)
+                except ObjectDoesNotExist:
+                    return False
         else:
-            try:
-                report = get_object_or_404(Report, pk=view.kwargs['pk'])
-                return deqar_profile.submitting_agency.agency_allowed(report.agency)
-            except ObjectDoesNotExist:
-                return False
+            return False
 
 
 class CanAccessAgency(permissions.BasePermission):
@@ -30,12 +33,15 @@ class CanAccessAgency(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        deqar_profile = DEQARProfile.objects.get(user=request.user)
-        agency_id = view.kwargs.get('pk', 0)
-        for agency_proxy in deqar_profile.submitting_agency.submitting_agency.all():
-            if str(agency_proxy.allowed_agency_id) == agency_id:
-                return True
-        return False
+        if not request.user.is_anonymous:
+            deqar_profile = DEQARProfile.objects.get(user=request.user)
+            agency_id = view.kwargs.get('pk', 0)
+            for agency_proxy in deqar_profile.submitting_agency.submitting_agency.all():
+                if str(agency_proxy.allowed_agency_id) == agency_id:
+                    return True
+            return False
+        else:
+            return False
 
 
 class CanOperateFromDEQAROnly(permissions.BasePermission):
