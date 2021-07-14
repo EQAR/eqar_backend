@@ -67,7 +67,7 @@ class AccrediationXMLCreator:
             (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
             Q(status=1) &
             ~Q(flag=3)
-        ).order_by('id')
+        ).order_by('id').distinct('id')
 
     def create_xml(self):
         for report in self.reports.iterator():
