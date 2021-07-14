@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from ipware import get_client_ip
 from submissionapi.tasks import recheck_flag
+from reports.tasks import index_delete_report
 
 from adminapi.permissions import CanEditReport
 from adminapi.serializers.report_serializers import ReportReadSerializer, ReportWriteSerializer
@@ -94,6 +95,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
             report_flag.save()
         report_flagger = ReportFlagger(report=report)
         report_flagger.set_flag_high()
+        index_delete_report.delay(report.id)
         return Response(data={'OK'}, status=200)
 
 

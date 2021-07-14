@@ -76,7 +76,7 @@ class AgencyESGActivityReadSerializer(serializers.ModelSerializer):
 class AgencyESGActivityUserWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyESGActivity
-        fields = ['id', 'activity_local_identifier']
+        fields = ['id', 'activity_local_identifier', 'reports_link']
 
 
 class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):

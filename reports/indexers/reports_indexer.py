@@ -91,7 +91,7 @@ class ReportsIndexer:
             print('Error with Report No. %s! Error: %s' % (self.doc['id'], e))
 
     def delete(self):
-        self.solr.delete(id=self.report.id, commit=True)
+        self.solr.delete(id=self.report['id'], commit=True)
 
     def _index_report(self):
         self.doc['id'] = self.report.id
