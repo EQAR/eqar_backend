@@ -113,7 +113,7 @@ class InstitutionCountryDetailSerializer(serializers.ModelSerializer):
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['country', 'city', 'lat', 'long', 'country_source', 'country_source',
-                  'country_valid_from', 'country_valid_to']
+                  'country_valid_from', 'country_valid_to', 'country_verified']
 
 
 class InstitutionDetailSerializer(serializers.ModelSerializer):
