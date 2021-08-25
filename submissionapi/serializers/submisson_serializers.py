@@ -294,6 +294,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                    help_text='accepted values: "1", "2", "3", "4", "positive", '
                                              '"positive with conditions or restrictions", "no, negative", '
                                              '"not applicable"')
+    summary = serializers.CharField(required=False, label="Summary of the report.")
 
     # Report Validity
     valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',

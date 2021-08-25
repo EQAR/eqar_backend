@@ -50,7 +50,7 @@ class ResponseReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('id', 'agency', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision',
+        fields = ('id', 'agency', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision', 'summary',
                   'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
 
 

@@ -19,9 +19,11 @@ class CSVHandler:
             r'activity_local_identifier',
             r'status',
             r'decision',
+            r'summary',
             r'valid_from',
             r'valid_to',
-            r'date_format'
+            r'date_format',
+            r'other_comment'
         ],
         'report_links': [
             r'link\[\d+\]',
@@ -119,7 +121,7 @@ class CSVHandler:
 
     def _read_csv(self):
         self.csvfile.seek(0)
-        self.reader = DictReaderInsensitive(self.csvfile, dialect=self.dialect)
+        self.reader = DictReaderInsensitive(self.csvfile)
 
     def _create_report(self, row):
         csv_fields = self.reader.fieldnames

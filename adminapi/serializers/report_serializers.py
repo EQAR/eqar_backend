@@ -127,7 +127,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ['id', 'agency', 'activity', 'local_identifier', 'name',
-                  'status', 'decision',
+                  'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
@@ -144,6 +144,6 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Report
         fields = ['id', 'agency', 'activity', 'local_identifier',
-                  'status', 'decision',
+                  'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']
