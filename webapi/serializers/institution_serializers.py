@@ -13,7 +13,7 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
         ref_name = 'InstitutionCountry v1'
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
-        fields = ['country', 'city', 'lat', 'long']
+        fields = ['country', 'city', 'lat', 'long', 'country_verified']
 
 
 class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
