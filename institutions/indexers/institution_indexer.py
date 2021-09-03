@@ -147,6 +147,7 @@ class InstitutionIndexer:
             self.doc['place'].append({
                 'country': icountry.country.name_english.strip(),
                 'city': icountry.city.strip() if icountry.city else None,
+                'country_verified': icountry.country_verified,
                 'lat': icountry.lat,
                 'long': icountry.long
             })
