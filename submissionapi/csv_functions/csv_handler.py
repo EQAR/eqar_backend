@@ -13,6 +13,7 @@ class CSVHandler:
     FIELDS = {
         'reports': [
             r'agency',
+            r'contributing_agencies\[\d+\]',
             r'report_id',
             r'local_identifier',
             r'activity',

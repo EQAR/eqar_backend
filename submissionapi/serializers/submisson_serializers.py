@@ -3,6 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
+from rest_framework.fields import ListField
 
 from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
@@ -274,6 +275,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
     # Report Creator
     agency = AgencyField(required=True, label='Identifier or the acronym of the agency',
                          help_text='examples: "33", "ACQUIN"')
+
+    # Report Contributor Agencies
+    contributing_agencies = ListField(
+        label="List of the contributing agencies",
+        child=AgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
+    )
 
     # Record Identification
     local_identifier = serializers.CharField(max_length=255, required=False, label='Local identifier of the report',
