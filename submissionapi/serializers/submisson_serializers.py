@@ -278,6 +278,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
     # Report Contributor Agencies
     contributing_agencies = ListField(
+        required=False,
         label="List of the contributing agencies",
         child=AgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
     )
