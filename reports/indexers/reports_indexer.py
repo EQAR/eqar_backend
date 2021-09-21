@@ -126,7 +126,7 @@ class ReportsIndexer:
         self.doc['decision_id'] = self.report.decision.id
 
         # Index Contributing Agencies
-        for contributing_agency in self.report.contributing_agencies.iterator():
+        for contributing_agency in self.report.contributing_agencies.all():
             self.doc['contributing_agencies'].append({
                 'agency_id': contributing_agency.id,
                 'agency_name': contributing_agency.name_primary,
@@ -167,7 +167,7 @@ class ReportsIndexer:
         self.doc['flag_level'] = self.report.flag.flag
         self.doc['flag_level_facet'] = self.report.flag.flag
 
-        self.doc['user_created'] = self.report.created_by.username
+        self.doc['user_created'] = self.report.created_by.username if self.report.created_by else ''
         self.doc['date_created'] = "%sZ" % self.report.created_at.isoformat()
         self.doc['date_updated'] = "%sZ" % self.report.updated_at.isoformat()
 
@@ -261,6 +261,7 @@ class ReportsIndexer:
         self.doc.update(new_doc)
 
     def _store_json(self):
+        self.doc['contributing_agencies'] = json.dumps(self.doc['contributing_agencies'])
         self.doc['institutions'] = json.dumps(self.doc['institutions'])
         self.doc['programmes'] = json.dumps(self.doc['programmes'])
         self.doc['report_files'] = json.dumps(self.doc['report_files'])

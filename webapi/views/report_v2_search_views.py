@@ -82,6 +82,7 @@ class ReportList(ListAPIView):
             'qf': qf,
             'fl': 'id,local_id,'
                   'agency_acronym,agency_name,agency_esg_activity,agency_esg_activity_type,'
+                  'contributing_agencies,'
                   'country,institutions,programmes,report_files,report_links,'
                   'status,decision,valid_from,valid_to,valid_to_calculated,'
                   'flag_level,score,other_comment,date_created,date_updated',
