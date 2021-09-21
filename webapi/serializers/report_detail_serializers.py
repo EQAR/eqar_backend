@@ -7,6 +7,7 @@ from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName
 from rest_framework import serializers
 
 from webapi.serializers.report_v2_serializers import ReportFileSerializer, ReportLinkSerializer
+from webapi.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -50,6 +51,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
     agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
     agency_esg_activity_type = serializers.SerializerMethodField()
+    contributing_agencies = ContributingAgencySerializer(many=True)
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     institutions = InstitutionSerializer(many=True)
@@ -129,7 +131,8 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ['id', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+                  'contributing_agencies',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
-                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
+                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'summary', 'report_files',
                   'report_links', 'local_identifier', 'other_comment', 'flag']

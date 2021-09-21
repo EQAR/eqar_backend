@@ -18,7 +18,10 @@ class DictReaderInsensitive(csv.DictReader):
         # store all pairs from the old dict in the new, custom one
         for key, value in dOriginal.items():
             if value:
-                dInsensitive[key] = value.strip()
+                if isinstance(value, str):
+                    dInsensitive[key] = value.strip()
+                else:
+                    print('%s: %s' % (key, value))
             else:
                 dInsensitive[key] = ""
 

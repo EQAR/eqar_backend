@@ -1,7 +1,5 @@
-import datetime
-from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 from adminapi.fields import PDFBase64File
 from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer, ProgrammeReadSerializer
@@ -106,6 +104,7 @@ class ReportUpdateLogSerializer(serializers.ModelSerializer):
 
 class ReportReadSerializer(serializers.ModelSerializer):
     agency = AgencySelectSerializer()
+    contributing_agencies = AgencySelectSerializer(many=True)
     activity = AgencyESGActivitySerializer(source='agency_esg_activity')
     status = ReportStatusSerializer()
     decision = ReportDecisionSerializer()
@@ -126,8 +125,8 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'activity', 'local_identifier', 'name',
-                  'status', 'decision',
+        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'local_identifier', 'name',
+                  'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
@@ -143,7 +142,7 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'activity', 'local_identifier',
-                  'status', 'decision',
+        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'local_identifier',
+                  'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']
