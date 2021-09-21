@@ -316,13 +316,13 @@ class SubmissionPackageSerializer(serializers.Serializer):
     report_links = ReportLinkSerializer(many=True, required=False)
 
     # Report Files
-    report_files = ReportFileSerializer(many=True, required=True)
+    report_files = ReportFileSerializer(many=True, required=True, allow_empty=False)
 
     # Institutions
     institutions = InstitutionSerializer(many=True, required=True,
                                          label='Institution(s) which are the subject of the report. '
                                                '(If programme information is submitted, then the report considered '
-                                               'to be about the programme itself.)')
+                                               'to be about the programme itself.)', allow_empty=False)
 
     # Programmes
     programmes = ProgrammeSerializer(many=True, required=False,
@@ -383,6 +383,13 @@ class SubmissionPackageSerializer(serializers.Serializer):
         if date_from:
             if datetime.date(date_from) < agency.registration_start:
                 errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+
+        #
+        # Validate if Agency registration start is earlier then report validation start date.
+        #
+        if date_to:
+            if datetime.date(date_to) > agency.registration_valid_to:
+                errors.append("Report's validity date must fall before the Agency registration period ends.")
 
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
