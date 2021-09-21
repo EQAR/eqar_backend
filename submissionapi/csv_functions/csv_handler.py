@@ -131,7 +131,12 @@ class CSVHandler:
             rematch = sorted(list(filter(r.match, csv_fields)), key=str.lower)
 
             if len(rematch) > 0:
-                self.report_record[rematch[0]] = row[rematch[0]]
+                if 'contributing_agencies' in field:
+                    self.report_record['contributing_agencies'] = []
+                    for column  in rematch:
+                        self.report_record['contributing_agencies'].append(row[column])
+                else:
+                    self.report_record[rematch[0]] = row[rematch[0]]
 
     def _create_institutions(self, row):
         self._create_first_level_placeholder(['institutions',

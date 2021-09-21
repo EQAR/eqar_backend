@@ -196,3 +196,9 @@ class AgencyActivityDEQARConnectListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyESGActivity
         fields = ['id', 'agency', 'activity', 'activity_type']
+
+
+class ContributingAgencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Agency
+        fields = ['id', 'name_primary', 'acronym_primary']

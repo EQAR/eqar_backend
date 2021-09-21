@@ -9,7 +9,7 @@ from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
 from reports.models import Report
 from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField, ReportIdentifierField
+    QFEHEALevelField, CountryField, ReportIdentifierField, ContributingAgencyField
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -280,7 +280,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
     contributing_agencies = ListField(
         required=False,
         label="List of the contributing agencies",
-        child=AgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
+        child=ContributingAgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
     )
 
     # Record Identification
