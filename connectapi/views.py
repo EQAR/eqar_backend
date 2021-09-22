@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
 from pysolr import SolrError
-from rest_framework import generics, permissions
+from rest_framework import generics
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -50,7 +50,7 @@ class InstitutionDEQARConnectList(ListAPIView):
     filter_class = InstitutionFilterClass
     serializer_class = InstitutionDEQARConnectListSerializer
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
-    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (None,)
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
