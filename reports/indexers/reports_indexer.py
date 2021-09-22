@@ -288,5 +288,3 @@ class ReportsIndexer:
             return d.replace(year=d.year + years)
         except ValueError:
             return d + (date(d.year + years, 1, 1) - date(d.year, 1, 1))
-
-
