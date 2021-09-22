@@ -25,6 +25,7 @@ class ReportsIndexer:
             'agency_url': None,
             'agency_esg_activity': None,
             'agency_esg_activity_type': None,
+            'contributing_agencies': [],
             'name': None,
             'institutions': [],
             'institutions_hierarchical': [],
@@ -56,7 +57,7 @@ class ReportsIndexer:
             'programme_name': [],
             'valid_to_calculated': None,
 
-            'agency_id': 0,
+            'agency_id': [],
             'country_id': [],
             'activity_id': 0,
             'activity_type_id': 0,
@@ -68,7 +69,7 @@ class ReportsIndexer:
             'agency_sort': None,
             'institution_programme_sort': None,
 
-            'agency_facet': None,
+            'agency_facet': [],
             'country_facet': [],
             'activity_facet': None,
             'activity_type_facet': None,
@@ -112,9 +113,8 @@ class ReportsIndexer:
         self.doc['agency_acronym'] = self.report.agency.acronym_primary
         self.doc['agency_sort'] = self.report.agency.acronym_primary
         self.doc['agency_url'] = self.report.agency.website_link
-        self.doc['agency_facet'] = self.report.agency.acronym_primary
-        self.doc['agency_id'] = self.report.agency.id
-
+        self.doc['agency_facet'].append(self.report.agency.acronym_primary)
+        self.doc['agency_id'].append(self.report.agency.id)
         self.doc['report_valid'] = self._set_report_valid()
 
         self.doc['status'] = self.report.status.status
@@ -124,6 +124,17 @@ class ReportsIndexer:
         self.doc['decision'] = self.report.decision.decision
         self.doc['decision_facet'] = self.report.decision.decision
         self.doc['decision_id'] = self.report.decision.id
+
+        # Index Contributing Agencies
+        for contributing_agency in self.report.contributing_agencies.iterator():
+            self.doc['contributing_agencies'].append({
+                'agency_id': contributing_agency.id,
+                'agency_name': contributing_agency.name_primary,
+                'agency_acronym': contributing_agency.acronym_primary,
+                'agency_url': contributing_agency.website_link
+            })
+            self.doc['agency_facet'].append(contributing_agency.acronym_primary)
+            self.doc['agency_id'].append(contributing_agency.id)
 
         # Index Report Files
         for report_file in self.report.reportfile_set.iterator():

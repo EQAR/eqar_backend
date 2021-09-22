@@ -59,6 +59,8 @@ class ReportPopulator():
             self.report.updated_at = datetime.now()
             self.report.other_comment = self.submission.get('other_comment', None)
 
+            Report.contributing_agencies.through.objects.all().delete()
+
         # Create report
         else:
             self.report = Report(
@@ -73,6 +75,12 @@ class ReportPopulator():
                 created_by=self.user,
                 other_comment=self.submission.get('other_comment', None)
             )
+
+        # Assign contributing agencies
+        contributing_agencies = self.submission.get('contributing_agencies', [])
+        for contributing_agency in contributing_agencies:
+            self.report.contributing_agencies.add(contributing_agency)
+
         self.report.save()
 
     def _report_link_upsert(self):

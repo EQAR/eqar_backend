@@ -12,7 +12,7 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
-        fields = ['country', 'city', 'lat', 'long']
+        fields = ['country', 'city', 'lat', 'long', 'country_verified']
 
 
 class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
@@ -105,7 +105,7 @@ class InstitutionCountryDetailSerializer(serializers.ModelSerializer):
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['country', 'city', 'lat', 'long', 'country_source', 'country_source',
-                  'country_valid_from', 'country_valid_to']
+                  'country_valid_from', 'country_valid_to', 'country_verified']
 
 
 class InstitutionRelationshipSerializer(serializers.ModelSerializer):
