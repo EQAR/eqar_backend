@@ -91,5 +91,5 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['institutions', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
-                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'summary', 'report_files',
+                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'report_files',
                   'report_links', 'local_identifier', 'flag', 'institution_relationship_context']

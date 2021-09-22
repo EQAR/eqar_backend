@@ -13,13 +13,11 @@ class Report(models.Model):
     """
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
-    contributing_agencies = models.ManyToManyField('agencies.Agency', related_name='co_authored_reports', blank=True)
     local_identifier = CharNullField(max_length=255, blank=True, null=True)
     agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT)
     name = models.CharField(max_length=300)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
     decision = models.ForeignKey('ReportDecision', on_delete=models.PROTECT)
-    summary = models.TextField(blank=True, null=True)
     valid_from = models.DateField(default=datetime.date.today)
     valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
