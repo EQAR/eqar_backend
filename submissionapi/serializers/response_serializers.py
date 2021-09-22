@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from agencies.models import Agency
 from institutions.models import Institution
 from programmes.models import Programme
 from reports.models import Report, ReportFile
@@ -42,7 +41,6 @@ class ResponseCSVReportSerializer(serializers.ModelSerializer):
 
 class ResponseReportSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
-    contributing_agencies = serializers.SlugRelatedField(many=True, slug_field="acronym_primary", queryset=Agency.objects.all())
     agency_esg_activity = serializers.StringRelatedField()
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
@@ -52,7 +50,7 @@ class ResponseReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision', 'summary',
+        fields = ('id', 'agency', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision',
                   'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
 
 

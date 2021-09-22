@@ -51,7 +51,7 @@ class InstitutionCountryReadSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = InstitutionCountry
-        fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to', 'country_verified']
+        fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to']
 
 
 class InstitutionCountryWriteSerializer(WritableNestedModelSerializer):
@@ -60,7 +60,7 @@ class InstitutionCountryWriteSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = InstitutionCountry
-        fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to', 'country_verified']
+        fields = ['id', 'country', 'city', 'lat', 'long', 'country_valid_from', 'country_valid_to']
 
 
 class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):

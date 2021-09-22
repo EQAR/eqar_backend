@@ -39,17 +39,6 @@ class CSVHandlerTestCase(TestCase):
                 self.assertEqual(csv_handler.report_record['local_identifier'], 'CRDB-October14')
                 break
 
-    def test_create_report_with_cooauthor_agencies(self):
-        file = os.path.join(self.current_dir, "csv_test_files", "test_coauthor_agency_valid.csv")
-        with open(file, 'r') as csv_file:
-            csv_handler = CSVHandler(csvfile=csv_file)
-            csv_handler._read_csv()
-            for row in csv_handler.reader:
-                csv_handler._create_report(row)
-                self.assertEqual(csv_handler.report_record['contributing_agencies'][0], 'A3ES')
-                self.assertEqual(csv_handler.report_record['contributing_agencies'][1], 'ASIIN')
-                break
-
     def test_create_first_level_placeholder(self):
         file = os.path.join(self.current_dir, "csv_test_files", "test_valid.csv")
         with open(file, 'r') as csv_file:

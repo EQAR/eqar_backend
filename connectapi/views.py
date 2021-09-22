@@ -50,7 +50,6 @@ class InstitutionDEQARConnectList(ListAPIView):
     filter_class = InstitutionFilterClass
     serializer_class = InstitutionDEQARConnectListSerializer
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
-    authentication_classes = (None,)
 
     def list(self, request, *args, **kwargs):
         limit = request.query_params.get('limit', 10)
