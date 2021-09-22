@@ -102,7 +102,7 @@ class InstitutionIdentifier(models.Model):
     """
     id = models.AutoField(primary_key=True)
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    identifier = models.CharField(max_length=50)
+    identifier = models.CharField(max_length=100)
     agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.SET_NULL)
     resource = models.CharField(max_length=200, blank=True)
     note = models.TextField(blank=True)
