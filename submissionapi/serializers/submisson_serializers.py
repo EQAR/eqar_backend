@@ -3,12 +3,13 @@ from datetime import datetime
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
+from rest_framework.fields import ListField
 
 from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
 from reports.models import Report
 from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField, ReportIdentifierField
+    QFEHEALevelField, CountryField, ReportIdentifierField, ContributingAgencyField
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -275,6 +276,13 @@ class SubmissionPackageSerializer(serializers.Serializer):
     agency = AgencyField(required=True, label='Identifier or the acronym of the agency',
                          help_text='examples: "33", "ACQUIN"')
 
+    # Report Contributor Agencies
+    contributing_agencies = ListField(
+        required=False,
+        label="List of the contributing agencies",
+        child=ContributingAgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
+    )
+
     # Record Identification
     local_identifier = serializers.CharField(max_length=255, required=False, label='Local identifier of the report',
                                              help_text='example: "QAA1153-March15"')
@@ -294,6 +302,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                    help_text='accepted values: "1", "2", "3", "4", "positive", '
                                              '"positive with conditions or restrictions", "no, negative", '
                                              '"not applicable"')
+    summary = serializers.CharField(required=False, label="Summary of the report.")
 
     # Report Validity
     valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',

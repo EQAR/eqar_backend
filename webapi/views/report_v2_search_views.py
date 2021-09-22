@@ -185,6 +185,7 @@ class ReportList(ListAPIView):
             return Response(status=HTTP_400_BAD_REQUEST, data={'error': str(e)})
 
         for r in response:
+            r.update((k, json.loads(v)) for k, v in r.items() if k == 'contributing_agencies')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'institutions')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'programmes')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_files')
