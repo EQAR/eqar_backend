@@ -331,7 +331,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                            'to be about the institution.)')
 
     # Comment
-    other_comment = serializers.CharField(required=False, label='Comment for the submission.')
+    other_comment = serializers.CharField(
+        required=False,
+        allow_null=True,
+        allow_blank=True,
+        label='Comment for the submission.'
+    )
 
     def to_internal_value(self, data):
         errors = []
@@ -457,7 +462,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                     # Inspect the unique list of identified institutions
                     if len(institutions) > 1:
                         errors.append("The submitted institution identifiers are identifying "
-                                                          "more institutions. Please correct them.")
+                                      "more institutions. Please correct them.")
                     if len(institutions) == 1:
                         inst_exists = True
 
