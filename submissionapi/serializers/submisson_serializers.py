@@ -386,15 +386,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
         # Validate if Agency registration start is earlier then report validation start date.
         #
         if date_from:
-            if datetime.date(date_from) < agency.registration_start:
-                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
-
-        #
-        # Validate if Agency registration start is earlier then report validation start date.
-        #
-        if date_to:
-            if datetime.date(date_to) > agency.registration_valid_to:
-                errors.append("Report's validity date must fall before the Agency registration period ends.")
+            if agency.registration_valid_to:
+                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
+                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
+            else:
+                if agency.registration_start >= datetime.date(date_from):
+                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
