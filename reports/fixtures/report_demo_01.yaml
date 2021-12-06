@@ -8,7 +8,7 @@
     status: 1
     decision: 1
     valid_from: 2015-03-31
-    valid_to: 2021-09-30
+    valid_to: 2022-09-30
     institutions: [1]
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
@@ -25,7 +25,7 @@
     status: 1
     decision: 1
     valid_from: 2014-09-30
-    valid_to: 2021-03-31
+    valid_to: 2022-03-31
     institutions: [2]
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
@@ -42,7 +42,7 @@
     status: 1
     decision: 1
     valid_from: 2013-09-24
-    valid_to: 2020-09-30
+    valid_to: 2022-09-30
     institutions: [2]
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
@@ -125,7 +125,7 @@
     status: 1
     decision: 1
     valid_from: 2016-03-31
-    valid_to: 2021-09-30
+    valid_to: 2022-09-30
     institutions: [3]
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
@@ -141,7 +141,7 @@
     status: 1
     decision: 1
     valid_from: 2016-03-31
-    valid_to: 2021-09-30
+    valid_to: 2022-09-30
     institutions: [3]
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
