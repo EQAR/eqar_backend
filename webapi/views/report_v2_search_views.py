@@ -189,8 +189,15 @@ class ReportList(ListAPIView):
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'contributing_agencies')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'institutions')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'programmes')
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_files')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_links')
+
+            # Do full URLs for files
+            if 'report_files' in r.keys():
+                report_files_json = json.loads(r['report_files'])
+                for report_files in report_files_json:
+                    if 'file' in report_files:
+                        report_files['file'] = self.request.build_absolute_uri(report_files['file'])
+                r.update([('report_files', report_files_json)])
 
         resp = {
             'count': response.hits,
