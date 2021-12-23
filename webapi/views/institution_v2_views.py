@@ -101,7 +101,7 @@ class InstitutionList(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_official_display,name_select_display,name_sort,'
-                  'qf_ehea_level,place,website_link,hierarchical_relationships,country,score',
+                  'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',
                              'activity_facet', 'activity_type_facet', 'crossborder_facet'],

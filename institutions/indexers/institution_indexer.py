@@ -28,6 +28,8 @@ class InstitutionIndexer:
             'name_official_display': None,
             'national_identifier': None,
             'website_link': None,
+            'founding_date': None,
+            'closure_date': None,
             'place': [],
             'hierarchical_relationships': {
                 'part_of': [],
@@ -102,6 +104,12 @@ class InstitutionIndexer:
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
+
+        if self.institution.founding_date:
+            self.doc['founding_date'] = str(self.institution.founding_date)
+
+        if self.institution.closure_date:
+            self.doc['closure_date'] = str(self.institution.closure_date)
 
         select_display = self.institution.name_primary.strip()
         if self.institution.eter:
