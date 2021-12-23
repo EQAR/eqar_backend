@@ -50,6 +50,7 @@ class Institution(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
+        super(Institution, self).save(*args, **kwargs)
         self.set_primary_name()
         self.set_name_sort()
         super(Institution, self).save(*args, **kwargs)
