@@ -179,7 +179,11 @@ class InstitutionIndexer:
                 'name_primary': related_institution.institution_child.name_primary,
                 'website_link': related_institution.institution_child.website_link,
                 'relationship_type': related_institution.relationship_type.type
-                if related_institution.relationship_type else None
+                if related_institution.relationship_type else None,
+                'valid_from': str(related_institution.valid_from)
+                if related_institution.valid_from else None,
+                'valid_to': str(related_institution.valid_to)
+                if related_institution.valid_to else None
             })
             self._index_related_institution(related_institution.institution_child)
         self.doc['hierarchical_relationships']['includes'] = includes
@@ -191,7 +195,11 @@ class InstitutionIndexer:
                 'name_primary': related_institution.institution_parent.name_primary,
                 'website_link': related_institution.institution_parent.website_link,
                 'relationship_type': related_institution.relationship_type.type
-                if related_institution.relationship_type else None
+                if related_institution.relationship_type else None,
+                'valid_from': str(related_institution.valid_from)
+                if related_institution.valid_from else None,
+                'valid_to': str(related_institution.valid_to)
+                if related_institution.valid_to else None
             })
             self._index_related_institution(related_institution.institution_parent)
         self.doc['hierarchical_relationships']['part_of'] = part_of
