@@ -80,7 +80,7 @@ class ReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,local_id,'
+            'fl': 'id,local_id,local_identifier,'
                   'agency_acronym,agency_name,agency_esg_activity,agency_esg_activity_type,'
                   'contributing_agencies,'
                   'country,institutions,programmes,report_files,report_links,'

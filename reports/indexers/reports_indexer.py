@@ -20,6 +20,7 @@ class ReportsIndexer:
         self.doc = {
             'id': None,
             'local_id': None,
+            'local_identifier': None,
             'agency_name': None,
             'agency_acronym': None,
             'agency_url': None,
@@ -99,6 +100,7 @@ class ReportsIndexer:
         self.doc['id_sort'] = self.report.id
         self.doc['id_search'] = self.report.id
         self.doc['local_id'] = self.report.local_identifier
+        self.doc['local_identifier'] = self.report.local_identifier
         self.doc['name'] = self.report.agency_esg_activity.activity_description
 
         self.doc['agency_esg_activity'] = self.report.agency_esg_activity.activity
