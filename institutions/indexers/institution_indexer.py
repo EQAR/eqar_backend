@@ -40,6 +40,7 @@ class InstitutionIndexer:
             # Search fields
             'deqar_id_search': None,
             'name_english': [],
+            'acronym_search': [],
             'name_official_transliterated': [],
             'name_official': [],
             'name_version': [],
@@ -139,6 +140,10 @@ class InstitutionIndexer:
 
             if not iname.name_valid_to or iname.name_valid_to == '':
                 self.doc['name_official_display'] = iname.name_official.strip()
+
+            # Index acronym
+            if iname.acronym:
+                self.doc['acronym_search'].append(iname.acronym)
 
             for iname_version in iname.institutionnameversion_set.all():
                 self.doc['name_version'].append(iname_version.name.strip())

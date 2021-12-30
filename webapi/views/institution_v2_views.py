@@ -84,6 +84,7 @@ class InstitutionList(ListAPIView):
         filters = [{'has_report': 'true'}]
         qf = [
             'name_official^2.5',
+            'acronym_search^5',
             'name_official_transliterated',
             'name_english^2.5',
             'name_version^1.5',
@@ -100,7 +101,7 @@ class InstitutionList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_official_display,name_select_display,name_sort,'
+            'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_official_display,name_select_display,name_sort,'
                   'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',

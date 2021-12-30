@@ -48,6 +48,7 @@ class InstitutionAllList(ListAPIView):
         filters = []
         qf = [
             'name_official^5',
+            'acronym_search^5',
             'name_official_transliterated',
             'name_english^2.5',
             'name_version^1.5',
