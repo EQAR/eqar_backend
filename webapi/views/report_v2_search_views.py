@@ -62,7 +62,7 @@ class ReportList(ListAPIView):
         limit = self.zero_or_more(request, 'limit', 10)
         offset = self.zero_or_more(request, 'offset', 0)
 
-        filters = []
+        filters = [{'-flag_level_facet': 'high level'}]
 
         date_filters = []
         qf = [
