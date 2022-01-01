@@ -3,7 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from connectapi.letstrust.views import VCIssue
+from connectapi.letstrust.views import VCIssue, EBSIVCIssue
 from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView
 
 schema_view = get_schema_view(
@@ -31,6 +31,7 @@ urlpatterns = [
 
     # Let's Trust endpoints
     url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', VCIssue.as_view(), name='letstrust-vc-issue'),
+    url(r'^letstrust/ebsi-vc/issue/(?P<report_id>[0-9]+)$', EBSIVCIssue.as_view(), name='letstrust-ebsi-vc-issue'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
