@@ -126,39 +126,45 @@ class InstitutionTestCase(TestCase):
     def test_institution_set_primary_name_ongoing(self):
         inst = Institution.objects.get(id=3)
         inst.set_primary_name()
+        inst.save()
         self.assertEqual(inst.name_primary, 'Hessische Hochschule für Polizei und Verwaltung')
 
     def test_institution_set_primary_closed(self):
         inst = Institution.objects.get(id=4)
         inst.set_primary_name()
+        inst.save()
         self.assertEqual(inst.name_primary, 'Sibelius Academy')
 
     def test_institution_set_primary_name_consortium(self):
         inst_parent = Institution.objects.get(id=1)
+        inst_parent.set_primary_name()
+        inst_parent.save()
         inst_child = Institution.objects.get(id=2)
+        inst_child.set_primary_name()
+        inst_child.save()
         relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='consortium')
         InstitutionHierarchicalRelationship.objects.create(
             institution_parent=inst_parent,
             institution_child=inst_child,
             relationship_type=relationship_type
         )
-        inst_child.set_primary_name()
-        inst_child.set_name_sort()
         self.assertEqual(inst_child.name_sort,
                          'University of Applied Sciences of Public Administration, '
                          'Police and Administration of Justice in Güstrow')
 
     def test_institution_set_primary_name_faculty(self):
         inst_parent = Institution.objects.get(id=1)
+        inst_parent.set_primary_name()
+        inst_parent.save()
         inst_child = Institution.objects.get(id=3)
+        inst_child.set_primary_name()
+        inst_child.save()
         relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='faculty')
         InstitutionHierarchicalRelationship.objects.create(
             institution_parent=inst_parent,
             institution_child=inst_child,
             relationship_type=relationship_type
         )
-        inst_parent.save()
-        inst_child.save()
         self.assertEqual(inst_child.name_sort,
                          'University of applied sciences for Public Administration Rhineland-Palatinate / '
                          'Hessische Hochschule für Polizei und Verwaltung')

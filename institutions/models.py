@@ -49,12 +49,6 @@ class Institution(models.Model):
         self.flag = Flag.objects.get(pk=3)
         self.save()
 
-    def save(self, *args, **kwargs):
-        super(Institution, self).save(*args, **kwargs)
-        self.set_primary_name()
-        self.set_name_sort()
-        super(Institution, self).save(*args, **kwargs)
-
     def set_primary_name(self):
         if self.closure_date:
             inst_name_primary = self.institutionname_set.all().order_by('-name_valid_to').first()
@@ -141,6 +135,12 @@ class InstitutionName(models.Model):
             else:
                 self.name_source_note = flag_msg
             self.save()
+
+    def save(self, *args, **kwargs):
+        super(InstitutionName, self).save(*args, **kwargs)
+        self.institution.set_primary_name()
+        self.institution.set_name_sort()
+        self.institution.save()
 
     class Meta:
         db_table = 'deqar_institution_names'
@@ -387,6 +387,13 @@ class InstitutionHierarchicalRelationship(models.Model):
     relationship_note = models.CharField(max_length=300, blank=True, null=True)
     valid_from = models.DateField(blank=True, null=True)
     valid_to = models.DateField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super(InstitutionHierarchicalRelationship, self).save(*args, **kwargs)
+        self.institution_parent.set_name_sort()
+        self.institution_parent.save()
+        self.institution_child.set_name_sort()
+        self.institution_child.save()
 
     class Meta:
         db_table = 'deqar_institution_hierarchical_relationships'
