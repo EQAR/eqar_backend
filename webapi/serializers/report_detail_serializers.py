@@ -1,5 +1,6 @@
 import datetime
 
+from django.db.models import Q
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
@@ -60,11 +61,21 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
+    crossborder = serializers.SerializerMethodField()
     flag = serializers.StringRelatedField()
     report_valid = serializers.SerializerMethodField()
 
     def get_agency_esg_activity_type(self, obj):
         return obj.agency_esg_activity.activity_type.type
+
+    def get_crossborder(self, obj):
+        crossborder = False
+        focus_countries = obj.agency.agencyfocuscountry_set
+        for inst in obj.institutions.iterator():
+            for ic in inst.institutioncountry_set.iterator():
+                if focus_countries.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=True)):
+                    crossborder = True
+        return crossborder
 
     def get_report_valid(self, obj):
         valid_from = obj.valid_from
@@ -134,5 +145,5 @@ class ReportDetailSerializer(serializers.ModelSerializer):
                   'contributing_agencies',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
-                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'summary', 'report_files',
+                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'crossborder', 'summary', 'report_files',
                   'report_links', 'local_identifier', 'other_comment', 'flag']

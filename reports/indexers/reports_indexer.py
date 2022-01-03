@@ -37,6 +37,7 @@ class ReportsIndexer:
             'valid_to': None,
             'status': None,
             'decision': None,
+            'crossborder': False,
             'report_files': [],
             'report_links': [],
             'other_comment': None,
@@ -163,6 +164,7 @@ class ReportsIndexer:
             for ic in inst.institutioncountry_set.iterator():
                 if focus_countries.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=True)):
                     self.doc['crossborder_facet'].append(True)
+                    self.doc['crossborder'] = True
 
         self.doc['other_comment'] = self.report.other_comment
 

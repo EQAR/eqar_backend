@@ -124,7 +124,6 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, read_only=True, source='institutionname_set')
     countries = InstitutionCountryDetailSerializer(many=True, read_only=True, source='institutioncountry_set')
-    # nqf_levels = serializers.StringRelatedField(many=True, read_only=True, source='institutionnqflevel_set')
     qf_ehea_levels = InstitutionQFEHEALevelSerializer(many=True, read_only=True, source='institutionqfehealevel_set')
     historical_relationships = serializers.SerializerMethodField()
     hierarchical_relationships = serializers.SerializerMethodField()
