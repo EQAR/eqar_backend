@@ -11,15 +11,17 @@ from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
 from eqar_backend.searchers import Searcher
-from institutions.models import Institution
+from institutions.models import Institution, InstitutionIdentifier
 from lists.models import QFEHEALevel
 from reports.models import ReportStatus
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 from webapi.serializers.institution_serializers import InstitutionDetailSerializer
+from webapi.serializers.institution_v2_serializers import InstitutionResourceSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -205,3 +207,36 @@ class InstitutionDetailByETER(generics.RetrieveAPIView):
             return Institution.objects.get(eter__eter_id=self.kwargs['eter_id'])
         except Institution.DoesNotExist:
             raise Http404
+
+
+class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
+    """
+        Returns all the data available of the selected institution (via identifier).
+    """
+    serializer_class = InstitutionDetailSerializer
+
+    def get_object(self):
+        resource = self.kwargs.get('resource', None)
+        identifier = self.kwargs.get('identifier', None)
+
+        try:
+            iid = InstitutionIdentifier.objects.filter(identifier=identifier, resource=resource)
+            if iid:
+                return iid.first().institution
+            else:
+                raise Http404
+        except Institution.DoesNotExist:
+            raise Http404
+
+
+class InstitutionIdentifierResourcesList(APIView):
+    """
+        Returns all the identifier resources.
+    """
+
+    @swagger_auto_schema(operation_description="blabla", responses={200: '[list of available resources]'})
+    def get(self, request):
+        ids = []
+        for identifier in InstitutionIdentifier.objects.values('resource').distinct().iterator():
+            ids.append(identifier['resource'])
+        return Response(sorted(ids, key=str.lower))
