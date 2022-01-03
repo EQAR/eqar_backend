@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
-    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion
+    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, InstitutionETERRecord
 from webapi.serializers.country_serializers import CountryQARequirementSerializer, CountryDetailSerializer
 
 
@@ -119,7 +119,8 @@ class InstitutionRelationshipSerializer(serializers.ModelSerializer):
 
 
 class InstitutionDetailSerializer(serializers.ModelSerializer):
-    eter =serializers.StringRelatedField()
+    eter = serializers.StringRelatedField()
+    eter_id = serializers.SlugRelatedField(slug_field='eter_id', queryset=InstitutionETERRecord.objects.all(), source='eter')
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, read_only=True, source='institutionname_set')
     countries = InstitutionCountryDetailSerializer(many=True, read_only=True, source='institutioncountry_set')
@@ -171,7 +172,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
-        fields = ('id', 'eter', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
+        fields = ('id', 'eter', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
 
 
