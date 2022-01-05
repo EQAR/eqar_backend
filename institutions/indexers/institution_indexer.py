@@ -28,6 +28,8 @@ class InstitutionIndexer:
             'name_official_display': None,
             'national_identifier': None,
             'website_link': None,
+            'founding_date': None,
+            'closure_date': None,
             'place': [],
             'hierarchical_relationships': {
                 'part_of': [],
@@ -38,6 +40,7 @@ class InstitutionIndexer:
             # Search fields
             'deqar_id_search': None,
             'name_english': [],
+            'acronym_search': [],
             'name_official_transliterated': [],
             'name_official': [],
             'name_version': [],
@@ -103,6 +106,12 @@ class InstitutionIndexer:
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
 
+        if self.institution.founding_date:
+            self.doc['founding_date'] = str(self.institution.founding_date)
+
+        if self.institution.closure_date:
+            self.doc['closure_date'] = str(self.institution.closure_date)
+
         select_display = self.institution.name_primary.strip()
         if self.institution.eter:
             self.doc['eter_id'] = self.institution.eter.eter_id
@@ -131,6 +140,10 @@ class InstitutionIndexer:
 
             if not iname.name_valid_to or iname.name_valid_to == '':
                 self.doc['name_official_display'] = iname.name_official.strip()
+
+            # Index acronym
+            if iname.acronym:
+                self.doc['acronym_search'].append(iname.acronym)
 
             for iname_version in iname.institutionnameversion_set.all():
                 self.doc['name_version'].append(iname_version.name.strip())
@@ -179,7 +192,11 @@ class InstitutionIndexer:
                 'name_primary': related_institution.institution_child.name_primary,
                 'website_link': related_institution.institution_child.website_link,
                 'relationship_type': related_institution.relationship_type.type
-                if related_institution.relationship_type else None
+                if related_institution.relationship_type else None,
+                'valid_from': str(related_institution.valid_from)
+                if related_institution.valid_from else None,
+                'valid_to': str(related_institution.valid_to)
+                if related_institution.valid_to else None
             })
             self._index_related_institution(related_institution.institution_child)
         self.doc['hierarchical_relationships']['includes'] = includes
@@ -191,7 +208,11 @@ class InstitutionIndexer:
                 'name_primary': related_institution.institution_parent.name_primary,
                 'website_link': related_institution.institution_parent.website_link,
                 'relationship_type': related_institution.relationship_type.type
-                if related_institution.relationship_type else None
+                if related_institution.relationship_type else None,
+                'valid_from': str(related_institution.valid_from)
+                if related_institution.valid_from else None,
+                'valid_to': str(related_institution.valid_to)
+                if related_institution.valid_to else None
             })
             self._index_related_institution(related_institution.institution_parent)
         self.doc['hierarchical_relationships']['part_of'] = part_of

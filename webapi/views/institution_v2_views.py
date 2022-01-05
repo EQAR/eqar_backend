@@ -11,15 +11,17 @@ from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
 from eqar_backend.searchers import Searcher
-from institutions.models import Institution
+from institutions.models import Institution, InstitutionIdentifier
 from lists.models import QFEHEALevel
 from reports.models import ReportStatus
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 from webapi.serializers.institution_serializers import InstitutionDetailSerializer
+from webapi.serializers.institution_v2_serializers import InstitutionResourceSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -84,6 +86,7 @@ class InstitutionList(ListAPIView):
         filters = [{'has_report': 'true'}]
         qf = [
             'name_official^2.5',
+            'acronym_search^5',
             'name_official_transliterated',
             'name_english^2.5',
             'name_version^1.5',
@@ -100,8 +103,8 @@ class InstitutionList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,name_official_display,name_select_display,name_sort,'
-                  'qf_ehea_level,place,website_link,hierarchical_relationships,country,score',
+            'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_official_display,name_select_display,name_sort,'
+                  'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',
                              'activity_facet', 'activity_type_facet', 'crossborder_facet'],
@@ -204,3 +207,36 @@ class InstitutionDetailByETER(generics.RetrieveAPIView):
             return Institution.objects.get(eter__eter_id=self.kwargs['eter_id'])
         except Institution.DoesNotExist:
             raise Http404
+
+
+class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
+    """
+        Returns all the data available of the selected institution (via identifier).
+    """
+    serializer_class = InstitutionDetailSerializer
+
+    def get_object(self):
+        resource = self.kwargs.get('resource', None)
+        identifier = self.kwargs.get('identifier', None)
+
+        try:
+            iid = InstitutionIdentifier.objects.filter(identifier=identifier, resource=resource)
+            if iid:
+                return iid.first().institution
+            else:
+                raise Http404
+        except Institution.DoesNotExist:
+            raise Http404
+
+
+class InstitutionIdentifierResourcesList(APIView):
+    """
+        Returns all the identifier resources.
+    """
+
+    @swagger_auto_schema(operation_description="blabla", responses={200: '[list of available resources]'})
+    def get(self, request):
+        ids = []
+        for identifier in InstitutionIdentifier.objects.values('resource').distinct().iterator():
+            ids.append(identifier['resource'])
+        return Response(sorted(ids, key=str.lower))

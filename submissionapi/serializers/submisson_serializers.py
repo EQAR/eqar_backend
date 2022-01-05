@@ -316,13 +316,13 @@ class SubmissionPackageSerializer(serializers.Serializer):
     report_links = ReportLinkSerializer(many=True, required=False)
 
     # Report Files
-    report_files = ReportFileSerializer(many=True, required=True)
+    report_files = ReportFileSerializer(many=True, required=True, allow_empty=False)
 
     # Institutions
     institutions = InstitutionSerializer(many=True, required=True,
                                          label='Institution(s) which are the subject of the report. '
                                                '(If programme information is submitted, then the report considered '
-                                               'to be about the programme itself.)')
+                                               'to be about the programme itself.)', allow_empty=False)
 
     # Programmes
     programmes = ProgrammeSerializer(many=True, required=False,
@@ -331,7 +331,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                            'to be about the institution.)')
 
     # Comment
-    other_comment = serializers.CharField(required=False, label='Comment for the submission.')
+    other_comment = serializers.CharField(
+        required=False,
+        allow_null=True,
+        allow_blank=True,
+        label='Comment for the submission.'
+    )
 
     def to_internal_value(self, data):
         errors = []
@@ -381,8 +386,12 @@ class SubmissionPackageSerializer(serializers.Serializer):
         # Validate if Agency registration start is earlier then report validation start date.
         #
         if date_from:
-            if datetime.date(date_from) < agency.registration_start:
-                errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+            if agency.registration_valid_to:
+                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
+                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
+            else:
+                if agency.registration_start >= datetime.date(date_from):
+                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
@@ -450,7 +459,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                     # Inspect the unique list of identified institutions
                     if len(institutions) > 1:
                         errors.append("The submitted institution identifiers are identifying "
-                                                          "more institutions. Please correct them.")
+                                      "more institutions. Please correct them.")
                     if len(institutions) == 1:
                         inst_exists = True
 

@@ -20,6 +20,7 @@ class ReportsIndexer:
         self.doc = {
             'id': None,
             'local_id': None,
+            'local_identifier': None,
             'agency_name': None,
             'agency_acronym': None,
             'agency_url': None,
@@ -36,6 +37,7 @@ class ReportsIndexer:
             'valid_to': None,
             'status': None,
             'decision': None,
+            'crossborder': False,
             'report_files': [],
             'report_links': [],
             'other_comment': None,
@@ -99,6 +101,7 @@ class ReportsIndexer:
         self.doc['id_sort'] = self.report.id
         self.doc['id_search'] = self.report.id
         self.doc['local_id'] = self.report.local_identifier
+        self.doc['local_identifier'] = self.report.local_identifier
         self.doc['name'] = self.report.agency_esg_activity.activity_description
 
         self.doc['agency_esg_activity'] = self.report.agency_esg_activity.activity
@@ -126,7 +129,7 @@ class ReportsIndexer:
         self.doc['decision_id'] = self.report.decision.id
 
         # Index Contributing Agencies
-        for contributing_agency in self.report.contributing_agencies.iterator():
+        for contributing_agency in self.report.contributing_agencies.all():
             self.doc['contributing_agencies'].append({
                 'agency_id': contributing_agency.id,
                 'agency_name': contributing_agency.name_primary,
@@ -161,13 +164,14 @@ class ReportsIndexer:
             for ic in inst.institutioncountry_set.iterator():
                 if focus_countries.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=True)):
                     self.doc['crossborder_facet'].append(True)
+                    self.doc['crossborder'] = True
 
         self.doc['other_comment'] = self.report.other_comment
 
         self.doc['flag_level'] = self.report.flag.flag
         self.doc['flag_level_facet'] = self.report.flag.flag
 
-        self.doc['user_created'] = self.report.created_by.username
+        self.doc['user_created'] = self.report.created_by.username if self.report.created_by else ''
         self.doc['date_created'] = "%sZ" % self.report.created_at.isoformat()
         self.doc['date_updated'] = "%sZ" % self.report.updated_at.isoformat()
 
@@ -261,6 +265,7 @@ class ReportsIndexer:
         self.doc.update(new_doc)
 
     def _store_json(self):
+        self.doc['contributing_agencies'] = json.dumps(self.doc['contributing_agencies'])
         self.doc['institutions'] = json.dumps(self.doc['institutions'])
         self.doc['programmes'] = json.dumps(self.doc['programmes'])
         self.doc['report_files'] = json.dumps(self.doc['report_files'])

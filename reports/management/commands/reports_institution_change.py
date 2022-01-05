@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import BaseCommand, CommandError
-
+from reports.tasks import index_report
 from institutions.models import Institution
 from reports.models import Report
 
@@ -35,6 +35,10 @@ class Command(BaseCommand):
         for report in reports.iterator():
             report.institutions.remove(institution_from)
             report.institutions.add(institution_to)
+
+            # Saving report instance which triggers reports indexing.
+            report.save()
+
             print("Modifying report %s" % report.id)
 
         print("Total %s report was modified!" % reports.count())

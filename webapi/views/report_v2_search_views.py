@@ -62,7 +62,7 @@ class ReportList(ListAPIView):
         limit = self.zero_or_more(request, 'limit', 10)
         offset = self.zero_or_more(request, 'offset', 0)
 
-        filters = []
+        filters = [{'-flag_level_facet': 'high level'}]
 
         date_filters = []
         qf = [
@@ -80,10 +80,11 @@ class ReportList(ListAPIView):
             'search': request.query_params.get('query', ''),
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
-            'fl': 'id,local_id,'
+            'fl': 'id,local_id,local_identifier,'
                   'agency_acronym,agency_name,agency_esg_activity,agency_esg_activity_type,'
+                  'contributing_agencies,'
                   'country,institutions,programmes,report_files,report_links,'
-                  'status,decision,valid_from,valid_to,valid_to_calculated,'
+                  'status,decision,crossborder,valid_from,valid_to,valid_to_calculated,'
                   'flag_level,score,other_comment,date_created,date_updated',
             'facet': True,
             'facet_fields': ['agency_facet', 'country_facet', 'flag_level_facet',
@@ -188,8 +189,15 @@ class ReportList(ListAPIView):
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'contributing_agencies')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'institutions')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'programmes')
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_files')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_links')
+
+            # Do full URLs for files
+            if 'report_files' in r.keys():
+                report_files_json = json.loads(r['report_files'])
+                for report_files in report_files_json:
+                    if 'file' in report_files:
+                        report_files['file'] = self.request.build_absolute_uri(report_files['file'])
+                r.update([('report_files', report_files_json)])
 
         resp = {
             'count': response.hits,

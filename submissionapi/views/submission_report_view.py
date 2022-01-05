@@ -104,7 +104,7 @@ class SubmissionReportView(APIView):
 
     def make_success_response(self, populator, flagger):
         institution_warnings = populator.institution_flag_log
-        report_warnings = [fl.flag_message for fl in flagger.report.reportflag_set.all()]
+        report_warnings = [fl.flag_message for fl in flagger.report.reportflag_set.filter(active=True)]
 
         if len(institution_warnings) > 0 or len(report_warnings) > 0:
             sanity_check_status = "warnings"

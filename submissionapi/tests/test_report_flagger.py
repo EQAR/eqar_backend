@@ -77,6 +77,8 @@ class ReportFlaggerTestCase(TestCase):
             report=Report.objects.get(pk=1)
         )
         inst = flagger.report.institutions.first()
+        inst.set_primary_name()
+        inst.save()
         ic = inst.institutioncountry_set.first()
         ic.country.ehea_is_member = True
         ic.country.save()
