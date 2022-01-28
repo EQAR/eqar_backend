@@ -19,20 +19,22 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
     FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList, \
     InstitutionHierarchicalRelationshipTypeSelect
+from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 app_name = 'adminapi'
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="DEQAR - Admin API",
-      default_version='v1',
-      description="API documentation of the API serving the DEQAR administrative UI",
-      contact=openapi.Contact(email="info@eqar.eu"),
-      license=openapi.License(name="BSD License"),
-   ),
-   validators=['flex'],
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+       title="DEQAR - Admin API",
+       default_version='v1',
+       description="API documentation of the API serving the DEQAR administrative UI",
+       contact=openapi.Contact(email="info@eqar.eu"),
+       license=openapi.License(name="BSD License"),
+    ),
+    validators=['flex'],
+    public=True,
+    generator_class=HttpsSchemaGenerator,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
