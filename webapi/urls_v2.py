@@ -3,6 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from eqar_backend.schema_generator import HttpsSchemaGenerator
 from webapi.views.agency_views import AgencyList, AgencyDetail, AgencyListByFocusCountry, AgencyListByOriginCountry, \
     AgencyDecisionList
 from webapi.views.country_views import CountryList, CountryDetail, CountryListByAgency, CountryListByReports
@@ -12,16 +13,17 @@ from webapi.views.report_v2_search_views import ReportList
 from webapi.views.report_v2_views import *
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="DEQAR - Web API",
-      default_version='v2',
-      description="API documentation of the API serving the DEQAR website",
-      contact=openapi.Contact(email="info@eqar.eu"),
-      license=openapi.License(name="BSD License"),
-   ),
-   validators=['flex'],
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="DEQAR - Web API",
+        default_version='v2',
+        description="API documentation of the API serving the DEQAR website",
+        contact=openapi.Contact(email="info@eqar.eu"),
+        license=openapi.License(name="BSD License"),
+    ),
+    validators=['flex'],
+    public=True,
+    generator_class=HttpsSchemaGenerator,
+    permission_classes=(permissions.AllowAny,),
 )
 
 app_name = 'webapi'

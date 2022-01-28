@@ -5,18 +5,20 @@ from rest_framework import permissions
 
 from connectapi.letstrust.views import VCIssue, EBSIVCIssue
 from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView
+from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="DEQAR - Connect API",
-      default_version='v1',
-      description="API documentation of the API serving the DEQAR Connect project.",
-      contact=openapi.Contact(email="info@eqar.eu"),
-      license=openapi.License(name="BSD License"),
-   ),
-   validators=['flex'],
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+       title="DEQAR - Connect API",
+       default_version='v1',
+       description="API documentation of the API serving the DEQAR Connect project.",
+       contact=openapi.Contact(email="info@eqar.eu"),
+       license=openapi.License(name="BSD License"),
+    ),
+    validators=['flex'],
+    public=True,
+    generator_class=HttpsSchemaGenerator,
+    permission_classes=(permissions.AllowAny,),
 )
 
 app_name = 'connectapi'
