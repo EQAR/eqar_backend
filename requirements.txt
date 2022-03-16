@@ -13,7 +13,7 @@ coverage==4.4.2
 coveralls==1.2.0
 datedelta==1.2
 dj-database-url==0.4.2
-Django==2.2.25
+Django==2.2.27
 django-cors-headers==3.7.0
 django-debug-toolbar==3.2.4
 django-extra-fields==2.0.3
@@ -65,7 +65,7 @@ rfc3987==1.3.7
 ruamel.yaml==0.16.12
 six==1.11.0
 snowballstemmer==1.2.1
-Sphinx==1.8.4
+Sphinx==3.0.4
 sphinxcontrib-websupport==1.1.0
 sqlparse==0.2.4
 strict-rfc3339==0.7
@@ -74,6 +74,6 @@ uritemplate==3.0.0
 urllib3==1.26.6
 validate-email==1.3
 vine==1.3.0
-whitenoise==3.3.1
+whitenoise==4.1.3
 lxml~=4.6.2
 dict2xml~=1.7.0
