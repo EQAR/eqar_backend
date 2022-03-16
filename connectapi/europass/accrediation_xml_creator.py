@@ -330,14 +330,13 @@ class AccrediationXMLCreator:
                 vat.text = identifier.identifier
 
             # identifier
-            if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
-                _id = etree.SubElement(
-                    org,
-                    f"{self.NS}identifier",
-                    schemeAgencyName="DEQAR",
-                    schemeID="DEQAR"
-                )
-                _id.text = f"https://data.deqar.eu/institution/{institution.id}"
+            _id = etree.SubElement(
+                org,
+                f"{self.NS}identifier",
+                schemeAgencyName="DEQAR",
+                schemeID="https://data.deqar.eu/institution/"
+            )
+            _id.text = f"https://data.deqar.eu/institution/{institution.id}"
 
             # ETER
             if institution.eter:
