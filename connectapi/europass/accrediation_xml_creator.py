@@ -100,9 +100,17 @@ class AccrediationXMLCreator:
                         uri=f"{self.request.build_absolute_uri(reportfile.file.url)}"
                         if reportfile.file else reportfile.file_original_location)
                     rf_title = etree.SubElement(rf, f"{self.NS}title")
-                    rf_text = etree.SubElement(rf_title, f"{self.NS}text",
-                                               attrib={'lang': 'en', 'content-type': 'text/plain'})
-                    rf_text.text = reportfile.file_display_name
+
+                    if reportfile.file_display_name:
+                        lang = reportfile.languages.first().iso_639_2 if reportfile.languages.count() > 0 else 'en'
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': lang, 'content-type': 'text/plain'})
+                        rf_text.text = reportfile.file_display_name
+                    else:
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': 'en', 'content-type': 'text/plain'})
+                        rf_text.text = "quality assurance report"
+
                     for language in reportfile.languages.iterator():
                         etree.SubElement(
                             rf,
@@ -177,9 +185,17 @@ class AccrediationXMLCreator:
                         uri=f"{self.request.build_absolute_uri(reportfile.file.url)}"
                         if reportfile.file else reportfile.file_original_location)
                     rf_title = etree.SubElement(rf, f"{self.NS}title")
-                    rf_text = etree.SubElement(rf_title, f"{self.NS}text",
-                                               attrib={'lang': 'en', 'content-type': 'text/plain'})
-                    rf_text.text = reportfile.file_display_name
+
+                    if reportfile.file_display_name:
+                        lang = reportfile.languages.first().iso_639_2 if reportfile.languages.count() > 0 else 'en'
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': lang, 'content-type': 'text/plain'})
+                        rf_text.text = reportfile.file_display_name
+                    else:
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': 'en', 'content-type': 'text/plain'})
+                        rf_text.text = "quality assurance report"
+
                     for language in reportfile.languages.iterator():
                         etree.SubElement(
                             rf,
