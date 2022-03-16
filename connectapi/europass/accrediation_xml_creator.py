@@ -75,7 +75,7 @@ class AccrediationXMLCreator:
                                    id=f'https://data.deqar.eu/report/{report.id}')
 
             # identifier
-            identifier = etree.SubElement(acc, f"{self.NS}identifier", id=f'https://data.deqar.eu/report/{report.id}')
+            identifier = etree.SubElement(acc, f"{self.NS}identifier", schemeID=f'https://data.deqar.eu/report/')
             identifier.text = f'https://data.deqar.eu/report/{report.id}'
 
             # type
@@ -228,7 +228,7 @@ class AccrediationXMLCreator:
                                    id=f"https://data.deqar.eu/agency/{agency.id}")
 
             # identifier
-            identifier = etree.SubElement(org, f"{self.NS}identifier", id=f"https://data.deqar.eu/agency/{agency.id}")
+            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/agency/")
             identifier.text = f"https://data.deqar.eu/agency/{agency.id}"
 
             # registration
@@ -304,10 +304,10 @@ class AccrediationXMLCreator:
                                    id=f"https://data.deqar.eu/institution/{institution.id}")
 
             # identifier
-            identifier = etree.SubElement(org, f"{self.NS}identifier", id=f"https://data.deqar.eu/institution/{institution.id}")
+            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/institution/")
             identifier.text = f"https://data.deqar.eu/institution/{institution.id}"
 
-            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", id=f"https://www.deqar.eu/")
+            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://www.deqar.eu/")
             identifier_deqar.text = "DEQARINST%04d" % institution.id
 
             # registration
