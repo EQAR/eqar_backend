@@ -227,10 +227,6 @@ class AccrediationXMLCreator:
             org = etree.SubElement(self.agentReferences, f"{self.NS}organization",
                                    id=f"https://data.deqar.eu/agency/{agency.id}")
 
-            # identifier
-            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/agency/")
-            identifier.text = f"https://data.deqar.eu/agency/{agency.id}"
-
             # registration
             reg = etree.SubElement(
                 org,
@@ -238,6 +234,10 @@ class AccrediationXMLCreator:
                 spatialID=f"http://publications.europa.eu/resource/authority/country/{agency.country.iso_3166_alpha3.upper()}"
             )
             reg.text = f"https://data.deqar.eu/agency/{agency.id}"
+
+            # identifier
+            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/agency/")
+            identifier.text = f"https://data.deqar.eu/agency/{agency.id}"
 
             # prefLabel and altLabel
             for agencyname in agency.agencyname_set.iterator():
