@@ -73,6 +73,11 @@ class AccrediationXMLCreator:
         for report in self.reports.iterator():
             acc = etree.SubElement(self.accreditations, f"{self.NS}accreditation",
                                    id=f'https://data.deqar.eu/report/{report.id}')
+
+            # identifier
+            identifier = etree.SubElement(acc, f"{self.NS}identifier", id=f'https://data.deqar.eu/report/{report.id}')
+            identifier.text = f'https://data.deqar.eu/report/{report.id}'
+
             # type
             etree.SubElement(acc, f"{self.NS}type",
                              uri=self.REPORT_TYPES[report.agency_esg_activity.activity_type.type])
@@ -222,6 +227,10 @@ class AccrediationXMLCreator:
             org = etree.SubElement(self.agentReferences, f"{self.NS}organization",
                                    id=f"https://data.deqar.eu/agency/{agency.id}")
 
+            # identifier
+            identifier = etree.SubElement(org, f"{self.NS}identifier", id=f"https://data.deqar.eu/agency/{agency.id}")
+            identifier.text = f"https://data.deqar.eu/agency/{agency.id}"
+
             # registration
             reg = etree.SubElement(
                 org,
@@ -293,6 +302,13 @@ class AccrediationXMLCreator:
 
             org = etree.SubElement(self.agentReferences, f"{self.NS}organization",
                                    id=f"https://data.deqar.eu/institution/{institution.id}")
+
+            # identifier
+            identifier = etree.SubElement(org, f"{self.NS}identifier", id=f"https://data.deqar.eu/institution/{institution.id}")
+            identifier.text = f"https://data.deqar.eu/institution/{institution.id}"
+
+            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", id=f"https://www.deqar.eu/")
+            identifier_deqar.text = "DEQARINST%04d" % institution.id
 
             # registration
             if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
