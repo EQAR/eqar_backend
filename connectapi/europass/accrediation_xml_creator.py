@@ -107,7 +107,7 @@ class AccrediationXMLCreator:
                     rf_title = etree.SubElement(rf, f"{self.NS}title")
 
                     if reportfile.file_display_name:
-                        lang = reportfile.languages.first().iso_639_2 if reportfile.languages.count() > 0 else 'en'
+                        lang = reportfile.languages.first().iso_639_1 if reportfile.languages.count() > 0 else 'en'
                         rf_text = etree.SubElement(rf_title, f"{self.NS}text",
                                                    attrib={'lang': lang, 'content-type': 'text/plain'})
                         rf_text.text = reportfile.file_display_name
