@@ -303,13 +303,6 @@ class AccrediationXMLCreator:
             org = etree.SubElement(self.agentReferences, f"{self.NS}organization",
                                    id=f"https://data.deqar.eu/institution/{institution.id}")
 
-            # identifier
-            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/institution/")
-            identifier.text = f"https://data.deqar.eu/institution/{institution.id}"
-
-            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://www.deqar.eu/")
-            identifier_deqar.text = "DEQARINST%04d" % institution.id
-
             # registration
             if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
                 identifier = institution.institutionidentifier_set.filter(resource='EU-Registration').first()
@@ -355,6 +348,10 @@ class AccrediationXMLCreator:
                     schemeID="https://www.eter-project.com/"
                 )
                 _id.text = institution.eter.eter_id
+
+            # DEQARINST
+            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://www.deqar.eu/")
+            identifier_deqar.text = "DEQARINST%04d" % institution.id
 
             # prefLabel and altLabel
             for name in institution.institutionname_set.iterator():
