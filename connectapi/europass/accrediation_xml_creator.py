@@ -233,7 +233,7 @@ class AccrediationXMLCreator:
                                                                  'content-type': 'text/plain'})
                         altlabel_text.text = f"{name_version.acronym} - {name_version.name}"
 
-            # homepag
+            # homepage
             etree.SubElement(org, f"{self.NS}homepage", uri=agency.website_link)
 
             # hasLocation
@@ -332,17 +332,27 @@ class AccrediationXMLCreator:
                     preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
                                                       attrib={'lang': 'en',
                                                               'content-type': 'text/plain'})
-                    if name.acronym:
-                        preflabel_text.text = f"{name.name_english} - {name.acronym}"
-                    else:
-                        preflabel_text.text = f"{name.name_english}"
+                    if name.name_english:
+                        if name.acronym:
+                            preflabel_text.text = f"{name.name_english} - {name.acronym}"
+                        else:
+                            preflabel_text.text = f"{name.name_english}"
 
-                    if name.name_official:
-                        altlabel = etree.SubElement(org, f"{self.NS}altLabel")
-                        altlabel_text = etree.SubElement(altlabel, f"{self.NS}text",
-                                                         attrib={'lang': self.guess_language_from_country(lang),
-                                                                 'content-type': 'text/plain'})
-                        altlabel_text.text = f"{name.name_official}"
+                        if name.name_official:
+                            altlabel = etree.SubElement(org, f"{self.NS}altLabel")
+                            altlabel_text = etree.SubElement(altlabel, f"{self.NS}text",
+                                                             attrib={'lang': self.guess_language_from_country(lang),
+                                                                     'content-type': 'text/plain'})
+                            altlabel_text.text = f"{name.name_official}"
+                    else:
+                        if name.name_official:
+                            preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
+                                                             attrib={'lang': self.guess_language_from_country(lang),
+                                                                     'content-type': 'text/plain'})
+                            if name.acronym:
+                                preflabel_text.text = f"{name.name_official} - {name.acronym}"
+                            else:
+                                preflabel_text.text = f"{name.name_official}"
 
             # homepage
             etree.SubElement(org, f"{self.NS}homepage", uri=institution.website_link)
