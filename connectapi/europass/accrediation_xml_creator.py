@@ -73,6 +73,11 @@ class AccrediationXMLCreator:
         for report in self.reports.iterator():
             acc = etree.SubElement(self.accreditations, f"{self.NS}accreditation",
                                    id=f'https://data.deqar.eu/report/{report.id}')
+
+            # identifier
+            identifier = etree.SubElement(acc, f"{self.NS}identifier", schemeID=f'https://data.deqar.eu/report/')
+            identifier.text = f'https://data.deqar.eu/report/{report.id}'
+
             # type
             etree.SubElement(acc, f"{self.NS}type",
                              uri=self.REPORT_TYPES[report.agency_esg_activity.activity_type.type])
@@ -100,9 +105,17 @@ class AccrediationXMLCreator:
                         uri=f"{self.request.build_absolute_uri(reportfile.file.url)}"
                         if reportfile.file else reportfile.file_original_location)
                     rf_title = etree.SubElement(rf, f"{self.NS}title")
-                    rf_text = etree.SubElement(rf_title, f"{self.NS}text",
-                                               attrib={'lang': 'en', 'content-type': 'text/plain'})
-                    rf_text.text = reportfile.file_display_name
+
+                    if reportfile.file_display_name:
+                        lang = reportfile.languages.first().iso_639_1 if reportfile.languages.count() > 0 else 'en'
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': lang, 'content-type': 'text/plain'})
+                        rf_text.text = reportfile.file_display_name
+                    else:
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': 'en', 'content-type': 'text/plain'})
+                        rf_text.text = "quality assurance report"
+
                     for language in reportfile.languages.iterator():
                         etree.SubElement(
                             rf,
@@ -177,9 +190,17 @@ class AccrediationXMLCreator:
                         uri=f"{self.request.build_absolute_uri(reportfile.file.url)}"
                         if reportfile.file else reportfile.file_original_location)
                     rf_title = etree.SubElement(rf, f"{self.NS}title")
-                    rf_text = etree.SubElement(rf_title, f"{self.NS}text",
-                                               attrib={'lang': 'en', 'content-type': 'text/plain'})
-                    rf_text.text = reportfile.file_display_name
+
+                    if reportfile.file_display_name:
+                        lang = reportfile.languages.first().iso_639_2 if reportfile.languages.count() > 0 else 'en'
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': lang, 'content-type': 'text/plain'})
+                        rf_text.text = reportfile.file_display_name
+                    else:
+                        rf_text = etree.SubElement(rf_title, f"{self.NS}text",
+                                                   attrib={'lang': 'en', 'content-type': 'text/plain'})
+                        rf_text.text = "quality assurance report"
+
                     for language in reportfile.languages.iterator():
                         etree.SubElement(
                             rf,
@@ -214,6 +235,10 @@ class AccrediationXMLCreator:
             )
             reg.text = f"https://data.deqar.eu/agency/{agency.id}"
 
+            # identifier
+            identifier = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://data.deqar.eu/agency/")
+            identifier.text = f"https://data.deqar.eu/agency/{agency.id}"
+
             # prefLabel and altLabel
             for agencyname in agency.agencyname_set.iterator():
                 lang = agency.country.iso_3166_alpha2.lower()
@@ -233,8 +258,9 @@ class AccrediationXMLCreator:
                                                                  'content-type': 'text/plain'})
                         altlabel_text.text = f"{name_version.acronym} - {name_version.name}"
 
-            # homepag
-            etree.SubElement(org, f"{self.NS}homepage", uri=agency.website_link)
+            # homepage
+            if agency.website_link:
+                etree.SubElement(org, f"{self.NS}homepage", uri=agency.website_link)
 
             # hasLocation
             location = etree.SubElement(org, f"{self.NS}hasLocation")
@@ -305,14 +331,13 @@ class AccrediationXMLCreator:
                 vat.text = identifier.identifier
 
             # identifier
-            if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
-                _id = etree.SubElement(
-                    org,
-                    f"{self.NS}identifier",
-                    schemeAgencyName="DEQAR",
-                    schemeID="DEQAR"
-                )
-                _id.text = f"https://data.deqar.eu/institution/{institution.id}"
+            _id = etree.SubElement(
+                org,
+                f"{self.NS}identifier",
+                schemeAgencyName="DEQAR",
+                schemeID="https://data.deqar.eu/institution/"
+            )
+            _id.text = f"https://data.deqar.eu/institution/{institution.id}"
 
             # ETER
             if institution.eter:
@@ -324,28 +349,44 @@ class AccrediationXMLCreator:
                 )
                 _id.text = institution.eter.eter_id
 
+            # DEQARINST
+            identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://www.deqar.eu/")
+            identifier_deqar.text = "DEQARINST%04d" % institution.id
+
             # prefLabel and altLabel
             for name in institution.institutionname_set.iterator():
                 lang = country.country.iso_3166_alpha2.lower()
                 if not name.name_valid_to:
                     preflabel = etree.SubElement(org, f"{self.NS}prefLabel")
-                    preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
-                                                      attrib={'lang': 'en',
-                                                              'content-type': 'text/plain'})
-                    if name.acronym:
-                        preflabel_text.text = f"{name.name_english} - {name.acronym}"
-                    else:
-                        preflabel_text.text = f"{name.name_english}"
 
-                    if name.name_official:
-                        altlabel = etree.SubElement(org, f"{self.NS}altLabel")
-                        altlabel_text = etree.SubElement(altlabel, f"{self.NS}text",
-                                                         attrib={'lang': self.guess_language_from_country(lang),
-                                                                 'content-type': 'text/plain'})
-                        altlabel_text.text = f"{name.name_official}"
+                    if name.name_english:
+                        preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
+                                                          attrib={'lang': 'en',
+                                                                  'content-type': 'text/plain'})
+                        if name.acronym:
+                            preflabel_text.text = f"{name.name_english} - {name.acronym}"
+                        else:
+                            preflabel_text.text = f"{name.name_english}"
+
+                        if name.name_official:
+                            altlabel = etree.SubElement(org, f"{self.NS}altLabel")
+                            altlabel_text = etree.SubElement(altlabel, f"{self.NS}text",
+                                                             attrib={'lang': self.guess_language_from_country(lang),
+                                                                     'content-type': 'text/plain'})
+                            altlabel_text.text = f"{name.name_official}"
+                    else:
+                        if name.name_official:
+                            preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
+                                                             attrib={'lang': self.guess_language_from_country(lang),
+                                                                     'content-type': 'text/plain'})
+                            if name.acronym:
+                                preflabel_text.text = f"{name.name_official} - {name.acronym}"
+                            else:
+                                preflabel_text.text = f"{name.name_official}"
 
             # homepage
-            etree.SubElement(org, f"{self.NS}homepage", uri=institution.website_link)
+            if institution.website_link:
+                etree.SubElement(org, f"{self.NS}homepage", uri=institution.website_link)
 
             # hasLocation
             location = etree.SubElement(org, f"{self.NS}hasLocation")
@@ -389,17 +430,20 @@ class AccrediationXMLCreator:
         title_text.text = "negative"
 
     def validate_xml(self):
-        xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/qms_accreditations.xsd')
-        xsd_root = etree.parse(xsd_file)
-        schema = etree.XMLSchema(xsd_root)
-        if not schema.validate(self.root):
-            log = schema.error_log
-            for log_entry in log:
-                error = etree.SubElement(self.error, "error")
-                error.text = str(log_entry)
-            return self.error
-        else:
+        if self.request.query_params.get('check', '') == 'false':
             return self.root
+        else:
+            xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/qms_accreditations.xsd')
+            xsd_root = etree.parse(xsd_file)
+            schema = etree.XMLSchema(xsd_root)
+            if not schema.validate(self.root):
+                log = schema.error_log
+                for log_entry in log:
+                    error = etree.SubElement(self.error, "error")
+                    error.text = str(log_entry)
+                return self.error
+            else:
+                return self.root
 
     def collect_eqf_levels(self, report):
         eqf_levels = set()
@@ -416,7 +460,8 @@ class AccrediationXMLCreator:
     def encode_language(self, language_code):
         CODES = {
             'ger': 'DEU',
-            'ara': 'ENG'
+            'ara': 'ENG',
+            'fre': 'FRA'
         }
 
         if language_code in CODES:
@@ -463,4 +508,4 @@ class AccrediationXMLCreator:
         if country_code in CODES:
             return CODES[country_code]
         else:
-            return 'en' # default
+            return 'en'

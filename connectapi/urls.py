@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
     # Europass endpoints
-    url(r'^europass/accreditations/(?P<country_code>[a-zA-Z]{3})$', AccreditationXMLView.as_view(), name='europass-accreditations'),
+    url(r'^europass/accreditations/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLView.as_view(), name='europass-accreditations'),
 
     # Let's Trust endpoints
     url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', VCIssue.as_view(), name='letstrust-vc-issue'),
