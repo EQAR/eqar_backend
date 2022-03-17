@@ -427,17 +427,20 @@ class AccrediationXMLCreator:
         title_text.text = "negative"
 
     def validate_xml(self):
-        xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/qms_accreditations.xsd')
-        xsd_root = etree.parse(xsd_file)
-        schema = etree.XMLSchema(xsd_root)
-        if not schema.validate(self.root):
-            log = schema.error_log
-            for log_entry in log:
-                error = etree.SubElement(self.error, "error")
-                error.text = str(log_entry)
-            return self.error
-        else:
+        if self.request.query_params.get('check') == 'false':
             return self.root
+        else:
+            xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/qms_accreditations.xsd')
+            xsd_root = etree.parse(xsd_file)
+            schema = etree.XMLSchema(xsd_root)
+            if not schema.validate(self.root):
+                log = schema.error_log
+                for log_entry in log:
+                    error = etree.SubElement(self.error, "error")
+                    error.text = str(log_entry)
+                return self.error
+            else:
+                return self.root
 
     def collect_eqf_levels(self, report):
         eqf_levels = set()
