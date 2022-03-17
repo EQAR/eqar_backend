@@ -385,7 +385,8 @@ class AccrediationXMLCreator:
                                 preflabel_text.text = f"{name.name_official}"
 
             # homepage
-            etree.SubElement(org, f"{self.NS}homepage", uri=institution.website_link)
+            if institution.website_link:
+                etree.SubElement(org, f"{self.NS}homepage", uri=institution.website_link)
 
             # hasLocation
             location = etree.SubElement(org, f"{self.NS}hasLocation")
