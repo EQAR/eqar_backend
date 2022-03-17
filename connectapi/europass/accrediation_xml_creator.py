@@ -508,4 +508,4 @@ class AccrediationXMLCreator:
         if country_code in CODES:
             return CODES[country_code]
         else:
-            return 'en'  # default
+            return 'en'
