@@ -259,7 +259,8 @@ class AccrediationXMLCreator:
                         altlabel_text.text = f"{name_version.acronym} - {name_version.name}"
 
             # homepage
-            etree.SubElement(org, f"{self.NS}homepage", uri=agency.website_link)
+            if agency.website_link:
+                etree.SubElement(org, f"{self.NS}homepage", uri=agency.website_link)
 
             # hasLocation
             location = etree.SubElement(org, f"{self.NS}hasLocation")
