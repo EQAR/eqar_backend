@@ -454,7 +454,8 @@ class AccrediationXMLCreator:
     def encode_language(self, language_code):
         CODES = {
             'ger': 'DEU',
-            'ara': 'ENG'
+            'ara': 'ENG',
+            'fre': 'FRA'
         }
 
         if language_code in CODES:
