@@ -357,10 +357,11 @@ class AccrediationXMLCreator:
                 lang = country.country.iso_3166_alpha2.lower()
                 if not name.name_valid_to:
                     preflabel = etree.SubElement(org, f"{self.NS}prefLabel")
-                    preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
-                                                      attrib={'lang': 'en',
-                                                              'content-type': 'text/plain'})
+
                     if name.name_english:
+                        preflabel_text = etree.SubElement(preflabel, f"{self.NS}text",
+                                                          attrib={'lang': 'en',
+                                                                  'content-type': 'text/plain'})
                         if name.acronym:
                             preflabel_text.text = f"{name.name_english} - {name.acronym}"
                         else:
@@ -427,7 +428,7 @@ class AccrediationXMLCreator:
         title_text.text = "negative"
 
     def validate_xml(self):
-        if self.request.query_params.get('check') == 'false':
+        if self.request.query_params.get('check', '') == 'false':
             return self.root
         else:
             xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/qms_accreditations.xsd')
