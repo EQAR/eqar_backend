@@ -98,8 +98,8 @@ class AccrediationXMLCreator:
 
             # report
             for idx, reportfile in enumerate(report.reportfile_set.iterator()):
-                if reportfile.file or reportfile.file_original_location:
-                    if idx == 0:
+                if idx == 0:
+                    if reportfile.file or reportfile.file_original_location:
                         rf = etree.SubElement(
                             acc,
                             f"{self.NS}report",
