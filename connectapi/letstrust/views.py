@@ -190,7 +190,8 @@ class DEQARVCIssue(VCIssue):
             ],
             "id": "***",
             "type": [
-                "VerifiableCredential"
+                "VerifiableCredential",
+                "DeqarReport"
             ],
             "issuer": "***",
             "credentialSubject": {
@@ -219,9 +220,16 @@ class DEQARVCIssue(VCIssue):
         vc_offer = super().populate_vc(report, institution)
         # report status
         vc_offer['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationActivity'] = report.agency_esg_activity.activity
         # additional institution data
         vc_offer['credentialSubject']['name'] = institution.name_primary
-        self._set_if(vc_offer['credentialSubject'], 'vatID', getattr(institution.institutionidentifier_set.filter(resource='EU-VAT').first(), 'identifier', None) )
+        self._set_if(vc_offer['credentialSubject'], 'eterID', getattr(institution.eter, 'eter_id', None) )
+        vc_offer['credentialSubject']['identifiers'] = []
+        for identifier in institution.institutionidentifier_set.filter(agency__isnull=True):
+            vc_offer['credentialSubject']['identifiers'].append({
+                'identifier': identifier.identifier,
+                'resource': identifier.resource
+            })
         if not self._set_if(vc_offer['credentialSubject'], 'legalName', getattr(institution.institutionname_set.filter(name_valid_to=None).first(), 'name_official', None) ):
             self._set_if(vc_offer['credentialSubject'], 'legalName', getattr(institution.institutionname_set.order_by('name_valid_to').last(), 'name_official', None) )
         self._set_if(vc_offer['credentialSubject'], 'location', [ f"{l.city}, {l.country.name_english}" if l.city else l.country.name_english for l in institution.institutioncountry_set.iterator() ] )
