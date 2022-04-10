@@ -171,7 +171,7 @@ class VCIssue(APIView):
         return country.iso_3166_alpha3.upper()
 
     def _translate_qf_level(self, qf_ehea_level):
-        return qf_ehea_level.level
+        return getattr(qf_ehea_level, 'level', None)
 
     def _translate_date(self, value):
         return value.strftime("%Y-%m-%dT%H:%M:%SZ") if hasattr(value, 'strftime') and callable(value.strftime) else None
