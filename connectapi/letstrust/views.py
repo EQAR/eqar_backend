@@ -257,15 +257,17 @@ class EBSIVCIssue(VCIssue):
     vc_template = json.loads("""
         {
             "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://data.deqar.eu/context/v1.jsonld"
+                "https://www.w3.org/2018/credentials/v1"
             ],
             "id": "***",
             "type": [
                 "VerifiableCredential",
-                "VerifiableAttestation"
+                "VerifiableAttestation",
+                "VerifiableAccreditation",
+                "DiplomaVerifiableAccreditation"
             ],
             "issuer": "***",
+            "issued": "***",
             "credentialSubject": {
                 "id": "***",
                 "authorizationClaims": {
@@ -279,7 +281,7 @@ class EBSIVCIssue(VCIssue):
             "validFrom": "***",
             "expirationDate": "***",
             "credentialSchema": {
-                "id": "https://ec.europa.eu/cefdigital/code/projects/EBSI/repos/json-schema/raw/ebsi-muti-uni-pilot/Education%20Verifiable%20Accreditation%20Records-generated-schema.json",
+                "id": "https://api.preprod.ebsi.eu/trusted-schemas-registry/v1/schemas/0x13d597f8495e6b6e3d0c072218756a1bcc3ea50ebeb3ab4c3944bd400e0c3c6a",
                 "type": "FullJsonSchemaValidator2021"
             }
         }
@@ -308,6 +310,14 @@ class EBSIVCIssue(VCIssue):
                 detail="Report is not marked as 'part of obligatory EQA system' and cannot be issued as EBSI VC."
             )
         return(super().collect_vcs(report))
+
+    def populate_vc(self, report, institution):
+        """
+        Add additional data (quick fix)
+        """
+        vc_offer = super().populate_vc(report, institution)
+        vc_offer['issued'] = vc_offer['issuanceDate']
+        return(vc_offer)
 
     def _translate_subject(self, institution):
         """
