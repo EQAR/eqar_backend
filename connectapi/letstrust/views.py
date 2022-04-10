@@ -47,6 +47,10 @@ class VCIssue(APIView):
             raise ServiceUnavailable(
                 detail="Verifiable Credential template is not defined"
             )
+        # URIs for reports, institutions and agencies
+        self.report_uri = getattr(settings, "DEQAR_REPORT_URI", 'https://data.deqar.eu/report/%s')
+        self.agency_uri = getattr(settings, "DEQAR_AGENCY_URI", 'https://data.deqar.eu/agency/%s')
+        self.institution_uri = getattr(settings, "DEQAR_INSTITUTION_URI", 'https://data.deqar.eu/institution/%s')
 
     def get(self, request, *args, **kwargs):
         """
@@ -83,7 +87,7 @@ class VCIssue(APIView):
 
         # Fill the json with report data
         vc_offer = deepcopy(self.vc_template)
-        vc_offer['id'] = 'https://data.deqar.eu/report/%s' % report.id
+        vc_offer['id'] = self.report_uri % report.id
         vc_offer['issuer'] = self.eqar_did
         vc_offer['issuanceDate'] = self._translate_date(report.valid_from)
         vc_offer['validFrom'] = self._translate_date(report.valid_from)
@@ -158,7 +162,7 @@ class VCIssue(APIView):
     """
 
     def _translate_subject(self, institution):
-        return('https://data.deqar.eu/institution/%s' % institution.id)
+        return(self.institution_uri % institution.id)
 
     def _translate_activity_type(self, activity_type):
         return activity_type.type
@@ -227,6 +231,7 @@ class DEQARVCIssue(VCIssue):
         self._set_if(vc_offer['credentialSubject'], 'longitude', getattr(institution.institutioncountry_set.filter(country_verified=True).first(), 'long', None) )
         # registered QA agency
         vc_offer['credentialSubject']['authorizationClaims']['agency'] = {
+            'id': self.agency_uri % report.agency.id,
             'acronym': report.agency.acronym_primary,
             'name': report.agency.name_primary,
             'registrationValidFrom': self._translate_date(report.agency.registration_start),
@@ -283,6 +288,8 @@ class EBSIVCIssue(VCIssue):
             raise ServiceUnavailable(
                 detail="LETSTRUST_EQAR_EBSI_DID value is not present in the settings"
             )
+        # resource tag for EBSI DID
+        self.resource_did_ebsi = getattr(settings, "LETSTRUST_RESOURCE_DID_EBSI", "DID-EBSI")
 
     def collect_vcs(self, report):
         """
@@ -298,7 +305,7 @@ class EBSIVCIssue(VCIssue):
         """
         Get EBSI DID of the institutions mentioned in the report
         """
-        institution_did = InstitutionIdentifier.objects.filter(Q(institution=institution) | Q(institution__relationship_parent__institution_child=institution), resource='DID-EBSI').first()
+        institution_did = InstitutionIdentifier.objects.filter(Q(institution=institution) | Q(institution__relationship_parent__institution_child=institution), resource=self.resource_did_ebsi).first()
         if not institution_did:
             raise NotFound(
                 detail="No DID-EBSI identifier found for %s (%s)" % (institution.deqar_id, institution)
