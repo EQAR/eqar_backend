@@ -47,6 +47,7 @@ class ReportFlaggerTestCase(TestCase):
             Country.objects.get(iso_3166_alpha2='BG')
         )
         flagger.check_countries()
+        flagger.set_flag()
         self.assertEqual(flagger.report.agency.agencyfocuscountry_set.count(), 15)
         self.assertEqual(flagger.report.flag.flag, 'high level')
         report_flags = ReportFlag.objects.filter(report=report)
@@ -60,6 +61,7 @@ class ReportFlaggerTestCase(TestCase):
             report=report
         )
         flagger.check_programme_qf_ehea_level()
+        flagger.set_flag()
         self.assertEqual(report.flag.flag, 'none', report.flag.flag)
         prg = flagger.report.programme_set.first()
         prg.qf_ehea_level = QFEHEALevel.objects.get(pk=4)
@@ -84,6 +86,7 @@ class ReportFlaggerTestCase(TestCase):
         ic.country.save()
         inst.institutionqfehealevel_set.all().delete()
         flagger.check_ehea_is_member()
+        flagger.set_flag()
         report_flags = ReportFlag.objects.filter(report=report)
         self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
         msg = "A record was created/identified for an institution " \
@@ -99,4 +102,5 @@ class ReportFlaggerTestCase(TestCase):
             file_display_name="Test File"
         )
         flagger.check_report_file()
+        flagger.set_flag()
         self.assertEqual(flagger.report.flag.flag, 'low level')
