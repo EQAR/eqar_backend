@@ -20,41 +20,14 @@ class ServiceUnavailable(APIException):
     default_detail = 'Service unavailable, try again later.'
     default_code = 'service_unavailable'
 
+
 class VCIssue(APIView):
     """
-    View to issue generic W3C-compliant Verifiable Credentials (VC)
+    Base class for views to issue generic W3C-compliant Verifiable Credentials (VC)
     """
 
-    # Provisional workaround: hard-coded template
-    vc_template = json.loads("""
-        {
-            "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://data.deqar.eu/context/v1.jsonld"
-            ],
-            "id": "***",
-            "type": [
-                "VerifiableCredential"
-            ],
-            "issuer": "***",
-            "credentialSubject": {
-                "id": "***",
-                "authorizationClaims": {
-                    "accreditationType": "***",
-                    "decision": "***",
-                    "report": [ ],
-                    "limitJurisdiction": [ ]
-                }
-            },
-            "issuanceDate": "***",
-            "validFrom": "***",
-            "expirationDate": "***",
-            "credentialSchema": {
-                "id": "https://data.deqar.eu/schema/v1.json",
-                "type": "JsonSchemaValidator2018"
-            }
-        }
-    """)
+    # Provisional: hard-coded templates - define in subclass
+    vc_template = None
 
     def __init__(self):
         # Get api endpoint from settings
@@ -69,6 +42,15 @@ class VCIssue(APIView):
             raise ServiceUnavailable(
                 detail="LETSTRUST_EQAR_DID value is not present in the settings"
             )
+        # Check if template is defined
+        if not self.vc_template:
+            raise ServiceUnavailable(
+                detail="Verifiable Credential template is not defined"
+            )
+        # URIs for reports, institutions and agencies
+        self.report_uri = getattr(settings, "DEQAR_REPORT_URI", 'https://data.deqar.eu/report/%s')
+        self.agency_uri = getattr(settings, "DEQAR_AGENCY_URI", 'https://data.deqar.eu/agency/%s')
+        self.institution_uri = getattr(settings, "DEQAR_INSTITUTION_URI", 'https://data.deqar.eu/institution/%s')
 
     def get(self, request, *args, **kwargs):
         """
@@ -98,64 +80,68 @@ class VCIssue(APIView):
             r.encoding = 'utf-8' # work-around for bug in SSIkit
             return({'status': 200, 'data': r.json()})
 
-    def collect_vcs(self, report):
+    def populate_vc(self, report, institution):
         """
-        Use the template and create one VC per institution covered
+        Use the template and populate for one institution covered by the report
         """
-        post_data_log = []
 
         # Fill the json with report data
-        template = deepcopy(self.vc_template)
-        template['id'] = 'https://data.deqar.eu/report/%s' % report.id
-        template['issuer'] = self.eqar_did
-        template['issuanceDate'] = report.valid_from.strftime("%Y-%m-%dT%H:%M:%SZ")
-        template['validFrom'] = report.valid_from.strftime("%Y-%m-%dT%H:%M:%SZ")
-        if report.valid_to:
-            template['expirationDate'] = report.valid_to.strftime("%Y-%m-%dT%H:%M:%SZ")
-        else:
-            template['expirationDate'] = (report.valid_from + datedelta(years=6)).strftime("%Y-%m-%dT%H:%M:%SZ")
-        template['credentialSubject']['authorizationClaims']['accreditationType'] = self._translate_activity_type(report.agency_esg_activity.activity_type)
-        template['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
-        template['credentialSubject']['authorizationClaims']['decision'] = report.decision.decision
+        vc_offer = deepcopy(self.vc_template)
+        vc_offer['id'] = self.report_uri % report.id
+        vc_offer['issuer'] = self.eqar_did
+        vc_offer['issuanceDate'] = self._translate_date(report.valid_from)
+        vc_offer['validFrom'] = self._translate_date(report.valid_from)
+        vc_offer['expirationDate'] = self._translate_date(report.valid_to if report.valid_to else report.valid_from + datedelta(years=6))
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationType'] = self._translate_activity_type(report.agency_esg_activity.activity_type)
+        vc_offer['credentialSubject']['authorizationClaims']['decision'] = report.decision.decision
+
+        # Institution ID
+        vc_offer['credentialSubject']['id'] = self._translate_subject(institution)
+
+        # official countries
+        for location in institution.institutioncountry_set.filter(country_verified=True).iterator():
+            vc_offer['credentialSubject']['authorizationClaims']['limitJurisdiction'].append(self._translate_country(location.country))
 
         # Report files
         for reportfile in report.reportfile_set.iterator():
             try:
-                template['credentialSubject']['authorizationClaims']['report'].append(self.request.build_absolute_uri(reportfile.file.url))
+                vc_offer['credentialSubject']['authorizationClaims']['report'].append(self.request.build_absolute_uri(reportfile.file.url))
             except (ValueError):
                 pass
 
-        # Programme data
         if report.agency_esg_activity.activity_type.type in [ 'programme', 'joint programme' ]:
-            template['credentialSubject']['authorizationClaims']['limitQualification'] = []
+            # Programme data for programme-level reports
+            vc_offer['credentialSubject']['authorizationClaims']['limitQualification'] = []
             for programme in report.programme_set.iterator():
                 limitQualification = {}
                 limitQualification['title'] = programme.programmename_set.filter(name_is_primary=True).first().name
-                limitQualification['alternativeLabel'] = [ i.name for i in programme.programmename_set.filter(name_is_primary=False) ]
-                if programme.qf_ehea_level:
-                    limitQualification['EQFLevel'] = self._translate_qf_level(programme.qf_ehea_level)
-                template['credentialSubject']['authorizationClaims']['limitQualification'].append(limitQualification)
+                self._set_if(limitQualification, 'alternativeLabel', [ i.name for i in programme.programmename_set.filter(name_is_primary=False) ])
+                self._set_if(limitQualification, 'EQFLevel', self._translate_qf_level(programme.qf_ehea_level))
+                vc_offer['credentialSubject']['authorizationClaims']['limitQualification'].append(limitQualification)
+        else:
+            # QF levels for institutional reports
+            self._set_if(vc_offer['credentialSubject']['authorizationClaims'], 'limitQFLevel', self._collect_qf_levels(institution))
 
-        # Iterate over institutions
+        return vc_offer
+
+    def collect_vcs(self, report):
+        """
+        Iterate over report institutions to populate and issue one VC per institution
+        """
+        post_data_log = []
+
         for institution in report.institutions.iterator():
-            vc_offer = deepcopy(template)
-            vc_offer['credentialSubject']['id'] = self._translate_subject(institution)
-
-            # official countries
-            for location in institution.institutioncountry_set.filter(country_verified=True).iterator():
-                vc_offer['credentialSubject']['authorizationClaims']['limitJurisdiction'].append(self._translate_country(location.country))
-
-            # QF levels
-            if report.agency_esg_activity.activity_type.type not in [ 'programme', 'joint programme' ]:
-                qf_levels = self._collect_qf_levels(institution)
-                if qf_levels:
-                    vc_offer['credentialSubject']['authorizationClaims']['limitQFLevel'] = qf_levels
-
+            vc_offer = self.populate_vc(report, institution)
             result = self.issue_vc(None, vc_offer)
+            # add additional institution data
             result["institution"] = { 'id': institution.id, 'deqar_id': institution.deqar_id, 'name_primary': institution.name_primary }
             post_data_log.append(result)
 
         return Response(post_data_log)
+
+    """
+    Helper functions
+    """
 
     def _collect_qf_levels(self, institution):
         qf_levels = set()
@@ -164,12 +150,19 @@ class VCIssue(APIView):
                 qf_levels.add(self._translate_qf_level(level.qf_ehea_level))
         return list(qf_levels)
 
+    def _set_if(self, target, key, value):
+        if value:
+            target[key] = value
+            return True
+        else:
+            return False
+
     """
-    Helper functions, meant to be overwritten in subclasses (e.g. EBSI-specific)
+    The following are meant to be overwritten in subclasses (e.g. EBSI-specific)
     """
 
     def _translate_subject(self, institution):
-        return('https://data.deqar.eu/institution/%s' % institution.id)
+        return(self.institution_uri % institution.id)
 
     def _translate_activity_type(self, activity_type):
         return activity_type.type
@@ -178,15 +171,17 @@ class VCIssue(APIView):
         return country.iso_3166_alpha3.upper()
 
     def _translate_qf_level(self, qf_ehea_level):
-        return qf_ehea_level.level
+        return getattr(qf_ehea_level, 'level', None)
+
+    def _translate_date(self, value):
+        return value.strftime("%Y-%m-%dT%H:%M:%SZ") if hasattr(value, 'strftime') and callable(value.strftime) else None
 
 
-class EBSIVCIssue(VCIssue):
+class DEQARVCIssue(VCIssue):
     """
-    Specific view to issue EBSI-compliant Verifiable Accreditations (Diploma Use Case)
+    DEQAR Verifiable Credential - proof of concept
     """
 
-    # EBSI-specific template
     vc_template = json.loads("""
         {
             "@context": [
@@ -196,7 +191,7 @@ class EBSIVCIssue(VCIssue):
             "id": "***",
             "type": [
                 "VerifiableCredential",
-                "VerifiableAttestation"
+                "DeqarReport"
             ],
             "issuer": "***",
             "credentialSubject": {
@@ -212,7 +207,81 @@ class EBSIVCIssue(VCIssue):
             "validFrom": "***",
             "expirationDate": "***",
             "credentialSchema": {
-                "id": "https://ec.europa.eu/cefdigital/code/projects/EBSI/repos/json-schema/raw/ebsi-muti-uni-pilot/Education%20Verifiable%20Accreditation%20Records-generated-schema.json",
+                "id": "https://data.deqar.eu/schema/v1.json",
+                "type": "JsonSchemaValidator2018"
+            }
+        }
+    """)
+
+    def populate_vc(self, report, institution):
+        """
+        Add additional data
+        """
+        vc_offer = super().populate_vc(report, institution)
+        # report status
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationActivity'] = report.agency_esg_activity.activity
+        # additional institution data
+        vc_offer['credentialSubject']['name'] = institution.name_primary
+        self._set_if(vc_offer['credentialSubject'], 'eterID', getattr(institution.eter, 'eter_id', None) )
+        vc_offer['credentialSubject']['identifiers'] = []
+        for identifier in institution.institutionidentifier_set.filter(agency__isnull=True):
+            vc_offer['credentialSubject']['identifiers'].append({
+                'identifier': identifier.identifier,
+                'resource': identifier.resource
+            })
+        if not self._set_if(vc_offer['credentialSubject'], 'legalName', getattr(institution.institutionname_set.filter(name_valid_to=None).first(), 'name_official', None) ):
+            self._set_if(vc_offer['credentialSubject'], 'legalName', getattr(institution.institutionname_set.order_by('name_valid_to').last(), 'name_official', None) )
+        self._set_if(vc_offer['credentialSubject'], 'location', [ f"{l.city}, {l.country.name_english}" if l.city else l.country.name_english for l in institution.institutioncountry_set.iterator() ] )
+        self._set_if(vc_offer['credentialSubject'], 'foundingDate', self._translate_date(institution.founding_date) )
+        self._set_if(vc_offer['credentialSubject'], 'dissolutionDate', self._translate_date(institution.closure_date) )
+        self._set_if(vc_offer['credentialSubject'], 'latitude', getattr(institution.institutioncountry_set.filter(country_verified=True).first(), 'lat', None) )
+        self._set_if(vc_offer['credentialSubject'], 'longitude', getattr(institution.institutioncountry_set.filter(country_verified=True).first(), 'long', None) )
+        # registered QA agency
+        vc_offer['credentialSubject']['authorizationClaims']['agency'] = {
+            'id': self.agency_uri % report.agency.id,
+            'acronym': report.agency.acronym_primary,
+            'name': report.agency.name_primary,
+            'registrationValidFrom': self._translate_date(report.agency.registration_start),
+            'registrationExpirationDate': self._translate_date(report.agency.registration_valid_to)
+        }
+        return vc_offer
+
+
+class EBSIVCIssue(VCIssue):
+    """
+    Specific view to issue EBSI-compliant Verifiable Accreditations (Diploma Use Case)
+    """
+
+    # EBSI-specific template
+    vc_template = json.loads("""
+        {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1"
+            ],
+            "id": "***",
+            "type": [
+                "VerifiableCredential",
+                "VerifiableAttestation",
+                "VerifiableAccreditation",
+                "DiplomaVerifiableAccreditation"
+            ],
+            "issuer": "***",
+            "issued": "***",
+            "credentialSubject": {
+                "id": "***",
+                "authorizationClaims": {
+                    "accreditationType": "***",
+                    "decision": "***",
+                    "report": [ ],
+                    "limitJurisdiction": [ ]
+                }
+            },
+            "issuanceDate": "***",
+            "validFrom": "***",
+            "expirationDate": "***",
+            "credentialSchema": {
+                "id": "https://api.preprod.ebsi.eu/trusted-schemas-registry/v1/schemas/0x13d597f8495e6b6e3d0c072218756a1bcc3ea50ebeb3ab4c3944bd400e0c3c6a",
                 "type": "FullJsonSchemaValidator2021"
             }
         }
@@ -229,13 +298,8 @@ class EBSIVCIssue(VCIssue):
             raise ServiceUnavailable(
                 detail="LETSTRUST_EQAR_EBSI_DID value is not present in the settings"
             )
-
-    def issue_vc(self, subject_did, offer):
-        """
-        Mask accreditationStatus from EBSI VCs
-        """
-        offer['credentialSubject']['authorizationClaims'].pop('accreditationStatus', None)
-        return(super().issue_vc(subject_did, offer))
+        # resource tag for EBSI DID
+        self.resource_did_ebsi = getattr(settings, "LETSTRUST_RESOURCE_DID_EBSI", "DID-EBSI")
 
     def collect_vcs(self, report):
         """
@@ -247,11 +311,19 @@ class EBSIVCIssue(VCIssue):
             )
         return(super().collect_vcs(report))
 
+    def populate_vc(self, report, institution):
+        """
+        Add additional data (quick fix)
+        """
+        vc_offer = super().populate_vc(report, institution)
+        vc_offer['issued'] = vc_offer['issuanceDate']
+        return(vc_offer)
+
     def _translate_subject(self, institution):
         """
         Get EBSI DID of the institutions mentioned in the report
         """
-        institution_did = InstitutionIdentifier.objects.filter(Q(institution=institution) | Q(institution__relationship_parent__institution_child=institution), resource='DID-EBSI').first()
+        institution_did = InstitutionIdentifier.objects.filter(Q(institution=institution) | Q(institution__relationship_parent__institution_child=institution), resource=self.resource_did_ebsi).first()
         if not institution_did:
             raise NotFound(
                 detail="No DID-EBSI identifier found for %s (%s)" % (institution.deqar_id, institution)
