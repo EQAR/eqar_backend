@@ -34,14 +34,15 @@ class ReportFlagger:
         self.check_programme_qf_ehea_level()
         # self.check_ehea_is_member()
         self.check_report_file()
+        self.set_flag()
         self.report.save()
 
     def reset_flag(self):
         self.report.flag = Flag.objects.get(pk=1)
-        self.report.save()
         for report_flag in self.report.reportflag_set.iterator():
             report_flag.active = False
             report_flag.save()
+        self.report.save()
 
     def add_flag(self, flag_level, flag_message):
         flag = Flag.objects.get(pk=flag_level)
@@ -54,25 +55,19 @@ class ReportFlagger:
             report_flag.active = True
             report_flag.save()
 
-    def delete_flag(self, flag_level, flag_message):
-        flag = Flag.objects.get(pk=flag_level)
-        report_flag = ReportFlag.objects.filter(
+    def set_flag(self):
+        self.report.flag = Flag.objects.get(pk=1)
+        report_flags = ReportFlag.objects.filter(
             report=self.report,
-            flag=flag,
-            flag_message=flag_message
+            active=True,
+            removed_by_eqar=False
         )
-        if len(report_flag) > 0:
-            report_flag = report_flag.first()
-            report_flag.active = False
-            report_flag.save()
-
-    def set_flag_low(self):
-        if self.report.flag_id != 3:
-            self.report.flag = Flag.objects.get(pk=2)
-            self.report.save()
-
-    def set_flag_high(self):
-        self.report.flag = Flag.objects.get(pk=3)
+        for report_flag in report_flags:
+            if report_flag.flag.pk == 2:
+                self.report.flag = Flag.objects.get(pk=2)
+            if report_flag.flag.pk == 3:
+                self.report.flag = Flag.objects.get(pk=3)
+                break
         self.report.save()
 
     def check_countries(self):
@@ -92,7 +87,6 @@ class ReportFlagger:
                     flag_message = self.flag_msg['institutionCountry'] % (ic.country.name_english,
                                                                           self.report.agency.acronym_primary)
                     self.add_flag(flag_level=2, flag_message=flag_message)
-                    self.set_flag_low()
                 self._check_report_status_country_is_official(afc)
 
         # ProgrammeCountries
@@ -111,7 +105,6 @@ class ReportFlagger:
                     flag_message = self.flag_msg['programmeCountry'] % (pc.name_english,
                                                                         self.report.agency.acronym_primary)
                     self.add_flag(flag_level=2, flag_message=flag_message)
-                    self.set_flag_low()
                 self._check_report_status_country_is_official(afc)
                 self._check_programme_country_id(pc)
 
@@ -121,14 +114,12 @@ class ReportFlagger:
                 flag_message = self.flag_msg['statusCountryIsOfficial'] % (self.report.agency.acronym_primary,
                                                                            agency_focus_country.country.name_english)
                 self.add_flag(flag_level=3, flag_message=flag_message)
-                self.set_flag_high()
 
     def _check_programme_country_id(self, country):
         ic_count = self.report.institutions.filter(institutioncountry__country=country).count()
         if ic_count == 0:
             flag_message = self.flag_msg['programmeCountryId'] % country
             self.add_flag(flag_level=2, flag_message=flag_message)
-            self.set_flag_low()
 
     def check_programme_qf_ehea_level(self):
         for programme in self.report.programme_set.all():
@@ -143,13 +134,11 @@ class ReportFlagger:
                             flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
                                                                                     programme.name_primary)
                             self.add_flag(flag_level=3, flag_message=flag_message)
-                            self.set_flag_high()
 
     def check_validity_date(self):
         if self.report.valid_to < datetime.datetime.now() - relativedelta(years=1):
             flag_message = self.flag_msg['validityDate']
             self.add_flag(flag_level=2, flag_message=flag_message)
-            self.set_flag_low()
 
     def check_ehea_is_member(self):
         for institution in self.report.institutions.all():
@@ -159,11 +148,9 @@ class ReportFlagger:
                         flag_message = self.flag_msg['EHEAIsMember'] % (ic.institution.name_primary,
                                                                         ic.country.name_english)
                         self.add_flag(flag_level=2, flag_message=flag_message)
-                        self.set_flag_low()
 
     def check_report_file(self):
         for rf in self.report.reportfile_set.all():
             if rf.file_original_location == "" and rf.file.name == "":
                 flag_message = self.flag_msg['file']
                 self.add_flag(flag_level=2, flag_message=flag_message)
-                self.set_flag_low()

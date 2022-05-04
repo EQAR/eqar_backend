@@ -94,7 +94,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
             report_flag.removed_by_eqar = False
             report_flag.save()
         report_flagger = ReportFlagger(report=report)
-        report_flagger.set_flag_high()
+        report_flagger.set_flag()
         index_delete_report.delay(report.id)
         return Response(data={'OK'}, status=200)
 

@@ -112,6 +112,12 @@ class AgencyNameVersion(models.Model):
     acronym_transliterated = models.CharField(max_length=20, blank=True)
     acronym_is_primary = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        super(AgencyNameVersion, self).save(*args, **kwargs)
+        self.agency_name.agency.name_primary = self.agency_name.agency.get_primary_name()
+        self.agency_name.agency.acronym_primary = self.agency_name.agency.get_primary_acronym()
+        self.agency_name.agency.save()
+
     class Meta:
         db_table = 'deqar_agency_name_versions'
         verbose_name = 'Agency Name Version'
