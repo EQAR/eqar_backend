@@ -352,7 +352,7 @@ class EBSIVCIssue(VCIssue):
             'second cycle': 'http://data.europa.eu/snb/eqf/7',
             'third cycle': 'http://data.europa.eu/snb/eqf/8',
         }
-        if qf_ehea_level.level:
+        if qf_ehea_level:
             return EQF_LEVELS.get(qf_ehea_level.level, None)
         else:
             return None
