@@ -4,17 +4,13 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from agencies.models import Agency, AgencyESGActivity
-from agencies.tasks import index_agency
-from institutions.models import Institution
-from institutions.tasks import index_institution
+from agencies.tasks import index_agency, index_institutions_when_agency_saved
 from reports.tasks import index_report
 
 
 @receiver([post_save, post_delete], sender=Agency)
 def do_index_institutions_upon_agency_save(sender, instance, **kwargs):
-    institutions = Institution.objects.filter(reports__agency=instance)
-    for inst in institutions.all():
-        index_institution.delay(inst.id)
+    index_institutions_when_agency_saved.delay(instance.id)
 
 
 @receiver([post_save], sender=Agency)
