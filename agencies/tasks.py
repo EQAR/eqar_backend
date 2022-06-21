@@ -17,6 +17,5 @@ def index_agency(agency_id):
 def index_institutions_when_agency_saved(agency_id):
     institutions = Institution.objects.filter(reports__agency__id=agency_id)
     for inst in institutions.all():
-        institution = Institution.objects.get(id=inst.id)
-        indexer = InstitutionIndexer(institution)
+        indexer = InstitutionIndexer(inst)
         indexer.index()
