@@ -15,7 +15,8 @@ def index_agency(agency_id):
 
 @task(name="index_institutions_when_agency_saved")
 def index_institutions_when_agency_saved(agency_id):
-    institutions = Institution.objects.filter(reports__agency__id=agency_id)
+    institutions = Institution.objects.filter(reports__agency__id=agency_id).distinct()
+    print(institutions.count())
     for inst in institutions.all():
         indexer = InstitutionIndexer(inst)
         indexer.index()
