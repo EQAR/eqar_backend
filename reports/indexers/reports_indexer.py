@@ -31,7 +31,9 @@ class ReportsIndexer:
             'institutions': [],
             'institutions_hierarchical': [],
             'institutions_historical': [],
+            'institutions_additional': [],
             'programmes': [],
+            'countries': [],
             'report_valid': False,
             'valid_from': None,
             'valid_to': None,
@@ -45,10 +47,12 @@ class ReportsIndexer:
             'date_created': None,
             'date_updated': None,
             'flag_level': None,
-
-            'id_search': None,
             'country': [],
             'city': [],
+
+            'id_search': None,
+            'country_search': [],
+            'city_search': [],
             'activity': None,
             'institution_programme_primary': None,
             'institution_name_english': [],
@@ -114,8 +118,8 @@ class ReportsIndexer:
 
         self.doc['agency_name'] = self.report.agency.name_primary
         self.doc['agency_acronym'] = self.report.agency.acronym_primary
+        self.doc['agency_url'] = self.report.agency.id
         self.doc['agency_sort'] = self.report.agency.acronym_primary
-        self.doc['agency_url'] = self.report.agency.website_link
         self.doc['agency_facet'].append(self.report.agency.acronym_primary)
         self.doc['agency_id'].append(self.report.agency.id)
         self.doc['report_valid'] = self._set_report_valid()
@@ -205,11 +209,36 @@ class ReportsIndexer:
                     self.doc['institution_name_version'].append(iname_version.name.strip())
                     self.doc['institution_name_version_transliterated'].append(iname_version.transliteration.strip())
 
-            for c in inst.institutioncountry_set.all():
+            for c in inst.institutioncountry_set.iterator():
                 self.doc['country'].append(c.country.name_english)
+                self.doc['countries'].append({
+                    'id': c.country.id,
+                    'name_english': c.country.name_english,
+                    'iso_3166_alpha2': c.country.iso_3166_alpha2,
+                    'iso_3166_alpha3': c.country.iso_3166_alpha3,
+                    'ehea_is_member': c.country.ehea_is_member
+                })
                 self.doc['country_facet'].append(c.country.name_english)
                 self.doc['country_id'].append(c.country.id)
                 self.doc['city'].append(c.city)
+                self.doc['country_search'].append(c.country.name_english)
+                self.doc['city_search'].append(c.city)
+
+            # Add children
+            for i in inst.relationship_parent.all():
+                self.doc['institutions_additional'].append(i.institution_child.id)
+
+            # Add parents
+            for i in inst.relationship_child.all():
+                self.doc['institutions_additional'].append(i.institution_parent.id)
+
+            # Add target
+            for i in inst.relationship_source.all():
+                self.doc['institutions_additional'].append(i.institution_target.id)
+
+            # Add source
+            for i in inst.relationship_target.all():
+                self.doc['institutions_additional'].append(i.institution_source.id)
 
         self.doc['institution_name_official'] = list(
             filter(None, self.doc['institution_name_official']))
@@ -240,7 +269,17 @@ class ReportsIndexer:
             for c in programme.countries.iterator():
                 self.doc['country'].append(c.name_english)
                 self.doc['country_facet'].append(c.name_english)
+                self.doc['countries'].append({
+                    'id': c.id,
+                    'name_english': c.name_english,
+                    'iso_3166_alpha2': c.iso_3166_alpha2,
+                    'iso_3166_alpha3': c.iso_3166_alpha3,
+                    'ehea_is_member': c.ehea_is_member
+                })
+                self.doc['country_facet'].append(c.id)
                 self.doc['country_id'].append(c.id)
+                self.doc['country_search'].append(c.name_english)
+                self.doc['city_search'].append(c.city)
 
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
@@ -270,6 +309,7 @@ class ReportsIndexer:
         self.doc['programmes'] = json.dumps(self.doc['programmes'])
         self.doc['report_files'] = json.dumps(self.doc['report_files'])
         self.doc['report_links'] = json.dumps(self.doc['report_links'])
+        self.doc['countries'] = json.dumps(self.doc['countries'])
 
     def _set_report_valid(self):
         valid_from = self.report.valid_from
