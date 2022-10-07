@@ -20,6 +20,6 @@ def do_index_reports_upon_activity_name_change(sender, instance, **kwargs):
             original = AgencyESGActivity.objects.get(id=instance.id)
             if original.activity_display != instance.activity_display or \
                original.activity != instance.activity or \
-               original.activity_type != instance.activity:
+               original.activity_type != instance.activity_type:
                 for report in instance.report_set.iterator():
                     index_report.delay(report.id)
