@@ -1,6 +1,7 @@
 import datetime
 from datetime import date
 
+import celery
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -114,9 +115,18 @@ class AgencyNameVersion(models.Model):
 
     def save(self, *args, **kwargs):
         super(AgencyNameVersion, self).save(*args, **kwargs)
-        self.agency_name.agency.name_primary = self.agency_name.agency.get_primary_name()
-        self.agency_name.agency.acronym_primary = self.agency_name.agency.get_primary_acronym()
-        self.agency_name.agency.save()
+        new_name_primary = self.agency_name.agency.get_primary_name()
+        new_acronym_primary = self.agency_name.agency.get_primary_acronym()
+
+        if self.agency_name.agency.name_primary != new_name_primary or \
+           self.agency_name.agency.acronym_primary != new_acronym_primary:
+            self.agency_name.agency.name_primary = new_name_primary
+            self.agency_name.agency.acronym_primary = new_acronym_primary
+            self.agency_name.agency.save()
+            celery.current_app.send_task('agencies.tasks.index_reports_when_agency_acronym_changes',
+                                         (self.agency_name.agency.id,))
+            celery.current_app.send_task('agencies.tasks.index_institutions_when_agency_acronym_changes',
+                                         (self.agency_name.agency.id,))
 
     class Meta:
         db_table = 'deqar_agency_name_versions'
