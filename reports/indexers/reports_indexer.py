@@ -65,6 +65,7 @@ class ReportsIndexer:
 
             'agency_id': [],
             'country_id': [],
+            'institution_id': [],
             'activity_id': 0,
             'activity_type_id': 0,
             'status_id': 0,
@@ -199,6 +200,8 @@ class ReportsIndexer:
                 'website_link': inst.website_link
             })
 
+            self.doc['institution_id'].append(inst.id)
+
             institutions.append(inst.name_primary)
             for iname in inst.institutionname_set.all():
                 self.doc['institution_name_official'].append(iname.name_official.strip())
@@ -227,18 +230,22 @@ class ReportsIndexer:
             # Add children
             for i in inst.relationship_parent.all():
                 self.doc['institutions_additional'].append(i.institution_child.id)
+                self.doc['institution_id'].append(i.institution_child.id)
 
             # Add parents
             for i in inst.relationship_child.all():
                 self.doc['institutions_additional'].append(i.institution_parent.id)
+                self.doc['institution_id'].append(i.institution_parent.id)
 
             # Add target
             for i in inst.relationship_source.all():
                 self.doc['institutions_additional'].append(i.institution_target.id)
+                self.doc['institution_id'].append(i.institution_target.id)
 
             # Add source
             for i in inst.relationship_target.all():
                 self.doc['institutions_additional'].append(i.institution_source.id)
+                self.doc['institution_id'].append(i.institution_source.id)
 
         self.doc['institution_name_official'] = list(
             filter(None, self.doc['institution_name_official']))

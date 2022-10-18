@@ -15,19 +15,26 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from datetime import datetime, date
 from datedelta import datedelta
 
-from adminapi.inspectors.report_search_inspector import ReportSearchInspector
 from eqar_backend.searchers import Searcher
+from reports.inspectors.report_list_inspector import ReportListInspector
 from reports.models import Report
 
 
 class ReportFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
     agency = filters.CharFilter(label='Agency')
+    agency_id = filters.CharFilter(label='Agency ID')
     activity = filters.CharFilter(label='Agency ESG Activity')
+    activity_id = filters.CharFilter(label='Agency ESG Activity ID')
     activity_type = filters.CharFilter(label='Activity Type')
+    activity_type_id = filters.CharFilter(label='Activity Type ID')
     country = filters.CharFilter(label='Country')
+    country_id = filters.CharFilter(label='Country')
+    institution_id = filters.CharFilter(label='Institution ID')
     status = filters.CharFilter(label='Status')
+    status_id = filters.CharFilter(label='Status ID')
     decision = filters.CharFilter(label='Decision')
+    decision_id = filters.CharFilter(label='Decision ID')
     cross_border = filters.CharFilter(label='Cross-border')
     flag = filters.CharFilter(label='Flag')
     language = filters.CharFilter(label='Language')
@@ -43,7 +50,7 @@ class ReportFilterClass(filters.FilterSet):
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-   filter_inspectors=[ReportSearchInspector]
+   filter_inspectors=[ReportListInspector]
 ))
 class ReportSearchView(ListAPIView):
     """
@@ -84,6 +91,7 @@ class ReportSearchView(ListAPIView):
         offset = self.zero_or_more(request, 'offset', 0)
 
         filters = [{'-flag_level_facet': 'high level'}]
+        filters_or = []
 
         date_filters = []
         qf = [
@@ -122,6 +130,8 @@ class ReportSearchView(ListAPIView):
         country = request.query_params.get('country', None)
         country_id = request.query_params.get('country_id', None)
 
+        institution_id = request.query_params.get('institution_id', None)
+
         status = request.query_params.get('status', None)
         status_id = request.query_params.get('status_id', None)
 
@@ -147,14 +157,26 @@ class ReportSearchView(ListAPIView):
             filters.append({'activity_id': activity_id})
 
         if activity_type:
-            filters.append({'activity_type_facet': activity_type})
+            if activity_type == 'programme' or activity_type == 'joint programme':
+                filters_or.append({'activity_type_facet': 'programme'})
+                filters_or.append({'activity_type_facet': 'joint programme'})
+            else:
+                filters.append({'activity_type_facet': activity_type})
+
         if activity_type_id:
-            filters.append({'activity_type_id': activity_type_id})
+            if activity_type_id == '1' or activity_type_id == '3':
+                filters_or.append({'activity_type_id': '1'})
+                filters_or.append({'activity_type_id': '3'})
+            else:
+                filters.append({'activity_type_id': activity_type_id})
 
         if country:
             filters.append({'country_facet': country})
         if country_id:
             filters.append({'country_id': country_id})
+
+        if institution_id:
+            filters.append({'institution_id': institution_id})
 
         if status:
             filters.append({'status_facet': status})
@@ -191,6 +213,7 @@ class ReportSearchView(ListAPIView):
                 pass
 
         params['filters'] = filters
+        params['filters_or'] = filters_or
         params['date_filters'] = date_filters
 
         searcher = Searcher(self.core)
