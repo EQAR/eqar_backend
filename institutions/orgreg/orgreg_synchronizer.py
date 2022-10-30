@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 from django.conf import settings
 
@@ -129,6 +131,10 @@ class OrgRegSynchronizer:
             acronym = self._get_value(name_record, 'ACRONYM')
             date_to = self._get_value(name_record, 'CHARENDYEAR', default=None)
 
+            source_note = 'OrgReg-%s-%s %s' % (
+                datetime.now().year, self._get_value(name_record, 'CHARID'), self._get_value(name_record, 'NOTESCHARSTARTYEAR')
+            )
+
             institution_name = InstitutionName.objects.filter(
                 name_english=name_english,
             )
@@ -159,26 +165,34 @@ class OrgRegSynchronizer:
                         values_to_update['name_valid_to'] = "%s <- %s" % (iname.name_valid_to, date_to)
 
                 if values_to_update['update']:
-                    self.report.add_report_line(
-                        '**UPDATE - Name: (Name English: %s, Name Official: %s, Acronym: %s, Valid To: %s)' %
-                        (values_to_update['name_english'], values_to_update['name_official'], values_to_update['acronym'], values_to_update['name_valid_to'])
-                    )
+                    self.report.add_report_line('**UPDATE - NAME RECORD')
+                    self.report.add_report_line('  Name English: %s' % values_to_update['name_english'])
+                    self.report.add_report_line('  Name Official: %s' % values_to_update['name_official'])
+                    self.report.add_report_line('  Acronym: %s' % values_to_update['acronym'])
+                    self.report.add_report_line('  Valid To: %s' % values_to_update['name_valid_to'])
+                    self.report.add_report_line('  Source Note: %s' % source_note)
             else:
-                self.report.add_report_line(
-                    '**ADD - Name: (Name English: %s, Name Official: %s, Acronym: %s, Valid To: %s)' %
-                    (name_english, name_official, acronym, "%s-12-31" % date_to if date_to else None)
-                )
+                self.report.add_report_line('**ADD - NAME RECORD')
+                self.report.add_report_line('  Name English: %s' % name_english)
+                self.report.add_report_line('  Name Official: %s' % name_official)
+                self.report.add_report_line('  Acronym: %s' % acronym)
+                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to if date_to else None))
+                self.report.add_report_line('  Source Note: %s' % source_note)
 
     def sync_locations(self):
         locations = self.orgreg_record['LOCAT']
         for location in locations:
             location_record = location['LOCAT']
-            country_code = self._get_value(location_record, 'LOCATCOUNTRY') if self._get_value(location_record, 'LOCATCOUNTRY') != 'GB' else 'UK'
+            country_code = self._get_value(location_record, 'LOCATCOUNTRY') if self._get_value(location_record, 'LOCATCOUNTRY') != 'UK' else 'GB'
             city = self._get_value(location_record, 'CITY')
             legal_seat = self._get_value(location_record, 'LEGALSEAT') == 1
 
             date_from = self._get_value(location_record, 'STARTYEAR', default=None)
             date_to = self._get_value(location_record, 'ENDYEAR', default=None)
+
+            source_note = 'OrgReg-%s-%s %s' % (
+                datetime.now().year, self._get_value(location_record, 'LOCATID'), self._get_value(location_record, 'NOTESREG')
+            )
 
             institution_country = InstitutionCountry.objects.filter(
                 country__iso_3166_alpha2=country_code,
@@ -211,15 +225,21 @@ class OrgRegSynchronizer:
                         values_to_update['date_to'] = "%s <- %s" % (ic.country_valid_to, date_to)
 
                 if values_to_update['update']:
-                    self.report.add_report_line(
-                        '**UPDATE - Location: (Country: %s, City: %s, Official: %s, Valid From: %s, Valid To: %s)' %
-                        (country_code, city, values_to_update['legal_seat'], values_to_update['date_from'], values_to_update['date_to'])
-                    )
+                    self.report.add_report_line('**UPDATE - LOCATION')
+                    self.report.add_report_line('  Country: %s' % country_code)
+                    self.report.add_report_line('  City: %s' % city)
+                    self.report.add_report_line('  Official: %s' % values_to_update['legal_seat'])
+                    self.report.add_report_line('  Valid From: %s' % values_to_update['date_from'])
+                    self.report.add_report_line('  Valid To: %s' % values_to_update['date_to'])
+                    self.report.add_report_line('  Source Note: %s' % source_note.strip())
             else:
-                self.report.add_report_line(
-                    '**ADD - Location: (Country: %s, City: %s, Official: %s, Valid From: %s, Valid To: %s)' %
-                    (country_code, city, 'YES' if legal_seat else 'NO', date_from, date_to)
-                )
+                self.report.add_report_line('**ADD - LOCATION')
+                self.report.add_report_line('  Country: %s' % country_code)
+                self.report.add_report_line('  City: %s' % city)
+                self.report.add_report_line('  Official: %s' % ('YES' if legal_seat else 'NO'))
+                self.report.add_report_line('  Valid From: %s' % date_from)
+                self.report.add_report_line('  Valid To: %s' % date_to)
+                self.report.add_report_line('  Source Note: %s' % source_note.strip())
 
     def sync_historical_relationships(self):
         map = {
@@ -235,6 +255,10 @@ class OrgRegSynchronizer:
             child_id = self._get_value(rel, 'CHILDID')
             event_type = str(self._get_value(rel, 'EVENTTYPE'))
             date = self._get_value(rel, 'EVENTYEAR', default=None)
+
+            source_note = 'OrgReg-%s-%s %s' % (
+                datetime.now().year, self._get_value(rel, 'EVENTID'), self._get_value(rel, 'NOTES')
+            )
 
             parent_institutions = Institution.objects.filter(eter__eter_id=parent_id)
             child_institutions = Institution.objects.filter(eter__eter_id=child_id)
@@ -252,10 +276,12 @@ class OrgRegSynchronizer:
                         )
                         if deqar_relationships.count() == 0:
                             deqar_event_type = InstitutionHistoricalRelationshipType.objects.get(pk=map[event_type])
-                            self.report.add_report_line(
-                                '**ADD - HISTORICAL RELATIONSHIP: (Source: %s, Target: %s, Relationship Type: %s, Date: %s)' %
-                                (child_institution.eter, parent_institution.eter, deqar_event_type, "%s-01-01" % date)
-                            )
+                            self.report.add_report_line('**ADD - HISTORICAL RELATIONSHIP')
+                            self.report.add_report_line('  Source: %s' % child_institution.eter)
+                            self.report.add_report_line('  Target: %s' % parent_institution.eter)
+                            self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
+                            self.report.add_report_line('  Date: %s' % ("%s-01-01" % date))
+                            self.report.add_report_line('  Source Note: %s' % source_note)
                     else:
                         deqar_relationships = InstitutionHistoricalRelationship.objects.filter(
                             institution_source=parent_institution,
@@ -264,11 +290,12 @@ class OrgRegSynchronizer:
                         )
                         if deqar_relationships.count() == 0:
                             deqar_event_type = InstitutionHistoricalRelationshipType.objects.get(pk=map[event_type])
-                            self.report.add_report_line(
-                                '**ADD - HISTORICAL RELATIONSHIP: (Source: %s, Target: %s, Relationship Type: %s, Date: %s)' %
-                                (parent_institution.eter, child_institution.eter, deqar_event_type, "%s-01-01" % date)
-                            )
-
+                            self.report.add_report_line('**ADD - HISTORICAL RELATIONSHIP')
+                            self.report.add_report_line('  Source: %s' % parent_institution.eter)
+                            self.report.add_report_line('  Target: %s' % child_institution.eter)
+                            self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
+                            self.report.add_report_line('  Date: %s' % ("%s-01-01" % date))
+                            self.report.add_report_line('  Source Note: %s' % source_note)
 
     def sync_hierarchical_relationships(self):
         map = {
@@ -284,6 +311,9 @@ class OrgRegSynchronizer:
             date_from = self._get_value(rel, 'STARTYEAR', default=None)
             date_to = self._get_value(rel, 'ENDYEAR', default=None)
 
+            source_note = 'OrgReg-%s-%s %s' % (
+                datetime.now().year, self._get_value(rel, 'ID'), self._get_value(rel, 'NOTES')
+            )
 
             parent_institutions = Institution.objects.filter(eter__eter_id=entity2)
             child_institutions = Institution.objects.filter(eter__eter_id=entity1)
@@ -300,14 +330,13 @@ class OrgRegSynchronizer:
                     )
                     if deqar_relationships.count() == 0:
                         deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[event_type])
-                        self.report.add_report_line(
-                            '**ADD - HIERARCHICAL RELATIONSHIP: (Parent: %s, Child: %s, Relationship Type: %s, Date (from): %s, Date (to): %s)' %
-                            (parent_institution.eter,
-                             child_institution.eter,
-                             deqar_event_type,
-                             "%s-01-01" % date_from if date_from else None,
-                             "%s-12-31" % date_to if date_to else None)
-                        )
+                        self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
+                        self.report.add_report_line('  Parent: %s' % parent_institution.eter)
+                        self.report.add_report_line('  Child: %s' % child_institution.eter)
+                        self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
+                        self.report.add_report_line('  Date From: %s' % ("%s-01-01" % date_from if date_from else None))
+                        self.report.add_report_line('  Date To: %s' % ("%s-12-31" % date_to if date_to else None))
+                        self.report.add_report_line('  Source: %s' % source_note)
 
     def sync_qf_ehea_levels(self, orgreg_id):
         query_data = {
@@ -333,7 +362,10 @@ class OrgRegSynchronizer:
         # TODO
 
     def _get_value(self, values_dict, key, default=''):
-        return values_dict[key]['v'] if 'v' in values_dict[key].keys() else default
+        if 'v' in values_dict[key].keys():
+            return values_dict[key]['v'] if values_dict[key]['v'] else default
+        else:
+            return default
 
     def _compare_simple_data(self, label, deqar_value, orgreg_value, fallback_value=None, color=''):
         orgreg_val = None
