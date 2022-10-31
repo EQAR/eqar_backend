@@ -220,7 +220,7 @@ class OrgRegSynchronizer:
                         values_to_update['date_from'] = "%s <- %s" % (ic.country_valid_from, date_from)
 
                 if date_to:
-                    valid_to_year = ic.country_to.year if ic.country_valid_to else None
+                    valid_to_year = ic.country_valid_to.year if ic.country_valid_to else None
                     if valid_to_year != date_to:
                         values_to_update['update'] = True
                         date_to = "%s-12-31" % date_to
