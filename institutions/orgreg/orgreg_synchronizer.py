@@ -213,13 +213,15 @@ class OrgRegSynchronizer:
                     values_to_update['legal_seat'] = 'NO <- YES' if legal_seat else 'YES <- NO'
 
                 if date_from:
-                    if ic.country_valid_from.year != date_from:
+                    valid_from_year = ic.country_valid_from.year if ic.country_valid_from else None
+                    if valid_from_year != date_from:
                         values_to_update['update'] = True
                         date_from = "%s-01-01" % date_from
                         values_to_update['date_from'] = "%s <- %s" % (ic.country_valid_from, date_from)
 
                 if date_to:
-                    if ic.country_valid_to.year != date_to:
+                    valid_to_year = ic.country_to.year if ic.country_valid_to else None
+                    if valid_to_year != date_to:
                         values_to_update['update'] = True
                         date_to = "%s-12-31" % date_to
                         values_to_update['date_to'] = "%s <- %s" % (ic.country_valid_to, date_to)
