@@ -136,7 +136,8 @@ class OrgRegSynchronizer:
             )
 
             institution_name = InstitutionName.objects.filter(
-                name_english=name_english,
+                institution=self.inst,
+                name_english=name_english
             )
             if institution_name.count() > 0:
                 iname = institution_name.first()
@@ -195,6 +196,7 @@ class OrgRegSynchronizer:
             )
 
             institution_country = InstitutionCountry.objects.filter(
+                institution=self.inst,
                 country__iso_3166_alpha2=country_code,
                 city=city
             )
@@ -203,7 +205,7 @@ class OrgRegSynchronizer:
                 ic = institution_country.first()
                 values_to_update = {
                     'update': False,
-                    'legal_seat': 'YES' if ic.country_verified  else 'NO',
+                    'legal_seat': 'YES' if ic.country_verified else 'NO',
                     'date_from': ic.country_valid_from,
                     'date_to': ic.country_valid_to,
                 }
