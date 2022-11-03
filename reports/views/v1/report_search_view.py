@@ -1,4 +1,3 @@
-import datetime
 import json
 import re
 
@@ -40,6 +39,9 @@ class ReportFilterClass(filters.FilterSet):
     language = filters.CharFilter(label='Language')
     active = filters.BooleanFilter(label='Active')
     year = filters.NumberFilter(label='Year')
+    report_date_range_from = filters.DateFilter(label='Report Date (From)')
+    report_date_range_to = filters.DateFilter(label='Report Date (To)')
+    report_valid_on = filters.DateFilter(label='Report Validity Date (Exact)')
 
     ordering = OrderingFilter(
         fields=(
@@ -84,7 +86,6 @@ class ReportSearchView(ListAPIView):
                 valid = False
 
         return valid
-
 
     def list(self, request, *args, **kwargs):
         limit = self.zero_or_more(request, 'limit', 10)
@@ -200,15 +201,49 @@ class ReportSearchView(ListAPIView):
             filters.append({'flag_level_facet': flag})
         if active:
             if active == 'true':
-                now = datetime.datetime.now().replace(microsecond=0).isoformat()
+                now = datetime.now().replace(microsecond=0).isoformat()
                 date_filters.append({'valid_to_calculated': '[%sZ TO *]' % now})
         if year:
             try:
                 if re.match(r'.*([1-3][0-9]{3})', year):
-                    date_from = datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).isoformat()
+                    date_from = datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).isoformat()
                     date_filters.append({'valid_from': '[* TO %sZ]' % date_from})
-                    date_to = datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).isoformat()
+                    date_to = datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).isoformat()
                     date_filters.append({'valid_to_calculated': '[%sZ TO *]' % date_to})
+            except ValueError:
+                pass
+
+        # Handle report_date_range filters
+        report_dates = ['*', '*']
+        report_date_range_from = request.query_params.get('report_date_range_from', None)
+        report_date_range_to = request.query_params.get('report_date_range_to', None)
+
+        if report_date_range_from:
+            try:
+                d = datetime.strptime(report_date_range_from, "%Y-%m-%d")
+                report_dates[0] = "%sZ" % datetime(year=d.year, month=d.month, day=d.day, hour=0, minute=0, second=0).isoformat()
+            except ValueError:
+                pass
+
+        if report_date_range_to:
+            try:
+                d = datetime.strptime(report_date_range_to, "%Y-%m-%d")
+                report_dates[1] = "%sZ" % datetime(year=d.year, month=d.month, day=d.day, hour=0, minute=0, second=0).isoformat()
+            except ValueError:
+                pass
+
+        if report_dates[0] != '*' or report_dates[1] != '*':
+            date_filters.append({'valid_from': '[%s TO %s]' % (report_dates[0], report_dates[1])})
+
+        # Handle report validity filters
+        report_valid_on = request.query_params.get('report_valid_on', None)
+
+        if report_valid_on:
+            try:
+                d = datetime.strptime(report_valid_on, "%Y-%m-%d")
+                report_valid_query_date = "%sZ" % datetime(year=d.year, month=d.month, day=d.day, hour=0, minute=0, second=0).isoformat()
+                date_filters.append({'valid_from': '[* TO %s]' % report_valid_query_date})
+                date_filters.append({'valid_to_calculated': '[%s TO *]' % report_valid_query_date})
             except ValueError:
                 pass
 

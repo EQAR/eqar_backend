@@ -72,6 +72,19 @@ class ReportListInspector(CoreAPICompatInspector):
             'description': 'Shows only reports, which were valid in the written year.',
             'type': 'string'
         },
+        'report_date_range_from': {
+            'description': 'Shows reports where valid from date is starting from this date.\nFormat: YYYY-MM-DD',
+            'type': 'string'
+        },
+        'report_date_range_to': {
+            'description': 'Shows reports where valid from date is ending on this date.\nFormat: YYYY-MM-DD\n'
+                           'If field is omitted, it checks until eternety. :)',
+            'type': 'string'
+        },
+        'report_valid_on': {
+            'description': 'Shows reports which were valid on this particular date.\nFormat: YYYY-MM-DD',
+            'type': 'string'
+        },
         'ordering': {
             'description': 'Definition of the resultset ordering.',
             'type': 'string',
