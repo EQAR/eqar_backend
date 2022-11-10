@@ -392,6 +392,6 @@ class OrgRegSynchronizer:
     def _compare_identifiers(self, id_type, orgreg_id_value):
         inst_id = InstitutionIdentifier.objects.filter(institution=self.inst, resource=id_type)
         if inst_id.count() > 0:
-            self._compare_simple_data(id_type, inst_id.identifier, orgreg_id_value)
+            self._compare_simple_data(id_type, inst_id.first().identifier, orgreg_id_value)
         else:
             self._compare_simple_data(id_type, '', orgreg_id_value)
