@@ -106,7 +106,7 @@ class ReportSearchView(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,local_id,local_identifier,'
-                  'agency_id,agency_url,agency_esg_activity_type,'
+                  'activity_type_id, agency_esg_activity_type,'
                   'contributing_agencies,'
                   'countries,institutions, institutions_additional, programmes,'
                   'status,decision,crossborder,report_valid,valid_from,valid_to,valid_to_calculated,'
@@ -265,13 +265,20 @@ class ReportSearchView(ListAPIView):
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'programmes')
             r.update((k, json.loads(v)) for k, v in r.items() if k == 'countries')
 
-            if 'agency_id' in r.keys() and len(r['agency_id']) > 0:
-                r['agency_url'] = reverse('webapi-v1:agency-detail', args=[r['agency_id'][0]], request=request)
-
             if 'valid_to' in r.keys():
                 r['report_valid'] = self.get_report_valid(r['valid_from'], r['valid_to'])
             else:
                 r['report_valid'] = self.get_report_valid(r['valid_from'], None)
+
+            if 'contributing_agencies' in r.keys():
+                r['contributing_agencies'] = list(map(lambda x: int(x), r['contributing_agencies']))
+
+            if 'activity_type_id' in r.keys():
+                r['agency_esg_activity_type_id'] = r['activity_type_id']
+                r.pop('activity_type_id', None)
+
+            if 'institutions_additional' in r.keys():
+                r['institutions_additional'] = list(map(lambda x: int(x), r['institutions_additional']))
 
         resp = {
             'count': response.hits,

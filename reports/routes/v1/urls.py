@@ -24,7 +24,7 @@ schema_view = get_schema_view(
 app_name = 'reports'
 
 urlpatterns = [
-    url(r'^list/$', ReportSearchView.as_view(), name='report-search'),
+    url(r'$', ReportSearchView.as_view(), name='report-search'),
     url(r'^(?P<pk>[0-9]+)/$', ReportDetailView.as_view(), name='report-detail'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
