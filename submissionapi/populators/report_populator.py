@@ -58,6 +58,7 @@ class ReportPopulator():
             self.report.updated_by = self.user
             self.report.updated_at = datetime.now()
             self.report.other_comment = self.submission.get('other_comment', None)
+            self.report.summary = self.submission.get('summary', None)
 
             Report.contributing_agencies.through.objects.all().delete()
 
@@ -73,7 +74,8 @@ class ReportPopulator():
                 valid_from=self.submission.get('valid_from', None),
                 valid_to=self.submission.get('valid_to', None),
                 created_by=self.user,
-                other_comment=self.submission.get('other_comment', None)
+                other_comment=self.submission.get('other_comment', None),
+                summary=self.submission('summary', None)
             )
 
         # Assign contributing agencies
