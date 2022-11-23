@@ -75,7 +75,7 @@ class ReportPopulator():
                 valid_to=self.submission.get('valid_to', None),
                 created_by=self.user,
                 other_comment=self.submission.get('other_comment', None),
-                summary=self.submission('summary', None)
+                summary=self.submission.get('summary', None)
             )
 
         # Assign contributing agencies
