@@ -111,17 +111,43 @@ class OrgRegSynchronizer:
             # Website
             self._compare_simple_data('Website', self.inst.website_link, 'WEBSITE')
 
-            # National ID
-            if self.inst.national_identifier:
-                self._compare_simple_data('National Identifier', self.inst.national_identifier[5:], 'NATID')
-            else:
-                self._compare_simple_data('National Identifier', '', 'NATID')
-
             # Erasmus Code
             self._compare_identifiers('Erasmus', 'ERASMUSCODE1420')
 
             # WHED Code
             self._compare_identifiers('WHED', 'WHEDID')
+
+    def sync_national_identifier(self):
+        base_record = self.orgreg_record['BAS'][0]
+        nat_id = self._get_value(base_record, 'NATID', default=None)
+        country = self._get_value(base_record, 'COUNTRY', default=None)
+        action = 'skip'
+
+        if nat_id and country:
+            try:
+                iid = InstitutionIdentifier.objects.get(
+                    institution=self.inst,
+                    resource="%s-ETER.BAS.NATID" % country
+                )
+                if iid.identifier != nat_id:
+                    action = 'update'
+            except MultipleObjectsReturned:
+                self.report.add_report_line("%s**ERROR - More than one InstitutionIdentifier record exists with the "
+                                            "same resource [%s]. Skipping.%s"
+                                            % (self.colours['WARNING'],
+                                               "%s-ETER.BAS.NATID" % country,
+                                               self.colours['END']))
+            except ObjectDoesNotExist:
+                action = 'add'
+
+        if action == 'update':
+            self.report.add_report_line('**UPDATE - IDENTIFIER RECORD')
+            self.report.add_report_line('  Identifier: %s <- %s ' % (iid.identifier, nat_id))
+            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
+        elif action == 'add':
+            self.report.add_report_line('**UPDATE - IDENTIFIER RECORD')
+            self.report.add_report_line('  Identifier: %s' % nat_id)
+            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
@@ -130,8 +156,12 @@ class OrgRegSynchronizer:
             name_orgreg_id = self._get_value(name_record, 'CHARID')
             name_official = self._get_value(name_record, 'INSTNAME')
             name_english = self._get_value(name_record, 'INSTNAMEENGL')
+
+            if name_english == name_official:
+                name_english = ''
+
             acronym = self._get_value(name_record, 'ACRONYM')
-            date_to = self._get_value(name_record, 'CHARENDYEAR', default=None)
+            date_to = self._get_date_value(name_record, 'CHARENDYEAR', default=None)
 
             action = 'skip'
 
@@ -143,7 +173,7 @@ class OrgRegSynchronizer:
 
             try:
                 iname = InstitutionName.objects.get(
-                    name_source_note__icontains=name_orgreg_id
+                    name_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % name_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -190,8 +220,8 @@ class OrgRegSynchronizer:
                         values_to_update['update'] = True
                         values_to_update['name_official'] = "%s <- %s" % (iname.name_official, name_official)
 
-                if date_to and iname.name_valid_to:
-                    if iname.name_valid_to.year != date_to:
+                if date_to:
+                    if (not iname.name_valid_to) or iname.name_valid_to.year != date_to:
                         values_to_update['update'] = True
                         date_to = "%s-12-31" % date_to
                         values_to_update['name_valid_to'] = "%s <- %s" % (iname.name_valid_to, date_to)
@@ -222,8 +252,8 @@ class OrgRegSynchronizer:
             city = self._get_value(location_record, 'CITY')
             legal_seat = self._get_value(location_record, 'LEGALSEAT') == 1
 
-            date_from = self._get_value(location_record, 'STARTYEAR', default=None)
-            date_to = self._get_value(location_record, 'ENDYEAR', default=None)
+            date_from = self._get_date_value(location_record, 'STARTYEAR', default=None)
+            date_to = self._get_date_value(location_record, 'ENDYEAR', default=None)
 
             source_note = 'OrgReg-%s-%s %s' % (
                 datetime.now().year, location_orgreg_id, self._get_value(location_record, 'NOTESREG')
@@ -233,7 +263,7 @@ class OrgRegSynchronizer:
 
             try:
                 ic = InstitutionCountry.objects.get(
-                    country_source_note__icontains=location_orgreg_id
+                    country_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % location_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -326,7 +356,7 @@ class OrgRegSynchronizer:
                 source_id = self._get_value(rel, 'PARENTID')
                 target_id = self._get_value(rel, 'CHILDID')
 
-            date = self._get_value(rel, 'EVENTYEAR', default=None)
+            date = self._get_date_value(rel, 'EVENTYEAR', default=None)
 
             source_note = 'OrgReg-%s-%s %s' % (
                 datetime.now().year, event_orgreg_id, self._get_value(rel, 'NOTES')
@@ -366,7 +396,7 @@ class OrgRegSynchronizer:
 
             try:
                 ihr = InstitutionHistoricalRelationship.objects.get(
-                    relationship_note__icontains=event_orgreg_id
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -445,8 +475,8 @@ class OrgRegSynchronizer:
             entity2 = self._get_value(rel, 'ENTITY2ID')
             event_orgreg_id = self._get_value(rel, 'ID')
             event_type = str(self._get_value(rel, 'TYPE'))
-            date_from = self._get_value(rel, 'STARTYEAR', default=None)
-            date_to = self._get_value(rel, 'ENDYEAR', default=None)
+            date_from = self._get_date_value(rel, 'STARTYEAR', default=None)
+            date_to = self._get_date_value(rel, 'ENDYEAR', default=None)
 
             source_note = 'OrgReg-%s-%s %s' % (
                 datetime.now().year, self._get_value(rel, 'ID'), self._get_value(rel, 'NOTES')
@@ -486,7 +516,7 @@ class OrgRegSynchronizer:
 
             try:
                 ihr = InstitutionHierarchicalRelationship.objects.get(
-                    relationship_note__icontains=event_type
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -588,6 +618,17 @@ class OrgRegSynchronizer:
     def _get_value(self, values_dict, key, default=''):
         if 'v' in values_dict[key].keys():
             return values_dict[key]['v'] if values_dict[key]['v'] else default
+        else:
+            return default
+
+    def _get_date_value(self, values_dict, key, default=''):
+        if 'v' in values_dict[key].keys():
+            return values_dict[key]['v'] if values_dict[key]['v'] else default
+        if 'c' in values_dict[key].keys():
+            if values_dict[key]['c'] == 'a':
+                return None
+            if values_dict[key]['c'] == 'm':
+                return "%s-01-01" % datetime.now().year
         else:
             return default
 
