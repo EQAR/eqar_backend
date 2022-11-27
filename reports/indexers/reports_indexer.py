@@ -286,7 +286,6 @@ class ReportsIndexer:
                 self.doc['country_facet'].append(c.id)
                 self.doc['country_id'].append(c.id)
                 self.doc['country_search'].append(c.name_english)
-                self.doc['city_search'].append(c.city)
 
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
