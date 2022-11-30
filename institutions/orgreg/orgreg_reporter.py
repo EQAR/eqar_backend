@@ -20,9 +20,9 @@ class OrgRegReporter:
     def add_empty_line(self):
         self.add_report_line('')
 
-    def add_institution_header(self, orgreg_id, deqar_id, institution_name):
+    def add_institution_header(self, orgreg_id, deqar_id, institution_name, action='UPDATE'):
         self.add_divider_line('-')
-        self.add_report_line('Institution record %s / %s' % (orgreg_id, deqar_id))
+        self.add_report_line('Institution record %s / %s (%s)' % (orgreg_id, deqar_id, action))
         self.add_report_line(institution_name)
         self.add_divider_line('-')
 

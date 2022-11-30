@@ -84,32 +84,56 @@ class OrgRegSynchronizer:
                 self.inst = Institution.objects.get(eter__eter_id=orgreg_id)
                 action = 'update'
             except ObjectDoesNotExist:
-                self.report.add_report_line("Institution with OrgReg ID [%s] doesn't exists. The record will be created!" % orgreg_id)
+                self.report.add_report_line(
+                    "Institution with OrgReg ID [%s] doesn't exists. The record will be created!" % orgreg_id
+                )
                 action = 'add'
             except MultipleObjectsReturned:
                 self.report.add_report_line("Multiple institutions with OrgReg ID [%s] exist." % orgreg_id)
                 break
 
-            self.report.add_institution_header(
-                orgreg_id=orgreg_id,
-                deqar_id=self.inst.deqar_id,
-                institution_name=self.inst.name_primary
-            )
             self.get_orgreg_record(orgreg_id)
 
-            if action == 'update':
-                self.sync_base_data()
-                self.sync_locations()
-                self.sync_names()
-                self.sync_historical_relationships()
-                self.sync_hierarchical_relationships()
-                self.report.add_empty_line()
-
             if action == 'add':
-                pass
+                self.create_institution_record()
+                self.inst.create_deqar_id()
+
+                base_data = self.orgreg_record['BAS'][0]['BAS']
+                self.report.add_institution_header(
+                    orgreg_id=orgreg_id,
+                    deqar_id=self.inst.deqar_id,
+                    institution_name=self._get_value(base_data, 'ENTITYNAME', default="-NEW INSTITUTION-"),
+                    action='CREATE'
+                )
+
+            if action == 'update':
+                self.report.add_institution_header(
+                    orgreg_id=orgreg_id,
+                    deqar_id=self.inst.deqar_id,
+                    institution_name=self.inst.name_primary
+                )
+
+            self.sync_base_data()
+            self.sync_locations()
+            self.sync_names()
+            self.sync_historical_relationships()
+            self.sync_hierarchical_relationships()
+            self.report.add_empty_line()
 
         print('\n')
         print(self.report.get_report())
+
+    def create_institution_record(self):
+        compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE')
+
+        if compare['action'] != 'None':
+            self.inst = Institution.objects.create(
+                website_link=compare['orgreg_value']
+            )
+        else:
+            self.inst = Institution.objects.create(
+                website_link="N/A"
+            )
 
     def sync_base_data(self):
         # DEQAR ID
