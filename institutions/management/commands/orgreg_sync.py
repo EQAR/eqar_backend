@@ -16,7 +16,8 @@ class Command(BaseCommand):
         parser.add_argument('--only_new', dest='only_new',
                             help='Load only the "new" ones from OrgReg.', default=False)
         parser.add_argument('--dry-run', dest='dry_run',
-                            help="Don't import anything, just show me a summary of what would happen.", default=None)
+                            help="Don't import anything, just show me a summary of what would happen.",
+                            action='store_true')
 
     def handle(self, *args, **options):
         status = False
