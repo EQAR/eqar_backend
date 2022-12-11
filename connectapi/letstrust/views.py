@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.conf import settings
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
 
 from institutions.models import InstitutionIdentifier
 from reports.models import Report
@@ -119,9 +121,6 @@ class VCIssue(APIView):
                 self._set_if(limitQualification, 'alternativeLabel', [ i.name for i in programme.programmename_set.filter(name_is_primary=False) ])
                 self._set_if(limitQualification, 'EQFLevel', self._translate_qf_level(programme.qf_ehea_level))
                 vc_offer['credentialSubject']['authorizationClaims']['limitQualification'].append(limitQualification)
-        else:
-            # QF levels for institutional reports
-            self._set_if(vc_offer['credentialSubject']['authorizationClaims'], 'limitQFLevel', self._collect_qf_levels(institution))
 
         return vc_offer
 
@@ -136,6 +135,9 @@ class VCIssue(APIView):
         subject['authorizationClaims']['limitJurisdiction'] = []
         for location in institution.institutioncountry_set.filter(country_verified=True).iterator():
             subject['authorizationClaims']['limitJurisdiction'].append(self._translate_country(location.country))
+        # QF levels for institutional reports
+        if report.agency_esg_activity.activity_type.type in [ 'institutional', 'institutional/programme' ]:
+            self._set_if(subject['authorizationClaims'], 'limitQFLevel', self._collect_qf_levels(institution))
 
         return subject
 
@@ -196,6 +198,7 @@ class VCIssue(APIView):
         return value.strftime("%Y-%m-%dT%H:%M:%SZ") if hasattr(value, 'strftime') and callable(value.strftime) else None
 
 
+@method_decorator(cache_control(max_age=settings.VC_CACHE_MAX_AGE), name='dispatch')
 class DEQARVCIssue(VCIssue):
     """
     DEQAR Verifiable Credential - proof of concept
@@ -266,6 +269,7 @@ class DEQARVCIssue(VCIssue):
 
 
 
+@method_decorator(cache_control(max_age=settings.VC_CACHE_MAX_AGE), name='dispatch')
 class EBSIVCIssue(VCIssue):
     """
     Specific view to issue EBSI-compliant Verifiable Accreditations (Diploma Use Case)
