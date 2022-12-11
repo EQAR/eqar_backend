@@ -200,6 +200,7 @@ class DEQARVCIssue(VCIssue):
     """
     DEQAR Verifiable Credential - proof of concept
     """
+    permission_classes = []
 
     vc_template = json.loads("""
         {
@@ -269,6 +270,7 @@ class EBSIVCIssue(VCIssue):
     """
     Specific view to issue EBSI-compliant Verifiable Accreditations (Diploma Use Case)
     """
+    permission_classes = []
 
     # EBSI-specific template
     vc_template = json.loads("""
