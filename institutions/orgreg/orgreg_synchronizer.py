@@ -625,8 +625,8 @@ class OrgRegSynchronizer:
                     self.report.add_report_line('  Parent: %s' % values_to_update['parent']['log'])
                     self.report.add_report_line('  Child: %s' % values_to_update['child']['log'])
                     self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
-                    self.report.add_report_line('  Date From: %s' % values_to_update['date_from']['log'])
-                    self.report.add_report_line('  Date To: %s' % values_to_update['date_to']['log'])
+                    self.report.add_report_line('  Date From: %s' % values_to_update['valid_from']['log'])
+                    self.report.add_report_line('  Date To: %s' % values_to_update['valid_to']['log'])
                     self.report.add_report_line('  Source Note: %s' % source_note)
 
                     # Update InstitutionHierarchicalRelationship record
@@ -634,8 +634,8 @@ class OrgRegSynchronizer:
                         ihr.institution_parent = values_to_update['parent']['value']
                         ihr.institution_child = values_to_update['child']['value']
                         ihr.relationship_type = values_to_update['type']['value']
-                        ihr.valid_from = values_to_update['date_from']['value']
-                        ihr.valid_to = values_to_update['date_to']['value']
+                        ihr.valid_from = values_to_update['valid_from']['value']
+                        ihr.valid_to = values_to_update['valid_to']['value']
                         ihr.relationship_note = source_note
                         ihr.save()
 
