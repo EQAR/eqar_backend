@@ -143,12 +143,12 @@ class OrgRegSynchronizer:
         if compare['action'] == 'None':
             # Founding Date
             founding_date = self.inst.founding_date.year if self.inst.founding_date else ''
-            compare = self._compare_base_data('Founding year', founding_date, 'FOUNDYEAR')
+            compare = self._compare_base_data('Founding year', founding_date, 'FOUNDYEAR', is_date=True)
             self._update_base_data('founding_date', compare)
 
             # Closing Date
             closure_date = self.inst.closure_date.year if self.inst.closure_date else ''
-            compare = self._compare_base_data('Closing year', closure_date, 'ENTITYCLOSUREYEAR')
+            compare = self._compare_base_data('Closing year', closure_date, 'ENTITYCLOSUREYEAR', is_date=True)
             self._update_base_data('closure_date', compare)
 
             # Website
@@ -293,7 +293,7 @@ class OrgRegSynchronizer:
                 self.report.add_report_line('  Name English: %s' % name_english)
                 self.report.add_report_line('  Name Official: %s' % name_official)
                 self.report.add_report_line('  Acronym: %s' % acronym)
-                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to if date_to else None))
+                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
                 self.report.add_report_line('  Source Note: %s' % source_note)
 
                 # Create InstiutionName record
@@ -303,7 +303,7 @@ class OrgRegSynchronizer:
                         name_english=name_english,
                         name_official=name_official,
                         acronym=acronym,
-                        name_valid_to="%s-12-31" % date_to if date_to else None,
+                        name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
                         name_source_note=source_note
                     )
 
@@ -393,8 +393,8 @@ class OrgRegSynchronizer:
                 self.report.add_report_line('  Country: %s' % country_code)
                 self.report.add_report_line('  City: %s' % city)
                 self.report.add_report_line('  Official: %s' % ('YES' if legal_seat else 'NO'))
-                self.report.add_report_line('  Valid From: %s' % date_from)
-                self.report.add_report_line('  Valid To: %s' % date_to)
+                self.report.add_report_line('  Valid From: %s' % ("%s-01-01" % date_from['value'] if date_from['value'] else None))
+                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
                 self.report.add_report_line('  Source Note: %s' % source_note.strip())
 
                 # Create InstitutionCountry record
@@ -404,8 +404,8 @@ class OrgRegSynchronizer:
                         country=country,
                         city=city,
                         country_verified=legal_seat,
-                        country_valid_from="%s-01-01" % date_from if date_from else None,
-                        country_valid_to="%s-12-31" % date_to if date_to else None,
+                        country_valid_from="%s-01-01" % date_from['value'] if date_from['value'] else None,
+                        country_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
                         country_source_note=source_note.strip()
                     )
 
@@ -509,8 +509,8 @@ class OrgRegSynchronizer:
 
                     # Update InstitutionHistoricalRelationship record
                     if not self.dry_run:
-                        ihr.institution_source = source_institution,
-                        ihr.institution_target = target_institution,
+                        ihr.institution_source = source_institution
+                        ihr.institution_target = target_institution
                         ihr.relationship_date = values_to_update['date']['value']
                         ihr.relationship_note = source_note
                         ihr.save()
@@ -521,7 +521,7 @@ class OrgRegSynchronizer:
                 self.report.add_report_line('  Source: %s' % source_institution.eter)
                 self.report.add_report_line('  Target: %s' % target_institution.eter)
                 self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
-                self.report.add_report_line('  Date: %s' % ("%s-01-01" % date))
+                self.report.add_report_line('  Date: %s' % ("%s-01-01" % date['value'] if date['value'] else None))
                 self.report.add_report_line('  Source Note: %s' % source_note)
 
                 # Create InstitutionHistoricalRelationship record
@@ -530,7 +530,7 @@ class OrgRegSynchronizer:
                         institution_source=source_institution,
                         institution_target=target_institution,
                         relationship_type=deqar_event_type,
-                        relationship_date="%s-01-01" % date if date else None,
+                        relationship_date="%s-01-01" % date['value'] if date['value'] else None,
                         relationship_note=source_note
                     )
 
@@ -559,7 +559,7 @@ class OrgRegSynchronizer:
             try:
                 parent_institution = Institution.objects.get(eter__eter_id=entity2)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**ERROR - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                self.report.add_report_line("%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
                                                entity2,
                                                self.colours['END']))
@@ -574,7 +574,7 @@ class OrgRegSynchronizer:
             try:
                 child_institution = Institution.objects.get(eter__eter_id=entity1)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**ERROR - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                self.report.add_report_line("%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
                                                entity1,
                                                self.colours['END']))
@@ -640,12 +640,22 @@ class OrgRegSynchronizer:
                         ihr.save()
 
             elif action == 'add':
+                if date_from['key'] == 'm':
+                    df = None
+                else:
+                    df = "%s-01-01" % date_from['value'] if date_from['value'] else None
+
+                if date_to['key'] == 'm':
+                    dt = None
+                else:
+                    dt = "%s-12-31" % date_from['value'] if date_from['value'] else None
+
                 self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
                 self.report.add_report_line('  Parent: %s' % parent_institution.eter)
                 self.report.add_report_line('  Child: %s' % child_institution.eter)
                 self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
-                self.report.add_report_line('  Date From: %s' % ("%s-01-01" % date_from if date_from else None))
-                self.report.add_report_line('  Date To: %s' % ("%s-12-31" % date_to if date_to else None))
+                self.report.add_report_line('  Date From: %s' % df)
+                self.report.add_report_line('  Date To: %s' % dt)
                 self.report.add_report_line('  Source: %s' % source_note)
 
                 # Create InstitutionHierarchicalRelationship record
@@ -654,8 +664,8 @@ class OrgRegSynchronizer:
                         institution_parent=parent_institution,
                         institution_child=child_institution,
                         relationship_type=deqar_event_type,
-                        valid_from="%s-01-01" % date_from if date_from else None,
-                        valid_to="%s-12-31" % date_to if date_to else None,
+                        valid_from=df,
+                        valid_to=dt,
                         relationship_note=source_note
                     )
 
@@ -690,16 +700,28 @@ class OrgRegSynchronizer:
 
     def _get_date_value(self, values_dict, key, default=''):
         if 'v' in values_dict[key].keys():
-            return values_dict[key]['v'] if values_dict[key]['v'] else default
+            return {
+                'key': 'v',
+                'value': values_dict[key]['v'] if values_dict[key]['v'] else default
+            }
         if 'c' in values_dict[key].keys():
             if values_dict[key]['c'] == 'a':
-                return None
+                return {
+                    'key': 'a',
+                    'value': None
+                }
             if values_dict[key]['c'] == 'm':
-                return int(datetime.now().year)
+                return {
+                    'key': 'm',
+                    'value': int(datetime.now().year)
+                }
         else:
-            return default
+            return {
+                'key': None,
+                'value': default
+            }
 
-    def _compare_base_data(self, label, deqar_value, orgreg_value, fallback_value=None, color=''):
+    def _compare_base_data(self, label, deqar_value, orgreg_value, fallback_value=None, color='', is_date=False):
         orgreg_val = None
         base_data = self.orgreg_record['BAS'][0]['BAS']
 
@@ -711,6 +733,10 @@ class OrgRegSynchronizer:
         if orgreg_val:
             if deqar_value != orgreg_val:
                 self.inst_update = True
+
+                if is_date:
+                    orgreg_val = "%s-01-01" % orgreg_val
+
                 if deqar_value:
                     self.report.add_report_line(
                         '%s**UPDATE - %s: %s <-- %s%s' % (color, label, deqar_value, orgreg_val, self.colours['END']))
@@ -757,12 +783,13 @@ class OrgRegSynchronizer:
             'log': deqar_data
         }
 
-        if orgreg_data and deqar_data:
-            if deqar_data.year != orgreg_data:
-                compare['update'] = True
-                orgreg_data = suffix % orgreg_data
-                compare['value'] = orgreg_data
-                compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+        if orgreg_data['key'] != 'm':
+            if orgreg_data['value'] and deqar_data:
+                if deqar_data.year != orgreg_data['value']:
+                    compare['update'] = True
+                    orgreg_data = suffix % orgreg_data['value']
+                    compare['value'] = orgreg_data
+                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
 
         return compare
 
