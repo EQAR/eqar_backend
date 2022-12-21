@@ -404,8 +404,8 @@ class OrgRegSynchronizer:
                         country=country,
                         city=city,
                         country_verified=legal_seat,
-                        country_valid_from=date_from,
-                        country_valid_to=date_to,
+                        country_valid_from="%s-01-01" % date_from if date_from else None,
+                        country_valid_to="%s-12-31" % date_to if date_to else None,
                         country_source_note=source_note.strip()
                     )
 
@@ -530,7 +530,7 @@ class OrgRegSynchronizer:
                         institution_source=source_institution,
                         institution_target=target_institution,
                         relationship_type=deqar_event_type,
-                        relationship_date="%s-01-01" % date,
+                        relationship_date="%s-01-01" % date if date else None,
                         relationship_note=source_note
                     )
 
