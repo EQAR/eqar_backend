@@ -733,7 +733,7 @@ class OrgRegSynchronizer:
     def _update_base_data(self, field, compare_data):
         if compare_data and compare_data['action'] != 'None':
             if not self.dry_run:
-                self.inst[field] = compare_data['orgreg_value']
+                setattr(self.inst, field, compare_data['orgreg_value'])
 
     def _compare_data(self, deqar_data, orgreg_data):
         compare = {
