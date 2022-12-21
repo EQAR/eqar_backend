@@ -38,3 +38,6 @@ DJOSER = {
         'current_user': 'accounts.serializers.CurrentUserSerializer',
     },
 }
+
+# Connect API: time for which issued VCs may be cached
+VC_CACHE_MAX_AGE = 86400
