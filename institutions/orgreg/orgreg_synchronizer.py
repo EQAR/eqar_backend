@@ -181,7 +181,7 @@ class OrgRegSynchronizer:
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - More than one InstitutionIdentifier record exists with the "
                                             "same resource [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                "%s-ETER.BAS.NATID" % country,
                                                self.colours['END']))
             except ObjectDoesNotExist:
@@ -240,7 +240,7 @@ class OrgRegSynchronizer:
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - More than one InstitutionName record exists with the "
                                             "same OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                name_orgreg_id,
                                                self.colours['END']))
             except ObjectDoesNotExist:
@@ -254,7 +254,7 @@ class OrgRegSynchronizer:
                 except MultipleObjectsReturned:
                     self.report.add_report_line("%s**ERROR - More than one InstitutionName record exists with the "
                                                 "same English (%s) and Official Name (%s). Skipping.%s"
-                                                % (self.colours['WARNING'],
+                                                % (self.colours['ERROR'],
                                                    name_english,
                                                    name_official,
                                                    self.colours['END']))
@@ -339,7 +339,7 @@ class OrgRegSynchronizer:
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - More than one InstitutionCountry record exists with the "
                                             "same OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                location_orgreg_id,
                                                self.colours['END']))
             except ObjectDoesNotExist:
@@ -353,7 +353,7 @@ class OrgRegSynchronizer:
                 except MultipleObjectsReturned:
                     self.report.add_report_line("%s**ERROR - More than one InstitutionCountry record exists with the "
                                                 "same country (%s) and city (%s). Skipping.%s"
-                                                % (self.colours['WARNING'],
+                                                % (self.colours['ERROR'],
                                                    country_code,
                                                    city,
                                                    self.colours['END'],))
@@ -440,14 +440,14 @@ class OrgRegSynchronizer:
             try:
                 source_institution = Institution.objects.get(eter__eter_id=source_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**ERROR - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                self.report.add_report_line("%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
                                                source_id,
                                                self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - Multiple Source Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                source_id,
                                                self.colours['END']))
                 return
@@ -455,7 +455,7 @@ class OrgRegSynchronizer:
             try:
                 target_institution = Institution.objects.get(eter__eter_id=target_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**ERROR - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                self.report.add_report_line("%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
                                                target_id,
                                                self.colours['END']))
@@ -475,7 +475,7 @@ class OrgRegSynchronizer:
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - More than one InstitutionHistoricalRelationship record exists with the "
                                             "same OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                event_orgreg_id,
                                                self.colours['END']))
             except ObjectDoesNotExist:
@@ -485,7 +485,7 @@ class OrgRegSynchronizer:
                 deqar_event_type = InstitutionHistoricalRelationshipType.objects.get(pk=map[event_type])
             else:
                 self.report.add_report_line("%s**ERROR - Matching EventType can't be found [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                event_type,
                                                self.colours['END']))
                 return
@@ -566,7 +566,7 @@ class OrgRegSynchronizer:
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - Multiple Parent Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                entity2,
                                                self.colours['END']))
                 return
@@ -581,7 +581,7 @@ class OrgRegSynchronizer:
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line("%s**ERROR - Multiple Child Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                entity1,
                                                self.colours['END']))
                 return
@@ -595,7 +595,7 @@ class OrgRegSynchronizer:
                 self.report.add_report_line(
                     "%s**ERROR - More than one InstitutionHierarchicalRelationship record exists with the "
                     "same OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
+                    % (self.colours['ERROR'],
                        event_orgreg_id,
                        self.colours['END']))
                 return
@@ -606,7 +606,7 @@ class OrgRegSynchronizer:
                 deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[event_type])
             else:
                 self.report.add_report_line("%s**ERROR - Matching EventType can't be found [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
+                                            % (self.colours['ERROR'],
                                                event_type,
                                                self.colours['END']))
                 return
