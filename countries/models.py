@@ -3,6 +3,8 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
+from eqar_backend.fields import CharNullField
+
 
 class Country(models.Model):
     """
@@ -10,8 +12,9 @@ class Country(models.Model):
     Includes information on QA requirements imposed in the country.
     """
     id = models.AutoField(primary_key=True)
-    iso_3166_alpha2 = models.CharField(max_length=2)
-    iso_3166_alpha3 = models.CharField(max_length=3)
+    parent = models.ForeignKey('Country', blank=True, null=True, on_delete=models.PROTECT)
+    iso_3166_alpha2 = CharNullField(max_length=10, unique=True)
+    iso_3166_alpha3 = CharNullField(max_length=3, unique=True)
     name_english = models.CharField(unique=True, max_length=100)
     ehea_is_member = models.BooleanField(default=False)
     eqar_governmental_member_start = models.DateField(blank=True, null=True)
@@ -34,6 +37,13 @@ class Country(models.Model):
 
     internal_note = models.TextField(blank=True, null=True)
 
+    # OrgReg fields
+    orgreg_subcountry_label = CharNullField(max_length=10, blank=True, null=True, unique=True)
+    orgreg_eu_2_letter_code = CharNullField(max_length=2, blank=True, null=True, unique=True)
+    eu_controlled_vocab_country = CharNullField(max_length=250, blank=True, null=True, unique=True)
+    eu_controlled_vocab_atu = CharNullField(max_length=250, blank=True, null=True, unique=True)
+    generic_url = models.URLField(max_length=250, blank=True, null=True)
+
     # Audit log values
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='countries_created_by',
@@ -50,7 +60,8 @@ class Country(models.Model):
         indexes = [
             models.Index(fields=['name_english']),
             models.Index(fields=['ehea_is_member']),
-            models.Index(fields=['eqar_governmental_member_start'])
+            models.Index(fields=['eqar_governmental_member_start']),
+            models.Index(fields=['iso_3166_alpha2']),
         ]
 
 

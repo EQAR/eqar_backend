@@ -78,7 +78,7 @@ class OrgRegSynchronizer:
     def run(self):
         self.report.add_header()
         for index, orgreg_id in enumerate(self.orgreg_ids):
-            print('\rProcessing institution %s (%d of %d)' % (orgreg_id, index+1, len(self.orgreg_ids)), end='', flush=True)
+            # print('\rProcessing institution %s (%d of %d)' % (orgreg_id, index+1, len(self.orgreg_ids)), end='', flush=True)
 
             try:
                 self.inst = Institution.objects.get(eter__eter_id=orgreg_id)
@@ -120,8 +120,8 @@ class OrgRegSynchronizer:
             self.sync_hierarchical_relationships()
             self.report.add_empty_line()
 
-        print('\n')
-        print(self.report.get_report())
+            print(self.report.get_report())
+            self.report.reset_report()
 
     def create_institution_record(self):
         compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE')
@@ -312,10 +312,10 @@ class OrgRegSynchronizer:
         for location in locations:
             location_record = location['LOCAT']
             location_orgreg_id = self._get_value(location_record, 'LOCATID')
-            country_code = self._get_value(location_record, 'LOCATCOUNTRY') if self._get_value(location_record, 'LOCATCOUNTRY') != 'UK' else 'GB'
+            country_code = self._get_value(location_record, 'LOCATCOUNTRY')
 
             try:
-                country = Country.objects.get(iso_3166_alpha2=country_code)
+                country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
             except ObjectDoesNotExist:
                 return
 
@@ -346,7 +346,7 @@ class OrgRegSynchronizer:
                 try:
                     ic = InstitutionCountry.objects.get(
                         institution=self.inst,
-                        country__iso_3166_alpha2=country_code,
+                        country=country,
                         city=city
                     )
                     action = 'update'

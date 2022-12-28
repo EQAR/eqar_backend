@@ -28,3 +28,6 @@ class OrgRegReporter:
 
     def get_report(self):
         return '\n'.join(self.report_lines)
+
+    def reset_report(self):
+        self.report_lines = []

@@ -233,7 +233,7 @@ class AccrediationXMLCreator:
             reg = etree.SubElement(
                 org,
                 f"{self.NS}registration",
-                spatialID=f"http://publications.europa.eu/resource/authority/country/{agency.country.iso_3166_alpha3.upper()}"
+                spatialID=agency.country.eu_controlled_vocab_country
             )
             reg.text = f"https://data.deqar.eu/agency/{agency.id}"
 
@@ -269,7 +269,7 @@ class AccrediationXMLCreator:
             etree.SubElement(
                 location,
                 f"{self.NS}spatialCode",
-                uri=f"http://publications.europa.eu/resource/authority/country/{agency.country.iso_3166_alpha3.upper()}"
+                uri=agency.country.eu_controlled_vocab_country
             )
 
             # contactPoint
@@ -282,7 +282,7 @@ class AccrediationXMLCreator:
             etree.SubElement(
                 address,
                 f"{self.NS}country",
-                uri=f"http://publications.europa.eu/resource/authority/country/{agency.country.iso_3166_alpha3.upper()}"
+                uri=agency.country.eu_controlled_vocab_country
             )
 
             for p in agency.agencyphone_set.iterator():
@@ -312,14 +312,14 @@ class AccrediationXMLCreator:
                 reg = etree.SubElement(
                     org,
                     f"{self.NS}registration",
-                    spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                    spatialID=country.country.eu_controlled_vocab_country
                 )
                 reg.text = identifier.identifier
             else:
                 reg = etree.SubElement(
                     org,
                     f"{self.NS}registration",
-                    spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                    spatialID=country.country.eu_controlled_vocab_country
                 )
                 reg.text = f"https://data.deqar.eu/institution/{institution.id}"
 
@@ -328,7 +328,7 @@ class AccrediationXMLCreator:
                 vat = etree.SubElement(
                     org,
                     f"{self.NS}vatIdentifier",
-                    spatialID=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                    spatialID=country.country.eu_controlled_vocab_country
                 )
                 vat.text = identifier.identifier
 
@@ -396,7 +396,7 @@ class AccrediationXMLCreator:
                 etree.SubElement(
                     location,
                     f"{self.NS}spatialCode",
-                    uri=f"http://publications.europa.eu/resource/authority/country/{country.country.iso_3166_alpha3.upper()}"
+                    uri=country.country.eu_controlled_vocab_country
                 )
 
             # lastModificationDate
