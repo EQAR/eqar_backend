@@ -1,7 +1,7 @@
 from rest_framework import generics
 
 from reports.models import Report
-from reports.serializers.v1.report_detail_serializer import ReportDetailSerializer
+from reports.serializers.v3.report_detail_serializer import ReportDetailSerializer
 
 
 class ReportDetailView(generics.RetrieveAPIView):
