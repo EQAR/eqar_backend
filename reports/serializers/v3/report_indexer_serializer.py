@@ -161,7 +161,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
                 countries.append(c.country.name_english)
         for programme in obj.programme_set.all():
             for c in programme.countries.all():
-                countries.append(c.country.name_english)
+                countries.append(c.name_english)
         return countries
 
     # Get city records
