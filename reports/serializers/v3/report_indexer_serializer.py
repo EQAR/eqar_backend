@@ -167,8 +167,8 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
     # Get city records
     def get_city(self, obj):
         cities = []
-        for programme in obj.programme_set.all():
-            for c in programme.countries.all():
+        for inst in obj.institutions.all():
+            for c in inst.institutioncountry_set.all():
                 cities.append(c.city)
         return cities
 

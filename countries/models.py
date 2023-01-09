@@ -14,7 +14,7 @@ class Country(models.Model):
     id = models.AutoField(primary_key=True)
     parent = models.ForeignKey('Country', blank=True, null=True, on_delete=models.PROTECT)
     iso_3166_alpha2 = CharNullField(max_length=10, unique=True)
-    iso_3166_alpha3 = CharNullField(max_length=3, unique=True)
+    iso_3166_alpha3 = CharNullField(max_length=3, blank=True, null=True, unique=True)
     name_english = models.CharField(unique=True, max_length=100)
     ehea_is_member = models.BooleanField(default=False)
     eqar_governmental_member_start = models.DateField(blank=True, null=True)
