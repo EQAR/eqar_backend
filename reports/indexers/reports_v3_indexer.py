@@ -1,10 +1,7 @@
 import json
-from datetime import datetime, date
 
 import pysolr
-from datedelta import datedelta
 from django.conf import settings
-from django.db.models import Q
 
 from reports.models import Report
 from reports.serializers.v3.report_indexer_serializer import ReportIndexerSerializer
@@ -69,7 +66,6 @@ class ReportsIndexerV3:
                 self.doc[k] = list(set(v))
 
     def _store_json(self):
-        self.doc['contributing_agencies'] = json.dumps(self.doc['contributing_agencies'])
         self.doc['institutions'] = json.dumps(self.doc['institutions'])
         self.doc['programmes'] = json.dumps(self.doc['programmes'])
         self.doc['country'] = json.dumps(self.doc['country'])

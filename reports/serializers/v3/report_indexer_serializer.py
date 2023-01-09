@@ -13,7 +13,10 @@ from reports.models import Report
 
 class ISODateField(serializers.Field):
     def to_representation(self, value):
-        return "%sZ" % value.isoformat()
+        if isinstance(value, datetime):
+            return value.strftime("%Y-%m-%dT%H:%M:%SZ")
+        if isinstance(value, date):
+            return value.strftime("%Y-%m-%dT00:00:00Z")
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -36,18 +39,19 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
 class ReportIndexerSerializer(serializers.ModelSerializer):
     id = serializers.CharField()
-    agency_esg_activity_type = serializers.CharField(source='agency_esg_activity.activity_type.type')
-    agency_id = serializers.PrimaryKeyRelatedField(read_only=True, source='agency')
+    agency = serializers.PrimaryKeyRelatedField(read_only=True)
     agency_url = serializers.CharField(source='agency.website_link')
+    agency_esg_activity_type = serializers.CharField(source='agency_esg_activity.activity_type.type')
     country = serializers.SerializerMethodField()
     contributing_agencies = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
-    date_created = ISODateField(read_only=True)
-    date_updated = ISODateField(read_only=True)
+    date_created = ISODateField(read_only=True, source='created_at')
+    date_updated = ISODateField(read_only=True, source='updated_at')
     decision = serializers.CharField(source='decision.decision')
     flag_level = serializers.CharField(source='flag.flag')
     institutions = InstitutionSerializer(read_only=True, many=True)
     institutions_additional = serializers.SerializerMethodField()
+    name = serializers.CharField(source='agency_esg_activity.activity_description')
     programmes = ProgrammeSerializer(many=True, source='programme_set')
     report_valid = serializers.SerializerMethodField()
     status = serializers.CharField(source='status.status')
@@ -62,28 +66,26 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
     programme_name_search = serializers.SerializerMethodField()
 
     # ID fields
-    agency_ids = serializers.SerializerMethodField()
-    institution_ids = serializers.SerializerMethodField()
-    country_ids = serializers.SerializerMethodField()
-    language_ids = serializers.SerializerMethodField()
-    activity_id = serializers.PrimaryKeyRelatedField(source='agency_esg_activity',  read_only=True)
+    agency_id = serializers.SerializerMethodField()
+    activity_id = serializers.PrimaryKeyRelatedField(source='agency_esg_activity', read_only=True)
     activity_type_id = serializers.PrimaryKeyRelatedField(source='agency_esg_activity.activity_type', read_only=True)
+    institution_id = serializers.SerializerMethodField()
+    country_id = serializers.SerializerMethodField()
+    language_id = serializers.SerializerMethodField()
     status_id = serializers.PrimaryKeyRelatedField(source='status', read_only=True)
     decision_id = serializers.PrimaryKeyRelatedField(source='decision', read_only=True)
 
     # Sort fields
     id_sort = serializers.CharField(source="id")
-    # institution_programme_sort
+    name_sort = serializers.CharField(source='agency_esg_activity.activity_description')
 
     # Facet fields
-    # country_facet
-    # activity_facet
-    # activity_type_facet
+    activity_type_facet = serializers.CharField(source='agency_esg_activity.activity_type.type')
+    decision_facet = serializers.CharField(source='decision.decision')
+    language_facet = serializers.SerializerMethodField()
+    flag_level_facet = serializers.CharField(source='flag.flag')
+    crossborder_facet = serializers.SerializerMethodField(method_name='get_crossborder')
     status_facet = serializers.CharField(source='status.status')
-    # decision_facet
-    # language_facet
-    # flag_level_facet
-    # crossborder_facet
 
     # Return valid_to date
     def get_valid_to(self, obj):
@@ -177,13 +179,13 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
                 programme_names.append(pname.name.strip())
         return programme_names
 
-    def get_agency_ids(self, obj):
+    def get_agency_id(self, obj):
         agency_ids = [obj.agency.id]
         for agency in obj.contributing_agencies.all():
             agency_ids.append(agency.id)
         return agency_ids
 
-    def get_institution_ids(self, obj):
+    def get_institution_id(self, obj):
         institution_ids = []
         for inst in obj.institutions.all():
             institution_ids.append(inst.id)
@@ -197,7 +199,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
                 institution_ids.append(i.id)
         return institution_ids
 
-    def get_country_ids(self, obj):
+    def get_country_id(self, obj):
         country_ids = []
         for inst in obj.institutions.all():
             for ic in inst.institutioncountry_set.all():
@@ -207,11 +209,18 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
                 country_ids.append(country.id)
         return country_ids
 
-    def get_language_ids(self, obj):
+    def get_language_id(self, obj):
         languages = []
         for rf in obj.reportfile_set.all():
             for lang in rf.languages.all():
                 languages.append(lang.id)
+        return languages
+
+    def get_language_facet(self, obj):
+        languages = []
+        for rf in obj.reportfile_set.all():
+            for lang in rf.languages.all():
+                languages.append(lang.language_name_en)
         return languages
 
     @staticmethod
@@ -223,4 +232,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        exclude = ['name', 'summary', 'flag_log', 'other_comment', 'internal_note', 'created_by']
+        exclude = ['agency_esg_activity', 'summary',
+                   'flag', 'flag_log',
+                   'other_comment', 'internal_note',
+                   'created_at', 'created_by', 'updated_at', 'updated_by']
