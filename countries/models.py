@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.constraints import UniqueConstraint
 
 from eqar_backend.fields import CharNullField
 
@@ -13,8 +14,8 @@ class Country(models.Model):
     """
     id = models.AutoField(primary_key=True)
     parent = models.ForeignKey('Country', blank=True, null=True, on_delete=models.PROTECT)
-    iso_3166_alpha2 = CharNullField(max_length=10, unique=True)
-    iso_3166_alpha3 = CharNullField(max_length=3, blank=True, null=True, unique=True)
+    iso_3166_alpha2 = models.CharField(max_length=10, unique=True)
+    iso_3166_alpha3 = models.CharField(max_length=3, blank=True, null=True, unique=True)
     name_english = models.CharField(unique=True, max_length=100)
     ehea_is_member = models.BooleanField(default=False)
     eqar_governmental_member_start = models.DateField(blank=True, null=True)
@@ -38,10 +39,10 @@ class Country(models.Model):
     internal_note = models.TextField(blank=True, null=True)
 
     # OrgReg fields
-    orgreg_subcountry_label = CharNullField(max_length=10, blank=True, null=True)
-    orgreg_eu_2_letter_code = CharNullField(max_length=2, blank=True, null=True, unique=True)
-    eu_controlled_vocab_country = CharNullField(max_length=250, blank=True, null=True, unique=True)
-    eu_controlled_vocab_atu = CharNullField(max_length=250, blank=True, null=True, unique=True)
+    orgreg_subcountry_label = CharNullField(max_length=200, blank=True, null=True)
+    orgreg_eu_2_letter_code = models.CharField(max_length=3, blank=True, null=True, unique=True)
+    eu_controlled_vocab_country = models.CharField(max_length=250, blank=True, null=True, unique=True)
+    eu_controlled_vocab_atu = models.CharField(max_length=250, blank=True, null=True, unique=True)
     generic_url = models.URLField(max_length=250, blank=True, null=True)
 
     # Audit log values
@@ -57,7 +58,10 @@ class Country(models.Model):
         verbose_name = 'Country'
         verbose_name_plural = 'Countries'
         ordering = ('name_english',)
-        unique_together = ('parent', 'orgreg_subcountry_label')
+        constraints = [
+            UniqueConstraint(fields=['parent', 'orgreg_subcountry_label'],
+                             name='orgreg_subcountry_unique')
+        ]
         indexes = [
             models.Index(fields=['name_english']),
             models.Index(fields=['ehea_is_member']),
