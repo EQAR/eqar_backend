@@ -251,7 +251,7 @@ class DEQARVCIssue(VCIssue):
         subject = super().populate_vc_subject(report, institution, subject_tpl)
         subject['type'] = 'DeqarInstitution'
         subject['name'] = institution.name_primary
-        self._set_if(subject, 'eterID', getattr(institution.eter, 'eter_id', None) )
+        self._set_if(subject, 'eterID', getattr(institution, 'eter_id', None) )
         subject['identifiers'] = []
         for identifier in institution.institutionidentifier_set.filter(agency__isnull=True):
             subject['identifiers'].append({

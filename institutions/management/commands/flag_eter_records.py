@@ -1,9 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
-from agencies.models import Agency
-from institutions.models import InstitutionETERRecord, Institution
-from submissionapi.populators.institution_populator import InstitutionPopulator
+from institutions.models import Institution
 
 
 class Command(BaseCommand):

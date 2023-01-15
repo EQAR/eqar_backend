@@ -12,7 +12,7 @@ class Institution(models.Model):
     """
     id = models.AutoField(primary_key=True)
     deqar_id = models.CharField(max_length=25, blank=True)
-    eter = models.ForeignKey('institutions.InstitutionETERRecord', blank=True, null=True, on_delete=models.PROTECT)
+    eter_id = models.CharField(max_length=20, blank=True, null=True)
     name_primary = models.CharField(max_length=200, blank=True)
     website_link = models.CharField(max_length=150)
     founding_date = models.DateField(blank=True, null=True)
@@ -86,6 +86,7 @@ class Institution(models.Model):
         ordering = ('name_primary',)
         indexes = [
             models.Index(fields=['deqar_id']),
+            models.Index(fields=['eter_id']),
             models.Index(fields=['name_primary']),
             models.Index(fields=['name_sort'])
         ]

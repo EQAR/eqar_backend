@@ -81,7 +81,7 @@ class OrgRegSynchronizer:
             # print('\rProcessing institution %s (%d of %d)' % (orgreg_id, index+1, len(self.orgreg_ids)), end='', flush=True)
 
             try:
-                self.inst = Institution.objects.get(eter__eter_id=orgreg_id)
+                self.inst = Institution.objects.get(eter_id=orgreg_id)
                 action = 'update'
             except ObjectDoesNotExist:
                 self.report.add_report_line(
@@ -438,7 +438,7 @@ class OrgRegSynchronizer:
             action = 'skip'
 
             try:
-                source_institution = Institution.objects.get(eter__eter_id=source_id)
+                source_institution = Institution.objects.get(eter_id=source_id)
             except ObjectDoesNotExist:
                 self.report.add_report_line("%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
@@ -453,7 +453,7 @@ class OrgRegSynchronizer:
                 return
 
             try:
-                target_institution = Institution.objects.get(eter__eter_id=target_id)
+                target_institution = Institution.objects.get(eter_id=target_id)
             except ObjectDoesNotExist:
                 self.report.add_report_line("%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
@@ -557,7 +557,7 @@ class OrgRegSynchronizer:
             action = 'skip'
 
             try:
-                parent_institution = Institution.objects.get(eter__eter_id=entity2)
+                parent_institution = Institution.objects.get(eter_id=entity2)
             except ObjectDoesNotExist:
                 self.report.add_report_line("%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],
@@ -572,7 +572,7 @@ class OrgRegSynchronizer:
                 return
 
             try:
-                child_institution = Institution.objects.get(eter__eter_id=entity1)
+                child_institution = Institution.objects.get(eter_id=entity1)
             except ObjectDoesNotExist:
                 self.report.add_report_line("%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
                                             % (self.colours['WARNING'],

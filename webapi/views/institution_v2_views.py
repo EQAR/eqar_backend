@@ -203,7 +203,7 @@ class InstitutionDetailByETER(generics.RetrieveAPIView):
 
     def get_object(self):
         try:
-            return Institution.objects.get(eter__eter_id=self.kwargs['eter_id'])
+            return Institution.objects.get(eter_id=self.kwargs['eter_id'])
         except Institution.DoesNotExist:
             raise Http404
 

@@ -26,7 +26,7 @@ class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
         return Institution.objects.filter(institutioncountry__country__id=obj.id).count()
 
     def get_institution_eter(self, obj):
-        return Institution.objects.filter(Q(institutioncountry__country__id=obj.id) & Q(eter__isnull=False)).count()
+        return Institution.objects.filter(Q(institutioncountry__country__id=obj.id) & Q(eter_id__isnull=False)).count()
 
     def get_reports_total(self, obj):
         return Report.objects.filter(institutions__institutioncountry__country__id=obj.id).count()

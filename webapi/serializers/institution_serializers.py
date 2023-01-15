@@ -18,7 +18,6 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
 
 class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
-    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     countries = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
     hierarchical_relationships = serializers.SerializerMethodField()
 
@@ -165,7 +164,6 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
 
 
 class InstitutionDEQARConnectListSerializer(serializers.HyperlinkedModelSerializer):
-    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     city = serializers.SlugRelatedField(read_only=True, slug_field='city', many=True, source='institutioncountry_set')
     country = serializers.SlugRelatedField(read_only=True, slug_field='country__name_english', many=True, source='institutioncountry_set')
     has_more = serializers.BooleanField(read_only=True)

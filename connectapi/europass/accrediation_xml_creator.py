@@ -342,14 +342,14 @@ class AccrediationXMLCreator:
             _id.text = f"https://data.deqar.eu/institution/{institution.id}"
 
             # ETER
-            if institution.eter:
+            if institution.eter_id:
                 _id = etree.SubElement(
                     org,
                     f"{self.NS}identifier",
                     schemeAgencyName="ETER",
                     schemeID="https://www.eter-project.com/"
                 )
-                _id.text = institution.eter.eter_id
+                _id.text = institution.eter_id
 
             # DEQARINST
             identifier_deqar = etree.SubElement(org, f"{self.NS}identifier", schemeID=f"https://www.deqar.eu/")
