@@ -1,6 +1,7 @@
-from datetime import datetime
-
 import requests
+
+from datetime import datetime
+from requests.adapters import HTTPAdapter, Retry
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
@@ -27,6 +28,15 @@ class OrgRegSynchronizer:
             'ERROR': '\033[91m',
             'END': '\033[0m'
         }
+        self.orgreg_session = requests.Session()
+        retries = Retry(
+            total=getattr(settings, "ORGREG_API_RETRY", 5),
+            allowed_methods=frozenset(['GET', 'POST']),
+            backoff_factor=0.1,
+            status_forcelist=[500, 502, 503, 504]
+        )
+        self.orgreg_session.mount('http://', HTTPAdapter(max_retries=retries))
+        self.orgreg_session.mount('https://', HTTPAdapter(max_retries=retries))
 
     def collect_orgreg_ids_by_country(self, country_code):
         query_data = {
@@ -46,7 +56,7 @@ class OrgRegSynchronizer:
         }
         headers = {'X-API-Key': self.api_key}
 
-        r = requests.post(
+        r = self.orgreg_session.post(
             "%s%s" % (self.api, 'organizations/query'),
             json=query_data,
             headers=headers
@@ -60,7 +70,7 @@ class OrgRegSynchronizer:
             return False
 
     def collect_orgreg_ids_by_institution(self, orgreg_id):
-        r = requests.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
         if r.status_code == 200:
             self.orgreg_ids.append(orgreg_id)
             return True
@@ -68,7 +78,7 @@ class OrgRegSynchronizer:
             return False
 
     def get_orgreg_record(self, orgreg_id):
-        r = requests.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
         if r.status_code == 200:
             self.orgreg_record = r.json()
             return True
@@ -95,7 +105,7 @@ class OrgRegSynchronizer:
             self.get_orgreg_record(orgreg_id)
 
             if action == 'add':
-                self.create_institution_record()
+                self.create_institution_record(orgreg_id)
                 self.inst.create_deqar_id()
 
                 base_data = self.orgreg_record['BAS'][0]['BAS']
@@ -123,15 +133,17 @@ class OrgRegSynchronizer:
             print(self.report.get_report())
             self.report.reset_report()
 
-    def create_institution_record(self):
+    def create_institution_record(self, orgreg_id):
         compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE')
 
         if compare['action'] != 'None':
             self.inst = Institution.objects.create(
+                eter_id=orgreg_id,
                 website_link=compare['orgreg_value']
             )
         else:
             self.inst = Institution.objects.create(
+                eter_id=orgreg_id,
                 website_link="N/A"
             )
 
@@ -162,7 +174,8 @@ class OrgRegSynchronizer:
             self._compare_identifiers('WHED', 'WHEDID')
 
             if self.inst_update:
-                self.inst.save()
+                if not self.dry_run:
+                    self.inst.save()
 
     def sync_national_identifier(self):
         base_record = self.orgreg_record['BAS'][0]
@@ -213,15 +226,17 @@ class OrgRegSynchronizer:
     def sync_names(self):
         names = self.orgreg_record['CHAR']
         for name in names:
+            deleted = self._detect_deleted(name)
+
             name_record = name['CHAR']
             name_orgreg_id = self._get_value(name_record, 'CHARID')
-            name_official = self._get_value(name_record, 'INSTNAME')
-            name_english = self._get_value(name_record, 'INSTNAMEENGL')
+            name_official = self._get_value(name_record, 'INSTNAME', max_length=200)
+            name_english = self._get_value(name_record, 'INSTNAMEENGL', max_length=200)
 
             if name_english == name_official:
                 name_english = ''
 
-            acronym = self._get_value(name_record, 'ACRONYM')
+            acronym = self._get_value(name_record, 'ACRONYM', max_length=30)
             date_to = self._get_date_value(name_record, 'CHARENDYEAR', default=None)
 
             action = 'skip'
@@ -234,6 +249,7 @@ class OrgRegSynchronizer:
 
             try:
                 iname = InstitutionName.objects.get(
+                    institution=self.inst,
                     name_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % name_orgreg_id
                 )
                 action = 'update'
@@ -261,8 +277,17 @@ class OrgRegSynchronizer:
                 except ObjectDoesNotExist:
                     action = 'add'
 
+
             # UPDATE NAME RECORD
             if action == 'update':
+
+                # Handle deletion
+                if deleted:
+                    self.report.add_report_line('**DELETE - NAME RECORD - [ID:%s, %s]' % (iname.id, iname.name_english))
+                    if not self.dry_run:
+                        iname.delete()
+                    return
+
                 values_to_update = {
                     'name_english': self._compare_data(iname.name_english, name_english),
                     'name_official': self._compare_data(iname.name_official, name_official),
@@ -289,37 +314,44 @@ class OrgRegSynchronizer:
 
             # ADD NAME RECORD
             elif action == 'add':
-                self.report.add_report_line('**ADD - NAME RECORD')
-                self.report.add_report_line('  Name English: %s' % name_english)
-                self.report.add_report_line('  Name Official: %s' % name_official)
-                self.report.add_report_line('  Acronym: %s' % acronym)
-                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
-                self.report.add_report_line('  Source Note: %s' % source_note)
+                # Only add when the original record status is not deleted.
+                if not deleted:
+                    self.report.add_report_line('**ADD - NAME RECORD')
+                    self.report.add_report_line('  Name English: %s' % name_english)
+                    self.report.add_report_line('  Name Official: %s' % name_official)
+                    self.report.add_report_line('  Acronym: %s' % acronym)
+                    self.report.add_report_line(
+                        '  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
+                    self.report.add_report_line('  Source Note: %s' % source_note)
 
-                # Create InstiutionName record
-                if not self.dry_run:
-                    InstitutionName.objects.create(
-                        institution=self.inst,
-                        name_english=name_english,
-                        name_official=name_official,
-                        acronym=acronym,
-                        name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
-                        name_source_note=source_note
-                    )
+                    # Create InstiutionName record
+                    if not self.dry_run:
+                        InstitutionName.objects.create(
+                            institution=self.inst,
+                            name_english=name_english,
+                            name_official=name_official,
+                            acronym=acronym,
+                            name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
+                            name_source_note=source_note
+                        )
 
     def sync_locations(self):
         locations = self.orgreg_record['LOCAT']
         for location in locations:
+            deleted = self._detect_deleted(location)
+
             location_record = location['LOCAT']
             location_orgreg_id = self._get_value(location_record, 'LOCATID')
             country_code = self._get_value(location_record, 'LOCATCOUNTRY')
+            latitude = self._get_value(location_record, 'COORDLAT')
+            longitude = self._get_value(location_record, 'COORDLON')
 
             try:
                 country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
             except ObjectDoesNotExist:
                 return
 
-            city = self._get_value(location_record, 'CITY')
+            city = self._get_value(location_record, 'CITY', max_length=100)
             legal_seat = self._get_value(location_record, 'LEGALSEAT') == 1
 
             date_from = self._get_date_value(location_record, 'STARTYEAR', default=None)
@@ -333,6 +365,7 @@ class OrgRegSynchronizer:
 
             try:
                 ic = InstitutionCountry.objects.get(
+                    institution=self.inst,
                     country_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % location_orgreg_id
                 )
                 action = 'update'
@@ -362,16 +395,28 @@ class OrgRegSynchronizer:
 
             # UPDATE COUNTRY RECORD
             if action == 'update':
+
+                # Handle deletion
+                if deleted:
+                    self.report.add_report_line('**DELETE - LOCATION - [ID:%s, %s]' % (ic.id, ic.country_code))
+                    if not self.dry_run:
+                        ic.delete()
+                    return
+
                 values_to_update = {
                     'legal_seat': self._compare_boolean_data(ic.country_verified, legal_seat),
                     'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
-                    'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31')
+                    'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
+                    'latitude': self._compare_data(ic.lat, latitude),
+                    'longitude': self._compare_data(ic.long, longitude)
                 }
 
                 if self._check_update(values_to_update):
                     self.report.add_report_line('**UPDATE - LOCATION')
                     self.report.add_report_line('  Country: %s' % country_code)
                     self.report.add_report_line('  City: %s' % city)
+                    self.report.add_report_line('  Latitude: %s' % values_to_update['latitude']['log'])
+                    self.report.add_report_line('  Longitude: %s' % values_to_update['longitude']['log'])
                     self.report.add_report_line('  Official: %s' % values_to_update['legal_seat']['log'])
                     self.report.add_report_line('  Valid From: %s' % values_to_update['date_from']['log'])
                     self.report.add_report_line('  Valid To: %s' % values_to_update['date_to']['log'])
@@ -381,6 +426,8 @@ class OrgRegSynchronizer:
                     if not self.dry_run:
                         ic.country = country
                         ic.city = city
+                        ic.lat = values_to_update['latitude']['value']
+                        ic.long = values_to_update['longitude']['value']
                         ic.country_verified = values_to_update['legal_seat']['value']
                         ic.country_valid_from = values_to_update['date_from']['value']
                         ic.country_valid_to = values_to_update['date_to']['value']
@@ -389,25 +436,33 @@ class OrgRegSynchronizer:
 
             # ADD COUNTRY RECORD
             elif action == 'add':
-                self.report.add_report_line('**ADD - LOCATION')
-                self.report.add_report_line('  Country: %s' % country_code)
-                self.report.add_report_line('  City: %s' % city)
-                self.report.add_report_line('  Official: %s' % ('YES' if legal_seat else 'NO'))
-                self.report.add_report_line('  Valid From: %s' % ("%s-01-01" % date_from['value'] if date_from['value'] else None))
-                self.report.add_report_line('  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
-                self.report.add_report_line('  Source Note: %s' % source_note.strip())
+                # Only add when the original record status is not deleted.
+                if not deleted:
+                    self.report.add_report_line('**ADD - LOCATION')
+                    self.report.add_report_line('  Country: %s' % country_code)
+                    self.report.add_report_line('  City: %s' % city)
+                    self.report.add_report_line('  Latitude: %s' % latitude)
+                    self.report.add_report_line('  Longitude: %s' % longitude)
+                    self.report.add_report_line('  Official: %s' % ('YES' if legal_seat else 'NO'))
+                    self.report.add_report_line(
+                        '  Valid From: %s' % ("%s-01-01" % date_from['value'] if date_from['value'] else None))
+                    self.report.add_report_line(
+                        '  Valid To: %s' % ("%s-12-31" % date_to['value'] if date_to['value'] else None))
+                    self.report.add_report_line('  Source Note: %s' % source_note.strip())
 
-                # Create InstitutionCountry record
-                if not self.dry_run:
-                    InstitutionCountry.objects.create(
-                        institution=self.inst,
-                        country=country,
-                        city=city,
-                        country_verified=legal_seat,
-                        country_valid_from="%s-01-01" % date_from['value'] if date_from['value'] else None,
-                        country_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
-                        country_source_note=source_note.strip()
-                    )
+                    # Create InstitutionCountry record
+                    if not self.dry_run:
+                        InstitutionCountry.objects.create(
+                            institution=self.inst,
+                            country=country,
+                            city=city,
+                            lat=latitude,
+                            long=longitude,
+                            country_verified=legal_seat,
+                            country_valid_from="%s-01-01" % date_from['value'] if date_from['value'] else None,
+                            country_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
+                            country_source_note=source_note.strip()
+                        )
 
     def sync_historical_relationships(self):
         map = {
@@ -418,6 +473,8 @@ class OrgRegSynchronizer:
         }
         relationships = self.orgreg_record['DEMO']
         for relationship in relationships:
+            deleted = self._detect_deleted(relationship)
+
             rel = relationship['DEMO']
             event_orgreg_id = self._get_value(rel, 'EVENTID')
             event_type = str(self._get_value(rel, 'EVENTTYPE'))
@@ -437,50 +494,43 @@ class OrgRegSynchronizer:
 
             action = 'skip'
 
+            # Check if source institution is in DEQAR, if not exit.
             try:
                 source_institution = Institution.objects.get(eter_id=source_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
-                                               source_id,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['WARNING'],
+                       source_id,
+                       self.colours['END']))
                 return
             except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - Multiple Source Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               source_id,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple Source Institution exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['ERROR'],
+                       source_id,
+                       self.colours['END']))
                 return
 
+            # Check if target institution is in DEQAR, if not exit.
             try:
                 target_institution = Institution.objects.get(eter_id=target_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
-                                               target_id,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['WARNING'],
+                       target_id,
+                       self.colours['END']))
                 return
             except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - Multiple Target Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
-                                               target_id,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple Target Institution exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['WARNING'],
+                       target_id,
+                       self.colours['END']))
                 return
 
-            try:
-                ihr = InstitutionHistoricalRelationship.objects.get(
-                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
-                )
-                action = 'update'
-            except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - More than one InstitutionHistoricalRelationship record exists with the "
-                                            "same OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               event_orgreg_id,
-                                               self.colours['END']))
-            except ObjectDoesNotExist:
-                action = 'add'
-
+            # Check if event type is valid and existing in DEQAR, if not exit.
             if event_type in map.keys():
                 deqar_event_type = InstitutionHistoricalRelationshipType.objects.get(pk=map[event_type])
             else:
@@ -490,8 +540,44 @@ class OrgRegSynchronizer:
                                                self.colours['END']))
                 return
 
+            # Try to resolve the record based on the institutions and the OrgReg ID.
+            try:
+                ihr = InstitutionHistoricalRelationship.objects.get(
+                    institution_source=source_institution,
+                    institution_target=target_institution,
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
+                )
+                action = 'update'
+            except MultipleObjectsReturned:
+                self.report.add_report_line(
+                    "%s**ERROR - More than one InstitutionHistoricalRelationship record exists with the "
+                    "same OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['ERROR'],
+                       event_orgreg_id,
+                       self.colours['END']))
+            except ObjectDoesNotExist:
+                # Try to resolve the record based on institutions and the relationship type.
+                try:
+                    ihr = InstitutionHistoricalRelationship.objects.get(
+                        institution_source=source_institution,
+                        institution_target=target_institution,
+                        relationship_type=deqar_event_type
+                    )
+                    action = 'update'
+                except ObjectDoesNotExist:
+                    action = 'add'
+
             # UPDATE RELATIONSHIP RECORD
             if action == 'update':
+
+                # Handle deletion
+                if deleted:
+                    self.report.add_report_line('**DELETE - HISTORICAL RELATIONSHIP - [ID:%s, %s -> %s]'
+                                                % (ihr.id, ihr.institution_source, ihr.institution_target))
+                    if not self.dry_run:
+                        ihr.delete()
+                    return
+
                 values_to_update = {
                     'source': self._compare_data(ihr.institution_source, source_institution),
                     'target': self._compare_data(ihr.institution_target, target_institution),
@@ -517,22 +603,24 @@ class OrgRegSynchronizer:
 
             # ADD RELATIONSHIP RECORD
             elif action == 'add':
-                self.report.add_report_line('**ADD - HISTORICAL RELATIONSHIP')
-                self.report.add_report_line('  Source: %s' % source_institution.eter)
-                self.report.add_report_line('  Target: %s' % target_institution.eter)
-                self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
-                self.report.add_report_line('  Date: %s' % ("%s-01-01" % date['value'] if date['value'] else None))
-                self.report.add_report_line('  Source Note: %s' % source_note)
+                # Only add when the original record status is not deleted.
+                if not deleted:
+                    self.report.add_report_line('**ADD - HISTORICAL RELATIONSHIP')
+                    self.report.add_report_line('  Source: %s' % source_institution.eter_id)
+                    self.report.add_report_line('  Target: %s' % target_institution.eter_id)
+                    self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
+                    self.report.add_report_line('  Date: %s' % ("%s-01-01" % date['value'] if date['value'] else None))
+                    self.report.add_report_line('  Source Note: %s' % source_note)
 
-                # Create InstitutionHistoricalRelationship record
-                if not self.dry_run:
-                    InstitutionHistoricalRelationship.objects.create(
-                        institution_source=source_institution,
-                        institution_target=target_institution,
-                        relationship_type=deqar_event_type,
-                        relationship_date="%s-01-01" % date['value'] if date['value'] else None,
-                        relationship_note=source_note
-                    )
+                    # Create InstitutionHistoricalRelationship record
+                    if not self.dry_run:
+                        InstitutionHistoricalRelationship.objects.create(
+                            institution_source=source_institution,
+                            institution_target=target_institution,
+                            relationship_type=deqar_event_type,
+                            relationship_date="%s-01-01" % date['value'] if date['value'] else None,
+                            relationship_note=source_note
+                        )
 
     def sync_hierarchical_relationships(self):
         map = {
@@ -542,6 +630,8 @@ class OrgRegSynchronizer:
         relationships = self.orgreg_record['LINK']
 
         for relationship in relationships:
+            deleted = self._detect_deleted(relationship)
+
             rel = relationship['LINK']
             entity1 = self._get_value(rel, 'ENTITY1ID')
             entity2 = self._get_value(rel, 'ENTITY2ID')
@@ -556,38 +646,57 @@ class OrgRegSynchronizer:
 
             action = 'skip'
 
+            # Check if parent institution is in DEQAR, if not exit.
             try:
                 parent_institution = Institution.objects.get(eter_id=entity2)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
-                                               entity2,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['WARNING'],
+                       entity2,
+                       self.colours['END']))
                 return
             except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - Multiple Parent Institution exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               entity2,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple Parent Institution exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['ERROR'],
+                       entity2,
+                       self.colours['END']))
                 return
 
+            # Check if child institution is in DEQAR, if not exit.
             try:
                 child_institution = Institution.objects.get(eter_id=entity1)
             except ObjectDoesNotExist:
-                self.report.add_report_line("%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['WARNING'],
-                                               entity1,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['WARNING'],
+                       entity1,
+                       self.colours['END']))
                 return
             except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - Multiple Child Institution exist with OrgReg ID [%s]. Skipping.%s"
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple Child Institution exist with OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['ERROR'],
+                       entity1,
+                       self.colours['END']))
+                return
+
+            # Check if event type is in DEQAR, if not exit.
+            if event_type in map.keys():
+                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[event_type])
+            else:
+                self.report.add_report_line("%s**ERROR - Matching EventType can't be found [%s]. Skipping.%s"
                                             % (self.colours['ERROR'],
-                                               entity1,
+                                               event_type,
                                                self.colours['END']))
                 return
 
+            # Try to resolve record based on parent and child institution and the OrgRegEvent ID, if not exit.
             try:
                 ihr = InstitutionHierarchicalRelationship.objects.get(
+                    institution_parent=parent_institution,
+                    institution_child=child_institution,
                     relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
                 )
                 action = 'update'
@@ -600,18 +709,26 @@ class OrgRegSynchronizer:
                        self.colours['END']))
                 return
             except ObjectDoesNotExist:
-                action = 'add'
-
-            if event_type in map.keys():
-                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[event_type])
-            else:
-                self.report.add_report_line("%s**ERROR - Matching EventType can't be found [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               event_type,
-                                               self.colours['END']))
-                return
+                # Try to resolve the record based on parent and child institution and the relationship type.
+                try:
+                    ihr = InstitutionHierarchicalRelationship.objects.get(
+                        institution_parent=parent_institution,
+                        institution_child=child_institution,
+                        relationship_type=deqar_event_type
+                    )
+                    action = 'update'
+                except ObjectDoesNotExist:
+                    action = 'add'
 
             if action == 'update':
+                # Handle deletion
+                if deleted:
+                    self.report.add_report_line('**DELETE - HISTORICAL RELATIONSHIP - [ID:%s, %s -> %s]'
+                                                % (ihr.id, ihr.institution_parent, ihr.institution_child))
+                    if not self.dry_run:
+                        ihr.delete()
+                    return
+
                 values_to_update = {
                     'parent': self._compare_data(ihr.institution_parent, parent_institution),
                     'child': self._compare_data(ihr.institution_child, child_institution),
@@ -621,7 +738,7 @@ class OrgRegSynchronizer:
                 }
 
                 if self._check_update(values_to_update):
-                    self.report.add_report_line('**UPDATE - HISTORICAL RELATIONSHIP')
+                    self.report.add_report_line('**UPDATE - HIERARCHICAL RELATIONSHIP')
                     self.report.add_report_line('  Parent: %s' % values_to_update['parent']['log'])
                     self.report.add_report_line('  Child: %s' % values_to_update['child']['log'])
                     self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
@@ -640,61 +757,52 @@ class OrgRegSynchronizer:
                         ihr.save()
 
             elif action == 'add':
-                if date_from['key'] == 'm':
-                    df = None
-                else:
-                    df = "%s-01-01" % date_from['value'] if date_from['value'] else None
+                # Only add when the original record status is not deleted.
+                if not deleted:
+                    if date_from['key'] == 'm':
+                        df = None
+                    else:
+                        df = "%s-01-01" % date_from['value'] if date_from['value'] else None
 
-                if date_to['key'] == 'm':
-                    dt = None
-                else:
-                    dt = "%s-12-31" % date_from['value'] if date_from['value'] else None
+                    if date_to['key'] == 'm':
+                        dt = None
+                    else:
+                        dt = "%s-12-31" % date_from['value'] if date_from['value'] else None
 
-                self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
-                self.report.add_report_line('  Parent: %s' % parent_institution.eter)
-                self.report.add_report_line('  Child: %s' % child_institution.eter)
-                self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
-                self.report.add_report_line('  Date From: %s' % df)
-                self.report.add_report_line('  Date To: %s' % dt)
-                self.report.add_report_line('  Source: %s' % source_note)
+                    self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
+                    self.report.add_report_line('  Parent: %s' % parent_institution.eter_id)
+                    self.report.add_report_line('  Child: %s' % child_institution.eter_id)
+                    self.report.add_report_line('  Relationship Type: %s' % deqar_event_type)
+                    self.report.add_report_line('  Date From: %s' % df)
+                    self.report.add_report_line('  Date To: %s' % dt)
+                    self.report.add_report_line('  Source: %s' % source_note)
 
-                # Create InstitutionHierarchicalRelationship record
-                if not self.dry_run:
-                    InstitutionHierarchicalRelationship.objects.create(
-                        institution_parent=parent_institution,
-                        institution_child=child_institution,
-                        relationship_type=deqar_event_type,
-                        valid_from=df,
-                        valid_to=dt,
-                        relationship_note=source_note
-                    )
+                    # Create InstitutionHierarchicalRelationship record
+                    if not self.dry_run:
+                        InstitutionHierarchicalRelationship.objects.create(
+                            institution_parent=parent_institution,
+                            institution_child=child_institution,
+                            relationship_type=deqar_event_type,
+                            valid_from=df,
+                            valid_to=dt,
+                            relationship_note=source_note
+                        )
 
-    def sync_qf_ehea_levels(self, orgreg_id):
-        query_data = {
-          "filter": {
-            "BAS.ETERID.v": orgreg_id,
-            "BAS.REFYEAR.v": 2019
-          },
-          "fieldIds": [
-            "BAS.REFYEAR",
-            "STUD.LOWDEG",
-            "STUD.HIGHDEG"
-          ],
-          "searchTerms": []
-        }
-        r = requests.post(
-            'https://www.eter-project.com/api/3.0/HEIs/query',
-            json=query_data,
-        )
-        if r.status_code == 200:
-            response = r.json()
-            low_level = response[0]['STUD']['LOWDEG']['v']
-            high_level = response[0]['STUD']['HIGHDEG']['v']
-        # TODO
-
-    def _get_value(self, values_dict, key, default=''):
+    def _get_value(self, values_dict, key, default='', max_length=None):
         if 'v' in values_dict[key].keys():
-            return values_dict[key]['v'] if values_dict[key]['v'] else default
+            value = values_dict[key]['v'] if values_dict[key]['v'] else default
+            if max_length:
+                if len(value) > max_length:
+                    self.report.add_report_line(
+                        "%s**WARNING - Value '%s' will be trimmed, please check the record with this entry. %s"
+                        % (self.colours['WARNING'],
+                           value,
+                           self.colours['END']))
+                    return value[0:max_length]
+                else:
+                    return value
+            else:
+                return value
         else:
             return default
 
@@ -841,3 +949,11 @@ class OrgRegSynchronizer:
         except MultipleObjectsReturned:
             self.report.add_report_line("Multiple IntitutionIdentifier object exist for institution [%s]"
                                         " and resource type [%s]." % (self.inst, id_type))
+
+    def _detect_deleted(self, data):
+        deleted = False
+        if 'deleted' in data:
+            if data['deleted'] == 'true':
+                deleted = True
+        return deleted
+
