@@ -1,6 +1,8 @@
 import requests
 
-from datetime import datetime
+from datetime import datetime, date
+
+from django.db.models import Q
 from requests.adapters import HTTPAdapter, Retry
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
@@ -247,6 +249,7 @@ class OrgRegSynchronizer:
                 self._get_value(name_record, 'NOTESCHARSTARTYEAR')
             )
 
+            # 1. Check OrgReg ID.
             try:
                 iname = InstitutionName.objects.get(
                     institution=self.inst,
@@ -254,12 +257,17 @@ class OrgRegSynchronizer:
                 )
                 action = 'update'
             except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - More than one InstitutionName record exists with the "
-                                            "same OrgReg ID [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               name_orgreg_id,
-                                               self.colours['END']))
+                self.report.add_report_line(
+                    "%s**ERROR - More than one InstitutionName record exists with the same OrgReg ID [%s]. Skipping.%s"
+                    % (self.colours['ERROR'],
+                       name_orgreg_id,
+                       self.colours['END']))
+                return
             except ObjectDoesNotExist:
+                pass
+
+            # 2. Check the combination of official and english name
+            if action != 'update':
                 try:
                     iname = InstitutionName.objects.get(
                         institution=self.inst,
@@ -268,15 +276,54 @@ class OrgRegSynchronizer:
                     )
                     action = 'update'
                 except MultipleObjectsReturned:
-                    self.report.add_report_line("%s**ERROR - More than one InstitutionName record exists with the "
-                                                "same English (%s) and Official Name (%s). Skipping.%s"
-                                                % (self.colours['ERROR'],
-                                                   name_english,
-                                                   name_official,
-                                                   self.colours['END']))
+                    self.report.add_report_line(
+                        "%s**ERROR - More than one InstitutionName record exists with the "
+                        "same English (%s) and Official Name (%s). Skipping.%s"
+                        % (self.colours['ERROR'],
+                           name_english,
+                           name_official,
+                           self.colours['END']))
+                    return
+                except ObjectDoesNotExist:
+                    pass
+
+            # 3. Check official name without OrgReg
+            if action != 'update':
+                try:
+                    iname = InstitutionName.objects.get(
+                        Q(name_source_note__isnull=True) | Q(name_source_note=''),
+                        institution=self.inst,
+                        name_official=name_official
+                    )
+                    action = 'update'
+                except MultipleObjectsReturned:
+                    self.report.add_report_line(
+                        "%s**ERROR - More than one InstitutionName record exists with the "
+                        "same Official Name (%s). Skipping.%s"
+                        % (self.colours['ERROR'],
+                           name_official,
+                           self.colours['END']))
+                except ObjectDoesNotExist:
+                    pass
+
+            # 4. Check english name without OrgReg
+            if action != 'update':
+                try:
+                    iname = InstitutionName.objects.get(
+                        Q(name_source_note__isnull=True) | Q(name_source_note=''),
+                        institution=self.inst,
+                        name_english=name_english
+                    )
+                    action = 'update'
+                except MultipleObjectsReturned:
+                    self.report.add_report_line(
+                        "%s**ERROR - More than one InstitutionName record exists with the "
+                        "same English Name (%s). Skipping.%s"
+                        % (self.colours['ERROR'],
+                           name_english,
+                           self.colours['END']))
                 except ObjectDoesNotExist:
                     action = 'add'
-
 
             # UPDATE NAME RECORD
             if action == 'update':
@@ -326,6 +373,8 @@ class OrgRegSynchronizer:
 
                     # Create InstiutionName record
                     if not self.dry_run:
+                        # Make other name values expire, if the new date_to value
+                        self._make_names_expire()
                         InstitutionName.objects.create(
                             institution=self.inst,
                             name_english=name_english,
@@ -349,7 +398,10 @@ class OrgRegSynchronizer:
             try:
                 country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
             except ObjectDoesNotExist:
-                return
+                try:
+                    country = Country.objects.get(iso_3166_alpha2=country_code)
+                except ObjectDoesNotExist:
+                    return
 
             city = self._get_value(location_record, 'CITY', max_length=100)
             legal_seat = self._get_value(location_record, 'LEGALSEAT') == 1
@@ -950,10 +1002,25 @@ class OrgRegSynchronizer:
             self.report.add_report_line("Multiple IntitutionIdentifier object exist for institution [%s]"
                                         " and resource type [%s]." % (self.inst, id_type))
 
+
+    def _make_names_expire(self):
+        inames = InstitutionName.objects.filter(
+            institutions=self.inst,
+            name_valid_to__isNull=True
+        )
+
+        for iname in inames.all():
+            self.report.add_report_line('**UPDATE - NAME RECORD')
+            self.report.add_report_line('**Because of a new name record as added without valid_to date.')
+            self.report.add_report_line('  Name English: %s' % iname.name_english)
+            self.report.add_report_line('  Valid To: %s' % datetime.now())
+
+            if self.dry_run:
+                iname.name_valid_to = datetime.now()
+
     def _detect_deleted(self, data):
         deleted = False
         if 'deleted' in data:
             if data['deleted'] == 'true':
                 deleted = True
         return deleted
-
