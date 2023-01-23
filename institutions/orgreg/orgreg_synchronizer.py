@@ -266,13 +266,18 @@ class OrgRegSynchronizer:
             except ObjectDoesNotExist:
                 pass
 
+            institution_queryset = InstitutionName.objects.filter(
+                institution=self.inst
+            ).exclude(
+                name_source_note__iregex=r'^\s*OrgReg-[0-9]{4}'
+            )
+
             # 2. Check the combination of official and english name
             if action != 'update':
                 try:
-                    iname = InstitutionName.objects.get(
-                        institution=self.inst,
+                    iname = institution_queryset.get(
                         name_official=name_official,
-                        name_english=name_english
+                        name_english=name_english,
                     )
                     action = 'update'
                 except MultipleObjectsReturned:
@@ -290,9 +295,7 @@ class OrgRegSynchronizer:
             # 3. Check official name without OrgReg
             if action != 'update':
                 try:
-                    iname = InstitutionName.objects.get(
-                        Q(name_source_note__isnull=True) | Q(name_source_note=''),
-                        institution=self.inst,
+                    iname = institution_queryset.get(
                         name_official=name_official
                     )
                     action = 'update'
@@ -309,9 +312,7 @@ class OrgRegSynchronizer:
             # 4. Check english name without OrgReg
             if action != 'update':
                 try:
-                    iname = InstitutionName.objects.get(
-                        Q(name_source_note__isnull=True) | Q(name_source_note=''),
-                        institution=self.inst,
+                    iname = institution_queryset.get(
                         name_english=name_english
                     )
                     action = 'update'
@@ -373,8 +374,10 @@ class OrgRegSynchronizer:
 
                     # Create InstiutionName record
                     if not self.dry_run:
-                        # Make other name values expire, if the new date_to value
-                        self._make_names_expire()
+                        # Make other name values expire, if the new date_to value is None
+                        if not date_to['value']:
+                            self._make_names_expire()
+
                         InstitutionName.objects.create(
                             institution=self.inst,
                             name_english=name_english,
@@ -392,15 +395,29 @@ class OrgRegSynchronizer:
             location_record = location['LOCAT']
             location_orgreg_id = self._get_value(location_record, 'LOCATID')
             country_code = self._get_value(location_record, 'LOCATCOUNTRY')
+            subcountry = self._get_value(location_record, 'SUBCOUNTRY')
             latitude = self._get_value(location_record, 'COORDLAT')
             longitude = self._get_value(location_record, 'COORDLON')
 
-            try:
-                country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
-            except ObjectDoesNotExist:
+            if subcountry != '':
                 try:
-                    country = Country.objects.get(iso_3166_alpha2=country_code)
+                    country = Country.objects.get(
+                        orgreg_subcountry_label=subcountry,
+                        parent__orgreg_eu_2_letter_code=country_code
+                    )
                 except ObjectDoesNotExist:
+                    self.report.add_report_line(
+                    "%s**WARNING - Subcountry label %s was set in OrgReg, but it does not exist in DEQAR." % subcountry)
+                    try:
+                        country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
+                    except ObjectDoesNotExist:
+                        self.report.add_report_line("%s**ERROR - Country %s does not exist in DEQAR. Skipping." % country_code)
+                        return
+            else:
+                try:
+                    country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
+                except ObjectDoesNotExist:
+                    self.report.add_report_line("%s**ERROR - Country %s does not exist in DEQAR. Skipping." % country_code)
                     return
 
             city = self._get_value(location_record, 'CITY', max_length=100)
@@ -1005,7 +1022,7 @@ class OrgRegSynchronizer:
 
     def _make_names_expire(self):
         inames = InstitutionName.objects.filter(
-            institutions=self.inst,
+            institution=self.inst,
             name_valid_to__isNull=True
         )
 
