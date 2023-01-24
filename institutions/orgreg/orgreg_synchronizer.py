@@ -90,15 +90,10 @@ class OrgRegSynchronizer:
     def run(self):
         self.report.add_header()
         for index, orgreg_id in enumerate(self.orgreg_ids):
-            # print('\rProcessing institution %s (%d of %d)' % (orgreg_id, index+1, len(self.orgreg_ids)), end='', flush=True)
-
             try:
                 self.inst = Institution.objects.get(eter_id=orgreg_id)
                 action = 'update'
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "Institution with OrgReg ID [%s] doesn't exists. The record will be created!" % orgreg_id
-                )
                 action = 'add'
             except MultipleObjectsReturned:
                 self.report.add_report_line("Multiple institutions with OrgReg ID [%s] exist." % orgreg_id)
@@ -136,18 +131,17 @@ class OrgRegSynchronizer:
             self.report.reset_report()
 
     def create_institution_record(self, orgreg_id):
-        compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE')
-
-        if compare['action'] != 'None':
-            self.inst = Institution.objects.create(
-                eter_id=orgreg_id,
-                website_link=compare['orgreg_value']
-            )
+        # Get website link
+        base_data = self.orgreg_record['BAS'][0]['BAS']
+        if 'v' in base_data['WEBSITE'].keys():
+            website = base_data['WEBSITE']['v']
         else:
-            self.inst = Institution.objects.create(
-                eter_id=orgreg_id,
-                website_link="N/A"
-            )
+            website = 'N/A'
+            
+        self.inst = Institution.objects.create(
+            eter_id=orgreg_id,
+            website_link=website
+        )
 
     def sync_base_data(self):
         # DEQAR ID
@@ -396,8 +390,8 @@ class OrgRegSynchronizer:
             location_orgreg_id = self._get_value(location_record, 'LOCATID')
             country_code = self._get_value(location_record, 'LOCATCOUNTRY')
             subcountry = self._get_value(location_record, 'SUBCOUNTRY')
-            latitude = self._get_value(location_record, 'COORDLAT')
-            longitude = self._get_value(location_record, 'COORDLON')
+            latitude = self._get_value(location_record, 'COORDLAT', default=None)
+            longitude = self._get_value(location_record, 'COORDLON', default=None)
 
             if subcountry != '':
                 try:
@@ -407,17 +401,25 @@ class OrgRegSynchronizer:
                     )
                 except ObjectDoesNotExist:
                     self.report.add_report_line(
-                    "%s**WARNING - Subcountry label %s was set in OrgReg, but it does not exist in DEQAR." % subcountry)
+                        "%s**WARNING - Subcountry label %s was set in OrgReg, but it does not exist in DEQAR.%s" %
+                        (self.colours['WARNING'], subcountry, self.colours['END'])
+                    )
                     try:
                         country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
                     except ObjectDoesNotExist:
-                        self.report.add_report_line("%s**ERROR - Country %s does not exist in DEQAR. Skipping." % country_code)
+                        self.report.add_report_line(
+                            "%s**ERROR - Country %s does not exist in DEQAR. Skipping.%s" %
+                            (self.colours['ERROR'], country_code, self.colours['END'])
+                        )
                         return
             else:
                 try:
                     country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
                 except ObjectDoesNotExist:
-                    self.report.add_report_line("%s**ERROR - Country %s does not exist in DEQAR. Skipping." % country_code)
+                    self.report.add_report_line(
+                        "%s**ERROR - Country %s does not exist in DEQAR. Skipping.%s" %
+                        (self.colours['ERROR'], country_code, self.colours['END'])
+                    )
                     return
 
             city = self._get_value(location_record, 'CITY', max_length=100)
@@ -463,6 +465,10 @@ class OrgRegSynchronizer:
                     action = 'add'
 
             # UPDATE COUNTRY RECORD
+            # Set the display value of country record
+            country_update_value = "%s, %s" % (country.orgreg_subcountry_label, country.name_english) if \
+                country.orgreg_subcountry_label else country.name_english
+
             if action == 'update':
 
                 # Handle deletion
@@ -482,7 +488,7 @@ class OrgRegSynchronizer:
 
                 if self._check_update(values_to_update):
                     self.report.add_report_line('**UPDATE - LOCATION')
-                    self.report.add_report_line('  Country: %s' % country_code)
+                    self.report.add_report_line('  Country: %s' % country_update_value )
                     self.report.add_report_line('  City: %s' % city)
                     self.report.add_report_line('  Latitude: %s' % values_to_update['latitude']['log'])
                     self.report.add_report_line('  Longitude: %s' % values_to_update['longitude']['log'])
@@ -508,7 +514,7 @@ class OrgRegSynchronizer:
                 # Only add when the original record status is not deleted.
                 if not deleted:
                     self.report.add_report_line('**ADD - LOCATION')
-                    self.report.add_report_line('  Country: %s' % country_code)
+                    self.report.add_report_line('  Country: %s' % country_update_value)
                     self.report.add_report_line('  City: %s' % city)
                     self.report.add_report_line('  Latitude: %s' % latitude)
                     self.report.add_report_line('  Longitude: %s' % longitude)
@@ -706,8 +712,8 @@ class OrgRegSynchronizer:
             entity2 = self._get_value(rel, 'ENTITY2ID')
             event_orgreg_id = self._get_value(rel, 'ID')
             event_type = str(self._get_value(rel, 'TYPE'))
-            date_from = self._get_date_value(rel, 'STARTYEAR', default=None)
-            date_to = self._get_date_value(rel, 'ENDYEAR', default=None)
+            date_from = self._get_date_value(rel, 'STARTYEAR')
+            date_to = self._get_date_value(rel, 'ENDYEAR')
 
             source_note = 'OrgReg-%s-%s %s' % (
                 datetime.now().year, self._get_value(rel, 'ID'), self._get_value(rel, 'NOTES')
@@ -858,22 +864,22 @@ class OrgRegSynchronizer:
                         )
 
     def _get_value(self, values_dict, key, default='', max_length=None):
-        if 'v' in values_dict[key].keys():
-            value = values_dict[key]['v'] if values_dict[key]['v'] else default
-            if max_length:
-                if len(value) > max_length:
-                    self.report.add_report_line(
-                        "%s**WARNING - Value '%s' will be trimmed, please check the record with this entry. %s"
-                        % (self.colours['WARNING'],
-                           value,
-                           self.colours['END']))
-                    return value[0:max_length]
+        if key in values_dict.keys():
+            if 'v' in values_dict[key].keys():
+                value = values_dict[key]['v'] if values_dict[key]['v'] else default
+                if max_length:
+                    if len(value) > max_length:
+                        self.report.add_report_line(
+                            "%s**WARNING - Value '%s' will be trimmed, please check the record with this entry. %s"
+                            % (self.colours['WARNING'],
+                               value,
+                               self.colours['END']))
+                        return value[0:max_length]
+                    else:
+                        return value
                 else:
                     return value
-            else:
-                return value
-        else:
-            return default
+        return default
 
     def _get_date_value(self, values_dict, key, default=''):
         if 'v' in values_dict[key].keys():

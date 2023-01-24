@@ -44,7 +44,7 @@ class InstitutionAdmin(DEQARModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('deqar_id', 'eter', 'name_primary', 'website_link', 'founding_date', 'closure_date')
+            'fields': ('deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date')
         }),
     )
 
