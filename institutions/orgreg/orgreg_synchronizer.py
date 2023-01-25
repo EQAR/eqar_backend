@@ -160,7 +160,7 @@ class OrgRegSynchronizer:
             self._update_base_data('closure_date', compare)
 
             # Website
-            compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE')
+            compare = self._compare_base_data('Website', self.inst.website_link, 'WEBSITE', length_limit=150)
             self._update_base_data('website_link', compare)
 
             # Erasmus Code
@@ -904,7 +904,8 @@ class OrgRegSynchronizer:
                 'value': default
             }
 
-    def _compare_base_data(self, label, deqar_value, orgreg_value, fallback_value=None, color='', is_date=False):
+    def _compare_base_data(self, label, deqar_value, orgreg_value, fallback_value=None, color='', is_date=False,
+                           length_limit=0):
         orgreg_val = None
         base_data = self.orgreg_record['BAS'][0]['BAS']
 
@@ -914,26 +915,33 @@ class OrgRegSynchronizer:
             orgreg_val = base_data[fallback_value]['v']
 
         if orgreg_val:
-            if deqar_value != orgreg_val:
-                self.inst_update = True
+            if length_limit == 0 or len(orgreg_val) < length_limit:
+                if deqar_value != orgreg_val:
+                    self.inst_update = True
 
-                if is_date:
-                    orgreg_val = "%s-01-01" % orgreg_val
+                    if is_date:
+                        orgreg_val = "%s-01-01" % orgreg_val
 
-                if deqar_value:
-                    self.report.add_report_line(
-                        '%s**UPDATE - %s: %s <-- %s%s' % (color, label, deqar_value, orgreg_val, self.colours['END']))
-                    return {
-                        'action': 'update',
-                        'orgreg_value': orgreg_val
-                    }
-                else:
-                    self.report.add_report_line(
-                        '%s**ADD - %s: %s%s' % (color, label, orgreg_val, self.colours['END']))
-                    return {
-                        'action': 'add',
-                        'orgreg_value': orgreg_val
-                    }
+                    if deqar_value:
+                        self.report.add_report_line(
+                            '%s**UPDATE - %s: %s <-- %s%s' % (color, label, deqar_value, orgreg_val, self.colours['END']))
+                        return {
+                            'action': 'update',
+                            'orgreg_value': orgreg_val
+                        }
+                    else:
+                        self.report.add_report_line(
+                            '%s**ADD - %s: %s%s' % (color, label, orgreg_val, self.colours['END']))
+                        return {
+                            'action': 'add',
+                            'orgreg_value': orgreg_val
+                        }
+
+            if length_limit != 0 and len(orgreg_val) > length_limit:
+                self.report.add_report_line(
+                    '%s**UPDATE - OrgReg value %s is longer, than the database limit for the field. Skipping.%s' %
+                    (self.colours['ERROR'], orgreg_val, self.colours['END'])
+                )
 
         return {
             'action': 'None',
