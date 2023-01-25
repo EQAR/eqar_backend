@@ -113,10 +113,10 @@ class InstitutionIndexer:
             self.doc['closure_date'] = str(self.institution.closure_date)
 
         select_display = self.institution.name_primary.strip()
-        if self.institution.eter:
-            self.doc['eter_id'] = self.institution.eter.eter_id
-            self.doc['eter_id_sort'] = self.institution.eter.eter_id
-            select_display += ' (%s)' % self.institution.eter.eter_id
+        if self.institution.eter_id:
+            self.doc['eter_id'] = self.institution.eter_id
+            self.doc['eter_id_sort'] = self.institution.eter_id
+            select_display += ' (%s)' % self.institution.eter_id
         self.doc['name_select_display'] = select_display
 
         # Index name_display
