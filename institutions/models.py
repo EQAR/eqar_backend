@@ -351,7 +351,7 @@ class InstitutionHistoricalRelationship(models.Model):
     institution_source = models.ForeignKey('Institution', related_name='relationship_source', on_delete=models.CASCADE)
     institution_target = models.ForeignKey('Institution', related_name='relationship_target', on_delete=models.CASCADE)
     relationship_type = models.ForeignKey('InstitutionHistoricalRelationshipType', on_delete=models.CASCADE)
-    relationship_note = models.CharField(max_length=300, blank=True, null=True)
+    relationship_note = models.TextField(blank=True, null=True)
     relationship_date = models.DateField(default=datetime.date.today)
 
     class Meta:
@@ -385,7 +385,7 @@ class InstitutionHierarchicalRelationship(models.Model):
     institution_child = models.ForeignKey('Institution', related_name='relationship_child', on_delete=models.CASCADE)
     relationship_type = models.ForeignKey('InstitutionHierarchicalRelationshipType',
                                           on_delete=models.CASCADE, blank=True, null=True)
-    relationship_note = models.CharField(max_length=300, blank=True, null=True)
+    relationship_note = models.TextField(blank=True, null=True)
     valid_from = models.DateField(blank=True, null=True)
     valid_to = models.DateField(blank=True, null=True)
 

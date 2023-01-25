@@ -1,8 +1,7 @@
 import requests
 
-from datetime import datetime, date
+from datetime import datetime
 
-from django.db.models import Q
 from requests.adapters import HTTPAdapter, Retry
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
@@ -437,7 +436,7 @@ class OrgRegSynchronizer:
             try:
                 ic = InstitutionCountry.objects.get(
                     institution=self.inst,
-                    country_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % location_orgreg_id
+                    country_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s(\s|$)' % location_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -710,8 +709,8 @@ class OrgRegSynchronizer:
             rel = relationship['LINK']
             entity1 = self._get_value(rel, 'ENTITY1ID')
             entity2 = self._get_value(rel, 'ENTITY2ID')
-            event_orgreg_id = self._get_value(rel, 'ID')
-            event_type = str(self._get_value(rel, 'TYPE'))
+            relationship_orgreg_id = self._get_value(rel, 'ID')
+            relationship_type = str(self._get_value(rel, 'TYPE'))
             date_from = self._get_date_value(rel, 'STARTYEAR')
             date_to = self._get_date_value(rel, 'ENDYEAR')
 
@@ -758,12 +757,12 @@ class OrgRegSynchronizer:
                 return
 
             # Check if event type is in DEQAR, if not exit.
-            if event_type in map.keys():
-                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[event_type])
+            if relationship_type in map.keys():
+                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[relationship_type])
             else:
-                self.report.add_report_line("%s**ERROR - Matching EventType can't be found [%s]. Skipping.%s"
+                self.report.add_report_line("%s**ERROR - Matching RelationshipType can't be found [%s]. Skipping.%s"
                                             % (self.colours['ERROR'],
-                                               event_type,
+                                               relationship_type,
                                                self.colours['END']))
                 return
 
@@ -772,7 +771,7 @@ class OrgRegSynchronizer:
                 ihr = InstitutionHierarchicalRelationship.objects.get(
                     institution_parent=parent_institution,
                     institution_child=child_institution,
-                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % relationship_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -780,7 +779,7 @@ class OrgRegSynchronizer:
                     "%s**ERROR - More than one InstitutionHierarchicalRelationship record exists with the "
                     "same OrgReg ID [%s]. Skipping.%s"
                     % (self.colours['ERROR'],
-                       event_orgreg_id,
+                       relationship_orgreg_id,
                        self.colours['END']))
                 return
             except ObjectDoesNotExist:
@@ -939,7 +938,7 @@ class OrgRegSynchronizer:
 
             if length_limit != 0 and len(orgreg_val) > length_limit:
                 self.report.add_report_line(
-                    '%s**UPDATE - OrgReg value %s is longer, than the database limit for the field. Skipping.%s' %
+                    '%s**ERROR - OrgReg value %s is longer, than the database limit for the field. Skipping.%s' %
                     (self.colours['ERROR'], orgreg_val, self.colours['END'])
                 )
 
