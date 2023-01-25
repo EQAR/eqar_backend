@@ -1029,7 +1029,7 @@ class OrgRegSynchronizer:
     def _make_names_expire(self):
         inames = InstitutionName.objects.filter(
             institution=self.inst,
-            name_valid_to__isNull=True
+            name_valid_to__isnull=True
         )
 
         for iname in inames.all():
@@ -1038,8 +1038,9 @@ class OrgRegSynchronizer:
             self.report.add_report_line('  Name English: %s' % iname.name_english)
             self.report.add_report_line('  Valid To: %s' % datetime.now())
 
-            if self.dry_run:
+            if not self.dry_run:
                 iname.name_valid_to = datetime.now()
+                iname.save()
 
     def _detect_deleted(self, data):
         deleted = False
