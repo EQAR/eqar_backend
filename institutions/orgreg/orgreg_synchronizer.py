@@ -124,10 +124,7 @@ class OrgRegSynchronizer:
             self.sync_names()
             self.sync_historical_relationships()
             self.sync_hierarchical_relationships()
-            self.report.add_empty_line()
-
-            print(self.report.get_report())
-            self.report.reset_report()
+            self.report.print_and_reset_report()
 
     def create_institution_record(self, orgreg_id):
         # Get website link
@@ -922,12 +919,21 @@ class OrgRegSynchronizer:
                         orgreg_val = "%s-01-01" % orgreg_val
 
                     if deqar_value:
-                        self.report.add_report_line(
-                            '%s**UPDATE - %s: %s <-- %s%s' % (color, label, deqar_value, orgreg_val, self.colours['END']))
-                        return {
-                            'action': 'update',
-                            'orgreg_value': orgreg_val
-                        }
+                        if label == 'DEQAR ID':
+                            self.report.add_report_line(
+                                '%s**ERROR - %s: %s <-- %s%s' % (
+                                color, label, deqar_value, orgreg_val, self.colours['END']))
+                            return {
+                                'action': 'update',
+                                'orgreg_value': orgreg_val
+                            }
+                        else:
+                            self.report.add_report_line(
+                                '%s**UPDATE - %s: %s <-- %s%s' % (color, label, deqar_value, orgreg_val, self.colours['END']))
+                            return {
+                                'action': 'update',
+                                'orgreg_value': orgreg_val
+                            }
                     else:
                         self.report.add_report_line(
                             '%s**ADD - %s: %s%s' % (color, label, orgreg_val, self.colours['END']))
