@@ -126,6 +126,9 @@ class OrgRegSynchronizer:
             self.sync_hierarchical_relationships()
             self.report.print_and_reset_report()
 
+            if not self.dry_run:
+                self.inst.save()
+
     def create_institution_record(self, orgreg_id):
         # Get website link
         base_data = self.orgreg_record['BAS'][0]['BAS']
@@ -243,7 +246,7 @@ class OrgRegSynchronizer:
             try:
                 iname = InstitutionName.objects.get(
                     institution=self.inst,
-                    name_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % name_orgreg_id
+                    name_source_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s(\s|$)' % name_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -444,7 +447,9 @@ class OrgRegSynchronizer:
                                                self.colours['END']))
             except ObjectDoesNotExist:
                 try:
-                    ic = InstitutionCountry.objects.get(
+                    ic = InstitutionCountry.objects.exclude(
+                        country_source_note__iregex=r'^\s*OrgReg-[0-9]{4}'
+                    ).get(
                         institution=self.inst,
                         country=country,
                         city=city
@@ -479,19 +484,20 @@ class OrgRegSynchronizer:
                     'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
                     'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
                     'latitude': self._compare_data(ic.lat, latitude),
-                    'longitude': self._compare_data(ic.long, longitude)
+                    'longitude': self._compare_data(ic.long, longitude),
+                    'source_note': self._compare_data(ic.country_source_note, source_note.strip())
                 }
 
                 if self._check_update(values_to_update):
                     self.report.add_report_line('**UPDATE - LOCATION')
-                    self.report.add_report_line('  Country: %s' % country_update_value )
+                    self.report.add_report_line('  Country: %s' % country_update_value)
                     self.report.add_report_line('  City: %s' % city)
                     self.report.add_report_line('  Latitude: %s' % values_to_update['latitude']['log'])
                     self.report.add_report_line('  Longitude: %s' % values_to_update['longitude']['log'])
                     self.report.add_report_line('  Official: %s' % values_to_update['legal_seat']['log'])
                     self.report.add_report_line('  Valid From: %s' % values_to_update['date_from']['log'])
                     self.report.add_report_line('  Valid To: %s' % values_to_update['date_to']['log'])
-                    self.report.add_report_line('  Source Note: %s' % source_note.strip())
+                    self.report.add_report_line('  Source Note: %s' % values_to_update['source_note']['log'])
 
                     # Update InstitutionCountry record
                     if not self.dry_run:
@@ -616,7 +622,7 @@ class OrgRegSynchronizer:
                 ihr = InstitutionHistoricalRelationship.objects.get(
                     institution_source=source_institution,
                     institution_target=target_institution,
-                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % event_orgreg_id
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s(\s|$)' % event_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:
@@ -768,7 +774,7 @@ class OrgRegSynchronizer:
                 ihr = InstitutionHierarchicalRelationship.objects.get(
                     institution_parent=parent_institution,
                     institution_child=child_institution,
-                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s' % relationship_orgreg_id
+                    relationship_note__iregex=r'^\s*OrgReg-[0-9]{4}-%s(\s|$)' % relationship_orgreg_id
                 )
                 action = 'update'
             except MultipleObjectsReturned:

@@ -169,11 +169,15 @@ class InstitutionIndexer:
             if icountry.city:
                 self.doc['city'].append(icountry.city.strip())
 
-        self.doc['country'] = list(filter(None, self.doc['country']))
-        self.doc['country_facet'] = list(filter(None, self.doc['country']))
+        countries = list(dict.fromkeys(self.doc['country']))
+        country_ids = list(dict.fromkeys(self.doc['country_id']))
+        cities = list(dict.fromkeys(self.doc['city']))
 
-        self.doc['country_id'] = list(filter(None, self.doc['country_id']))
-        self.doc['city'] = list(filter(None, self.doc['city']))
+        self.doc['country'] = countries
+        self.doc['country_facet'] = countries
+
+        self.doc['country_id'] = country_ids
+        self.doc['city'] = cities
 
         # Index QF-EHEA level
         for iqfehealevel in self.institution.institutionqfehealevel_set.iterator():

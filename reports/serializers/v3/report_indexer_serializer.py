@@ -106,7 +106,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
     def get_country(self, obj):
         countries = []
         for inst in obj.institutions.all():
-            for ic in inst.institutioncountry_set.all():
+            for ic in inst.institutioncountry_set.order_by('country__id').distinct('country__id'):
                 serializer = CountrySerializer(ic.country)
                 countries.append(serializer.data)
         for programme in obj.programme_set.all():
@@ -162,7 +162,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
         for programme in obj.programme_set.all():
             for c in programme.countries.all():
                 countries.append(c.name_english)
-        return countries
+        return list(dict.fromkeys(countries))
 
     # Get city records
     def get_city(self, obj):
@@ -170,7 +170,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
         for inst in obj.institutions.all():
             for c in inst.institutioncountry_set.all():
                 cities.append(c.city)
-        return cities
+        return list(dict.fromkeys(cities))
 
     def get_programme_name_search(self, obj):
         programme_names = []
@@ -207,7 +207,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
         for programme in obj.programme_set.all():
             for country in programme.countries.all():
                 country_ids.append(country.id)
-        return country_ids
+        return list(dict.fromkeys(country_ids))
 
     def get_language_id(self, obj):
         languages = []
