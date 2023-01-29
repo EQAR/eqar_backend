@@ -212,7 +212,7 @@ class ReportsIndexer:
                     self.doc['institution_name_version'].append(iname_version.name.strip())
                     self.doc['institution_name_version_transliterated'].append(iname_version.transliteration.strip())
 
-            for c in inst.institutioncountry_set.iterator():
+            for c in inst.institutioncountry_set.order_by('country__id').distinct('country__id'):
                 self.doc['country'].append(c.country.name_english)
                 self.doc['countries'].append({
                     'id': c.country.id,
