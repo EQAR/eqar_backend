@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.db.models import Q
 
 from countries.models import Country
-from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier, InstitutionName, \
+from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionCountry
 from lists.models import QFEHEALevel
 from submissionapi.flaggers.institution_flag_message_creator import InstitutionFlagMessageCreator
@@ -61,15 +61,10 @@ class InstitutionPopulator():
                 pass
 
         if eter_id is not None:
-            eter = None
             try:
-                eter = InstitutionETERRecord.objects.get(eter_id=eter_id)
-                self.institution = Institution.objects.get(eter=eter)
+                self.institution = Institution.objects.get(eter_id=eter_id)
                 return
             except ObjectDoesNotExist:
-                if eter is not None:
-                    self._institution_create_from_eter(eter)
-                    return
                 pass
 
         if identifiers is not None:
@@ -113,33 +108,6 @@ class InstitutionPopulator():
         if name_english is not None:
             try:
                 self.institution = Institution.objects.get(institutionname__name_english=name_english)
-                return
-            except ObjectDoesNotExist:
-                pass
-
-        #
-        # Trying to resolve ETER
-        #
-        if website_link is not None:
-            try:
-                eter = InstitutionETERRecord.objects.get(website=website_link)
-                self._institution_create_from_eter(eter)
-                return
-            except ObjectDoesNotExist:
-                pass
-
-        if name_official is not None:
-            try:
-                eter = InstitutionETERRecord.objects.get(name=name_official)
-                self._institution_create_from_eter(eter)
-                return
-            except ObjectDoesNotExist:
-                pass
-
-        if name_english is not None:
-            try:
-                eter = InstitutionETERRecord.objects.get(name_english=name_english)
-                self._institution_create_from_eter(eter)
                 return
             except ObjectDoesNotExist:
                 pass

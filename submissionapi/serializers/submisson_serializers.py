@@ -166,13 +166,13 @@ class InstitutionSerializer(serializers.Serializer):
             # Check if ETER ID exists
             if eter_id is not None:
                 try:
-                    institution_eter = InstitutionETERRecord.objects.get(eter_id=eter_id)
+                    institution_eter = Institution.objects.get(eter_id=eter_id)
                 except ObjectDoesNotExist:
                     raise serializers.ValidationError("Please provide valid ETER ID.")
 
             # If both ETER ID and DEQAR ID were submitted they should resolve the same institution
             if institution_deqar is not None and institution_eter is not None:
-                if institution_deqar.eter_id != institution_eter.id:
+                if institution_deqar.id != institution_eter.id:
                     raise serializers.ValidationError("The provided DEQAR and ETER ID does not match.")
         else:
             raise serializers.ValidationError("This report cannot be linked to an institution. "

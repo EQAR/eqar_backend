@@ -1,25 +1,25 @@
-import time
+import sys
 
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 
-from agencies.models import Agency, AgencyESGActivity
-from agencies.tasks import index_agency, index_institutions_when_agency_saved
+from agencies.models import Agency, AgencyESGActivity, AgencyNameVersion
+from agencies.tasks import index_agency
 from reports.tasks import index_report
 
 
-@receiver([post_save, post_delete], sender=Agency)
-def do_index_institutions_upon_agency_save(sender, instance, **kwargs):
-    index_institutions_when_agency_saved.delay(instance.id)
-
-
-@receiver([post_save], sender=Agency)
+@receiver(post_save, sender=Agency)
 def do_index_agencies(sender, instance, **kwargs):
     index_agency.delay(instance.id)
 
 
-@receiver([post_save], sender=AgencyESGActivity)
+@receiver(pre_save, sender=AgencyESGActivity)
 def do_index_reports_upon_activity_name_change(sender, instance, **kwargs):
-    for report in instance.report_set.iterator():
-        index_report.delay(report.id)
-
+    if 'test' not in sys.argv:
+        if instance.id is not None:
+            original = AgencyESGActivity.objects.get(id=instance.id)
+            if original.activity_display != instance.activity_display or \
+               original.activity != instance.activity or \
+               original.activity_type != instance.activity_type:
+                for report in instance.report_set.iterator():
+                    index_report.delay(report.id)

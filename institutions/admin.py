@@ -4,7 +4,7 @@ from django.forms import TextInput, Textarea, Select
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
-    InstitutionETERRecord, InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData, \
+    InstitutionName, InstitutionNameVersion, InstitutionCountry, InstitutionHistoricalData, \
     InstitutionHistoricalRelationship, InstitutionHierarchicalRelationship, InstitutionUpdateLog, InstitutionFlag
 
 
@@ -44,7 +44,7 @@ class InstitutionAdmin(DEQARModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('deqar_id', 'eter', 'name_primary', 'website_link', 'founding_date', 'closure_date')
+            'fields': ('deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date')
         }),
     )
 
@@ -57,14 +57,6 @@ class InstitutionAdmin(DEQARModelAdmin):
 
     inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline,
                InstitutionCountryInline, InstitutionHistoricalDataInline]
-
-
-class InstitutionETERAdmin(DEQARModelAdmin):
-    list_display = ('eter_id', 'name', 'acronym')
-    list_display_links = ('eter_id', 'name', 'acronym')
-    ordering = ('name', 'acronym')
-    list_filter = ('country',)
-    search_fields = ('name', 'name_english', 'acronym')
 
 
 class InstitutionNameVersionInline(DEQARStackedInline):
@@ -108,7 +100,6 @@ class InstitutionUpdateLogAdmin(DEQARModelAdmin):
 
 admin_site.register(InstitutionName, InstitutionNameAdmin)
 admin_site.register(Institution, InstitutionAdmin)
-admin_site.register(InstitutionETERRecord, InstitutionETERAdmin)
 admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
 admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
 admin_site.register(InstitutionFlag, InstitutionFlagAdmin)

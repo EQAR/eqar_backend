@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from ipware import get_client_ip
-from submissionapi.tasks import recheck_flag
+from submissionapi.tasks import recheck_flag, download_file
 from reports.tasks import index_delete_report
 
 from adminapi.permissions import CanEditReport
@@ -32,6 +32,16 @@ class ReportCreate(generics.CreateAPIView):
         report = serializer.save(created_by=self.request.user)
         report.name = report.agency_esg_activity.activity + ' (by ' + report.agency.acronym_primary + ')'
         report.save()
+
+        # Harvest files
+        for rf in report.reportfile_set.iterator():
+            if rf.file_original_location:
+                download_file.delay(
+                    rf.file_original_location,
+                    rf.id,
+                    report.agency.acronym_primary
+                )
+
         flagger = ReportFlagger(report=report)
         flagger.check_and_set_flags()
         client_ip, is_routable = get_client_ip(self.request)

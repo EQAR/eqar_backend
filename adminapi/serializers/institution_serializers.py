@@ -181,7 +181,6 @@ class InstitutionUpdateLogSerializer(serializers.ModelSerializer):
 
 
 class InstitutionReadSerializer(serializers.ModelSerializer):
-    eter_id = serializers.SlugRelatedField(read_only=True, slug_field='eter_id', source='eter')
     identifiers_national = InstitutionIdentifierReadSerializer(many=True,
                                                            source='institutionidentifier_set',
                                                            context={'type': 'national'})
