@@ -18,10 +18,7 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - restore_cache:
           keys:
-            - pip-packages
-      - run:
-          name: "Install missing library"
-          command: sudo apt-get install -y libpython3-dev
+            - python-dev
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -36,7 +33,7 @@ jobs:
           command: |
             pip install coveralls
       - save_cache:
-          key: pip-packages-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: python-dev-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - ".python3"
       - run:
