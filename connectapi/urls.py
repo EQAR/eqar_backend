@@ -38,9 +38,9 @@ urlpatterns = [
     url(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLViewV2.as_view(),
         name='europass-accreditations-v2'),
 
-    # Let's Trust endpoints
-    url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', DEQARVCIssue.as_view(), name='letstrust-vc-issue'),
-    url(r'^letstrust/ebsi-vc/issue/(?P<report_id>[0-9]+)$', EBSIVCIssue.as_view(), name='letstrust-ebsi-vc-issue'),
+    # Verifiable Credentials endpoints (via SSIkit)
+    url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)(?:.(?P<format>json|jwt|api))?$', DEQARVCIssue.as_view(), name='letstrust-vc-issue'),
+    url(r'^letstrust/ebsi-vc/issue/(?P<report_id>[0-9]+)(?:.(?P<format>json|jwt|api))?$', EBSIVCIssue.as_view(), name='letstrust-ebsi-vc-issue'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),

@@ -4,11 +4,14 @@ import datetime
 import requests
 from datedelta import datedelta
 from copy import deepcopy
+from collections import defaultdict
 
-from rest_framework.exceptions import APIException, NotFound
+from rest_framework.exceptions import APIException, NotFound, NotAcceptable
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.views import APIView
+import rest_framework.renderers
 from django.conf import settings
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -16,6 +19,7 @@ from django.views.decorators.cache import cache_control
 
 from institutions.models import InstitutionIdentifier
 from reports.models import Report
+from connectapi.renderers import JWTRenderer
 
 class ServiceUnavailable(APIException):
     status_code = 503
@@ -27,16 +31,29 @@ class VCIssue(APIView):
     """
     Base class for views to issue generic W3C-compliant Verifiable Credentials (VC)
     """
+    renderer_classes = [
+        rest_framework.renderers.JSONRenderer,
+        rest_framework.renderers.BrowsableAPIRenderer,
+        JWTRenderer,
+    ]
+    pagination_class = None
 
-    # Provisional: hard-coded templates - define in subclass
+    # VC template (override in subclass)
     vc_template = None
+
+    # mapping from file extensions to proof types
+    prooftypes = {
+        'api': 'LD_PROOF',
+        'json': 'LD_PROOF',
+        'jwt': 'JWT'
+    }
 
     def __init__(self):
         # Get api endpoint from settings
-        self.core_api = getattr(settings, "LETSTRUST_CORE_API", None)
-        if not self.core_api:
+        self.signatory_api = getattr(settings, "LETSTRUST_SIGNATORY_API", None)
+        if not self.signatory_api:
             raise ServiceUnavailable(
-                detail="LETSTRUST_CORE_API value is not present in the settings"
+                detail="LETSTRUST_SIGNATORY_API value is not present in the settings"
             )
         # Get EQAR DID from settings, drop error if not set
         self.eqar_did = getattr(settings, "LETSTRUST_EQAR_DID", None)
@@ -50,6 +67,7 @@ class VCIssue(APIView):
                 detail="Verifiable Credential template is not defined"
             )
         # URIs for reports, institutions and agencies
+        self.vc_uri = getattr(settings, "DEQAR_VC_URI", 'https://data.deqar.eu/vc/%s/%s')
         self.report_uri = getattr(settings, "DEQAR_REPORT_URI", 'https://data.deqar.eu/report/%s')
         self.agency_uri = getattr(settings, "DEQAR_AGENCY_URI", 'https://data.deqar.eu/agency/%s')
         self.institution_uri = getattr(settings, "DEQAR_INSTITUTION_URI", 'https://data.deqar.eu/institution/%s')
@@ -57,81 +75,110 @@ class VCIssue(APIView):
         self.programme_uri = getattr(settings, "DEQAR_PROGRAMME_URI", 'https://data.deqar.eu/programme/%s')
         self.country_uri = getattr(settings, "DEQAR_COUNTRY_URI", 'https://data.deqar.eu/country/%s')
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, report_id, *args, **kwargs):
         """
         Method handler - returns the report as VC
         """
-        report_id = self.kwargs['report_id']
+        if request.accepted_renderer.format not in self.prooftypes:
+            raise NotAcceptable(
+                detail="No proof type mapped for format '%s'" % request.accepted_renderer.format
+            )
+        else:
+            prooftype = self.prooftypes.get(request.accepted_renderer.format)
+        # get report and institution objects
         report = get_object_or_404(Report, pk=report_id)
+        # call issuer
+        return self.issue_vc(report, prooftype)
 
-        return self.issue_vc(self.compose_vc(report))
-
-    def issue_vc(self, offer):
+    def issue_vc(self, report, prooftype):
         """
         Issue one single VC using the Walt.ID API
         """
+        # TO DO: change back to using compose_vc() when SSIkit supports multi-subject VCs
+        vc_data = self.compose_vc(report)
+        # compose request to SSIkit Signatory API
         post_data = {
-            'issuerDid': self.eqar_did,
-            'subjectDid': None,
-            'credentialOffer': json.dumps(offer)
+            'templateId': self.vc_template,
+            'config': self.configure_vc(report, institution, prooftype),
+            'credentialData': vc_data
         }
-
-        api = '%s/vc/create/' % self.core_api
-        r = requests.post(api, json=post_data)
-        post_data['credentialOffer'] = offer
+        api = '%s/credentials/issueFromJson' % self.signatory_api
+        r = requests.post(api, json=vc_data)
         if r.status_code == 200:
-            return Response(r.json())
+            if prooftype == 'JWT':
+                return Response(r.text)
+            else:
+                return Response(r.json())
         else:
             response = { 'status': r.status_code, 'post_data': post_data }
             try:
                 response['status_details'] = r.json()
-            except requests.exceptions.JSONDecodeError:
+            except json.decoder.JSONDecodeError:
                 response['status_details'] = r.text
             return Response(response, status=r.status_code)
+
+    def configure_vc(self, report, institution, prooftype):
+        """
+        Generate config object for VC issue request
+        """
+        return {
+            'issuerDid': self.eqar_did,
+            'subjectDid': self._translate_subject(institution),
+            'proofType': prooftype,
+            #'domain': 'data.deqar.eu',
+            #'nonce': '4711',
+            #'proofPurpose': 'xyz',
+            'credentialId': self._translate_vc(report, institution),
+            'issueDate': self._translate_date(report.valid_from),
+            'validDate': self._translate_date(report.valid_from),
+            'expirationDate': self._translate_date(report.valid_to if report.valid_to else report.valid_from + datedelta(years=6)),
+            #'ldSignatureType': '',
+            #'ecosystem': 'DEFAULT'
+        }
 
     def populate_vc(self, report):
         """
         Use the template and populate VC
         """
+        vc_data = defaultdict(dict)
+        vc_data['id'] = self.report_uri % report.id
+        vc_data['issuer'] = self.eqar_did
+        vc_data['issuanceDate'] = self._translate_date(report.valid_from)
+        vc_data['validFrom'] = self._translate_date(report.valid_from)
+        vc_data['expirationDate'] = self._translate_date(report.valid_to if report.valid_to else report.valid_from + datedelta(years=6))
 
-        # Fill the json with report data
-        vc_offer = deepcopy(self.vc_template)
-        vc_offer['id'] = self.report_uri % report.id
-        vc_offer['issuer'] = self.eqar_did
-        vc_offer['issuanceDate'] = self._translate_date(report.valid_from)
-        vc_offer['validFrom'] = self._translate_date(report.valid_from)
-        vc_offer['expirationDate'] = self._translate_date(report.valid_to if report.valid_to else report.valid_from + datedelta(years=6))
-
-        # Fill institution-independent data
-        vc_offer['credentialSubject'] = {}
-        vc_offer['credentialSubject']['authorizationClaims'] = {}
-        vc_offer['credentialSubject']['authorizationClaims']['accreditationType'] = self._translate_activity_type(report.agency_esg_activity.activity_type)
-        vc_offer['credentialSubject']['authorizationClaims']['decision'] = report.decision.decision
-        vc_offer['credentialSubject']['authorizationClaims']['report'] = []
+        # Template with institution-independent data
+        vc_data['credentialSubject']['authorizationClaims'] = {
+            'accreditationType': self._translate_activity_type(report.agency_esg_activity.activity_type),
+            'decision': report.decision.decision,
+            'report': []
+        }
         for reportfile in report.reportfile_set.iterator():
             try:
-                vc_offer['credentialSubject']['authorizationClaims']['report'].append(self.request.build_absolute_uri(reportfile.file.url))
+                vc_data['credentialSubject']['authorizationClaims']['report'].append(self.request.build_absolute_uri(reportfile.file.url))
             except (ValueError):
                 pass
         if report.agency_esg_activity.activity_type.type in [ 'programme', 'joint programme' ]:
             # Programme data for programme-level reports
-            vc_offer['credentialSubject']['authorizationClaims']['limitQualification'] = []
+            vc_data['credentialSubject']['authorizationClaims']['limitQualification'] = []
             for programme in report.programme_set.iterator():
                 limitQualification = {}
                 limitQualification['title'] = programme.programmename_set.filter(name_is_primary=True).first().name
                 self._set_if(limitQualification, 'alternativeLabel', [ i.name for i in programme.programmename_set.filter(name_is_primary=False) ])
                 self._set_if(limitQualification, 'EQFLevel', self._translate_qf_level(programme.qf_ehea_level))
-                vc_offer['credentialSubject']['authorizationClaims']['limitQualification'].append(limitQualification)
+                vc_data['credentialSubject']['authorizationClaims']['limitQualification'].append(limitQualification)
 
-        return vc_offer
+        return vc_data
 
-    def populate_vc_subject(self, report, institution, subject_tpl):
+    def populate_vc_subject(self, report, institution, subject_tpl={}):
         """
         Return a credentialSubject object derived from subject_tpl
         """
         subject = deepcopy(subject_tpl)
         subject['id'] = self._translate_subject(institution)
-        subject['authorizationClaims']['id'] = (self.report_uri % report.id) + '#subject=' + subject['id']
+        if 'authorizationClaims' not in subject:
+            subject['authorizationClaims'] = {}
+        subject['authorizationClaims']['id'] = self._translate_vc(report, institution)
         # official countries
         subject['authorizationClaims']['limitJurisdiction'] = []
         for location in institution.institutioncountry_set.filter(country_verified=True).iterator():
@@ -183,8 +230,23 @@ class VCIssue(APIView):
     The following are meant to be overwritten in subclasses (e.g. EBSI-specific)
     """
 
+    def _translate_vc(self, report, institution):
+        return(self.vc_uri % ( report.id, institution.id ))
+
+    def _translate_report(self, report):
+        return(self.report_uri % report.id)
+
+    def _translate_agency(self, agency):
+        return(self.agency_uri % agency.id)
+
     def _translate_subject(self, institution):
         return(self.institution_uri % institution.id)
+
+    def _translate_institution_identifier(self, identifier):
+        return(self.institution_identifier_uri % identifier.id)
+
+    def _translate_programme(self, programme):
+        return(self.programme_uri % programme.id)
 
     def _translate_activity_type(self, activity_type):
         return activity_type.type
@@ -205,7 +267,7 @@ class VCIssue(APIView):
 @method_decorator(cache_control(max_age=settings.VC_CACHE_MAX_AGE), name='dispatch')
 class DEQARVCIssue(VCIssue):
     """
-    DEQAR Verifiable Credential - proof of concept
+    Generic DEQAR Verifiable Credential
     """
     permission_classes = []
 
@@ -230,17 +292,17 @@ class DEQARVCIssue(VCIssue):
     """)
 
     def populate_vc(self, report):
-        vc_offer = super().populate_vc(report)
+        vc_data = super().populate_vc(report)
 
         # additional report data
-        vc_offer['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
-        vc_offer['credentialSubject']['authorizationClaims']['accreditationActivity'] = report.agency_esg_activity.activity
+        vc_data['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
+        vc_data['credentialSubject']['authorizationClaims']['accreditationActivity'] = report.agency_esg_activity.activity
 
         # registered QA agency
-        vc_offer['issuer'] = {
+        vc_data['issuer'] = {
             'id': self.eqar_did,
             'onBehalfOf': {
-                'id': self.agency_uri % report.agency.id,
+                'id': self._translate_agency(report.agency),
                 'type': 'EqarRegisteredAgency',
                 'acronym': report.agency.acronym_primary,
                 'name': report.agency.name_primary,
@@ -249,7 +311,7 @@ class DEQARVCIssue(VCIssue):
             }
         }
 
-        return vc_offer
+        return vc_data
 
     def populate_vc_subject(self, report, institution, subject_tpl):
         subject = super().populate_vc_subject(report, institution, subject_tpl)
@@ -259,7 +321,7 @@ class DEQARVCIssue(VCIssue):
         subject['identifiers'] = []
         for identifier in institution.institutionidentifier_set.filter(agency__isnull=True):
             subject['identifiers'].append({
-                'id': self.institution_identifier_uri % identifier.pk,
+                'id': self._translate_institution_identifier(identifier),
                 'identifier': identifier.identifier,
                 'resource': identifier.resource
             })
@@ -342,9 +404,9 @@ class EBSIVCIssue(VCIssue):
         """
         Add additional data (quick fix)
         """
-        vc_offer = super().populate_vc(report)
-        vc_offer['issued'] = vc_offer['issuanceDate']
-        return(vc_offer)
+        vc_data = super().populate_vc(report)
+        vc_data['issued'] = vc_data['issuanceDate']
+        return(vc_data)
 
     def _translate_subject(self, institution):
         """
