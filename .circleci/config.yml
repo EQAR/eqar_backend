@@ -18,7 +18,7 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - restore_cache:
           keys:
-            - python-dev
+            - python-devel
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -28,13 +28,13 @@ jobs:
       - run:
           command: |
             python -m venv .python3
-            source .python3/bin/activate
+            echo "source .python3/bin/activate" >> $BASH_ENV;
       - run:
           command: |
-            pip install -r requirements.txt
+            pip install -requirements.txt
             pip install coveralls
       - save_cache:
-          key: python-dev-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: python-devel-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - ".python3"
       - run:
