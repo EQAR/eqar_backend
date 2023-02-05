@@ -20,10 +20,8 @@ jobs:
           keys:
             - pip-packages
       - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
+          name: "Install missing library"
+          command: sudo apt-get install -y libpython3-dev
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -32,16 +30,15 @@ jobs:
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run:
           command: |
-            sudo pip install pipenv
-            pipenv install
-            pipenv install coveralls
-      - save_cache:
-          key: pip-packages-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - "Pipfile.lock"
-            - ".venv"
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.8/site-packages"
+            python -m venv .python3
+            echo "source .python3/bin/activate" >> $BASH_ENV;
       - run:
           command: |
-            pipenv run coverage run --source='.' manage.py test
+            pip install coveralls
+      - save_cache:
+          key: pip-packages-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - ".python3"
+      - run:
+          command: |
+            coverage run --source='.' manage.py test
