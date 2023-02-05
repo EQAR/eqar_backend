@@ -31,7 +31,7 @@ jobs:
             echo "source .python3/bin/activate" >> $BASH_ENV;
       - run:
           command: |
-            pip install -requirements.txt
+            pip install -r requirements.txt
             pip install coveralls
       - save_cache:
           key: python-devel-{{ .Branch }}-{{ checksum "requirements.txt" }}
