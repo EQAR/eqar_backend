@@ -55,6 +55,7 @@ class VCIssue(APIView):
         self.institution_uri = getattr(settings, "DEQAR_INSTITUTION_URI", 'https://data.deqar.eu/institution/%s')
         self.institution_identifier_uri = getattr(settings, "DEQAR_INSTITUTION_IDENTIFIER_URI", 'https://data.deqar.eu/institution-identifier/%s')
         self.programme_uri = getattr(settings, "DEQAR_PROGRAMME_URI", 'https://data.deqar.eu/programme/%s')
+        self.country_uri = getattr(settings, "DEQAR_COUNTRY_URI", 'https://data.deqar.eu/country/%s')
 
     def get(self, request, *args, **kwargs):
         """
@@ -189,7 +190,10 @@ class VCIssue(APIView):
         return activity_type.type
 
     def _translate_country(self, country):
-        return country.iso_3166_alpha3.upper()
+        if country.generic_url:
+            return country.generic_url
+        else:
+            return(self.country_uri % country.id)
 
     def _translate_qf_level(self, qf_ehea_level):
         return getattr(qf_ehea_level, 'level', None)
@@ -366,7 +370,12 @@ class EBSIVCIssue(VCIssue):
         return REPORT_TYPES.get(activity_type.type)
 
     def _translate_country(self, country):
-        return f"http://publications.europa.eu/resource/authority/country/{country.iso_3166_alpha3.upper()}"
+        if country.eu_controlled_vocab_atu:
+            return country.eu_controlled_vocab_atu
+        elif country.eu_controlled_vocab_country:
+            return country.eu_controlled_vocab_country
+        else:
+            return super()._translate_country(country)
 
     def _translate_qf_level(self, qf_ehea_level):
         EQF_LEVELS = {
