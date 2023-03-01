@@ -1,3 +1,5 @@
+import math
+
 import requests
 
 from datetime import datetime
@@ -485,8 +487,8 @@ class OrgRegSynchronizer:
                     'legal_seat': self._compare_boolean_data(ic.country_verified, legal_seat),
                     'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
                     'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
-                    'latitude': self._compare_data(ic.lat, latitude),
-                    'longitude': self._compare_data(ic.long, longitude),
+                    'latitude': self._compare_data(ic.lat, latitude, is_float=True),
+                    'longitude': self._compare_data(ic.long, longitude, is_float=True),
                     'source_note': self._compare_data(ic.country_source_note, source_note.strip())
                 }
 
@@ -970,7 +972,7 @@ class OrgRegSynchronizer:
             if not self.dry_run:
                 setattr(self.inst, field, compare_data['orgreg_value'])
 
-    def _compare_data(self, deqar_data, orgreg_data):
+    def _compare_data(self, deqar_data, orgreg_data, is_float=False):
         compare = {
             'update': False,
             'value': deqar_data,
@@ -978,10 +980,16 @@ class OrgRegSynchronizer:
         }
 
         if deqar_data:
-            if deqar_data != orgreg_data:
-                compare['update'] = True
-                compare['value'] = orgreg_data
-                compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+            if is_float:
+                if not math.isclose(deqar_data, orgreg_data):
+                    compare['update'] = True
+                    compare['value'] = orgreg_data
+                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+            else:
+                if deqar_data != orgreg_data:
+                    compare['update'] = True
+                    compare['value'] = orgreg_data
+                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
 
         return compare
 
