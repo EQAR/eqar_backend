@@ -38,6 +38,7 @@ class OrgRegSynchronizer:
         )
         self.orgreg_session.mount('http://', HTTPAdapter(max_retries=retries))
         self.orgreg_session.mount('https://', HTTPAdapter(max_retries=retries))
+        self.request_timeout = getattr(settings, "ORGREG_REQUEST_TIMEOUT", 60),
 
     def collect_orgreg_ids_by_country(self, country_code):
         query_data = {
@@ -60,7 +61,8 @@ class OrgRegSynchronizer:
         r = self.orgreg_session.post(
             "%s%s" % (self.api, 'organizations/query'),
             json=query_data,
-            headers=headers
+            headers=headers,
+            timeout=self.request_timeout
         )
 
         if r.status_code == 201:
@@ -71,7 +73,7 @@ class OrgRegSynchronizer:
             return False
 
     def collect_orgreg_ids_by_institution(self, orgreg_id):
-        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id), timeout=self.request_timeout)
         if r.status_code == 200:
             self.orgreg_ids.append(orgreg_id)
             return True
@@ -79,7 +81,7 @@ class OrgRegSynchronizer:
             return False
 
     def get_orgreg_record(self, orgreg_id):
-        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id), timeout=self.request_timeout)
         if r.status_code == 200:
             self.orgreg_record = r.json()
             return True
