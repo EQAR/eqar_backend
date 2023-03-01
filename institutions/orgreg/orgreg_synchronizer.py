@@ -705,6 +705,8 @@ class OrgRegSynchronizer:
         map = {
             '1': 1,
             '2': 1,
+            '3': None,
+            '4': None
         }
         relationships = self.orgreg_record['LINK']
 
@@ -763,7 +765,10 @@ class OrgRegSynchronizer:
 
             # Check if event type is in DEQAR, if not exit.
             if relationship_type in map.keys():
-                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[relationship_type])
+                if map[relationship_type]:
+                    deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[relationship_type])
+                else:
+                    return
             else:
                 self.report.add_report_line("%s**ERROR - Matching RelationshipType can't be found [%s]. Skipping.%s"
                                             % (self.colours['ERROR'],
