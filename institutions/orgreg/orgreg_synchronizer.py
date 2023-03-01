@@ -751,11 +751,13 @@ class OrgRegSynchronizer:
             try:
                 child_institution = Institution.objects.get(eter_id=entity1)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       entity1,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_CHILD_INSTITUTION_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           entity1,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
