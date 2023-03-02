@@ -40,7 +40,7 @@ class OrgRegSynchronizer:
         )
         self.orgreg_session.mount('http://', HTTPAdapter(max_retries=retries))
         self.orgreg_session.mount('https://', HTTPAdapter(max_retries=retries))
-        self.request_timeout = getattr(settings, "ORGREG_REQUEST_TIMEOUT", 60),
+        self.request_timeout = getattr(settings, "ORGREG_REQUEST_TIMEOUT", 60)
 
     def collect_orgreg_ids_by_country(self, country_code):
         query_data = {
