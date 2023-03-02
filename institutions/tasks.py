@@ -9,3 +9,10 @@ def index_institution(institution_id):
     institution = Institution.objects.get(id=institution_id)
     indexer = InstitutionIndexer(institution)
     indexer.index()
+
+
+@task(name="delete_institution")
+def delete_institution(institution_id):
+    institution = Institution.objects.get(id=institution_id)
+    indexer = InstitutionIndexer(institution)
+    indexer.delete()

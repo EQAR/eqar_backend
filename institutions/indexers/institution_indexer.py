@@ -96,6 +96,11 @@ class InstitutionIndexer:
         except pysolr.SolrError as e:
             print('Error with Institution No. %s! Error: %s' % (self.doc['id'], e))
 
+    def delete(self):
+        self.solr.delete(self.institution.id)
+        print('Deleted Institution No. %s!' % self.institution.id)
+        self.solr.commit()
+
     def _index_main_institution(self):
         # Index display fields
         self.doc['id'] = self.institution.id
