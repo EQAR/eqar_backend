@@ -99,8 +99,11 @@ class OrgRegSynchronizer:
             except ObjectDoesNotExist:
                 action = 'add'
             except MultipleObjectsReturned:
-                self.report.add_report_line("Multiple institutions with OrgReg ID [%s] exist." % orgreg_id)
-                break
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple institutions with OrgReg ID [%s] exist. Skipping.%s"
+                    % (self.colours['ERROR'], orgreg_id, self.colours['END']))
+                self.report.print_and_reset_report()
+                continue
 
             self.get_orgreg_record(orgreg_id)
 
