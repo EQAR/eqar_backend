@@ -582,11 +582,13 @@ class OrgRegSynchronizer:
             try:
                 source_institution = Institution.objects.get(eter_id=source_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       source_id,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           source_id,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -600,11 +602,13 @@ class OrgRegSynchronizer:
             try:
                 target_institution = Institution.objects.get(eter_id=target_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       target_id,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           target_id,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -682,6 +686,7 @@ class OrgRegSynchronizer:
                         ihr.institution_source = source_institution
                         ihr.institution_target = target_institution
                         ihr.relationship_date = values_to_update['date']['value']
+                        ihr.relationship_type = values_to_update['type']['value']
                         ihr.relationship_note = source_note
                         ihr.save()
 
@@ -736,11 +741,13 @@ class OrgRegSynchronizer:
             try:
                 parent_institution = Institution.objects.get(eter_id=entity2)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       entity2,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           entity2,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -754,7 +761,7 @@ class OrgRegSynchronizer:
             try:
                 child_institution = Institution.objects.get(eter_id=entity1)
             except ObjectDoesNotExist:
-                warning = getattr(settings, 'ORGREG_CHILD_INSTITUTION_WARNING', False)
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
                 if warning:
                     self.report.add_report_line(
                         "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
