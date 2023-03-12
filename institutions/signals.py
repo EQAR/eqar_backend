@@ -1,13 +1,17 @@
-from django.db.models.signals import post_save, post_delete, pre_save
+from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
 from django.dispatch import receiver
 
 from institutions.models import Institution, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
-from institutions.tasks import index_institution
+from institutions.tasks import index_institution, delete_institution
 
 
-@receiver([post_save, post_delete], sender=Institution)
+@receiver([post_save], sender=Institution)
 def do_index_institutions_upon_institution_save(sender, instance, **kwargs):
     index_institution.delay(instance.id)
+
+@receiver([pre_delete], sender=Institution)
+def do_remove_institutions_upon_institution_delete(sender, instance, **kwargs):
+    delete_institution.delay(instance.id)
 
 @receiver(post_save, sender=Institution)
 def do_deqar_id_setting(sender, instance, **kwargs):

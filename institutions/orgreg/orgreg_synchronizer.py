@@ -1,3 +1,5 @@
+import math
+
 import requests
 
 from datetime import datetime
@@ -38,6 +40,7 @@ class OrgRegSynchronizer:
         )
         self.orgreg_session.mount('http://', HTTPAdapter(max_retries=retries))
         self.orgreg_session.mount('https://', HTTPAdapter(max_retries=retries))
+        self.request_timeout = getattr(settings, "ORGREG_REQUEST_TIMEOUT", 60)
 
     def collect_orgreg_ids_by_country(self, country_code):
         query_data = {
@@ -60,7 +63,8 @@ class OrgRegSynchronizer:
         r = self.orgreg_session.post(
             "%s%s" % (self.api, 'organizations/query'),
             json=query_data,
-            headers=headers
+            headers=headers,
+            timeout=self.request_timeout
         )
 
         if r.status_code == 201:
@@ -71,7 +75,7 @@ class OrgRegSynchronizer:
             return False
 
     def collect_orgreg_ids_by_institution(self, orgreg_id):
-        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id), timeout=self.request_timeout)
         if r.status_code == 200:
             self.orgreg_ids.append(orgreg_id)
             return True
@@ -79,7 +83,7 @@ class OrgRegSynchronizer:
             return False
 
     def get_orgreg_record(self, orgreg_id):
-        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id))
+        r = self.orgreg_session.get("%s%s%s" % (self.api, 'entity-details/', orgreg_id), timeout=self.request_timeout)
         if r.status_code == 200:
             self.orgreg_record = r.json()
             return True
@@ -95,8 +99,11 @@ class OrgRegSynchronizer:
             except ObjectDoesNotExist:
                 action = 'add'
             except MultipleObjectsReturned:
-                self.report.add_report_line("Multiple institutions with OrgReg ID [%s] exist." % orgreg_id)
-                break
+                self.report.add_report_line(
+                    "%s**ERROR - Multiple institutions with OrgReg ID [%s] exist. Skipping.%s"
+                    % (self.colours['ERROR'], orgreg_id, self.colours['END']))
+                self.report.print_and_reset_report()
+                continue
 
             self.get_orgreg_record(orgreg_id)
 
@@ -483,8 +490,8 @@ class OrgRegSynchronizer:
                     'legal_seat': self._compare_boolean_data(ic.country_verified, legal_seat),
                     'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
                     'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
-                    'latitude': self._compare_data(ic.lat, latitude),
-                    'longitude': self._compare_data(ic.long, longitude),
+                    'latitude': self._compare_data(ic.lat, latitude, is_float=True),
+                    'longitude': self._compare_data(ic.long, longitude, is_float=True),
                     'source_note': self._compare_data(ic.country_source_note, source_note.strip())
                 }
 
@@ -575,11 +582,13 @@ class OrgRegSynchronizer:
             try:
                 source_institution = Institution.objects.get(eter_id=source_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       source_id,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Source Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           source_id,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -593,11 +602,13 @@ class OrgRegSynchronizer:
             try:
                 target_institution = Institution.objects.get(eter_id=target_id)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       target_id,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Target Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           target_id,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -675,6 +686,7 @@ class OrgRegSynchronizer:
                         ihr.institution_source = source_institution
                         ihr.institution_target = target_institution
                         ihr.relationship_date = values_to_update['date']['value']
+                        ihr.relationship_type = values_to_update['type']['value']
                         ihr.relationship_note = source_note
                         ihr.save()
 
@@ -703,6 +715,8 @@ class OrgRegSynchronizer:
         map = {
             '1': 1,
             '2': 1,
+            '3': None,
+            '4': None
         }
         relationships = self.orgreg_record['LINK']
 
@@ -727,11 +741,13 @@ class OrgRegSynchronizer:
             try:
                 parent_institution = Institution.objects.get(eter_id=entity2)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       entity2,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Parent Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           entity2,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -745,11 +761,13 @@ class OrgRegSynchronizer:
             try:
                 child_institution = Institution.objects.get(eter_id=entity1)
             except ObjectDoesNotExist:
-                self.report.add_report_line(
-                    "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
-                    % (self.colours['WARNING'],
-                       entity1,
-                       self.colours['END']))
+                warning = getattr(settings, 'ORGREG_INSTITUTION_RELATIONSHIP_WARNING', False)
+                if warning:
+                    self.report.add_report_line(
+                        "%s**WARNING - Child Institution doesn't exist with OrgReg ID [%s]. Skipping.%s"
+                        % (self.colours['WARNING'],
+                           entity1,
+                           self.colours['END']))
                 return
             except MultipleObjectsReturned:
                 self.report.add_report_line(
@@ -761,7 +779,10 @@ class OrgRegSynchronizer:
 
             # Check if event type is in DEQAR, if not exit.
             if relationship_type in map.keys():
-                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[relationship_type])
+                if map[relationship_type]:
+                    deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=map[relationship_type])
+                else:
+                    return
             else:
                 self.report.add_report_line("%s**ERROR - Matching RelationshipType can't be found [%s]. Skipping.%s"
                                             % (self.colours['ERROR'],
@@ -963,7 +984,7 @@ class OrgRegSynchronizer:
             if not self.dry_run:
                 setattr(self.inst, field, compare_data['orgreg_value'])
 
-    def _compare_data(self, deqar_data, orgreg_data):
+    def _compare_data(self, deqar_data, orgreg_data, is_float=False):
         compare = {
             'update': False,
             'value': deqar_data,
@@ -971,10 +992,16 @@ class OrgRegSynchronizer:
         }
 
         if deqar_data:
-            if deqar_data != orgreg_data:
-                compare['update'] = True
-                compare['value'] = orgreg_data
-                compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+            if is_float:
+                if not math.isclose(deqar_data, orgreg_data):
+                    compare['update'] = True
+                    compare['value'] = orgreg_data
+                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+            else:
+                if deqar_data != orgreg_data:
+                    compare['update'] = True
+                    compare['value'] = orgreg_data
+                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
 
         return compare
 
