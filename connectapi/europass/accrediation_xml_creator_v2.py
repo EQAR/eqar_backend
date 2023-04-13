@@ -246,11 +246,11 @@ class AccrediationXMLCreatorV2:
                     content_url = etree.SubElement(landing_page, f"{self.NS}contentUrl")
                     content_url.text = rl.link
 
-            # supplementaryDoc
+            # supplementaryDocument
             for idx, reportfile in enumerate(self.current_report.reportfile_set.iterator()):
                 if idx > 0:
                     if reportfile.file or reportfile.file_original_location:
-                        rf = etree.SubElement(acc, f"{self.NS}supplementaryDoc")
+                        rf = etree.SubElement(acc, f"{self.NS}supplementaryDocument")
 
                         if reportfile.file_display_name:
                             lang = reportfile.languages.first().iso_639_1 if reportfile.languages.count() > 0 else 'en'
