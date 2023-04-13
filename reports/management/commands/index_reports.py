@@ -21,7 +21,6 @@ class Command(BaseCommand):
         solr_core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
         solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), solr_core)
         solr = pysolr.Solr(solr_url)
-        solr.delete(q='*:*', commit=True)
 
         agency = options['agency']
         report = options['report']
@@ -38,6 +37,7 @@ class Command(BaseCommand):
 
         else:
             reports = Report.objects.all()
+            solr.delete(q='*:*', commit=True)
 
         for report in reports.iterator():
             indexer = ReportsIndexer(report)
