@@ -5,6 +5,7 @@ from langdetect import detect
 from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
+from agencies.models import Agency
 from institutions.models import Institution, InstitutionHierarchicalRelationship
 from reports.models import Report
 from lxml import etree
@@ -61,6 +62,7 @@ class AccrediationXMLCreatorV2:
         self.reports = []
         self.agencies = set()
         self.institutions = set()
+        self.locations = set()
         self.root = etree.Element(
             "Accreditations",
             {self.attr_qname: 'http://data.europa.eu/snb/model/ap/ams-constraints/ ams.xsd'},
@@ -96,25 +98,25 @@ class AccrediationXMLCreatorV2:
         for report in self.reports:
             self.current_report = report
             # Prepare list for agencies
-            self.agencies.add(report.agency)
+            self.agencies.add(report.agency_id)
 
             for institution in report.institutions.iterator():
                 self.current_institution = institution
 
                 # Prepare list for institutions
-                self.institutions.add(institution)
+                self.institutions.add(institution.id)
 
                 # Add child institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
                     institution_parent=institution
                 ).all():
-                    self.institutions.add(ih.institution_child)
+                    self.institutions.add(ih.institution_child_id)
 
                 # Add parent institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
                     institution_child=institution
                 ).all():
-                    self.institutions.add(ih.institution_parent)
+                    self.institutions.add(ih.institution_parent_id)
 
                 self.add_accreditation()
                 self.add_agencies()
@@ -189,7 +191,6 @@ class AccrediationXMLCreatorV2:
 
             # organisation
             etree.SubElement(acc, f"{self.NS}organisation", idref=f"https://data.deqar.eu/institution/{self.current_institution.id}")
-            self.institutions.add(self.current_institution)
 
             # limitEQFLevel
             eqf_levels = self.collect_eqf_levels(self.current_report)
@@ -286,7 +287,7 @@ class AccrediationXMLCreatorV2:
                 modified.text = self.current_report.updated_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_agencies(self):
-        for agency in self.agencies:
+        for agency in Agency.objects.filter(pk__in=self.agencies).all():
             agent = etree.SubElement(self.agentReferences, f"{self.NS}agent",
                                    id=f"https://data.deqar.eu/agency/{agency.id}")
 
@@ -356,7 +357,7 @@ class AccrediationXMLCreatorV2:
                 last_modifiation_date.text = agency.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_institutions(self):
-        for institution in self.institutions:
+        for institution in Institution.objects.filter(pk__in=self.institutions).all():
             self.assemble_institution(institution)
 
     def assemble_institution(self, institution, parent_of=None, child_of=None):
