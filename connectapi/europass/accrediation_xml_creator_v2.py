@@ -118,9 +118,9 @@ class AccrediationXMLCreatorV2:
                 ).all():
                     self.institutions.add(ih.institution_parent_id)
 
-                self.add_accreditation()
-                self.add_agencies()
-                self.add_institutions()
+            self.add_accreditation()
+            self.add_agencies()
+            self.add_institutions()
 
     def add_accreditation(self):
             acc = etree.SubElement(self.accreditations, f"{self.NS}accreditation",
