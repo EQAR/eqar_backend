@@ -100,8 +100,21 @@ class AccrediationXMLCreatorV2:
 
             for institution in report.institutions.iterator():
                 self.current_institution = institution
+
                 # Prepare list for institutions
                 self.institutions.add(institution)
+
+                # Add child institutions
+                for ih in InstitutionHierarchicalRelationship.objects.filter(
+                    institution_parent=institution
+                ).all():
+                    self.institutions.add(ih.institution_child)
+
+                # Add parent institutions
+                for ih in InstitutionHierarchicalRelationship.objects.filter(
+                    institution_child=institution
+                ).all():
+                    self.institutions.add(ih.institution_parent)
 
                 self.add_accreditation()
                 self.add_agencies()
@@ -167,8 +180,12 @@ class AccrediationXMLCreatorV2:
                                 uri=f"http://publications.europa.eu/resource/authority/language/"
                                     f"{self.encode_language(language.iso_639_2)}")
 
-                        content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                        content_url.text = f"{self.request.build_absolute_uri(reportfile.file.url)}"
+                        if reportfile.file:
+                            content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
+                            content_url.text = f"{self.request.build_absolute_uri(reportfile.file.url)}"
+                        else:
+                            content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
+                            content_url.text = f"{self.request.build_absolute_uri(reportfile.file_original_location)}"
 
             # organisation
             etree.SubElement(acc, f"{self.NS}organisation", idref=f"https://data.deqar.eu/institution/{self.current_institution.id}")
@@ -457,7 +474,7 @@ class AccrediationXMLCreatorV2:
                 etree.SubElement(
                     org,
                     f"{self.NS}location",
-                    idref=f"https://data.deqar.eu/institution-location/{ic.id}"
+                    attrib={'idref': f"https://data.deqar.eu/institution-location/{ic.id}"}
                 )
                 self.add_location_from_institution(ic)
 
@@ -469,9 +486,8 @@ class AccrediationXMLCreatorV2:
                     etree.SubElement(
                         org,
                         f"{self.NS}hasSubOrganization",
-                        attr={'idref': f"https://data.deqar.eu/institution/{ih.institution_child.id}"}
+                        attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_child_id}"}
                     )
-                    self.institutions.add(ih.institution_child)
             except ObjectDoesNotExist:
                 pass
 
@@ -483,9 +499,8 @@ class AccrediationXMLCreatorV2:
                     etree.SubElement(
                         org,
                         f"{self.NS}subOrganizationOf",
-                        attr={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent.id}"}
+                        attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
                     )
-                    self.institutions.add(ih.institution_parent)
             except ObjectDoesNotExist:
                 pass
 
