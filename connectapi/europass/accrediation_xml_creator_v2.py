@@ -91,14 +91,14 @@ class AccrediationXMLCreatorV2:
 
                 # Add child institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_parent=institution
-                ).all():
+                    institution_parent=institution,
+                ).exclude(relationship_type=1).all():
                     self.institutions.add(ih.institution_child_id)
 
                 # Add parent institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
                     institution_child=institution
-                ).all():
+                ).exclude(relationship_type=1).all():
                     self.institutions.add(ih.institution_parent_id)
 
                 # Create accreditation records
@@ -511,7 +511,7 @@ class AccrediationXMLCreatorV2:
             try:
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
                     institution_parent=institution
-                ).all():
+                ).exclude(relationship_type=1).all():
                     etree.SubElement(
                         org,
                         f"{self.NS}hasSubOrganization",
@@ -521,17 +521,17 @@ class AccrediationXMLCreatorV2:
                 pass
 
             # subOrganizationOf
-            try:
-                for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_child=institution
-                ).all():
-                    etree.SubElement(
-                        org,
-                        f"{self.NS}subOrganizationOf",
-                        attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
-                    )
-            except ObjectDoesNotExist:
-                pass
+
+            ih = InstitutionHierarchicalRelationship.objects.filter(
+                institution_child=institution
+            ).exclude(relationship_type=1).first()
+            if ih:
+                etree.SubElement(
+                    org,
+                    f"{self.NS}subOrganizationOf",
+                    attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
+                )
+
 
             # lastModificationDate
             last_modifiation = institution.institutionupdatelog_set.first()
