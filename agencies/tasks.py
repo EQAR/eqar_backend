@@ -20,7 +20,7 @@ def index_agency(agency_id):
 def index_reports_when_agency_acronym_changes(agency_id):
     reports = Report.objects.filter(Q(agency__id=agency_id) | Q(contributing_agencies__id=agency_id)).distinct()
     for report in reports.all():
-        indexer = ReportsIndexer(report)
+        indexer = ReportsIndexer(report.id)
         indexer.index()
 
 
@@ -28,5 +28,5 @@ def index_reports_when_agency_acronym_changes(agency_id):
 def index_institutions_when_agency_acronym_changes(agency_id):
     institutions = Institution.objects.filter(reports__agency__id=agency_id).distinct()
     for inst in institutions.all():
-        indexer = InstitutionIndexer(inst)
+        indexer = InstitutionIndexer(inst.id)
         indexer.index()

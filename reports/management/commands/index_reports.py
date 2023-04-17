@@ -40,5 +40,5 @@ class Command(BaseCommand):
             solr.delete(q='*:*', commit=True)
 
         for report in reports.iterator():
-            indexer = ReportsIndexer(report)
+            indexer = ReportsIndexer(report.id)
             indexer.index()

@@ -6,14 +6,17 @@ from datedelta import datedelta
 from django.conf import settings
 from django.db.models import Q
 
+from reports.models import Report
+
 
 class ReportsIndexer:
     """
     Class to index Reports to Solr.
     """
 
-    def __init__(self, report):
-        self.report = report
+    def __init__(self, report_id):
+        self.report_id = report_id
+        self.report = None
         self.solr_core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
         self.solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), self.solr_core)
         self.solr = pysolr.Solr(self.solr_url)
@@ -88,6 +91,7 @@ class ReportsIndexer:
         }
 
     def index(self):
+        self._get_report()
         self._index_report()
         self._store_json()
         self._remove_duplicates()
@@ -99,7 +103,10 @@ class ReportsIndexer:
             print('Error with Report No. %s! Error: %s' % (self.doc['id'], e))
 
     def delete(self):
-        self.solr.delete(id=self.report['id'], commit=True)
+        self.solr.delete(id=self.report_id, commit=True)
+
+    def _get_report(self):
+        self.report = Report.objects.get(pk=self.report_id)
 
     def _index_report(self):
         self.doc['id'] = self.report.id

@@ -16,5 +16,5 @@ class Command(BaseCommand):
         solr.delete(q='*:*', commit=True)
 
         for inst in Institution.objects.iterator():
-            indexer = InstitutionIndexer(inst)
+            indexer = InstitutionIndexer(inst.id)
             indexer.index()
