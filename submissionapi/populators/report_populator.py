@@ -60,7 +60,8 @@ class ReportPopulator():
             self.report.other_comment = self.submission.get('other_comment', None)
             self.report.summary = self.submission.get('summary', None)
 
-            Report.contributing_agencies.through.objects.all().delete()
+            # Report.contributing_agencies.through.objects.all().delete()
+            self.report.contributing_agencies.clear()
 
         # Create report
         else:
