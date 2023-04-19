@@ -15,44 +15,13 @@ from lxml import etree
 class AccrediationXMLCreatorV2:
     attr_qname = etree.QName("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation")
 
-    NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
+    NS = "{http://data.europa.eu/snb/model/ams-constraints/}"
     NSMAP = {
-        'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
         'skos': 'http://www.w3.org/2004/02/skos/core#',
-        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-        'org': 'http://www.w3.org/ns/org#',
-        'dc': 'http://purl.org/dc/terms/',
-        'locn': 'http://www.w3.org/ns/locn#',
-        'adms': "http://www.w3.org/ns/adms#",
-        'at': "http://publications.europa.eu/ontology/authority/",
-        'foaf': "http://xmlns.com/foaf/0.1/",
         'clv': 'http://data.europa.eu/m8g/',
-        'elm': "http://data.europa.eu/snb/model#",
-        'rov': "http://www.w3.org/ns/regorg#",
-        'lng': "http://publications.europa.eu/resource/authority/language",
-        'cou': "http://publications.europa.eu/resource/authority/country",
-        'for': "http://publications.europa.eu/resource/authority/file-type",
-        'nuts': "http://data.europa.eu/nuts/scheme/2016",
-        'atu': "http://publications.europa.eu/resource/authority/atu",
-        'isced': "http://data.europa.eu/snb/isced-f/25831c2",
-        'eqf': "http://data.europa.eu/snb/eqf/25831c2",
-        'nqf': "http://data.europa.eu/snb/qdr/25831c2",
-        'eat': "http://data.europa.eu/snb/accreditation/25831c2",
-        'ecet': "http://data.europa.eu/snb/encoding/25831c2",
-        'elot': "http://data.europa.eu/snb/learning-opportunity/25831c2",
-        'act': "http://data.europa.eu/snb/learning-activity/25831c2",
-        'ass': "http://data.europa.eu/snb/assessment/25831c2",
-        'ent': "http://data.europa.eu/snb/entitlement/25831c2",
-        'ents': "http://data.europa.eu/snb/entitlement-status/25831c2",
-        'em': "http://data.europa.eu/snb/learning-assessment/25831c2",
-        'sett': "http://data.europa.eu/snb/learning-setting/25831c2",
-        'etg': "http://data.europa.eu/snb/target-group/25831c2",
-        'st': "http://data.europa.eu/snb/skill-type/25831c2",
-        'srl': "http://data.europa.eu/snb/skill-reuse-level/25831c2",
-        'sched': "http://data.europa.eu/snb/learning-schedule/25831c2",
-        'cp': "http://data.europa.eu/snb/education-credit/25831c2",
-        'curr': "http://publications.europa.eu/resource/authority/currency",
-        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
+        None: 'http://data.europa.eu/snb/model/ams-constraints/',
+        'dc': 'http://purl.org/dc/terms/',
+        'locn': 'http://www.w3.org/ns/locn#'
     }
 
     REPORT_TYPES = {
