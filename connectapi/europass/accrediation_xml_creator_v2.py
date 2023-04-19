@@ -17,6 +17,7 @@ class AccrediationXMLCreatorV2:
 
     NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
     NSMAP = {
+        'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
         'skos': 'http://www.w3.org/2004/02/skos/core#',
         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
         'org': 'http://www.w3.org/ns/org#',
