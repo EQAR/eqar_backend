@@ -420,15 +420,6 @@ class AccrediationXMLCreatorV2:
                         f"{self.NS}spatial",
                         attrib={'uri': country.country.eu_controlled_vocab_country}
                     )
-            else:
-                reg = etree.SubElement(org, f"{self.NS}registration")
-                notation = etree.SubElement(reg, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-                notation.text = f"https://data.deqar.eu/institution/{institution.id}"
-                etree.SubElement(
-                    reg,
-                    f"{self.NS}spatial",
-                    attrib={'uri': country.country.eu_controlled_vocab_country}
-                )
 
             # vatIdentifier
             for identifier in institution.institutionidentifier_set.filter(resource='EU-VAT').iterator():
