@@ -18,13 +18,14 @@ class AccrediationXMLCreatorV2:
     NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
     NSMAP = {
         'skos': 'http://www.w3.org/2004/02/skos/core#',
-        'clv': 'http://data.europa.eu/m8g/',
-        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
+        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+        'org': 'http://www.w3.org/ns/org#',
         'dc': 'http://purl.org/dc/terms/',
         'locn': 'http://www.w3.org/ns/locn#',
         'adms': "http://www.w3.org/ns/adms#",
         'at': "http://publications.europa.eu/ontology/authority/",
         'foaf': "http://xmlns.com/foaf/0.1/",
+        'clv': 'http://data.europa.eu/m8g/',
         'elm': "http://data.europa.eu/snb/model#",
         'rov': "http://www.w3.org/ns/regorg#",
         'lng': "http://publications.europa.eu/resource/authority/language",
@@ -49,7 +50,8 @@ class AccrediationXMLCreatorV2:
         'srl': "http://data.europa.eu/snb/skill-reuse-level/25831c2",
         'sched': "http://data.europa.eu/snb/learning-schedule/25831c2",
         'cp': "http://data.europa.eu/snb/education-credit/25831c2",
-        'curr': "http://publications.europa.eu/resource/authority/currency"
+        'curr': "http://publications.europa.eu/resource/authority/currency",
+        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
     }
 
     REPORT_TYPES = {
