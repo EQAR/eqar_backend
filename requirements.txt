@@ -67,7 +67,7 @@ six==1.11.0
 snowballstemmer==1.2.1
 Sphinx==3.0.4
 sphinxcontrib-websupport==1.1.0
-sqlparse==0.2.4
+sqlparse==0.4.4
 strict-rfc3339==0.7
 titlecase==0.12.0
 uritemplate==3.0.0
