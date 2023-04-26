@@ -5,7 +5,7 @@ Babel==2.9.1
 beautifulsoup4==4.6.0
 billiard==3.6.3.0
 celery==4.4.7
-certifi==2017.11.5
+certifi==2022.12.7
 cffi==1.15.1
 chardet==3.0.4
 click==6.7
@@ -92,7 +92,7 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
 sphinxcontrib-websupport==1.1.0
-sqlparse==0.2.4
+sqlparse==0.4.4
 strict-rfc3339==0.7
 titlecase==0.12.0
 tomli==2.0.1
