@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ObjectDoesNotExist
 
 from agencies.models import AgencyFocusCountry
-from institutions.models import InstitutionCountry
+from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
 from lists.models import Flag
 from reports.models import ReportFlag
 
@@ -26,6 +26,7 @@ class ReportFlagger:
             'programmeCountryId': 'Programme country [%s] is not amongst the countries of the institution(s).',
             'programmeQFEHEALevel': 'QF-EHEA Level [%s] for programme [%s] should be in the institutions '
                                     'QF-EHEA level list.',
+            'programmeQFEHEALevelAdded': 'QF-EHEA Level [%s] was added to the institution [%s]',
             'validityDate': 'Report validity is more then one year old.',
             'EHEAIsMember': 'A record was created/identified for an institution (%s) in an EHEA member country (%s) '
                             'without including QF-EHEA levels.',
@@ -127,7 +128,7 @@ class ReportFlagger:
         """ for joint programme/multi-institution reports, raise a flag for lack of official status only if
         the agency has no official status in any of the institutions' legal seat countries -
         in other words: okay if they have official status in at least one of the legal seat countries"""
-        if self.report.agency_esg_activity.activity_type == 3 or self.report.institutions.count() > 1:
+        if self.report.agency_esg_activity.activity_type_id == 3 or self.report.institutions.count() > 1:
             official_status_exists = False
             for institution in self.report.institutions.all():
                 for ic in institution.institutioncountry_set.filter(country_verified=True).all():
@@ -153,15 +154,48 @@ class ReportFlagger:
         for programme in self.report.programme_set.all():
             qf_ehea_level = programme.qf_ehea_level
             if qf_ehea_level is not None:
-                for institution in self.report.institutions.all():
-                    if institution.institutionqfehealevel_set.count() != 0:
-                        if institution.institutionqfehealevel_set.filter(
+
+                ''' for voluntary status reports, flag as currently (high level flag if programme level 
+                not in institution's listed level), but "relax" the logic for joint programmes so 
+                that flag is only given if level is in none of the institutions' list - 
+                that is, no flag if one institution has the level in its list '''
+                if self.report.status_id == 2:
+                    if self.report.agency_esg_activity.activity_type_id != 3:
+                        for institution in self.report.institutions.all():
+                            if institution.institutionqfehealevel_set.filter(
+                                qf_ehea_level=qf_ehea_level,
+                                qf_ehea_level_verified=True
+                            ).count() == 0:
+                                flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
+                                                                                        programme.name_primary)
+                                self.add_flag(flag_level=3, flag_message=flag_message)
+                    else:
+                        if InstitutionQFEHEALevel.objects.filter(
+                            institution__reports=self.report,
                             qf_ehea_level=qf_ehea_level,
                             qf_ehea_level_verified=True
                         ).count() == 0:
                             flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
                                                                                     programme.name_primary)
                             self.add_flag(flag_level=3, flag_message=flag_message)
+
+                ''' for official/obligatory reports: add level to institution's list if it is not on yet, 
+                post a yellow/low level flag to notify that level has been added for the first time'''
+                if self.report.status_id == 1:
+                    for institution in self.report.institutions.all():
+                        if institution.institutionqfehealevel_set.filter(
+                                qf_ehea_level=qf_ehea_level,
+                                qf_ehea_level_verified=True
+                        ).count() == 0:
+                            InstitutionQFEHEALevel.objects.create(
+                                institution=institution,
+                                qf_ehea_level=qf_ehea_level,
+                                qf_ehea_level_verified=False
+                            )
+                            flag_message = self.flag_msg['programmeQFEHEALevelAdded'] % \
+                                (qf_ehea_level, institution.name_primary)
+                            self.add_flag(flag_level=2, flag_message=flag_message)
+
 
     def check_validity_date(self):
         if self.report.valid_to < datetime.datetime.now() - relativedelta(years=1):

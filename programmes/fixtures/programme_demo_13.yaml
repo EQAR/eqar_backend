@@ -1,0 +1,14 @@
+- model: programmes.Programme
+  pk: 13
+  fields:
+    report: 11
+    countries: [64, 74]
+    name_primary: Public Management
+
+- model: programmes.programmeName
+  pk: 13
+  fields:
+    programme: 13
+    name: Public Management
+    name_is_primary: False
+    qualification: Master of Public Management
