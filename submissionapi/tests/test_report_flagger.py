@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from lists.models import QFEHEALevel
 from reports.models import Report, ReportFlag
@@ -51,9 +52,34 @@ class ReportFlaggerTestCase(TestCase):
         self.assertEqual(flagger.report.agency.agencyfocuscountry_set.count(), 15)
         self.assertEqual(flagger.report.flag.flag, 'high level')
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.count(), 5, report_flags.count())
+        self.assertEqual(report_flags.count(), 4, report_flags.count())
         msg = "Institution country [United Kingdom] was not on a list as an Agency Focus country for [ACQUIN]."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
+
+    def test_check_countries_joint_programme_report(self):
+        report = Report.objects.get(pk=11)
+        flagger = ReportFlagger(
+            report=report
+        )
+        inst = flagger.report.institutions.create(
+            website_link="https://www.kcl.ac.uk/"
+        )
+        inst.institutioncountry_set.create(
+            country=Country.objects.get(iso_3166_alpha2='GB')
+        )
+        agency_focus_country = AgencyFocusCountry.objects.get(
+            agency=report.agency,
+            country__id=64
+        )
+        agency_focus_country.country_is_official = False
+        agency_focus_country.save()
+        flagger.check_report_status_country_is_official_for_multi_institution()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+        report_flags = ReportFlag.objects.filter(report=report)
+        msg = "Report was listed as obligatory, but the Agency (ACQUIN) does not have official status in any of the institution's country"
+        self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
+
 
     def test_check_programme_qf_ehea_level(self):
         report = Report.objects.get(pk=1)

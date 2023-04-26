@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ObjectDoesNotExist
 
 from agencies.models import AgencyFocusCountry
+from institutions.models import InstitutionCountry
 from lists.models import Flag
 from reports.models import ReportFlag
 
@@ -19,6 +20,9 @@ class ReportFlagger:
             'programmeCountry': 'Programme country [%s] was not on a list as an Agency Focus country for [%s].',
             'statusCountryIsOfficial': "Report was listed as obligatory, but the Agency (%s) does not have official "
                                        "status in the institution's country (%s)",
+            'statusCountryIsOfficialMultiInstitution': "Report was listed as obligatory, but the Agency (%s) "
+                                                       "does not have official "
+                                                       "status in any of the institution's country",
             'programmeCountryId': 'Programme country [%s] is not amongst the countries of the institution(s).',
             'programmeQFEHEALevel': 'QF-EHEA Level [%s] for programme [%s] should be in the institutions '
                                     'QF-EHEA level list.',
@@ -31,6 +35,8 @@ class ReportFlagger:
     def check_and_set_flags(self):
         self.reset_flag()
         self.check_countries()
+        self.check_report_status_country_is_official_for_multi_institution()
+
         self.check_programme_qf_ehea_level()
         # self.check_ehea_is_member()
         self.check_report_file()
@@ -73,7 +79,9 @@ class ReportFlagger:
     def check_countries(self):
         # InstitutionCountries
         for institution in self.report.institutions.all():
-            for ic in institution.institutioncountry_set.all():
+            for ic in institution.institutioncountry_set.filter(
+                country_verified=True
+            ).all():
                 try:
                     afc = AgencyFocusCountry.objects.get(agency=self.report.agency, country=ic.country)
                 except ObjectDoesNotExist:
@@ -105,7 +113,7 @@ class ReportFlagger:
                     flag_message = self.flag_msg['programmeCountry'] % (pc.name_english,
                                                                         self.report.agency.acronym_primary)
                     self.add_flag(flag_level=2, flag_message=flag_message)
-                self._check_report_status_country_is_official(afc)
+                # self._check_report_status_country_is_official(afc)
                 self._check_programme_country_id(pc)
 
     def _check_report_status_country_is_official(self, agency_focus_country):
@@ -113,6 +121,26 @@ class ReportFlagger:
             if not agency_focus_country.country_is_official:
                 flag_message = self.flag_msg['statusCountryIsOfficial'] % (self.report.agency.acronym_primary,
                                                                            agency_focus_country.country.name_english)
+                self.add_flag(flag_level=3, flag_message=flag_message)
+
+    def check_report_status_country_is_official_for_multi_institution(self):
+        """ for joint programme/multi-institution reports, raise a flag for lack of official status only if
+        the agency has no official status in any of the institutions' legal seat countries -
+        in other words: okay if they have official status in at least one of the legal seat countries"""
+        if self.report.agency_esg_activity.activity_type == 3 or self.report.institutions.count() > 1:
+            official_status_exists = False
+            for institution in self.report.institutions.all():
+                for ic in institution.institutioncountry_set.filter(country_verified=True).all():
+                    if AgencyFocusCountry.objects.filter(
+                            agency=self.report.agency,
+                            country=ic.country,
+                            country_is_official=True
+                    ).exists():
+                        official_status_exists = True
+            if not official_status_exists:
+                flag_message = self.flag_msg['statusCountryIsOfficialMultiInstitution'] % (
+                    self.report.agency.acronym_primary
+                )
                 self.add_flag(flag_level=3, flag_message=flag_message)
 
     def _check_programme_country_id(self, country):
