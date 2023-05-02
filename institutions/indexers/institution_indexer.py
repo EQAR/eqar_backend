@@ -5,6 +5,7 @@ import pysolr
 from django.conf import settings
 from django.db.models import Q
 
+from institutions.models import Institution
 from reports.models import Report
 
 
@@ -13,8 +14,9 @@ class InstitutionIndexer:
     Class to index Institution and their corresponding Report records to Solr.
     """
 
-    def __init__(self, institution):
-        self.institution = institution
+    def __init__(self, institution_id):
+        self.institution_id = institution_id
+        self.institution = None
         self.solr_core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
         self.solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), self.solr_core)
         self.solr = pysolr.Solr(self.solr_url)
@@ -84,6 +86,7 @@ class InstitutionIndexer:
         }
 
     def index(self):
+        self._get_institution()
         self._index_main_institution()
         self._index_hierarchical_institutions()
         self._index_reports()
@@ -97,9 +100,12 @@ class InstitutionIndexer:
             print('Error with Institution No. %s! Error: %s' % (self.doc['id'], e))
 
     def delete(self):
-        self.solr.delete(self.institution.id)
-        print('Deleted Institution No. %s!' % self.institution.id)
+        self.solr.delete(self.institution_id)
+        print('Deleted Institution No. %s!' % self.institution_id)
         self.solr.commit()
+
+    def _get_institution(self):
+        self.institution = Institution.objects.get(pk=self.institution_id)
 
     def _index_main_institution(self):
         # Index display fields

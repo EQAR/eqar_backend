@@ -162,6 +162,21 @@
     created_at: "2019-01-01T12:00:00+00:00"
     created_by: 1
 
+- model: reports.Report
+  pk: 11
+  fields:
+    agency: 5
+    local_identifier: EQARAG0021-EQARIN0001-EQARIN0002-01
+    agency_esg_activity: 3
+    name: Joint Programme Accreditation
+    status: 1
+    decision: 1
+    valid_from: 2015-03-31
+    valid_to: 2023-09-30
+    institutions: [1, 2]
+    created_at: "2019-01-01T12:00:00+00:00"
+    created_by: 1
+
 - model: reports.ReportFile
   pk: 1
   fields:

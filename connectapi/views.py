@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 
 from agencies.models import AgencyESGActivity
 from connectapi.europass.accrediation_xml_creator import AccrediationXMLCreator
+from connectapi.europass.accrediation_xml_creator_v2 import AccrediationXMLCreatorV2
 from countries.models import Country
 from eqar_backend.searchers import Searcher
 from eqar_backend.xml_renderer import XMLRenderer
@@ -134,4 +135,15 @@ class AccreditationXMLView(APIView):
         country_code = self.kwargs['country_code']
         country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
         creator = AccrediationXMLCreator(country, request)
+        return Response(creator.create(), content_type='application/xml')
+
+
+class AccreditationXMLViewV2(APIView):
+    permission_classes = []
+    renderer_classes = (XMLRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        country_code = self.kwargs['country_code']
+        country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
+        creator = AccrediationXMLCreatorV2(country, request)
         return Response(creator.create(), content_type='application/xml')

@@ -4,7 +4,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from connectapi.letstrust.views import DEQARVCIssue, EBSIVCIssue
-from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView
+from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView, AccreditationXMLViewV2
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 schema_view = get_schema_view(
@@ -23,6 +23,11 @@ schema_view = get_schema_view(
 
 app_name = 'connectapi'
 
+
+class AccrediationXMLViewV2:
+    pass
+
+
 urlpatterns = [
     # DEQAR Connect endpoints
     url(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
@@ -30,6 +35,8 @@ urlpatterns = [
 
     # Europass endpoints
     url(r'^europass/accreditations/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLView.as_view(), name='europass-accreditations'),
+    url(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLViewV2.as_view(),
+        name='europass-accreditations-v2'),
 
     # Let's Trust endpoints
     url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', DEQARVCIssue.as_view(), name='letstrust-vc-issue'),

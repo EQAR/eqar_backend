@@ -46,8 +46,8 @@ class BrowseAPIReportTest(APITestCase):
             Test if we can display a list of programme reports by institution.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/1/')
+        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/2/')
         self.assertEqual(response.data['count'], 1)
 
-        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/1/', {'history': 'false'})
+        response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/2/', {'history': 'false'})
         self.assertEqual(response.data['count'], 1)
