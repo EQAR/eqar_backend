@@ -597,7 +597,7 @@ class AccrediationXMLCreatorV2:
         if self.request.query_params.get('check', '') == 'false':
             return self.root
         else:
-            xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/ams.xsd')
+            xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/schema/ams.xsd')
             xsd_root = etree.parse(xsd_file)
             schema = etree.XMLSchema(xsd_root)
             if not schema.validate(self.root):

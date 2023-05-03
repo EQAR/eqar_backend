@@ -24,8 +24,7 @@ static/media
 *.rdb
 data_cleaning*.*
 
-/connectapi/europass/ams.xsd
-/connectapi/europass/cv
-/connectapi/europass/external
-
+/connectapi/europass/schema
 /SPACE
+
+.DS_STORE
