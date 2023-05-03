@@ -1,5 +1,3 @@
-from typing import Union
-
 from drf_rw_serializers import generics
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAdminUser
@@ -58,7 +56,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Report.objects.all()
     read_serializer_class = ReportReadSerializer
     write_serializer_class = ReportWriteSerializer
-    permission_classes = (Union[CanEditReport, IsAdminUser],)
+    permission_classes = (CanEditReport|IsAdminUser,)
 
     @swagger_auto_schema(responses={'200': ReportReadSerializer})
     def get(self, request, *args, **kwargs):
