@@ -26,5 +26,6 @@ data_cleaning*.*
 
 /connectapi/europass/schema
 /SPACE
+/ACQUIN
 
 .DS_STORE
