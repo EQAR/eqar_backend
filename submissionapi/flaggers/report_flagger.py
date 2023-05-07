@@ -34,7 +34,7 @@ class ReportFlagger:
     def check_and_set_flags(self):
         self.reset_flag()
         self.check_countries()
-        self.check_report_status_country_is_official_for_multi_institution()
+        self.check_report_status_country_is_official()
 
         self.check_programme_qf_ehea_level()
         # self.check_ehea_is_member()
