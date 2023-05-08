@@ -92,7 +92,7 @@ class ReportFlaggerTestCase(TestCase):
         prg.save()
         flagger.check_programme_qf_ehea_level()
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.first().flag.flag, 'high level', report_flags.first().flag.flag)
+        self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
         msg = "QF-EHEA Level [third cycle] for programme [Verwaltung (B.A.)] " \
               "should be in the institutions QF-EHEA level list."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
@@ -107,7 +107,7 @@ class ReportFlaggerTestCase(TestCase):
         prg.save()
         flagger.check_programme_qf_ehea_level()
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.first().flag.flag, 'high level', report_flags.first().flag.flag)
+        self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
         msg = "QF-EHEA Level [third cycle] for programme [Public Management] " \
               "should be in the institutions QF-EHEA level list."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)

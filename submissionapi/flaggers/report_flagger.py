@@ -152,24 +152,14 @@ class ReportFlagger:
                 that flag is only given if level is in none of the institutions' list - 
                 that is, no flag if one institution has the level in its list '''
                 if self.report.status_id == 2:
-                    if self.report.agency_esg_activity.activity_type_id != 3:
-                        for institution in self.report.institutions.all():
-                            if institution.institutionqfehealevel_set.filter(
-                                qf_ehea_level=qf_ehea_level,
-                                qf_ehea_level_verified=True
-                            ).count() == 0:
-                                flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
-                                                                                        programme.name_primary)
-                                self.add_flag(flag_level=3, flag_message=flag_message)
-                    else:
-                        if InstitutionQFEHEALevel.objects.filter(
-                            institution__reports=self.report,
-                            qf_ehea_level=qf_ehea_level,
-                            qf_ehea_level_verified=True
-                        ).count() == 0:
-                            flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
-                                                                                    programme.name_primary)
-                            self.add_flag(flag_level=3, flag_message=flag_message)
+                    if InstitutionQFEHEALevel.objects.filter(
+                        institution__reports=self.report,
+                        qf_ehea_level=qf_ehea_level,
+                        qf_ehea_level_verified=True
+                    ).count() == 0:
+                        flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
+                                                                                programme.name_primary)
+                        self.add_flag(flag_level=2, flag_message=flag_message)
 
                 ''' for official/obligatory reports: add level to institution's list if it is not on yet, 
                 post a yellow/low level flag to notify that level has been added for the first time'''
