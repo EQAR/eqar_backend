@@ -18,9 +18,7 @@ class ReportFlagger:
         self.flag_msg = {
             'institutionCountry': 'Institution country [%s] was not on a list as an Agency Focus country for [%s].',
             'programmeCountry': 'Programme country [%s] was not on a list as an Agency Focus country for [%s].',
-            'statusCountryIsOfficial': "Report was listed as obligatory, but the Agency (%s) does not have official "
-                                       "status in the institution's country (%s)",
-            'statusCountryIsOfficialMultiInstitution': "Report was listed as obligatory, but the Agency (%s) "
+            'statusCountryIsOfficial': "Report was listed as obligatory, but the Agency (%s) "
                                                        "does not have official "
                                                        "status in any of the institution's country",
             'programmeCountryId': 'Programme country [%s] is not amongst the countries of the institution(s).',
@@ -36,7 +34,7 @@ class ReportFlagger:
     def check_and_set_flags(self):
         self.reset_flag()
         self.check_countries()
-        self.check_report_status_country_is_official_for_multi_institution()
+        self.check_report_status_country_is_official()
 
         self.check_programme_qf_ehea_level()
         # self.check_ehea_is_member()
@@ -96,7 +94,6 @@ class ReportFlagger:
                     flag_message = self.flag_msg['institutionCountry'] % (ic.country.name_english,
                                                                           self.report.agency.acronym_primary)
                     self.add_flag(flag_level=2, flag_message=flag_message)
-                self._check_report_status_country_is_official(afc)
 
         # ProgrammeCountries
         for programme in self.report.programme_set.all():
@@ -114,41 +111,36 @@ class ReportFlagger:
                     flag_message = self.flag_msg['programmeCountry'] % (pc.name_english,
                                                                         self.report.agency.acronym_primary)
                     self.add_flag(flag_level=2, flag_message=flag_message)
-                # self._check_report_status_country_is_official(afc)
                 self._check_programme_country_id(pc)
-
-    def _check_report_status_country_is_official(self, agency_focus_country):
-        if self.report.status_id == 1:
-            if not agency_focus_country.country_is_official:
-                flag_message = self.flag_msg['statusCountryIsOfficial'] % (self.report.agency.acronym_primary,
-                                                                           agency_focus_country.country.name_english)
-                self.add_flag(flag_level=3, flag_message=flag_message)
-
-    def check_report_status_country_is_official_for_multi_institution(self):
-        """ for joint programme/multi-institution reports, raise a flag for lack of official status only if
-        the agency has no official status in any of the institutions' legal seat countries -
-        in other words: okay if they have official status in at least one of the legal seat countries"""
-        if self.report.agency_esg_activity.activity_type_id == 3 or self.report.institutions.count() > 1:
-            official_status_exists = False
-            for institution in self.report.institutions.all():
-                for ic in institution.institutioncountry_set.filter(country_verified=True).all():
-                    if AgencyFocusCountry.objects.filter(
-                            agency=self.report.agency,
-                            country=ic.country,
-                            country_is_official=True
-                    ).exists():
-                        official_status_exists = True
-            if not official_status_exists:
-                flag_message = self.flag_msg['statusCountryIsOfficialMultiInstitution'] % (
-                    self.report.agency.acronym_primary
-                )
-                self.add_flag(flag_level=3, flag_message=flag_message)
 
     def _check_programme_country_id(self, country):
         ic_count = self.report.institutions.filter(institutioncountry__country=country).count()
         if ic_count == 0:
             flag_message = self.flag_msg['programmeCountryId'] % country
             self.add_flag(flag_level=2, flag_message=flag_message)
+
+    def check_report_status_country_is_official(self):
+        """
+        (Colin): What I think would be the easiest way: drop _check_report_status_country_is_official() and the call
+        to it entirely, so that check_countries() just adds the new focus country records (and gives a yellow flag
+        in case), while check_report_status_country_is_official_for_multi_institution() checks the official status
+        part and gives a red flag. I think it should perfectly well work for any report, regardless of activity
+        type and institution count.
+        """
+        official_status_exists = False
+        for institution in self.report.institutions.all():
+            for ic in institution.institutioncountry_set.filter(country_verified=True).all():
+                if AgencyFocusCountry.objects.filter(
+                        agency=self.report.agency,
+                        country=ic.country,
+                        country_is_official=True
+                ).exists():
+                    official_status_exists = True
+        if not official_status_exists:
+            flag_message = self.flag_msg['statusCountryIsOfficial'] % (
+                self.report.agency.acronym_primary
+            )
+            self.add_flag(flag_level=3, flag_message=flag_message)
 
     def check_programme_qf_ehea_level(self):
         for programme in self.report.programme_set.all():
@@ -160,38 +152,25 @@ class ReportFlagger:
                 that flag is only given if level is in none of the institutions' list - 
                 that is, no flag if one institution has the level in its list '''
                 if self.report.status_id == 2:
-                    if self.report.agency_esg_activity.activity_type_id != 3:
-                        for institution in self.report.institutions.all():
-                            if institution.institutionqfehealevel_set.filter(
-                                qf_ehea_level=qf_ehea_level,
-                                qf_ehea_level_verified=True
-                            ).count() == 0:
-                                flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
-                                                                                        programme.name_primary)
-                                self.add_flag(flag_level=3, flag_message=flag_message)
-                    else:
-                        if InstitutionQFEHEALevel.objects.filter(
-                            institution__reports=self.report,
-                            qf_ehea_level=qf_ehea_level,
-                            qf_ehea_level_verified=True
-                        ).count() == 0:
-                            flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
-                                                                                    programme.name_primary)
-                            self.add_flag(flag_level=3, flag_message=flag_message)
+                    if InstitutionQFEHEALevel.objects.filter(
+                        institution__reports=self.report,
+                        qf_ehea_level=qf_ehea_level,
+                        qf_ehea_level_verified=True
+                    ).count() == 0:
+                        flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
+                                                                                programme.name_primary)
+                        self.add_flag(flag_level=2, flag_message=flag_message)
 
                 ''' for official/obligatory reports: add level to institution's list if it is not on yet, 
                 post a yellow/low level flag to notify that level has been added for the first time'''
                 if self.report.status_id == 1:
                     for institution in self.report.institutions.all():
-                        if institution.institutionqfehealevel_set.filter(
-                                qf_ehea_level=qf_ehea_level,
-                                qf_ehea_level_verified=True
-                        ).count() == 0:
-                            InstitutionQFEHEALevel.objects.create(
-                                institution=institution,
-                                qf_ehea_level=qf_ehea_level,
-                                qf_ehea_level_verified=False
-                            )
+                        iqfehea, created = InstitutionQFEHEALevel.objects.get_or_create(
+                            institution=institution,
+                            qf_ehea_level=qf_ehea_level,
+                            qf_ehea_level_verified=True
+                        )
+                        if created:
                             flag_message = self.flag_msg['programmeQFEHEALevelAdded'] % \
                                 (qf_ehea_level, institution.name_primary)
                             self.add_flag(flag_level=2, flag_message=flag_message)

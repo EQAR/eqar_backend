@@ -52,9 +52,9 @@ class ReportFlaggerTestCase(TestCase):
         flagger.check_countries()
         flagger.set_flag()
         self.assertEqual(flagger.report.agency.agencyfocuscountry_set.count(), 15)
-        self.assertEqual(flagger.report.flag.flag, 'high level')
+        self.assertEqual(flagger.report.flag.flag, 'low level')
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.count(), 4, report_flags.count())
+        self.assertEqual(report_flags.count(), 3, report_flags.count())
         msg = "Institution country [United Kingdom] was not on a list as an Agency Focus country for [ACQUIN]."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
 
@@ -75,7 +75,7 @@ class ReportFlaggerTestCase(TestCase):
         )
         agency_focus_country.country_is_official = False
         agency_focus_country.save()
-        flagger.check_report_status_country_is_official_for_multi_institution()
+        flagger.check_report_status_country_is_official()
         flagger.set_flag()
         self.assertEqual(flagger.report.flag.flag, 'high level')
         report_flags = ReportFlag.objects.filter(report=report)
@@ -92,7 +92,7 @@ class ReportFlaggerTestCase(TestCase):
         prg.save()
         flagger.check_programme_qf_ehea_level()
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.first().flag.flag, 'high level', report_flags.first().flag.flag)
+        self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
         msg = "QF-EHEA Level [third cycle] for programme [Verwaltung (B.A.)] " \
               "should be in the institutions QF-EHEA level list."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
@@ -107,7 +107,7 @@ class ReportFlaggerTestCase(TestCase):
         prg.save()
         flagger.check_programme_qf_ehea_level()
         report_flags = ReportFlag.objects.filter(report=report)
-        self.assertEqual(report_flags.first().flag.flag, 'high level', report_flags.first().flag.flag)
+        self.assertEqual(report_flags.first().flag.flag, 'low level', report_flags.first().flag.flag)
         msg = "QF-EHEA Level [third cycle] for programme [Public Management] " \
               "should be in the institutions QF-EHEA level list."
         self.assertEqual(report_flags.first().flag_message, msg, report_flags.first().flag_message)
