@@ -407,6 +407,9 @@ class InstitutionPopulator():
                 )
                 ic.add_source_note(self.flagger.get_message('country', country))
                 self.institution.set_flag_low()
+            # In case of multiple countries, skipping
+            except MultipleObjectsReturned:
+                return
 
     def _institution_existing_populate_qf_ehea_level(self):
         qf_ehea_levels = self.submission.get("qf_ehea_levels", [])
