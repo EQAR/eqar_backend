@@ -22,6 +22,7 @@ class OrgRegSynchronizer:
         self.only_new = only_new
         self.dry_run = dry_run
         self.orgreg_ids = []
+        self.orgreg_ids_blacklist = getattr(settings, "ORGREG_ID_BLACKLIST", [])
         self.orgreg_record = {}
         self.inst = {}
         self.inst_update = False
@@ -93,48 +94,49 @@ class OrgRegSynchronizer:
     def run(self):
         self.report.add_header()
         for index, orgreg_id in enumerate(self.orgreg_ids):
-            try:
-                self.inst = Institution.objects.get(eter_id=orgreg_id)
-                action = 'update'
-            except ObjectDoesNotExist:
-                action = 'add'
-            except MultipleObjectsReturned:
-                self.report.add_report_line(
-                    "%s**ERROR - Multiple institutions with OrgReg ID [%s] exist. Skipping.%s"
-                    % (self.colours['ERROR'], orgreg_id, self.colours['END']))
+            if orgreg_id not in self.orgreg_ids_blacklist:
+                try:
+                    self.inst = Institution.objects.get(eter_id=orgreg_id)
+                    action = 'update'
+                except ObjectDoesNotExist:
+                    action = 'add'
+                except MultipleObjectsReturned:
+                    self.report.add_report_line(
+                        "%s**ERROR - Multiple institutions with OrgReg ID [%s] exist. Skipping.%s"
+                        % (self.colours['ERROR'], orgreg_id, self.colours['END']))
+                    self.report.print_and_reset_report()
+                    continue
+
+                self.get_orgreg_record(orgreg_id)
+
+                if action == 'add':
+                    self.create_institution_record(orgreg_id)
+                    self.inst.create_deqar_id()
+
+                    base_data = self.orgreg_record['BAS'][0]['BAS']
+                    self.report.add_institution_header(
+                        orgreg_id=orgreg_id,
+                        deqar_id=self.inst.deqar_id,
+                        institution_name=self._get_value(base_data, 'ENTITYNAME', default="-NEW INSTITUTION-"),
+                        action='CREATE'
+                    )
+
+                if action == 'update':
+                    self.report.add_institution_header(
+                        orgreg_id=orgreg_id,
+                        deqar_id=self.inst.deqar_id,
+                        institution_name=self.inst.name_primary
+                    )
+
+                self.sync_base_data()
+                self.sync_locations()
+                self.sync_names()
+                self.sync_historical_relationships()
+                self.sync_hierarchical_relationships()
                 self.report.print_and_reset_report()
-                continue
 
-            self.get_orgreg_record(orgreg_id)
-
-            if action == 'add':
-                self.create_institution_record(orgreg_id)
-                self.inst.create_deqar_id()
-
-                base_data = self.orgreg_record['BAS'][0]['BAS']
-                self.report.add_institution_header(
-                    orgreg_id=orgreg_id,
-                    deqar_id=self.inst.deqar_id,
-                    institution_name=self._get_value(base_data, 'ENTITYNAME', default="-NEW INSTITUTION-"),
-                    action='CREATE'
-                )
-
-            if action == 'update':
-                self.report.add_institution_header(
-                    orgreg_id=orgreg_id,
-                    deqar_id=self.inst.deqar_id,
-                    institution_name=self.inst.name_primary
-                )
-
-            self.sync_base_data()
-            self.sync_locations()
-            self.sync_names()
-            self.sync_historical_relationships()
-            self.sync_hierarchical_relationships()
-            self.report.print_and_reset_report()
-
-            if not self.dry_run:
-                self.inst.save()
+                if not self.dry_run:
+                    self.inst.save()
 
     def create_institution_record(self, orgreg_id):
         # Get website link
