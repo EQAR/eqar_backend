@@ -18,6 +18,7 @@ class Command(BaseCommand):
                 institution=institution
             ).values('qf_ehea_level__id').annotate(count=Count('qf_ehea_level__id'))
             for iqfehea_level in iqfehea_levels:
+
                 # If there are more of the same QF-EHEA level set for an institution
                 if iqfehea_level['count'] > 1:
                     # If there are only one verified one, keep that and remove the rest.
@@ -58,6 +59,8 @@ class Command(BaseCommand):
                             institution=institution,
                             qf_ehea_level__id=iqfehea_level['qf_ehea_level__id'],
                         ).first()
+                        iqfehea_record.qf_ehea_level_verified = True
+                        iqfehea_record.save()
 
                     # Remove the rest
                     print('Removing multiple QF-EHEA Levels (%s) from %s' %
