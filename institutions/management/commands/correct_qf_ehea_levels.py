@@ -34,6 +34,7 @@ class Command(BaseCommand):
                                 qf_ehea_level__id=iqfehea_level['qf_ehea_level__id'],
                                 qf_ehea_level_verified=False
                             ).delete()
+                            institution.save()
 
                     # If there are more verified one, keep the first one and remove the rest (verified + unverified)
                     if InstitutionQFEHEALevel.objects.filter(
@@ -66,4 +67,4 @@ class Command(BaseCommand):
                             institution=institution,
                             qf_ehea_level__id=iqfehea_level['qf_ehea_level__id'],
                         ).exclude(id=iqfehea_record.id).delete()
-
+                        institution.save()
