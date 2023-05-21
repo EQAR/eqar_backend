@@ -266,7 +266,6 @@ class InstitutionQFEHEALevel(models.Model):
     qf_ehea_level_source_note = models.TextField(blank=True, default="")
     qf_ehea_level_valid_from = models.DateField(default=datetime.date.today)
     qf_ehea_level_valid_to = models.DateField(blank=True, null=True)
-    qf_ehea_level_verified = models.BooleanField(default=True)
 
     def __str__(self):
         return self.qf_ehea_level.level

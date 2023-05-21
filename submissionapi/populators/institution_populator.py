@@ -431,7 +431,6 @@ class InstitutionPopulator():
                         qf_ehea_level=qfe,
                         qf_ehea_level_source=self.agency.acronym_primary,
                         qf_ehea_level_source_note=self.flagger.get_message('qf_ehea_level', qfe),
-                        qf_ehea_level_valid_from=datetime.date.today(),
-                        qf_ehea_level_verified=False
+                        qf_ehea_level_valid_from=datetime.date.today()
                     )
                     self.institution.set_flag_low()

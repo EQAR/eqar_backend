@@ -585,7 +585,6 @@ unique_together : (('institution', 'agency', 'resource'),)
 |qf_ehea_level_source_note |text | | | |Blank | |
 |qf_ehea_level_valid_from |date | | | | | |
 |qf_ehea_level_valid_to |date | | | |Both | |
-|qf_ehea_level_verified |boolean | | | |Blank | |
 
 
 ## ETER Record(institutions.models.InstitutionETERRecord)
