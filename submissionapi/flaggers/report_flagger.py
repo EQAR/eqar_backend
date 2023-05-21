@@ -155,7 +155,6 @@ class ReportFlagger:
                     if InstitutionQFEHEALevel.objects.filter(
                         institution__reports=self.report,
                         qf_ehea_level=qf_ehea_level,
-                        qf_ehea_level_verified=True
                     ).count() == 0:
                         flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
                                                                                 programme.name_primary)
@@ -168,7 +167,6 @@ class ReportFlagger:
                         iqfehea, created = InstitutionQFEHEALevel.objects.get_or_create(
                             institution=institution,
                             qf_ehea_level=qf_ehea_level,
-                            qf_ehea_level_verified=True
                         )
                         if created:
                             flag_message = self.flag_msg['programmeQFEHEALevelAdded'] % \

@@ -120,8 +120,7 @@ class ReportFlaggerTestCase(TestCase):
         inst = flagger.report.institutions.first()
         InstitutionQFEHEALevel.objects.create(
             institution=inst,
-            qf_ehea_level=QFEHEALevel.objects.get(pk=4),
-            qf_ehea_level_verified=True
+            qf_ehea_level=QFEHEALevel.objects.get(pk=4)
         )
         prg = flagger.report.programme_set.first()
         prg.qf_ehea_level = QFEHEALevel.objects.get(pk=4)
