@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from institutions.models import Institution
+from reports.models import ReportUpdateLog
 from submissionapi.csv_functions.csv_handler import CSVHandler
 from submissionapi.csv_functions.csv_parser import CSVParser
 from submissionapi.flaggers.report_flagger import ReportFlagger
@@ -56,6 +57,14 @@ class SubmissionCSVView(APIView):
                 tracker.log_report(populator, flagger)
                 submitted_reports.append(self.make_success_response(populator, flagger))
                 accepted_reports.append(self.make_success_response(populator, flagger))
+
+                # Add log entry
+                ReportUpdateLog.objects.create(
+                    report=populator.report,
+                    note="Report updated via CSV.",
+                    updated_by=request.user
+                )
+
                 response_contains_valid = True
             else:
                 report_id = data.get('report_id', None)

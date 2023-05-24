@@ -70,6 +70,14 @@ class SubmissionReportView(APIView):
                     submitted_reports.append(self.make_success_response(populator, flagger))
                     accepted_reports.append(self.make_success_response(populator, flagger))
                     response_contains_success = True
+
+                    # Add log entry
+                    ReportUpdateLog.objects.create(
+                        report=populator.report,
+                        note="Report updated via API.",
+                        updated_by=request.user
+                    )
+
                 else:
                     submitted_reports.append(self.make_error_response(serializer, data))
                     response_contains_error = True
@@ -98,6 +106,12 @@ class SubmissionReportView(APIView):
                                             institution_id_max=max_inst,
                                             total_submission=1,
                                             agency_email=request.user.email)
+                # Add log entry
+                ReportUpdateLog.objects.create(
+                    report=populator.report,
+                    note="Report updated via API.",
+                    updated_by=request.user
+                )
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
