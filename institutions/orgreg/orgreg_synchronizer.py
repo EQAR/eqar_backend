@@ -331,36 +331,38 @@ class OrgRegSynchronizer:
             # UPDATE NAME RECORD
             if action == 'update':
 
-                # Handle deletion
+                # Handle deletion - Remove record and exit loop
                 if deleted:
                     self.report.add_report_line('**DELETE - NAME RECORD - [ID:%s, %s]' % (iname.id, iname.name_english))
                     if not self.dry_run:
                         iname.delete()
                     return
 
-                values_to_update = {
-                    'name_english': self._compare_data(iname.name_english, name_english),
-                    'name_official': self._compare_data(iname.name_official, name_official),
-                    'acronym': self._compare_data(iname.acronym, acronym),
-                    'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31')
-                }
+                # Handle update
+                else:
+                    values_to_update = {
+                        'name_english': self._compare_data(iname.name_english, name_english),
+                        'name_official': self._compare_data(iname.name_official, name_official),
+                        'acronym': self._compare_data(iname.acronym, acronym),
+                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31')
+                    }
 
-                if self._check_update(values_to_update):
-                    self.report.add_report_line('**UPDATE - NAME RECORD')
-                    self.report.add_report_line('  Name English: %s' % values_to_update['name_english']['log'])
-                    self.report.add_report_line('  Name Official: %s' % values_to_update['name_official']['log'])
-                    self.report.add_report_line('  Acronym: %s' % values_to_update['acronym']['log'])
-                    self.report.add_report_line('  Valid To: %s' % values_to_update['name_valid_to']['log'])
-                    self.report.add_report_line('  Source Note: %s' % source_note)
+                    if self._check_update(values_to_update):
+                        self.report.add_report_line('**UPDATE - NAME RECORD')
+                        self.report.add_report_line('  Name English: %s' % values_to_update['name_english']['log'])
+                        self.report.add_report_line('  Name Official: %s' % values_to_update['name_official']['log'])
+                        self.report.add_report_line('  Acronym: %s' % values_to_update['acronym']['log'])
+                        self.report.add_report_line('  Valid To: %s' % values_to_update['name_valid_to']['log'])
+                        self.report.add_report_line('  Source Note: %s' % source_note)
 
-                    # Update InstiutionName record
-                    if not self.dry_run:
-                        iname.name_english = values_to_update['name_english']['value']
-                        iname.name_official = values_to_update['name_official']['value']
-                        iname.acronym = values_to_update['acronym']['value']
-                        iname.name_valid_to = values_to_update['name_valid_to']['value']
-                        iname.name_source_note = source_note
-                        iname.save()
+                        # Update InstiutionName record
+                        if not self.dry_run:
+                            iname.name_english = values_to_update['name_english']['value']
+                            iname.name_official = values_to_update['name_official']['value']
+                            iname.acronym = values_to_update['acronym']['value']
+                            iname.name_valid_to = values_to_update['name_valid_to']['value']
+                            iname.name_source_note = source_note
+                            iname.save()
 
             # ADD NAME RECORD
             elif action == 'add':
@@ -481,44 +483,44 @@ class OrgRegSynchronizer:
 
             if action == 'update':
 
-                # Handle deletion
+                # Handle deletion - Remove country and skip update
                 if deleted:
                     self.report.add_report_line('**DELETE - LOCATION - [ID:%s, %s]' % (ic.id, ic.country_code))
                     if not self.dry_run:
                         ic.delete()
                     return
+                else:
+                    values_to_update = {
+                        'legal_seat': self._compare_boolean_data(ic.country_verified, legal_seat),
+                        'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
+                        'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
+                        'latitude': self._compare_data(ic.lat, latitude, is_float=True),
+                        'longitude': self._compare_data(ic.long, longitude, is_float=True),
+                        'source_note': self._compare_data(ic.country_source_note, source_note.strip())
+                    }
 
-                values_to_update = {
-                    'legal_seat': self._compare_boolean_data(ic.country_verified, legal_seat),
-                    'date_from': self._compare_date_data(ic.country_valid_from, date_from, '%s-01-01'),
-                    'date_to': self._compare_date_data(ic.country_valid_to, date_to, '%s-12-31'),
-                    'latitude': self._compare_data(ic.lat, latitude, is_float=True),
-                    'longitude': self._compare_data(ic.long, longitude, is_float=True),
-                    'source_note': self._compare_data(ic.country_source_note, source_note.strip())
-                }
+                    if self._check_update(values_to_update):
+                        self.report.add_report_line('**UPDATE - LOCATION')
+                        self.report.add_report_line('  Country: %s' % country_update_value)
+                        self.report.add_report_line('  City: %s' % city)
+                        self.report.add_report_line('  Latitude: %s' % values_to_update['latitude']['log'])
+                        self.report.add_report_line('  Longitude: %s' % values_to_update['longitude']['log'])
+                        self.report.add_report_line('  Official: %s' % values_to_update['legal_seat']['log'])
+                        self.report.add_report_line('  Valid From: %s' % values_to_update['date_from']['log'])
+                        self.report.add_report_line('  Valid To: %s' % values_to_update['date_to']['log'])
+                        self.report.add_report_line('  Source Note: %s' % values_to_update['source_note']['log'])
 
-                if self._check_update(values_to_update):
-                    self.report.add_report_line('**UPDATE - LOCATION')
-                    self.report.add_report_line('  Country: %s' % country_update_value)
-                    self.report.add_report_line('  City: %s' % city)
-                    self.report.add_report_line('  Latitude: %s' % values_to_update['latitude']['log'])
-                    self.report.add_report_line('  Longitude: %s' % values_to_update['longitude']['log'])
-                    self.report.add_report_line('  Official: %s' % values_to_update['legal_seat']['log'])
-                    self.report.add_report_line('  Valid From: %s' % values_to_update['date_from']['log'])
-                    self.report.add_report_line('  Valid To: %s' % values_to_update['date_to']['log'])
-                    self.report.add_report_line('  Source Note: %s' % values_to_update['source_note']['log'])
-
-                    # Update InstitutionCountry record
-                    if not self.dry_run:
-                        ic.country = country
-                        ic.city = city
-                        ic.lat = values_to_update['latitude']['value']
-                        ic.long = values_to_update['longitude']['value']
-                        ic.country_verified = values_to_update['legal_seat']['value']
-                        ic.country_valid_from = values_to_update['date_from']['value']
-                        ic.country_valid_to = values_to_update['date_to']['value']
-                        ic.country_source_note = source_note.strip()
-                        ic.save()
+                        # Update InstitutionCountry record
+                        if not self.dry_run:
+                            ic.country = country
+                            ic.city = city
+                            ic.lat = values_to_update['latitude']['value']
+                            ic.long = values_to_update['longitude']['value']
+                            ic.country_verified = values_to_update['legal_seat']['value']
+                            ic.country_valid_from = values_to_update['date_from']['value']
+                            ic.country_valid_to = values_to_update['date_to']['value']
+                            ic.country_source_note = source_note.strip()
+                            ic.save()
 
             # ADD COUNTRY RECORD
             elif action == 'add':
@@ -660,37 +662,37 @@ class OrgRegSynchronizer:
             # UPDATE RELATIONSHIP RECORD
             if action == 'update':
 
-                # Handle deletion
+                # Handle deletion - Remove relationship and skip update
                 if deleted:
                     self.report.add_report_line('**DELETE - HISTORICAL RELATIONSHIP - [ID:%s, %s -> %s]'
                                                 % (ihr.id, ihr.institution_source, ihr.institution_target))
                     if not self.dry_run:
                         ihr.delete()
                     return
+                else:
+                    values_to_update = {
+                        'source': self._compare_data(ihr.institution_source, source_institution),
+                        'target': self._compare_data(ihr.institution_target, target_institution),
+                        'type': self._compare_data(ihr.relationship_type, deqar_event_type),
+                        'date': self._compare_date_data(ihr.relationship_date, date, "%s-01-01")
+                    }
 
-                values_to_update = {
-                    'source': self._compare_data(ihr.institution_source, source_institution),
-                    'target': self._compare_data(ihr.institution_target, target_institution),
-                    'type': self._compare_data(ihr.relationship_type, deqar_event_type),
-                    'date': self._compare_date_data(ihr.relationship_date, date, "%s-01-01")
-                }
+                    if self._check_update(values_to_update):
+                        self.report.add_report_line('**UPDATE - HISTORICAL RELATIONSHIP')
+                        self.report.add_report_line('  Source: %s' % values_to_update['source']['log'])
+                        self.report.add_report_line('  Target: %s' % values_to_update['target']['log'])
+                        self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
+                        self.report.add_report_line('  Date: %s' % values_to_update['date']['log'])
+                        self.report.add_report_line('  Source Note: %s' % source_note)
 
-                if self._check_update(values_to_update):
-                    self.report.add_report_line('**UPDATE - HISTORICAL RELATIONSHIP')
-                    self.report.add_report_line('  Source: %s' % values_to_update['source']['log'])
-                    self.report.add_report_line('  Target: %s' % values_to_update['target']['log'])
-                    self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
-                    self.report.add_report_line('  Date: %s' % values_to_update['date']['log'])
-                    self.report.add_report_line('  Source Note: %s' % source_note)
-
-                    # Update InstitutionHistoricalRelationship record
-                    if not self.dry_run:
-                        ihr.institution_source = source_institution
-                        ihr.institution_target = target_institution
-                        ihr.relationship_date = values_to_update['date']['value']
-                        ihr.relationship_type = values_to_update['type']['value']
-                        ihr.relationship_note = source_note
-                        ihr.save()
+                        # Update InstitutionHistoricalRelationship record
+                        if not self.dry_run:
+                            ihr.institution_source = source_institution
+                            ihr.institution_target = target_institution
+                            ihr.relationship_date = values_to_update['date']['value']
+                            ihr.relationship_type = values_to_update['type']['value']
+                            ihr.relationship_note = source_note
+                            ihr.save()
 
             # ADD RELATIONSHIP RECORD
             elif action == 'add':
@@ -821,40 +823,40 @@ class OrgRegSynchronizer:
                     action = 'add'
 
             if action == 'update':
-                # Handle deletion
+                # Handle deletion - Remove historical relationship and skip update
                 if deleted:
                     self.report.add_report_line('**DELETE - HISTORICAL RELATIONSHIP - [ID:%s, %s -> %s]'
                                                 % (ihr.id, ihr.institution_parent, ihr.institution_child))
                     if not self.dry_run:
                         ihr.delete()
                     return
+                else:
+                    values_to_update = {
+                        'parent': self._compare_data(ihr.institution_parent, parent_institution),
+                        'child': self._compare_data(ihr.institution_child, child_institution),
+                        'type': self._compare_data(ihr.relationship_type, deqar_event_type),
+                        'valid_from': self._compare_date_data(ihr.valid_from, date_from, '%s-01-01'),
+                        'valid_to': self._compare_date_data(ihr.valid_to, date_to, '%s-12-31'),
+                    }
 
-                values_to_update = {
-                    'parent': self._compare_data(ihr.institution_parent, parent_institution),
-                    'child': self._compare_data(ihr.institution_child, child_institution),
-                    'type': self._compare_data(ihr.relationship_type, deqar_event_type),
-                    'valid_from': self._compare_date_data(ihr.valid_from, date_from, '%s-01-01'),
-                    'valid_to': self._compare_date_data(ihr.valid_to, date_to, '%s-12-31'),
-                }
+                    if self._check_update(values_to_update):
+                        self.report.add_report_line('**UPDATE - HIERARCHICAL RELATIONSHIP')
+                        self.report.add_report_line('  Parent: %s' % values_to_update['parent']['log'])
+                        self.report.add_report_line('  Child: %s' % values_to_update['child']['log'])
+                        self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
+                        self.report.add_report_line('  Date From: %s' % values_to_update['valid_from']['log'])
+                        self.report.add_report_line('  Date To: %s' % values_to_update['valid_to']['log'])
+                        self.report.add_report_line('  Source Note: %s' % source_note)
 
-                if self._check_update(values_to_update):
-                    self.report.add_report_line('**UPDATE - HIERARCHICAL RELATIONSHIP')
-                    self.report.add_report_line('  Parent: %s' % values_to_update['parent']['log'])
-                    self.report.add_report_line('  Child: %s' % values_to_update['child']['log'])
-                    self.report.add_report_line('  Relationship Type: %s' % values_to_update['type']['log'])
-                    self.report.add_report_line('  Date From: %s' % values_to_update['valid_from']['log'])
-                    self.report.add_report_line('  Date To: %s' % values_to_update['valid_to']['log'])
-                    self.report.add_report_line('  Source Note: %s' % source_note)
-
-                    # Update InstitutionHierarchicalRelationship record
-                    if not self.dry_run:
-                        ihr.institution_parent = values_to_update['parent']['value']
-                        ihr.institution_child = values_to_update['child']['value']
-                        ihr.relationship_type = values_to_update['type']['value']
-                        ihr.valid_from = values_to_update['valid_from']['value']
-                        ihr.valid_to = values_to_update['valid_to']['value']
-                        ihr.relationship_note = source_note
-                        ihr.save()
+                        # Update InstitutionHierarchicalRelationship record
+                        if not self.dry_run:
+                            ihr.institution_parent = values_to_update['parent']['value']
+                            ihr.institution_child = values_to_update['child']['value']
+                            ihr.relationship_type = values_to_update['type']['value']
+                            ihr.valid_from = values_to_update['valid_from']['value']
+                            ihr.valid_to = values_to_update['valid_to']['value']
+                            ihr.relationship_note = source_note
+                            ihr.save()
 
             elif action == 'add':
                 # Only add when the original record status is not deleted.
@@ -1093,6 +1095,6 @@ class OrgRegSynchronizer:
     def _detect_deleted(self, data):
         deleted = False
         if 'deleted' in data:
-            if data['deleted'] == 'true':
+            if data['deleted']:
                 deleted = True
         return deleted
