@@ -290,7 +290,6 @@ class ReportsIndexer:
                     'iso_3166_alpha3': c.iso_3166_alpha3,
                     'ehea_is_member': c.ehea_is_member
                 })
-                self.doc['country_facet'].append(c.id)
                 self.doc['country_id'].append(c.id)
                 self.doc['country_search'].append(c.name_english)
 
