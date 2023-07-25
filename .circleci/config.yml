@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 orbs:
   coveralls: coveralls/coveralls@2.2.1
   jobs:
@@ -41,4 +41,3 @@ orbs:
         - run:
             command: |
               coverage run --source='.' manage.py test
-        - coveralls/upload
