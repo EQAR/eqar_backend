@@ -1,45 +1,44 @@
 version: 2
-jobs:
-  build:
-    working_directory: ~/eqar-backend
-    docker:
-      - image: cimg/python:3.8-browsers
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-          DJANGO_SECRET_KEY: CircleCITesting
-      - image: cimg/postgres:9.6
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
-      - image: cimg/redis:5.0
-    steps:
-      - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - restore_cache:
-          keys:
-            - python-devel
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: Wait for redis
-          command: dockerize -wait tcp://localhost:6379 -timeout 1m
-      - run:
-          command: |
-            python -m venv .python3
-            echo "source .python3/bin/activate" >> $BASH_ENV;
-      - run:
-          command: |
-            pip install -r requirements.txt
-      - save_cache:
-          key: python-devel-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - ".python3"
-      - run:
-          command: |
-            coverage run --source='.' manage.py test
-            coverage report
-            coverage html
-      - store_artifacts:
-          path: htmlcov
+orbs:
+  coveralls: coveralls/coveralls@2.2.1
+  jobs:
+    build:
+      working_directory: ~/eqar-backend
+      docker:
+        - image: cimg/python:3.8-browsers
+          environment:
+            PIPENV_VENV_IN_PROJECT: true
+            DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+            DJANGO_SECRET_KEY: CircleCITesting
+        - image: cimg/postgres:9.6
+          environment:
+            POSTGRES_USER: root
+            POSTGRES_DB: circle_test
+        - image: cimg/redis:5.0
+      steps:
+        - checkout
+        - run: sudo chown -R circleci:circleci /usr/local/bin
+        - restore_cache:
+            keys:
+              - python-devel
+        - run:
+            name: Wait for db
+            command: dockerize -wait tcp://localhost:5432 -timeout 1m
+        - run:
+            name: Wait for redis
+            command: dockerize -wait tcp://localhost:6379 -timeout 1m
+        - run:
+            command: |
+              python -m venv .python3
+              echo "source .python3/bin/activate" >> $BASH_ENV;
+        - run:
+            command: |
+              pip install -r requirements.txt
+        - save_cache:
+            key: python-devel-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            paths:
+              - ".python3"
+        - run:
+            command: |
+              coverage run --source='.' manage.py test
+        - coveralls/upload
