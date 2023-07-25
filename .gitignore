@@ -29,3 +29,4 @@ data_cleaning*.*
 /ACQUIN
 
 .DS_STORE
+.coverage
