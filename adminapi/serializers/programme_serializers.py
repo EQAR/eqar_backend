@@ -31,23 +31,25 @@ class ProgrammeReadSerializer(serializers.ModelSerializer):
     qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
     countries = CountrySelectSerializer(many=True)
     degree_outcome = DegreeOutcomeSelectSerializer()
-    ects_credit = ECTSCreditSelectSerializer()
-    assessment = AssessmentSelectSerializer()
+    workload_ects = ECTSCreditSelectSerializer()
+    assessment_certification = AssessmentSelectSerializer()
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
-    isced = ISCEDSerializer(required=False)
+    field_study = ISCEDSerializer(required=False)
 
     class Meta:
         model = Programme
         fields = ['id', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries',
-                  'degree_outcome', 'ects_credit', 'assessment', 'learning_outcomes', 'isced', 'mc_as_part_of_accreditation']
+                  'degree_outcome', 'workload_ects', 'assessment_certification', 'learning_outcomes',
+                  'learning_outcome_description', 'field_study', 'mc_as_part_of_accreditation']
 
 
 class ProgrammeWriteSerializer(WritableNestedModelSerializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
-    isced = ISCEDSerializer(required=False)
+    field_study = ISCEDSerializer(required=False)
 
     class Meta:
         model = Programme
         fields = ['id', 'name_primary', 'alternative_names', 'nqf_level', 'qf_ehea_level', 'countries',
-                  'degree_outcome', 'ects_credit', 'assessment', 'learning_outcomes', 'isced', 'mc_as_part_of_accreditation']
+                  'degree_outcome', 'workload_ects', 'assessment_certification', 'learning_outcomes',
+                  'learning_outcome_description', 'field_study', 'mc_as_part_of_accreditation']

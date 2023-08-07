@@ -14,9 +14,10 @@ class Programme(models.Model):
 
     # Micro credential specific fields
     degree_outcome = models.ForeignKey('lists.DegreeOutcome', default=2, on_delete=models.PROTECT)
-    ects_credit = models.ForeignKey('lists.ECTSCredit', on_delete=models.SET_NULL, blank=True, null=True)
-    assessment = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
-    isced = models.CharField(max_length=70, blank=True, null=True)
+    workload_ects = models.ForeignKey('lists.ECTSCredit', on_delete=models.SET_NULL, blank=True, null=True)
+    assessment_certification = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
+    field_study = models.CharField(max_length=70, blank=True, null=True)
+    learning_outcome_description = models.TextField(blank=True, null=True)
     mc_as_part_of_accreditation = models.BooleanField(default=False)
 
     class Meta:
@@ -76,10 +77,9 @@ class ProgrammeLearningOutcome(models.Model):
     """
     id = models.AutoField(primary_key=True)
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
-    learning_outcome = models.CharField(max_length=70, blank=True, null=True)
-    learning_outcome_description = models.TextField(blank=True, null=True)
+    learning_outcome_esco = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_programme_learning_outcomes'
         verbose_name = 'Programme Learning Outcome'
-        unique_together = ('programme', 'learning_outcome')
+        unique_together = ('programme', 'learning_outcome_esco')

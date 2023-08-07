@@ -29,7 +29,7 @@ class Report(models.Model):
     internal_note = models.TextField(blank=True, null=True)
 
     # Micro credential specific fields
-    mc_as_part_of_accreditation = models.BooleanField(default=False)
+    micro_credentials_covered = models.BooleanField(default=False)
 
     # Audit log values
     created_at = models.DateTimeField(auto_now_add=True)
