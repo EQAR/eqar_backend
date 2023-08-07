@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer
 from countries.models import Country
-from eqar_backend.serializer_fields import DateBlankSerializer
+from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, InstitutionNameTypeSerializer
 from institutions.models import Institution, InstitutionCountry, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionQFEHEALevel, InstitutionHierarchicalRelationship, InstitutionFlag, \

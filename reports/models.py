@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
-from eqar_backend.fields import CharNullField
+from eqar_backend.fields.char_null_field import CharNullField
 
 
 class Report(models.Model):
@@ -27,6 +27,9 @@ class Report(models.Model):
     flag_log = models.TextField(blank=True)
     other_comment = models.TextField(blank=True, null=True)
     internal_note = models.TextField(blank=True, null=True)
+
+    # Micro credential specific fields
+    mc_as_part_of_accreditation = models.BooleanField(default=False)
 
     # Audit log values
     created_at = models.DateTimeField(auto_now_add=True)

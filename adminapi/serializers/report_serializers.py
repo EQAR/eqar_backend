@@ -6,7 +6,7 @@ from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer,
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
-from eqar_backend.serializer_fields import DateBlankSerializer
+from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from lists.models import Language
 from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog, ReportLink
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
