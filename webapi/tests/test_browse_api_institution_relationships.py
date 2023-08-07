@@ -11,7 +11,7 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
                 'country_qa_requirement_type', 'country',
                 'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
-                'flag', 'permission_type',
+                'flag', 'permission_type', 'degree_outcome',
                 'eter_demo',
                 'eqar_decision_type',
                 'agency_historical_field',

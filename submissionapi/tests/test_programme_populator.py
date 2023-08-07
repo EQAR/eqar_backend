@@ -11,7 +11,7 @@ from submissionapi.populators.programme_populator import ProgrammePopulator
 class ProgrammePopulatorTestCase(TestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
-        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type',
+        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
