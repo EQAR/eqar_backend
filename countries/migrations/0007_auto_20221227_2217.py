@@ -15,12 +15,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='country',
             name='eu_controlled_vocab_atu',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=250, null=True, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=250, null=True, unique=True),
         ),
         migrations.AddField(
             model_name='country',
             name='eu_controlled_vocab_country',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=250, null=True, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=250, null=True, unique=True),
         ),
         migrations.AddField(
             model_name='country',
@@ -30,12 +30,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='country',
             name='orgreg_eu_2_letter_code',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=2, null=True, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=2, null=True, unique=True),
         ),
         migrations.AddField(
             model_name='country',
             name='orgreg_subcountry_label',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=10, null=True, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=10, null=True, unique=True),
         ),
         migrations.AddField(
             model_name='country',
@@ -45,12 +45,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='country',
             name='iso_3166_alpha2',
-            field=eqar_backend.fields.CharNullField(max_length=10, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(max_length=10, unique=True),
         ),
         migrations.AlterField(
             model_name='country',
             name='iso_3166_alpha3',
-            field=eqar_backend.fields.CharNullField(max_length=3, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(max_length=3, unique=True),
         ),
         migrations.AddIndex(
             model_name='country',

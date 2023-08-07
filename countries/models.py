@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 
-from eqar_backend.fields import CharNullField
+from eqar_backend.fields.char_null_field import CharNullField
 
 
 class Country(models.Model):
