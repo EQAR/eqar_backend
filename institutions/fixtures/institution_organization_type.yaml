@@ -1,0 +1,24 @@
+- model: institutions.InstitutionOrganizationType
+  pk: 1
+  fields:
+    type: private company
+
+- model: institutions.InstitutionOrganizationType
+  pk: 2
+  fields:
+    type: non governmental organisation
+
+- model: institutions.InstitutionOrganizationType
+  pk: 3
+  fields:
+    type: public – private partnership
+
+- model: institutions.InstitutionOrganizationType
+  pk: 4
+  fields:
+    type: public organisation
+
+- model: institutions.InstitutionOrganizationType
+  pk: 5
+  fields:
+    type: other

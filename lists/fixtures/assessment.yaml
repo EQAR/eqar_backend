@@ -1,0 +1,14 @@
+- model: lists.Assessment
+  pk: 1
+  fields:
+    assessment: 'Attendance certificate'
+
+- model: lists.Assessment
+  pk: 2
+  fields:
+    assessment: 'Assessment based certificate'
+
+- model: lists.Assessment
+  pk: 3
+  fields:
+    assessment: 'No assessment and no certificate'

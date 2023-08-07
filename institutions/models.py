@@ -27,6 +27,11 @@ class Institution(models.Model):
     other_comment = models.TextField(blank=True)
     internal_note = models.TextField(blank=True)
 
+    # Alternative Provider specific fields
+    is_alternative_provider = models.BooleanField(default=False)
+    organization_type = models.ForeignKey('InstitutionOrganizationType',
+                                          on_delete=models.SET_NULL, blank=True, null=True)
+
     # Audit log values
     created_by = models.ForeignKey(User, related_name='institutions_created_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
@@ -399,6 +404,22 @@ class InstitutionHierarchicalRelationship(models.Model):
         db_table = 'deqar_institution_hierarchical_relationships'
         verbose_name = 'Institution Hierarchical Relationship'
         verbose_name_plural = 'Institution Hierarchical Relationships'
+
+
+class InstitutionOrganizationType(models.Model):
+    """
+    Organization types of institutions (for micro-credentials)
+    """
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        db_table = 'deqar_institution_organization_types'
+        verbose_name = 'Institution Organization Type'
+        verbose_name_plural = 'Institution Organization Types'
 
 
 class InstitutionHistoricalField(models.Model):
