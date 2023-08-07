@@ -130,6 +130,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
+                  'mc_as_part_of_accreditation'
                   'other_comment', 'internal_note']
 
 
@@ -145,4 +146,5 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
         fields = ['id', 'agency', 'contributing_agencies', 'activity', 'local_identifier',
                   'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
-                  'valid_from', 'valid_to', 'other_comment', 'internal_note']
+                  'valid_from', 'valid_to', 'other_comment', 'internal_note',
+                  'mc_as_part_of_accreditation']

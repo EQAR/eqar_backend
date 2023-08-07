@@ -1,7 +1,8 @@
 from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
 
-from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer
+from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer, \
+    InstitutionOrganizationTypeSelectSerializer
 from countries.models import Country
 from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, InstitutionNameTypeSerializer
@@ -199,6 +200,7 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
     hierarchical_child = InstitutionChildReadSerializer(many=True, source='relationship_parent')
     historical_source = InstitutionSourceReadSerializer(many=True, source='relationship_target')
     historical_target = InstitutionTargetReadSerializer(many=True, source='relationship_source')
+    organization_type = InstitutionOrganizationTypeSelectSerializer()
     flags = InstitutionFlagReadSerializer(many=True, source='institutionflag_set')
     update_log = InstitutionUpdateLogSerializer(many=True, source='institutionupdatelog_set')
 
@@ -207,7 +209,8 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers_national', 'identifiers_local', 'names_actual', 'names_former', 'countries',
                   'internal_note', 'other_comment', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
-                  'historical_source', 'historical_target', 'created_at', 'flags', 'update_log']
+                  'historical_source', 'historical_target', 'created_at', 'flags', 'update_log'
+                  'is_alternative_provider', 'organization_type']
 
 
 class InstitutionUserWriteSerializer(WritableNestedModelSerializer):
@@ -236,4 +239,4 @@ class InstitutionAdminWriteSerializer(WritableNestedModelSerializer):
         fields = ['id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers', 'names', 'countries', 'internal_note', 'other_comment',
                   'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
-                  'historical_source', 'historical_target', 'flags']
+                  'historical_source', 'historical_target', 'flags', 'is_alternative_provider', 'organization_type']
