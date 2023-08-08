@@ -6,10 +6,20 @@ from rest_framework import serializers
 from rest_framework.fields import ListField
 
 from agencies.models import AgencyESGActivity
-from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
+from eqar_backend.serializer_fields.esco_serializer_field import ESCOSerializer
+from eqar_backend.serializer_fields.isced_serializer_field import ISCEDSerializer
+from institutions.models import Institution, InstitutionIdentifier
 from reports.models import Report
-from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField, ReportIdentifierField, ContributingAgencyField
+from submissionapi.serializer_fields.agency_field import AgencyField
+from submissionapi.serializer_fields.assessment_field import AssessmentField
+from submissionapi.serializer_fields.contributing_agency_field import ContributingAgencyField
+from submissionapi.serializer_fields.country_field import CountryField
+from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
+from submissionapi.serializer_fields.qf_ehea_level_field import QFEHEALevelField
+from submissionapi.serializer_fields.report_decision_field import ReportDecisionField
+from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
+from submissionapi.serializer_fields.report_language_field import ReportLanguageField
+from submissionapi.serializer_fields.report_status_field import ReportStatusField
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -231,6 +241,31 @@ class ProgrammeSerializer(serializers.Serializer):
                                      help_text='accepted values: "0", "1", "2", "3", "short cycle", '
                                                '"first cycle", "second cycle", "third cycle"')
 
+    # Micro Credentials
+    degree_outcome = DegreeOutcomeField(required=False,
+                                        label='Degree Outcome',
+                                        help_text='A programme, in combination with other programmes, can lead to a '
+                                                  'full degree (i.e. of bachelors, master or PhD) or not. This is what '
+                                                  'distinguishes traditional programmes from micro credentials.')
+    workload_ects = serializers.IntegerField(required=False,
+                                             label='The workload as number of ECTS credits for programmes'
+                                                   'that do not lead to a full degree (i.e. micro '
+                                                   'credentials) must be provided to indicate the '
+                                                   'volume of learning.')
+    learning_outcomes = serializers.ListField(child=ESCOSerializer(required=False), required=False,
+                                              label='DEQAR uses the the European Skills, Competences, Qualifications '
+                                                    'and Occupations (ESCO) classification of skills and competences '
+                                                    'as the preferred and interoperable way to specify the learning '
+                                                    'outcomes of a programme.')
+    learning_outcome_description = serializers.CharField(required=False, label="Free text field to describe the "
+                                                                               "programme's learning outcomes.")
+    field_study = ISCEDSerializer(required=False, label='DEQAR is using the International Standard Classification of '
+                                                        'Education (ISCED) framework (2013) for assembling the '
+                                                        'organisation of education programmes and related '
+                                                        'qualifications by levels and fields of education.')
+    assessment_certification = AssessmentField(required=False, label='While a programme does not lead to a full degree, '
+                                                                     'it could still have a formal outcome.')
+
     def validate_identifiers(self, value):
         # Validate if there is only one identifier without resource id
         count = 0
@@ -303,6 +338,10 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                              '"positive with conditions or restrictions", "no, negative", '
                                              '"not applicable"')
     summary = serializers.CharField(required=False, label="Summary of the report.")
+
+    micro_credentials_covered = serializers.BooleanField(required=False, default=False,
+                                                         label='Micro-credential(s) covered as part of the report',
+                                                         help_text='true or false')
 
     # Report Validity
     valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',
@@ -383,7 +422,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 errors.append("Report's validity start should be earlier then validity end.")
 
         #
-        # Validate if Agency registration start is earlier then report validation start date.
+        # Validate if Agency registration start is earlier than report validation start date.
         #
         if date_from:
             if agency.registration_valid_to:
@@ -477,9 +516,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
         return data
 
     def validate(self, data):
-        #
-        # WP01-008-002
-        #
         institutions = data.get('institutions', None)
         programmes = data.get('programmes', None)
         esg_activity = data.get('esg_activity', None)
