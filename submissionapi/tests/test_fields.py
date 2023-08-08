@@ -5,14 +5,21 @@ from rest_framework.test import APITestCase
 
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency
-from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField, ReportIdentifierField
+from submissionapi.serializer_fields.agency_field import AgencyField
+from submissionapi.serializer_fields.assessment_field import AssessmentField
+from submissionapi.serializer_fields.contributing_agency_field import ContributingAgencyField
+from submissionapi.serializer_fields.country_field import CountryField
+from submissionapi.serializer_fields.qf_ehea_level_field import QFEHEALevelField
+from submissionapi.serializer_fields.report_decision_field import ReportDecisionField
+from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
+from submissionapi.serializer_fields.report_language_field import ReportLanguageField
+from submissionapi.serializer_fields.report_status_field import ReportStatusField
 
 
 class SerializerFieldValidationTestCase(APITestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
-        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type',
+        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'assessment',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
@@ -56,6 +63,54 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_agency_acronym_error(self):
         field = AgencyField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency Acronym.'):
+            field.to_internal_value("ECQUIN")
+
+    # Assessment tests
+    def test_assessment_field_not_string(self):
+        field = AssessmentField()
+        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+            field.to_internal_value(1)
+
+    def test_assessment_id_ok(self):
+        field = AssessmentField()
+        value = field.to_internal_value("1")
+        self.assertEqual(value.status, "Attendance certificate")
+
+    def test_assessment_id_error(self):
+        field = AssessmentField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Assessment ID.'):
+            field.to_internal_value("999")
+
+    def test_assessment_str_ok(self):
+        field = AssessmentField()
+        value = field.to_internal_value("Assessment based certificate")
+        self.assertEqual(value.assessment, "Assessment based certificate")
+
+    def test_assessment_str_error(self):
+        field = AssessmentField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid assessment name.'):
+            field.to_internal_value("not a good assessment value")
+
+    # ContributingAgency tests
+    def test_contributing_agency_field_not_string(self):
+        field = ContributingAgencyField()
+        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+            field.to_internal_value(1)
+
+    def test_contributing_agency_deqar_id_ok(self):
+        pass
+
+    def test__contributing_agency_deqar_id_error(self):
+        field = ContributingAgencyField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency DEQAR ID.'):
+            field.to_internal_value("999")
+
+    def test__contributing_agency_acronym_ok(self):
+        pass
+
+    def test__contributing_agency_acronym_error(self):
+        field = ContributingAgencyField()
         with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency Acronym.'):
             field.to_internal_value("ECQUIN")
 
