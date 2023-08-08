@@ -75,7 +75,7 @@ class SerializerFieldValidationTestCase(APITestCase):
     def test_assessment_id_ok(self):
         field = AssessmentField()
         value = field.to_internal_value("1")
-        self.assertEqual(value.status, "Attendance certificate")
+        self.assertEqual(value.assessment, "Attendance certificate")
 
     def test_assessment_id_error(self):
         field = AssessmentField()
