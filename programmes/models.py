@@ -14,7 +14,7 @@ class Programme(models.Model):
 
     # Micro credential specific fields
     degree_outcome = models.ForeignKey('lists.DegreeOutcome', default=2, on_delete=models.PROTECT)
-    workload_ects = models.ForeignKey('lists.ECTSCredit', on_delete=models.SET_NULL, blank=True, null=True)
+    workload_ects = models.IntegerField(blank=True, null=True)
     assessment_certification = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
     field_study = models.CharField(max_length=70, blank=True, null=True)
     learning_outcome_description = models.TextField(blank=True, null=True)

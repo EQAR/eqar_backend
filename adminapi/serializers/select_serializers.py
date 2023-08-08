@@ -6,7 +6,7 @@ from countries.models import Country, CountryQARequirementType
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
-    Assessment, DegreeOutcome, ECTSCredit
+    Assessment, DegreeOutcome
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -130,9 +130,3 @@ class DegreeOutcomeSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = DegreeOutcome
         fields = ['id', 'outcome']
-
-
-class ECTSCreditSelectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ECTSCredit
-        fields = ['id', 'credit']

@@ -2,7 +2,7 @@ from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import QFEHEALevelSelectSerializer, CountrySelectSerializer, \
-    DegreeOutcomeSelectSerializer, ECTSCreditSelectSerializer, AssessmentSelectSerializer
+    DegreeOutcomeSelectSerializer, AssessmentSelectSerializer
 from eqar_backend.serializer_fields.esco_serializer_field import ESCOSerializer
 from eqar_backend.serializer_fields.isced_serializer_field import ISCEDSerializer
 from programmes.models import Programme, ProgrammeName, ProgrammeLearningOutcome
@@ -31,7 +31,6 @@ class ProgrammeReadSerializer(serializers.ModelSerializer):
     qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
     countries = CountrySelectSerializer(many=True)
     degree_outcome = DegreeOutcomeSelectSerializer()
-    workload_ects = ECTSCreditSelectSerializer()
     assessment_certification = AssessmentSelectSerializer()
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
     field_study = ISCEDSerializer(required=False)
