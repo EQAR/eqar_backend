@@ -1,0 +1,6 @@
+- model: programmes.Programme
+  pk: 16
+  fields:
+    report: 13
+    countries: [64]
+    name_primary: Computer programming
