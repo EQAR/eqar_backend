@@ -130,7 +130,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
-                  'mc_as_part_of_accreditation'
+                  'micro_credentials_covered',
                   'other_comment', 'internal_note']
 
 
@@ -147,4 +147,4 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
                   'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note',
-                  'mc_as_part_of_accreditation']
+                  'micro_credentials_covered']

@@ -209,7 +209,7 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers_national', 'identifiers_local', 'names_actual', 'names_former', 'countries',
                   'internal_note', 'other_comment', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
-                  'historical_source', 'historical_target', 'created_at', 'flags', 'update_log'
+                  'historical_source', 'historical_target', 'created_at', 'flags', 'update_log',
                   'is_alternative_provider', 'organization_type']
 
 

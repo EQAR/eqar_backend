@@ -3,8 +3,8 @@ from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import QFEHEALevelSelectSerializer, CountrySelectSerializer, \
     DegreeOutcomeSelectSerializer, AssessmentSelectSerializer
-from eqar_backend.serializer_fields.esco_serializer_field import ESCOSerializer
-from eqar_backend.serializer_fields.isced_serializer_field import ISCEDSerializer
+from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
+from submissionapi.serializer_fields.isced_serializer_field import ISCEDSerializer
 from programmes.models import Programme, ProgrammeName, ProgrammeLearningOutcome
 
 
@@ -19,18 +19,17 @@ class ProgrammeAlternativeNameSerializer(UniqueFieldsMixin, serializers.ModelSer
 
 
 class ProgrammeLearningOutcomeSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
-    learning_outcome = ESCOSerializer(required=False)
+    learning_outcome = ESCOSerializer(required=False, source='learning_outcome_esco')
 
     class Meta:
         model = ProgrammeLearningOutcome
-        fields = ['id', 'learning_outcome', 'learning_outcome_description']
+        fields = ['id', 'learning_outcome']
 
 
 class ProgrammeReadSerializer(serializers.ModelSerializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
     qf_ehea_level = QFEHEALevelSelectSerializer(required=False, allow_null=True)
     countries = CountrySelectSerializer(many=True)
-    degree_outcome = DegreeOutcomeSelectSerializer()
     assessment_certification = AssessmentSelectSerializer()
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
     field_study = ISCEDSerializer(required=False)

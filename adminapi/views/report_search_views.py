@@ -73,7 +73,6 @@ class ReportList(ListAPIView):
             'programme_name^2.5',
             'country^1.5',
             'city^2',
-            'eter_id^2'
         ]
         params = {
             'search': request.query_params.get('query', ''),

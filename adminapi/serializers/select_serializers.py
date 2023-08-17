@@ -37,6 +37,18 @@ class CountrySelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
         fields = ['id', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
 
 
+class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionOrganizationType
+        fields = ['id', 'type']
+
+
+class AssessmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assessment
+        fields = ['id', 'assessment']
+
+
 class LanguageSelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Language
