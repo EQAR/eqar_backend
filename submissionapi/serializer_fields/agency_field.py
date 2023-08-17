@@ -22,8 +22,11 @@ class AgencyField(serializers.Field):
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid Agency Acronym.")
 
-        user = self.context['request'].user
-        submitting_agency = user.deqarprofile.submitting_agency
-        if not submitting_agency.agency_allowed(agency):
-            raise serializers.ValidationError("You can't submit data to this Agency.")
-        return agency
+        if 'request' in self.context:
+            user = self.context['request'].user
+            submitting_agency = user.deqarprofile.submitting_agency
+            if not submitting_agency.agency_allowed(agency):
+                raise serializers.ValidationError("You can't submit data to this Agency.")
+            return agency
+        else:
+            return agency

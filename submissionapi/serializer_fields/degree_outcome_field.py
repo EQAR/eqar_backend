@@ -18,7 +18,7 @@ class DegreeOutcomeField(serializers.Field):
                 raise serializers.ValidationError("Please provide valid Degree Outcome ID.")
         else:
             try:
-                degree_outcome = DegreeOutcome.objects.get(level__iexact=data)
+                degree_outcome = DegreeOutcome.objects.get(outcome__iexact=data)
             except ObjectDoesNotExist:
                 raise serializers.ValidationError("Please provide valid Degree Outcome description.")
         return degree_outcome
