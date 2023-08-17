@@ -34,7 +34,7 @@ class ReportFlagger:
     def check_and_set_flags(self):
         self.reset_flag()
         self.check_countries()
-        self.check_report_status_country_is_official()
+        self.check_report_status_country_is_official_for_multi_institution()
 
         self.check_programme_qf_ehea_level()
         # self.check_ehea_is_member()
@@ -119,49 +119,59 @@ class ReportFlagger:
             flag_message = self.flag_msg['programmeCountryId'] % country
             self.add_flag(flag_level=2, flag_message=flag_message)
 
-    def check_report_status_country_is_official(self):
-        """
-        (Colin): What I think would be the easiest way: drop _check_report_status_country_is_official() and the call
-        to it entirely, so that check_countries() just adds the new focus country records (and gives a yellow flag
-        in case), while check_report_status_country_is_official_for_multi_institution() checks the official status
-        part and gives a red flag. I think it should perfectly well work for any report, regardless of activity
-        type and institution count.
-        """
+    """
+    for "part of obligatory EQA system" reports: check whether at least one official country of at
+    least one institution covered by the report is among the agency's focus country's with the official
+    flag checked:
+      - if not, assign red flag,
+      - for only-ap reports: not applicable as status must be voluntary
+      - for AP-HEI-mix reports: one of the HEIs' countries must be on the agency's list with official flag
+    """
+    def check_report_status_country_is_official_for_multi_institution(self):
         official_status_exists = False
-        for institution in self.report.institutions.all():
-            for ic in institution.institutioncountry_set.filter(country_verified=True).all():
-                if AgencyFocusCountry.objects.filter(
-                        agency=self.report.agency,
-                        country=ic.country,
-                        country_is_official=True
-                ).exists():
-                    official_status_exists = True
-        if not official_status_exists:
-            flag_message = self.flag_msg['statusCountryIsOfficial'] % (
-                self.report.agency.acronym_primary
-            )
-            self.add_flag(flag_level=3, flag_message=flag_message)
 
+        if self.report.status.id == 1:
+            for institution in self.report.institutions.filter(is_alternative_provider=False).all():
+                for ic in institution.institutioncountry_set.filter(country_verified=True).all():
+                    if AgencyFocusCountry.objects.filter(
+                            agency=self.report.agency,
+                            country=ic.country,
+                            country_is_official=True
+                    ).exists():
+                        official_status_exists = True
+
+            if not official_status_exists:
+                flag_message = self.flag_msg['statusCountryIsOfficial'] % (
+                    self.report.agency.acronym_primary
+                )
+                self.add_flag(flag_level=3, flag_message=flag_message)
+
+    """
+    check whether any institution covered by the report has the programme's QF level on its list of levels         
+    """
     def check_programme_qf_ehea_level(self):
+        only_ap = self.report.institutions.all().count() == self.report.institutions.filter(is_alternative_provider=True).count()
+
         for programme in self.report.programme_set.all():
             qf_ehea_level = programme.qf_ehea_level
             if qf_ehea_level is not None:
-
-                ''' for voluntary status reports, flag as currently (high level flag if programme level 
-                not in institution's listed level), but "relax" the logic for joint programmes so 
-                that flag is only given if level is in none of the institutions' list - 
-                that is, no flag if one institution has the level in its list '''
-                if self.report.status_id == 2:
+                '''
+                if not and report is voluntary: assign low level flag
+                '''
+                if self.report.status_id == 2 and not only_ap:
                     if InstitutionQFEHEALevel.objects.filter(
                         institution__reports=self.report,
                         qf_ehea_level=qf_ehea_level,
+                        institution__is_alternative_provider=False
                     ).count() == 0:
                         flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
                                                                                 programme.name_primary)
                         self.add_flag(flag_level=2, flag_message=flag_message)
 
-                ''' for official/obligatory reports: add level to institution's list if it is not on yet, 
-                post a yellow/low level flag to notify that level has been added for the first time'''
+                ''' 
+                if not and report is "part of obligatory EQA system": 
+                add level to all institutions if not yet recorded
+                '''
                 if self.report.status_id == 1:
                     for institution in self.report.institutions.all():
                         iqfehea, created = InstitutionQFEHEALevel.objects.get_or_create(
@@ -173,6 +183,14 @@ class ReportFlagger:
                                 (qf_ehea_level, institution.name_primary)
                             self.add_flag(flag_level=2, flag_message=flag_message)
 
+                ''' 
+                for AP's: always add level to list if not yet recorded
+                '''
+                for institution in self.report.institutions.filter(is_alternative_provider=True).all():
+                    InstitutionQFEHEALevel.objects.get_or_create(
+                        institution=institution,
+                        qf_ehea_level=qf_ehea_level,
+                    )
 
     def check_validity_date(self):
         if self.report.valid_to < datetime.datetime.now() - relativedelta(years=1):

@@ -75,7 +75,7 @@ class ReportFlaggerTestCase(TestCase):
         )
         agency_focus_country.country_is_official = False
         agency_focus_country.save()
-        flagger.check_report_status_country_is_official()
+        flagger.check_report_status_country_is_official_for_multi_institution()
         flagger.set_flag()
         self.assertEqual(flagger.report.flag.flag, 'high level')
         report_flags = ReportFlag.objects.filter(report=report)
