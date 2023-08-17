@@ -42,8 +42,12 @@ class Institution(models.Model):
 
     def create_deqar_id(self):
         if not self.deqar_id:
-            self.deqar_id = 'DEQARINST%04d' % self.id
-            self.save()
+            if self.is_alternative_provider:
+                self.deqar_id = 'DEQARINSTAP%04d' % self.id
+                self.save()
+            else:
+                self.deqar_id = 'DEQARINST%04d' % self.id
+                self.save()
 
     def set_flag_low(self):
         if self.flag_id != 3:
