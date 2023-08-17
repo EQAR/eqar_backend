@@ -519,6 +519,7 @@ class SubmissionValidationTestCase(APITestCase):
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
+    '''
     def test_institution_other_data_ok(self):
         """
         Test if serializer accepts records without DEQAR ID, ETER ID and identifiers but with name_official, location
@@ -536,6 +537,7 @@ class SubmissionValidationTestCase(APITestCase):
         })
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
+    '''
 
     def test_institution_other_data_error(self):
         """
@@ -582,7 +584,8 @@ class SubmissionValidationTestCase(APITestCase):
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
-    def test_institution_name_official_transliteration_error(self):
+    '''
+        def test_institution_name_official_transliteration_error(self):
         """
         Test if serializer rejects records with only name_official_transliteration submitted.
         """
@@ -590,6 +593,7 @@ class SubmissionValidationTestCase(APITestCase):
         data['institutions'][0]['name_official_transliterated'] = 'Institution Name'
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
+    '''
 
     def test_institution_name_alternative_ok(self):
         """
