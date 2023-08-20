@@ -6,12 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('programmes', '0015_auto_20230808_0516'),
+        ('programmes', '0016_auto_20230813_0555'),
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.AddField(
             model_name='programme',
             name='degree_outcome',
+            field=models.BooleanField(default=True),
         ),
     ]
