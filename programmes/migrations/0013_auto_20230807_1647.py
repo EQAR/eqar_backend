@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='programme',
             name='degree_outcome',
-            field=models.ForeignKey(default=2, on_delete=django.db.models.deletion.PROTECT, to='lists.DegreeOutcome'),
+            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.PROTECT, to='lists.DegreeOutcome'),
         ),
         migrations.AddField(
             model_name='programme',
