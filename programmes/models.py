@@ -17,6 +17,7 @@ class Programme(models.Model):
     workload_ects = models.IntegerField(blank=True, null=True)
     assessment_certification = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
     field_study = models.CharField(max_length=70, blank=True, null=True)
+    field_study_title = models.CharField(max_length=300, blank=True, null=True)
     learning_outcome_description = models.TextField(blank=True, null=True)
     mc_as_part_of_accreditation = models.BooleanField(default=False)
 
@@ -78,6 +79,7 @@ class ProgrammeLearningOutcome(models.Model):
     id = models.AutoField(primary_key=True)
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
     learning_outcome_esco = models.CharField(max_length=70, blank=True, null=True)
+    learning_outcome_esco_title = models.CharField(max_length=300, blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_programme_learning_outcomes'
