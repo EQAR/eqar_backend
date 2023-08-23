@@ -24,7 +24,13 @@ class ESCOSerializer(serializers.CharField):
         )
         if r.status_code == 200:
             j = r.json()
-            data = {'id': instance, 'title': j['title']}
+            data = {
+                'id': instance,
+                'title': j['title']
+            }
         else:
-            data = {'id': instance}
-        return super(ESCOSerializer, self).to_representation(data)
+            data = {
+                'id': instance,
+                'title': ''
+            }
+        return data
