@@ -32,7 +32,7 @@ class ProgrammeReadSerializer(serializers.ModelSerializer):
     countries = CountrySelectSerializer(many=True)
     assessment_certification = AssessmentSelectSerializer()
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
-    field_study = ISCEDSerializer(required=False)
+    field_study = ISCEDSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Programme
@@ -44,7 +44,7 @@ class ProgrammeReadSerializer(serializers.ModelSerializer):
 class ProgrammeWriteSerializer(WritableNestedModelSerializer):
     alternative_names = ProgrammeAlternativeNameSerializer(many=True, required=False, source='programmename_set')
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
-    field_study = ISCEDSerializer(required=False)
+    field_study = ISCEDSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Programme
