@@ -17,11 +17,14 @@ class ESCOSerializer(serializers.CharField):
         # Resolve ESCO URI
         r = requests.get(
             'https://ec.europa.eu/esco/api/resource/skill',
-            params={'uri': instance}
+            params={
+                'id': instance,
+                'selectedVersion': 'v1.0.9'
+            }
         )
         if r.status_code == 200:
             j = r.json()
-            data = {'uri': instance, 'title': j['title']}
+            data = {'id': instance, 'title': j['title']}
         else:
-            data = {'uri': instance}
+            data = {'id': instance}
         return super(ESCOSerializer, self).to_representation(data)
