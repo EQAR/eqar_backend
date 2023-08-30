@@ -23,13 +23,20 @@ class ProgrammePopulator():
         self._create_programme()
         self._programme_name_insert()
         self._programme_identifier_insert()
+        self._programme_learning_outcome_insert()
 
     def _create_programme(self):
         countries = self.submission.get('countries', [])
         self.programme = Programme.objects.create(
             report=self.report,
             nqf_level=self.submission.get('nqf_level', ""),
-            qf_ehea_level=self.submission.get('qf_ehea_level', None)
+            qf_ehea_level=self.submission.get('qf_ehea_level', None),
+            degree_outcome=self.submission.get('degree_outcome', True),
+            workload_ects=self.submission.get('workload_ects', None),
+            assessment_certification=self.submission.get('assessment_certification', None),
+            field_study=self.submission.get('field_study', None),
+            learning_outcome_description=self.submission.get('learning_outcome_description', None),
+            mc_as_part_of_accreditation=self.submission.get('mc_as_part_of_accreditation', False)
         )
         for country in countries:
             count = InstitutionCountry.objects.filter(
@@ -74,4 +81,14 @@ class ProgrammePopulator():
                 identifier=idf.get('identifier', ""),
                 agency=self.agency,
                 resource=idf.get('resource', 'local identifier')
+            )
+
+    def _programme_learning_outcome_insert(self):
+        """
+        Create ProgrammeLearningOutcome instance.
+        """
+        learning_outcomes = self.submission.get('learning_outcomes', [])
+        for learning_outcome in learning_outcomes:
+            self.programme.programmelearningoutcome_set.create(
+                learning_outcome_esco=learning_outcome
             )
