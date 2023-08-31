@@ -275,7 +275,7 @@ class ProgrammeSerializer(serializers.Serializer):
                                                '"first cycle", "second cycle", "third cycle"')
 
     # Micro Credentials
-    degree_outcome = DegreeOutcomeField(required=False, default=DegreeOutcome.objects.get(id=1),
+    degree_outcome = DegreeOutcomeField(required=False,
                                         label='A programme, in combination with other programmes, can lead to a '
                                               'full degree (i.e. of bachelors, master or PhD) or not. This is what '
                                               'distinguishes traditional programmes from micro credentials.',
@@ -333,7 +333,7 @@ class ProgrammeSerializer(serializers.Serializer):
     def to_internal_value(self, data):
         errors = []
         data = super(ProgrammeSerializer, self).to_internal_value(data)
-        degree_outcome = data.get('degree_outcome')
+        degree_outcome = data.get('degree_outcome', DegreeOutcome.objects.get(pk=1))
         workload_ects = data.get('workload_ects', None)
         assessment_certification = data.get('assessment_certification', None)
 
