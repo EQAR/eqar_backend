@@ -342,12 +342,12 @@ class ProgrammeSerializer(serializers.Serializer):
             if not workload_ects:
                 errors.append({
                     "workload_ects": "ECTS credits are required, when degree_outcome field is "
-                                     "'false / no full degree'."
+                                     "'2 / no full degree'."
                 })
             if not assessment_certification:
                 errors.append({
                     "assessment_certification": "Assessment information is required, "
-                                                "when degree_outcome field is 'false / no full degree'."
+                                                "when degree_outcome field is '2 / no full degree'."
                 })
         if len(errors) > 0:
             raise serializers.ValidationError(errors)
