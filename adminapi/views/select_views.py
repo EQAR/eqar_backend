@@ -15,13 +15,13 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
     AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer, \
     CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer, \
-    InstitutionOrganizationTypeSerializer, AssessmentSerializer
+    InstitutionOrganizationTypeSerializer, AssessmentSerializer, DegreeOutcomeSelectSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
 from countries.models import Country, CountryQARequirementType
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
-    Assessment
+    Assessment, DegreeOutcome
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -184,6 +184,13 @@ class AssessmentSelectList(generics.ListAPIView):
     search_fields = ('assessment',)
     queryset = Assessment.objects.all().order_by('id')
 
+
+class DegreeOutcomeSelectList(generics.ListAPIView):
+    serializer_class = DegreeOutcomeSelectSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('outcome',)
+    queryset = DegreeOutcome.objects.all().order_by('id')
 
 
 class InstitutionHierarchicalRelationshipTypeSelect(generics.ListAPIView):

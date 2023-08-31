@@ -33,6 +33,7 @@ class ProgrammeReadSerializer(serializers.ModelSerializer):
     assessment_certification = AssessmentSelectSerializer()
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, required=False, source='programmelearningoutcome_set')
     field_study = ISCEDSerializer(required=False, allow_null=True)
+    degree_outcome = DegreeOutcomeSelectSerializer()
 
     class Meta:
         model = Programme
