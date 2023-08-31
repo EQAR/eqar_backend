@@ -6,4 +6,4 @@
 - model: lists.DegreeOutcome
   pk: 2
   fields:
-    outcome: 'No full degree (partial provision/micro credential)'
+    outcome: 'No full degree'
