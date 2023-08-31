@@ -9,6 +9,7 @@ from submissionapi.serializer_fields.agency_field import AgencyField
 from submissionapi.serializer_fields.assessment_field import AssessmentField
 from submissionapi.serializer_fields.contributing_agency_field import ContributingAgencyField
 from submissionapi.serializer_fields.country_field import CountryField
+from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.qf_ehea_level_field import QFEHEALevelField
 from submissionapi.serializer_fields.report_decision_field import ReportDecisionField
 from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
@@ -20,7 +21,7 @@ class SerializerFieldValidationTestCase(APITestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'assessment',
-        'agency_historical_field',
+        'agency_historical_field', 'degree_outcome',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
         'institution_historical_field',
@@ -267,3 +268,16 @@ class SerializerFieldValidationTestCase(APITestCase):
         field = ReportIdentifierField()
         with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report ID.'):
             field.to_internal_value("999")
+
+    def test_degree_outcome_ok(self):
+        field = DegreeOutcomeField()
+        value = field.to_internal_value("1")
+        self.assertEqual(value.outcome, "Full degree")
+        value = field.to_internal_value("no")
+        self.assertEqual(value.outcome, "No full degree")
+
+
+    def test_degree_outcome_invalid(self):
+        field = DegreeOutcomeField()
+        with self.assertRaisesRegexp(ValidationError, 'Please provide valid degree_outcome value.'):
+            field.to_internal_value("TRUE")

@@ -1,24 +1,24 @@
-import six
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
 from lists.models import DegreeOutcome
 
 
+ACCEPTED_FULL_DEGREE_VALUES = [
+    1, "1", 'yes', 'full degree'
+]
+
+ACCEPTED_NOT_FULL_DEGREE_VALUES = [
+    2, "2", 'no', 'no full degree'
+]
+
+
 class DegreeOutcomeField(serializers.Field):
     def to_internal_value(self, data):
-        if not isinstance(data, six.text_type):
-            msg = 'Incorrect type. Expected a string, but got %s'
-            raise serializers.ValidationError(msg % type(data).__name__)
-
-        if data.isdigit():
-            try:
-                degree_outcome = DegreeOutcome.objects.get(code=data)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Degree Outcome ID.")
+        if data not in ACCEPTED_FULL_DEGREE_VALUES and data not in ACCEPTED_NOT_FULL_DEGREE_VALUES:
+            raise serializers.ValidationError("Please provide valid degree_outcome value.")
         else:
-            try:
-                degree_outcome = DegreeOutcome.objects.get(outcome__iexact=data)
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError("Please provide valid Degree Outcome description.")
-        return degree_outcome
+            if data in ACCEPTED_FULL_DEGREE_VALUES:
+                degree_outcome = DegreeOutcome.objects.get(pk=1)
+            else:
+                degree_outcome = DegreeOutcome.objects.get(pk=2)
+            return degree_outcome

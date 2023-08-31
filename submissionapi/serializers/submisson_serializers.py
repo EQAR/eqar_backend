@@ -8,6 +8,8 @@ from rest_framework.fields import ListField
 
 from agencies.models import AgencyESGActivity, Agency
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
+from lists.models import DegreeOutcome
+from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
 from submissionapi.serializer_fields.isced_serializer_field import ISCEDSerializer
 from institutions.models import Institution, InstitutionIdentifier
@@ -273,12 +275,12 @@ class ProgrammeSerializer(serializers.Serializer):
                                                '"first cycle", "second cycle", "third cycle"')
 
     # Micro Credentials
-    degree_outcome = BooleanExtendedField(required=False,
-                                          label='A programme, in combination with other programmes, can lead to a '
-                                                'full degree (i.e. of bachelors, master or PhD) or not. This is what '
-                                                'distinguishes traditional programmes from micro credentials.',
-                                          help_text='accepted values: "Yes", "yes", "TRUE", "True", "true", true'
-                                                    '"No", "no", "FALSE", "False", "false", false)')
+    degree_outcome = DegreeOutcomeField(required=False, default=DegreeOutcome.objects.get(id=1),
+                                        label='A programme, in combination with other programmes, can lead to a '
+                                              'full degree (i.e. of bachelors, master or PhD) or not. This is what '
+                                              'distinguishes traditional programmes from micro credentials.',
+                                        help_text='accepted values: 1, "1", "yes", "full degree",'
+                                                  '2, "2", "no", "no full degree")')
     workload_ects = serializers.IntegerField(required=False,
                                              label='The workload as number of ECTS credits for programmes'
                                                    'that do not lead to a full degree (i.e. micro '
@@ -331,12 +333,12 @@ class ProgrammeSerializer(serializers.Serializer):
     def to_internal_value(self, data):
         errors = []
         data = super(ProgrammeSerializer, self).to_internal_value(data)
-        degree_outcome = data.get('degree_outcome', True)
+        degree_outcome = data.get('degree_outcome')
         workload_ects = data.get('workload_ects', None)
         assessment_certification = data.get('assessment_certification', None)
 
         # Additional programme data fields are required if degree outcome is "no full degree"
-        if not degree_outcome:
+        if degree_outcome.id == 2:
             if not workload_ects:
                 errors.append({
                     "workload_ects": "ECTS credits are required, when degree_outcome field is "
@@ -547,8 +549,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         programmes = data.get('programmes', [])
         if all_ap:
             for programme in programmes:
-                if programme['degree_outcome']:
-                    errors.append("Degree outcome should be 'false / no full degree' if all the "
+                if programme['degree_outcome'].id != 2:
+                    errors.append("Degree outcome should be '2 / no full degree' if all the "
                                   "organisations are alternative providers")
 
         # If there are errors raise ValidationError

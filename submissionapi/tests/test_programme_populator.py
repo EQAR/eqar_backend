@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from agencies.models import Agency
 from countries.models import Country
-from lists.models import QFEHEALevel, Assessment
+from lists.models import QFEHEALevel, Assessment, DegreeOutcome
 from programmes.models import ProgrammeName, ProgrammeIdentifier, ProgrammeLearningOutcome
 from reports.models import Report
 from submissionapi.populators.programme_populator import ProgrammePopulator
@@ -61,7 +61,7 @@ class ProgrammePopulatorTestCase(TestCase):
                 ],
                 "nqf_level": "level 7",
                 "qf_ehea_level": QFEHEALevel.objects.get(code=2),
-                "degree_outcome": False,
+                "degree_outcome": DegreeOutcome.objects.get(id=2),
                 "workload_ects": 15,
                 "assessment_certification": Assessment.objects.get(pk=3),
                 "field_study": "http://data.europa.eu/esco/isced-f/0100",
@@ -72,7 +72,7 @@ class ProgrammePopulatorTestCase(TestCase):
         )
         populator._create_programme()
         self.assertEqual(populator.programme.report.local_identifier, "EQARAG0021-EQARIN0001-01")
-        self.assertFalse(populator.programme.degree_outcome)
+        self.assertEqual(populator.programme.degree_outcome_id, 2)
         self.assertEqual(populator.programme.assessment_certification_id, 3)
         self.assertEqual(populator.programme.workload_ects, 15)
         self.assertEqual(populator.programme.field_study, 'http://data.europa.eu/esco/isced-f/0100')

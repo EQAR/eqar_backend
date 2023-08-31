@@ -48,7 +48,7 @@ class SubmissionAPIReportTestWithAP(APITestCase):
             "programmes": [
                 {
                     "name_primary": "Programme name",
-                    "degree_outcome": False,
+                    "degree_outcome": "2",
                     "workload_ects": 15,
                     "assessment_certification": "2",
                     "mc_as_part_of_accreditation": True,
@@ -100,7 +100,7 @@ class SubmissionAPIReportTestWithAP(APITestCase):
         data['programmes'][0]['degree_outcome'] = True
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
-        self.assertIn("Degree outcome should be 'false / no full degree'", str(serializer.errors[settings.NON_FIELD_ERRORS_KEY]))
+        self.assertIn("Degree outcome should be '2 / no full degree'", str(serializer.errors[settings.NON_FIELD_ERRORS_KEY]))
 
     def test_degree_outcome_if_one_of_the_institutions_is_ap(self):
         data = self.report_with_only_ap
@@ -136,7 +136,7 @@ class SubmissionAPIReportTestWithAP(APITestCase):
         data['programmes'].append(
             {
                 "name_primary": "Programme name 2",
-                "degree_outcome": False,
+                "degree_outcome": "no",
                 "assessment_certification": "2",
                 "mc_as_part_of_accreditation": True
             }
