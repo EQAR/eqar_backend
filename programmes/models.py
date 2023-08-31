@@ -13,7 +13,7 @@ class Programme(models.Model):
     countries = models.ManyToManyField('countries.Country', blank=True)
 
     # Micro credential specific fields
-    degree_outcome = models.BooleanField(default=True)
+    degree_outcome = models.ForeignKey('lists.DegreeOutcome', on_delete=models.SET_NULL, blank=True, null=True)
     workload_ects = models.IntegerField(blank=True, null=True)
     assessment_certification = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
     field_study = models.CharField(max_length=70, blank=True, null=True)
