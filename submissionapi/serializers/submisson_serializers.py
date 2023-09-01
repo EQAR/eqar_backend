@@ -333,6 +333,7 @@ class ProgrammeSerializer(serializers.Serializer):
     def to_internal_value(self, data):
         errors = []
         data = super(ProgrammeSerializer, self).to_internal_value(data)
+        qf_ehea_level = data.get('qf_ehea_level', None)
         degree_outcome = data.get('degree_outcome', DegreeOutcome.objects.get(pk=1))
         workload_ects = data.get('workload_ects', None)
         assessment_certification = data.get('assessment_certification', None)
@@ -349,6 +350,12 @@ class ProgrammeSerializer(serializers.Serializer):
                     "assessment_certification": "Assessment information is required, "
                                                 "when degree_outcome field is '2 / no full degree'."
                 })
+            if not qf_ehea_level:
+                errors.append({
+                    "qf_ehea_level": "QF-EHEA Level information is required, "
+                                     "when degree_outcome field is '2 / no full degree'."
+                })
+
         if len(errors) > 0:
             raise serializers.ValidationError(errors)
 
