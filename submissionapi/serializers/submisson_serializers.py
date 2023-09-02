@@ -508,6 +508,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
 
+        # Set up ALTERNATIVE PROVIDER defaults
+
         #
         # Set up which case are we talking about all_ap, all_hei, or mixed case (both are false)
         #
@@ -630,10 +632,14 @@ class SubmissionPackageSerializer(serializers.Serializer):
         #
         # Validations for ALTERNATIVE PROVIDERS
         #
+        # Check if all institutions are AP
         all_ap = True
+        all_hei = True
         for i in institutions:
             if not i.is_alternative_provider:
                 all_ap = False
+            else:
+                all_hei = False
 
         # Status must be 'voluntary' if all institutions are AP
         if all_ap:
