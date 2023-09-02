@@ -531,13 +531,11 @@ class SubmissionPackageSerializer(serializers.Serializer):
         #
         # Create defaults for micro_credentials_covered
         #
-        micro_credentials_covered = data.get('micro_credentials_covered', None)
-
-        if not micro_credentials_covered:
+        if 'micro_credentials_covered' not in data:
             # Check programme degree_outcome
             only_full_degree_programme = True
             for programme in programmes:
-                if programme['degree_outcome'].id == 1:
+                if programme['degree_outcome'].id == 2:
                     only_full_degree_programme = False
 
                 # If only full degree programmes or no programmes at all existing
@@ -559,8 +557,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         errors = []
 
         # Get the required values for the validations
-        institutions = data.get('institutions', None)
-        programmes = data.get('programmes', None)
+        institutions = data.get('institutions', [])
+        programmes = data.get('programmes', [])
         esg_activity = data.get('esg_activity', None)
         agency = data.get('agency', None)
         report = data.get('report_id', None)
@@ -568,13 +566,14 @@ class SubmissionPackageSerializer(serializers.Serializer):
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
         status = data.get('status', None)
+        micro_credentials_covered = data.get('micro_credentials_covered')
 
         #
         # Validate if activity types haas the right amount of programme and instituton records
         #
         # institutional
         if esg_activity.activity_type_id == 2:
-            if programmes is not None:
+            if len(programmes) > 0:
                 errors.append("Please remove programme information "
                               "with this particular Activity type.")
         # programme or institutional/programme
@@ -582,7 +581,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
             if len(institutions) > 1:
                 errors.append("Please provide only one institution "
                               "with this particular Activity type.")
-            if programmes is None:
+            if len(programmes) == 0:
                 errors.append("Please provide at least one programme "
                               "with this particular Activity type.")
         # joint programme
@@ -590,7 +589,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
             if len(institutions) == 1:
                 errors.append("Please provide data for all of the institutions "
                               "with this particular Activity type.")
-            if programmes is None:
+            if len(programmes) == 0:
                 errors.append("Please provide at least one programme "
                               "with this particular Activity type.")
 
@@ -642,11 +641,26 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 errors.append("Status should be 'voluntary' if all organisations are alternative providers.")
 
         # Programme degree outcome must be "no full degree" for AP:
-        if all_ap:
+        if all_ap and len(programmes) > 0:
             for programme in programmes:
                 if programme['degree_outcome'].id != 2:
                     errors.append("Degree outcome should be '2 / no full degree' if all the "
                                   "organisations are alternative providers")
+
+        #
+        # When at least one programme covered by the report has degree outcome = 2 - No full degree,
+        # it should be required that the report has micro_credentials_covered = true
+        #
+        # Check programme degree_outcome
+        if len(programmes) > 0:
+            only_full_degree_programme = True
+            for programme in programmes:
+                if programme['degree_outcome'].id == 2:
+                    only_full_degree_programme = False
+
+            if not only_full_degree_programme and not micro_credentials_covered:
+                errors.append("If at least one programme has degree outcome set as '2 - No full degree', the "
+                              "report should have micro_credentials_covered set as true.")
 
         if len(errors) > 0:
             raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
