@@ -330,7 +330,7 @@ class ProgrammeSerializer(serializers.Serializer):
         return value
 
     def validate(self, data):
-        errors = []
+        errors = {}
         data = super(ProgrammeSerializer, self).validate(data)
 
         qf_ehea_level = data.get('qf_ehea_level')
@@ -342,20 +342,14 @@ class ProgrammeSerializer(serializers.Serializer):
         if degree_outcome:
             if degree_outcome.id == 2:
                 if not workload_ects:
-                    errors.append({
-                        "workload_ects": "ECTS credits are required, when degree_outcome field is "
-                                         "'2 / no full degree'."
-                    })
+                    errors["workload_ects"] = "ECTS credits are required, when degree_outcome field is " \
+                                              "'2 / no full degree'"
                 if not assessment_certification:
-                    errors.append({
-                        "assessment_certification": "Assessment information is required, "
-                                                    "when degree_outcome field is '2 / no full degree'."
-                    })
+                    errors["assessment_certification"] = "Assessment information is required, " \
+                                                         "when degree_outcome field is '2 / no full degree'."
                 if not qf_ehea_level:
-                    errors.append({
-                        "qf_ehea_level": "QF-EHEA Level information is required, "
-                                         "when degree_outcome field is '2 / no full degree'."
-                    })
+                    errors["qf_ehea_level"] = "QF-EHEA Level information is required, " \
+                                              "when degree_outcome field is '2 / no full degree'."
 
         if len(errors) > 0:
             raise serializers.ValidationError(errors)
