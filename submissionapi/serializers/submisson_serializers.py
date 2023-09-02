@@ -126,7 +126,7 @@ class InstitutionSerializer(serializers.Serializer):
                                            label='List of identifiers or QF-EHEA levels that are valid for '
                                                  'each institution',
                                            help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
-                                                    'accepted values: "0", "1", "2", "3", "short cycle", '
+                                                     'accepted values: "0", "1", "2", "3", "short cycle", '
                                                      '"first cycle", "second cycle", "third cycle"')
 
     # Website
@@ -288,12 +288,12 @@ class ProgrammeSerializer(serializers.Serializer):
                                                    'volume of learning.',
                                              help_text='example: 1, 15')
     learning_outcomes = serializers.ListField(child=ESCOSerializer(
-                                                    label='DEQAR uses the the European Skills, Competences, Qualifications '
-                                                          'and Occupations (ESCO) classification of skills and competences '
-                                                          'as the preferred and interoperable way to specify the learning '
-                                                          'outcomes of a programme.',
-                                                    help_text='example: "http://data.europa.eu/esco/skill/77f109c4-3107-4d2a-a512-5160ac103933"'),
-                                              required=False)
+        label='DEQAR uses the the European Skills, Competences, Qualifications '
+              'and Occupations (ESCO) classification of skills and competences '
+              'as the preferred and interoperable way to specify the learning '
+              'outcomes of a programme.',
+        help_text='example: "http://data.europa.eu/esco/skill/77f109c4-3107-4d2a-a512-5160ac103933"'),
+        required=False)
     learning_outcome_description = serializers.CharField(required=False,
                                                          label="Free text field to describe the programme's learning "
                                                                "outcomes.",
@@ -329,32 +329,33 @@ class ProgrammeSerializer(serializers.Serializer):
             raise serializers.ValidationError("You can only submit different type of resources.")
         return value
 
-
-    def to_internal_value(self, data):
+    def validate(self, data):
         errors = []
-        data = super(ProgrammeSerializer, self).to_internal_value(data)
-        qf_ehea_level = data.get('qf_ehea_level', None)
-        degree_outcome = data.get('degree_outcome', DegreeOutcome.objects.get(pk=1))
-        workload_ects = data.get('workload_ects', None)
-        assessment_certification = data.get('assessment_certification', None)
+        data = super(ProgrammeSerializer, self).validate(data)
+
+        qf_ehea_level = data.get('qf_ehea_level')
+        degree_outcome = data.get('degree_outcome')
+        workload_ects = data.get('workload_ects')
+        assessment_certification = data.get('assessment_certification')
 
         # Additional programme data fields are required if degree outcome is "no full degree"
-        if degree_outcome.id == 2:
-            if not workload_ects:
-                errors.append({
-                    "workload_ects": "ECTS credits are required, when degree_outcome field is "
-                                     "'2 / no full degree'."
-                })
-            if not assessment_certification:
-                errors.append({
-                    "assessment_certification": "Assessment information is required, "
-                                                "when degree_outcome field is '2 / no full degree'."
-                })
-            if not qf_ehea_level:
-                errors.append({
-                    "qf_ehea_level": "QF-EHEA Level information is required, "
-                                     "when degree_outcome field is '2 / no full degree'."
-                })
+        if degree_outcome:
+            if degree_outcome.id == 2:
+                if not workload_ects:
+                    errors.append({
+                        "workload_ects": "ECTS credits are required, when degree_outcome field is "
+                                         "'2 / no full degree'."
+                    })
+                if not assessment_certification:
+                    errors.append({
+                        "assessment_certification": "Assessment information is required, "
+                                                    "when degree_outcome field is '2 / no full degree'."
+                    })
+                if not qf_ehea_level:
+                    errors.append({
+                        "qf_ehea_level": "QF-EHEA Level information is required, "
+                                         "when degree_outcome field is '2 / no full degree'."
+                    })
 
         if len(errors) > 0:
             raise serializers.ValidationError(errors)
@@ -393,7 +394,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
     contributing_agencies = ListField(
         required=False,
         label="List of the contributing agencies",
-        child=ContributingAgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
+        child=ContributingAgencyField(label='Identifier or the acronym of the agency',
+                                      help_text='examples: "33", "ACQUIN"'),
     )
 
     # Record Identification
@@ -417,7 +419,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                              '"not applicable"')
     summary = serializers.CharField(required=False, label="Summary of the report.")
 
-    micro_credentials_covered = BooleanExtendedField(required=False, default=False,
+    micro_credentials_covered = BooleanExtendedField(required=False,
                                                      label='Micro-credential(s) covered as part of the report',
                                                      help_text='accepted values: "Yes", "yes", "TRUE", "True", "true", true'
                                                                '"No", "no", "FALSE", "False", "false", false)')
@@ -449,43 +451,28 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                            'to be about the institution.)')
 
     # Comment
-    other_comment = serializers.CharField(
-        required=False,
-        allow_null=True,
-        allow_blank=True,
-        label='Comment for the submission.'
-    )
+    other_comment = serializers.CharField(required=False, allow_null=True, allow_blank=True,
+                                          label='Comment for the submission.')
 
     def to_internal_value(self, data):
         errors = []
         data = super(SubmissionPackageSerializer, self).to_internal_value(data)
 
-        agency = data.get('agency', None)
-        #
-        # Validate if report_id and local_identifier resolving to the same record,
-        # or local_identifier is non-existent
-        #
-        report = data.get('report_id', None)
-        local_identifier = data.get('local_identifier', None)
-
-        if report and local_identifier:
-            try:
-                report_with_local_id = Report.objects.get(agency=agency, local_identifier=local_identifier)
-                if report.id != report_with_local_id.id:
-                    errors.append("The submitted report_id is pointing to a different report, "
-                                  "than the submitted local identifier.")
-            except ObjectDoesNotExist:
-                pass
-
-        #
-        # Validate if date format is applicable, default format is %Y-%m-%d
-        #
         date_format = data.get('date_format', '%Y-%m-%d')
+
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
-        date_from = None
-        date_to = None
 
+        agency = data.get('agency', None)
+        activity = data.get('activity', None)
+        activity_local_identifier = data.get('activity_local_identifier', None)
+        institutions = data.get('institutions', [])
+        programmes = data.get('programmes', [])
+
+        #
+        # Validate if date format is applicable, default format is %Y-%m-%d.
+        # If yes, resolve the date values
+        #
         try:
             date_from = datetime.strptime(valid_from, date_format)
             data['valid_from'] = date_from.strftime("%Y-%m-%d")
@@ -495,28 +482,10 @@ class SubmissionPackageSerializer(serializers.Serializer):
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
 
-        # Validate if valid_to date is larger than valid_from
-        if date_to:
-            if date_from >= date_to:
-                errors.append("Report's validity start should be earlier then validity end.")
-
-        #
-        # Validate if Agency registration start is earlier than report validation start date.
-        #
-        if date_from:
-            if agency.registration_valid_to:
-                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
-                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
-            else:
-                if agency.registration_start >= datetime.date(date_from):
-                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
-
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
+        # If yes, resolve the records.
         #
-        activity = data.get('activity', None)
-        activity_local_identifier = data.get('activity_local_identifier', None)
-
         if activity is not None or activity_local_identifier is not None:
             if activity is not None:
                 if activity.isdigit():
@@ -539,58 +508,147 @@ class SubmissionPackageSerializer(serializers.Serializer):
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
 
-        # Alternative Provider checks
-        institutions = data.get('institutions', [])
+        #
+        # Set up which case are we talking about all_ap, all_hei, or mixed case (both are false)
+        #
+        all_hei = True
+        for i in institutions:
+            if i.is_alternative_provider:
+                all_hei = False
 
+        #
+        # Create defaults for degree_outcome
+        #
+        for programme in programmes:
+            if 'degree_outcome' not in programme or not programme['degree_outcome']:
+                # The current default is "1 - Full Degree" for programmes offered by HEIs.
+                if all_hei:
+                    programme['degree_outcome'] = DegreeOutcome.objects.get(pk=1)
+                # The current default is "2 - No full degree" for programmes offered by alternative providers
+                else:
+                    programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
+
+        #
+        # Create defaults for micro_credentials_covered
+        #
+        micro_credentials_covered = data.get('micro_credentials_covered', None)
+
+        if not micro_credentials_covered:
+            # Check programme degree_outcome
+            only_full_degree_programme = True
+            for programme in programmes:
+                if programme['degree_outcome'].id == 1:
+                    only_full_degree_programme = False
+
+                # If only full degree programmes or no programmes at all existing
+                if only_full_degree_programme:
+                    data['micro_credentials_covered'] = False
+                else:
+                    data['micro_credentials_covered'] = True
+
+        # If there are errors raise ValidationError
+        #
+        if len(errors) > 0:
+            raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
+        return data
+
+    def validate(self, data):
+        data = super(SubmissionPackageSerializer, self).validate(data)
+
+        # Array to hold errors
+        errors = []
+
+        # Get the required values for the validations
+        institutions = data.get('institutions', None)
+        programmes = data.get('programmes', None)
+        esg_activity = data.get('esg_activity', None)
+        agency = data.get('agency', None)
+        report = data.get('report_id', None)
+        local_identifier = data.get('local_identifier', None)
+        valid_from = data.get('valid_from')
+        valid_to = data.get('valid_to', None)
+        status = data.get('status', None)
+
+        #
+        # Validate if activity types haas the right amount of programme and instituton records
+        #
+        # institutional
+        if esg_activity.activity_type_id == 2:
+            if programmes is not None:
+                errors.append("Please remove programme information "
+                              "with this particular Activity type.")
+        # programme or institutional/programme
+        elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
+            if len(institutions) > 1:
+                errors.append("Please provide only one institution "
+                              "with this particular Activity type.")
+            if programmes is None:
+                errors.append("Please provide at least one programme "
+                              "with this particular Activity type.")
+        # joint programme
+        else:
+            if len(institutions) == 1:
+                errors.append("Please provide data for all of the institutions "
+                              "with this particular Activity type.")
+            if programmes is None:
+                errors.append("Please provide at least one programme "
+                              "with this particular Activity type.")
+
+        #
+        # Validate if report_id and local_identifier resolving to the same record,
+        # or local_identifier is non-existent
+        #
+        if report and local_identifier:
+            try:
+                report_with_local_id = Report.objects.get(agency=agency, local_identifier=local_identifier)
+                if report.id != report_with_local_id.id:
+                    errors.append("The submitted report_id is pointing to a different report, "
+                                  "than the submitted local identifier.")
+            except ObjectDoesNotExist:
+                pass
+
+        #
+        # Validate if valid_to date is larger than valid_from
+        #
+        date_from = datetime.strptime(valid_from, "%Y-%m-%d")
+
+        if valid_to:
+            date_to = datetime.strptime(valid_to, "%Y-%m-%d")
+            if date_from >= date_to:
+                errors.append("Report's validity start should be earlier then validity end.")
+
+        #
+        # Validate if Agency registration start is earlier than report validation start date.
+        #
+        if date_from:
+            if agency.registration_valid_to:
+                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
+                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
+            else:
+                if agency.registration_start >= datetime.date(date_from):
+                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+
+        #
+        # Validations for ALTERNATIVE PROVIDERS
+        #
         all_ap = True
         for i in institutions:
             if not i.is_alternative_provider:
                 all_ap = False
 
         # Status must be 'voluntary' if all institutions are AP
-        status = data.get('status', None)
-        if all_ap and (not status or status.id != 2):
-            errors.append("Status should be 'voluntary' if all organisations are alternative providers.")
+        if all_ap:
+            if not status or status.id != 2:
+                errors.append("Status should be 'voluntary' if all organisations are alternative providers.")
 
-        # Programme degree outcome must be "no full degree" for AP - mixed cases:
-        programmes = data.get('programmes', [])
+        # Programme degree outcome must be "no full degree" for AP:
         if all_ap:
             for programme in programmes:
                 if programme['degree_outcome'].id != 2:
                     errors.append("Degree outcome should be '2 / no full degree' if all the "
                                   "organisations are alternative providers")
 
-        # If there are errors raise ValidationError
-        #
-        if errors:
+        if len(errors) > 0:
             raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
-        return data
-
-    def validate(self, data):
-        institutions = data.get('institutions', None)
-        programmes = data.get('programmes', None)
-        esg_activity = data.get('esg_activity', None)
-
-        # institutional
-        if esg_activity.activity_type_id == 2:
-            if programmes is not None:
-                raise serializers.ValidationError("Please remove programme information "
-                                                  "with this particular Activity type.")
-        # programme or institutional/programme
-        elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
-            if len(institutions) > 1:
-                raise serializers.ValidationError("Please provide only one institution "
-                                                  "with this particular Activity type.")
-            if programmes is None:
-                raise serializers.ValidationError("Please provide at least one programme "
-                                                  "with this particular Activity type.")
-        # joint programme
-        else:
-            if len(institutions) == 1:
-                raise serializers.ValidationError("Please provide data for all of the institutions "
-                                                  "with this particular Activity type.")
-            if programmes is None:
-                raise serializers.ValidationError("Please provide at least one programme "
-                                                  "with this particular Activity type.")
 
         return data

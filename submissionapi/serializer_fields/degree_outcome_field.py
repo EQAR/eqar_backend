@@ -14,6 +14,9 @@ ACCEPTED_NOT_FULL_DEGREE_VALUES = [
 
 class DegreeOutcomeField(serializers.Field):
     def to_internal_value(self, data):
+        if data == "":
+            return None
+
         if data not in ACCEPTED_FULL_DEGREE_VALUES and data not in ACCEPTED_NOT_FULL_DEGREE_VALUES:
             raise serializers.ValidationError("Please provide valid degree_outcome value.")
         else:

@@ -51,6 +51,7 @@ class SubmissionAPIReportTestWithAP(APITestCase):
                     "degree_outcome": "2",
                     "workload_ects": 15,
                     "assessment_certification": "2",
+                    "qf_ehea_level": "2",
                     "mc_as_part_of_accreditation": True,
                     "learning_outcomes": [
                         'http://data.europa.eu/esco/skill/04a13491-b58c-4d33-8b59-8fad0d55fe9e',
