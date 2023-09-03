@@ -1,0 +1,47 @@
+- model: lists.IdentifierSource
+  pk: 1
+  fields:
+    resource: 'DID-EBSI'
+    source: 'Higher education institutions: DID – EBSI'
+
+- model: lists.IdentifierSource
+  pk: 2
+  fields:
+    resource: 'Erasmus'
+    source: 'European Commission: Erasmus'
+
+- model: lists.IdentifierSource
+  pk: 3
+  fields:
+    resource: 'Erasmus-Charter'
+    source: 'European Commission: Erasmus–Charter'
+
+- model: lists.IdentifierSource
+  pk: 4
+  fields:
+    resource: 'EU-PIC'
+    source: 'European Commission: EU-PIC'
+
+- model: lists.IdentifierSource
+  pk: 5
+  fields:
+    resource: 'EU-VAT'
+    source: 'National (tax) authorities: VAT Number'
+
+- model: lists.IdentifierSource
+  pk: 6
+  fields:
+    resource: 'SCHAC'
+    source: 'SCHema for Academia: SCHAC'
+
+- model: lists.IdentifierSource
+  pk: 7
+  fields:
+    resource: 'WHED'
+    source: 'World Higher Education Database: WHED'
+
+- model: lists.IdentifierSource
+  pk: 8
+  fields:
+    resource: 'other'
+    source: 'Other'

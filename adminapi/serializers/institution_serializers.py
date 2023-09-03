@@ -2,7 +2,7 @@ from drf_writable_nested import WritableNestedModelSerializer, UniqueFieldsMixin
 from rest_framework import serializers
 
 from adminapi.serializers.select_serializers import CountrySelectSerializer, AgencySelectSerializer, \
-    InstitutionOrganizationTypeSelectSerializer
+    InstitutionOrganizationTypeSelectSerializer, IdentifierSourceSelectSerializer
 from countries.models import Country
 from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from eqar_backend.serializers import InstitutionIdentifierTypeSerializer, InstitutionNameTypeSerializer
@@ -14,11 +14,12 @@ from lists.models import Flag, QFEHEALevel
 
 class InstitutionIdentifierReadSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     agency = AgencySelectSerializer()
+    source = IdentifierSourceSelectSerializer()
 
     class Meta:
         model = InstitutionIdentifier
         list_serializer_class = InstitutionIdentifierTypeSerializer
-        fields = ['id', 'agency', 'identifier', 'resource', 'note', 'identifier_valid_from', 'identifier_valid_to']
+        fields = ['id', 'agency', 'identifier', 'resource', 'source', 'note', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
@@ -27,7 +28,7 @@ class InstitutionIdentifierWriteSerializer(UniqueFieldsMixin, serializers.ModelS
     class Meta:
         model = InstitutionIdentifier
         list_serializer_class = InstitutionIdentifierTypeSerializer
-        fields = ['id', 'agency', 'identifier', 'resource', 'note', 'identifier_valid_from', 'identifier_valid_to']
+        fields = ['id', 'agency', 'identifier', 'resource', 'source', 'note', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionNameVersionSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
@@ -203,7 +204,7 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
     organization_type = InstitutionOrganizationTypeSelectSerializer()
     flags = InstitutionFlagReadSerializer(many=True, source='institutionflag_set')
     update_log = InstitutionUpdateLogSerializer(many=True, source='institutionupdatelog_set')
-    
+
     class Meta:
         model = Institution
         fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',

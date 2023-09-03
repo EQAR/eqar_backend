@@ -107,6 +107,7 @@ class InstitutionIdentifier(models.Model):
     identifier = models.CharField(max_length=100)
     agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.SET_NULL)
     resource = models.CharField(max_length=200, blank=True)
+    source = models.ForeignKey('lists.IdentifierSource', blank=True, null=True, on_delete=models.SET_NULL)
     note = models.TextField(blank=True)
     identifier_valid_from = models.DateField(default=datetime.date.today)
     identifier_valid_to = models.DateField(blank=True, null=True)

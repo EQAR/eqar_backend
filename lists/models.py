@@ -126,3 +126,18 @@ class Assessment(models.Model):
         verbose_name = 'Assessment and Certification'
         verbose_name_plural = 'Assessment and Certifications'
         ordering = ('assessment',)
+
+
+class IdentifierSource(models.Model):
+    id = models.AutoField(primary_key=True)
+    resource = models.CharField(max_length=50)
+    source = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.source
+
+    class Meta:
+        db_table = 'deqar_list_identifier_sources'
+        verbose_name = 'Identifier Source'
+        verbose_name_plural = 'Identifier Sources'
+        ordering = ('resource',)
