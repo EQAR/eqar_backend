@@ -64,7 +64,7 @@ class InstitutionAllList(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
-                  'website_link,country,city,alternative_provider_facet,score',
+                  'website_link,country,city,alternative_provider,score',
             'facet': True,
             'facet_fields': ['country_facet'],
             'facet_sort': 'index'
@@ -74,7 +74,7 @@ class InstitutionAllList(ListAPIView):
         city = request.query_params.get('city', None)
         eter_id = request.query_params.get('eter_id', None)
         deqar_id = request.query_params.get('deqar_id', None)
-        alternative_provider = request.query_params.get('alternative_provider', False)
+        alternative_provider = request.query_params.get('alternative_provider', None)
 
         if country:
             filters.append({'country': country})

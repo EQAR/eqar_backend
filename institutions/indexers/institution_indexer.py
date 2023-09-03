@@ -116,7 +116,13 @@ class InstitutionIndexer:
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
-        self.doc['alternative_provider_facet'] = self.institution.is_alternative_provider
+
+        if self.institution.is_alternative_provider:
+            self.doc['alternative_provider'] = True
+            self.doc['alternative_provider_facet'] = 'ap'
+        else:
+            self.doc['alternative_provider'] = False
+            self.doc['alternative_provider_facet'] = 'hei'
 
         if self.institution.founding_date:
             self.doc['founding_date'] = str(self.institution.founding_date)
