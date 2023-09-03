@@ -23,6 +23,9 @@ from submissionapi.serializer_fields.report_decision_field import ReportDecision
 from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
 from submissionapi.serializer_fields.report_language_field import ReportLanguageField
 from submissionapi.serializer_fields.report_status_field import ReportStatusField
+from submissionapi.validations.validate_identifiers_and_resource import validate_identifiers_and_resource
+from submissionapi.validations.validate_programmes import validate_programmes
+from submissionapi.validations.validate_submission_package_root import validate_submission_package_root
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -135,21 +138,7 @@ class InstitutionSerializer(serializers.Serializer):
                                                   'example: https://www.tuwien.ac.at')
 
     def validate_identifiers(self, value):
-        # Validate if there is only one identifier without resource id
-        count = 0
-        resources = []
-        for identifier in value:
-            if 'resource' not in identifier.keys():
-                count += 1
-            else:
-                resources.append(identifier['resource'])
-        if count > 1:
-            raise serializers.ValidationError("You can only submit one identifier without resource.")
-
-        # Validate if resource values are unique
-        if len(resources) != len(set(resources)):
-            raise serializers.ValidationError("You can only submit different type of resources.")
-        return value
+        return validate_identifiers_and_resource(value)
 
     # The new institution populator
     def to_internal_value(self, data):
@@ -313,48 +302,11 @@ class ProgrammeSerializer(serializers.Serializer):
                                                          '"No assessment and no certificate"')
 
     def validate_identifiers(self, value):
-        # Validate if there is only one identifier without resource id
-        count = 0
-        resources = []
-        for identifier in value:
-            if 'resource' not in identifier.keys():
-                count += 1
-            else:
-                resources.append(identifier['resource'])
-        if count > 1:
-            raise serializers.ValidationError("You can only submit one identifier without resource.")
-
-        # Validate if resource values are unique
-        if len(resources) != len(set(resources)):
-            raise serializers.ValidationError("You can only submit different type of resources.")
-        return value
+        return validate_identifiers_and_resource(value)
 
     def validate(self, data):
-        errors = {}
         data = super(ProgrammeSerializer, self).validate(data)
-
-        qf_ehea_level = data.get('qf_ehea_level')
-        degree_outcome = data.get('degree_outcome')
-        workload_ects = data.get('workload_ects')
-        assessment_certification = data.get('assessment_certification')
-
-        # Additional programme data fields are required if degree outcome is "no full degree"
-        if degree_outcome:
-            if degree_outcome.id == 2:
-                if not workload_ects:
-                    errors["workload_ects"] = "ECTS credits are required, when degree_outcome field is " \
-                                              "'2 / no full degree'"
-                if not assessment_certification:
-                    errors["assessment_certification"] = "Assessment information is required, " \
-                                                         "when degree_outcome field is '2 / no full degree'."
-                if not qf_ehea_level:
-                    errors["qf_ehea_level"] = "QF-EHEA Level information is required, " \
-                                              "when degree_outcome field is '2 / no full degree'."
-
-        if len(errors) > 0:
-            raise serializers.ValidationError(errors)
-
-        return data
+        return validate_programmes(data)
 
 
 class ReportFileSerializer(serializers.Serializer):
@@ -548,121 +500,4 @@ class SubmissionPackageSerializer(serializers.Serializer):
 
     def validate(self, data):
         data = super(SubmissionPackageSerializer, self).validate(data)
-
-        # Array to hold errors
-        errors = []
-
-        # Get the required values for the validations
-        institutions = data.get('institutions', [])
-        programmes = data.get('programmes', [])
-        esg_activity = data.get('esg_activity', None)
-        agency = data.get('agency', None)
-        report = data.get('report_id', None)
-        local_identifier = data.get('local_identifier', None)
-        valid_from = data.get('valid_from')
-        valid_to = data.get('valid_to', None)
-        status = data.get('status', None)
-        micro_credentials_covered = data.get('micro_credentials_covered')
-
-        #
-        # Validate if activity types haas the right amount of programme and instituton records
-        #
-        # institutional
-        if esg_activity.activity_type_id == 2:
-            if len(programmes) > 0:
-                errors.append("Please remove programme information "
-                              "with this particular Activity type.")
-        # programme or institutional/programme
-        elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
-            if len(institutions) > 1:
-                errors.append("Please provide only one institution "
-                              "with this particular Activity type.")
-            if len(programmes) == 0:
-                errors.append("Please provide at least one programme "
-                              "with this particular Activity type.")
-        # joint programme
-        else:
-            if len(institutions) == 1:
-                errors.append("Please provide data for all of the institutions "
-                              "with this particular Activity type.")
-            if len(programmes) == 0:
-                errors.append("Please provide at least one programme "
-                              "with this particular Activity type.")
-
-        #
-        # Validate if report_id and local_identifier resolving to the same record,
-        # or local_identifier is non-existent
-        #
-        if report and local_identifier:
-            try:
-                report_with_local_id = Report.objects.get(agency=agency, local_identifier=local_identifier)
-                if report.id != report_with_local_id.id:
-                    errors.append("The submitted report_id is pointing to a different report, "
-                                  "than the submitted local identifier.")
-            except ObjectDoesNotExist:
-                pass
-
-        #
-        # Validate if valid_to date is larger than valid_from
-        #
-        date_from = datetime.strptime(valid_from, "%Y-%m-%d")
-
-        if valid_to:
-            date_to = datetime.strptime(valid_to, "%Y-%m-%d")
-            if date_from >= date_to:
-                errors.append("Report's validity start should be earlier then validity end.")
-
-        #
-        # Validate if Agency registration start is earlier than report validation start date.
-        #
-        if date_from:
-            if agency.registration_valid_to:
-                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
-                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
-            else:
-                if agency.registration_start >= datetime.date(date_from):
-                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
-
-        #
-        # Validations for ALTERNATIVE PROVIDERS
-        #
-        # Check if all institutions are AP
-        all_ap = True
-        all_hei = True
-        for i in institutions:
-            if not i.is_alternative_provider:
-                all_ap = False
-            else:
-                all_hei = False
-
-        # Status must be 'voluntary' if all institutions are AP
-        if all_ap:
-            if not status or status.id != 2:
-                errors.append("Status should be 'voluntary' if all organisations are alternative providers.")
-
-        # Programme degree outcome must be "no full degree" for AP:
-        if all_ap and len(programmes) > 0:
-            for programme in programmes:
-                if programme['degree_outcome'].id != 2:
-                    errors.append("Degree outcome should be '2 / no full degree' if all the "
-                                  "organisations are alternative providers")
-
-        #
-        # When at least one programme covered by the report has degree outcome = 2 - No full degree,
-        # it should be required that the report has micro_credentials_covered = true
-        #
-        # Check programme degree_outcome
-        if len(programmes) > 0:
-            only_full_degree_programme = True
-            for programme in programmes:
-                if programme['degree_outcome'].id == 2:
-                    only_full_degree_programme = False
-
-            if not only_full_degree_programme and not micro_credentials_covered:
-                errors.append("If at least one programme has degree outcome set as '2 - No full degree', the "
-                              "report should have micro_credentials_covered set as true.")
-
-        if len(errors) > 0:
-            raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
-
-        return data
+        return validate_submission_package_root(data)
