@@ -15,7 +15,7 @@ from webapi.serializers.agency_serializers import ContributingAgencySerializer
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ['id', 'deqar_id', 'name_primary', 'website_link']
+        fields = ['id', 'deqar_id', 'name_primary', 'website_link', 'is_alternative_provider']
 
 
 class ProgrammeNameSerializer(serializers.ModelSerializer):
