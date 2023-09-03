@@ -2,7 +2,9 @@ from rest_framework import serializers
 
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
-    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion
+    InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
+    InstitutionOrganizationType
+from lists.models import IdentifierSource
 from webapi.serializers.country_serializers import CountryDetailSerializer
 
 
@@ -57,10 +59,11 @@ class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModel
 class InstitutionIdentifierSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField(read_only=True)
     resource = serializers.StringRelatedField(read_only=True)
+    source = serializers.SlugRelatedField(slug_field='source', queryset=IdentifierSource.objects.all())
 
     class Meta:
         model = InstitutionIdentifier
-        fields = ['identifier', 'agency', 'resource', 'identifier_valid_from', 'identifier_valid_to']
+        fields = ['identifier', 'agency', 'resource', 'source', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionNameVersionSerializer(serializers.ModelSerializer):
@@ -116,6 +119,12 @@ class InstitutionRelationshipSerializer(serializers.ModelSerializer):
         fields = ['id', 'eter_id', 'url', 'name_primary', 'name_sort', 'website_link', 'countries']
 
 
+class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionOrganizationType
+        fields = ['id', 'type']
+
+
 class InstitutionDetailSerializer(serializers.ModelSerializer):
     identifiers = InstitutionIdentifierSerializer(many=True, read_only=True, source='institutionidentifier_set')
     names = InstitutionNameSerializer(many=True, read_only=True, source='institutionname_set')
@@ -124,6 +133,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     historical_relationships = serializers.SerializerMethodField()
     hierarchical_relationships = serializers.SerializerMethodField()
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
+    organization_type = InstitutionOrganizationTypeSerializer()
 
     def get_hierarchical_relationships(self, obj):
         includes = []
@@ -168,7 +178,8 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
         fields = ('id', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
-                  'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels', 'historical_data')
+                  'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels',
+                  'is_alternative_provider', 'organization_type', 'source_of_information', 'historical_data')
 
 
 class InstitutionResourceSerializer(serializers.ModelSerializer):
