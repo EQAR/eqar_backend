@@ -203,14 +203,14 @@ class InstitutionReadSerializer(serializers.ModelSerializer):
     organization_type = InstitutionOrganizationTypeSelectSerializer()
     flags = InstitutionFlagReadSerializer(many=True, source='institutionflag_set')
     update_log = InstitutionUpdateLogSerializer(many=True, source='institutionupdatelog_set')
-
+    
     class Meta:
         model = Institution
         fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers_national', 'identifiers_local', 'names_actual', 'names_former', 'countries',
                   'internal_note', 'other_comment', 'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
                   'historical_source', 'historical_target', 'created_at', 'flags', 'update_log',
-                  'is_alternative_provider', 'organization_type']
+                  'is_alternative_provider', 'organization_type', 'source_of_information']
 
 
 class InstitutionUserWriteSerializer(WritableNestedModelSerializer):
@@ -239,4 +239,5 @@ class InstitutionAdminWriteSerializer(WritableNestedModelSerializer):
         fields = ['id', 'name_primary', 'website_link', 'founding_date', 'closure_date',
                   'identifiers', 'names', 'countries', 'internal_note', 'other_comment',
                   'qf_ehea_levels', 'hierarchical_parent', 'hierarchical_child',
-                  'historical_source', 'historical_target', 'flags', 'is_alternative_provider', 'organization_type']
+                  'historical_source', 'historical_target', 'flags', 'is_alternative_provider', 'organization_type',
+                  'source_of_information']

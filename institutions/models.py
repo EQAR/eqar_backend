@@ -31,6 +31,7 @@ class Institution(models.Model):
     is_alternative_provider = models.BooleanField(default=False)
     organization_type = models.ForeignKey('InstitutionOrganizationType',
                                           on_delete=models.SET_NULL, blank=True, null=True)
+    source_of_information = models.CharField(max_length=200, blank=True, null=True)
 
     # Audit log values
     created_by = models.ForeignKey(User, related_name='institutions_created_by',
