@@ -175,10 +175,7 @@ class InstitutionList(ListAPIView):
             filters.append({'crossborder_facet': crossborder})
 
         if alternative_provider:
-            if alternative_provider == 'true':
-                filters.append({'alternative_provider_facet': 'ap'})
-            else:
-                filters.append({'alternative_provider_facet': 'hei'})
+            filters.append({'alternative_provider_facet': alternative_provider})
 
         params['filters'] = filters
 
