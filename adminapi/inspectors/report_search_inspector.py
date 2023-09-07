@@ -42,6 +42,19 @@ class ReportSearchInspector(CoreAPICompatInspector):
             'description': 'Shows only reports, which were valid in the written year.',
             'type': 'string'
         },
+        'alternative_provider_covered': {
+            'description': 'Shows only reports, which are covering at least one organisation which is alternative '
+                           'provider.',
+            'type': 'boolean'
+        },
+        'micro_credentials_covered': {
+            'description': 'Shows only reports, which are covering micro credentials.',
+            'type': 'boolean'
+        },
+        'degree_outcome': {
+            'description': 'Shows programme reports, where degree outcome is full degree.',
+            'type': 'boolean'
+        },
         'ordering': {
             'description': 'Definition of the resultset ordering.',
             'type': 'string',
