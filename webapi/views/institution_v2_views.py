@@ -108,7 +108,7 @@ class InstitutionList(ListAPIView):
                   'alternative_provider,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',
-                             'activity_facet', 'activity_type_facet', 'crossborder_facet'],
+                             'activity_facet', 'activity_type_facet', 'crossborder_facet', 'alternative_provider_facet'],
             'facet_sort': 'index'
         }
 
