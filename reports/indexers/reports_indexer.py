@@ -289,7 +289,7 @@ class ReportsIndexer:
                 'name_primary': programme.name_primary,
                 'nqf_level': programme.nqf_level,
                 'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None,
-                'degree_outcome': degree_outcome_true,
+                'degree_outcome': degree_outcome_true > 0,
                 'workload_ects': programme.workload_ects
             })
 
