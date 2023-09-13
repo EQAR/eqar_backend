@@ -59,8 +59,10 @@ class EQARDecisionType(models.Model):
 
 
 class IdentifierResource(models.Model):
-    id = models.AutoField(primary_key=True)
-    resource = models.CharField(max_length=50)
+    resource = models.CharField(max_length=50, primary_key=True)
+    title = models.CharField(max_length=300, blank=True, null=True)
+    source = models.TextField(blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.resource
@@ -126,18 +128,3 @@ class Assessment(models.Model):
         verbose_name = 'Assessment and Certification'
         verbose_name_plural = 'Assessment and Certifications'
         ordering = ('assessment',)
-
-
-class IdentifierSource(models.Model):
-    id = models.AutoField(primary_key=True)
-    resource = models.CharField(max_length=50)
-    source = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.source
-
-    class Meta:
-        db_table = 'deqar_list_identifier_sources'
-        verbose_name = 'Identifier Source'
-        verbose_name_plural = 'Identifier Sources'
-        ordering = ('resource',)

@@ -1,14 +1,51 @@
 - model: lists.IdentifierResource
-  pk: 1
+  pk: 'DID-EBSI'
   fields:
-    resource: WHED
+    title: 'Higher education institutions: DID – EBSI'
+    link: 'https://ec.europa.eu/digital-building-blocks/wikis/display/EBSIDOC/EBSI+DID+Method'
 
 - model: lists.IdentifierResource
-  pk: 2
+  pk: 'Erasmus'
   fields:
-    resource: ENIC-NARIC
+    title: 'European Commission: Erasmus'
 
 - model: lists.IdentifierResource
-  pk: 3
+  pk: 'Erasmus-Charter'
   fields:
-    resource: National Authority
+    title: 'European Commission: Erasmus–Charter'
+
+- model: lists.IdentifierResource
+  pk: 'EU-PIC'
+  fields:
+    title: 'European Commission: EU-PIC'
+
+- model: lists.IdentifierResource
+  pk: 'EU-VAT'
+  fields:
+    title: 'National (tax) authorities: VAT Number'
+
+- model: lists.IdentifierResource
+  pk: 'SCHAC'
+  fields:
+    title: 'SCHema for Academia: SCHAC'
+
+- model: lists.IdentifierResource
+  pk: 'WHED'
+  fields:
+    title: 'World Higher Education Database: WHED'
+    link: 'https://www.whed.net/'
+
+- model: lists.IdentifierResource
+  pk: 'other'
+  fields:
+    title: 'Other'
+
+- model: lists.IdentifierResource
+  pk: 'local identifier'
+  fields:
+    title: 'Local Identifier'
+
+- model: lists.IdentifierResource
+  pk: 'national identifier'
+  fields:
+    title: 'National Identifier'

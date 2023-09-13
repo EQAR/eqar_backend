@@ -6,7 +6,7 @@ from countries.models import Country, CountryQARequirementType
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
-    Assessment, DegreeOutcome, IdentifierSource
+    Assessment, DegreeOutcome
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -70,7 +70,7 @@ class EQARDecisionTypeSelectSerializer(serializers.ModelSerializer):
 class IdentifierResourceSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdentifierResource
-        fields = ['id', 'resource']
+        fields = ['resource', 'title']
 
 
 class PermissionTypeSelectSerializer(serializers.ModelSerializer):
@@ -142,9 +142,3 @@ class DegreeOutcomeSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = DegreeOutcome
         fields = ['id', 'outcome']
-
-
-class IdentifierSourceSelectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = IdentifierSource
-        fields = ['id', 'resource', 'source']

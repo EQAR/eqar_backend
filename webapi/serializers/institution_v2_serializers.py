@@ -4,7 +4,6 @@ from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
     InstitutionOrganizationType
-from lists.models import IdentifierSource
 from webapi.serializers.country_serializers import CountryDetailSerializer
 
 
@@ -59,11 +58,10 @@ class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModel
 class InstitutionIdentifierSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField(read_only=True)
     resource = serializers.StringRelatedField(read_only=True)
-    source = serializers.SlugRelatedField(slug_field='source', queryset=IdentifierSource.objects.all())
 
     class Meta:
         model = InstitutionIdentifier
-        fields = ['identifier', 'agency', 'resource', 'source', 'identifier_valid_from', 'identifier_valid_to']
+        fields = ['identifier', 'agency', 'resource', 'identifier_valid_from', 'identifier_valid_to']
 
 
 class InstitutionNameVersionSerializer(serializers.ModelSerializer):

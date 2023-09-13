@@ -1,4 +1,3 @@
-from submissionapi.populators.institution_populator import InstitutionPopulator
 from submissionapi.populators.programme_populator import ProgrammePopulator
 from submissionapi.populators.report_populator import ReportPopulator
 

@@ -192,7 +192,7 @@ class InstitutionPopulatorTestCase(TestCase):
         populator._institution_create()
         self.assertIsNotNone(populator.institution)
         self.assertEqual(populator.institution.name_primary, "New University")
-        self.assertEqual(populator.institution.institutionidentifier_set.first().resource, "local identifier")
+        self.assertEqual(str(populator.institution.institutionidentifier_set.first().resource), "local identifier")
         self.assertEqual(populator.institution.institutionname_set.first().name_source_note,
                          "Name information supplied by [ACQUIN].")
 

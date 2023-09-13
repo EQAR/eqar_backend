@@ -19,7 +19,7 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
     FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList, \
     InstitutionHierarchicalRelationshipTypeSelect, InstitutionOrganizationTypeSelectList, AssessmentSelectList, \
-    DegreeOutcomeSelectList, IdentifierSourceSelectList
+    DegreeOutcomeSelectList
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 app_name = 'adminapi'
@@ -57,7 +57,6 @@ urlpatterns = [
     url(r'^select/association/$', AssociationSelectList.as_view(), name='association-select'),
     url(r'^select/assessment/$', AssessmentSelectList.as_view(), name='assessment-select'),
     url(r'^select/degree_outcome/$', DegreeOutcomeSelectList.as_view(), name='degree-outcome-select'),
-    url(r'^select/identifier_source/$', IdentifierSourceSelectList.as_view(), name='identifier-source-select'),
     url(r'^select/eqar_decision_type/$', EQARDecisionTypeSelectList.as_view(), name='decision-select'),
     url(r'^select/identifier_resource/$', IdentifierResourceSelectList.as_view(),
         name='identifier-resource-select'),
