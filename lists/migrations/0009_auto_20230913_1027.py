@@ -32,6 +32,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='identifierresource',
             name='resource',
-            field=models.CharField(max_length=50, primary_key=True, serialize=False),
+            field=models.CharField(max_length=150, primary_key=True, serialize=False),
         ),
     ]

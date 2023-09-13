@@ -59,7 +59,7 @@ class EQARDecisionType(models.Model):
 
 
 class IdentifierResource(models.Model):
-    resource = models.CharField(max_length=50, primary_key=True)
+    resource = models.CharField(max_length=150, primary_key=True)
     title = models.CharField(max_length=300, blank=True, null=True)
     source = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
