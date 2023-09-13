@@ -8,7 +8,7 @@ def create_identifier_sources(apps, schema_editor):
     InstitutionIdentifier = apps.get_model("institutions", "InstitutionIdentifier")
     IdentifierResource = apps.get_model("lists", "IdentifierResource")
     for identifier in InstitutionIdentifier.objects.all():
-        if len(identifier.resource) < 50:
+        if identifier.resource:
             identifier_resource, created = IdentifierResource.objects.get_or_create(
                 resource=identifier.resource
             )
