@@ -133,7 +133,7 @@ class CSVHandler:
             if len(rematch) > 0:
                 if 'contributing_agencies' in field:
                     self.report_record['contributing_agencies'] = []
-                    for column  in rematch:
+                    for column in rematch:
                         self.report_record['contributing_agencies'].append(row[column])
                 else:
                     self.report_record[rematch[0]] = row[rematch[0]]
