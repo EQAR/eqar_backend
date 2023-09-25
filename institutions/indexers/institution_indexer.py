@@ -80,6 +80,7 @@ class InstitutionIndexer:
             'status_facet': [],
             'qf_ehea_level_facet': [],
             'crossborder_facet': [],
+            'alternative_provider_facet': False,
 
             # Report indicator
             'has_report': False,
@@ -110,12 +111,19 @@ class InstitutionIndexer:
     def _index_main_institution(self):
         # Index display fields
         self.doc['id'] = self.institution.id
-        self.doc['deqar_id'] = 'DEQARINST%04d' % self.institution.id
-        self.doc['deqar_id_search'] = 'DEQARINST%04d' % self.institution.id
+        self.doc['deqar_id'] = self.institution.deqar_id
+        self.doc['deqar_id_search'] = self.institution.deqar_id
         self.doc['deqar_id_sort'] = self.institution.id
         self.doc['name_primary'] = self.institution.name_primary.strip()
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
+
+        if self.institution.is_alternative_provider:
+            self.doc['alternative_provider'] = True
+            self.doc['alternative_provider_facet'] = True
+        else:
+            self.doc['alternative_provider'] = False
+            self.doc['alternative_provider_facet'] = False
 
         if self.institution.founding_date:
             self.doc['founding_date'] = str(self.institution.founding_date)

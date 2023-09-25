@@ -3,8 +3,10 @@ from rest_framework import serializers
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country, CountryQARequirementType
-from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType
-from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
+from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
+    InstitutionOrganizationType
+from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
+    Assessment, DegreeOutcome
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -35,6 +37,18 @@ class CountrySelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
         fields = ['id', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3']
 
 
+class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionOrganizationType
+        fields = ['id', 'type']
+
+
+class AssessmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assessment
+        fields = ['id', 'assessment']
+
+
 class LanguageSelectSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Language
@@ -56,7 +70,7 @@ class EQARDecisionTypeSelectSerializer(serializers.ModelSerializer):
 class IdentifierResourceSelectSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdentifierResource
-        fields = ['id', 'resource']
+        fields = ['resource', 'title']
 
 
 class PermissionTypeSelectSerializer(serializers.ModelSerializer):
@@ -110,3 +124,21 @@ class InstitutionHistoricalRelationshipTypeSerializer(serializers.ModelSerialize
     class Meta:
         model = InstitutionHistoricalRelationshipType
         fields = ['id', 'relationship_type_id', 'relationship', 'institution_direction']
+
+
+class InstitutionOrganizationTypeSelectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitutionOrganizationType
+        fields = ['id', 'type']
+
+
+class AssessmentSelectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assessment
+        fields = ['id', 'assessment']
+
+
+class DegreeOutcomeSelectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DegreeOutcome
+        fields = ['id', 'outcome']

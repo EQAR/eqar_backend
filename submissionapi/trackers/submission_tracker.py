@@ -12,7 +12,7 @@ class SubmissionTracker:
         self.submission_report_logs = []
         self.user_profile = user_profile
         self.ip_address = ip_address
-        self.spl = None;
+        self.spl = None
 
     def log_package(self):
         self.spl = SubmissionPackageLog.objects.create(

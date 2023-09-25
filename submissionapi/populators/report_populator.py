@@ -59,6 +59,7 @@ class ReportPopulator():
             self.report.updated_at = datetime.now()
             self.report.other_comment = self.submission.get('other_comment', None)
             self.report.summary = self.submission.get('summary', None)
+            self.report.micro_credentials_covered = self.submission.get('micro_credentials_covered', False)
 
             # Report.contributing_agencies.through.objects.all().delete()
             self.report.contributing_agencies.clear()

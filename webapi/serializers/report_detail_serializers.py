@@ -4,7 +4,8 @@ from django.db.models import Q
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
-from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName
+from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName, ProgrammeLearningOutcome
+from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
 
 from webapi.serializers.report_v2_serializers import ReportFileSerializer, ReportLinkSerializer
@@ -14,7 +15,7 @@ from webapi.serializers.agency_serializers import ContributingAgencySerializer
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ['id', 'deqar_id', 'name_primary', 'website_link']
+        fields = ['id', 'deqar_id', 'name_primary', 'website_link', 'is_alternative_provider']
 
 
 class ProgrammeNameSerializer(serializers.ModelSerializer):
@@ -31,16 +32,33 @@ class ProgrammeIdentifierSerializer(serializers.ModelSerializer):
         fields = ['identifier', 'agency', 'resource']
 
 
+class DegreeOutcomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DegreeOutcome
+        fields = ['id', 'outcome']
+
+
+class ProgrammeLearningOutcomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgrammeLearningOutcome
+        fields = ['learning_outcome_esco']
+
+
 class ProgrammeSerializer(serializers.ModelSerializer):
     programme_names = ProgrammeNameSerializer(many=True, read_only=True, source='programmename_set')
     programme_identifiers = ProgrammeIdentifierSerializer(many=True, read_only=True, source='programmeidentifier_set')
     countries = serializers.StringRelatedField(many=True, read_only=True)
     qf_ehea_level = serializers.StringRelatedField(read_only=True)
+    degree_outcome = DegreeOutcomeSerializer(read_only=True)
+    assessment_certification = serializers.SlugRelatedField(slug_field='assessment', queryset=Assessment.objects.all())
+    learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, read_only=True, source='programmelearningoutcome_set')
 
     class Meta:
         model = Programme
         fields = ['id', 'name_primary', 'programme_names', 'programme_identifiers',
-                  'nqf_level', 'qf_ehea_level', 'countries']
+                  'nqf_level', 'qf_ehea_level', 'countries',
+                  'degree_outcome', 'workload_ects', 'assessment_certification', 'field_study',
+                  'learning_outcomes', 'learning_outcome_description']
 
 
 class ReportDetailSerializer(serializers.ModelSerializer):
@@ -146,4 +164,4 @@ class ReportDetailSerializer(serializers.ModelSerializer):
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'crossborder', 'summary', 'report_files',
-                  'report_links', 'local_identifier', 'other_comment', 'flag']
+                  'report_links', 'local_identifier', 'other_comment', 'micro_credentials_covered', 'flag']

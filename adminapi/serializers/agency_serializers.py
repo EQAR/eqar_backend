@@ -6,7 +6,7 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     AgencyActivityTypeSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer
 from agencies.models import Agency, AgencyName, AgencyNameVersion, AgencyPhone, AgencyEmail, AgencyFocusCountry, \
     AgencyESGActivity, AgencyMembership, AgencyEQARDecision, AgencyFlag, AgencyUpdateLog
-from eqar_backend.serializer_fields import DateBlankSerializer
+from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from eqar_backend.serializers import AgencyNameTypeSerializer
 
 

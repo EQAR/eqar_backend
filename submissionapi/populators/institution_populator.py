@@ -7,7 +7,7 @@ from django.db.models import Q
 from countries.models import Country
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionNameVersion, InstitutionCountry
-from lists.models import QFEHEALevel
+from lists.models import QFEHEALevel, IdentifierResource
 from submissionapi.flaggers.institution_flag_message_creator import InstitutionFlagMessageCreator
 
 
@@ -131,9 +131,12 @@ class InstitutionPopulator():
                         agency=self.agency
                     )
                 except ObjectDoesNotExist:
+                    identifier_resource, created = IdentifierResource.objects.get_or_create(
+                        resource=resource
+                    )
                     self.institution.institutionidentifier_set.create(
                         identifier=idf.get('identifier', None),
-                        resource=resource,
+                        resource=identifier_resource,
                         agency=self.agency
                     )
             else:
@@ -143,9 +146,12 @@ class InstitutionPopulator():
                         resource=resource,
                     )
                 except ObjectDoesNotExist:
+                    identifier_resource, created = IdentifierResource.objects.get_or_create(
+                        resource=resource
+                    )
                     self.institution.institutionidentifier_set.create(
                         identifier=idf.get('identifier', None),
-                        resource=resource
+                        resource=identifier_resource
                     )
 
         inst_name_msg = "Name information supplied by [%s]." % self.agency.acronym_primary
@@ -246,11 +252,15 @@ class InstitutionPopulator():
             resource = idf.get('resource', 'local identifier')
 
             if resource == 'local identifier':
+                identifier_resource, created = IdentifierResource.objects.get_or_create(
+                    resource=resource
+                )
+
                 try:
                     InstitutionIdentifier.objects.get_or_create(
                         institution=self.institution,
                         identifier=identifier,
-                        resource=resource,
+                        resource=identifier_resource,
                         agency=self.agency
                     )
                 except MultipleObjectsReturned:
@@ -264,9 +274,12 @@ class InstitutionPopulator():
                         resource=resource
                     ).count()
                     if idf_count == 0:
+                        identifier_resource, created = IdentifierResource.objects.get_or_create(
+                            resource=resource
+                        )
                         self.institution.institutionidentifier_set.create(
                             identifier=identifier,
-                            resource=resource
+                            resource=identifier_resource
                         )
                 except MultipleObjectsReturned:
                     pass

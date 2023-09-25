@@ -18,7 +18,8 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
     FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList, \
-    InstitutionHierarchicalRelationshipTypeSelect
+    InstitutionHierarchicalRelationshipTypeSelect, InstitutionOrganizationTypeSelectList, AssessmentSelectList, \
+    DegreeOutcomeSelectList
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 app_name = 'adminapi'
@@ -54,6 +55,8 @@ urlpatterns = [
     url(r'^select/country/$', CountrySelectList.as_view(), name='country-select'),
     url(r'^select/language/$', LanguageSelectList.as_view(), name='language-select'),
     url(r'^select/association/$', AssociationSelectList.as_view(), name='association-select'),
+    url(r'^select/assessment/$', AssessmentSelectList.as_view(), name='assessment-select'),
+    url(r'^select/degree_outcome/$', DegreeOutcomeSelectList.as_view(), name='degree-outcome-select'),
     url(r'^select/eqar_decision_type/$', EQARDecisionTypeSelectList.as_view(), name='decision-select'),
     url(r'^select/identifier_resource/$', IdentifierResourceSelectList.as_view(),
         name='identifier-resource-select'),
@@ -62,6 +65,8 @@ urlpatterns = [
 
     url(r'^select/institutions/$', InstitutionAllList.as_view(), name='institution-select-all'),
     url(r'^select/institutions/country/$', InstitutionCountrySelectList.as_view(), name='institution-country-select'),
+    url(r'^select/institutions/organization_type/$', InstitutionOrganizationTypeSelectList.as_view(),
+        name='institution-org-type-select'),
 
     url(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     url(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),

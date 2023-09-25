@@ -59,8 +59,10 @@ class EQARDecisionType(models.Model):
 
 
 class IdentifierResource(models.Model):
-    id = models.AutoField(primary_key=True)
-    resource = models.CharField(max_length=50)
+    resource = models.CharField(max_length=150, primary_key=True)
+    title = models.CharField(max_length=300, blank=True, null=True)
+    source = models.TextField(blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.resource
@@ -98,3 +100,31 @@ class Flag(models.Model):
         verbose_name = 'Flag'
         verbose_name_plural = 'Flags'
         ordering = ('id', 'flag')
+
+
+class DegreeOutcome(models.Model):
+    id = models.AutoField(primary_key=True)
+    outcome = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.outcome
+
+    class Meta:
+        db_table = 'deqar_list_degree_outcomes'
+        verbose_name = 'Degree Outcome'
+        verbose_name_plural = 'Degree Outcomes'
+        ordering = ('outcome',)
+
+
+class Assessment(models.Model):
+    id = models.AutoField(primary_key=True)
+    assessment = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.assessment
+
+    class Meta:
+        db_table = 'deqar_list_assessments'
+        verbose_name = 'Assessment and Certification'
+        verbose_name_plural = 'Assessment and Certifications'
+        ordering = ('assessment',)

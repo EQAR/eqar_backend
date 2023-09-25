@@ -87,7 +87,10 @@ class ReportsIndexer:
             'decision_facet': None,
             'language_facet': [],
             'flag_level_facet': None,
-            'crossborder_facet': []
+            'crossborder_facet': [],
+            'alternative_provider_covered_facet': False,
+            'micro_credentials_covered_facet': False,
+            'degree_outcome_facet': False
         }
 
     def index(self):
@@ -178,6 +181,18 @@ class ReportsIndexer:
                     self.doc['crossborder_facet'].append(True)
                     self.doc['crossborder'] = True
 
+        # AP Related filters
+        ap_count = self.report.institutions.filter(is_alternative_provider=True).count()
+        if ap_count > 0:
+            self.doc['alternative_provider_covered_facet'] = True
+
+        if self.report.micro_credentials_covered:
+            self.doc['micro_credentials_covered_facet'] = True
+
+        degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
+        if degree_outcome_true > 0:
+            self.doc['degree_outcome_facet'] = True
+
         self.doc['other_comment'] = self.report.other_comment
 
         self.doc['flag_level'] = self.report.flag.flag
@@ -204,7 +219,8 @@ class ReportsIndexer:
                 'id': inst.id,
                 'deqar_id': inst.deqar_id,
                 'name_primary': inst.name_primary,
-                'website_link': inst.website_link
+                'website_link': inst.website_link,
+                'is_alternative_provider': inst.is_alternative_provider
             })
 
             self.doc['institution_id'].append(inst.id)
@@ -272,7 +288,9 @@ class ReportsIndexer:
                 'id': programme.id,
                 'name_primary': programme.name_primary,
                 'nqf_level': programme.nqf_level,
-                'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None
+                'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None,
+                'degree_outcome': degree_outcome_true > 0,
+                'workload_ects': programme.workload_ects
             })
 
             programmes.append(programme.name_primary)

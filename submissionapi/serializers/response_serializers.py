@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from agencies.models import Agency
 from institutions.models import Institution
+from lists.models import DegreeOutcome
 from programmes.models import Programme
 from reports.models import Report, ReportFile
 
@@ -18,10 +19,11 @@ class ResponseInstitutionSerializer(serializers.ModelSerializer):
 
 class ResponseProgrammeSerializer(serializers.ModelSerializer):
     countries = serializers.StringRelatedField(many=True)
+    degree_outcome = serializers.SlugRelatedField(slug_field='outcome', queryset=DegreeOutcome.objects.all())
 
     class Meta:
         model = Programme
-        fields = ('id', 'name_primary', 'countries')
+        fields = ('id', 'name_primary', 'countries', 'degree_outcome')
 
 
 class ResponseReportFileSerializer(serializers.ModelSerializer):
@@ -52,8 +54,9 @@ class ResponseReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activity', 'name', 'status', 'decision', 'summary',
-                  'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
+        fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activity', 'name', 'status',
+                  'decision', 'summary', 'valid_from', 'valid_to', 'files', 'institutions', 'programmes',
+                  'micro_credentials_covered')
 
 
 class ResponseReportSuccessResponseSerializer(serializers.Serializer):

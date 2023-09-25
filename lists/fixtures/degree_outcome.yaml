@@ -1,0 +1,9 @@
+- model: lists.DegreeOutcome
+  pk: 1
+  fields:
+    outcome: 'Full degree'
+
+- model: lists.DegreeOutcome
+  pk: 2
+  fields:
+    outcome: 'No full degree'

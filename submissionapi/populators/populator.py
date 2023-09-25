@@ -1,4 +1,3 @@
-from submissionapi.populators.institution_populator import InstitutionPopulator
 from submissionapi.populators.programme_populator import ProgrammePopulator
 from submissionapi.populators.report_populator import ReportPopulator
 
@@ -45,14 +44,7 @@ class Populator():
         institutions = self.data.get('institutions', None)
 
         for institution in institutions:
-            ip = InstitutionPopulator(institution, self.agency)
-            ip.populate()
-
-            self.report.institutions.add(ip.institution)
-
-            if len(ip.flag_log) > 0:
-                self.sanity_check_status = "warnings"
-                self.institution_flag_log = ip.flag_log
+            self.report.institutions.add(institution)
 
     def _programme_insert(self):
         """

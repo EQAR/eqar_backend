@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='report',
             name='local_identifier',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=255, null=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=255, null=True),
         ),
         migrations.AlterUniqueTogether(
             name='report',
