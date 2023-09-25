@@ -15,11 +15,11 @@ from lxml import etree
 class AccrediationXMLCreatorV2:
     attr_qname = etree.QName("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation")
 
-    NS = "{http://data.europa.eu/snb/model/ams-constraints/}"
+    NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
     NSMAP = {
         'skos': 'http://www.w3.org/2004/02/skos/core#',
         'clv': 'http://data.europa.eu/m8g/',
-        None: 'http://data.europa.eu/snb/model/ams-constraints/',
+        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
         'dc': 'http://purl.org/dc/terms/',
         'locn': 'http://www.w3.org/ns/locn#'
     }
@@ -349,7 +349,7 @@ class AccrediationXMLCreatorV2:
                 phonenumber.text = p.phone
 
             for email in agency.agencyemail_set.iterator():
-                mailbox = etree.SubElement(contact, f"{self.NS}mailbox")
+                mailbox = etree.SubElement(contact, f"{self.NS}emailAddress")
                 mailbox.text = f"mailto:{email.email}"
 
             # modified
