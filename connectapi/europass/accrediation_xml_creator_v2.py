@@ -15,11 +15,11 @@ from lxml import etree
 class AccrediationXMLCreatorV2:
     attr_qname = etree.QName("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation")
 
-    NS = "{http://data.europa.eu/snb/model/ams-constraints/}"
+    NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
     NSMAP = {
         'skos': 'http://www.w3.org/2004/02/skos/core#',
         'clv': 'http://data.europa.eu/m8g/',
-        None: 'http://data.europa.eu/snb/model/ams-constraints/',
+        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
         'dc': 'http://purl.org/dc/terms/',
         'locn': 'http://www.w3.org/ns/locn#'
     }
@@ -55,7 +55,6 @@ class AccrediationXMLCreatorV2:
         self.error = etree.Element("errors")
 
         self.current_report = None
-        self.current_institution = None
 
         self.accreditations = etree.SubElement(self.root, f"{self.NS}accreditationReferences")
         self.orgReferences = etree.SubElement(self.root, f"{self.NS}agentReferences")
@@ -83,10 +82,8 @@ class AccrediationXMLCreatorV2:
             # Prepare list for agencies
             self.agencies.add(report.agency_id)
 
+            # Prepare list for institutions
             for institution in report.institutions.iterator():
-                self.current_institution = institution
-
-                # Prepare list for institutions
                 self.institutions.add(institution.id)
 
                 # Add child institutions
@@ -101,8 +98,8 @@ class AccrediationXMLCreatorV2:
                 ).exclude(relationship_type=1).all():
                     self.institutions.add(ih.institution_parent_id)
 
-                # Create accreditation records
-                self.add_accreditation()
+            # Create accreditation records
+            self.add_accreditation()
 
         # Create orgs and organisations
         self.add_agencies()
@@ -180,7 +177,8 @@ class AccrediationXMLCreatorV2:
                             content_url.text = f"{self.request.build_absolute_uri(reportfile.file_original_location)}"
 
             # organisation
-            etree.SubElement(acc, f"{self.NS}organisation", idref=f"https://data.deqar.eu/institution/{self.current_institution.id}")
+            for institution in self.current_report.institutions.all():
+                etree.SubElement(acc, f"{self.NS}organisation", idref=f"https://data.deqar.eu/institution/{institution.id}")
 
             # limitEQFLevel
             eqf_levels = self.collect_eqf_levels(self.current_report)
@@ -349,7 +347,7 @@ class AccrediationXMLCreatorV2:
                 phonenumber.text = p.phone
 
             for email in agency.agencyemail_set.iterator():
-                mailbox = etree.SubElement(contact, f"{self.NS}mailbox")
+                mailbox = etree.SubElement(contact, f"{self.NS}emailAddress")
                 mailbox.text = f"mailto:{email.email}"
 
             # modified
@@ -512,7 +510,6 @@ class AccrediationXMLCreatorV2:
                 pass
 
             # subOrganizationOf
-
             ih = InstitutionHierarchicalRelationship.objects.filter(
                 institution_child=institution
             ).exclude(relationship_type=1).first()
@@ -522,7 +519,6 @@ class AccrediationXMLCreatorV2:
                     f"{self.NS}subOrganizationOf",
                     attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
                 )
-
 
             # lastModificationDate
             last_modifiation = institution.institutionupdatelog_set.first()
