@@ -51,7 +51,7 @@ class CountryHistoricalDataInline(DEQARStackedInline):
 
 class CountryAdmin(DEQARModelAdmin):
     form = CountryForm
-    list_display = ('name_english', 'iso_3166_alpha2', 'iso_3166_alpha3')
+    list_display = ('name_english', 'iso_3166_alpha2', 'iso_3166_alpha3', 'eu_controlled_vocab_country')
     list_display_links = ('name_english', 'iso_3166_alpha2', 'iso_3166_alpha3')
     ordering = ('name_english',)
 
