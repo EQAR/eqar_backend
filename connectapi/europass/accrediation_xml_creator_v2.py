@@ -338,7 +338,7 @@ class AccrediationXMLCreatorV2:
             etree.SubElement(
                 address,
                 f"{self.NS}countryCode",
-                uri=agency.country.eu_controlled_vocab_country
+                uri=self.get_eu_controlled_vocab_country(agency.country)
             )
 
             for p in agency.agencyphone_set.iterator():
@@ -416,7 +416,7 @@ class AccrediationXMLCreatorV2:
                     etree.SubElement(
                         reg,
                         f"{self.NS}spatial",
-                        attrib={'uri': country.country.eu_controlled_vocab_country}
+                        attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
                     )
 
             # vatIdentifier
@@ -430,7 +430,7 @@ class AccrediationXMLCreatorV2:
                 etree.SubElement(
                     vat,
                     f"{self.NS}spatial",
-                    attrib={'uri': country.country.eu_controlled_vocab_country}
+                    attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
                 )
 
             # homepage
@@ -545,13 +545,14 @@ class AccrediationXMLCreatorV2:
             etree.SubElement(
                 location,
                 f"{self.NS}spatialCode",
-                attrib={'uri': country.eu_controlled_vocab_country}
+                attrib={'uri': self.get_eu_controlled_vocab_country(country)}
             )
             address = etree.SubElement(location, f"{self.NS}address")
             etree.SubElement(
                 address,
                 f"{self.NS}countryCode",
-                attrib={'uri': country.eu_controlled_vocab_country})
+                attrib={'uri': self.get_eu_controlled_vocab_country(country)}
+            )
     def add_location_from_institution(self, ic):
         location = etree.SubElement(
             self.locationReferences,
@@ -567,7 +568,7 @@ class AccrediationXMLCreatorV2:
         etree.SubElement(
             location,
             f"{self.NS}spatialCode",
-            attrib={'uri': ic.country.eu_controlled_vocab_country}
+            attrib={'uri': self.get_eu_controlled_vocab_country(ic.country)}
         )
 
         address = etree.SubElement(location, f"{self.NS}address")
@@ -580,7 +581,8 @@ class AccrediationXMLCreatorV2:
         etree.SubElement(
             address,
             f"{self.NS}countryCode",
-            attrib={'uri': ic.country.eu_controlled_vocab_country})
+            attrib={'uri': self.get_eu_controlled_vocab_country(ic.country)}
+        )
 
         if ic.long or ic.lat:
             geometry = etree.SubElement(location, f"{{http://www.w3.org/ns/locn#}}geometry")
@@ -673,3 +675,9 @@ class AccrediationXMLCreatorV2:
             return CODES[country_code]
         else:
             return 'en'
+
+    def get_eu_controlled_vocab_country(self, country):
+        if country.eu_controlled_vocab_country:
+            return country.eu_controlled_vocab_country
+        else:
+            return country.parent.eu_controlled_vocab_country
