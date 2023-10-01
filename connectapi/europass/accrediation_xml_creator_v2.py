@@ -624,7 +624,8 @@ class AccrediationXMLCreatorV2:
         CODES = {
             'ger': 'DEU',
             'ara': 'ENG',
-            'fre': 'FRA'
+            'fre': 'FRA',
+            'rum': 'RON'
         }
 
         if language_code in CODES:
