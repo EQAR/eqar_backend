@@ -612,12 +612,13 @@ class AccrediationXMLCreatorV2:
         eqf_levels = set()
         if report.agency_esg_activity.activity_type.type == 'institutional':
             for institution in report.institutions.iterator():
-                for level in institution.institutionqfehealevel_set.iterator():
+                for level in institution.institutionqfehealevel_set.exclude(qf_ehea_level__level='other').iterator():
                     eqf_levels.add(level.qf_ehea_level.level)
         else:
             for programme in report.programme_set.iterator():
                 if programme.qf_ehea_level:
-                    eqf_levels.add(programme.qf_ehea_level.level)
+                    if programme.qf_ehea_level.level != 'other':
+                        eqf_levels.add(programme.qf_ehea_level.level)
         return eqf_levels
 
     def encode_language(self, language_code):
