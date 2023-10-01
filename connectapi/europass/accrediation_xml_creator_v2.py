@@ -74,7 +74,12 @@ class AccrediationXMLCreatorV2:
             (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
             Q(status=1) &
             ~Q(flag=3)
-        ).order_by('id').distinct('id')
+        ).order_by('id').distinct('id').select_related(
+            'agency', 'agency_esg_activity',
+            'status', 'decision'
+        ).prefetch_related(
+            'institutions', 'reportfile_set'
+        )
 
     def create_xml(self):
         for report in self.reports:
@@ -83,20 +88,20 @@ class AccrediationXMLCreatorV2:
             self.agencies.add(report.agency_id)
 
             # Prepare list for institutions
-            for institution in report.institutions.iterator():
-                self.institutions.add(institution.id)
+            for institution in report.institutions.values('id').all():
+                self.institutions.add(institution['id'])
 
                 # Add child institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_parent=institution,
-                ).exclude(relationship_type=1).all():
-                    self.institutions.add(ih.institution_child_id)
+                    institution_parent__id=institution['id'],
+                ).exclude(relationship_type=1).values('institution_child_id').all():
+                    self.institutions.add(ih['institution_child_id'])
 
                 # Add parent institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_child=institution
-                ).exclude(relationship_type=1).all():
-                    self.institutions.add(ih.institution_parent_id)
+                    institution_child__id=institution['id']
+                ).exclude(relationship_type=1).values('institution_parent_id').all():
+                    self.institutions.add(ih['institution_parent_id'])
 
             # Create accreditation records
             self.add_accreditation()
