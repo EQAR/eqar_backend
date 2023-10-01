@@ -364,7 +364,7 @@ class AccrediationXMLCreatorV2:
                 last_modifiation_date.text = agency.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_institutions(self):
-        for institution in Institution.objects.filter(pk__in=self.institutions).prefetch_relted(
+        for institution in Institution.objects.filter(pk__in=self.institutions).prefetch_related(
             'institutionidentifier_set', 'institutioncountry_set', 'institutionname_set', 'institutionqfehealevel_set'
         ).all():
             self.assemble_institution(institution)
