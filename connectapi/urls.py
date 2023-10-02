@@ -35,7 +35,7 @@ urlpatterns = [
 
     # Europass endpoints
     url(r'^europass/accreditations/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLView.as_view(), name='europass-accreditations'),
-    url(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLViewV2.as_view(),
+    url(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z\-]+)/$', AccreditationXMLViewV2.as_view(),
         name='europass-accreditations-v2'),
 
     # Let's Trust endpoints
