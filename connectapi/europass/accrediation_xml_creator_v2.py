@@ -67,7 +67,8 @@ class AccrediationXMLCreatorV2:
 
     def collect_reports(self):
         institutions = Institution.objects.filter(
-            institutioncountry__country=self.country
+            institutioncountry__country=self.country,
+            institutioncountry__verified=True
         )
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
