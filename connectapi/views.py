@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
@@ -144,6 +145,8 @@ class AccreditationXMLViewV2(APIView):
 
     def get(self, request, *args, **kwargs):
         country_code = self.kwargs['country_code']
-        country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
+        country = get_object_or_404(
+            Country, Q(iso_3166_alpha3=country_code.upper()) | Q(iso_3166_alpha2__exact=country_code)
+        )
         creator = AccrediationXMLCreatorV2(country, request)
         return Response(creator.create(), content_type='application/xml')
