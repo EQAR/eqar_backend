@@ -67,14 +67,20 @@ class AccrediationXMLCreatorV2:
 
     def collect_reports(self):
         institutions = Institution.objects.filter(
-            institutioncountry__country=self.country
+            institutioncountry__country=self.country,
+            institutioncountry__country_verified=True
         )
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
             (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
             Q(status=1) &
             ~Q(flag=3)
-        ).order_by('id').distinct('id')
+        ).order_by('id').distinct('id').select_related(
+            'agency', 'agency_esg_activity',
+            'status', 'decision'
+        ).prefetch_related(
+            'institutions', 'reportfile_set'
+        )
 
     def create_xml(self):
         for report in self.reports:
@@ -83,20 +89,20 @@ class AccrediationXMLCreatorV2:
             self.agencies.add(report.agency_id)
 
             # Prepare list for institutions
-            for institution in report.institutions.iterator():
-                self.institutions.add(institution.id)
+            for institution in report.institutions.values('id').all():
+                self.institutions.add(institution['id'])
 
                 # Add child institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_parent=institution,
-                ).exclude(relationship_type=1).all():
-                    self.institutions.add(ih.institution_child_id)
+                    institution_parent__id=institution['id'],
+                ).exclude(relationship_type=1).values('institution_child_id').all():
+                    self.institutions.add(ih['institution_child_id'])
 
                 # Add parent institutions
                 for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_child=institution
-                ).exclude(relationship_type=1).all():
-                    self.institutions.add(ih.institution_parent_id)
+                    institution_child__id=institution['id']
+                ).exclude(relationship_type=1).values('institution_parent_id').all():
+                    self.institutions.add(ih['institution_parent_id'])
 
             # Create accreditation records
             self.add_accreditation()
@@ -359,175 +365,178 @@ class AccrediationXMLCreatorV2:
                 last_modifiation_date.text = agency.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_institutions(self):
-        for institution in Institution.objects.filter(pk__in=self.institutions).all():
+        for institution in Institution.objects.filter(pk__in=self.institutions).prefetch_related(
+            'institutionidentifier_set', 'institutioncountry_set', 'institutionname_set', 'institutionqfehealevel_set'
+        ).all():
             self.assemble_institution(institution)
 
-    def assemble_institution(self, institution, parent_of=None, child_of=None):
-            country = institution.institutioncountry_set.filter(country_verified=True).first()
-            org = etree.SubElement(self.orgReferences, f"{self.NS}organisation",
-                                   id=f"https://data.deqar.eu/institution/{institution.id}")
+    def assemble_institution(self, institution):
+        country = institution.institutioncountry_set.filter(country_verified=True).first()
+        org = etree.SubElement(self.orgReferences, f"{self.NS}organisation",
+                               id=f"https://data.deqar.eu/institution/{institution.id}")
 
-            # legal name
-            legalname = etree.SubElement(
-                org,
-                f"{self.NS}legalName",
-                attrib={
-                    'language': 'en'
-                })
-            legalname.text = f"{institution.name_primary}"
+        # legal name
+        legalname = etree.SubElement(
+            org,
+            f"{self.NS}legalName",
+            attrib={
+                'language': 'en'
+            })
+        legalname.text = f"{institution.name_primary}"
 
-            # identifiers
+        # identifiers
+        _id = etree.SubElement(
+            org,
+            f"{self.NS}identifier",
+        )
+        notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+        notation.text = f"https://data.deqar.eu/institution/{institution.id}"
+        scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
+        scheme_agency.text = "DEQAR"
+
+        # ETER
+        if institution.eter_id:
             _id = etree.SubElement(
                 org,
                 f"{self.NS}identifier",
             )
             notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-            notation.text = f"https://data.deqar.eu/institution/{institution.id}"
+            notation.text = institution.eter_id
             scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
-            scheme_agency.text = "DEQAR"
+            scheme_agency.text = "ETER"
 
-            # ETER
-            if institution.eter_id:
-                _id = etree.SubElement(
-                    org,
-                    f"{self.NS}identifier",
-                )
-                notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-                notation.text = institution.eter_id
-                scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
-                scheme_agency.text = "ETER"
+        # DEQARINST
+        _id = etree.SubElement(
+            org,
+            f"{self.NS}identifier",
+        )
+        notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+        notation.text = "DEQARINST%04d" % institution.id
+        scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
+        scheme_agency.text = "DEQAR"
 
-            # DEQARINST
-            _id = etree.SubElement(
-                org,
-                f"{self.NS}identifier",
-            )
-            notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-            notation.text = "DEQARINST%04d" % institution.id
-            scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
-            scheme_agency.text = "DEQAR"
-
-            # registration
-            if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
-                for identifier in institution.institutionidentifier_set.filter(resource='EU-Registration').all():
-                    reg = etree.SubElement(org, f"{self.NS}registration")
-                    notation = etree.SubElement(reg, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-                    notation.text = identifier.identifier
-                    etree.SubElement(
-                        reg,
-                        f"{self.NS}spatial",
-                        attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
-                    )
-
-            # vatIdentifier
-            for identifier in institution.institutionidentifier_set.filter(resource='EU-VAT').iterator():
-                vat = etree.SubElement(
-                    org,
-                    f"{self.NS}vatIdentifier"
-                )
-                notation = etree.SubElement(vat, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+        # registration
+        if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
+            for identifier in institution.institutionidentifier_set.filter(resource='EU-Registration').all():
+                reg = etree.SubElement(org, f"{self.NS}registration")
+                notation = etree.SubElement(reg, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
                 notation.text = identifier.identifier
                 etree.SubElement(
-                    vat,
+                    reg,
                     f"{self.NS}spatial",
                     attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
                 )
 
-            # homepage
-            if institution.website_link:
-                homepage = etree.SubElement(org, f"{self.NS}homepage")
-                content_url = etree.SubElement(homepage, f"{self.NS}contentUrl")
-                content_url.text = institution.website_link
+        # vatIdentifier
+        for identifier in institution.institutionidentifier_set.filter(resource='EU-VAT').iterator():
+            vat = etree.SubElement(
+                org,
+                f"{self.NS}vatIdentifier"
+            )
+            notation = etree.SubElement(vat, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+            notation.text = identifier.identifier
+            etree.SubElement(
+                vat,
+                f"{self.NS}spatial",
+                attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
+            )
 
-            # additionalNote
-            for name in institution.institutionname_set.iterator():
-                if name.name_english:
-                    if institution.name_primary != name.name_english:
-                        note = etree.SubElement(org, f"{self.NS}additionalNote")
-                        subject = etree.SubElement(
-                            note,
-                            f"{{http://purl.org/dc/terms/}}subject",
-                            attrib={'uri': 'https://data.deqar.eu/subject/#institution-alternative-name'}
-                        )
-                        pref_label = etree.SubElement(
-                            subject,
-                            f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
-                            attrib={'language': 'en'}
-                        )
-                        pref_label.text = "Institution Alternative Name"
-                        note_literal = etree.SubElement(
-                            note,
-                            f"{self.NS}noteLiteral",
-                            attrib={'language': 'en'})
-                        if name.acronym:
-                            note_literal.text = f"{name.name_english} - {name.acronym}"
-                        else:
-                            note_literal.text = f"{name.name_english}"
+        # homepage
+        if institution.website_link:
+            homepage = etree.SubElement(org, f"{self.NS}homepage")
+            content_url = etree.SubElement(homepage, f"{self.NS}contentUrl")
+            content_url.text = institution.website_link
 
-                if name.name_official:
-                    if institution.name_primary != name.name_official:
-                        note = etree.SubElement(org, f"{self.NS}additionalNote")
-                        subject = etree.SubElement(
-                            note,
-                            f"{{http://purl.org/dc/terms/}}subject",
-                            attrib={'uri': 'https://data.deqar.eu/subject/#institution-alternative-name'}
-                        )
-                        pref_label = etree.SubElement(
-                            subject,
-                            f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
-                            attrib={'language': 'en'}
-                        )
-                        pref_label.text = "Institution Alternative Name"
-                        note_literal = etree.SubElement(
-                            note,
-                            f"{self.NS}noteLiteral",
-                            attrib={'language': self.guess_language_from_string(name.name_official)})
-                        if name.acronym:
-                            note_literal.text = f"{name.name_official} - {name.name_official}"
-                        else:
-                            note_literal.text = f"{name.name_official}"
+        # additionalNote
+        for name in institution.institutionname_set.iterator():
+            if name.name_english:
+                if institution.name_primary != name.name_english:
+                    note = etree.SubElement(org, f"{self.NS}additionalNote")
+                    subject = etree.SubElement(
+                        note,
+                        f"{{http://purl.org/dc/terms/}}subject",
+                        attrib={'uri': 'https://data.deqar.eu/subject/#institution-alternative-name'}
+                    )
+                    pref_label = etree.SubElement(
+                        subject,
+                        f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
+                        attrib={'language': 'en'}
+                    )
+                    pref_label.text = "Institution Alternative Name"
+                    note_literal = etree.SubElement(
+                        note,
+                        f"{self.NS}noteLiteral",
+                        attrib={'language': 'en'})
+                    if name.acronym:
+                        note_literal.text = f"{name.name_english} - {name.acronym}"
+                    else:
+                        note_literal.text = f"{name.name_english}"
 
-            # location
-            for ic in institution.institutioncountry_set.iterator():
-                etree.SubElement(
-                    org,
-                    f"{self.NS}location",
-                    attrib={'idref': f"https://data.deqar.eu/institution-location/{ic.id}"}
-                )
-                self.add_location_from_institution(ic)
+            if name.name_official:
+                if institution.name_primary != name.name_official:
+                    note = etree.SubElement(org, f"{self.NS}additionalNote")
+                    subject = etree.SubElement(
+                        note,
+                        f"{{http://purl.org/dc/terms/}}subject",
+                        attrib={'uri': 'https://data.deqar.eu/subject/#institution-alternative-name'}
+                    )
+                    pref_label = etree.SubElement(
+                        subject,
+                        f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
+                        attrib={'language': 'en'}
+                    )
+                    pref_label.text = "Institution Alternative Name"
+                    note_literal = etree.SubElement(
+                        note,
+                        f"{self.NS}noteLiteral",
+                        attrib={'language': self.guess_language_from_string(name.name_official)})
+                    if name.acronym:
+                        note_literal.text = f"{name.name_official} - {name.name_official}"
+                    else:
+                        note_literal.text = f"{name.name_official}"
 
-            # hasSubOrganization
-            try:
-                for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_parent=institution
-                ).exclude(relationship_type=1).all():
+        # location
+        for ic in institution.institutioncountry_set.iterator():
+            etree.SubElement(
+                org,
+                f"{self.NS}location",
+                attrib={'idref': f"https://data.deqar.eu/institution-location/{ic.id}"}
+            )
+            self.add_location_from_institution(ic)
+
+        # hasSubOrganization
+        try:
+            for ih in InstitutionHierarchicalRelationship.objects.filter(
+                institution_parent=institution
+            ).exclude(relationship_type=1).all():
+                if ih.institution_child_id in self.institutions:
                     etree.SubElement(
                         org,
                         f"{self.NS}hasSubOrganization",
                         attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_child_id}"}
                     )
-            except ObjectDoesNotExist:
-                pass
+        except ObjectDoesNotExist:
+            pass
 
-            # subOrganizationOf
-            ih = InstitutionHierarchicalRelationship.objects.filter(
-                institution_child=institution
-            ).exclude(relationship_type=1).first()
-            if ih:
-                etree.SubElement(
-                    org,
-                    f"{self.NS}subOrganizationOf",
-                    attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
-                )
+        # subOrganizationOf
+        ih = InstitutionHierarchicalRelationship.objects.filter(
+            institution_child=institution
+        ).exclude(relationship_type=1).first()
+        if ih:
+            etree.SubElement(
+                org,
+                f"{self.NS}subOrganizationOf",
+                attrib={'idref': f"https://data.deqar.eu/institution/{ih.institution_parent_id}"}
+            )
 
-            # lastModificationDate
-            last_modifiation = institution.institutionupdatelog_set.first()
-            if last_modifiation:
-                last_modifiation_date = etree.SubElement(org, f"{self.NS}modified")
-                last_modifiation_date.text = last_modifiation.updated_at.strftime("%Y-%m-%dT%H:%M:%S")
-            else:
-                last_modifiation_date = etree.SubElement(org, f"{self.NS}modified")
-                last_modifiation_date.text = institution.created_at.strftime("%Y-%m-%dT%H:%M:%S")
+        # lastModificationDate
+        last_modifiation = institution.institutionupdatelog_set.first()
+        if last_modifiation:
+            last_modifiation_date = etree.SubElement(org, f"{self.NS}modified")
+            last_modifiation_date.text = last_modifiation.updated_at.strftime("%Y-%m-%dT%H:%M:%S")
+        else:
+            last_modifiation_date = etree.SubElement(org, f"{self.NS}modified")
+            last_modifiation_date.text = institution.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_location_from_agencies(self):
         for country in Country.objects.filter(pk__in=self.agency_countries).all():
@@ -611,19 +620,21 @@ class AccrediationXMLCreatorV2:
         eqf_levels = set()
         if report.agency_esg_activity.activity_type.type == 'institutional':
             for institution in report.institutions.iterator():
-                for level in institution.institutionqfehealevel_set.iterator():
+                for level in institution.institutionqfehealevel_set.exclude(qf_ehea_level__level='other').iterator():
                     eqf_levels.add(level.qf_ehea_level.level)
         else:
             for programme in report.programme_set.iterator():
                 if programme.qf_ehea_level:
-                    eqf_levels.add(programme.qf_ehea_level.level)
+                    if programme.qf_ehea_level.level != 'other':
+                        eqf_levels.add(programme.qf_ehea_level.level)
         return eqf_levels
 
     def encode_language(self, language_code):
         CODES = {
             'ger': 'DEU',
             'ara': 'ENG',
-            'fre': 'FRA'
+            'fre': 'FRA',
+            'rum': 'RON'
         }
 
         if language_code in CODES:
