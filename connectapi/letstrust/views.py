@@ -44,6 +44,8 @@ class VCIssue(APIView):
             raise ServiceUnavailable(
                 detail="LETSTRUST_EQAR_DID value is not present in the settings"
             )
+        # Get timeout
+        self.request_timeout = getattr(settings, "LETSTRUST_TIMEOUT", 1.5)
         # Check if template is defined
         if not self.vc_template:
             raise ServiceUnavailable(
@@ -77,7 +79,7 @@ class VCIssue(APIView):
         }
 
         api = '%s/vc/create/' % self.core_api
-        r = requests.post(api, json=post_data)
+        r = requests.post(api, json=post_data, timeout=self.request_timeout)
         post_data['credentialOffer'] = offer
         if r.status_code == 200:
             return Response(r.json())
