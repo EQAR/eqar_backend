@@ -9,6 +9,7 @@ from rest_framework.exceptions import APIException, NotFound
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 from django.conf import settings
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -17,8 +18,9 @@ from django.views.decorators.cache import cache_control
 from institutions.models import InstitutionIdentifier
 from reports.models import Report
 
+
 class ServiceUnavailable(APIException):
-    status_code = 503
+    status_code = status.HTTP_503_SERVICE_UNAVAILABLE
     default_detail = 'Service unavailable, try again later.'
     default_code = 'service_unavailable'
 
@@ -77,19 +79,31 @@ class VCIssue(APIView):
             'subjectDid': None,
             'credentialOffer': json.dumps(offer)
         }
-
         api = '%s/vc/create/' % self.core_api
-        r = requests.post(api, json=post_data, timeout=self.request_timeout)
+        try:
+            r = requests.post(api, json=post_data, timeout=self.request_timeout)
+        except requests.ConnectionError:
+            raise ServiceUnavailable(detail='SSIkit unavailable (connection error)')
+        except requests.Timeout:
+            raise ServiceUnavailable(detail='SSIkit unavailable (timeout)')
+        except requests.RequestException as error:
+            raise ServiceUnavailable(detail='SSIkit unavailable (%s)' % type(error))
+
+        # for better readability
         post_data['credentialOffer'] = offer
+
         if r.status_code == 200:
             return Response(r.json())
         else:
-            response = { 'status': r.status_code, 'post_data': post_data }
+            response = {
+                'detail': 'SSIkit failure'
+            }
             try:
-                response['status_details'] = r.json()
+                response['ssikit_status'] = r.json()
             except requests.exceptions.JSONDecodeError:
-                response['status_details'] = r.text
-            return Response(response, status=r.status_code)
+                response['ssikit_status'] = { "status": r.status_code, "title": r.text }
+            response['post_data'] = post_data
+            raise ServiceUnavailable(detail=response)
 
     def populate_vc(self, report):
         """
