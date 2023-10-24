@@ -38,6 +38,14 @@ class Programme(models.Model):
             self.name_primary = prg_name_primary.name
             self.save()
 
+    def get_programm_type(self):
+        if self.degree_outcome == 1:
+            return "Full recognised degree programme"
+        if self.degree_outcome == 2 and self.workload_ects < 60:
+            return "Micro-credential"
+        if self.degree_outcome == 2 and self.workload_ects >= 60:
+            return "Other provisions"
+
 
 class ProgrammeName(models.Model):
     """

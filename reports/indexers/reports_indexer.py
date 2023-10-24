@@ -90,7 +90,8 @@ class ReportsIndexer:
             'crossborder_facet': [],
             'alternative_provider_covered_facet': False,
             'micro_credentials_covered_facet': False,
-            'degree_outcome_facet': False
+            'degree_outcome_facet': False,
+            'programme_type_facet': []
         }
 
     def index(self):
@@ -193,6 +194,9 @@ class ReportsIndexer:
         if degree_outcome_true > 0:
             self.doc['degree_outcome_facet'] = True
 
+
+
+
         self.doc['other_comment'] = self.report.other_comment
 
         self.doc['flag_level'] = self.report.flag.flag
@@ -283,6 +287,7 @@ class ReportsIndexer:
 
         # Programmes indexing
         programmes = []
+        programme_types = []
         for programme in self.report.programme_set.iterator():
             self.doc['programmes'].append({
                 'id': programme.id,
@@ -311,8 +316,13 @@ class ReportsIndexer:
                 self.doc['country_id'].append(c.id)
                 self.doc['country_search'].append(c.name_english)
 
+            # Programme type facet
+            programme_types.append(programme.get_programm_type())
+
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
+
+        self.doc['programme_type_facet'] = list(set(programme_types))
 
         if len(programmes) > 0:
             ipdisplay = "%s - %s" % (institutions, programmes)
