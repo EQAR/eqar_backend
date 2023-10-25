@@ -317,7 +317,7 @@ class ReportsIndexer:
                 self.doc['country_search'].append(c.name_english)
 
             # Programme type facet
-            programme_types.append(programme.get_programm_type())
+            programme_types.append(programme.get_programme_type())
 
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
