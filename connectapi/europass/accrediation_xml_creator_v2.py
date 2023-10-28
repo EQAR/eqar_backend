@@ -1,7 +1,7 @@
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
-from langdetect import detect
+from langdetect import detect, DetectorFactory
 from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
@@ -39,6 +39,7 @@ class AccrediationXMLCreatorV2:
     }
 
     def __init__(self, country, request):
+        DetectorFactory.seed = 0
         self.request = request
         self.country = country
         self.reports = []
