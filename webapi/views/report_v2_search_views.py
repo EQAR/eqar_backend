@@ -95,7 +95,7 @@ class ReportList(ListAPIView):
                              'status_facet', 'decision_facet',
                              'language_facet', 'crossborder_facet',
                              'alternative_provider_covered_facet', 'micro_credentials_covered_facet',
-                             'degree_outcome_facet'],
+                             'degree_outcome_facet', 'programme_type_facet'],
             'facet_sort': 'index'
         }
 
@@ -128,6 +128,7 @@ class ReportList(ListAPIView):
         alternative_provider_covered = request.query_params.get('alternative_provider_covered', None)
         micro_credentials_covered = request.query_params.get('micro_credentials_covered', None)
         degree_outcome = request.query_params.get('degree_outcome', None)
+        programme_type = request.query_params.get('programme_type', None)
 
         if agency:
             filters.append({'agency_facet': agency})
@@ -182,6 +183,9 @@ class ReportList(ListAPIView):
 
         if degree_outcome:
             filters.append({'degree_outcome_facet': degree_outcome})
+
+        if programme_type:
+            filters.append({'programme_type_facet': programme_type})
 
         if year:
             try:
