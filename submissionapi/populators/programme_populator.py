@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 
 from institutions.models import InstitutionCountry
+from lists.models import DegreeOutcome
 from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,7 @@ class ProgrammePopulator():
             report=self.report,
             nqf_level=self.submission.get('nqf_level', ""),
             qf_ehea_level=self.submission.get('qf_ehea_level', None),
-            degree_outcome=self.submission.get('degree_outcome', None),
+            degree_outcome=self.submission.get('degree_outcome', DegreeOutcome.objects.get(id=1)),
             workload_ects=self.submission.get('workload_ects', None),
             assessment_certification=self.submission.get('assessment_certification', None),
             field_study=self.submission.get('field_study', None),
