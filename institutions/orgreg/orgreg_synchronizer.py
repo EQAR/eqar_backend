@@ -490,8 +490,7 @@ class OrgRegSynchronizer:
 
                 # Handle deletion - Remove country and skip update
                 if deleted:
-                    self.report.add_report_line('**DELETE - LOCATION - [ID:%s, %s]' % (
-                        ic.id, country_code))
+                    self.report.add_report_line('**DELETE - LOCATION - [ID:%s, %s]' % (ic.id, country_code))
                     if not self.dry_run:
                         ic.delete()
                     return
