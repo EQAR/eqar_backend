@@ -1,44 +1,51 @@
 - model: lists.IdentifierResource
   pk: 'DID-EBSI'
   fields:
-    title: 'Higher education institutions: DID – EBSI'
+    title: 'DID for the European Blockchain Service Infrastructure (EBSI)'
+    source: 'Decentralised Identifier (DID) that enables verifiable, decentralised digital identity within the EBSI ecosystem - data provided by higher education institutions participating in EBSI'
     link: 'https://ec.europa.eu/digital-building-blocks/wikis/display/EBSIDOC/EBSI+DID+Method'
 
 - model: lists.IdentifierResource
   pk: 'Erasmus'
   fields:
-    title: 'European Commission: Erasmus'
+    title: 'Erasmus Institution Code'
+    source: 'Identifier assigned by the European Commission to higher education institutions participating in the Erasmus+ programme - data harvested from ETER/OrgReg'
+    link: 'https://erasmus-plus.ec.europa.eu/resources-and-tools/erasmus-charter-for-higher-education'
 
 - model: lists.IdentifierResource
   pk: 'Erasmus-Charter'
   fields:
-    title: 'European Commission: Erasmus–Charter'
+    title: 'Erasmus Charter for Higher Education (ECHE)'
+    source: 'Application number related to the ECHE, required for higher education institutions participating in the Erasmus+ programme - data acquired using the European University Foundation (EUF) HEI API'
+    link: 'https://erasmus-plus.ec.europa.eu/resources-and-tools/erasmus-charter-for-higher-education'
 
 - model: lists.IdentifierResource
   pk: 'EU-PIC'
   fields:
-    title: 'European Commission: EU-PIC'
+    title: 'Participant Identification Code (PIC)'
+    source: 'A PIC is assigned to legal entities participating in EU-funded programmes - data acquired using the European University Foundation (EUF) HEI API'
+    link: 'https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/how-to-participate/participant-register'
 
 - model: lists.IdentifierResource
   pk: 'EU-VAT'
   fields:
-    title: 'National (tax) authorities: VAT Number'
+    title: 'EU VAT number'
+    source: 'Identifier of economic operators for value-added tax (VAT) within the EU system, assigned by their national authority - data acquired using the EU participant register API'
+    link: 'https://ec.europa.eu/taxation_customs/vies/#/vat-validation'
 
 - model: lists.IdentifierResource
   pk: 'SCHAC'
   fields:
-    title: 'SCHema for Academia: SCHAC'
+    title: 'SCHema for Academia'
+    source: 'Internet domain (DNS)-based identifier of institutions, used in several European initiatives for data exchange in the education and research sector, e.g. Emrex - data acquired using the European University Foundation (EUF) HEI API'
+    link: 'https://wiki.refeds.org/display/STAN/SCHAC'
 
 - model: lists.IdentifierResource
   pk: 'WHED'
   fields:
-    title: 'World Higher Education Database: WHED'
+    title: 'IAU World Higher Education Database (WHED)'
+    source: 'Identifier used in the world-wide WHED database of higher education institutions, managed by the International Association of Universities (IAU) - data harvested from ETER/OrgReg'
     link: 'https://www.whed.net/'
-
-- model: lists.IdentifierResource
-  pk: 'other'
-  fields:
-    title: 'Other'
 
 - model: lists.IdentifierResource
   pk: 'local identifier'
