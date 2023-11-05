@@ -277,7 +277,7 @@ class DEQARVCIssue(VCIssue):
             subject['identifiers'].append({
                 'id': self.institution_identifier_uri % identifier.pk,
                 'identifier': identifier.identifier,
-                'resource': identifier.resource
+                'resource': identifier.resource.resource
             })
         if not self._set_if(subject, 'legalName', getattr(institution.institutionname_set.filter(name_valid_to=None).first(), 'name_official', None) ):
             self._set_if(subject, 'legalName', getattr(institution.institutionname_set.order_by('name_valid_to').last(), 'name_official', None) )
