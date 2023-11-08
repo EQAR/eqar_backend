@@ -20,8 +20,11 @@ class EQARDecisionTypeAdmin(DEQARModelAdmin):
 
 
 class IdentifierResourceAdmin(DEQARModelAdmin):
-    pass
-
+    def get_readonly_fields(self, request, obj):
+        if obj:
+            return ['resource']
+        else:
+            return []
 
 admin_site.register(Language, LanguageAdmin)
 admin_site.register(QFEHEALevel, QFEHEALevelAdmin)
