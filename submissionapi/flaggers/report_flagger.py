@@ -63,7 +63,7 @@ class ReportFlagger:
             report_flag.flag = flag
             report_flag.save()
         else:
-            report_flag = ReportFlag.objects.create(
+            ReportFlag.objects.create(
                 report=self.report,
                 flag=flag,
                 flag_message=flag_message
