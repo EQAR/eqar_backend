@@ -52,12 +52,12 @@ class ReportFlagger:
         flag = Flag.objects.get(pk=flag_level)
         report_flag, created = ReportFlag.objects.get_or_create(
             report=self.report,
-            flag=flag,
             flag_message=flag_message
         )
         if not report_flag.removed_by_eqar:
             report_flag.active = True
-            report_flag.save()
+        report_flag.flag = flag
+        report_flag.save()
 
     def set_flag(self):
         self.report.flag = Flag.objects.get(pk=1)
