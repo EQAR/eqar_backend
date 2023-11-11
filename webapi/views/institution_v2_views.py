@@ -243,5 +243,6 @@ class InstitutionIdentifierResourcesList(APIView):
     def get(self, request):
         ids = []
         for identifier in InstitutionIdentifier.objects.values('resource').distinct().iterator():
-            ids.append(identifier['resource'])
+            if identifier['resource']:
+                ids.append(identifier['resource'])
         return Response(sorted(ids, key=str.lower))
