@@ -239,7 +239,7 @@ class InstitutionIdentifierResourcesList(generics.ListAPIView):
     """
         Returns all the identifier resources.
     """
-    queryset = IdentifierResource.objects.all()
+    queryset = IdentifierResource.objects.filter(institutionidentifier__isnull=False).distinct()
     serializer_class = InstitutionResourceSerializer
     pagination_class = None
     ordering_fields = ('resource',)
