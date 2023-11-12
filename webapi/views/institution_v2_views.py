@@ -17,10 +17,11 @@ from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution, InstitutionIdentifier
-from lists.models import QFEHEALevel
+from lists.models import QFEHEALevel, IdentifierResource
 from reports.models import ReportStatus
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 from webapi.serializers.institution_serializers import InstitutionDetailSerializer
+from webapi.serializers.institution_v2_serializers import InstitutionResourceSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -234,15 +235,12 @@ class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
             raise Http404
 
 
-class InstitutionIdentifierResourcesList(APIView):
+class InstitutionIdentifierResourcesList(generics.ListAPIView):
     """
         Returns all the identifier resources.
     """
-
-    @swagger_auto_schema(operation_description="blabla", responses={200: '[list of available resources]'})
-    def get(self, request):
-        ids = []
-        for identifier in InstitutionIdentifier.objects.values('resource').distinct().iterator():
-            if identifier['resource']:
-                ids.append(identifier['resource'])
-        return Response(sorted(ids, key=str.lower))
+    queryset = IdentifierResource.objects.all()
+    serializer_class = InstitutionResourceSerializer
+    pagination_class = None
+    ordering_fields = ('resource',)
+    ordering = ('resource',)
