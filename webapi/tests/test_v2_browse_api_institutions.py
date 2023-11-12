@@ -37,7 +37,7 @@ class BrowseAPIInstitutionTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/institutions/resources/')
         self.assertEqual(len(response.data), 2)
-        self.assertTrue('national identifier' in response.data)
+        self.assertEqual(len(list(filter(lambda x: x['resource'] == 'national identifier', response.data))), 1)
 
     def test_institution_identifier_detail(self):
         """
