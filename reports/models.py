@@ -28,9 +28,6 @@ class Report(models.Model):
     other_comment = models.TextField(blank=True, null=True)
     internal_note = models.TextField(blank=True, null=True)
 
-    # Micro credential specific fields
-    micro_credentials_covered = models.BooleanField(default=False)
-
     # Audit log values
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='reports_created_by',

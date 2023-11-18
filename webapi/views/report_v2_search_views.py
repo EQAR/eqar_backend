@@ -31,7 +31,6 @@ class ReportFilterClass(filters.FilterSet):
     active = filters.BooleanFilter(label='Active')
     year = filters.NumberFilter(label='Year')
     alternative_provider_covered = filters.BooleanFilter(label='Alternative Provider Covered')
-    micro_credentials_covered = filters.BooleanFilter(label='Micro Credentials Covered')
     degree_outcome = filters.BooleanFilter(label='Degree Outcome')
 
     ordering = OrderingFilter(
@@ -94,7 +93,7 @@ class ReportList(ListAPIView):
                              'activity_facet', 'activity_type_facet',
                              'status_facet', 'decision_facet',
                              'language_facet', 'crossborder_facet',
-                             'alternative_provider_covered_facet', 'micro_credentials_covered_facet',
+                             'alternative_provider_covered_facet',
                              'degree_outcome_facet', 'programme_type_facet'],
             'facet_sort': 'index'
         }
@@ -126,7 +125,6 @@ class ReportList(ListAPIView):
         year = request.query_params.get('year', False)
 
         alternative_provider_covered = request.query_params.get('alternative_provider_covered', None)
-        micro_credentials_covered = request.query_params.get('micro_credentials_covered', None)
         degree_outcome = request.query_params.get('degree_outcome', None)
         programme_type = request.query_params.get('programme_type', None)
 
@@ -177,9 +175,6 @@ class ReportList(ListAPIView):
 
         if alternative_provider_covered:
             filters.append({'alternative_provider_covered_facet': alternative_provider_covered})
-
-        if micro_credentials_covered:
-            filters.append({'micro_credentials_covered_facet': micro_credentials_covered})
 
         if degree_outcome:
             filters.append({'degree_outcome_facet': degree_outcome})

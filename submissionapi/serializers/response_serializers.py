@@ -55,8 +55,7 @@ class ResponseReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activity', 'name', 'status',
-                  'decision', 'summary', 'valid_from', 'valid_to', 'files', 'institutions', 'programmes',
-                  'micro_credentials_covered')
+                  'decision', 'summary', 'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
 
 
 class ResponseReportSuccessResponseSerializer(serializers.Serializer):

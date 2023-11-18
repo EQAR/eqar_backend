@@ -89,7 +89,6 @@ class ReportsIndexer:
             'flag_level_facet': None,
             'crossborder_facet': [],
             'alternative_provider_covered_facet': False,
-            'micro_credentials_covered_facet': False,
             'degree_outcome_facet': False,
             'programme_type_facet': []
         }
@@ -186,9 +185,6 @@ class ReportsIndexer:
         ap_count = self.report.institutions.filter(is_alternative_provider=True).count()
         if ap_count > 0:
             self.doc['alternative_provider_covered_facet'] = True
-
-        if self.report.micro_credentials_covered:
-            self.doc['micro_credentials_covered_facet'] = True
 
         degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
         if degree_outcome_true > 0:

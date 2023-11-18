@@ -21,7 +21,6 @@ def validate_submission_package_root(data):
     valid_from = data.get('valid_from')
     valid_to = data.get('valid_to', None)
     status = data.get('status', None)
-    micro_credentials_covered = data.get('micro_credentials_covered')
 
     #
     # Validate if activity types haas the right amount of programme and instituton records
@@ -105,21 +104,6 @@ def validate_submission_package_root(data):
             if programme['degree_outcome'].id != 2:
                 errors.append("Degree outcome should be '2 / no full degree' if all the "
                               "organisations are alternative providers")
-
-    #
-    # When at least one programme covered by the report has degree outcome = 2 - No full degree,
-    # it should be required that the report has micro_credentials_covered = true
-    #
-    # Check programme degree_outcome
-    if len(programmes) > 0:
-        only_full_degree_programme = True
-        for programme in programmes:
-            if programme['degree_outcome'].id == 2:
-                only_full_degree_programme = False
-
-        if not only_full_degree_programme and not micro_credentials_covered:
-            errors.append("If at least one programme has degree outcome set as '2 - No full degree', the "
-                          "report should have micro_credentials_covered set as true.")
 
     if len(errors) > 0:
         raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})

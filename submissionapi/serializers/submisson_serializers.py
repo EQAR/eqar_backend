@@ -365,11 +365,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                              '"not applicable"')
     summary = serializers.CharField(required=False, label="Summary of the report.")
 
-    micro_credentials_covered = BooleanExtendedField(required=False,
-                                                     label='Micro-credential(s) covered as part of the report',
-                                                     help_text='accepted values: "Yes", "yes", "TRUE", "True", "true", true'
-                                                               '"No", "no", "FALSE", "False", "false", false)')
-
     # Report Validity
     valid_from = serializers.CharField(max_length=20, required=True, label='Starting date of the report validity',
                                        help_text='example: 15-01-2015')
@@ -475,22 +470,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 # The current default is "2 - No full degree" for programmes offered by alternative providers
                 else:
                     programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
-
-        #
-        # Create defaults for micro_credentials_covered
-        #
-        if 'micro_credentials_covered' not in data:
-            # Check programme degree_outcome
-            only_full_degree_programme = True
-            for programme in programmes:
-                if programme['degree_outcome'].id == 2:
-                    only_full_degree_programme = False
-
-                # If only full degree programmes or no programmes at all existing
-                if only_full_degree_programme:
-                    data['micro_credentials_covered'] = False
-                else:
-                    data['micro_credentials_covered'] = True
 
         # If there are errors raise ValidationError
         #

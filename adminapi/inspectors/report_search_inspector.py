@@ -47,10 +47,6 @@ class ReportSearchInspector(CoreAPICompatInspector):
                            'provider.',
             'type': 'boolean'
         },
-        'micro_credentials_covered': {
-            'description': 'Shows only reports, which are covering micro credentials.',
-            'type': 'boolean'
-        },
         'degree_outcome': {
             'description': 'Shows programme reports, where degree outcome is full degree.',
             'type': 'boolean'

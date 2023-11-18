@@ -21,7 +21,6 @@ class CSVHandler:
             r'status',
             r'decision',
             r'summary',
-            r'micro_credentials_covered',
             r'valid_from',
             r'valid_to',
             r'date_format',
