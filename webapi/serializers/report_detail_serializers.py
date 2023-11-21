@@ -50,8 +50,12 @@ class ProgrammeSerializer(serializers.ModelSerializer):
     countries = serializers.StringRelatedField(many=True, read_only=True)
     qf_ehea_level = serializers.StringRelatedField(read_only=True)
     degree_outcome = DegreeOutcomeSerializer(read_only=True)
+    programme_type = serializers.SerializerMethodField()
     assessment_certification = serializers.SlugRelatedField(slug_field='assessment', queryset=Assessment.objects.all())
     learning_outcomes = ProgrammeLearningOutcomeSerializer(many=True, read_only=True, source='programmelearningoutcome_set')
+
+    def get_programme_type(self, obj):
+        return obj.get_programme_type()
 
     class Meta:
         model = Programme
