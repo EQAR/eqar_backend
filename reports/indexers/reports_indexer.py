@@ -291,6 +291,7 @@ class ReportsIndexer:
                 'nqf_level': programme.nqf_level,
                 'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None,
                 'degree_outcome': degree_outcome_true > 0,
+                'programme_type': programme.get_programme_type(),
                 'workload_ects': programme.workload_ects
             })
 
