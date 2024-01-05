@@ -8,6 +8,7 @@ from django.db.models import Q
 from agencies.models import Agency
 from countries.models import Country
 from institutions.models import Institution, InstitutionHierarchicalRelationship
+from programmes.models import Programme
 from reports.models import Report
 from lxml import etree
 
@@ -78,7 +79,7 @@ class AccrediationXMLCreatorV2:
             'agency', 'agency_esg_activity',
             'status', 'decision'
         ).prefetch_related(
-            'institutions', 'reportfile_set'
+            'institutions', 'reportfile_set', 'programme_set'
         )
 
     def create_xml(self):
@@ -191,7 +192,9 @@ class AccrediationXMLCreatorV2:
                 etree.SubElement(acc, f"{self.NS}limitEQFLevel", uri=self.EQF_LEVElS[level])
 
             # programme
-            for programme in self.current_report.programme_set.iterator():
+            for programme in self.current_report.programm_set.prefetch_related(
+                    'programmename_set', 'programmeidentifier_set'
+            ).all():
                 programme_element = etree.SubElement(
                     acc,
                     f"{self.NS}limitAbstractProgramme",
