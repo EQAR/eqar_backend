@@ -192,7 +192,7 @@ class AccrediationXMLCreatorV2:
                 etree.SubElement(acc, f"{self.NS}limitEQFLevel", uri=self.EQF_LEVElS[level])
 
             # programme
-            for programme in self.current_report.programm_set.prefetch_related(
+            for programme in self.current_report.programme_set.prefetch_related(
                     'programmename_set', 'programmeidentifier_set'
             ).all():
                 programme_element = etree.SubElement(
