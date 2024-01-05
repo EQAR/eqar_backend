@@ -72,7 +72,6 @@ class AccrediationXMLCreatorV2:
         )
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
-            (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
             Q(status=1) &
             ~Q(flag=3)
         ).order_by('id').distinct('id').select_related(
@@ -256,6 +255,34 @@ class AccrediationXMLCreatorV2:
                             content_url.text = self.request.build_absolute_uri(reportfile.file.url)
                         else:
                             content_url.text = reportfile.file_original_location
+
+            # programme
+            if self.current_report.agency_esg_activity.activity_type == 2 or \
+               self.current_report.agency_esg_activity.activity_type == 4:
+                for programme in self.current_report.programme_set.iterator():
+                    programme_element = etree.SubElement(acc, f"{self.NS}limitAbstractProgramme")
+                    # Programme primary title
+                    pref_label = etree.SubElement(
+                        programme_element,
+                        f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
+                        attrib={
+                            'language': 'en',
+                            'uri': 'https://data.deqar.eu/programme/%%06d' % programme.id
+                        })
+                    pref_label.text = programme.name_primary
+                    # Programme alternative titles
+                    for alternative_name in programme.programmename_set.iterator():
+                        if not alternative_name.name_is_primary:
+                            alt_label = etree.SubElement(
+                                programme_element,
+                                f"{{http://www.w3.org/2004/02/skos/core#}}altLabel",
+                                attrib={'language': 'en'})
+                            alt_label.text = alternative_name.name
+                    # Agency identifiers
+                    if programme.programmeidentifier_set.count() > 0:
+                        programme_identifier = programme.programmeidentifier_set.first()
+                        notation = etree.SubElement(programme_element, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+                        notation.text = programme_identifier.identifier
 
             # status
             status = etree.SubElement(acc, f"{self.NS}status")
