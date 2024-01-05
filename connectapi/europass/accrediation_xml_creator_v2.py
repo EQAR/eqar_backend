@@ -190,6 +190,37 @@ class AccrediationXMLCreatorV2:
             for level in eqf_levels:
                 etree.SubElement(acc, f"{self.NS}limitEQFLevel", uri=self.EQF_LEVElS[level])
 
+            # programme
+            for programme in self.current_report.programme_set.iterator():
+                programme_element = etree.SubElement(
+                    acc,
+                    f"{self.NS}limitAbstractProgramme",
+                    attrib={
+                        'uri': 'https://data.deqar.eu/programme/%06d' % programme.id
+                    })
+                # Programme primary title
+                pref_label = etree.SubElement(
+                    programme_element,
+                    f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
+                    attrib={
+                        'language': 'en',
+                    })
+                pref_label.text = programme.name_primary
+                # Programme alternative titles
+                for alternative_name in programme.programmename_set.iterator():
+                    if not alternative_name.name_is_primary:
+                        alt_label = etree.SubElement(
+                            programme_element,
+                            f"{{http://www.w3.org/2004/02/skos/core#}}altLabel",
+                            attrib={'language': self.guess_language_from_string(alternative_name.name)})
+                        alt_label.text = alternative_name.name
+                # Agency identifiers
+                if programme.programmeidentifier_set.count() > 0:
+                    programme_identifier = programme.programmeidentifier_set.first()
+                    notation = etree.SubElement(programme_element,
+                                                f"{{http://www.w3.org/2004/02/skos/core#}}notation")
+                    notation.text = programme_identifier.identifier
+
             # accreditingAgent
             etree.SubElement(acc, f"{self.NS}accreditingAgent",
                              idref=f"https://data.deqar.eu/agency/{self.current_report.agency.id}")
@@ -256,34 +287,6 @@ class AccrediationXMLCreatorV2:
                         else:
                             content_url.text = reportfile.file_original_location
 
-            # programme
-            if self.current_report.agency_esg_activity.activity_type == 2 or \
-               self.current_report.agency_esg_activity.activity_type == 4:
-                for programme in self.current_report.programme_set.iterator():
-                    programme_element = etree.SubElement(acc, f"{self.NS}limitAbstractProgramme")
-                    # Programme primary title
-                    pref_label = etree.SubElement(
-                        programme_element,
-                        f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
-                        attrib={
-                            'language': 'en',
-                            'uri': 'https://data.deqar.eu/programme/%%06d' % programme.id
-                        })
-                    pref_label.text = programme.name_primary
-                    # Programme alternative titles
-                    for alternative_name in programme.programmename_set.iterator():
-                        if not alternative_name.name_is_primary:
-                            alt_label = etree.SubElement(
-                                programme_element,
-                                f"{{http://www.w3.org/2004/02/skos/core#}}altLabel",
-                                attrib={'language': 'en'})
-                            alt_label.text = alternative_name.name
-                    # Agency identifiers
-                    if programme.programmeidentifier_set.count() > 0:
-                        programme_identifier = programme.programmeidentifier_set.first()
-                        notation = etree.SubElement(programme_element, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-                        notation.text = programme_identifier.identifier
-
             # status
             status = etree.SubElement(acc, f"{self.NS}status")
             status.text = "released"
@@ -326,30 +329,29 @@ class AccrediationXMLCreatorV2:
                 content_url.text = agency.website_link
 
             # additionalNote
-                # additionalNote
-                for agencyname in agency.agencyname_set.iterator():
-                    for name_version in agencyname.agencynameversion_set.iterator():
-                        if agency.name_primary != name_version.name:
-                            note = etree.SubElement(org, f"{self.NS}additionalNote")
-                            subject = etree.SubElement(
-                                note,
-                                f"{{http://purl.org/dc/terms/}}subject",
-                                attrib={'uri': 'https://data.deqar.eu/subject/#agency-alternative-name'}
-                            )
-                            pref_label = etree.SubElement(
-                                subject,
-                                f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
-                                attrib={'language': 'en'}
-                            )
-                            pref_label.text = "Agency Alternative Name"
-                            note_literal = etree.SubElement(
-                                note,
-                                f"{self.NS}noteLiteral",
-                                attrib={'language': self.guess_language_from_string(name_version.name)})
-                            if name_version.acronym:
-                                note_literal.text = f"{name_version.acronym} - {name_version.name}"
-                            else:
-                                note_literal.text = f"{name_version.name}"
+            for agencyname in agency.agencyname_set.iterator():
+                for name_version in agencyname.agencynameversion_set.iterator():
+                    if agency.name_primary != name_version.name:
+                        note = etree.SubElement(org, f"{self.NS}additionalNote")
+                        subject = etree.SubElement(
+                            note,
+                            f"{{http://purl.org/dc/terms/}}subject",
+                            attrib={'uri': 'https://data.deqar.eu/subject/#agency-alternative-name'}
+                        )
+                        pref_label = etree.SubElement(
+                            subject,
+                            f"{{http://www.w3.org/2004/02/skos/core#}}prefLabel",
+                            attrib={'language': 'en'}
+                        )
+                        pref_label.text = "Agency Alternative Name"
+                        note_literal = etree.SubElement(
+                            note,
+                            f"{self.NS}noteLiteral",
+                            attrib={'language': self.guess_language_from_string(name_version.name)})
+                        if name_version.acronym:
+                            note_literal.text = f"{name_version.acronym} - {name_version.name}"
+                        else:
+                            note_literal.text = f"{name_version.name}"
 
             # location
             etree.SubElement(
