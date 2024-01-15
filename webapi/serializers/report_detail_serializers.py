@@ -60,7 +60,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
         fields = ['id', 'name_primary', 'programme_names', 'programme_identifiers',
-                  'nqf_level', 'qf_ehea_level', 'countries',
+                  'nqf_level', 'qf_ehea_level', 'countries', 'programme_type',
                   'degree_outcome', 'workload_ects', 'assessment_certification', 'field_study',
                   'learning_outcomes', 'learning_outcome_description']
 
