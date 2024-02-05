@@ -1,10 +1,14 @@
 import datetime
 
+from django.db.models import Q
 from datedelta import datedelta
 from rest_framework import serializers
+
 from institutions.models import Institution
 from reports.models import Report, ReportFile, ReportLink
-from webapi.serializers.institution_serializers import InstitutionListSerializer
+
+from webapi.serializers.report_detail_serializers import InstitutionSerializer
+from webapi.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class ReportLinkSerializer(serializers.ModelSerializer):
@@ -30,23 +34,33 @@ class ReportSerializer(serializers.ModelSerializer):
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
     agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
     agency_esg_activity_type = serializers.SerializerMethodField()
+    contributing_agencies = ContributingAgencySerializer(many=True)
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
+    crossborder = serializers.SerializerMethodField()
     flag = serializers.StringRelatedField()
     institutions = serializers.SerializerMethodField()
-    institution_relationship_context = serializers.SerializerMethodField()
     report_valid = serializers.SerializerMethodField()
 
     def get_institutions(self, obj):
         insitutions = obj.institutions.exclude(id=self.context['institution'])
-        serializer = InstitutionListSerializer(instance=insitutions, many=True,
+        serializer = InstitutionSerializer(instance=insitutions, many=True,
                                                context={'request': self.context['request']})
         return serializer.data
 
     def get_agency_esg_activity_type(self, obj):
         return obj.agency_esg_activity.activity_type.type
+
+    def get_crossborder(self, obj):
+        crossborder = False
+        focus_countries = obj.agency.agencyfocuscountry_set
+        for inst in obj.institutions.iterator():
+            for ic in inst.institutioncountry_set.iterator():
+                if focus_countries.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=True)):
+                    crossborder = True
+        return crossborder
 
     def get_report_valid(self, obj):
         valid_from = obj.valid_from
@@ -64,32 +78,11 @@ class ReportSerializer(serializers.ModelSerializer):
 
         return valid
 
-    def get_institution_relationship_context(self, obj):
-        related_institutions = []
-
-        for child_id in self.context['children']:
-            inst = Institution.objects.get(pk=child_id)
-            if obj.institutions.filter(pk=inst.pk).exists():
-                related_institutions.append({
-                    'id': inst.pk,
-                    'relationship': 'child',
-                    'name_primary': inst.name_primary
-                })
-
-        for parent_id in self.context['parents']:
-            inst = Institution.objects.get(pk=parent_id)
-            if obj.institutions.filter(pk=inst.pk).exists():
-                related_institutions.append({
-                    'id': inst.pk,
-                    'relationship': 'parent',
-                    'name_primary': inst.name_primary
-                })
-
-        return related_institutions
 
     class Meta:
         model = Report
-        fields = ['institutions', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+        fields = ['id', 'institutions', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
+                  'contributing_agencies',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
-                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'summary', 'report_files',
-                  'report_links', 'local_identifier', 'flag', 'institution_relationship_context']
+                  'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'crossborder', 'summary', 'report_files',
+                  'report_links', 'local_identifier', 'other_comment', 'flag' ]
