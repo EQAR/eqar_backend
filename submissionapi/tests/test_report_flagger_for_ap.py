@@ -17,7 +17,7 @@ class ReportFlaggerAPTestCase(TestCase):
         'submitting_agency_demo',
         'institution_historical_field',
         'institution_demo_01',
-        'alternative_provider_01', 'alternative_provider_02',
+        'other_provider_01', 'other_provider_02',
         'programme_demo_ap_01', 'programme_demo_ap_02', 'programme_demo_ap_03',
         'report_decision', 'report_status',
         'users', 'report_demo_ap_01'

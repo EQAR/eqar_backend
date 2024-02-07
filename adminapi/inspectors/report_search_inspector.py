@@ -42,8 +42,8 @@ class ReportSearchInspector(CoreAPICompatInspector):
             'description': 'Shows only reports, which were valid in the written year.',
             'type': 'string'
         },
-        'alternative_provider_covered': {
-            'description': 'Shows only reports, which are covering at least one organisation which is alternative '
+        'other_provider_covered': {
+            'description': 'Shows only reports, which are covering at least one organisation which is an other '
                            'provider.',
             'type': 'boolean'
         },

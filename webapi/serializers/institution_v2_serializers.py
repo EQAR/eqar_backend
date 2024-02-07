@@ -178,7 +178,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
         model = Institution
         fields = ('id', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels',
-                  'is_alternative_provider', 'organization_type', 'source_of_information', 'historical_data')
+                  'is_other_provider', 'organization_type', 'source_of_information', 'historical_data')
 
 
 class InstitutionResourceSerializer(serializers.ModelSerializer):

@@ -449,14 +449,14 @@ class SubmissionPackageSerializer(serializers.Serializer):
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
 
-        # Set up ALTERNATIVE PROVIDER defaults
+        # Set up OTHER PROVIDER defaults
 
         #
         # Set up which case are we talking about all_ap, all_hei, or mixed case (both are false)
         #
         all_hei = True
         for i in institutions:
-            if i.is_alternative_provider:
+            if i.is_other_provider:
                 all_hei = False
 
         #
@@ -467,7 +467,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 # The current default is "1 - Full Degree" for programmes offered by HEIs.
                 if all_hei:
                     programme['degree_outcome'] = DegreeOutcome.objects.get(pk=1)
-                # The current default is "2 - No full degree" for programmes offered by alternative providers
+                # The current default is "2 - No full degree" for programmes offered by other providers
                 else:
                     programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
 

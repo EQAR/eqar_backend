@@ -24,7 +24,7 @@ class SubmissionAPIReportTestWithAP(APITestCase):
                 'agency_historical_field',
                 'agency_demo_01', 'agency_demo_02',
                 'assessment', 'institution_demo_01.yaml',
-                'alternative_provider_01', 'alternative_provider_02',
+                'other_provider_01', 'other_provider_02',
                 'users', 'submitting_agency_demo']
 
     def setUp(self):

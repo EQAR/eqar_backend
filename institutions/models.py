@@ -27,8 +27,8 @@ class Institution(models.Model):
     other_comment = models.TextField(blank=True)
     internal_note = models.TextField(blank=True)
 
-    # Alternative Provider specific fields
-    is_alternative_provider = models.BooleanField(default=False)
+    # Other Provider specific fields
+    is_other_provider = models.BooleanField(default=False)
     organization_type = models.ForeignKey('InstitutionOrganizationType',
                                           on_delete=models.SET_NULL, blank=True, null=True)
     source_of_information = models.CharField(max_length=200, blank=True, null=True)

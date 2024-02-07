@@ -140,7 +140,7 @@ class ReportFlagger:
         official_status_exists = False
 
         if self.report.status.id == 1:
-            for institution in self.report.institutions.filter(is_alternative_provider=False).all():
+            for institution in self.report.institutions.filter(is_other_provider=False).all():
                 for ic in institution.institutioncountry_set.filter(country_verified=True).all():
                     if AgencyFocusCountry.objects.filter(
                             agency=self.report.agency,
@@ -159,7 +159,7 @@ class ReportFlagger:
     check whether any institution covered by the report has the programme's QF level on its list of levels         
     """
     def check_programme_qf_ehea_level(self):
-        only_ap = self.report.institutions.all().count() == self.report.institutions.filter(is_alternative_provider=True).count()
+        only_ap = self.report.institutions.all().count() == self.report.institutions.filter(is_other_provider=True).count()
 
         for programme in self.report.programme_set.all():
             qf_ehea_level = programme.qf_ehea_level
@@ -171,7 +171,7 @@ class ReportFlagger:
                     if InstitutionQFEHEALevel.objects.filter(
                         institution__reports=self.report,
                         qf_ehea_level=qf_ehea_level,
-                        institution__is_alternative_provider=False
+                        institution__is_other_provider=False
                     ).count() == 0:
                         flag_message = self.flag_msg['programmeQFEHEALevel'] % (qf_ehea_level,
                                                                                 programme.name_primary)
@@ -195,7 +195,7 @@ class ReportFlagger:
                 ''' 
                 for AP's: always add level to list if not yet recorded
                 '''
-                for institution in self.report.institutions.filter(is_alternative_provider=True).all():
+                for institution in self.report.institutions.filter(is_other_provider=True).all():
                     InstitutionQFEHEALevel.objects.get_or_create(
                         institution=institution,
                         qf_ehea_level=qf_ehea_level,

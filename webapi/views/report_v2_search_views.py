@@ -30,7 +30,7 @@ class ReportFilterClass(filters.FilterSet):
     language = filters.CharFilter(label='Language')
     active = filters.BooleanFilter(label='Active')
     year = filters.NumberFilter(label='Year')
-    alternative_provider_covered = filters.BooleanFilter(label='Alternative Provider Covered')
+    other_provider_covered = filters.BooleanFilter(label='Other Provider Covered')
     degree_outcome = filters.BooleanFilter(label='Degree Outcome')
 
     ordering = OrderingFilter(
@@ -93,7 +93,7 @@ class ReportList(ListAPIView):
                              'activity_facet', 'activity_type_facet',
                              'status_facet', 'decision_facet',
                              'language_facet', 'crossborder_facet',
-                             'alternative_provider_covered_facet',
+                             'other_provider_covered_facet',
                              'degree_outcome_facet', 'programme_type_facet'],
             'facet_sort': 'index'
         }
@@ -124,7 +124,7 @@ class ReportList(ListAPIView):
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
 
-        alternative_provider_covered = request.query_params.get('alternative_provider_covered', None)
+        other_provider_covered = request.query_params.get('other_provider_covered', None)
         degree_outcome = request.query_params.get('degree_outcome', None)
         programme_type = request.query_params.get('programme_type', None)
 
@@ -173,8 +173,8 @@ class ReportList(ListAPIView):
                 now = datetime.datetime.now().replace(microsecond=0).isoformat()
                 date_filters.append({'valid_to_calculated': '[%sZ TO *]' % now})
 
-        if alternative_provider_covered:
-            filters.append({'alternative_provider_covered_facet': alternative_provider_covered})
+        if other_provider_covered:
+            filters.append({'other_provider_covered_facet': other_provider_covered})
 
         if degree_outcome:
             filters.append({'degree_outcome_facet': degree_outcome})

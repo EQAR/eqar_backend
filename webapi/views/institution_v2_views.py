@@ -50,7 +50,7 @@ class InstitutionFilterClass(filters.FilterSet):
     qf_ehea_level_id = filters.ModelChoiceFilter(label='QF EHEA Level ID', queryset=QFEHEALevel.objects.all(),
                                                  to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
-    alternative_provider = filters.BooleanFilter(label='Alternative Provider')
+    other_provider = filters.BooleanFilter(label='Other Provider')
 
     ordering = OrderingFilter(
         fields=(
@@ -105,10 +105,10 @@ class InstitutionList(ListAPIView):
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_official_display,name_select_display,name_sort,'
                   'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,'
-                  'alternative_provider,score',
+                  'other_provider,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',
-                             'activity_facet', 'activity_type_facet', 'crossborder_facet', 'alternative_provider_facet'],
+                             'activity_facet', 'activity_type_facet', 'crossborder_facet', 'other_provider_facet'],
             'facet_sort': 'index'
         }
 
@@ -134,7 +134,7 @@ class InstitutionList(ListAPIView):
         qf_ehea_level_id = request.query_params.get('qf_ehea_level_id', None)
 
         crossborder = request.query_params.get('crossborder', None)
-        alternative_provider = request.query_params.get('alternative_provider', None)
+        other_provider = request.query_params.get('other_provider', None)
 
         if agency:
             filters.append({'reports_agencies': agency})
@@ -174,8 +174,8 @@ class InstitutionList(ListAPIView):
         if crossborder:
             filters.append({'crossborder_facet': crossborder})
 
-        if alternative_provider:
-            filters.append({'alternative_provider_facet': alternative_provider})
+        if other_provider:
+            filters.append({'other_provider_facet': other_provider})
 
         params['filters'] = filters
 

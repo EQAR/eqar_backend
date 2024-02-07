@@ -88,7 +88,7 @@ class ReportsIndexer:
             'language_facet': [],
             'flag_level_facet': None,
             'crossborder_facet': [],
-            'alternative_provider_covered_facet': False,
+            'other_provider_covered_facet': False,
             'degree_outcome_facet': False,
             'programme_type_facet': []
         }
@@ -182,9 +182,9 @@ class ReportsIndexer:
                     self.doc['crossborder'] = True
 
         # AP Related filters
-        ap_count = self.report.institutions.filter(is_alternative_provider=True).count()
+        ap_count = self.report.institutions.filter(is_other_provider=True).count()
         if ap_count > 0:
-            self.doc['alternative_provider_covered_facet'] = True
+            self.doc['other_provider_covered_facet'] = True
 
         degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
         if degree_outcome_true > 0:
@@ -220,7 +220,7 @@ class ReportsIndexer:
                 'deqar_id': inst.deqar_id,
                 'name_primary': inst.name_primary,
                 'website_link': inst.website_link,
-                'is_alternative_provider': inst.is_alternative_provider
+                'is_other_provider': inst.is_other_provider
             })
 
             self.doc['institution_id'].append(inst.id)

@@ -80,7 +80,7 @@ class InstitutionIndexer:
             'status_facet': [],
             'qf_ehea_level_facet': [],
             'crossborder_facet': [],
-            'alternative_provider_facet': False,
+            'other_provider_facet': False,
 
             # Report indicator
             'has_report': False,
@@ -118,12 +118,12 @@ class InstitutionIndexer:
         self.doc['national_identifier'] = self.institution.national_identifier
         self.doc['website_link'] = self.institution.website_link.strip()
 
-        if self.institution.is_alternative_provider:
-            self.doc['alternative_provider'] = True
-            self.doc['alternative_provider_facet'] = True
+        if self.institution.is_other_provider:
+            self.doc['other_provider'] = True
+            self.doc['other_provider_facet'] = True
         else:
-            self.doc['alternative_provider'] = False
-            self.doc['alternative_provider_facet'] = False
+            self.doc['other_provider'] = False
+            self.doc['other_provider_facet'] = False
 
         if self.institution.founding_date:
             self.doc['founding_date'] = str(self.institution.founding_date)

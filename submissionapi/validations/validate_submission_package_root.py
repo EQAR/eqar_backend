@@ -82,13 +82,13 @@ def validate_submission_package_root(data):
                 errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
 
     #
-    # Validations for ALTERNATIVE PROVIDERS
+    # Validations for OTHER PROVIDERS
     #
     # Check if all institutions are AP
     all_ap = True
     all_hei = True
     for i in institutions:
-        if not i.is_alternative_provider:
+        if not i.is_other_provider:
             all_ap = False
         else:
             all_hei = False
@@ -96,14 +96,14 @@ def validate_submission_package_root(data):
     # Status must be 'voluntary' if all institutions are AP
     if all_ap:
         if not status or status.id != 2:
-            errors.append("Status should be 'voluntary' if all organisations are alternative providers.")
+            errors.append("Status should be 'voluntary' if all organisations are other providers.")
 
     # Programme degree outcome must be "no full degree" for AP:
     if all_ap and len(programmes) > 0:
         for programme in programmes:
             if programme['degree_outcome'].id != 2:
                 errors.append("Degree outcome should be '2 / no full degree' if all the "
-                              "organisations are alternative providers")
+                              "organisations are other providers")
 
     if len(errors) > 0:
         raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
