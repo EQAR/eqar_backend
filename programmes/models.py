@@ -40,11 +40,11 @@ class Programme(models.Model):
 
     def get_programme_type(self):
         if self.degree_outcome_id == 1:
-            return "Fully recognised degree programme"
+            return "Full recognised degree programme"
         if self.degree_outcome_id == 2 and self.workload_ects < 60:
             return "Micro-credential"
         if self.degree_outcome_id == 2 and self.workload_ects >= 60:
-            return "Other provisions"
+            return "Other provision"
 
 
 class ProgrammeName(models.Model):
