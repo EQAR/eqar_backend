@@ -89,7 +89,7 @@ class ReportsIndexer:
             'flag_level_facet': None,
             'crossborder_facet': [],
             'other_provider_covered_facet': False,
-            'degree_outcome_facet': False,
+            'degree_outcome_facet': None,
             'programme_type_facet': []
         }
 
@@ -180,18 +180,6 @@ class ReportsIndexer:
                 if focus_countries.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=True)):
                     self.doc['crossborder_facet'].append(True)
                     self.doc['crossborder'] = True
-
-        # AP Related filters
-        ap_count = self.report.institutions.filter(is_other_provider=True).count()
-        if ap_count > 0:
-            self.doc['other_provider_covered_facet'] = True
-
-        degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
-        if degree_outcome_true > 0:
-            self.doc['degree_outcome_facet'] = True
-
-
-
 
         self.doc['other_comment'] = self.report.other_comment
 
@@ -329,6 +317,18 @@ class ReportsIndexer:
         self.doc['institution_programme_primary'] = ipdisplay
         self.doc['institution_programme_sort'] = ipdisplay
         self.doc['programme_name'] = list(filter(None, self.doc['programme_name']))
+
+        # AP Related filters
+        ap_count = self.report.institutions.filter(is_other_provider=True).count()
+        if ap_count > 0:
+            self.doc['other_provider_covered_facet'] = True
+
+        if len(programmes) > 0:
+            degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
+            if degree_outcome_true > 0:
+                self.doc['degree_outcome_facet'] = True
+            else:
+                self.doc['degree_outcome_facet'] = False
 
     def _remove_duplicates(self):
         for k, v in self.doc.items():
