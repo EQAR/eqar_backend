@@ -272,13 +272,14 @@ class ReportsIndexer:
         # Programmes indexing
         programmes = []
         programme_types = []
+
         for programme in self.report.programme_set.iterator():
             self.doc['programmes'].append({
                 'id': programme.id,
                 'name_primary': programme.name_primary,
                 'nqf_level': programme.nqf_level,
                 'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None,
-                'degree_outcome': degree_outcome_true > 0,
+                'degree_outcome': programme.degree_outcome__id == 1,
                 'programme_type': programme.get_programme_type(),
                 'workload_ects': programme.workload_ects
             })
