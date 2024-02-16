@@ -205,6 +205,8 @@
   fields:
     iso_3166_alpha2: AT
     iso_3166_alpha3: AUT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AUT
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/AUT
     name_english: Austria
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-29'
@@ -1417,6 +1419,8 @@
   fields:
     iso_3166_alpha2: DE
     iso_3166_alpha3: DEU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DEU
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/DEU
     name_english: Germany
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-25'
@@ -1627,6 +1631,8 @@
   fields:
     iso_3166_alpha2: HU
     iso_3166_alpha3: HUN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HUN
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/HUN
     name_english: Hungary
     ehea_is_member: true
     eqar_governmental_member_start:

@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
 from langdetect import detect, DetectorFactory
@@ -10,6 +11,7 @@ from countries.models import Country
 from institutions.models import Institution, InstitutionHierarchicalRelationship
 from reports.models import Report
 from lxml import etree
+from urllib.parse import urljoin
 
 
 class AccrediationXMLCreatorV2:
@@ -38,9 +40,11 @@ class AccrediationXMLCreatorV2:
         'third cycle': 'http://data.europa.eu/snb/eqf/8',
     }
 
-    def __init__(self, country, request):
+    def __init__(self, country, request=None, baseurl=None, check=True):
         DetectorFactory.seed = 0
         self.request = request
+        self.baseurl = baseurl
+        self.check = check
         self.country = country
         self.reports = []
         self.agencies = set()
@@ -61,6 +65,16 @@ class AccrediationXMLCreatorV2:
         self.orgReferences = etree.SubElement(self.root, f"{self.NS}agentReferences")
         self.locationReferences = etree.SubElement(self.root, f"{self.NS}locationReferences")
 
+        self.last_modified = datetime.fromtimestamp(0)
+
+    def build_absolute_uri(self, path):
+        if self.request is not None:
+            return self.request.build_absolute_uri(path)
+        elif self.baseurl is not None:
+            return urljoin(self.baseurl, path)
+        else:
+            return urljoin('http://localhost', path)
+
     def create(self):
         self.collect_reports()
         self.create_xml()
@@ -73,7 +87,6 @@ class AccrediationXMLCreatorV2:
         )
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
-            (Q(agency_esg_activity__activity_type=2) | Q(agency_esg_activity__activity_type=4)) &
             Q(status=1) &
             ~Q(flag=3)
         ).order_by('id').distinct('id').select_related(
@@ -109,6 +122,10 @@ class AccrediationXMLCreatorV2:
 
             # Create accreditation records
             self.add_accreditation()
+
+            # update last modified
+            if report.updated_at > self.last_modified:
+                self.last_modified = report.updated_at
 
         # Create orgs and organisations
         self.add_agencies()
@@ -180,10 +197,10 @@ class AccrediationXMLCreatorV2:
 
                         if reportfile.file:
                             content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                            content_url.text = f"{self.request.build_absolute_uri(reportfile.file.url)}"
+                            content_url.text = f"{self.build_absolute_uri(reportfile.file.url)}"
                         else:
                             content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                            content_url.text = f"{self.request.build_absolute_uri(reportfile.file_original_location)}"
+                            content_url.text = f"{self.build_absolute_uri(reportfile.file_original_location)}"
 
             # organisation
             for institution in self.current_report.institutions.all():
@@ -287,7 +304,7 @@ class AccrediationXMLCreatorV2:
 
                         content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
                         if reportfile.file:
-                            content_url.text = self.request.build_absolute_uri(reportfile.file.url)
+                            content_url.text = self.build_absolute_uri(reportfile.file.url)
                         else:
                             content_url.text = reportfile.file_original_location
 
@@ -634,7 +651,7 @@ class AccrediationXMLCreatorV2:
             long.text = str(ic.lat)
 
     def validate_xml(self):
-        if self.request.query_params.get('check', '') == 'false':
+        if (self.request is not None and self.request.query_params.get('check', '') == 'false') or (not self.check):
             return self.root
         else:
             xsd_file = os.path.join(os.getcwd(), 'connectapi/europass/schema/ams.xsd')
@@ -723,5 +740,7 @@ class AccrediationXMLCreatorV2:
     def get_eu_controlled_vocab_country(self, country):
         if country.eu_controlled_vocab_country:
             return country.eu_controlled_vocab_country
-        else:
+        elif country.parent and country.parent.eu_controlled_vocab_country:
             return country.parent.eu_controlled_vocab_country
+        else:
+            raise ObjectDoesNotExist(f"EU controlled vocabulary URL missing for: {country}")
