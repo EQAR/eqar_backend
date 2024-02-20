@@ -680,11 +680,30 @@ class AccrediationXMLCreatorV2:
         return eqf_levels
 
     def encode_language(self, language_code):
+        """
+        DEQAR uses ISO 639-2/B codes, while EU authority list is based on ISO 639-2/T codes
+        """
         CODES = {
-            'ger': 'DEU',
-            'ara': 'ENG',
+            'alb': 'SQI',
+            'arm': 'HYE',
+            'baq': 'EUS',
+            'bur': 'MYA',
+            'chi': 'ZHO',
+            'cze': 'CES',
+            'dut': 'NLD',
             'fre': 'FRA',
-            'rum': 'RON'
+            'geo': 'KAT',
+            'ger': 'DEU',
+            'gre': 'ELL',
+            'ice': 'ISL',
+            'mac': 'MKD',
+            'mao': 'MRI',
+            'may': 'MSA',
+            'per': 'FAS',
+            'rum': 'RON',
+            'slo': 'SLK',
+            'tib': 'BOD',
+            'wel': 'CYM',
         }
 
         if language_code in CODES:
