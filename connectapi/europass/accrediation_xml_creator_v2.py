@@ -169,38 +169,33 @@ class AccrediationXMLCreatorV2:
                 pref_label.text = self.current_report.decision.decision
 
             # report
-            for idx, reportfile in enumerate(self.current_report.reportfile_set.iterator()):
+            for idx, reportfile in enumerate(self.current_report.reportfile_set.exclude(file='').iterator()):
                 if idx == 0:
-                    if reportfile.file or reportfile.file_original_location:
-                        rf = etree.SubElement(acc, f"{self.NS}report")
+                    rf = etree.SubElement(acc, f"{self.NS}report")
 
-                        if reportfile.file_display_name:
-                            lang = reportfile.languages.first().iso_639_1 if reportfile.languages.count() > 0 else 'en'
-                            rf_title = etree.SubElement(
-                                rf,
-                                f"{self.NS}title",
-                                attrib={'language': lang})
-                            rf_title.text = reportfile.file_display_name
-                        else:
-                            rf_title = etree.SubElement(
-                                rf,
-                                f"{self.NS}title",
-                                attrib={'language': 'en'})
-                            rf_title.text = "quality assurance report"
+                    if reportfile.file_display_name:
+                        lang = reportfile.languages.first().iso_639_1 if reportfile.languages.count() > 0 else 'en'
+                        rf_title = etree.SubElement(
+                            rf,
+                            f"{self.NS}title",
+                            attrib={'language': lang})
+                        rf_title.text = reportfile.file_display_name
+                    else:
+                        rf_title = etree.SubElement(
+                            rf,
+                            f"{self.NS}title",
+                            attrib={'language': 'en'})
+                        rf_title.text = "quality assurance report"
 
-                        for language in reportfile.languages.iterator():
-                            etree.SubElement(
-                                rf,
-                                f"{self.NS}language",
-                                uri=f"http://publications.europa.eu/resource/authority/language/"
-                                    f"{self.encode_language(language.iso_639_2)}")
+                    if reportfile.languages.count() > 0:
+                        etree.SubElement(
+                            rf,
+                            f"{self.NS}language",
+                            uri=f"http://publications.europa.eu/resource/authority/language/"
+                                f"{self.encode_language(reportfile.languages.first().iso_639_2)}")
 
-                        if reportfile.file:
-                            content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                            content_url.text = f"{self.build_absolute_uri(reportfile.file.url)}"
-                        else:
-                            content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                            content_url.text = f"{self.build_absolute_uri(reportfile.file_original_location)}"
+                    content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
+                    content_url.text = self.build_absolute_uri(reportfile.file.url)
 
             # organisation
             for institution in self.current_report.institutions.all():
@@ -289,9 +284,8 @@ class AccrediationXMLCreatorV2:
                     content_url.text = rl.link
 
             # supplementaryDocument
-            for idx, reportfile in enumerate(self.current_report.reportfile_set.iterator()):
+            for idx, reportfile in enumerate(self.current_report.reportfile_set.exclude(file='').iterator()):
                 if idx > 0:
-                    if reportfile.file or reportfile.file_original_location:
                         rf = etree.SubElement(acc, f"{self.NS}supplementaryDocument")
 
                         if reportfile.file_display_name:
@@ -302,11 +296,15 @@ class AccrediationXMLCreatorV2:
                             rf_title = etree.SubElement(rf, f"{self.NS}title", attrib={'language': 'en'})
                             rf_title.text = "quality assurance report"
 
+                        if reportfile.languages.count() > 0:
+                            etree.SubElement(
+                                rf,
+                                f"{self.NS}language",
+                                uri=f"http://publications.europa.eu/resource/authority/language/"
+                                    f"{self.encode_language(reportfile.languages.first().iso_639_2)}")
+
                         content_url = etree.SubElement(rf, f"{self.NS}contentUrl")
-                        if reportfile.file:
-                            content_url.text = self.build_absolute_uri(reportfile.file.url)
-                        else:
-                            content_url.text = reportfile.file_original_location
+                        content_url.text = self.build_absolute_uri(reportfile.file.url)
 
             # status
             status = etree.SubElement(acc, f"{self.NS}status")
