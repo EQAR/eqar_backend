@@ -454,22 +454,22 @@ class SubmissionPackageSerializer(serializers.Serializer):
         #
         # Set up which case are we talking about all_ap, all_hei, or mixed case (both are false)
         #
-        all_hei = True
-        for i in institutions:
-            if i.is_other_provider:
-                all_hei = False
+        # all_hei = True
+        # for i in institutions:
+        #    if i.is_other_provider:
+        #        all_hei = False
 
         #
         # Create defaults for degree_outcome
         #
-        for programme in programmes:
-            if 'degree_outcome' not in programme or not programme['degree_outcome']:
-                # The current default is "1 - Full Degree" for programmes offered by HEIs.
-                if all_hei:
-                    programme['degree_outcome'] = DegreeOutcome.objects.get(pk=1)
-                # The current default is "2 - No full degree" for programmes offered by other providers
-                else:
-                    programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
+        # for programme in programmes:
+        #     if 'degree_outcome' not in programme or not programme['degree_outcome']:
+        #        # The current default is "1 - Full Degree" for programmes offered by HEIs.
+        #        if all_hei:
+        #            programme['degree_outcome'] = DegreeOutcome.objects.get(pk=1)
+        #        # The current default is "2 - No full degree" for programmes offered by other providers
+        #        else:
+        #            programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
 
         # If there are errors raise ValidationError
         #
