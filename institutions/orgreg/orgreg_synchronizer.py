@@ -1002,10 +1002,11 @@ class OrgRegSynchronizer:
 
         if deqar_data:
             if is_float:
-                if not math.isclose(deqar_data, orgreg_data):
-                    compare['update'] = True
-                    compare['value'] = orgreg_data
-                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+                if orgreg_data:
+                    if not math.isclose(deqar_data, orgreg_data):
+                        compare['update'] = True
+                        compare['value'] = orgreg_data
+                        compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
             else:
                 if deqar_data != orgreg_data:
                     compare['update'] = True
