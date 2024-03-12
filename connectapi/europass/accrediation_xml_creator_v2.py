@@ -90,17 +90,10 @@ class AccrediationXMLCreatorV2:
             Q(institutions__in=institutions) &
             Q(status=1) &
             ~Q(flag=3)
-        ).order_by('id').distinct('id').select_related(
-            'agency', 'agency_esg_activity',
-            'status', 'decision'
-        ).prefetch_related(
-            'institutions',
-            'reportfile_set',
-            'programme_set', 'programme_set__programmename_set', 'programme_set__programmeidentifier_set'
-        )
+        ).order_by('id').distinct('id')
 
     def create_xml(self):
-        for report in self.reports:
+        for report in self.reports.iterator():
             self.current_report = report
             # Prepare list for agencies
             self.agencies.add(report.agency_id)
@@ -320,7 +313,7 @@ class AccrediationXMLCreatorV2:
                 modified.text = self.current_report.updated_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_agencies(self):
-        for agency in Agency.objects.filter(pk__in=self.agencies).all():
+        for agency in Agency.objects.filter(pk__in=self.agencies).iterator():
             org = etree.SubElement(self.orgReferences, f"{self.NS}organisation",
                                    id=f"https://data.deqar.eu/agency/{agency.id}")
 
@@ -414,9 +407,7 @@ class AccrediationXMLCreatorV2:
                 last_modifiation_date.text = agency.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_institutions(self):
-        for institution in Institution.objects.filter(pk__in=self.institutions).prefetch_related(
-            'institutionidentifier_set', 'institutioncountry_set', 'institutionname_set', 'institutionqfehealevel_set'
-        ).all():
+        for institution in Institution.objects.filter(pk__in=self.institutions).iterator():
             self.assemble_institution(institution)
 
     def assemble_institution(self, institution):
@@ -588,7 +579,7 @@ class AccrediationXMLCreatorV2:
             last_modifiation_date.text = institution.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_location_from_agencies(self):
-        for country in Country.objects.filter(pk__in=self.agency_countries).all():
+        for country in Country.objects.filter(pk__in=self.agency_countries).iterator():
             location = etree.SubElement(
                 self.locationReferences,
                 f"{self.NS}location",
