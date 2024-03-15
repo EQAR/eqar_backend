@@ -67,7 +67,12 @@ class CSVHandler:
             r'programme\[\d+\]\.name_primary',
             r'programme\[\d+\]\.qualification_primary',
             r'programme\[\d+\]\.nqf_level',
-            r'programme\[\d+\]\.qf_ehea_level'
+            r'programme\[\d+\]\.qf_ehea_level',
+            r'programme\[\d+\]\.degree_outcome',
+            r'programme\[\d+\]\.workload_ects',
+            r'programme\[\d+\]\.learning_outcome_description',
+            r'programme\[\d+\]\.field_study',
+            r'programme\[\d+\]\.assessment_certification',
         ],
         'programmes__identifiers': [
             r'programme\[\d+\]\.identifier\[\d+\]',
@@ -79,6 +84,9 @@ class CSVHandler:
         ],
         'programmes__countries': [
             r'programme\[\d+\]\.country\[\d+\]',
+        ],
+        'programmes__learning_outcomes': [
+            r'programme\[\d+\]\.learning_outcome\[\d+\]',
         ]
     }
 
@@ -107,6 +115,7 @@ class CSVHandler:
                 self._create_programmes_alternative_names(row)
                 self._create_programmes_identifiers(row)
                 self._create_programmes_countries(row)
+                self._create_learning_outcomes(row)
                 self._clear_submission_data()
         else:
             self.error = True
@@ -166,7 +175,8 @@ class CSVHandler:
         self._create_first_level_placeholder(['programmes',
                                               'programmes__identifiers',
                                               'programmes__alternative_names',
-                                              'programmes__countries'])
+                                              'programmes__countries',
+                                              'programmes__learning_outcomes'])
         self._create_first_level_values('programmes', row, dotted=True)
 
     def _create_programmes_identifiers(self, row):
@@ -180,6 +190,10 @@ class CSVHandler:
     def _create_programmes_countries(self, row):
         self._create_second_level_placeholder('programmes__countries')
         self._create_second_level_values('programmes__countries', row)
+
+    def _create_learning_outcomes(self, row):
+        self._create_second_level_placeholder('programmes__learning_outcomes')
+        self._create_second_level_values('programmes__learning_outcomes', row)
 
     def _create_report_links(self, row):
         self._create_first_level_placeholder(['report_links'])

@@ -30,6 +30,8 @@ class ReportFilterClass(filters.FilterSet):
     language = filters.CharFilter(label='Language')
     active = filters.BooleanFilter(label='Active')
     year = filters.NumberFilter(label='Year')
+    other_provider_covered = filters.BooleanFilter(label='Other Provider Covered')
+    degree_outcome = filters.BooleanFilter(label='Degree Outcome')
 
     ordering = OrderingFilter(
         fields=(
@@ -90,7 +92,9 @@ class ReportList(ListAPIView):
             'facet_fields': ['agency_facet', 'country_facet', 'flag_level_facet',
                              'activity_facet', 'activity_type_facet',
                              'status_facet', 'decision_facet',
-                             'language_facet', 'crossborder_facet'],
+                             'language_facet', 'crossborder_facet',
+                             'other_provider_covered_facet',
+                             'degree_outcome_facet', 'programme_type_facet'],
             'facet_sort': 'index'
         }
 
@@ -119,6 +123,10 @@ class ReportList(ListAPIView):
         flag = request.query_params.get('flag', None)
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
+
+        other_provider_covered = request.query_params.get('other_provider_covered', None)
+        degree_outcome = request.query_params.get('degree_outcome', None)
+        programme_type = request.query_params.get('programme_type', None)
 
         if agency:
             filters.append({'agency_facet': agency})
@@ -164,6 +172,16 @@ class ReportList(ListAPIView):
             if active == 'true':
                 now = datetime.datetime.now().replace(microsecond=0).isoformat()
                 date_filters.append({'valid_to_calculated': '[%sZ TO *]' % now})
+
+        if other_provider_covered:
+            filters.append({'other_provider_covered_facet': other_provider_covered})
+
+        if degree_outcome:
+            filters.append({'degree_outcome_facet': degree_outcome})
+
+        if programme_type:
+            filters.append({'programme_type_facet': programme_type})
+
         if year:
             try:
                 if re.match(r'.*([1-3][0-9]{3})', year):

@@ -14,12 +14,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='country',
             name='iso_3166_alpha3',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=3, null=True, unique=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=3, null=True, unique=True),
         ),
         migrations.AlterField(
             model_name='country',
             name='orgreg_subcountry_label',
-            field=eqar_backend.fields.CharNullField(blank=True, max_length=10, null=True),
+            field=eqar_backend.fields.char_null_field.CharNullField(blank=True, max_length=10, null=True),
         ),
         migrations.AlterUniqueTogether(
             name='country',

@@ -16,6 +16,7 @@ class InstitutionFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
     country = filters.CharFilter(label='Country')
     city = filters.CharFilter(label='City')
+    other_provider = filters.BooleanFilter(label='Other Provider')
     eter_id = filters.CharFilter(label='ETER ID')
     deqar_id = filters.CharFilter(label='DEQAR ID')
 
@@ -53,8 +54,8 @@ class InstitutionAllList(ListAPIView):
             'name_english^2.5',
             'name_version^1.5',
             'name_version_transliterated^1.5',
-            'country_search^2.5',
-            'city_search^2.5',
+            'country^2.5',
+            'city^2.5',
             'eter_id^2',
             'deqar_id^2',
         ]
@@ -63,7 +64,7 @@ class InstitutionAllList(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_select_display,name_sort,place,'
-                  'website_link,country,city,score',
+                  'website_link,country,city,other_provider,score',
             'facet': True,
             'facet_fields': ['country_facet'],
             'facet_sort': 'index'
@@ -73,6 +74,7 @@ class InstitutionAllList(ListAPIView):
         city = request.query_params.get('city', None)
         eter_id = request.query_params.get('eter_id', None)
         deqar_id = request.query_params.get('deqar_id', None)
+        other_provider = request.query_params.get('other_provider', None)
 
         if country:
             filters.append({'country': country})
@@ -82,6 +84,8 @@ class InstitutionAllList(ListAPIView):
             filters.append({'eter_id': eter_id})
         if deqar_id:
             filters.append({'deqar_id_search': deqar_id})
+        if other_provider:
+            filters.append({'other_provider_facet': other_provider})
 
         params['filters'] = filters
 

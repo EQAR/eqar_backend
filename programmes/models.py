@@ -12,6 +12,15 @@ class Programme(models.Model):
     qf_ehea_level = models.ForeignKey('lists.QFEHEALevel', on_delete=models.SET_NULL, blank=True, null=True)
     countries = models.ManyToManyField('countries.Country', blank=True)
 
+    # Micro credential specific fields
+    degree_outcome = models.ForeignKey('lists.DegreeOutcome', on_delete=models.PROTECT, default=1)
+    workload_ects = models.IntegerField(blank=True, null=True)
+    assessment_certification = models.ForeignKey('lists.Assessment', on_delete=models.SET_NULL, blank=True, null=True)
+    field_study = models.CharField(max_length=70, blank=True, null=True)
+    field_study_title = models.CharField(max_length=300, blank=True, null=True)
+    learning_outcome_description = models.TextField(blank=True, null=True)
+    mc_as_part_of_accreditation = models.BooleanField(default=False)
+
     class Meta:
         db_table = 'deqar_programmes'
         verbose_name = 'Programmme'
@@ -28,6 +37,14 @@ class Programme(models.Model):
         if prg_name_primary is not None:
             self.name_primary = prg_name_primary.name
             self.save()
+
+    def get_programme_type(self):
+        if self.degree_outcome_id == 1:
+            return "Full recognised degree programme"
+        elif self.degree_outcome_id == 2 and self.workload_ects < 60:
+            return "Micro-credential"
+        else:
+            return "Other provision"
 
 
 class ProgrammeName(models.Model):
@@ -61,3 +78,18 @@ class ProgrammeIdentifier(models.Model):
         db_table = 'deqar_programme_identifiers'
         verbose_name = 'Programme Identifier'
         unique_together = ('programme', 'agency', 'resource')
+
+
+class ProgrammeLearningOutcome(models.Model):
+    """
+    List of learning outcomes from the ESCO terminology
+    """
+    id = models.AutoField(primary_key=True)
+    programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
+    learning_outcome_esco = models.CharField(max_length=70, blank=True, null=True)
+    learning_outcome_esco_title = models.CharField(max_length=300, blank=True, null=True)
+
+    class Meta:
+        db_table = 'deqar_programme_learning_outcomes'
+        verbose_name = 'Programme Learning Outcome'
+        unique_together = ('programme', 'learning_outcome_esco')

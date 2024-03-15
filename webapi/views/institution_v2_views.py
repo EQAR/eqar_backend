@@ -17,10 +17,10 @@ from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution, InstitutionIdentifier
-from lists.models import QFEHEALevel
+from lists.models import QFEHEALevel, IdentifierResource
 from reports.models import ReportStatus
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
-from webapi.serializers.institution_serializers import InstitutionDetailSerializer
+from webapi.serializers.institution_v2_serializers import InstitutionResourceSerializer, InstitutionDetailSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -50,6 +50,7 @@ class InstitutionFilterClass(filters.FilterSet):
     qf_ehea_level_id = filters.ModelChoiceFilter(label='QF EHEA Level ID', queryset=QFEHEALevel.objects.all(),
                                                  to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
+    other_provider = filters.BooleanFilter(label='Other Provider')
 
     ordering = OrderingFilter(
         fields=(
@@ -94,7 +95,7 @@ class InstitutionList(ListAPIView):
             'city^2',
             'aggregated_name_english',
             'aggregated_name_official',
-            'aggregated_name_transliterated',
+            'aggregated_name_official_transliterated',
             'aggregated_country',
             'aggregated_city'
         ]
@@ -103,10 +104,11 @@ class InstitutionList(ListAPIView):
             'ordering': request.query_params.get('ordering', '-score'),
             'qf': qf,
             'fl': 'id,eter_id,deqar_id,name_primary,name_display,name_official_display,name_select_display,name_sort,'
-                  'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,score',
+                  'qf_ehea_level,place,website_link,founding_date,closure_date,hierarchical_relationships,country,'
+                  'other_provider,score',
             'facet': True,
             'facet_fields': ['country_facet', 'qf_ehea_level_facet', 'reports_agencies', 'status_facet',
-                             'activity_facet', 'activity_type_facet', 'crossborder_facet'],
+                             'activity_facet', 'activity_type_facet', 'crossborder_facet', 'other_provider_facet'],
             'facet_sort': 'index'
         }
 
@@ -131,7 +133,8 @@ class InstitutionList(ListAPIView):
         qf_ehea_level = request.query_params.get('qf_ehea_level', None)
         qf_ehea_level_id = request.query_params.get('qf_ehea_level_id', None)
 
-        crossborder= request.query_params.get('crossborder', None)
+        crossborder = request.query_params.get('crossborder', None)
+        other_provider = request.query_params.get('other_provider', None)
 
         if agency:
             filters.append({'reports_agencies': agency})
@@ -170,6 +173,9 @@ class InstitutionList(ListAPIView):
 
         if crossborder:
             filters.append({'crossborder_facet': crossborder})
+
+        if other_provider:
+            filters.append({'other_provider_facet': other_provider})
 
         params['filters'] = filters
 
@@ -228,14 +234,12 @@ class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
             raise Http404
 
 
-class InstitutionIdentifierResourcesList(APIView):
+class InstitutionIdentifierResourcesList(generics.ListAPIView):
     """
         Returns all the identifier resources.
     """
-
-    @swagger_auto_schema(operation_description="blabla", responses={200: '[list of available resources]'})
-    def get(self, request):
-        ids = []
-        for identifier in InstitutionIdentifier.objects.values('resource').distinct().iterator():
-            ids.append(identifier['resource'])
-        return Response(sorted(ids, key=str.lower))
+    queryset = IdentifierResource.objects.filter(institutionidentifier__isnull=False).distinct()
+    serializer_class = InstitutionResourceSerializer
+    pagination_class = None
+    ordering_fields = ('resource',)
+    ordering = ('resource',)

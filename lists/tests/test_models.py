@@ -14,7 +14,7 @@ class InstitutionTestCase(TestCase):
     ]
 
     def test_identifier_resource_str(self):
-        institution_resource = IdentifierResource.objects.get(id=1)
+        institution_resource = IdentifierResource.objects.get(pk='WHED')
         self.assertEqual(str(institution_resource), 'WHED')
 
     def test_language_str(self):

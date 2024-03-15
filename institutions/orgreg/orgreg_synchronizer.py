@@ -13,6 +13,7 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionC
     InstitutionName, InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipType, \
     InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipType
 from institutions.orgreg.orgreg_reporter import OrgRegReporter
+from lists.models import IdentifierResource
 
 
 class OrgRegSynchronizer:
@@ -221,9 +222,13 @@ class OrgRegSynchronizer:
 
             # Create InstiutionIdentifier
             if not self.dry_run:
+                identifier_resource, created = IdentifierResource.objects.get_or_create(
+                    resource="%s-ETER.BAS.NATID" % country
+                )
+
                 InstitutionIdentifier.objects.create(
                     institution=self.inst,
-                    resource="%s-ETER.BAS.NATID" % country,
+                    resource=identifier_resource,
                     identifier=nat_id
                 )
 
@@ -997,10 +1002,11 @@ class OrgRegSynchronizer:
 
         if deqar_data:
             if is_float:
-                if not math.isclose(deqar_data, orgreg_data):
-                    compare['update'] = True
-                    compare['value'] = orgreg_data
-                    compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+                if orgreg_data:
+                    if not math.isclose(deqar_data, orgreg_data):
+                        compare['update'] = True
+                        compare['value'] = orgreg_data
+                        compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
             else:
                 if deqar_data != orgreg_data:
                     compare['update'] = True
@@ -1065,9 +1071,13 @@ class OrgRegSynchronizer:
             # Create Identifier
             if compare['action'] != 'None':
                 if not self.dry_run:
+                    resource, created = IdentifierResource.objects.get_or_create(
+                        resource=id_type
+                    )
+
                     InstitutionIdentifier.objects.create(
                         institution=self.inst,
-                        resource=id_type,
+                        resource=resource,
                         identifier=compare['orgreg_value']
                     )
 

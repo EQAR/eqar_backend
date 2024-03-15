@@ -2,8 +2,8 @@ from django.test import TestCase
 
 from agencies.models import Agency
 from countries.models import Country
-from lists.models import QFEHEALevel
-from programmes.models import ProgrammeName, ProgrammeIdentifier
+from lists.models import QFEHEALevel, Assessment, DegreeOutcome
+from programmes.models import ProgrammeName, ProgrammeIdentifier, ProgrammeLearningOutcome
 from reports.models import Report
 from submissionapi.populators.programme_populator import ProgrammePopulator
 
@@ -11,8 +11,8 @@ from submissionapi.populators.programme_populator import ProgrammePopulator
 class ProgrammePopulatorTestCase(TestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
-        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type',
-        'agency_historical_field',
+        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
+        'agency_historical_field', 'assessment',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
         'institution_historical_field',
@@ -51,6 +51,32 @@ class ProgrammePopulatorTestCase(TestCase):
         self.assertEqual(populator.programme.report.local_identifier, "EQARAG0021-EQARIN0001-01")
         self.assertEqual(populator.programme.nqf_level, "level 7")
         self.assertEqual(populator.programme.qf_ehea_level.level, "second cycle")
+
+    def test_create_programme_ap(self):
+        populator = ProgrammePopulator(
+            submission={
+                "countries": [
+                    Country.objects.get(iso_3166_alpha2="DE"),
+                    Country.objects.get(iso_3166_alpha2="HU")
+                ],
+                "nqf_level": "level 7",
+                "qf_ehea_level": QFEHEALevel.objects.get(code=2),
+                "degree_outcome": DegreeOutcome.objects.get(id=2),
+                "workload_ects": 15,
+                "assessment_certification": Assessment.objects.get(pk=3),
+                "field_study": "http://data.europa.eu/esco/isced-f/0100",
+                "learning_outcome_description": "Learning Outcome Description",
+            },
+            agency=Agency.objects.get(pk=5),
+            report=Report.objects.get(pk=1)
+        )
+        populator._create_programme()
+        self.assertEqual(populator.programme.report.local_identifier, "EQARAG0021-EQARIN0001-01")
+        self.assertEqual(populator.programme.degree_outcome_id, 2)
+        self.assertEqual(populator.programme.assessment_certification_id, 3)
+        self.assertEqual(populator.programme.workload_ects, 15)
+        self.assertEqual(populator.programme.field_study, 'http://data.europa.eu/esco/isced-f/0100')
+        self.assertEqual(populator.programme.learning_outcome_description, 'Learning Outcome Description')
 
     def test_programme_name_insert(self):
         populator = ProgrammePopulator(
@@ -99,3 +125,19 @@ class ProgrammePopulatorTestCase(TestCase):
         self.assertEqual(programme_identifier.count(), 2)
         self.assertEqual(programme_identifier.first().resource, "local identifier")
         self.assertEqual(programme_identifier.first().agency.acronym_primary, "ACQUIN")
+
+    def test_programme_learning_outcomes_insert(self):
+        populator = ProgrammePopulator(
+            submission={
+                "learning_outcomes": [
+                    'http://data.europa.eu/esco/skill/04a13491-b58c-4d33-8b59-8fad0d55fe9e',
+                    'http://data.europa.eu/esco/skill/4ef78abc-e983-4cc7-84a1-52532a0159dc'
+                ]
+            },
+            agency=Agency.objects.get(pk=5),
+            report=Report.objects.get(pk=1)
+        )
+        populator._create_programme()
+        populator._programme_learning_outcome_insert()
+        programme_learning_outcomes = ProgrammeLearningOutcome.objects.filter(programme=populator.programme)
+        self.assertEqual(programme_learning_outcomes.count(), 2)

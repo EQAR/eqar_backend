@@ -1,3 +1,4 @@
+from django.conf import settings
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
@@ -6,7 +7,7 @@ from adminapi.serializers.programme_serializers import ProgrammeWriteSerializer,
 from adminapi.serializers.select_serializers import ReportStatusSerializer, ReportDecisionSerializer, \
     AgencySelectSerializer, AgencyESGActivitySerializer, LanguageSelectSerializer
 from agencies.models import AgencyESGActivity
-from eqar_backend.serializer_fields import DateBlankSerializer
+from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from lists.models import Language
 from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog, ReportLink
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
@@ -139,6 +140,43 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
     valid_to = DateBlankSerializer(allow_null=True, required=False)
+
+    def validate(self, data):
+        errors = []
+        data = super(ReportWriteSerializer, self).validate(data)
+
+        institutions = data.get('institutions', [])
+        programmes = data.get('programmes', [])
+        status = data.get('status', None)
+
+        #
+        # Validations for OTHER PROVIDERS
+        #
+        # Check if all institutions are AP
+        all_ap = True
+        all_hei = True
+        for i in institutions:
+            if not i.is_other_provider:
+                all_ap = False
+            else:
+                all_hei = False
+
+        # Status must be 'voluntary' if all institutions are AP
+        if all_ap:
+            if not status or status.id != 2:
+                errors.append("Status should be 'voluntary' if all organisations are other providers.")
+
+        # Programme degree outcome must be "no full degree" for AP:
+        if all_ap and len(programmes) > 0:
+            for programme in programmes:
+                if programme['degree_outcome'].id != 2:
+                    errors.append("Degree outcome should be '2 / no full degree' if all the "
+                                  "organisations are other providers")
+
+        if len(errors) > 0:
+            raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
+
+        return data
 
     class Meta:
         model = Report

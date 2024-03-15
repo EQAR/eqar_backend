@@ -10,7 +10,7 @@ from submissionapi.populators.institution_populator import InstitutionPopulator
 class InstitutionPopulatorTestCase(TestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
-        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type',
+        'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'submitting_agency_demo',
@@ -192,7 +192,7 @@ class InstitutionPopulatorTestCase(TestCase):
         populator._institution_create()
         self.assertIsNotNone(populator.institution)
         self.assertEqual(populator.institution.name_primary, "New University")
-        self.assertEqual(populator.institution.institutionidentifier_set.first().resource, "local identifier")
+        self.assertEqual(str(populator.institution.institutionidentifier_set.first().resource), "local identifier")
         self.assertEqual(populator.institution.institutionname_set.first().name_source_note,
                          "Name information supplied by [ACQUIN].")
 

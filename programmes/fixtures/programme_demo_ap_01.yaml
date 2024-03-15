@@ -1,0 +1,12 @@
+- model: programmes.Programme
+  pk: 14
+  fields:
+    report: 12
+    countries: [64]
+    name_primary: Computer programming
+    degree_outcome: true
+    workload_ects: 15
+    assessment_certification: 3
+    field_study: http://data.europa.eu/esco/isced-f/0010
+    learning_outcome_description: Some text about the ESCO.
+    mc_as_part_of_accreditation: True

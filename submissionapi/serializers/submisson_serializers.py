@@ -1,15 +1,31 @@
 from datetime import datetime
 
+import six
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.fields import ListField
 
-from agencies.models import AgencyESGActivity
-from institutions.models import Institution, InstitutionETERRecord, InstitutionIdentifier
+from agencies.models import AgencyESGActivity, Agency
+from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
+from lists.models import DegreeOutcome
+from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
+from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
+from submissionapi.serializer_fields.isced_serializer_field import ISCEDSerializer
+from institutions.models import Institution, InstitutionIdentifier
 from reports.models import Report
-from submissionapi.fields import AgencyField, ReportStatusField, ReportDecisionField, ReportLanguageField, \
-    QFEHEALevelField, CountryField, ReportIdentifierField, ContributingAgencyField
+from submissionapi.serializer_fields.agency_field import AgencyField
+from submissionapi.serializer_fields.assessment_field import AssessmentField
+from submissionapi.serializer_fields.contributing_agency_field import ContributingAgencyField
+from submissionapi.serializer_fields.country_field import CountryField
+from submissionapi.serializer_fields.qf_ehea_level_field import QFEHEALevelField
+from submissionapi.serializer_fields.report_decision_field import ReportDecisionField
+from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
+from submissionapi.serializer_fields.report_language_field import ReportLanguageField
+from submissionapi.serializer_fields.report_status_field import ReportStatusField
+from submissionapi.validations.validate_identifiers_and_resource import validate_identifiers_and_resource
+from submissionapi.validations.validate_programmes import validate_programmes
+from submissionapi.validations.validate_submission_package_root import validate_submission_package_root
 
 
 class IdentifierSerializer(serializers.Serializer):
@@ -113,7 +129,7 @@ class InstitutionSerializer(serializers.Serializer):
                                            label='List of identifiers or QF-EHEA levels that are valid for '
                                                  'each institution',
                                            help_text="*** PLEASE, DON'T USE THIS FIELD! IT WILL BE DEPRECATED. *** \n"
-                                                    'accepted values: "0", "1", "2", "3", "short cycle", '
+                                                     'accepted values: "0", "1", "2", "3", "short cycle", '
                                                      '"first cycle", "second cycle", "third cycle"')
 
     # Website
@@ -122,71 +138,87 @@ class InstitutionSerializer(serializers.Serializer):
                                                   'example: https://www.tuwien.ac.at')
 
     def validate_identifiers(self, value):
-        # Validate if there is only one identifier without resource id
-        count = 0
-        resources = []
-        for identifier in value:
-            if 'resource' not in identifier.keys():
-                count += 1
-            else:
-                resources.append(identifier['resource'])
-        if count > 1:
-            raise serializers.ValidationError("You can only submit one identifier without resource.")
+        return validate_identifiers_and_resource(value)
 
-        # Validate if resource values are unique
-        if len(resources) != len(set(resources)):
-            raise serializers.ValidationError("You can only submit different type of resources.")
-        return value
+    # The new institution populator
+    def to_internal_value(self, data):
+        data = super(InstitutionSerializer, self).to_internal_value(data)
 
-    def validate(self, data):
-        eter_id = data.get('eter_id', None)
         deqar_id = data.get('deqar_id', None)
-        identifiers = data.get('identifiers', [])
-        name_official = data.get('name_official', None)
-        locations = data.get('locations', [])
-        website_link = data.get('website_link', None)
+        eter_id = data.get('eter_id', None)
+        identifiers = data.get('identifiers', None)
 
-        #
-        # Either ETER or DEQAR or at least one identifier or (name_official, location, website) should
-        # be provided.
-        #
-        if eter_id is not None or deqar_id is not None or len(identifiers) > 0 or \
-                (name_official is not None and len(locations) > 0 and website_link is not None):
+        institution_deqar = None
+        institution_eter = None
 
-            institution_eter = None
-            institution_deqar = None
+        # Check if DEQAR ID exists
+        if deqar_id is not None:
+            try:
+                institution_deqar = Institution.objects.get(deqar_id=deqar_id)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide valid DEQAR ID.")
 
-            # Check if DEQAR ID exists
-            if deqar_id is not None:
+        # Check if ETER ID exists
+        if eter_id is not None:
+            try:
+                institution_eter = Institution.objects.get(eter_id=eter_id)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide valid ETER ID.")
+
+        # If both ETER ID and DEQAR ID were submitted they should resolve the same institution
+        if institution_deqar is not None and institution_eter is not None:
+            if institution_deqar.id != institution_eter.id:
+                raise serializers.ValidationError("The provided DEQAR and ETER ID does not match.")
+
+        # At this point we will return the one which was resolved
+        if institution_deqar:
+            return institution_deqar
+        if institution_eter:
+            return institution_eter
+
+        # If it still didn't resolve, we will try to query the institution by the submitted identifier
+        parent_data = self.parent.parent.initial_data
+        agency_field = AgencyField()
+        agency = agency_field.to_internal_value(parent_data['agency'])
+
+        institutions = set()
+        if identifiers is not None:
+            for idf in identifiers:
+                identifier = idf.get('identifier', None)
+                resource = idf.get('resource', 'local identifier')
                 try:
-                    institution_deqar = Institution.objects.get(deqar_id=deqar_id)
+                    if resource == 'local identifier':
+                        inst_id = InstitutionIdentifier.objects.get(
+                            identifier=identifier,
+                            resource=resource,
+                            agency=agency
+                        )
+                        institutions.add(inst_id.institution)
+                    else:
+                        inst_id = InstitutionIdentifier.objects.get(
+                            identifier=identifier,
+                            resource=resource
+                        )
+                        institutions.add(inst_id.institution)
                 except ObjectDoesNotExist:
-                    raise serializers.ValidationError("Please provide valid DEQAR ID.")
+                    pass
 
-            # Check if ETER ID exists
-            if eter_id is not None:
-                try:
-                    institution_eter = Institution.objects.get(eter_id=eter_id)
-                except ObjectDoesNotExist:
-                    raise serializers.ValidationError("Please provide valid ETER ID.")
+            # If more than one institution were identified, raise error
+            if len(institutions) > 1:
+                raise serializers.ValidationError("The submitted institution identifiers are identifying "
+                                                  "more institutions. Please correct them.")
+            if len(institutions) == 0:
+                raise serializers.ValidationError("This report cannot be linked to an institution. "
+                                                  "It is missing either a valid ETER ID, DEQAR ID, or "
+                                                  "local identifier.")
+            if len(institutions) == 1:
+                return list(institutions)[0]
 
-            # If both ETER ID and DEQAR ID were submitted they should resolve the same institution
-            if institution_deqar is not None and institution_eter is not None:
-                if institution_deqar.id != institution_eter.id:
-                    raise serializers.ValidationError("The provided DEQAR and ETER ID does not match.")
+        # If there were no ETER ID, DEQAR ID or local identifier submitted
         else:
             raise serializers.ValidationError("This report cannot be linked to an institution. "
-                                              "It is missing either a valid ETER ID, DEQAR ID, or local identifier "
-                                              "or a combination of institution official name, location and website. ")
-
-        # Name official transliterated can only exists, when name official was submitted
-        name_official = data.get('name_official', None)
-        name_official_transliterated = data.get('name_official_transliterated', None)
-
-        if name_official is None and name_official_transliterated is not None:
-            raise serializers.ValidationError("Please submit name_official if you submitted the transliterated version.")
-
-        return data
+                                              "It is missing either a valid ETER ID, DEQAR ID, or "
+                                              "local identifier.")
 
 
 class ProgrammeAlternativeNameSerializer(serializers.Serializer):
@@ -231,22 +263,50 @@ class ProgrammeSerializer(serializers.Serializer):
                                      help_text='accepted values: "0", "1", "2", "3", "short cycle", '
                                                '"first cycle", "second cycle", "third cycle"')
 
-    def validate_identifiers(self, value):
-        # Validate if there is only one identifier without resource id
-        count = 0
-        resources = []
-        for identifier in value:
-            if 'resource' not in identifier.keys():
-                count += 1
-            else:
-                resources.append(identifier['resource'])
-        if count > 1:
-            raise serializers.ValidationError("You can only submit one identifier without resource.")
+    # Micro Credentials
+    degree_outcome = DegreeOutcomeField(required=False,
+                                        label='A programme, in combination with other programmes, can lead to a '
+                                              'full degree (i.e. of bachelors, master or PhD) or not. This is what '
+                                              'distinguishes traditional programmes from micro credentials.',
+                                        help_text='accepted values: 1, "1", "yes", "full degree",'
+                                                  '2, "2", "no", "no full degree")')
+    workload_ects = serializers.IntegerField(required=False,
+                                             label='The workload as number of ECTS credits for programmes'
+                                                   'that do not lead to a full degree (i.e. micro '
+                                                   'credentials) must be provided to indicate the '
+                                                   'volume of learning.',
+                                             help_text='example: 1, 15')
+    learning_outcomes = serializers.ListField(child=ESCOSerializer(
+        label='DEQAR uses the the European Skills, Competences, Qualifications '
+              'and Occupations (ESCO) classification of skills and competences '
+              'as the preferred and interoperable way to specify the learning '
+              'outcomes of a programme.',
+        help_text='example: "http://data.europa.eu/esco/skill/77f109c4-3107-4d2a-a512-5160ac103933"'),
+        required=False)
+    learning_outcome_description = serializers.CharField(required=False,
+                                                         label="Free text field to describe the programme's learning "
+                                                               "outcomes.",
+                                                         help_text='example: "The learner acquires planning and '
+                                                                   'organizing skills in the Scrum software."')
+    field_study = ISCEDSerializer(required=False,
+                                  label='DEQAR is using the International Standard Classification of '
+                                        'Education (ISCED) framework (2013) for assembling the '
+                                        'organisation of education programmes and related '
+                                        'qualifications by levels and fields of education.',
+                                  help_text='example: "0321", "http://data.europa.eu/esco/isced-f/0321"')
+    assessment_certification = AssessmentField(required=False,
+                                               label='While a programme does not lead to a full degree, '
+                                                     'it could still have a formal outcome.',
+                                               help_text='accepted_values: "1", "2", "3", '
+                                                         '"Attendance certificate", "Assessment based certificate", '
+                                                         '"No assessment and no certificate"')
 
-        # Validate if resource values are unique
-        if len(resources) != len(set(resources)):
-            raise serializers.ValidationError("You can only submit different type of resources.")
-        return value
+    def validate_identifiers(self, value):
+        return validate_identifiers_and_resource(value)
+
+    def validate(self, data):
+        data = super(ProgrammeSerializer, self).validate(data)
+        return validate_programmes(data)
 
 
 class ReportFileSerializer(serializers.Serializer):
@@ -280,7 +340,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
     contributing_agencies = ListField(
         required=False,
         label="List of the contributing agencies",
-        child=ContributingAgencyField(label='Identifier or the acronym of the agency', help_text='examples: "33", "ACQUIN"'),
+        child=ContributingAgencyField(label='Identifier or the acronym of the agency',
+                                      help_text='examples: "33", "ACQUIN"'),
     )
 
     # Record Identification
@@ -331,43 +392,28 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                            'to be about the institution.)')
 
     # Comment
-    other_comment = serializers.CharField(
-        required=False,
-        allow_null=True,
-        allow_blank=True,
-        label='Comment for the submission.'
-    )
+    other_comment = serializers.CharField(required=False, allow_null=True, allow_blank=True,
+                                          label='Comment for the submission.')
 
     def to_internal_value(self, data):
         errors = []
         data = super(SubmissionPackageSerializer, self).to_internal_value(data)
 
-        agency = data.get('agency', None)
-        #
-        # Validate if report_id and local_identifier resolving to the same record,
-        # or local_identifier is non-existent
-        #
-        report = data.get('report_id', None)
-        local_identifier = data.get('local_identifier', None)
-
-        if report and local_identifier:
-            try:
-                report_with_local_id = Report.objects.get(agency=agency, local_identifier=local_identifier)
-                if report.id != report_with_local_id.id:
-                    errors.append("The submitted report_id is pointing to a different report, "
-                                  "than the submitted local identifier.")
-            except ObjectDoesNotExist:
-                pass
-
-        #
-        # Validate if date format is applicable, default format is %Y-%m-%d
-        #
         date_format = data.get('date_format', '%Y-%m-%d')
+
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
-        date_from = None
-        date_to = None
 
+        agency = data.get('agency', None)
+        activity = data.get('activity', None)
+        activity_local_identifier = data.get('activity_local_identifier', None)
+        institutions = data.get('institutions', [])
+        programmes = data.get('programmes', [])
+
+        #
+        # Validate if date format is applicable, default format is %Y-%m-%d.
+        # If yes, resolve the date values
+        #
         try:
             date_from = datetime.strptime(valid_from, date_format)
             data['valid_from'] = date_from.strftime("%Y-%m-%d")
@@ -377,28 +423,10 @@ class SubmissionPackageSerializer(serializers.Serializer):
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
 
-        # Validate if valid_to date is larger than valid_from
-        if date_to:
-            if date_from >= date_to:
-                errors.append("Report's validity start should be earlier then validity end.")
-
-        #
-        # Validate if Agency registration start is earlier then report validation start date.
-        #
-        if date_from:
-            if agency.registration_valid_to:
-                if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
-                    errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
-            else:
-                if agency.registration_start >= datetime.date(date_from):
-                    errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
-
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
+        # If yes, resolve the records.
         #
-        activity = data.get('activity', None)
-        activity_local_identifier = data.get('activity_local_identifier', None)
-
         if activity is not None or activity_local_identifier is not None:
             if activity is not None:
                 if activity.isdigit():
@@ -421,89 +449,34 @@ class SubmissionPackageSerializer(serializers.Serializer):
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
 
-        # Check if Institution ID exists
-        institutions = data.get('institutions', [])
-        inst_exists = False
-
-        for institution in institutions:
-            eter_id = institution.get('eter_id', None)
-            deqar_id = institution.get('deqar_id', None)
-
-            name_official = institution.get('name_official', None)
-            locations = institution.get('locations', [])
-            website_link = institution.get('website_link', None)
-
-            if eter_id is None and deqar_id is None:
-                identifiers = institution.get('identifiers', [])
-                institutions = set()
-                for idf in identifiers:
-                    identifier = idf.get('identifier', None)
-                    resource = idf.get('resource', 'local identifier')
-                    try:
-                        if resource == 'local identifier':
-                            inst = InstitutionIdentifier.objects.get(
-                                identifier=identifier,
-                                resource=resource,
-                                agency=agency
-                            )
-                            institutions.add(inst.id)
-                        else:
-                            inst = InstitutionIdentifier.objects.get(
-                                identifier=identifier,
-                                resource=resource
-                            )
-                            institutions.add(inst.id)
-                    except ObjectDoesNotExist:
-                        pass
-
-                    # Inspect the unique list of identified institutions
-                    if len(institutions) > 1:
-                        errors.append("The submitted institution identifiers are identifying "
-                                      "more institutions. Please correct them.")
-                    if len(institutions) == 1:
-                        inst_exists = True
-
-                if not inst_exists:
-                    if name_official is None or len(locations) == 0 or website_link is None:
-                        errors.append("This report cannot be linked to an institution. "
-                                      "It is missing a combination of institution official name, "
-                                      "location and website. ")
+        # Set up OTHER PROVIDER defaults
 
         #
+        # Set up which case are we talking about all_ap, all_hei, or mixed case (both are false)
+        #
+        # all_hei = True
+        # for i in institutions:
+        #    if i.is_other_provider:
+        #        all_hei = False
+
+        #
+        # Create defaults for degree_outcome
+        #
+        # for programme in programmes:
+        #     if 'degree_outcome' not in programme or not programme['degree_outcome']:
+        #        # The current default is "1 - Full Degree" for programmes offered by HEIs.
+        #        if all_hei:
+        #            programme['degree_outcome'] = DegreeOutcome.objects.get(pk=1)
+        #        # The current default is "2 - No full degree" for programmes offered by other providers
+        #        else:
+        #            programme['degree_outcome'] = DegreeOutcome.objects.get(pk=2)
+
         # If there are errors raise ValidationError
         #
-        if errors:
+        if len(errors) > 0:
             raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
         return data
 
     def validate(self, data):
-        #
-        # WP01-008-002
-        #
-        institutions = data.get('institutions', None)
-        programmes = data.get('programmes', None)
-        esg_activity = data.get('esg_activity', None)
-
-        # institutional
-        if esg_activity.activity_type_id == 2:
-            if programmes is not None:
-                raise serializers.ValidationError("Please remove programme information "
-                                                  "with this particular Activity type.")
-        # programme or institutional/programme
-        elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
-            if len(institutions) > 1:
-                raise serializers.ValidationError("Please provide only one institution "
-                                                  "with this particular Activity type.")
-            if programmes is None:
-                raise serializers.ValidationError("Please provide at least one programme "
-                                                  "with this particular Activity type.")
-        # joint programme
-        else:
-            if len(institutions) == 1:
-                raise serializers.ValidationError("Please provide data for all of the institutions "
-                                                  "with this particular Activity type.")
-            if programmes is None:
-                raise serializers.ValidationError("Please provide at least one programme "
-                                                  "with this particular Activity type.")
-
-        return data
+        data = super(SubmissionPackageSerializer, self).validate(data)
+        return validate_submission_package_root(data)

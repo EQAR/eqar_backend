@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
-from eqar_backend.fields import CharNullField
+from eqar_backend.fields.char_null_field import CharNullField
 
 
 class Report(models.Model):

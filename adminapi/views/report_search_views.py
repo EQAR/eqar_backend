@@ -24,6 +24,7 @@ class ReportFilterClass(filters.FilterSet):
     flag = filters.CharFilter(label='flag')
     active = filters.BooleanFilter(label='active')
     year = filters.NumberFilter(label='year')
+    programme_type = filters.CharFilter(label='Programme Type')
 
     ordering = OrderingFilter(
         fields=(
@@ -73,7 +74,6 @@ class ReportList(ListAPIView):
             'programme_name^2.5',
             'country^1.5',
             'city^2',
-            'eter_id^2'
         ]
         params = {
             'search': request.query_params.get('query', ''),
@@ -85,7 +85,7 @@ class ReportList(ListAPIView):
                   'flag_level,score,date_created,date_updated',
             'facet': True,
             'facet_fields': ['country_facet', 'flag_level_facet', 'agency_facet',
-                             'activity_facet', 'activity_type_facet'],
+                             'activity_facet', 'activity_type_facet', 'programme_type_facet'],
             'facet_sort': 'index'
         }
 
@@ -99,6 +99,7 @@ class ReportList(ListAPIView):
         active = request.query_params.get('active', False)
         year = request.query_params.get('year', False)
         year_created = request.query_params.get('year_created', False)
+        programme_type = request.query_params.get('programme_type', None)
 
         if id:
             filters.append({'id_search': id})
@@ -114,6 +115,8 @@ class ReportList(ListAPIView):
             filters.append({'activity_type_facet': activity_type})
         if flag:
             filters.append({'flag_level_facet': flag})
+        if programme_type:
+            filters.append({'programme_type_facet': programme_type})
         if active:
             if active == 'true':
                 now = datetime.datetime.now().replace(microsecond=0).isoformat()

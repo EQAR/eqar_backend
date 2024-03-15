@@ -14,11 +14,14 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
     AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer, \
-    CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer
+    CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer, \
+    InstitutionOrganizationTypeSerializer, AssessmentSerializer, DegreeOutcomeSelectSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
 from countries.models import Country, CountryQARequirementType
-from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType
-from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag
+from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
+    InstitutionOrganizationType
+from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
+    Assessment, DegreeOutcome
 from reports.models import ReportDecision, ReportStatus
 
 
@@ -84,6 +87,14 @@ class InstitutionCountrySelectList(generics.ListAPIView):
 
     def get_queryset(self):
         return Country.objects.filter(institutioncountry__isnull=False).distinct()
+
+
+class InstitutionOrganizationTypeSelectList(generics.ListAPIView):
+    serializer_class = InstitutionOrganizationTypeSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('type',)
+    queryset = InstitutionOrganizationType.objects.all().order_by('id')
 
 
 class LanguageSelectList(generics.ListAPIView):
@@ -164,6 +175,22 @@ class QARequirementTypeSelectList(generics.ListAPIView):
     filter_backends = (SearchFilter,)
     search_fields = ('qa_requirement_type',)
     queryset = CountryQARequirementType.objects.all()
+
+
+class AssessmentSelectList(generics.ListAPIView):
+    serializer_class = AssessmentSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('assessment',)
+    queryset = Assessment.objects.all().order_by('id')
+
+
+class DegreeOutcomeSelectList(generics.ListAPIView):
+    serializer_class = DegreeOutcomeSelectSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('outcome',)
+    queryset = DegreeOutcome.objects.all().order_by('id')
 
 
 class InstitutionHierarchicalRelationshipTypeSelect(generics.ListAPIView):

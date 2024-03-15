@@ -27,6 +27,12 @@ class Institution(models.Model):
     other_comment = models.TextField(blank=True)
     internal_note = models.TextField(blank=True)
 
+    # Other Provider specific fields
+    is_other_provider = models.BooleanField(default=False)
+    organization_type = models.ForeignKey('InstitutionOrganizationType',
+                                          on_delete=models.SET_NULL, blank=True, null=True)
+    source_of_information = models.CharField(max_length=200, blank=True, null=True)
+
     # Audit log values
     created_by = models.ForeignKey(User, related_name='institutions_created_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
@@ -99,8 +105,8 @@ class InstitutionIdentifier(models.Model):
     id = models.AutoField(primary_key=True)
     institution = models.ForeignKey('Institution', on_delete=models.CASCADE)
     identifier = models.CharField(max_length=100)
-    agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.SET_NULL)
-    resource = models.CharField(max_length=200, blank=True)
+    agency = models.ForeignKey('agencies.Agency', blank=True, null=True, on_delete=models.CASCADE)
+    resource = models.ForeignKey('lists.IdentifierResource', blank=True, null=True, on_delete=models.PROTECT)
     note = models.TextField(blank=True)
     identifier_valid_from = models.DateField(default=datetime.date.today)
     identifier_valid_to = models.DateField(blank=True, null=True)
@@ -399,6 +405,22 @@ class InstitutionHierarchicalRelationship(models.Model):
         db_table = 'deqar_institution_hierarchical_relationships'
         verbose_name = 'Institution Hierarchical Relationship'
         verbose_name_plural = 'Institution Hierarchical Relationships'
+
+
+class InstitutionOrganizationType(models.Model):
+    """
+    Organization types of institutions (for micro-credentials)
+    """
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        db_table = 'deqar_institution_organization_types'
+        verbose_name = 'Institution Organization Type'
+        verbose_name_plural = 'Institution Organization Types'
 
 
 class InstitutionHistoricalField(models.Model):

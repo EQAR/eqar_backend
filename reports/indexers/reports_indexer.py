@@ -87,7 +87,10 @@ class ReportsIndexer:
             'decision_facet': None,
             'language_facet': [],
             'flag_level_facet': None,
-            'crossborder_facet': []
+            'crossborder_facet': [],
+            'other_provider_covered_facet': False,
+            'degree_outcome_facet': None,
+            'programme_type_facet': []
         }
 
     def index(self):
@@ -204,7 +207,8 @@ class ReportsIndexer:
                 'id': inst.id,
                 'deqar_id': inst.deqar_id,
                 'name_primary': inst.name_primary,
-                'website_link': inst.website_link
+                'website_link': inst.website_link,
+                'is_other_provider': inst.is_other_provider
             })
 
             self.doc['institution_id'].append(inst.id)
@@ -267,12 +271,17 @@ class ReportsIndexer:
 
         # Programmes indexing
         programmes = []
+        programme_types = []
+
         for programme in self.report.programme_set.iterator():
             self.doc['programmes'].append({
                 'id': programme.id,
                 'name_primary': programme.name_primary,
                 'nqf_level': programme.nqf_level,
-                'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None
+                'qf_ehea_level': programme.qf_ehea_level.level if programme.qf_ehea_level else None,
+                'degree_outcome': programme.degree_outcome.id == 1,
+                'programme_type': programme.get_programme_type(),
+                'workload_ects': programme.workload_ects
             })
 
             programmes.append(programme.name_primary)
@@ -293,8 +302,13 @@ class ReportsIndexer:
                 self.doc['country_id'].append(c.id)
                 self.doc['country_search'].append(c.name_english)
 
+            # Programme type facet
+            programme_types.append(programme.get_programme_type())
+
         institutions = "; ".join(institutions)
         programmes = " / ".join(programmes)
+
+        self.doc['programme_type_facet'] = list(set(programme_types))
 
         if len(programmes) > 0:
             ipdisplay = "%s - %s" % (institutions, programmes)
@@ -304,6 +318,18 @@ class ReportsIndexer:
         self.doc['institution_programme_primary'] = ipdisplay
         self.doc['institution_programme_sort'] = ipdisplay
         self.doc['programme_name'] = list(filter(None, self.doc['programme_name']))
+
+        # AP Related filters
+        ap_count = self.report.institutions.filter(is_other_provider=True).count()
+        if ap_count > 0:
+            self.doc['other_provider_covered_facet'] = True
+
+        if len(programmes) > 0:
+            degree_outcome_true = self.report.programme_set.filter(degree_outcome__id=1).count()
+            if degree_outcome_true > 0:
+                self.doc['degree_outcome_facet'] = True
+            else:
+                self.doc['degree_outcome_facet'] = False
 
     def _remove_duplicates(self):
         for k, v in self.doc.items():
