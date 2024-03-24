@@ -2,7 +2,7 @@ import math
 
 import requests
 
-from datetime import datetime
+from datetime import datetime, date
 
 from requests.adapters import HTTPAdapter, Retry
 from django.conf import settings
@@ -1086,7 +1086,6 @@ class OrgRegSynchronizer:
             self.report.add_report_line("Multiple IntitutionIdentifier object exist for institution [%s]"
                                         " and resource type [%s]." % (self.inst, id_type))
 
-
     def _make_names_expire(self):
         inames = InstitutionName.objects.filter(
             institution=self.inst,
@@ -1095,12 +1094,13 @@ class OrgRegSynchronizer:
 
         for iname in inames.all():
             self.report.add_report_line('**UPDATE - NAME RECORD')
-            self.report.add_report_line('**Because of a new name record as added without valid_to date.')
+            self.report.add_report_line('**Because of a new name record was added without valid_to date, the following ones will be expired:')
             self.report.add_report_line('  Name English: %s' % iname.name_english)
-            self.report.add_report_line('  Valid To: %s' % datetime.now())
+            self.report.add_report_line('  Name Official: %s' % iname.name_official)
+            self.report.add_report_line('  Valid To: %s' % date.today())
 
             if not self.dry_run:
-                iname.name_valid_to = datetime.now()
+                iname.name_valid_to = date.today()
                 iname.save()
 
     def _detect_deleted(self, data):
