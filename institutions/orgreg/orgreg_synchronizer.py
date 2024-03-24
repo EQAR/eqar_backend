@@ -130,7 +130,7 @@ class OrgRegSynchronizer:
                     )
 
                 self.sync_base_data()
-                self.sync_locations()
+                self.sync_locations(action)
                 self.sync_names()
                 self.sync_historical_relationships()
                 self.sync_hierarchical_relationships()
@@ -396,7 +396,7 @@ class OrgRegSynchronizer:
                             name_source_note=source_note
                         )
 
-    def sync_locations(self):
+    def sync_locations(self, action):
         locations = self.orgreg_record['LOCAT']
         for location in locations:
             deleted = self._detect_deleted(location)
@@ -415,10 +415,11 @@ class OrgRegSynchronizer:
                         parent__orgreg_eu_2_letter_code=country_code
                     )
                 except ObjectDoesNotExist:
-                    self.report.add_report_line(
-                        "%s**WARNING - Subcountry label %s was set in OrgReg, but it does not exist in DEQAR.%s" %
-                        (self.colours['WARNING'], subcountry, self.colours['END'])
-                    )
+                    if action == 'add':
+                        self.report.add_report_line(
+                            "%s**WARNING - Subcountry label %s was set in OrgReg, but it does not exist in DEQAR.%s" %
+                            (self.colours['WARNING'], subcountry, self.colours['END'])
+                        )
                     try:
                         country = Country.objects.get(orgreg_eu_2_letter_code=country_code)
                     except ObjectDoesNotExist:
