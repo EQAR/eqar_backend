@@ -36,21 +36,30 @@ class Command(BaseCommand):
             except:
                 self.stderr.write(f'Unknown country code: [{ctry_code}]')
             else:
-                self.stdout.write(f'Generating XML file for {country}:')
-                start_at = datetime.now()
-
                 creator = AccrediationXMLCreatorV2(country, baseurl=options.get('base'), check=not options['force'])
+                start_at = datetime.now()
                 file_path = os.path.join(base_dir, f'{country.iso_3166_alpha2}.xml')
+                new_mtime = creator.get_mtime()
+
+                self.stdout.write(f'\nProcessing XML file for {country} ({file_path}):')
+
+                if os.path.isfile(file_path):
+                    if int(new_mtime.timestamp()) == int(os.path.getmtime(file_path)):
+                        self.stdout.write(self.style.SUCCESS(f'  - Last-Modified: {new_mtime} (unchanged)'))
+                        continue
+                    else:
+                        self.stdout.write(self.style.WARNING(f'  - Last-Modified: {datetime.fromtimestamp(os.path.getmtime(file_path))} -> {new_mtime}'))
+                else:
+                    self.stdout.write(self.style.WARNING(f'  - Last-Modified: {new_mtime} (new file)'))
+
                 with open(file_path, 'wb') as f:
                     f.write(etree.tostring(creator.create(), encoding='utf8'))
 
                 done_at = datetime.now()
                 duration = done_at - start_at
 
-                self.stdout.write(f'  - saved as: {file_path}')
                 self.stdout.write(f'  - file size: {os.path.getsize(file_path)}')
                 self.stdout.write(f'  - generation time: {duration}')
-                self.stdout.write(f'  - Last-Modified: {creator.last_modified}')
 
-                os.utime(file_path, (int(done_at.timestamp()), int(creator.last_modified.timestamp())))
+                os.utime(file_path, (int(done_at.timestamp()), int(new_mtime.timestamp())))
 

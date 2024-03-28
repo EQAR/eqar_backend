@@ -66,8 +66,6 @@ class AccrediationXMLCreatorV2:
         self.orgReferences = etree.SubElement(self.root, f"{self.NS}agentReferences")
         self.locationReferences = etree.SubElement(self.root, f"{self.NS}locationReferences")
 
-        self.last_modified = datetime.fromtimestamp(0)
-
     def build_absolute_uri(self, path):
         if self.request is not None:
             return self.request.build_absolute_uri(path)
@@ -80,6 +78,15 @@ class AccrediationXMLCreatorV2:
         self.collect_reports()
         self.create_xml()
         return self.validate_xml()
+
+    def get_mtime(self):
+        self.collect_reports()
+        last_modified = datetime.fromtimestamp(0)
+        for report in self.reports.iterator():
+            # update last modified
+            if report.updated_at > last_modified:
+                last_modified = report.updated_at
+        return last_modified
 
     def collect_reports(self):
         institutions = Institution.objects.filter(
@@ -116,10 +123,6 @@ class AccrediationXMLCreatorV2:
 
             # Create accreditation records
             self.add_accreditation()
-
-            # update last modified
-            if report.updated_at > self.last_modified:
-                self.last_modified = report.updated_at
 
         # Create orgs and organisations
         self.add_agencies()
