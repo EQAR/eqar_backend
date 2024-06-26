@@ -32,7 +32,7 @@ django-suit==0.2.26
 git+https://github.com/coredumperror/django-suit-ckeditor@master#egg=django-suit-ckeditor
 django-templated-mail==1.1.1
 django-unused-media==0.1.12
-djangorestframework==3.12.4
+djangorestframework==3.15.2
 djangorestframework-filters==1.0.0.dev2
 djangorestframework-simplejwt==4.8.0
 djangorestframework-stubs==0.4.2
