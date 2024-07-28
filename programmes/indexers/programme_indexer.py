@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db.models import Q
+from django.core.exceptions import ImproperlyConfigured
 
 import meilisearch
 
@@ -12,14 +13,17 @@ class ProgrammeIndexer:
     """
     Index Programme with Meilisearch
     """
-    meili_index = 'programmes-v3'
     serializer = ProgrammeIndexerSerializer
 
     def __init__(self, programme_id):
+        if hasattr(settings, "MEILI_API_URL"):
+            meili_url = getattr(settings, "MEILI_API_URL")
+            meili_key = getattr(settings, "MEILI_API_KEY", None)
+            self.meili_index = getattr(settings, "MEILI_INDEX_PROGRAMMES", 'programmes-v3')
+            self.meili = meilisearch.Client(meili_url, meili_key)
+        else:
+            raise ImproperlyConfigured("Meilisearch not configured")
         self.programme = Programme.objects.get(pk=programme_id)
-        meili_url = getattr(settings, "MEILI_API_URL", "http://meili:7700")
-        meili_key = getattr(settings, "MEILI_API_KEY", None)
-        self.meili = meilisearch.Client(meili_url, meili_key)
 
     def index(self):
         doc = self.serializer(self.programme).data
