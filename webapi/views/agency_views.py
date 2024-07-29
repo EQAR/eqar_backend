@@ -6,10 +6,12 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 
-from agencies.models import Agency, AgencyEQARDecision
+from agencies.models import Agency, AgencyEQARDecision, AgencyESGActivity
 from webapi.inspectors.agency_list_inspector import AgencyListInspector
 from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
-    AgencyListByFocusCountrySerializer, AgencyEQARDecisionListSerializer
+    AgencyListByFocusCountrySerializer, AgencyEQARDecisionListSerializer, \
+    AgencyActivityDEQARConnectListSerializer
+
 
 AGENCY_REGISTERED_CHOICES = (
     ('True', 'True'),
@@ -117,3 +119,12 @@ class AgencyDecisionList(generics.ListAPIView):
     queryset = AgencyEQARDecision.objects.all().order_by('-decision_date', 'agency__acronym_primary')
     serializer_class = AgencyEQARDecisionListSerializer
     pagination_class = None
+
+
+class AgencyActivityList(generics.ListAPIView):
+    """
+    Returns a list of all ESG activities
+    """
+    serializer_class = AgencyActivityDEQARConnectListSerializer
+    queryset = AgencyESGActivity.objects.all()
+
