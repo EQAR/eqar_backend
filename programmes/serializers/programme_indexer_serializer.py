@@ -106,6 +106,8 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
     programme_type = serializers.SerializerMethodField()
     degree_outcome = serializers.StringRelatedField()
     qf_ehea_level = serializers.StringRelatedField()
+    assessment_certification = serializers.StringRelatedField()
+    learning_outcomes = serializers.SlugRelatedField(slug_field='learning_outcome_esco', many=True, read_only=True, source='programmelearningoutcome_set')
 
     def get_name_primary(self, obj):
         return obj.programmename_set.get(name_is_primary=True).name
@@ -123,6 +125,10 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
                     'workload_ects',
                     'degree_outcome',
                     'programme_type',
+                    'assessment_certification',
+                    'learning_outcomes',
+                    'learning_outcome_description',
+                    'field_study',
                     'report',
                 ]
 
