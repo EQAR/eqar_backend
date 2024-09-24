@@ -104,26 +104,36 @@ class OrgRegSynchronizer:
                     self.get_orgreg_record(orgreg_id)
                     base_data = self.orgreg_record['BAS'][0]['BAS']
                     if 'DEQARID' in base_data.keys():
-                        deqar_id = base_data['DEQARID']['v']
-                        try:
-                            self.inst = Institution.objects.get(deqar_id=deqar_id)
+                        # Check if DEQAR ID value exists in OrgReg
+                        if 'v' in base_data['DEQARID'].keys():
+                            deqar_id = base_data['DEQARID']['v']
+                            # Check if Institution can be resolved via DEQAR ID from OrgReg
+                            try:
+                                self.inst = Institution.objects.get(deqar_id=deqar_id)
 
-                            # If there is no OrgReg ID present, set it up
-                            if not self.inst.eter_id:
-                                self.inst.eter_id = orgreg_id
-                                self.inst.save()
-                                action = 'update'
+                                # If there is no OrgReg ID present, set it up
+                                if not self.inst.eter_id:
+                                    self.inst.eter_id = orgreg_id
+                                    self.inst.save()
+                                    action = 'update'
 
-                            # If there is, but not matching with the OrgReg one, raise error
-                            else:
-                                if self.inst.eter_id != orgreg_id:
-                                    self.report.add_report_line(
-                                        "%s**ERROR - Institution was located with DEQARID (%s), but it's OrgReg id does not match with the one stored in OrgReg. Skipping.%s"
-                                        % (self.colours['ERROR'], deqar_id, self.colours['END']))
-                                    self.report.print_and_reset_report()
-                                    continue
-                        except ObjectDoesNotExist:
+                                # If there is, but not matching with the OrgReg one, raise error
+                                else:
+                                    if self.inst.eter_id != orgreg_id:
+                                        self.report.add_report_line(
+                                            "%s**ERROR - Institution was located with DEQARID (%s), but it's OrgReg id does not match with the one stored in OrgReg. Skipping.%s"
+                                            % (self.colours['ERROR'], deqar_id, self.colours['END']))
+                                        self.report.print_and_reset_report()
+                                        continue
+                            # No Institution record by DEQAR ID from OrgReg
+                            except ObjectDoesNotExist:
+                                action = 'add'
+                        # No 'v' key in DEQAR ID object in OrgReg
+                        else:
                             action = 'add'
+                    # No 'DEQARID' key in base data
+                    else:
+                        action = 'add'
 
                 except MultipleObjectsReturned:
                     self.report.add_report_line(
