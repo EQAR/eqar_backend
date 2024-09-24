@@ -54,6 +54,8 @@ class ReportSerializer(serializers.ModelSerializer):
     valid_from = UnixTimestampDateField()
     valid_to = UnixTimestampDateField()
     valid_to_calculated = serializers.SerializerMethodField()
+    created_at = UnixTimestampDateField()
+    updated_at = UnixTimestampDateField()
     report_files = ReportFileSerializer(source='reportfile_set', read_only=True, many=True)
     report_links = ReportLinkSerializer(source='reportlink_set', read_only=True, many=True)
 
@@ -82,6 +84,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'agency_esg_activity',
             'decision', 'status',
             'valid_from', 'valid_to', 'valid_to_calculated',
+            'created_at', 'updated_at',
             'crossborder',
             'report_files',
             'report_links',
