@@ -113,6 +113,10 @@ class OrgRegSynchronizer:
 
                                 # If there is no OrgReg ID present, set it up
                                 if not self.inst.eter_id:
+                                    self.report.add_report_line(
+                                        "%s**NOTICE - Institution %s newly added to OrgReg (with DEQARINST ID), OrgReg ID %s saved.%s" %
+                                        (self.colours['WARNING'], deqar_id, orgreg_id, self.colours['END'])
+                                    )
                                     self.inst.eter_id = orgreg_id
                                     self.inst.save()
                                     action = 'update'
