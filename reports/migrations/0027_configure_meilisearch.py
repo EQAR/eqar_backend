@@ -51,6 +51,12 @@ def configure_index(apps, schema_editor):
                 'valid_to_calculated',
                 'institutions.name_sort',
             ],
+            'faceting': {
+                'maxValuesPerFacet': 200,
+            },
+            'pagination': {
+                'maxTotalHits': 200000,
+            },
         })
 
 

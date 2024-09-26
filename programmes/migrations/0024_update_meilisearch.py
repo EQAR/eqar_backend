@@ -36,6 +36,9 @@ def update_index(apps, schema_editor):
                 'report.created_at',
                 'report.updated_at',
             ],
+            'faceting': {
+                'maxValuesPerFacet': 200,
+            },
         })
 
 
