@@ -107,7 +107,7 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
     names = ProgrammeNameSerializer(source='programmename_set', read_only=True, many=True)
     name_primary = serializers.SerializerMethodField()
     programme_type = serializers.SerializerMethodField()
-    degree_outcome = serializers.StringRelatedField()
+    degree_outcome = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     qf_ehea_level = serializers.StringRelatedField()
     assessment_certification = serializers.StringRelatedField()
     learning_outcomes = serializers.SlugRelatedField(slug_field='learning_outcome_esco', many=True, read_only=True, source='programmelearningoutcome_set')
