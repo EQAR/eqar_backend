@@ -384,10 +384,10 @@ class OrgRegSynchronizer:
                 # Handle update
                 else:
                     values_to_update = {
-                        'name_english': self._compare_data(iname.name_english, name_english),
-                        'name_official': self._compare_data(iname.name_official, name_official),
-                        'acronym': self._compare_data(iname.acronym, acronym),
-                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31')
+                        'name_english': self._compare_data(iname.name_english, name_english, update_null=True),
+                        'name_official': self._compare_data(iname.name_official, name_official, update_null=True),
+                        'acronym': self._compare_data(iname.acronym, acronym, update_null=True),
+                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31', update_null=True)
                     }
 
                     if self._check_update(values_to_update):
@@ -433,6 +433,24 @@ class OrgRegSynchronizer:
                             name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
                             name_source_note=source_note
                         )
+
+        # At the end of the run, check if there is one InstitutionName with null name_valid_to value. If there isn't
+        # set the one with the latest name_valid_to value to NULL.
+        if not self.dry_run:
+            if not InstitutionName.objects.filter(institution=self.inst, name_valid_to__isnull=True).exists():
+                instition_name = InstitutionName.objects.filter(
+                    institution=self.inst,
+                ).latest('name_valid_to')
+                if instition_name:
+                    self.report.add_report_line('**UPDATE DATE TO NULL - NAME RECORD')
+                    self.report.add_report_line(
+                        '**Because after sync, there were no active names with null name_valid_to value:')
+                    self.report.add_report_line('  Name English: %s' % instition_name.name_english)
+                    self.report.add_report_line('  Name Official: %s' % instition_name.name_official)
+                    self.report.add_report_line('  Valid To: %s' % None)
+                    
+                    instition_name.name_valid_to = None
+                    instition_name.save()
 
     def sync_locations(self, action):
         locations = self.orgreg_record['LOCAT']
@@ -1032,14 +1050,22 @@ class OrgRegSynchronizer:
             if not self.dry_run:
                 setattr(self.inst, field, compare_data['orgreg_value'])
 
-    def _compare_data(self, deqar_data, orgreg_data, is_float=False):
+    def _can_i_update(self, deqar_data, update_null):
+        if update_null:
+            return True
+        else:
+            if deqar_data:
+                return True
+        return False
+
+    def _compare_data(self, deqar_data, orgreg_data, is_float=False, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
             'log': deqar_data
         }
 
-        if deqar_data:
+        if self._can_i_update(deqar_data, update_null):
             if is_float:
                 if orgreg_data:
                     if not math.isclose(deqar_data, orgreg_data):
@@ -1054,7 +1080,7 @@ class OrgRegSynchronizer:
 
         return compare
 
-    def _compare_date_data(self, deqar_data, orgreg_data, suffix):
+    def _compare_date_data(self, deqar_data, orgreg_data, suffix, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
@@ -1062,23 +1088,30 @@ class OrgRegSynchronizer:
         }
 
         if orgreg_data['key'] != 'm':
-            if orgreg_data['value'] and deqar_data:
-                if deqar_data.year != orgreg_data['value']:
+            if orgreg_data['value'] and self._can_i_update(deqar_data, update_null):
+                # If we can update null values and deqar data is null
+                if update_null and not deqar_data:
                     compare['update'] = True
                     orgreg_data = suffix % orgreg_data['value']
                     compare['value'] = orgreg_data
                     compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+                else:
+                    if deqar_data.year != orgreg_data['value']:
+                        compare['update'] = True
+                        orgreg_data = suffix % orgreg_data['value']
+                        compare['value'] = orgreg_data
+                        compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
 
         return compare
 
-    def _compare_boolean_data(self, deqar_data, orgreg_data):
+    def _compare_boolean_data(self, deqar_data, orgreg_data, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
             'log': 'YES' if deqar_data else 'NO'
         }
 
-        if deqar_data:
+        if self._can_i_update(deqar_data, update_null):
             if deqar_data != orgreg_data:
                 compare['update'] = True
                 compare['value'] = orgreg_data
