@@ -272,7 +272,7 @@ class OrgRegSynchronizer:
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
-        update_null = Institution.objects.filter(institution=self.inst).count() < len(names)
+        update_null = InstitutionName.objects.filter(institution=self.inst).count() < len(names)
         for name in names:
             deleted = self._detect_deleted(name)
 
