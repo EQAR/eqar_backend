@@ -272,7 +272,11 @@ class OrgRegSynchronizer:
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
+
+        # Check the number of institutionName records in DEQAR. Only update null values,
+        # if there are more records in OrgReg
         update_null = InstitutionName.objects.filter(institution=self.inst).count() < len(names)
+
         for name in names:
             deleted = self._detect_deleted(name)
 
