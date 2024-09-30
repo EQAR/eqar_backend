@@ -272,6 +272,7 @@ class OrgRegSynchronizer:
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
+        update_null = Institution.objects.filter(institution=self.inst).count() < len(names)
         for name in names:
             deleted = self._detect_deleted(name)
 
@@ -384,10 +385,10 @@ class OrgRegSynchronizer:
                 # Handle update
                 else:
                     values_to_update = {
-                        'name_english': self._compare_data(iname.name_english, name_english, update_null=True),
-                        'name_official': self._compare_data(iname.name_official, name_official, update_null=True),
-                        'acronym': self._compare_data(iname.acronym, acronym, update_null=True),
-                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31', update_null=True)
+                        'name_english': self._compare_data(iname.name_english, name_english, update_null=update_null),
+                        'name_official': self._compare_data(iname.name_official, name_official, update_null=update_null),
+                        'acronym': self._compare_data(iname.acronym, acronym, update_null=update_null),
+                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31', update_null=update_null)
                     }
 
                     if self._check_update(values_to_update):
