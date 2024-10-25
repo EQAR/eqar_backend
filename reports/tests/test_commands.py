@@ -29,12 +29,12 @@ class ReportCommandsTest(TestCase):
     def test_reharvest_agency(self):
         out = StringIO()
         call_command('reharvest_reports', '--agency=EKKA', stdout=out)
-        self.assertEqual('', out.getvalue())
+        self.assertEqual('\nMissing: 0\nMissing, but not URL: 0\nWrong type: 0\nReharvest forced: 0\n', out.getvalue())
 
     def test_reharvest_report_wrong_id(self):
         with self.assertRaisesRegex(CommandError, 'Report ID "9999" does not exist'):
             call_command('reharvest_reports', '--report=9999')
 
     def test_reharvest_report_without_report_id_or_agency(self):
-        with self.assertRaisesRegex(CommandError, 'Report ID or Agency should be set.'):
+        with self.assertRaisesRegex(CommandError, 'Specify Agency, Report ID or --all.'):
             call_command('reharvest_reports')
