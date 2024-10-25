@@ -125,13 +125,17 @@ class OrgRegSynchronizer:
                                 else:
                                     if self.inst.eter_id != orgreg_id:
                                         self.report.add_report_line(
-                                            "%s**ERROR - Institution was located with DEQARID (%s), but it's OrgReg id does not match with the one stored in OrgReg. Skipping.%s"
-                                            % (self.colours['ERROR'], deqar_id, self.colours['END']))
+                                            "%s**ERROR - Institution %s was located with DEQARID %s, but that one has a different OrgReg ID recorded in DEQAR: %s. Skipping.%s"
+                                            % (self.colours['ERROR'], orgreg_id, deqar_id, self.inst.eter_id, self.colours['END']))
                                         self.report.print_and_reset_report()
                                         continue
                             # No Institution record by DEQAR ID from OrgReg
                             except ObjectDoesNotExist:
-                                action = 'add'
+                                self.report.add_report_line(
+                                    "%s**ERROR - Institution %s has an unknown DEQARID %s recorded in OrgReg. Skipping.%s"
+                                    % (self.colours['ERROR'], orgreg_id, deqar_id, self.colours['END']))
+                                self.report.print_and_reset_report()
+                                continue
                         # No 'v' key in DEQAR ID object in OrgReg
                         else:
                             action = 'add'
