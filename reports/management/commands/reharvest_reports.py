@@ -24,6 +24,8 @@ class Command(BaseCommand):
                             help='The acronym of the agency.')
         parser.add_argument('--force', '-f',
                             help='Force reharvest regardless of existing materials', action='store_true')
+        parser.add_argument('--check-type', '-t',
+                            help='Reharvest existing files that do not seem to be a PDF.', action='store_true')
         parser.add_argument('--dry-run', '-n',
                             help='Only log which files would be reharvested.', action='store_true')
         parser.add_argument('--sync', '-s',
@@ -31,9 +33,10 @@ class Command(BaseCommand):
         parser.add_argument('--delay', '-d',
                             help='In synchronous mode, wait N seconds between downloads.', type=float)
 
-    def handle(self, *args, report=None, agency=None, all=False, dry_run=False, force=False, sync=False, delay=None, verbosity, **options):
+    def handle(self, *args, report=None, agency=None, all=False, dry_run=False, force=False, check_type=False, sync=False, delay=None, verbosity, **options):
         self.force = force
         self.dry_run = dry_run
+        self.check_type = check_type
         self.sync = sync
         self.delay = delay
         self.verbosity = verbosity
@@ -95,23 +98,26 @@ class Command(BaseCommand):
                     self.count_missing += 1
             else:
                 if os.path.exists(rf.file.path):
-                    ft = filetype.guess(rf.file)
-                    if ft is None:
-                        self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} has unknown type'))
+                    if self.force:
                         harvest = True
-                        self.count_wrongtype += 1
-                    else:
-                        if ft.mime == 'application/pdf':
-                            if self.force:
-                                harvest = True
-                                self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} will be reharvested because --force/-f is set'))
-                                self.count_force += 1
-                            elif self.verbosity > 1:
-                                self.stdout.write(f'Report {report.id}, file {rf.id} at {rf.file.path} is a PDF')
-                        else:
-                            self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} is of type {ft.mime} instead of PDF'))
+                        self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} will be reharvested because --force/-f is set'))
+                        self.count_force += 1
+                    elif self.check_type:
+                        ft = filetype.guess(rf.file)
+                        if ft is None:
+                            self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} has unknown type'))
                             harvest = True
                             self.count_wrongtype += 1
+                        else:
+                            if ft.mime == 'application/pdf':
+                                if self.verbosity > 1:
+                                    self.stdout.write(f'Report {report.id}, file {rf.id} at {rf.file.path} is a PDF')
+                            else:
+                                self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} at {rf.file.path} is of type {ft.mime} instead of PDF'))
+                                harvest = True
+                                self.count_wrongtype += 1
+                    elif self.verbosity > 1:
+                        self.stdout.write(f'Report {report.id}, file {rf.id} at {rf.file.path} exists')
                 else:
                     if rf.file_original_location == '':
                         self.stdout.write(self.style.WARNING(f'Report {report.id}, file {rf.id} is missing but has no source URL'))
