@@ -152,6 +152,16 @@ class OrgRegSynchronizer:
 
                 self.get_orgreg_record(orgreg_id)
 
+                # Check if DEQARINST IDs match
+                base_data = self.orgreg_record['BAS'][0]['BAS']
+                if 'DEQARID' in base_data.keys() and 'v' in base_data['DEQARID'].keys():
+                    if self.inst.deqar_id != base_data['DEQARID']['v']:
+                        self.report.add_report_line(
+                            "%s**ERROR - OrgReg ID %s is recorded for %s, but mismatches DEQARINST ID in OrgReg: %s. Skipping.%s"
+                            % (self.colours['ERROR'], orgreg_id, self.inst.deqar_id, base_data['DEQARID']['v'], self.colours['END']))
+                        self.report.print_and_reset_report()
+                        continue
+
                 if action == 'add':
                     self.create_institution_record(orgreg_id)
                     self.inst.create_deqar_id()
