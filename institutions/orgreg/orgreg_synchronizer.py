@@ -125,13 +125,17 @@ class OrgRegSynchronizer:
                                 else:
                                     if self.inst.eter_id != orgreg_id:
                                         self.report.add_report_line(
-                                            "%s**ERROR - Institution was located with DEQARID (%s), but it's OrgReg id does not match with the one stored in OrgReg. Skipping.%s"
-                                            % (self.colours['ERROR'], deqar_id, self.colours['END']))
+                                            "%s**ERROR - Institution %s was located with DEQARID %s, but that one has a different OrgReg ID recorded in DEQAR: %s. Skipping.%s"
+                                            % (self.colours['ERROR'], orgreg_id, deqar_id, self.inst.eter_id, self.colours['END']))
                                         self.report.print_and_reset_report()
                                         continue
                             # No Institution record by DEQAR ID from OrgReg
                             except ObjectDoesNotExist:
-                                action = 'add'
+                                self.report.add_report_line(
+                                    "%s**ERROR - Institution %s has an unknown DEQARID %s recorded in OrgReg. Skipping.%s"
+                                    % (self.colours['ERROR'], orgreg_id, deqar_id, self.colours['END']))
+                                self.report.print_and_reset_report()
+                                continue
                         # No 'v' key in DEQAR ID object in OrgReg
                         else:
                             action = 'add'
@@ -147,6 +151,16 @@ class OrgRegSynchronizer:
                     continue
 
                 self.get_orgreg_record(orgreg_id)
+
+                # Check if DEQARINST IDs match
+                base_data = self.orgreg_record['BAS'][0]['BAS']
+                if 'DEQARID' in base_data.keys() and 'v' in base_data['DEQARID'].keys():
+                    if self.inst.deqar_id != base_data['DEQARID']['v']:
+                        self.report.add_report_line(
+                            "%s**ERROR - OrgReg ID %s is recorded for %s, but mismatches DEQARINST ID in OrgReg: %s. Skipping.%s"
+                            % (self.colours['ERROR'], orgreg_id, self.inst.deqar_id, base_data['DEQARID']['v'], self.colours['END']))
+                        self.report.print_and_reset_report()
+                        continue
 
                 if action == 'add':
                     self.create_institution_record(orgreg_id)
@@ -272,6 +286,11 @@ class OrgRegSynchronizer:
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
+
+        # Check the number of institutionName records in DEQAR. Only update null values,
+        # if there are more records in OrgReg
+        update_null = InstitutionName.objects.filter(institution=self.inst).count() < len(names)
+
         for name in names:
             deleted = self._detect_deleted(name)
 
@@ -384,10 +403,10 @@ class OrgRegSynchronizer:
                 # Handle update
                 else:
                     values_to_update = {
-                        'name_english': self._compare_data(iname.name_english, name_english),
-                        'name_official': self._compare_data(iname.name_official, name_official),
-                        'acronym': self._compare_data(iname.acronym, acronym),
-                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31')
+                        'name_english': self._compare_data(iname.name_english, name_english, update_null=update_null),
+                        'name_official': self._compare_data(iname.name_official, name_official, update_null=update_null),
+                        'acronym': self._compare_data(iname.acronym, acronym, update_null=update_null),
+                        'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31', update_null=update_null)
                     }
 
                     if self._check_update(values_to_update):
@@ -433,6 +452,24 @@ class OrgRegSynchronizer:
                             name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
                             name_source_note=source_note
                         )
+
+        # At the end of the run, check if there is one InstitutionName with null name_valid_to value. If there isn't
+        # set the one with the latest name_valid_to value to NULL.
+        if not self.dry_run:
+            if not InstitutionName.objects.filter(institution=self.inst, name_valid_to__isnull=True).exists():
+                instition_name = InstitutionName.objects.filter(
+                    institution=self.inst,
+                ).latest('name_valid_to')
+                if instition_name:
+                    self.report.add_report_line('**UPDATE DATE TO NULL - NAME RECORD')
+                    self.report.add_report_line(
+                        '**Because after sync, there were no active names with null name_valid_to value:')
+                    self.report.add_report_line('  Name English: %s' % instition_name.name_english)
+                    self.report.add_report_line('  Name Official: %s' % instition_name.name_official)
+                    self.report.add_report_line('  Valid To: %s' % None)
+                    
+                    instition_name.name_valid_to = None
+                    instition_name.save()
 
     def sync_locations(self, action):
         locations = self.orgreg_record['LOCAT']
@@ -1032,14 +1069,22 @@ class OrgRegSynchronizer:
             if not self.dry_run:
                 setattr(self.inst, field, compare_data['orgreg_value'])
 
-    def _compare_data(self, deqar_data, orgreg_data, is_float=False):
+    def _can_i_update(self, deqar_data, update_null):
+        if update_null:
+            return True
+        else:
+            if deqar_data:
+                return True
+        return False
+
+    def _compare_data(self, deqar_data, orgreg_data, is_float=False, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
             'log': deqar_data
         }
 
-        if deqar_data:
+        if self._can_i_update(deqar_data, update_null):
             if is_float:
                 if orgreg_data:
                     if not math.isclose(deqar_data, orgreg_data):
@@ -1054,7 +1099,7 @@ class OrgRegSynchronizer:
 
         return compare
 
-    def _compare_date_data(self, deqar_data, orgreg_data, suffix):
+    def _compare_date_data(self, deqar_data, orgreg_data, suffix, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
@@ -1062,23 +1107,30 @@ class OrgRegSynchronizer:
         }
 
         if orgreg_data['key'] != 'm':
-            if orgreg_data['value'] and deqar_data:
-                if deqar_data.year != orgreg_data['value']:
+            if orgreg_data['value'] and self._can_i_update(deqar_data, update_null):
+                # If we can update null values and deqar data is null
+                if update_null and not deqar_data:
                     compare['update'] = True
                     orgreg_data = suffix % orgreg_data['value']
                     compare['value'] = orgreg_data
                     compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
+                else:
+                    if deqar_data.year != orgreg_data['value']:
+                        compare['update'] = True
+                        orgreg_data = suffix % orgreg_data['value']
+                        compare['value'] = orgreg_data
+                        compare['log'] = "%s <- %s" % (deqar_data, orgreg_data)
 
         return compare
 
-    def _compare_boolean_data(self, deqar_data, orgreg_data):
+    def _compare_boolean_data(self, deqar_data, orgreg_data, update_null=False):
         compare = {
             'update': False,
             'value': deqar_data,
             'log': 'YES' if deqar_data else 'NO'
         }
 
-        if deqar_data:
+        if self._can_i_update(deqar_data, update_null):
             if deqar_data != orgreg_data:
                 compare['update'] = True
                 compare['value'] = orgreg_data
