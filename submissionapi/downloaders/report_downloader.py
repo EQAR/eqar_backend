@@ -4,6 +4,7 @@ import datetime
 import os
 import re
 import requests
+import functools
 from django.conf import settings
 
 from reports.models import ReportFile
@@ -21,6 +22,10 @@ class ReportDownloader:
         self.agency_acronym = agency_acronym
         self.old_file_path = ""
         self.saved_file_path = ""
+        # session and HTTP defaults
+        self.session = requests.Session()
+        self.session.headers.update({'User-Agent': 'DEQAR File Downloader'})
+        self.session.request = functools.partial(self.session.request, timeout=getattr(settings, "REPORT_FILE_TIMEOUT", 5), allow_redirects=True)
 
     def download(self):
         if self._url_is_downloadable():
@@ -35,8 +40,7 @@ class ReportDownloader:
         self.old_file_path = rf.file.name
 
     def _download_file(self, local_filename):
-        headers = {'User-Agent': 'DEQAR File Downloader'}
-        r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
+        r = self.session.get(self.url, stream=True)
         if r.status_code == requests.codes.ok:
             rf = ReportFile.objects.get(pk=self.report_file_id)
             file_path = os.path.join(settings.MEDIA_ROOT, self.agency_acronym, local_filename)
@@ -68,7 +72,7 @@ class ReportDownloader:
         Checks if url contain a downloadable resource
         """
         headers = {'User-Agent': 'DEQAR File Downloader'}
-        h = requests.head(self.url, headers=headers, allow_redirects=True)
+        h = self.session.head(self.url)
 
         if h.status_code != 200:
             return False
@@ -78,7 +82,7 @@ class ReportDownloader:
 
         # Fallback to GET if HEAD content-type is not application/pdf
         if content_type != 'application/pdf':
-            r = requests.get(self.url, headers=headers, stream=True, allow_redirects=True)
+            r = self.session.get(self.url, stream=True)
             content_type = r.headers.get('content-type')
             if content_type != 'application/pdf':
                 return False
@@ -100,12 +104,12 @@ class ReportDownloader:
         file_name = self.report_file_id
 
         # Step 1A. - Get content-disposition
-        r = requests.head(self.url, allow_redirects=True)
+        r = self.session.head(self.url)
         fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
 
         # Step 1B. - Fallback to get request if head is not giving results.
         if not fn:
-            r = requests.get(self.url, allow_redirects=True)
+            r = self.session.get(self.url)
             fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
 
         if fn:
