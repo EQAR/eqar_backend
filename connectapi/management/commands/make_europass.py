@@ -24,6 +24,8 @@ class Command(BaseCommand):
                             help='The directory (relative to MEDIA_ROOT) where to place exported files.')
         parser.add_argument('--force', '-f',
                             help='Skip check against XSD files.', action='store_true')
+        parser.add_argument('--regenerate', '-r',
+                            help='Skip modification time check and always regenerate files.', action='store_true')
 
     def handle(self, *args, **options):
         # make export directory
@@ -46,7 +48,8 @@ class Command(BaseCommand):
                 if os.path.isfile(file_path):
                     if int(new_mtime.timestamp()) == int(os.path.getmtime(file_path)):
                         self.stdout.write(self.style.SUCCESS(f'  - Last-Modified: {new_mtime} (unchanged)'))
-                        continue
+                        if not options['regenerate']:
+                            continue
                     else:
                         self.stdout.write(self.style.WARNING(f'  - Last-Modified: {datetime.fromtimestamp(os.path.getmtime(file_path))} -> {new_mtime}'))
                 else:
