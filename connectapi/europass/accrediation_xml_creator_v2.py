@@ -99,6 +99,23 @@ class AccrediationXMLCreatorV2:
             ~Q(flag=3)
         ).order_by('id').distinct('id')
 
+    def collect_institution(self, iid):
+        # add institution to list for inclusion, recurse to children and parents
+        if iid not in self.institutions:
+            self.institutions.add(iid)
+
+            # Add child institutions
+            for ih in InstitutionHierarchicalRelationship.objects.filter(
+                institution_parent__id=iid,
+            ).exclude(relationship_type=1).values('institution_child_id').all():
+                self.collect_institution(ih['institution_child_id'])
+
+            # Add parent institutions
+            for ih in InstitutionHierarchicalRelationship.objects.filter(
+                institution_child__id=iid,
+            ).exclude(relationship_type=1).values('institution_parent_id').all():
+                self.collect_institution(ih['institution_parent_id'])
+
     def create_xml(self):
         for report in self.reports.iterator():
             self.current_report = report
@@ -107,19 +124,7 @@ class AccrediationXMLCreatorV2:
 
             # Prepare list for institutions
             for institution in report.institutions.values('id').all():
-                self.institutions.add(institution['id'])
-
-                # Add child institutions
-                for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_parent__id=institution['id'],
-                ).exclude(relationship_type=1).values('institution_child_id').all():
-                    self.institutions.add(ih['institution_child_id'])
-
-                # Add parent institutions
-                for ih in InstitutionHierarchicalRelationship.objects.filter(
-                    institution_child__id=institution['id']
-                ).exclude(relationship_type=1).values('institution_parent_id').all():
-                    self.institutions.add(ih['institution_parent_id'])
+                self.collect_institution(institution['id'])
 
             # Create accreditation records
             self.add_accreditation()
