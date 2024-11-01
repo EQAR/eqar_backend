@@ -230,6 +230,9 @@ class OrgRegSynchronizer:
             # WHED Code
             self._compare_identifiers('WHED', 'WHEDID')
 
+            # ROR ID
+            self._compare_identifiers('ROR', 'RORID')
+
             if self.inst_update:
                 if not self.dry_run:
                     self.inst.save()
