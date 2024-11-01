@@ -225,7 +225,7 @@ class OrgRegSynchronizer:
             self._update_base_data('website_link', compare)
 
             # Erasmus Code
-            self._compare_identifiers('Erasmus', 'ERASMUSCODE1420')
+            self._compare_identifiers('Erasmus', 'ERASMUSCODE2127')
 
             # WHED Code
             self._compare_identifiers('WHED', 'WHEDID')
