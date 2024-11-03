@@ -24,6 +24,8 @@ class Command(BaseCommand):
                             help='The directory (relative to MEDIA_ROOT) where to place exported files.')
         parser.add_argument('--force', '-f',
                             help='Skip check against XSD files.', action='store_true')
+        parser.add_argument('--regenerate', '-r',
+                            help='Skip modification time check and always regenerate files.', action='store_true')
 
     def handle(self, *args, **options):
         # make export directory
@@ -46,14 +48,23 @@ class Command(BaseCommand):
                 if os.path.isfile(file_path):
                     if int(new_mtime.timestamp()) == int(os.path.getmtime(file_path)):
                         self.stdout.write(self.style.SUCCESS(f'  - Last-Modified: {new_mtime} (unchanged)'))
-                        continue
+                        if not options['regenerate']:
+                            continue
                     else:
                         self.stdout.write(self.style.WARNING(f'  - Last-Modified: {datetime.fromtimestamp(os.path.getmtime(file_path))} -> {new_mtime}'))
                 else:
                     self.stdout.write(self.style.WARNING(f'  - Last-Modified: {new_mtime} (new file)'))
 
                 with open(file_path, 'wb') as f:
-                    f.write(etree.tostring(creator.create(), encoding='utf8'))
+                    output = creator.create()
+                    f.write(etree.tostring(output, encoding='utf8'))
+                    if output.tag == '{http://data.europa.eu/snb/model/ap/ams-constraints/}Accreditations':
+                        if options['force']:
+                            self.stdout.write(f'  - validation skipped (--force/-f)')
+                        else:
+                            self.stdout.write(self.style.SUCCESS(f'  - validated against XSD'))
+                    else:
+                        self.stdout.write(self.style.ERROR(f'  - validation error occured'))
 
                 done_at = datetime.now()
                 duration = done_at - start_at

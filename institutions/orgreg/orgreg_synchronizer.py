@@ -225,10 +225,13 @@ class OrgRegSynchronizer:
             self._update_base_data('website_link', compare)
 
             # Erasmus Code
-            self._compare_identifiers('Erasmus', 'ERASMUSCODE1420')
+            self._compare_identifiers('Erasmus', 'ERASMUSCODE2127')
 
             # WHED Code
             self._compare_identifiers('WHED', 'WHEDID')
+
+            # ROR ID
+            self._compare_identifiers('ROR', 'RORID')
 
             if self.inst_update:
                 if not self.dry_run:
