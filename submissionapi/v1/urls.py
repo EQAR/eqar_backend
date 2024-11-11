@@ -3,9 +3,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from submissionapi.views.csv_upload_report_view import SubmissionCSVView
-from submissionapi.views.report_file_upload_view import ReportFileUploadView
-from submissionapi.views.submission_report_view import SubmissionReportView, ReportDelete
+from submissionapi.v1.views.csv_upload_report_view import SubmissionCSVView
+from submissionapi.v1.views.report_file_upload_view import ReportFileUploadView
+from submissionapi.v1.views.submission_report_view import SubmissionReportView, ReportDelete
 
 schema_view = get_schema_view(
    openapi.Info(

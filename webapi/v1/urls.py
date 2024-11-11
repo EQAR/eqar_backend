@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from webapi.views.agency_views import *
-from webapi.views.country_views import *
-from webapi.views.institution_views import *
-from webapi.views.report_views import *
+from webapi.v1.views.agency_views import *
+from webapi.v1.views.country_views import *
+from webapi.v1.views.institution_views import *
+from webapi.v1.views.report_views import *
 
 app_name = 'webapi'
 

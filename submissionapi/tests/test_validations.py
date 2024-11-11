@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency
-from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
+from submissionapi.v1.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
 class SubmissionValidationTestCase(APITestCase):

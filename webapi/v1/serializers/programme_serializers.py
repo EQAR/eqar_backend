@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
 from programmes.models import Programme, ProgrammeName, ProgrammeIdentifier
-from lists.models import DegreeOutcome, Assessment
+from lists.models import Assessment
 
-from webapi.serializers.report_serializers import ReportSerializer
-from webapi.serializers.report_detail_serializers import DegreeOutcomeSerializer, ProgrammeLearningOutcomeSerializer
+from webapi.v1.serializers.report_serializers import ReportSerializer
+from webapi.v1.serializers.report_detail_serializers import DegreeOutcomeSerializer, ProgrammeLearningOutcomeSerializer
 
 
 class ProgrammeNameSerializer(serializers.ModelSerializer):

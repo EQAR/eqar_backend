@@ -10,8 +10,8 @@ from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from lists.models import PermissionType
 from webapi.inspectors.country_list_inspector import CountryListInspector
-from webapi.serializers.agency_serializers import AgencyFocusCountrySerializer
-from webapi.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
+from webapi.v1.serializers.agency_serializers import AgencyFocusCountrySerializer
+from webapi.v1.serializers.country_serializers import CountryDetailSerializer, CountryLargeListSerializer, \
     CountryReportListSerializer
 
 

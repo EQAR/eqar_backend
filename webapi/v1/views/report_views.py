@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404
 from institutions.models import Institution
 from programmes.models import Programme
 from reports.models import Report
-from webapi.serializers.programme_serializers import ProgrammeSerializer
-from webapi.serializers.report_serializers import ReportSerializer
+from webapi.v1.serializers.programme_serializers import ProgrammeSerializer
+from webapi.v1.serializers.report_serializers import ReportSerializer
 
 
 class ReportProgrammeListByInstitution(generics.ListAPIView):

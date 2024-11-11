@@ -4,11 +4,10 @@ from django.db.models import Q
 from datedelta import datedelta
 from rest_framework import serializers
 
-from institutions.models import Institution
 from reports.models import Report, ReportFile, ReportLink
 
-from webapi.serializers.report_detail_serializers import InstitutionSerializer
-from webapi.serializers.agency_serializers import ContributingAgencySerializer
+from webapi.v1.serializers.report_detail_serializers import InstitutionSerializer
+from webapi.v1.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class ReportLinkSerializer(serializers.ModelSerializer):

@@ -6,7 +6,7 @@ from lists.models import DegreeOutcome
 from programmes.models import Programme
 from reports.models import Report, ReportFile
 
-from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
+from submissionapi.v1.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
 class ResponseInstitutionSerializer(serializers.ModelSerializer):
