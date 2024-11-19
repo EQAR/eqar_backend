@@ -5,7 +5,7 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionN
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
     InstitutionOrganizationType
 from lists.models import IdentifierResource
-from webapi.serializers.country_serializers import CountryDetailSerializer
+from webapi.v1.serializers.country_serializers import CountryDetailSerializer
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):

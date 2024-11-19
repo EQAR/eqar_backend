@@ -8,8 +8,8 @@ from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName, Pro
 from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
 
-from webapi.serializers.report_v2_serializers import ReportFileSerializer, ReportLinkSerializer
-from webapi.serializers.agency_serializers import ContributingAgencySerializer
+from webapi.v2.serializers.report_serializers import ReportFileSerializer, ReportLinkSerializer
+from webapi.v1.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):

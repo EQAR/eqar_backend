@@ -4,13 +4,13 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from eqar_backend.schema_generator import HttpsSchemaGenerator
-from webapi.views.agency_views import AgencyList, AgencyDetail, AgencyListByFocusCountry, AgencyListByOriginCountry, \
+from webapi.v1.views.agency_views import AgencyList, AgencyDetail, AgencyListByFocusCountry, AgencyListByOriginCountry, \
     AgencyDecisionList, AgencyActivityList
-from webapi.views.country_views import CountryList, CountryDetail, CountryListByAgency, CountryListByReports
-from webapi.views.institution_v2_views import *
-from webapi.views.institution_views import InstitutionDetail
-from webapi.views.report_v2_search_views import ReportList
-from webapi.views.report_v2_views import *
+from webapi.v1.views.country_views import CountryList, CountryDetail, CountryListByAgency, CountryListByReports
+from webapi.v2.views.institution_views import *
+from webapi.v1.views.institution_views import InstitutionDetail
+from webapi.v2.views.report_search_views import ReportList
+from webapi.v2.views.report_views import *
 
 schema_view = get_schema_view(
     openapi.Info(

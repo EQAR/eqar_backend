@@ -14,7 +14,7 @@ from institutions.models import Institution
 from lists.models import QFEHEALevel
 from reports.models import ReportStatus
 from webapi.inspectors.institution_list_inspector import InstitutionListInspector
-from webapi.serializers.institution_v2_serializers import InstitutionListSerializer, InstitutionDetailSerializer
+from webapi.v2.serializers.institution_serializers import InstitutionListSerializer, InstitutionDetailSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):

@@ -8,10 +8,9 @@ from django_filters import rest_framework as filters
 
 from agencies.models import Agency, AgencyEQARDecision, AgencyESGActivity
 from webapi.inspectors.agency_list_inspector import AgencyListInspector
-from webapi.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
+from webapi.v1.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
     AgencyListByFocusCountrySerializer, AgencyEQARDecisionListSerializer, \
     AgencyActivityDEQARConnectListSerializer
-
 
 AGENCY_REGISTERED_CHOICES = (
     ('True', 'True'),

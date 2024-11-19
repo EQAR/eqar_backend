@@ -3,7 +3,7 @@ from rest_framework import serializers
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion
-from webapi.serializers.country_serializers import CountryQARequirementSerializer, CountryDetailSerializer
+from webapi.v1.serializers.country_serializers import CountryDetailSerializer
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):

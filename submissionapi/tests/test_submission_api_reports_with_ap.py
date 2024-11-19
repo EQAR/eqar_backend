@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import User
-from rest_framework.exceptions import ValidationError
 from rest_framework.test import APITestCase
 from django.test import RequestFactory
 
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency
-from submissionapi.serializers.submisson_serializers import SubmissionPackageSerializer
+from submissionapi.v1.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
 class SubmissionAPIReportTestWithAP(APITestCase):

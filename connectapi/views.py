@@ -6,7 +6,6 @@ from drf_yasg.utils import swagger_auto_schema
 from pysolr import SolrError
 from rest_framework import generics, permissions
 from rest_framework.generics import ListAPIView, get_object_or_404
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
@@ -19,8 +18,8 @@ from eqar_backend.searchers import Searcher
 from eqar_backend.xml_renderer import XMLRenderer
 from institutions.models import Institution
 from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
-from webapi.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
-from webapi.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
+from webapi.v1.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
+from webapi.v1.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):

@@ -3,7 +3,7 @@ from agencies.models import *
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution
 from reports.models import Report
-from webapi.serializers.country_serializers import CountryListSerializer
+from webapi.v1.serializers.country_serializers import CountryListSerializer
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):

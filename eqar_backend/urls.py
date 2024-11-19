@@ -5,10 +5,11 @@ from django.conf.urls.static import static
 from eqar_backend.admin import admin_site
 
 urlpatterns = [
-    url(r'^webapi/v1/', include('webapi.urls', namespace='webapi-v1')),
-    url(r'^webapi/v2/', include('webapi.urls_v2', namespace='webapi-v2')),
+    url(r'^webapi/v1/', include('webapi.v1.urls', namespace='webapi-v1')),
+    url(r'^webapi/v2/', include('webapi.v2.urls', namespace='webapi-v2')),
 
-    url(r'^submissionapi/v1/', include('submissionapi.urls', namespace='submissionapi-v1')),
+    url(r'^submissionapi/v1/', include('submissionapi.v1.urls', namespace='submissionapi-v1')),
+
     url(r'^adminapi/v1/', include('adminapi.urls', namespace='adminapi-v1')),
     url(r'^connectapi/v1/', include('connectapi.urls', namespace='connectapi-v1')),
 

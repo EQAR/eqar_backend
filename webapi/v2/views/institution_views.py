@@ -11,7 +11,6 @@ from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
@@ -20,7 +19,7 @@ from institutions.models import Institution, InstitutionIdentifier
 from lists.models import QFEHEALevel, IdentifierResource
 from reports.models import ReportStatus
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
-from webapi.serializers.institution_v2_serializers import InstitutionResourceSerializer, InstitutionDetailSerializer
+from webapi.v2.serializers.institution_serializers import InstitutionResourceSerializer, InstitutionDetailSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
