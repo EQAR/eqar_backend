@@ -41,8 +41,8 @@ class Command(BaseCommand):
             reports = Report.objects.all()
 
         self.stdout.write(f'Indexing {reports.count()} reports:')
+        indexer = ReportIndexer()
         for report in reports.iterator():
             self.stdout.write(f'- {report.id} {report.agency.acronym_primary}')
-            indexer = ReportIndexer(report.id)
-            indexer.index()
+            indexer.index(report.id)
 

@@ -15,7 +15,7 @@ class ProgrammeIndexer:
     """
     serializer = ProgrammeIndexerSerializer
 
-    def __init__(self, programme_id):
+    def __init__(self):
         if hasattr(settings, "MEILI_API_URL"):
             meili_url = getattr(settings, "MEILI_API_URL")
             meili_key = getattr(settings, "MEILI_API_KEY", None)
@@ -23,9 +23,12 @@ class ProgrammeIndexer:
             self.meili = meilisearch.Client(meili_url, meili_key)
         else:
             raise ImproperlyConfigured("Meilisearch not configured")
-        self.programme = Programme.objects.get(pk=programme_id)
 
-    def index(self):
-        doc = self.serializer(self.programme).data
+    def index(self, programme_id):
+        programme = Programme.objects.get(pk=programme_id)
+        doc = self.serializer(programme).data
         self.meili.index(self.meili_index).add_documents(doc)
+
+    def delete(self, programme_id):
+        self.meili.index(self.meili_index).delete_document(programme_id)
 

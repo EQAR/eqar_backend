@@ -105,15 +105,11 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
     report = ReportSerializer()
     institutions = serializers.PrimaryKeyRelatedField(source='report.institutions', read_only=True, many=True)
     names = ProgrammeNameSerializer(source='programmename_set', read_only=True, many=True)
-    name_primary = serializers.SerializerMethodField()
     programme_type = serializers.SerializerMethodField()
     degree_outcome = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     qf_ehea_level = serializers.StringRelatedField()
     assessment_certification = serializers.StringRelatedField()
     learning_outcomes = serializers.SlugRelatedField(slug_field='learning_outcome_esco', many=True, read_only=True, source='programmelearningoutcome_set')
-
-    def get_name_primary(self, obj):
-        return obj.programmename_set.get(name_is_primary=True).name
 
     def get_programme_type(self, obj):
         return obj.get_programme_type()

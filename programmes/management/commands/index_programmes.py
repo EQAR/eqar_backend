@@ -43,8 +43,8 @@ class Command(BaseCommand):
             programmes = Programme.objects.all()
 
         self.stdout.write(f'Indexing {programmes.count()} programmes:')
+        indexer = ProgrammeIndexer()
         for programme in programmes.iterator():
             self.stdout.write(f'- {programme.id} {programme.name_primary}')
-            indexer = ProgrammeIndexer(programme.id)
-            indexer.index()
+            indexer.index(programme.id)
 

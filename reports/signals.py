@@ -1,11 +1,12 @@
 import sys
 
+from django.db import transaction
 from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save, pre_delete
 from django.dispatch import receiver
 
 from reports.models import Report, ReportFile
 from institutions.models import Institution
-from reports.tasks import index_report, index_delete_report
+from reports.tasks import index_report, meili_index_report, index_delete_report, meili_delete_report
 from institutions.tasks import index_institution
 from submissionapi.tasks import download_file
 
@@ -16,13 +17,12 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
         institutions = Institution.objects.filter(pk__in=pk_set)
 
         if action == 'post_add':
-            for institution in institutions:
-                institution.has_report = True
-                institution.save()
+            institutions.update(has_report=True)
+            # deliberately avoids post_save signals and indexation, since institutions will be indexed anyhow on report save
         elif action == 'post_remove':
             for institution in institutions:
                 existing = institution.reports.count()
-                if existing == 0:
+                if institution.has_report and existing == 0:
                     institution.has_report = False
                     institution.save()
 
@@ -30,18 +30,17 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
 @receiver([post_save], sender=Report)
 def do_index_report(sender, instance, **kwargs):
     if 'test' not in sys.argv:
-        index_report.delay(instance.id)
+        transaction.on_commit(lambda: index_report.delay(instance.id))
+        transaction.on_commit(lambda: meili_index_report.delay(instance.id))
 
 
 @receiver([pre_delete], sender=Report)
 def do_delete_report(sender, instance, **kwargs):
-    index_delete_report.delay(instance.id)
-
-
-@receiver([post_save, post_delete], sender=Report)
-def do_index_institutions_upon_report_save(sender, instance, **kwargs):
-    for institution in instance.institutions.iterator():
-        index_institution.delay(institution.id)
+    report_id = instance.id
+    programme_ids = [ p.id for p in instance.programme_set.iterator() ]
+    institution_ids = [ i.id for i in instance.institutions.iterator() ]
+    transaction.on_commit(lambda: index_delete_report.delay(report_id))
+    transaction.on_commit(lambda: meili_delete_report.delay(report_id, programme_ids, institution_ids))
 
 
 @receiver([pre_save], sender=ReportFile)
