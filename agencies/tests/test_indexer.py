@@ -1,13 +1,21 @@
-import unittest
+from django.test import TestCase
+
 from unittest.mock import patch, MagicMock
 from agencies.indexers.agency_indexer import AgencyIndexer
 from agencies.models import Agency
 
-class TestAgencyIndexer(unittest.TestCase):
-    fixtures = ['agency_demo_01', 'country']
+class TestAgencyIndexer(TestCase):
+    fixtures = [
+        'country_qa_requirement_type', 'country', 'flag',
+        'agency_historical_field',
+        'agency_activity_type', 'agency_focus', 'permission_type',
+        'eqar_decision_type',
+        'agency_demo_01', 'association',
+        'submitting_agency_demo'
+    ]
 
     def setUp(self):
-        agency = Agency.objects.get(id=5)
+        agency = Agency.objects.get(pk=5)
         self.indexer = AgencyIndexer(agency)
 
     @patch('agencies.indexers.agency_indexer.pysolr.Solr.add')
@@ -24,7 +32,7 @@ class TestAgencyIndexer(unittest.TestCase):
         self.assertEqual(self.indexer.doc['name'], 'Accreditation, Certification and Quality Assurance Institute')
         self.assertEqual(self.indexer.doc['country'], 'Germany')
         self.assertEqual(self.indexer.doc['name_version_search'][1], 'Akkreditierungs-, Certifizierungs- und Qualitätssicherungsinstitut e.V.')
-        self.assertIn('Bulgaria', self.indexer.doc['focus_country_facet'])
+        self.assertIn('Hungary', self.indexer.doc['focus_country_facet'])
 
     def test_remove_duplicates(self):
         self.indexer.doc['name_version_search'] = ['name1', 'name1', 'name2']
