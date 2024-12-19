@@ -1,37 +1,57 @@
-from django.test import TestCase
-from django.db import models
+from django.test import TestCase, RequestFactory
+from drf_rw_serializers.generics import ListAPIView
+from rest_framework import serializers
 from rest_framework.test import APIRequestFactory
+from rest_framework.views import APIView
+from rest_framework.settings import api_settings
+from django.db import models
 from ..filters import CaseInsensitiveOrderingFilter
+from lists.models import Flag
+from rest_framework.request import Request
 
-# FILE: adminapi/test_filters.py
-
-
-# Test model
-class TestModel(models.Model):
-    name = models.CharField(max_length=100)
-
+class TestSerializer(serializers.ModelSerializer):
     class Meta:
-        ordering = ['name']
+        model = Flag
+        fields = ['flag']
+
+class TestView(ListAPIView):
+    permission_classes = []
+    authentication_classes = []
+    pagination_class = None
+    queryset = Flag.objects.all()
+    filter_backends = (CaseInsensitiveOrderingFilter,)
+    serializer_class = TestSerializer
 
 class CaseInsensitiveOrderingFilterTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        TestModel.objects.create(name='apple')
-        TestModel.objects.create(name='Banana')
-        TestModel.objects.create(name='cherry')
+    fixtures = ['flag']
 
     def setUp(self):
         self.factory = APIRequestFactory()
         self.filter = CaseInsensitiveOrderingFilter()
-
+        Flag.objects.create(flag='A first flag')
+        
     def test_ordering_asc(self):
-        request = self.factory.get('/test', {'ordering': 'name'})
-        queryset = TestModel.objects.all()
-        filtered_queryset = self.filter.filter_queryset(request, queryset, None)
-        self.assertEqual(list(filtered_queryset.values_list('name', flat=True)), ['apple', 'Banana', 'cherry'])
+        request = self.factory.get('/test', {'ordering': 'flag'})
+        view = TestView.as_view()
+        response = view(request)
+        self.assertEqual(
+            response.data[0]['flag'],
+            'A first flag'
+        )
+        self.assertEqual(
+            response.data[1]['flag'],
+            'high level'
+        )
 
     def test_ordering_desc(self):
-        request = self.factory.get('/test', {'ordering': '-name'})
-        queryset = TestModel.objects.all()
-        filtered_queryset = self.filter.filter_queryset(request, queryset, None)
-        self.assertEqual(list(filtered_queryset.values_list('name', flat=True)), ['cherry', 'Banana', 'apple'])
+        request = self.factory.get('/test', {'ordering': '-flag'})
+        view = TestView.as_view()
+        response = view(request)
+        self.assertEqual(
+            response.data[0]['flag'],
+            'none'
+        )
+        self.assertEqual(
+            response.data[1]['flag'],
+            'low level'
+        )
