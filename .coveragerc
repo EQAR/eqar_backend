@@ -1,5 +1,6 @@
 [report]
 omit =
     manage.py
+    */apps.py
     eqar_backend/wsgi.py
     */management/commands/*
