@@ -2,5 +2,6 @@
 omit =
     manage.py
     */apps.py
+    */tasks.py
     eqar_backend/wsgi.py
     */management/commands/*
