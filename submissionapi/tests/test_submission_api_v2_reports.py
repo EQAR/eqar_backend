@@ -42,7 +42,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
         """
         DEQARProfile.objects.create(user=self.user, submitting_agency_id=1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.delete('/submissionapi/v1/delete/report/2/')
+        response = self.client.delete('/submissionapi/v2/delete/report/2/')
         self.assertEqual(response.status_code, 200)
         report = Report.objects.get(pk=2)
         flag = report.reportflag_set.first()
@@ -56,7 +56,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
         submitting_agency = SubmittingAgency.objects.create(agency=Agency.objects.get(pk=2))
         DEQARProfile.objects.create(user=self.user, submitting_agency=submitting_agency)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.delete('/submissionapi/v1/delete/report/2/')
+        response = self.client.delete('/submissionapi/v2/delete/report/2/')
         self.assertEqual(response.status_code, 403)
 
 
@@ -66,7 +66,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
         """
         DEQARProfile.objects.create(user=self.user, submitting_agency_id=1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.delete('/submissionapi/v1/delete/report/19/')
+        response = self.client.delete('/submissionapi/v2/delete/report/19/')
         self.assertEqual(response.status_code, 404)
 
 
@@ -77,5 +77,5 @@ class SubmissionAPIV2ReportTest(APITestCase):
         submitting_agency = SubmittingAgency.objects.create(agency=Agency.objects.get(pk=2))
         DEQARProfile.objects.create(user=self.user, submitting_agency=submitting_agency)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.delete('/submissionapi/v1/delete/report/19/')
+        response = self.client.delete('/submissionapi/v2/delete/report/19/')
         self.assertEqual(response.status_code, 404)
