@@ -703,7 +703,7 @@ class SubmissionV1ValidationTestCase(APITestCase):
         Test if serializer rejects recrods with wrong QF EHEA string.
         """
         data = self.valid_data
-        data['programmes'][0].update({'qf_ehea_levels': '1st cycle'})
+        data['programmes'][0].update({'qf_ehea_level': '1st cycle'})
         serializer = SubmissionPackageSerializer(data=data, context={'request': self.request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
