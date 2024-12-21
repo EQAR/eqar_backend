@@ -8,7 +8,7 @@ from agencies.models import SubmittingAgency
 from submissionapi.v1.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
-class SubmissionAPIReportTestWithAP(APITestCase):
+class SubmissionAPIV1ReportTestWithAP(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',

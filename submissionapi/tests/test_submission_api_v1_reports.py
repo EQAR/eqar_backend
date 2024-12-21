@@ -7,7 +7,7 @@ from agencies.models import SubmittingAgency, Agency
 from reports.models import Report
 
 
-class SubmissionAPIReportTest(APITestCase):
+class SubmissionAPIV1ReportTest(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',

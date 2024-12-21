@@ -22,6 +22,17 @@ class ReportPopulator():
         self._report_link_upsert()
         self._report_file_upsert()
 
+    def create(self):
+        self._report_create()
+        self._report_link_upsert()
+        self._report_file_upsert()
+
+    def update(self):
+        self.get_report_if_exists()
+        self._report_update()
+        self._report_link_upsert()
+        self._report_file_upsert()
+
     def get_report_if_exists(self):
         """
         Checks if there is a record existing with the submitted report_id or local identifier.
@@ -38,53 +49,60 @@ class ReportPopulator():
             except ObjectDoesNotExist:
                 self.report = None
 
-    def _report_upsert(self):
-        """
-        Create or update a Report record.
-        """
+    def _report_create(self):
         activity = self.submission.get('esg_activity', None)
         report_name = activity.activity + ' (by ' + self.agency.acronym_primary + ')'
 
-        # Update report
-        if self.report is not None:
-            self.report.name = report_name
-            self.report.agency = self.agency
-            self.report.local_identifier = self.submission.get('local_identifier', None)
-            self.report.agency_esg_activity = activity
-            self.report.status = self.submission.get('status', None)
-            self.report.decision = self.submission.get('decision', None)
-            self.report.valid_from = self.submission.get('valid_from', None)
-            self.report.valid_to = self.submission.get('valid_to', None)
-            self.report.updated_by = self.user
-            self.report.updated_at = datetime.now()
-            self.report.other_comment = self.submission.get('other_comment', None)
-            self.report.summary = self.submission.get('summary', None)
+        self.report = Report(
+            name=report_name,
+            agency=self.agency,
+            local_identifier=self.submission.get('local_identifier', None),
+            agency_esg_activity=self.submission.get('esg_activity', None),
+            status=self.submission.get('status', None),
+            decision=self.submission.get('decision', None),
+            valid_from=self.submission.get('valid_from', None),
+            valid_to=self.submission.get('valid_to', None),
+            created_by=self.user,
+            other_comment=self.submission.get('other_comment', None),
+            summary=self.submission.get('summary', None)
+        )
+        self.report.save()
+        self.report.contributing_agencies.clear()
+        self._assign_contributing_agencies()
 
-            # Report.contributing_agencies.through.objects.all().delete()
-            self.report.contributing_agencies.clear()
+    def _report_update(self):
+        activity = self.submission.get('esg_activity', None)
 
-        # Create report
-        else:
-            self.report = Report(
-                name=report_name,
-                agency=self.agency,
-                local_identifier=self.submission.get('local_identifier', None),
-                agency_esg_activity=self.submission.get('esg_activity', None),
-                status=self.submission.get('status', None),
-                decision=self.submission.get('decision', None),
-                valid_from=self.submission.get('valid_from', None),
-                valid_to=self.submission.get('valid_to', None),
-                created_by=self.user,
-                other_comment=self.submission.get('other_comment', None),
-                summary=self.submission.get('summary', None)
-            )
+        self.report.name = activity.activity + ' (by ' + self.agency.acronym_primary + ')'
+        self.report.agency = self.agency
+        self.report.local_identifier = self.submission.get('local_identifier', None)
+        self.report.agency_esg_activity = activity
+        self.report.status = self.submission.get('status', None)
+        self.report.decision = self.submission.get('decision', None)
+        self.report.valid_from = self.submission.get('valid_from', None)
+        self.report.valid_to = self.submission.get('valid_to', None)
+        self.report.updated_by = self.user
+        self.report.updated_at = datetime.now()
+        self.report.other_comment = self.submission.get('other_comment', None)
+        self.report.summary = self.submission.get('summary', None)
+        self.report.save()
+        self._assign_contributing_agencies()
 
-        # Assign contributing agencies
+    def _assign_contributing_agencies(self):
         contributing_agencies = self.submission.get('contributing_agencies', [])
         for contributing_agency in contributing_agencies:
             self.report.contributing_agencies.add(contributing_agency)
 
-        self.report.save()
+    def _report_upsert(self):
+        """
+        Create or update a Report record.
+        """
+        # Update report
+        if self.report is not None:
+            self._report_update()
+        # Create report
+        else:
+            self._report_create()
 
     def _report_link_upsert(self):
         """

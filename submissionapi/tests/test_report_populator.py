@@ -5,7 +5,7 @@ from django.test import TestCase
 from agencies.models import Agency, AgencyESGActivity
 from lists.models import Language
 from reports.models import ReportStatus, ReportDecision, Report
-from submissionapi.populators.report_populator import ReportPopulator
+from submissionapi.populators.populator import ReportPopulator
 
 
 class ReportPopulatorTestCase(TestCase):
