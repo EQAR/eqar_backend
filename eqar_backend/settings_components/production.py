@@ -31,6 +31,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Brussels'
 
+# Meilisearch
+MEILI_API_URL = "http://localhost:7700"
+
 USE_TZ = False
 
 DJOSER = {

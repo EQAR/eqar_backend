@@ -1,15 +1,12 @@
 from django.db import migrations
 from django.conf import settings
 
-import meilisearch
+from eqar_backend.meilisearch import MeiliClient
 
 def update_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
-        url = getattr(settings, "MEILI_API_URL")
-        key = getattr(settings, "MEILI_API_KEY", None)
-        index = getattr(settings, "MEILI_INDEX_PROGRAMMES", 'programmes-v3')
-        meili = meilisearch.Client(url, key)
-        meili.index(index).update_settings({
+        meili = MeiliClient()
+        meili.update_settings(meili.INDEX_PROGRAMMES, {
             'filterableAttributes': [
                 'degree_outcome',
                 'programme_type',

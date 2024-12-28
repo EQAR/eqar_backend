@@ -15,6 +15,9 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
       - image: cimg/redis:5.0
+      - image: getmeili/meilisearch:v1.7
+        environment:
+          MEILI_ENV: development
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -27,6 +30,9 @@ jobs:
       - run:
           name: Wait for redis
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
+      - run:
+          name: Wait for Meilisearch
+          command: dockerize -wait tcp://localhost:7700 -timeout 1m
       - run:
           command: |
             python -m venv .python3
