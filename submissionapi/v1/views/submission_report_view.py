@@ -102,10 +102,12 @@ class SubmissionReportView(APIView):
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
                 tracker.log_report(populator, flagger)
+
                 send_submission_email.delay(response=[self.make_success_response(populator, flagger)],
                                             institution_id_max=max_inst,
                                             total_submission=1,
                                             agency_email=request.user.email)
+            
                 # Add log entry
                 ReportUpdateLog.objects.create(
                     report=populator.report,

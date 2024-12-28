@@ -212,7 +212,10 @@ class AgencyESGActivity(models.Model):
     activity_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.activity_display
+        if self.activity_display:
+            return self.activity_display
+        else:
+            return self.activity
 
     def set_activity_display(self):
         self.activity_display = "%s -> %s (%s)" % (self.agency.acronym_primary, self.activity, self.activity_type)
