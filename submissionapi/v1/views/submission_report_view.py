@@ -107,7 +107,7 @@ class SubmissionReportView(APIView):
                                             institution_id_max=max_inst,
                                             total_submission=1,
                                             agency_email=request.user.email)
-            
+
                 # Add log entry
                 ReportUpdateLog.objects.create(
                     report=populator.report,
