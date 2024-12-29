@@ -102,3 +102,18 @@ class SubmissionAPIV1ReportTest(APITestCase):
         )
         self.assertEqual(response.status_code, 400, response.data)
         self.assertEqual(response.data['submission_status'], 'errors')
+
+    def test_multiple_report_submission_not_ok(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data1 = self.valid_data
+        data1['agency'] = "invalid agency"
+        data2 = self.valid_data
+        data2['valid_from'] = "2010-05-01"
+        data_multiple = [data1, data2]
+        response = self.client.post(
+            '/submissionapi/v1/submit/report',
+            data=data_multiple,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+        self.assertEqual(response.data[0]['submission_status'], 'errors')
