@@ -76,6 +76,7 @@ class SubmissionAPIV1ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
 
     def test_multiple_report_submission_ok(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
@@ -88,3 +89,16 @@ class SubmissionAPIV1ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data[0]['submission_status'], 'success')
+
+    def test_one_report_submission_not_ok(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = self.valid_data
+        data['agency'] = "invalid agency"
+        response = self.client.post(
+            '/submissionapi/v1/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+        self.assertEqual(response.data['submission_status'], 'errors')
