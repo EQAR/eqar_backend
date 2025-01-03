@@ -45,12 +45,15 @@ class ResponseCSVReportSerializer(serializers.ModelSerializer):
 class ResponseReportSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
     contributing_agencies = serializers.SlugRelatedField(many=True, slug_field="acronym_primary", queryset=Agency.objects.all())
-    agency_esg_activity = serializers.StringRelatedField()
+    agency_esg_activity = serializers.SerializerMethodField()
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     files = ResponseReportFileSerializer(many=True, source='reportfile_set')
     institutions = ResponseInstitutionSerializer(many=True)
     programmes = ResponseProgrammeSerializer(many=True, source='programme_set')
+
+    def get_agency_esg_activity(self, obj):
+        return obj.agency_esg_activities.first()
 
     class Meta:
         model = Report

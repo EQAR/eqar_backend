@@ -100,7 +100,7 @@ class ReportDownloaderTestCase(TestCase):
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        downloader._get_old_file_path()
+        downloader._get_old_file_info()
         self.assertEqual(downloader.old_file_path, "")
 
     def test_get_old_file_path_exists(self):
@@ -110,5 +110,5 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         downloader.download()
-        downloader._get_old_file_path()
+        downloader._get_old_file_info()
         self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.old_file_path)

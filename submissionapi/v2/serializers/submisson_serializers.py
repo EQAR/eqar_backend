@@ -6,6 +6,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import ListField
 
+from adminapi.fields import PDFBase64File
 from agencies.models import AgencyESGActivity
 from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
@@ -272,7 +273,25 @@ class ReportFileSerializer(serializers.Serializer):
     report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True,
                                             label='Language(s) of the report',
                                             help_text='example: ["eng", "ger"]')
+    file = PDFBase64File(required=False, label='The report file in PDF format encoded with Base64')
+    file_name = serializers.CharField(required=False, max_length=255, allow_blank=True,
+                                      label='The name of the file, required if you embed the file in the upload request',
+                                      help_text='example: ACQUIN_institutional_report.pdf')
 
+    def validate(self, data):
+        file = data.get('file', None)
+        file_name = data.get('file_name', None)
+
+        original_location = data.get('original_location', None)
+
+        if file:
+            if not file_name or file_name == '':
+                raise ValidationError("Please provide a file name for the uploaded file.")
+
+            if original_location:
+                raise ValidationError("You cannot submit both a file and an original_location URL.")
+
+        return super(ReportFileSerializer, self).validate(data)
 
 class ReportLinkSerializer(serializers.Serializer):
     link = serializers.URLField(max_length=255, required=True,

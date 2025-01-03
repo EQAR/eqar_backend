@@ -25,8 +25,14 @@ app_name = 'submissionapi'
 urlpatterns = [
     url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
     url(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
+
+    # /submit/report-file/create/<report_id>
+    # /submit/report-file/update/<reportfile_id>
+    # /submit/report-file/delete/<reportfile_id>
+
     url(r'^submit/reportfile/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$', ReportFileUploadView.as_view(),
         name='upload-report_file'),
+
     url(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),

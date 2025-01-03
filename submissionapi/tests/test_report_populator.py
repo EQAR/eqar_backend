@@ -126,7 +126,7 @@ class ReportPopulatorTestCase(TestCase):
             ]}
         populator.get_report_if_exists()
         populator._report_upsert()
-        populator._report_link_upsert()
+        populator._report_link_update()
         self.assertEqual(populator.report.reportlink_set.count(), 2)
         self.assertEqual(populator.report.reportlink_set.first().link_display_name,
                          "View report record on agency site")

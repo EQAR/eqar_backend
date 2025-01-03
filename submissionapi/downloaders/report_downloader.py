@@ -1,3 +1,4 @@
+import hashlib
 import mimetypes
 import datetime
 
@@ -21,6 +22,7 @@ class ReportDownloader:
         self.report_file_id = report_file_id
         self.agency_acronym = agency_acronym
         self.old_file_path = ""
+        self.old_checksum = ""
         self.saved_file_path = ""
         # session and HTTP defaults
         self.session = requests.Session()
@@ -31,13 +33,13 @@ class ReportDownloader:
         if self._url_is_downloadable():
             file_name = self._get_filename()
             if file_name:
-                self._get_old_file_path()
+                self._get_old_file_info()
                 self._download_file(local_filename=file_name)
-                self._remove_old_file()
 
-    def _get_old_file_path(self):
+    def _get_old_file_info(self):
         rf = ReportFile.objects.get(pk=self.report_file_id)
         self.old_file_path = rf.file.name
+        self.old_checksum = rf.file_checksum
 
     def _download_file(self, local_filename):
         r = self.session.get(self.url, stream=True)
@@ -55,8 +57,18 @@ class ReportDownloader:
             if rf.file_display_name == "":
                 rf.file_display_name = local_filename
 
-            rf.file.name = os.path.join(self.agency_acronym, local_filename)
-            rf.save()
+            # Check if the downloaded file is different from the old file
+            with open(file_path, 'rb') as f:
+                checksum = hashlib.md5(f.read()).hexdigest()
+
+            # If the two checksums are different, update the file and remove the old one,
+            # if they are identical remove the downloaded file
+            if checksum != self.old_checksum:
+                rf.file.name = os.path.join(self.agency_acronym, local_filename)
+                rf.save()
+                self._remove_old_file()
+            else:
+                os.remove(file_path)
 
             flagger = ReportFlagger(rf.report)
             flagger.check_and_set_flags()

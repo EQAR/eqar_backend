@@ -15,7 +15,8 @@ class Report(models.Model):
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
     contributing_agencies = models.ManyToManyField('agencies.Agency', related_name='co_authored_reports', blank=True)
     local_identifier = CharNullField(max_length=255, blank=True, null=True)
-    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT)
+    agency_esg_activities = models.ManyToManyField('agencies.AgencyESGActivity', related_name='reports')
+    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT, blank=True, null=True)
     name = models.CharField(max_length=300)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
     decision = models.ForeignKey('ReportDecision', on_delete=models.PROTECT)
@@ -126,6 +127,7 @@ class ReportFile(models.Model):
     file_display_name = models.CharField(max_length=255, blank=True)
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
+    file_checksum = models.CharField(max_length=32, blank=True, null=True)
     languages = models.ManyToManyField('lists.Language')
 
     class Meta:
