@@ -1,20 +1,12 @@
 import hashlib
 import os
-import time
 
-import filetype
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import BaseCommand, CommandError
-from djoser.conf import settings
-
-from agencies.models import Agency
+from django.conf import settings
 from reports.models import Report
-from submissionapi.tasks import download_file
-
-from requests.exceptions import RequestException
 
 class Command(BaseCommand):
-    help = 'Reharvest files for report.'
+    help = 'Create checksum for the existing files and save it to the DB.'
     force = False
 
     def add_arguments(self, parser):
