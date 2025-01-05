@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 if report_file.file_checksum is None or report_file.file_checksum == '':
                     file_path = os.path.join(
                         settings.MEDIA_ROOT,
-                        report.agency.agency_acronym,
+                        report.agency.acronym_primary,
                         report_file.local_filename
                     )
 
