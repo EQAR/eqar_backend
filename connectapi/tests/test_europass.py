@@ -1,11 +1,10 @@
-from django.test import TestCase
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APITestCase
 
 from lxml import etree
 
-from countries.models import Country
-from connectapi.europass.accrediation_xml_creator_v2 import AccrediationXMLCreatorV2
-
-class EuropassTest(TestCase):
+class EuropassTest(APITestCase):
     """
     Test module for the Europass/QDR export
     """
@@ -24,9 +23,20 @@ class EuropassTest(TestCase):
         'users', 'report_demo_01'
     ]
 
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='testuser',
+                                                  email='testuser@eqar.eu',
+                                                  password='testpassword')
+        self.user.save()
+        self.token = Token.objects.get(user__username='testuser')
+
     def test_europass_xml_creator(self):
-        ctry = Country.objects.get(pk=64)
-        creator = AccrediationXMLCreatorV2(ctry, check=False)
-        xml = creator.create()
+        """
+        Test generation of XML files for EDC
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/connectapi/v1/europass/accreditations-v2/DEU/', query_params={ "check": False })
+        self.assertEqual(response['Content-Type'], 'application/xml')
+        xml = etree.fromstring(response.content)
         self.assertEqual(xml.tag, '{http://data.europa.eu/snb/model/ap/ams-constraints/}Accreditations')
 
