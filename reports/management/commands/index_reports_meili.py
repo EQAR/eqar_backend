@@ -6,7 +6,7 @@ from django.conf import settings
 
 from agencies.models import Agency
 from reports.models import Report
-from reports.indexers.v3.report_meili_indexer import ReportIndexer
+from reports.indexers.report_meili_indexer import ReportIndexer
 
 class Command(BaseCommand):
     help = 'Index Report records (Meilisearch)'

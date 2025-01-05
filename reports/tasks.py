@@ -1,7 +1,7 @@
 from celery.task import task
 
 from reports.indexers.reports_indexer import ReportsIndexer
-from reports.indexers.v3.report_meili_indexer import ReportIndexer as MeiliReportIndexer
+from reports.indexers.report_meili_indexer import ReportIndexer as MeiliReportIndexer
 from programmes.indexers.programme_indexer import ProgrammeIndexer
 from institutions.indexers.institution_indexer import InstitutionIndexer
 from reports.models import Report

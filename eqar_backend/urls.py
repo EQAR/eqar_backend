@@ -13,8 +13,6 @@ urlpatterns = [
     url(r'^adminapi/v1/', include('adminapi.urls', namespace='adminapi-v1')),
     url(r'^connectapi/v1/', include('connectapi.urls', namespace='connectapi-v1')),
 
-    url(r'^api/v3/reports/', include('reports.routes.v3.urls', namespace='reports-v3')),
-
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^admin/', admin_site.urls),
     url(r'^auth/', include('djoser.urls')),

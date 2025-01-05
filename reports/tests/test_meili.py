@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import requests
 
 from reports.models import Report
-from reports.indexers.v3.report_meili_indexer import ReportIndexer
+from reports.indexers.report_meili_indexer import ReportIndexer
 
 class ReportMeiliTest(TestCase):
     """

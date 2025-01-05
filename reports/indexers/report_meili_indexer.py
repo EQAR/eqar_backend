@@ -4,7 +4,7 @@ from eqar_backend.meilisearch import MeiliClient
 
 from reports.models import Report
 
-from reports.serializers.v3.report_meili_indexer_serializer import ReportIndexerSerializer
+from reports.serializers.report_meili_indexer_serializer import ReportIndexerSerializer
 
 class ReportIndexer:
     """
