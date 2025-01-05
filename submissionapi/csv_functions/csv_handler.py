@@ -16,8 +16,6 @@ class CSVHandler:
             r'contributing_agencies\[\d+\]',
             r'report_id',
             r'local_identifier',
-            r'activity',
-            r'activity_local_identifier',
             r'status',
             r'decision',
             r'summary',
@@ -25,6 +23,11 @@ class CSVHandler:
             r'valid_to',
             r'date_format',
             r'other_comment'
+        ],
+        'activities': [
+            r'activities\[\d+\]\.activity',
+            r'activities\[\d+\]\.local_identifier',
+            r'activities\[\d+\]\.agency',
         ],
         'report_links': [
             r'link\[\d+\]',
@@ -104,6 +107,7 @@ class CSVHandler:
             self._read_csv()
             for row in self.reader:
                 self._create_report(row)
+                self._create_activities(row)
                 self._create_report_links(row)
                 self._create_report_files(row)
                 self._create_institutions(row)
@@ -146,6 +150,10 @@ class CSVHandler:
                         self.report_record['contributing_agencies'].append(row[column])
                 else:
                     self.report_record[rematch[0]] = row[rematch[0]]
+
+    def _create_activities(self, row):
+        self._create_first_level_placeholder(['activities'])
+        self._create_first_level_values('activities', row, dotted=True)
 
     def _create_institutions(self, row):
         self._create_first_level_placeholder(['institutions',

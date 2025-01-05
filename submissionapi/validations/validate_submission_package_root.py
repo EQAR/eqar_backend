@@ -14,6 +14,7 @@ def validate_submission_package_root(data):
     # Get the required values for the validations
     institutions = data.get('institutions', [])
     programmes = data.get('programmes', [])
+    activities = data.get('activities', [])
     esg_activity = data.get('esg_activity', None)
     agency = data.get('agency', None)
     report = data.get('report_id', None)
@@ -26,12 +27,17 @@ def validate_submission_package_root(data):
     # Validate if activity types haas the right amount of programme and instituton records
     #
     # institutional
-    if esg_activity.activity_type_id == 2:
+    if esg_activity:
+        activity_type_id = esg_activity.activity_type_id
+    else:
+        activity_type_id = calculate_activity_type_id(activities)
+
+    if activity_type_id == 2:
         if len(programmes) > 0:
             errors.append("Please remove programme information "
                           "with this particular Activity type.")
     # programme or institutional/programme
-    elif esg_activity.activity_type_id == 1 or esg_activity.activity_type_id == 4:
+    elif activity_type_id == 1 or activity_type_id == 4:
         if len(institutions) > 1:
             errors.append("Please provide only one institution "
                           "with this particular Activity type.")
@@ -109,3 +115,18 @@ def validate_submission_package_root(data):
         raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})
 
     return data
+
+def calculate_activity_type_id(activities):
+    # Default = institutional
+    activity_type_id = 2
+    for activity in activities:
+        # If there is a programme or institutional/programme activity, set the activity type to programme
+        # if there was no joint/programme activity before
+        if activity.activity_type_id == 1 or activity.activity_type_id == 4:
+            if activity_type_id == 2:
+                activity_type_id = activity.activity_type_id
+        # If there is a joint/programme activity, set the activity type to joint programme
+        # all the time
+        elif activity.activity_type_id == 3:
+            activity_type_id = 3
+    return activity_type_id

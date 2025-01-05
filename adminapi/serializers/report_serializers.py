@@ -106,6 +106,7 @@ class ReportUpdateLogSerializer(serializers.ModelSerializer):
 class ReportReadSerializer(serializers.ModelSerializer):
     agency = AgencySelectSerializer()
     contributing_agencies = AgencySelectSerializer(many=True)
+    activities = AgencyESGActivitySerializer(many=True, source='agency_esg_activities', read_only=True)
     activity = AgencyESGActivitySerializer(source='agency_esg_activity')
     status = ReportStatusSerializer()
     decision = ReportDecisionSerializer()
@@ -126,7 +127,8 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'local_identifier', 'name',
+        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'activities',
+                  'local_identifier', 'name',
                   'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
@@ -136,6 +138,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
 
 class ReportWriteSerializer(WritableNestedModelSerializer):
     activity = serializers.PrimaryKeyRelatedField(queryset=AgencyESGActivity.objects.all(), source='agency_esg_activity')
+    activities = serializers.PrimaryKeyRelatedField(many=True, queryset=AgencyESGActivity.objects.all(), source='agency_esg_activities')
     report_links = ReportLinkSerializer(many=True, source='reportlink_set', required=False)
     report_files = ReportWriteFileSerializer(many=True, source='reportfile_set')
     programmes = ProgrammeWriteSerializer(many=True, source='programme_set', required=False)
@@ -180,7 +183,7 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'local_identifier',
+        fields = ['id', 'agency', 'contributing_agencies', 'activity', 'activities', 'local_identifier',
                   'status', 'decision', 'summary',
                   'institutions', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']

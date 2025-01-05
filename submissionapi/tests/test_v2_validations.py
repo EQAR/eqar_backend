@@ -30,7 +30,11 @@ class SubmissionV2ValidationTestCase(APITestCase):
             "agency": "ACQUIN",
             "valid_from": "2010-05-05",
             "date_format": "%Y-%M-%d",
-            "activity": "1",
+            "activities": [
+                {
+                    "activity": "1"
+                }
+            ],
             "status": "1",
             "decision": "1",
             "report_files": [
@@ -196,25 +200,16 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with wrong ESG Activity ID.
         """
         data = self.valid_data
-        data['activity'] = 7
+        data['activities'] = [{"activity": 7}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
-
-    def test_agency_esg_activity_string_validation_ok(self):
-        """
-        Test if serializer accepts records with ESG Activity description.
-        """
-        data = self.valid_data
-        data['activity'] = 'System Accreditation in Germany'
-        serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
-        self.assertTrue(serializer.is_valid(), serializer.errors)
 
     def test_agency_esg_activity_string__validation_error(self):
         """
         Test if serializer rejects records with wrong ESG Activity description.
         """
         data = self.valid_data
-        data['activity'] = 'Programme Accreditation in Hungary'
+        data['activities'] = [{"activity": 'Programme Accreditation in Hungary'}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -224,7 +219,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data.pop('activity', None)
-        data['activity_local_identifier'] = 'ACQ001'
+        data['activities'] = [{"local_identifier": 'ACQ001'}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
@@ -234,7 +229,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data.pop('activity', None)
-        data['activity_local_identifier'] = 'ACQ999'
+        data['activities'] = [{"local_identifier": 'ACQ999'}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -243,7 +238,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records if ESG Activity is not submitted.
         """
         data = self.valid_data
-        data = data.pop('activity', None)
+        data = data.pop('activities', None)
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -609,7 +604,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer accepts records with institutional ESG Activity type and valid data.
         """
         data = self.valid_data
-        data['activity'] = "2"
+        data['activities'] = [{"activity": "2"}]
         data.pop('programmes', None)
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -619,7 +614,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with institutional ESG Activity type with programme data.
         """
         data = self.valid_data
-        data['activity'] = "2"
+        data['activities'] = [{"activity": "2"}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -656,7 +651,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer accepts records with joint programme ESG Activity type and valid data.
         """
         data = self.valid_data
-        data['activity'] = "3"
+        data['activities'] = [{"activity": "3"}]
         data['institutions'].append({
             "eter_id": "DE0392"
         })
@@ -668,7 +663,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with joint programme ESG Activity type and one institution.
         """
         data = self.valid_data
-        data['activity'] = "3"
+        data['activities'] = [{"activity": "3"}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -677,7 +672,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with joint programme ESG Activity type and no programme data.
         """
         data = self.valid_data
-        data['activity'] = "3"
+        data['activities'] = [{"activity": "3"}]
         data['institutions'].append({
             "eter_id": "DE0392"
         })

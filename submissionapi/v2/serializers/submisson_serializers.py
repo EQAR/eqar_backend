@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from babel.localedata import locale_identifiers
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
@@ -302,6 +303,58 @@ class ReportLinkSerializer(serializers.Serializer):
                                               help_text='example: "General information on programme"')
 
 
+class ActivitySerializer(serializers.Serializer):
+    activity = serializers.CharField(max_length=500, required=False,
+                                     label='Identifier of the Agency ESG Activity',
+                                     help_text='examples: "2"')
+    local_identifier = serializers.CharField(max_length=200, required=False,
+                                             label='Local identifier of the ESG Activity',
+                                             help_text='example: "inst_audit')
+    agency = AgencyField(required=False, label='Identifier or the acronym of the agency whose local identifier is used. '
+                                               'If not provided, the agency of the report will be used.',
+                         help_text='examples: "33", "ACQUIN"')
+
+    def to_internal_value(self, data):
+        activity = data.get('activity', None)
+        local_identifier = data.get('local_identifier', None)
+        agency = data.get('agency', None)
+
+        # Get the submitting agency
+        parent_data = self.parent.parent.initial_data
+        agency_field = AgencyField()
+        submitting_agency = agency_field.to_internal_value(parent_data['agency'])
+
+        if activity is None and local_identifier is None:
+            raise serializers.ValidationError("Either ESG Activity ID or ESG Activity local identifier is needed.")
+
+        if activity is not None and local_identifier is not None:
+            raise serializers.ValidationError("You cannot submit both ESG Activity ID and ESG Activity local identifier.")
+
+        if activity is not None:
+            if str(activity).isdigit():
+                try:
+                    data = AgencyESGActivity.objects.get(pk=activity, agency=submitting_agency)
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Please provide valid ESG Activity ID.")
+            else:
+                raise serializers.ValidationError("Please provide ESG Activity ID as an integer or string.")
+
+        if local_identifier is not None:
+            if agency is None:
+                try:
+                    data = AgencyESGActivity.objects.get(
+                        activity_local_identifier=local_identifier, agency=submitting_agency)
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Please provide valid ESG Activity local identifier.")
+            else:
+                try:
+                    data = AgencyESGActivity.objects.get(
+                        activity_local_identifier=local_identifier, agency=agency)
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Please provide valid ESG Activity local identifier with Agency info.")
+
+        return data
+
 class SubmissionPackageSerializer(serializers.Serializer):
     # Report Creator
     agency = AgencyField(required=True, label='Identifier or the acronym of the agency',
@@ -320,12 +373,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                              help_text='example: "QAA1153-March15"')
 
     # Report Activity
-    activity = serializers.CharField(max_length=500, required=False,
-                                     label='Identifier or the description of the Agency ESG Activity',
-                                     help_text='examples: "2", "institutional audit"')
-    activity_local_identifier = serializers.CharField(max_length=200, required=False,
-                                                      label='Local identifier of the ESG Activity',
-                                                      help_text='example: "inst_audit')
+    activities = ActivitySerializer(many=True, required=True)
 
     # Report Details
     status = ReportStatusField(required=True, label='Identifier or the status of the report',
@@ -348,7 +396,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
     report_links = ReportLinkSerializer(many=True, required=False)
 
     # Report Files
-    report_files = ReportFileSerializer(many=True, required=True, allow_empty=False)
+    report_files = ReportFileSerializer(many=True, required=False)
 
     # Institutions
     institutions = InstitutionSerializer(many=True, required=True,
@@ -376,8 +424,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
         valid_to = data.get('valid_to', None)
 
         agency = data.get('agency', None)
-        activity = data.get('activity', None)
-        activity_local_identifier = data.get('activity_local_identifier', None)
 
         #
         # Validate if date format is applicable, default format is %Y-%m-%d.
@@ -392,6 +438,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
 
+        '''
         #
         # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
         # If yes, resolve the records.
@@ -417,6 +464,7 @@ class SubmissionPackageSerializer(serializers.Serializer):
                     errors.append("Please provide valid ESG Activity local identifier.")
         else:
             errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
+        '''
 
         # If there are errors raise ValidationError
         #

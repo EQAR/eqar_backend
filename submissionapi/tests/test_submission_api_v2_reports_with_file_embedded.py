@@ -41,7 +41,11 @@ class SubmissionAPIV2ReportTest(APITestCase):
             "agency": "ACQUIN",
             "valid_from": "2010-05-05",
             "date_format": "%Y-%M-%d",
-            "activity": "1",
+            "activities": [
+                {
+                    "activity": "1"
+                }
+            ],
             "status": "1",
             "decision": "1",
             "report_files": [
