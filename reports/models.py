@@ -55,7 +55,10 @@ class Report(models.Model):
     def get_activity_names(self):
         activity_names = []
         for activity in self.agency_esg_activities.all():
-            activity_names.append(activity.name)
+            if activity.activity_display:
+                activity_names.append(activity.activity_display)
+            else:
+                activity_names.append(activity.activity)
         return activity_names
 
     def validate_local_identifier(self):
