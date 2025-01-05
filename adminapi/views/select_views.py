@@ -57,9 +57,9 @@ class AgencyESGActivitySelectList(generics.ListAPIView):
     filter_backends = (SearchFilter,)
     search_fields = ('activity',)
 
-    def get_queryset(self):
-        agency = get_object_or_404(Agency, pk=self.kwargs['pk'])
-        return AgencyESGActivity.objects.filter(agency=agency).order_by('activity')
+    def get_queryset(self, *args, **kwargs):
+        agencies = self.request.query_params.getlist('agencies', [])
+        return AgencyESGActivity.objects.filter(agency__id__in=agencies).order_by('agency', 'activity')
 
 
 class AgencyActivityTypeSelectList(generics.ListAPIView):
