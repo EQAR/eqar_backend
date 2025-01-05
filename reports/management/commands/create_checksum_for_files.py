@@ -28,7 +28,7 @@ class Command(BaseCommand):
                     file_path = os.path.join(
                         settings.MEDIA_ROOT,
                         report.agency.acronym_primary,
-                        report_file.local_filename
+                        report_file.file.name
                     )
 
                     # Check if the downloaded file is different from the old file
