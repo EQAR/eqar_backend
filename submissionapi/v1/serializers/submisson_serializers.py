@@ -318,6 +318,8 @@ class ReportFileSerializer(serializers.Serializer):
                                             label='Language(s) of the report',
                                             help_text='example: ["eng", "ger"]')
 
+    class Meta:
+        ref_name = "ReportFileV1Serializer"
 
 class ReportLinkSerializer(serializers.Serializer):
     link = serializers.URLField(max_length=255, required=True,
@@ -327,6 +329,8 @@ class ReportLinkSerializer(serializers.Serializer):
                                               label='Display the report records link.',
                                               help_text='example: "General information on programme"')
 
+    class Meta:
+        ref_name = "ReportLinkV1Serializer"
 
 class SubmissionPackageSerializer(serializers.Serializer):
     # Report Identifier

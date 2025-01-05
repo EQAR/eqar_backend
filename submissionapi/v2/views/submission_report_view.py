@@ -18,7 +18,7 @@ from submissionapi.v2.submission_package_handler import SubmissionPackageHandler
 
 class SubmissionReportView(APIView):
     """
-        Submission of report data / creation
+        Submission of report data: POST request for creation, PUT request for update
     """
     @swagger_auto_schema(
         request_body=SubmissionPackageCreateSerializer,
@@ -36,9 +36,6 @@ class SubmissionReportView(APIView):
         else:
             return Response(handler.response, status=status.HTTP_400_BAD_REQUEST)
 
-    """
-        Submission of report data / update
-    """
     @swagger_auto_schema(
         request_body=SubmissionPackageUpdateSerializer,
         responses={
@@ -55,6 +52,7 @@ class SubmissionReportView(APIView):
         else:
             return Response(handler.response, status=status.HTTP_400_BAD_REQUEST)
 
+    '''
     def patch(self, request):
         serializer = SubmissionPackageUpdateSerializer(data=request.data, context={'request': request}, partial=True)
         handler = SubmissionPackageHandler(request=request, serializer=serializer, action='update')
@@ -63,6 +61,7 @@ class SubmissionReportView(APIView):
             return Response(handler.response, status=status.HTTP_200_OK)
         else:
             return Response(handler.response, status=status.HTTP_400_BAD_REQUEST)
+    '''
 
 class ReportDelete(generics.DestroyAPIView):
     """

@@ -37,6 +37,8 @@ class IdentifierSerializer(serializers.Serializer):
                                            'Agency itself.',
                                      help_text='example: national authority')
 
+    class Meta:
+        ref_name = "IdentifierV2Serializer"
 
 class InstitutionAlternativeNameSerializer(serializers.Serializer):
     name_alternative = serializers.CharField(max_length=200, required=True,
@@ -46,6 +48,8 @@ class InstitutionAlternativeNameSerializer(serializers.Serializer):
                                                             label='Alternative name(s) or alternative language name(s) '
                                                                   'of each institution in a transliterated form')
 
+    class Meta:
+        ref_name = "InstitutionAlternativeNameV2Serializer"
 
 class InstitutionLocatonSerializer(serializers.Serializer):
     country = CountryField(required=True,
@@ -83,6 +87,8 @@ class InstitutionLocatonSerializer(serializers.Serializer):
 
         return data
 
+    class Meta:
+        ref_name = "InstitutionLocatonV2Serializer"
 
 class InstitutionSerializer(serializers.Serializer):
     # Reference
@@ -177,6 +183,8 @@ class InstitutionSerializer(serializers.Serializer):
                                               "It is missing either a valid ETER ID, DEQAR ID, or "
                                               "local identifier.")
 
+    class Meta:
+        ref_name = "InstitutionV2Serializer"
 
 class ProgrammeAlternativeNameSerializer(serializers.Serializer):
     name_alternative = serializers.CharField(max_length=200, required=True,
@@ -189,6 +197,8 @@ class ProgrammeAlternativeNameSerializer(serializers.Serializer):
                                                       help_text='example: Master of Medicine in de specialistische '
                                                                 'geneeskunde')
 
+    class Meta:
+        ref_name = "ProgrammeAlternativeNameV2Serializer"
 
 class ProgrammeSerializer(serializers.Serializer):
     # Identification
@@ -265,6 +275,8 @@ class ProgrammeSerializer(serializers.Serializer):
         data = super(ProgrammeSerializer, self).validate(data)
         return validate_programmes(data)
 
+    class Meta:
+        ref_name = "ProgrammeV2Serializer"
 
 class ReportFileSerializer(serializers.Serializer):
     original_location = serializers.URLField(max_length=500, required=False, label='The URL of the report file',
@@ -294,6 +306,9 @@ class ReportFileSerializer(serializers.Serializer):
 
         return super(ReportFileSerializer, self).validate(data)
 
+    class Meta:
+        ref_name = "ReportFileV2Serializer"
+
 class ReportLinkSerializer(serializers.Serializer):
     link = serializers.URLField(max_length=255, required=True,
                                 label="Links to the Report records/pages on the Agency's website.",
@@ -301,6 +316,9 @@ class ReportLinkSerializer(serializers.Serializer):
     link_display_name = serializers.CharField(max_length=200, required=False,
                                               label='Display the report records link.',
                                               help_text='example: "General information on programme"')
+
+    class Meta:
+        ref_name = "ReportLinkV2Serializer"
 
 
 class ActivitySerializer(serializers.Serializer):
@@ -354,6 +372,9 @@ class ActivitySerializer(serializers.Serializer):
                     raise serializers.ValidationError("Please provide valid ESG Activity local identifier with Agency info.")
 
         return data
+
+    class Meta:
+        ref_name = "ActivityV2Serializer"
 
 class SubmissionPackageSerializer(serializers.Serializer):
     # Report Creator
@@ -438,34 +459,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
 
-        '''
-        #
-        # Validate if ESG Activity or local identifier is submitted and they can be used to resolve records.
-        # If yes, resolve the records.
-        #
-        if activity is not None or activity_local_identifier is not None:
-            if activity is not None:
-                if activity.isdigit():
-                    try:
-                        data['esg_activity'] = AgencyESGActivity.objects.get(pk=activity, agency=agency)
-                    except ObjectDoesNotExist:
-                        errors.append("Please provide valid ESG Activity ID.")
-                else:
-                    try:
-                        data['esg_activity'] = AgencyESGActivity.objects.get(activity__iexact=activity, agency=agency)
-                    except ObjectDoesNotExist:
-                        errors.append("Please provide valid ESG Activity.")
-
-            if activity_local_identifier is not None:
-                try:
-                    data['esg_activity'] = AgencyESGActivity.objects.get(
-                        activity_local_identifier=activity_local_identifier, agency=agency)
-                except ObjectDoesNotExist:
-                    errors.append("Please provide valid ESG Activity local identifier.")
-        else:
-            errors.append("Either ESG Activity ID, ESG Activity text or ESG Activity local identifier is needed.")
-        '''
-
         # If there are errors raise ValidationError
         #
         if len(errors) > 0:
@@ -476,6 +469,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
         data = super(SubmissionPackageSerializer, self).validate(data)
         return validate_submission_package_root(data)
 
+    class Meta:
+        ref_name = "SubmissionPackageV2Serializer"
 
 class SubmissionPackageCreateSerializer(SubmissionPackageSerializer):
     def validate(self, attrs):
