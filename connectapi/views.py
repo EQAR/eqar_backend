@@ -11,7 +11,6 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
 from agencies.models import AgencyESGActivity
-from connectapi.europass.accrediation_xml_creator import AccrediationXMLCreator
 from connectapi.europass.accrediation_xml_creator_v2 import AccrediationXMLCreatorV2
 from countries.models import Country
 from eqar_backend.searchers import Searcher
@@ -125,17 +124,6 @@ class AgencyActivityDEQARConnectList(generics.ListAPIView):
         submitting_agency = user.deqarprofile.submitting_agency.submitting_agency.all()
         return AgencyESGActivity.objects.filter(agency__allowed_agency__in=submitting_agency)\
             .order_by('agency__acronym_primary')
-
-
-class AccreditationXMLView(APIView):
-    permission_classes = []
-    renderer_classes = (XMLRenderer,)
-
-    def get(self, request, *args, **kwargs):
-        country_code = self.kwargs['country_code']
-        country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
-        creator = AccrediationXMLCreator(country, request)
-        return Response(creator.create(), content_type='application/xml')
 
 
 class AccreditationXMLViewV2(APIView):
