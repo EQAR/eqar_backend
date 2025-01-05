@@ -24,5 +24,6 @@ class Command(BaseCommand):
 
         for report in reports.all():
             print("Processing report: ", report.id)
+            report.agency_esg_activities.clear()
             report.agency_esg_activities.add(report.agency_esg_activity)
             report.save()
