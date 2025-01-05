@@ -148,7 +148,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
             'id',
             'local_identifier',
             'agency', 'contributing_agencies',
-            'agency_esg_activity',
+            'agency_esg_activities',
             'institutions',
             'programmes',
             'decision', 'status',
