@@ -35,7 +35,7 @@ class EuropassTest(APITestCase):
         Test generation of XML files for EDC
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/connectapi/v1/europass/accreditations-v2/DEU/', query_params={ "check": False })
+        response = self.client.get('/connectapi/v1/europass/accreditations-v2/DEU/', { "check": "false" })
         self.assertEqual(response['Content-Type'], 'application/xml')
         xml = etree.fromstring(response.content)
         self.assertEqual(xml.tag, '{http://data.europa.eu/snb/model/ap/ams-constraints/}Accreditations')
