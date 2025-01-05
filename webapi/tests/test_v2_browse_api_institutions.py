@@ -54,3 +54,27 @@ class BrowseAPIInstitutionTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/institutions/by-identifier/national identifier/DE0009')
         self.assertEqual(response.status_code, 404)
+
+    def test_institution_eter_detail(self):
+        """
+            Test if we can display an institution based on the ETER ID.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v2/browse/institutions/by-eter/DE0394/')
+        self.assertEqual(response.data['id'], 2)
+
+    def test_institution_eter_detail_fail(self):
+        """
+            Test if unknown ETER ID leads to failure.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v2/browse/institutions/by-eter/DE4711/')
+        self.assertEqual(response.status_code, 404)
+
+    def test_institution_detail(self):
+        """
+            Test if we can display a particular institution.
+        """
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.get('/webapi/v2/browse/institutions/2/')
+        self.assertEqual(response.data['website_link'], 'http://www.fh-guestrow.de')

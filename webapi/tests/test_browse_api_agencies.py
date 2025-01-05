@@ -26,7 +26,7 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agencies.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/')
+        response = self.client.get('/webapi/v2/browse/agencies/')
         self.assertEqual(response.data['count'], 1)
 
     def test_agency_detail(self):
@@ -34,7 +34,7 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a particular agency.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/5/')
+        response = self.client.get('/webapi/v2/browse/agencies/5/')
         self.assertEqual(response.data['deqar_id'], 21)
 
     def test_agency_detail_with_history(self):
@@ -42,8 +42,8 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a particular agency with historical data.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/5/')
-        response_h = self.client.get('/webapi/v1/browse/agencies/5/', {'history': 'true'})
+        response = self.client.get('/webapi/v2/browse/agencies/5/')
+        response_h = self.client.get('/webapi/v2/browse/agencies/5/', {'history': 'true'})
         self.assertEqual(len(response.data['activities']), 5)
         self.assertEqual(len(response_h.data['activities']), 6)
 
@@ -52,7 +52,7 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agencies by country of location.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/based-in/64/')
+        response = self.client.get('/webapi/v2/browse/agencies/based-in/64/')
         self.assertEqual(response.data['count'], 1)
 
     def test_agency_list_by_location_country_with_history(self):
@@ -60,8 +60,8 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agencies by country of location.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/based-in/56/')
-        response2 = self.client.get('/webapi/v1/browse/agencies/based-in/56/', {'history': 'true'})
+        response = self.client.get('/webapi/v2/browse/agencies/based-in/56/')
+        response2 = self.client.get('/webapi/v2/browse/agencies/based-in/56/', {'history': 'true'})
         self.assertEqual(response.data['count'], 0)
         self.assertEqual(response2.data['count'], 1)
 
@@ -71,8 +71,8 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agencies by country of focus without searching in historical data.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response_1 = self.client.get('/webapi/v1/browse/agencies/focusing-to/64/')
-        response_2 = self.client.get('/webapi/v1/browse/agencies/focusing-to/74/')
+        response_1 = self.client.get('/webapi/v2/browse/agencies/focusing-to/64/')
+        response_2 = self.client.get('/webapi/v2/browse/agencies/focusing-to/74/')
         self.assertEqual(response_1.data['count'], 1)
         self.assertEqual(response_2.data['count'], 0)
 
@@ -81,8 +81,8 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agencies by country of focus without searching in historical data.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response_1 = self.client.get('/webapi/v1/browse/agencies/focusing-to/64/', {'history': 'true'})
-        response_2 = self.client.get('/webapi/v1/browse/agencies/focusing-to/74/', {'history': 'true'})
+        response_1 = self.client.get('/webapi/v2/browse/agencies/focusing-to/64/', {'history': 'true'})
+        response_2 = self.client.get('/webapi/v2/browse/agencies/focusing-to/74/', {'history': 'true'})
         self.assertEqual(response_1.data['count'], 1)
         self.assertEqual(response_2.data['count'], 1)
 
@@ -91,6 +91,6 @@ class BrowseAgencyAPITest(APITestCase):
             Test if we can display a list of agency decisions.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/agencies/decisions/')
+        response = self.client.get('/webapi/v2/browse/agencies/decisions/')
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['agency_acronym'], 'EKKA')

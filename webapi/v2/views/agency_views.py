@@ -8,7 +8,7 @@ from django_filters import rest_framework as filters
 
 from agencies.models import Agency, AgencyEQARDecision, AgencyESGActivity
 from webapi.inspectors.agency_list_inspector import AgencyListInspector
-from webapi.v1.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
+from webapi.v2.serializers.agency_serializers import AgencyListSerializer, AgencyDetailSerializer, \
     AgencyListByFocusCountrySerializer, AgencyEQARDecisionListSerializer, \
     AgencyActivityDEQARConnectListSerializer
 

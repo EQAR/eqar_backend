@@ -17,8 +17,8 @@ from eqar_backend.searchers import Searcher
 from eqar_backend.xml_renderer import XMLRenderer
 from institutions.models import Institution
 from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
-from webapi.v1.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
-from webapi.v1.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
+from webapi.v2.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
+from webapi.v2.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):

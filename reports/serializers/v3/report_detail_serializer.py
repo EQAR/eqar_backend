@@ -8,7 +8,7 @@ from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName
 from rest_framework import serializers
 
 from webapi.v2.serializers.report_serializers import ReportFileSerializer, ReportLinkSerializer
-from webapi.v1.serializers.agency_serializers import ContributingAgencySerializer
+from webapi.v2.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):

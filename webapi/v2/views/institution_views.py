@@ -213,6 +213,17 @@ class InstitutionDetailByETER(generics.RetrieveAPIView):
             raise Http404
 
 
+class InstitutionDetail(generics.RetrieveAPIView):
+    """
+        Returns all the data available of the selected institution.
+    """
+    serializer_class = InstitutionDetailSerializer
+
+    def get_queryset(self):
+        qs = Institution.objects.filter(pk=self.kwargs['pk'])
+        return qs
+
+
 class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
     """
         Returns all the data available of the selected institution (via identifier).

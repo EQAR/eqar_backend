@@ -9,7 +9,7 @@ from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
 
 from webapi.v2.serializers.report_serializers import ReportFileSerializer, ReportLinkSerializer
-from webapi.v1.serializers.agency_serializers import ContributingAgencySerializer
+from webapi.v2.serializers.agency_serializers import ContributingAgencySerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -68,7 +68,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 class ReportDetailSerializer(serializers.ModelSerializer):
     name = serializers.SlugRelatedField(slug_field='activity_description', read_only=True, source='agency_esg_activity')
     agency_id = serializers.PrimaryKeyRelatedField(source='agency', read_only=True)
-    agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v1:agency-detail",
+    agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v2:agency-detail",
                                                      source='agency')
     agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)

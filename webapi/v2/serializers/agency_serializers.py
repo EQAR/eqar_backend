@@ -3,7 +3,7 @@ from agencies.models import *
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution
 from reports.models import Report
-from webapi.v1.serializers.country_serializers import CountryListSerializer
+from webapi.v2.serializers.country_serializers import CountryListSerializer
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
@@ -169,12 +169,6 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
                   'phone_numbers', 'address', 'country', 'emails', 'website_link', 'logo',
                   'report_count', 'institution_count', 'activities', 'associations', 'decisions', 'specialisation_note',
                   'description_note', 'geographical_focus', 'historical_data',)
-
-
-class AgencyActivityCounterSerializer(serializers.Serializer):
-    activity_id = serializers.IntegerField()
-    reports = serializers.IntegerField()
-    institutions = serializers.IntegerField()
 
 
 class AgencyEQARDecisionListSerializer(serializers.ModelSerializer):

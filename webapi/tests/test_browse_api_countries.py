@@ -35,7 +35,7 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/')
+        response = self.client.get('/webapi/v2/browse/countries/')
         self.assertEqual(len(response.data), 49)
 
     def test_country_list_external_qaa_filter(self):
@@ -43,13 +43,13 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries with the external QAA filter.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response_1 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 1})
+        response_1 = self.client.get('/webapi/v2/browse/countries/', {'external_qaa': 1})
         self.assertEqual(response_1.data[0]['name_english'], 'Armenia')
 
-        response_2 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 2})
+        response_2 = self.client.get('/webapi/v2/browse/countries/', {'external_qaa': 2})
         self.assertEqual(len(response_2.data), 32)
 
-        response_3 = self.client.get('/webapi/v1/browse/countries/', {'external_qaa': 3})
+        response_3 = self.client.get('/webapi/v2/browse/countries/', {'external_qaa': 3})
         self.assertEqual(response_3.data[0]['name_english'], 'Albania')
 
     def test_country_list_european_approach_filter(self):
@@ -57,13 +57,13 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries with the external QAA filter.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response_1 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 1})
+        response_1 = self.client.get('/webapi/v2/browse/countries/', {'european_approach': 1})
         self.assertEqual(response_1.data[0]['name_english'], 'Armenia')
 
-        response_2 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 2})
+        response_2 = self.client.get('/webapi/v2/browse/countries/', {'european_approach': 2})
         self.assertEqual(response_2.data[0]['name_english'], 'Albania')
 
-        response_3 = self.client.get('/webapi/v1/browse/countries/', {'european_approach': 3})
+        response_3 = self.client.get('/webapi/v2/browse/countries/', {'european_approach': 3})
         self.assertEqual(len(response_3.data), 0)
 
     def test_country_list_eqar_governmental_member(self):
@@ -71,10 +71,10 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries with the EQAR govermental member filter.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response_true = self.client.get('/webapi/v1/browse/countries/', {'eqar_governmental_member': 'true'})
+        response_true = self.client.get('/webapi/v2/browse/countries/', {'eqar_governmental_member': 'true'})
         self.assertEqual(len(response_true.data), 38)
 
-        response_false = self.client.get('/webapi/v1/browse/countries/', {'eqar_governmental_member': 'false'})
+        response_false = self.client.get('/webapi/v2/browse/countries/', {'eqar_governmental_member': 'false'})
         self.assertEqual(len(response_false.data), 11)
 
     def test_country_detail(self):
@@ -82,7 +82,7 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a particular country.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/64/')
+        response = self.client.get('/webapi/v2/browse/countries/64/')
         self.assertEqual(response.data['name_english'], 'Germany')
         self.assertEqual(len(response.data['historical_data']), 0)
 
@@ -91,7 +91,7 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a particular country with history.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/64/', {'history': 'true'})
+        response = self.client.get('/webapi/v2/browse/countries/64/', {'history': 'true'})
         self.assertEqual(response.data['name_english'], 'Germany')
         self.assertEqual(len(response.data['historical_data']), 1)
 
@@ -100,7 +100,7 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries by reports.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/by-reports/')
+        response = self.client.get('/webapi/v2/browse/countries/by-reports/')
         self.assertEqual(len(response.data), 1)
 
     def test_country_reports_list_with_history(self):
@@ -108,5 +108,5 @@ class BrowseCountryAPITest(APITestCase):
             Test if we can display a list of countries by reports with historical data.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/countries/by-reports/', {'history': 'true'})
+        response = self.client.get('/webapi/v2/browse/countries/by-reports/', {'history': 'true'})
         self.assertEqual(len(response.data), 3)

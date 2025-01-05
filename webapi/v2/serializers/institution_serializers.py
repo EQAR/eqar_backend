@@ -5,7 +5,7 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionN
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
     InstitutionOrganizationType
 from lists.models import IdentifierResource
-from webapi.v1.serializers.country_serializers import CountryDetailSerializer
+from webapi.v2.serializers.country_serializers import CountryDetailSerializer
 
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
@@ -15,45 +15,6 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
         model = InstitutionCountry
         list_serializer_class = HistoryFilteredListSerializer
         fields = ['country', 'city', 'lat', 'long', 'country_verified']
-
-
-class InstitutionListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
-    countries = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
-    hierarchical_relationships = serializers.SerializerMethodField()
-
-    def get_hierarchical_relationships(self, obj):
-        includes = []
-        part_of = []
-
-        for relation in obj.relationship_parent.all():
-            data = InstitutionHierarchicalRelationshipSerializer(relation.institution_child, context=self.context).data
-            data['relationship_type'] = relation.relationship_type.type if relation.relationship_type else None
-            data['relationship_date_from'] = relation.valid_from if relation.relationship_type else None
-            data['relationship_date_to'] = relation.valid_to if relation.relationship_type else None
-
-            includes.append(data)
-
-        for relation in obj.relationship_child.all():
-            data = InstitutionHierarchicalRelationshipSerializer(relation.institution_parent, context=self.context).data
-            data['relationship_type'] = relation.relationship_type.type if relation.relationship_type else None
-            data['relationship_date_from'] = relation.valid_from if relation.relationship_type else None
-            data['relationship_date_to'] = relation.valid_to if relation.relationship_type else None
-            part_of.append(data)
-
-        return {'includes': includes, 'part_of': part_of}
-
-    class Meta:
-        model = Institution
-        fields = ['id', 'eter_id', 'url', 'name_primary', 'name_sort', 'website_link', 'countries', 'hierarchical_relationships']
-
-
-class InstitutionHierarchicalRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:institution-detail")
-
-    class Meta:
-        model = Institution
-        fields = ['id', 'url', 'name_primary', 'website_link']
 
 
 class InstitutionIdentifierSerializer(serializers.ModelSerializer):
@@ -185,3 +146,14 @@ class InstitutionResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdentifierResource
         fields = ['resource', 'title', 'source', 'link']
+
+
+class InstitutionDEQARConnectListSerializer(serializers.HyperlinkedModelSerializer):
+    city = serializers.SlugRelatedField(read_only=True, slug_field='city', many=True, source='institutioncountry_set')
+    country = serializers.SlugRelatedField(read_only=True, slug_field='country__name_english', many=True, source='institutioncountry_set')
+    has_more = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        ref_name = 'Institution'
+        model = Institution
+        fields = ['id', 'deqar_id', 'eter_id', 'name_primary', 'website_link', 'city', 'country', 'has_more']

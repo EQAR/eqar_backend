@@ -11,7 +11,7 @@ from eqar_backend.serializers import AgencyNameTypeSerializer
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:agency-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:agency-detail")
     name_primary = serializers.CharField(source='get_primary_name', read_only=True)
     acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
     country = serializers.SlugRelatedField(slug_field='name_english', read_only=True)

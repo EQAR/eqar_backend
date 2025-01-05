@@ -7,7 +7,7 @@ from reports.models import Report
 
 
 class CountryListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:country-detail")
 
     class Meta:
         model = Country
@@ -15,7 +15,7 @@ class CountryListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:country-detail")
     institution_count = serializers.IntegerField(source='inst_count')
     institution_total = serializers.SerializerMethodField()
     institution_eter = serializers.SerializerMethodField()
@@ -39,7 +39,7 @@ class CountryReportListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CountryLargeListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:country-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:country-detail")
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
     ehea_key_commitment = serializers.StringRelatedField()
@@ -106,20 +106,3 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'general_note', 'qaa_regulations',
                   'report_count', 'institution_count',
                   'historical_data']
-
-
-class CountryCounterSerializer(serializers.Serializer):
-    reports = serializers.IntegerField()
-    institutions = serializers.IntegerField()
-
-
-class CountryAgencySerializer(serializers.Serializer):
-    agency_id = serializers.IntegerField()
-    reports = serializers.IntegerField()
-    institutions = serializers.IntegerField()
-
-
-class CountryStatsSerializer(serializers.Serializer):
-    country_counter = CountryCounterSerializer()
-    country_agency_based_in_counter = CountryAgencySerializer(many=True, required=False)
-    country_agency_focused_on_counter = CountryAgencySerializer(many=True, required=False)
