@@ -3,8 +3,10 @@ import re
 
 import pysolr
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
+from agencies.models import AgencyActivityType
 from institutions.models import Institution
 from reports.models import Report
 
@@ -298,8 +300,15 @@ class InstitutionIndexer:
             self.doc['has_report'] = True
             self.doc['reports_agencies'].append(report.agency.acronym_primary)
             self.doc['status_facet'].append(report.status.status)
-            self.doc['activity_facet'].append(report.agency_esg_activity.activity_display)
-            self.doc['activity_type_facet'].append(report.agency_esg_activity.activity_type.type)
+            for activity in report.agency_esg_activities.all():
+                self.doc['activity_facet'].append(activity.activity_display)
+
+            activity_type_id = report.get_activity_type()
+            try:
+                at = AgencyActivityType.objects.get(id=activity_type_id)
+                self.doc['activity_type_facet'].append(at.type)
+            except ObjectDoesNotExist:
+                at = None
             self.doc['crossborder_facet'].append(False)
 
             # Cross-border filter

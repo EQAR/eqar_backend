@@ -37,6 +37,27 @@ class Report(models.Model):
     updated_by = models.ForeignKey(User, related_name='reports_updated_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
 
+    def get_activity_type(self):
+        # Default = institutional
+        activity_type_id = 2
+        for activity in self.agency_esg_activities.all():
+            # If there is a programme or institutional/programme activity, set the activity type to programme
+            # if there was no joint/programme activity before
+            if activity.activity_type_id == 1 or activity.activity_type_id == 4:
+                if activity_type_id == 2:
+                    activity_type_id = activity.activity_type_id
+            # If there is a joint/programme activity, set the activity type to joint programme
+            # all the time
+            elif activity.activity_type_id == 3:
+                activity_type_id = 3
+        return activity_type_id
+
+    def get_activity_names(self):
+        activity_names = []
+        for activity in self.agency_esg_activities.all():
+            activity_names.append(activity.name)
+        return activity_names
+
     def validate_local_identifier(self):
         if self.local_identifier:
             if self.local_identifier != '':

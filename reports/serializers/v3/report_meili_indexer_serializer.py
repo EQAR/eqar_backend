@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from datedelta import datedelta
+from rest_framework.utils.representation import manager_repr
 
 from eqar_backend.serializer_fields.date_unix_timestamp import UnixTimestampDateField
 
@@ -106,7 +107,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
 
     agency = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     contributing_agencies = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-    agency_esg_activity = EsgActivitySerializer()
+    agency_esg_activities = EsgActivitySerializer(read_only=True, many=True)
     institutions = InstitutionSerializer(read_only=True, many=True)
     programmes = ProgrammeSerializer(source='programme_set', read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
