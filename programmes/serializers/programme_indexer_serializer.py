@@ -10,6 +10,7 @@ from programmes.models import Programme
 from reports.models import Report
 
 from reports.serializers.report_meili_indexer_serializer import \
+    AgencySerializer, \
     EsgActivitySerializer, \
     ReportFileSerializer, \
     ReportLinkSerializer, \
@@ -18,11 +19,11 @@ from reports.serializers.report_meili_indexer_serializer import \
 
 class ReportSerializer(serializers.ModelSerializer):
 
-    agency = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
-    contributing_agencies = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    agency = AgencySerializer()
+    contributing_agencies = AgencySerializer(read_only=True, many=True)
     agency_esg_activities = EsgActivitySerializer(read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
-    flag_level = serializers.StringRelatedField()
+    flag = serializers.StringRelatedField()
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     valid_from = UnixTimestampDateField()
@@ -89,6 +90,7 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
                     'name_primary',
                     'institutions',
                     'qf_ehea_level',
+                    'nqf_level',
                     'workload_ects',
                     'degree_outcome',
                     'programme_type',

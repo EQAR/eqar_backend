@@ -7,10 +7,22 @@ from rest_framework.utils.representation import manager_repr
 
 from eqar_backend.serializer_fields.date_unix_timestamp import UnixTimestampDateField
 
+from agencies.models import Agency
+from countries.models import Country
 from programmes.models import Programme, ProgrammeName
 from reports.models import Report, ReportFile, ReportLink
 from agencies.models import AgencyESGActivity
 from institutions.models import Institution, InstitutionCountry
+
+
+class AgencySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Agency
+        fields = [
+            'id',
+            'acronym_primary',
+        ]
 
 class EsgActivitySerializer(serializers.ModelSerializer):
 
@@ -67,6 +79,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
                     'names',
                     'name_primary',
                     'qf_ehea_level',
+                    'nqf_level',
                     'workload_ects',
                     'degree_outcome',
                     'programme_type',
@@ -76,9 +89,20 @@ class ProgrammeSerializer(serializers.ModelSerializer):
                     'field_study',
                 ]
 
+class CountrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Country
+        fields = [  'id',
+                    'iso_3166_alpha2',
+                    'iso_3166_alpha3',
+                    'name_english',
+                    'ehea_is_member',
+                ]
+
 class InstitutionCountrySerializer(serializers.ModelSerializer):
 
-    country = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
+    country = CountrySerializer()
     country_valid_from = UnixTimestampDateField()
     country_valid_to = UnixTimestampDateField()
 
@@ -98,20 +122,23 @@ class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
         fields = [  'id',
+                    'deqar_id',
                     'name_sort',
                     'name_primary',
+                    'website_link',
+                    'is_other_provider',
                     'locations',
                 ]
 
 class ReportIndexerSerializer(serializers.ModelSerializer):
 
-    agency = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
-    contributing_agencies = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    agency = AgencySerializer()
+    contributing_agencies = AgencySerializer(read_only=True, many=True)
     agency_esg_activities = EsgActivitySerializer(read_only=True, many=True)
     institutions = InstitutionSerializer(read_only=True, many=True)
     programmes = ProgrammeSerializer(source='programme_set', read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
-    flag_level = serializers.StringRelatedField()
+    flag = serializers.StringRelatedField()
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     valid_from = UnixTimestampDateField()
@@ -160,7 +187,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
             'other_provider_covered',
             'summary',
             'other_comment',
-            'flag_level'
+            'flag'
         ]
 
 

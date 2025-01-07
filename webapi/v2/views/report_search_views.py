@@ -4,18 +4,27 @@ import re
 
 from django.conf import settings
 from django.utils.decorators import method_decorator
+
 from django_filters import rest_framework as filters, OrderingFilter
+
 from drf_yasg.utils import swagger_auto_schema
-from pysolr import SolrError
+
 from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
+from eqar_backend.meilisearch import MeiliClient
+from meilisearch.errors import MeilisearchApiError
+
 from adminapi.inspectors.report_search_inspector import ReportSearchInspector
 from eqar_backend.searchers import Searcher
-from reports.models import Report
+from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
+from lists.models import Language
+from reports.models import Report, ReportStatus, ReportDecision
+from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
+from countries.models import Country
 
 class ReportFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
@@ -46,184 +55,248 @@ class ReportFilterClass(filters.FilterSet):
 ))
 class ReportList(ListAPIView):
     """
-    Returns a list of all the institutions to which report was submitted in DEQAR.
+    Returns a list of reports based on Meilisearch
     """
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = ReportFilterClass
-    core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
 
     def zero_or_more(self, request, field, default):
         value = request.query_params.get(field, default)
-        if not str(value).isdigit():
+        if value == '':
+            value = default
+        if not str(value).isdecimal():
             raise ParseError(detail='%s should be zero or larger number.' % field)
-        value = default if value == '' else value
-        return value
+        return int(value)
+
+
+    def convert_ordering(self, ordering):
+        """
+        map legacy ordering parameters to Meilisearch ones
+        """
+        MAPPING = {
+            "institution_programme_sort": "institutions.name_sort",
+            "date_created": "created_at",
+            "date_updated": "updated_at",
+            "valid_from": "valid_from",
+            "valid_to_calculated": "valid_to_calculated",
+            "agency": "agency.acronym_primary",
+            "country": "institutions.locations.country.name_english",
+            "activity": "agency_esg_activities.type",
+            "flag": "flag",
+        }
+        if ordering in [ "score", "-score"]:
+            return None
+        elif ordering[0:1] == '-':
+            return MAPPING[ordering[1:]] + ':desc'
+        else:
+            return MAPPING[ordering] + ':asc'
+
+
+    def lookup_object(self, model, key, parameter, attribute, raw_parameter, multi=False):
+        """
+        If parameter is set, looks up model object against key and returns its attribute - otherwise raw_parameter if set
+        """
+        if lookup := self.request.query_params.get(parameter, None):
+            if multi:
+                obj = model.objects.filter(**{key: lookup})
+                if obj.count() == 0:
+                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+                else:
+                    return ', '.join([ str(getattr(i, attribute)) for i in obj ])
+            else:
+                try:
+                    obj = model.objects.get(**{key: lookup})
+                    return getattr(obj, attribute)
+                except model.DoesNotExist:
+                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+        else:
+            return self.request.query_params.get(raw_parameter, None)
+
 
     def list(self, request, *args, **kwargs):
+        self.request = request
+
         limit = self.zero_or_more(request, 'limit', 10)
         offset = self.zero_or_more(request, 'offset', 0)
 
-        filters = [{'-flag_level_facet': 'high level'}]
+        filters = []
 
-        date_filters = []
-        qf = [
-            'institution_programme_primary^5.0',
-            'institution_name_english^2.5',
-            'institution_name_official^2.5',
-            'institution_name_official_transliterated^2.5',
-            'institution_name_version^1.5',
-            'institution_name_version_transliterated^1.5',
-            'programme_name^2.5',
-            'country^1.5',
-            'city^2',
-        ]
-        params = {
-            'search': request.query_params.get('query', ''),
-            'ordering': request.query_params.get('ordering', '-score'),
-            'qf': qf,
-            'fl': 'id,local_id,local_identifier,'
-                  'agency_acronym,agency_name,agency_esg_activity,agency_esg_activity_type,'
-                  'contributing_agencies,'
-                  'country,institutions,programmes,report_files,report_links,'
-                  'status,decision,crossborder,valid_from,valid_to,valid_to_calculated,'
-                  'flag_level,score,other_comment,date_created,date_updated',
-            'facet': True,
-            'facet_fields': ['agency_facet', 'country_facet', 'flag_level_facet',
-                             'activity_facet', 'activity_type_facet',
-                             'status_facet', 'decision_facet',
-                             'language_facet', 'crossborder_facet',
-                             'other_provider_covered_facet',
-                             'degree_outcome_facet', 'programme_type_facet'],
-            'facet_sort': 'index'
-        }
+        if agency_id := self.lookup_object(Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
+            filters.append(f'agency.id = {agency_id} OR contributing_agencies.id = {agency_id}')
 
-        agency = request.query_params.get('agency', None)
-        agency_id = request.query_params.get('agency_id', None)
+        if activity_ids := self.lookup_object(AgencyESGActivity, 'activity', 'activity', 'id', 'activity_id', multi=True):
+            filters.append(f'agency_esg_activities.id IN [ {activity_ids} ]')
 
-        activity = request.query_params.get('activity', None)
-        activity_id = request.query_params.get('activity_id', None)
+        if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
+            filters.append(f'agency_esg_activities.type = "{activity_type}"')
 
-        activity_type = request.query_params.get('activity_type', None)
-        activity_type_id = request.query_params.get('activity_type_id', None)
+        if country_id := self.lookup_object(Country, 'name_english', 'country', 'id', 'country_id'):
+            filters.append(f'institutions.locations.country.id = {country_id}')
 
-        country = request.query_params.get('country', None)
-        country_id = request.query_params.get('country_id', None)
+        if status := self.lookup_object(ReportStatus, 'id', 'status_id', 'status', 'status'):
+            filters.append(f'status = "{status}"')
 
-        status = request.query_params.get('status', None)
-        status_id = request.query_params.get('status_id', None)
+        if decision := self.lookup_object(ReportDecision, 'id', 'decision_id', 'decision', 'decision'):
+            filters.append(f'decision = "{decision}"')
 
-        decision = request.query_params.get('decision', None)
-        decision_id = request.query_params.get('decision_id', None)
+        if language := self.lookup_object(Language, 'id', 'language_id', 'language_name_en', 'language'):
+            filters.append(f'report_files.languages = "{language}"')
 
-        language = request.query_params.get('language', False)
-        language_id = request.query_params.get('language_id', False)
+        if cross_border := request.query_params.get('cross_border', None):
+            filters.append(f'crossborder = {BooleanExtendedField.to_internal_value(None, cross_border)}')
 
-        cross_border = request.query_params.get('cross_border', None)
-        flag = request.query_params.get('flag', None)
-        active = request.query_params.get('active', False)
-        year = request.query_params.get('year', False)
+        if other_provider_covered := request.query_params.get('other_provider_covered', None):
+            filters.append(f'other_provider_covered = {BooleanExtendedField.to_internal_value(None, other_provider_covered)}')
 
-        other_provider_covered = request.query_params.get('other_provider_covered', None)
-        degree_outcome = request.query_params.get('degree_outcome', None)
-        programme_type = request.query_params.get('programme_type', None)
+        if degree_outcome := request.query_params.get('degree_outcome', None):
+            if BooleanExtendedField.to_internal_value(None, degree_outcome):
+                filters.append(f'programmes.degree_outcome = 1')
+            else:
+                filters.append(f'programmes.degree_outcome != 1')
 
-        if agency:
-            filters.append({'agency_facet': agency})
-        if agency_id:
-            filters.append({'agency_id': agency_id})
+        if flag := request.query_params.get('flag', None):
+            filters.append(f'flag = "{flag}"')
+        else:
+            filters.append(f'flag != "high level"')
 
-        if activity:
-            filters.append({'activity_facet': activity})
-        if activity_id:
-            filters.append({'activity_id': activity_id})
+        if programme_type := request.query_params.get('programme_type', None):
+            filters.append(f'programmes.programme_type = "{programme_type}"')
 
-        if activity_type:
-            filters.append({'activity_type_facet': activity_type})
-        if activity_type_id:
-            filters.append({'activity_type_id': activity_type_id})
+        if active := request.query_params.get('active', False):
+            if BooleanExtendedField.to_internal_value(None, active):
+                filters.append(f'valid_to_calculated >= {int(datetime.datetime.now().timestamp())}')
 
-        if country:
-            filters.append({'country_facet': country})
-        if country_id:
-            filters.append({'country_id': country_id})
-
-        if status:
-            filters.append({'status_facet': status})
-        if status_id:
-            filters.append({'status_id': status_id})
-
-        if decision:
-            filters.append({'decision_facet': decision})
-        if decision_id:
-            filters.append({'decision_id': decision_id})
-
-        if cross_border:
-            filters.append({'crossborder_facet': cross_border})
-
-        if language:
-            filters.append({'language_facet': language})
-        if language_id:
-            filters.append({'language_id': language_id})
-
-        if flag:
-            filters.append({'flag_level_facet': flag})
-        if active:
-            if active == 'true':
-                now = datetime.datetime.now().replace(microsecond=0).isoformat()
-                date_filters.append({'valid_to_calculated': '[%sZ TO *]' % now})
-
-        if other_provider_covered:
-            filters.append({'other_provider_covered_facet': other_provider_covered})
-
-        if degree_outcome:
-            filters.append({'degree_outcome_facet': degree_outcome})
-
-        if programme_type:
-            filters.append({'programme_type_facet': programme_type})
-
-        if year:
+        if year := request.query_params.get('year', False):
             try:
-                if re.match(r'.*([1-3][0-9]{3})', year):
-                    date_from = datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).isoformat()
-                    date_filters.append({'valid_from': '[* TO %sZ]' % date_from})
-                    date_to = datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).isoformat()
-                    date_filters.append({'valid_to_calculated': '[%sZ TO *]' % date_to})
+                filters.append(f'valid_from <= {int(datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).timestamp())}')
+                filters.append(f'valid_to_calculated >= {int(datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).timestamp())}')
             except ValueError:
-                pass
+                raise ParseError(detail=f'value [{year}] for year cannot be parsed to int')
 
-        params['filters'] = filters
-        params['date_filters'] = date_filters
-
-        searcher = Searcher(self.core)
-        searcher.initialize(params, start=offset, rows_per_page=limit, tie_breaker='institution_programme_sort asc')
+        meili = MeiliClient()
+        params = {
+            'sort': self.convert_ordering(request.query_params.get('ordering', '-score')),
+            'filter': filters,
+            'facets': [
+                'agency.id',
+                'agency_esg_activities.id',
+                'agency_esg_activities.type',
+                'contributing_agencies.id',
+                'crossborder',
+                'decision',
+                'flag',
+                'institutions.locations.country.id',
+                'other_provider_covered',
+                'programmes.degree_outcome',
+                'programmes.programme_type',
+                'report_files.languages',
+                'status',
+            ],
+            'hitsPerPage': limit,
+            'page': int(offset/limit) + 1,
+        }
 
         try:
-            response = searcher.search()
-        except SolrError as e:
+            response = meili.meili.index(meili.INDEX_REPORTS).search(query=request.query_params.get('query', ''), opt_params=params)
+        except MeilisearchApiError as e:
             return Response(status=HTTP_400_BAD_REQUEST, data={'error': str(e)})
 
-        for r in response:
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'contributing_agencies')
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'institutions')
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'programmes')
-            r.update((k, json.loads(v)) for k, v in r.items() if k == 'report_links')
+        # convert result structure
+        for r in response['hits']:
+            # compatibility
+            if r['local_identifier']:
+                r['local_id'] = [ r['local_identifier'] ]
+            r["flag_level"] = r.pop("flag")
 
-            # Do full URLs for files
-            if 'report_files' in r.keys():
-                report_files_json = json.loads(r['report_files'])
-                for report_files in report_files_json:
-                    if 'file' in report_files:
-                        report_files['file'] = self.request.build_absolute_uri(report_files['file'])
-                r.update([('report_files', report_files_json)])
+            # date formats
+            r['valid_from'] = datetime.datetime.fromtimestamp(r['valid_from']).isoformat() + "Z"
+            r['valid_to_calculated'] = datetime.datetime.fromtimestamp(r['valid_to_calculated']).isoformat() + "Z"
+            if r['valid_to']:
+                r['valid_to'] = datetime.datetime.fromtimestamp(r['valid_to']).isoformat() + "Z"
+            r['date_created'] = datetime.datetime.fromtimestamp(r.pop('created_at')).isoformat() + "Z"
+            r['date_updated'] = datetime.datetime.fromtimestamp(r.pop('updated_at')).isoformat() + "Z"
+
+            # additional agency and activity info
+            agency = Agency.objects.get(id=r['agency']['id'])
+            activity = AgencyESGActivity.objects.get(id=r['agency_esg_activities'][0]['id'])
+            r['agency_name']= agency.name_primary
+            r['agency_acronym'] = r['agency']['acronym_primary']
+            r['agency_esg_activity'] = activity.activity
+            r['agency_esg_activity_type'] = r['agency_esg_activities'][0]['type']
+
+            # reformat contributing agency list
+            for ca in r['contributing_agencies']:
+                contributing_agency = Agency.objects.get(id=ca['id'])
+                ca['agency_id'] = ca.pop('id')
+                ca['agency_acronym'] = ca.pop('acronym_primary')
+                ca['agency_name'] = contributing_agency.name_primary
+                ca['agency_url'] = contributing_agency.website_link
+
+            # adjust degree outcome semantics
+            for p in r['programmes']:
+                p['degree_outcome'] = p['degree_outcome'] == 1
+
+            # merged country list
+            countries = set()
+            for i in r['institutions']:
+                for l in i['locations']:
+                    countries.add(l['country']['name_english'])
+            r["country"] = list(countries)
+
+            # make file paths absolute
+            for f in r["report_files"]:
+                if "file" in f:
+                    f["file"] = self.request.build_absolute_uri(f['file'])
+
+        # convert facets
+        FACET_NAMES = {
+            'agency.id': 'agency_facet',
+            'institutions.locations.country.id': 'country_facet',
+            'flag': 'flag_level_facet',
+            'agency_esg_activities.id': 'activity_facet',
+            'agency_esg_activities.type': 'activity_type_facet',
+            'status': 'status_facet',
+            'decision': 'decision_facet',
+            'report_files.languages': 'language_facet',
+            'crossborder': 'crossborder_facet',
+            'other_provider_covered': 'other_provider_covered_facet',
+            'programmes.degree_outcome': 'degree_outcome_facet',
+            'programmes.programme_type': 'programme_type_facet'
+        }
+        FACET_LOOKUP = {
+            'agency.id':                         { 'model': Agency,            'attribute': 'acronym_primary' },
+            'institutions.locations.country.id': { 'model': Country,           'attribute': 'name_english' },
+            'agency_esg_activities.id':          { 'model': AgencyESGActivity, 'attribute': 'activity' },
+        }
+        fields = {}
+        for facet_name, distribution in response['facetDistribution'].items():
+            field = list()
+            for value, count in distribution.items():
+                if facet_name in FACET_LOOKUP:
+                    try:
+                        obj = FACET_LOOKUP[facet_name]['model'].objects.get(id=value)
+                        field.append(getattr(obj, FACET_LOOKUP[facet_name]['attribute']))
+                    except FACET_LOOKUP[facet_name]['model'].DoesNotExist:
+                        field.append(f'unknown ID: {value}')
+                else:
+                    field.append(value)
+                field.append(count)
+            fields[FACET_NAMES[facet_name]] = field
+
+        # TO DO: merge contributing_agencies.id
 
         resp = {
-            'count': response.hits,
-            'results': response.docs,
-            'facets': response.facets
+            'count': response['totalHits'],
+            'next': (limit + offset < response['totalHits']),
+            'results': response['hits'],
+            'facets': {
+                'facet_queries': {},
+                'facet_fields': fields,
+                'facet_ranges': {},
+                'facet_intervals': {},
+                'facet_heatmaps': {},
+            },
         }
-
-        if (int(limit) + int(offset)) < int(response.hits):
-            resp['next'] = True
 
         return Response(resp)
