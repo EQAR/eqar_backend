@@ -3,7 +3,7 @@
   fields:
     agency: 5
     local_identifier: DEQARINSTAP0010-DEQARINSTAP0011-01
-    agency_esg_activity: 1
+    agency_esg_activities: [1]
     name: Report with only APs
     status: 2
     decision: 1
@@ -18,7 +18,7 @@
   fields:
     agency: 5
     local_identifier: EQARAG0021-DEQARINSTAP0011-01
-    agency_esg_activity: 2
+    agency_esg_activities: [2]
     name: Report with APs and HEIs mixed
     status: 1
     decision: 1

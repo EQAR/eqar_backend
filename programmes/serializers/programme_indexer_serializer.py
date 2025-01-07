@@ -6,47 +6,21 @@ from datedelta import datedelta
 
 from eqar_backend.serializer_fields.date_unix_timestamp import UnixTimestampDateField
 
-from programmes.models import Programme, ProgrammeName
-from reports.models import Report, ReportFile, ReportLink
-from agencies.models import AgencyESGActivity
+from programmes.models import Programme
+from reports.models import Report
 
+from reports.serializers.report_meili_indexer_serializer import \
+    EsgActivitySerializer, \
+    ReportFileSerializer, \
+    ReportLinkSerializer, \
+    ProgrammeNameSerializer
 
-class EsgActivitySerializer(serializers.ModelSerializer):
-
-    type = serializers.CharField(source='activity_type.type')
-
-    class Meta:
-        model = AgencyESGActivity
-        fields = [
-            'id', 'type'
-        ]
-
-class ReportFileSerializer(serializers.ModelSerializer):
-
-    languages = serializers.StringRelatedField(many=True, read_only=True)
-
-    class Meta:
-        model = ReportFile
-        fields = [
-            'file_display_name',
-            'file',
-            'languages',
-        ]
-
-class ReportLinkSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ReportLink
-        fields = [
-            'link_display_name',
-            'link',
-        ]
 
 class ReportSerializer(serializers.ModelSerializer):
 
     agency = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     contributing_agencies = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-    agency_esg_activity = EsgActivitySerializer()
+    agency_esg_activities = EsgActivitySerializer(read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
     flag_level = serializers.StringRelatedField()
     status = serializers.StringRelatedField()
@@ -81,7 +55,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'id',
             'local_identifier',
             'agency', 'contributing_agencies',
-            'agency_esg_activity',
+            'agency_esg_activities',
             'decision', 'status',
             'valid_from', 'valid_to', 'valid_to_calculated',
             'created_at', 'updated_at',
@@ -90,15 +64,9 @@ class ReportSerializer(serializers.ModelSerializer):
             'report_links',
             'summary',
             'other_comment',
-            'flag_level'
+            'flag'
         ]
 
-
-class ProgrammeNameSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ProgrammeName
-        fields = [ 'id', 'name', 'qualification', 'name_is_primary' ]
 
 class ProgrammeIndexerSerializer(serializers.ModelSerializer):
 

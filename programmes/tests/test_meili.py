@@ -33,11 +33,12 @@ class ProgrammeMeiliTest(TestCase):
         self.requests = requests.session()
         if hasattr(settings, "MEILI_API_KEY"):
             self.requests.headers.update({ 'authorization': f'Bearer {settings.MEILI_API_KEY}' })
+        # index programmes
+        call_command('index_programmes')
 
     def test_index_report(self):
-        # index sample of reports
-        for report in Report.objects.filter(agency_esg_activity__activity_type__type__in=[ 'programme', 'joint programme' ]):
-            call_command('index_programmes', f'--report={report.id}')
+        # check index for sample of reports
+        for report in Report.objects.filter(agency_esg_activities__activity_type__type__in=[ 'programme', 'joint programme' ]):
             for programme in report.programme_set.all():
                 response = self.requests.get(urljoin(settings.MEILI_API_URL, f'indexes/{self.indexer.meili.INDEX_PROGRAMMES}/documents/{programme.id}'))
                 self.assertEqual(response.status_code, 200)

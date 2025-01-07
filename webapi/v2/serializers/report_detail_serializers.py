@@ -4,6 +4,7 @@ from django.db.models import Q
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
+from agencies.models import AgencyESGActivity
 from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName, ProgrammeLearningOutcome
 from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
@@ -65,15 +66,25 @@ class ProgrammeSerializer(serializers.ModelSerializer):
                   'learning_outcomes', 'learning_outcome_description']
 
 
+class EsgActivitySerializer(serializers.ModelSerializer):
+    type = serializers.CharField(source='activity_type.type')
+
+    class Meta:
+        model = AgencyESGActivity
+        fields = [
+            'id', 'type'
+        ]
+
+
 class ReportDetailSerializer(serializers.ModelSerializer):
-    name = serializers.SlugRelatedField(slug_field='activity_description', read_only=True, source='agency_esg_activity')
     agency_id = serializers.PrimaryKeyRelatedField(source='agency', read_only=True)
     agency_url = serializers.HyperlinkedRelatedField(read_only=True, view_name="webapi-v2:agency-detail",
                                                      source='agency')
     agency_name = serializers.SlugRelatedField(source='agency', slug_field='name_primary', read_only=True)
     agency_acronym = serializers.SlugRelatedField(source='agency', slug_field='acronym_primary', read_only=True)
-    agency_esg_activity = serializers.SlugRelatedField(slug_field='activity', read_only=True)
+    agency_esg_activity = serializers.SerializerMethodField()
     agency_esg_activity_type = serializers.SerializerMethodField()
+    agency_esg_activities = EsgActivitySerializer(many=True, read_only=True)
     contributing_agencies = ContributingAgencySerializer(many=True)
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
@@ -87,8 +98,11 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     flag = serializers.StringRelatedField()
     report_valid = serializers.SerializerMethodField()
 
+    def get_agency_esg_activity(self, obj):
+        return obj.agency_esg_activities.first().activity
+
     def get_agency_esg_activity_type(self, obj):
-        return obj.agency_esg_activity.activity_type.type
+        return obj.agency_esg_activities.first().activity_type.type
 
     def get_crossborder(self, obj):
         crossborder = False
@@ -165,7 +179,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['id', 'agency_name', 'agency_acronym', 'agency_id', 'agency_url',
                   'contributing_agencies',
-                  'agency_esg_activity', 'agency_esg_activity_type', 'name',
+                  'agency_esg_activity', 'agency_esg_activity_type', 'agency_esg_activities',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'crossborder', 'summary', 'report_files',
                   'report_links', 'local_identifier', 'other_comment', 'flag']

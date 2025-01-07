@@ -17,7 +17,7 @@ from django.views.decorators.cache import cache_control
 
 from institutions.models import InstitutionIdentifier
 from reports.models import Report
-
+from agencies.models import AgencyActivityType
 
 class ServiceUnavailable(APIException):
     status_code = status.HTTP_503_SERVICE_UNAVAILABLE
@@ -121,7 +121,7 @@ class VCIssue(APIView):
         # Fill institution-independent data
         vc_offer['credentialSubject'] = {}
         vc_offer['credentialSubject']['authorizationClaims'] = {}
-        vc_offer['credentialSubject']['authorizationClaims']['accreditationType'] = self._translate_activity_type(report.agency_esg_activity.activity_type)
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationType'] = self._translate_activity_type(AgencyActivityType.objects.get(id=report.get_activity_type()))
         vc_offer['credentialSubject']['authorizationClaims']['decision'] = report.decision.decision
         vc_offer['credentialSubject']['authorizationClaims']['report'] = []
         for reportfile in report.reportfile_set.iterator():
@@ -129,7 +129,7 @@ class VCIssue(APIView):
                 vc_offer['credentialSubject']['authorizationClaims']['report'].append(self.request.build_absolute_uri(reportfile.file.url))
             except (ValueError):
                 pass
-        if report.agency_esg_activity.activity_type.type in [ 'programme', 'joint programme' ]:
+        if report.get_activity_type() in [ 1, 3 ]:
             # Programme data for programme-level reports
             vc_offer['credentialSubject']['authorizationClaims']['limitQualification'] = []
             for programme in report.programme_set.iterator():
@@ -153,7 +153,7 @@ class VCIssue(APIView):
         for location in institution.institutioncountry_set.filter(country_verified=True).iterator():
             subject['authorizationClaims']['limitJurisdiction'].append(self._translate_country(location.country))
         # QF levels for institutional reports
-        if report.agency_esg_activity.activity_type.type in [ 'institutional', 'institutional/programme' ]:
+        if report.get_activity_type() in [ 2, 4 ]:
             self._set_if(subject['authorizationClaims'], 'limitQFLevel', self._collect_qf_levels(institution))
 
         return subject
@@ -250,7 +250,7 @@ class DEQARVCIssue(VCIssue):
 
         # additional report data
         vc_offer['credentialSubject']['authorizationClaims']['accreditationStatus'] = report.status.status
-        vc_offer['credentialSubject']['authorizationClaims']['accreditationActivity'] = report.agency_esg_activity.activity
+        vc_offer['credentialSubject']['authorizationClaims']['accreditationActivity'] = " / ".join([ a.activity for a in report.agency_esg_activities.all() ])
 
         # registered QA agency
         vc_offer['issuer'] = {

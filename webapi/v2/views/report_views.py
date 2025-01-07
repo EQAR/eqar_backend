@@ -39,12 +39,12 @@ class ReportListByInstitution(generics.ListAPIView):
         programme_is_null = False if report_type == 'programme' else True
 
         if report_type == 'programme':
-            filter = Q(agency_esg_activity__activity_type=1) | \
-                     Q(agency_esg_activity__activity_type=3) | \
-                     Q(agency_esg_activity__activity_type=4)
+            filter = Q(agency_esg_activities__activity_type=1) | \
+                     Q(agency_esg_activities__activity_type=3) | \
+                     Q(agency_esg_activities__activity_type=4)
         else:
-            filter = Q(agency_esg_activity__activity_type=2) | \
-                     Q(agency_esg_activity__activity_type=4)
+            filter = Q(agency_esg_activities__activity_type=2) | \
+                     Q(agency_esg_activities__activity_type=4)
 
         # Add Original
         if include_history == 'true':

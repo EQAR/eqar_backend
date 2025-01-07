@@ -23,7 +23,7 @@ class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
         return obj.report_set.count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(reports__agency_esg_activity=obj).distinct().count()
+        return Institution.objects.filter(reports__agency_esg_activities=obj).distinct().count()
 
     class Meta:
         model = AgencyESGActivity
