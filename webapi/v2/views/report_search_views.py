@@ -44,8 +44,15 @@ class ReportFilterClass(filters.FilterSet):
 
     ordering = OrderingFilter(
         fields=(
-            ('score', 'score'),
-            ('name', 'name_sort')
+            "institution_programme_sort",
+            "agency",
+            "country",
+            "activity",
+            "flag",
+            "valid_from",
+            "valid_to_calculated",
+            "date_created",
+            "date_updated",
         )
     )
 
@@ -88,9 +95,9 @@ class ReportList(ListAPIView):
         if ordering in [ "score", "-score"]:
             return None
         elif ordering[0:1] == '-':
-            return MAPPING[ordering[1:]] + ':desc'
+            return [ MAPPING[ordering[1:]] + ':desc' ]
         else:
-            return MAPPING[ordering] + ':asc'
+            return [ MAPPING[ordering] + ':asc' ]
 
 
     def lookup_object(self, model, key, parameter, attribute, raw_parameter, multi=False):
@@ -153,7 +160,7 @@ class ReportList(ListAPIView):
             if BooleanExtendedField.to_internal_value(None, degree_outcome):
                 filters.append(f'programmes.degree_outcome = 1')
             else:
-                filters.append(f'programmes.degree_outcome != 1')
+                filters.append(f'programmes.degree_outcome > 1')
 
         if flag := request.query_params.get('flag', None):
             filters.append(f'flag = "{flag}"')
@@ -194,7 +201,7 @@ class ReportList(ListAPIView):
                 'status',
             ],
             'hitsPerPage': limit,
-            'page': int(offset/limit) + 1,
+            'page': int(offset/limit) + 1 if limit > 0 else 1,
         }
 
         try:

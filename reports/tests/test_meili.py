@@ -116,7 +116,34 @@ class ReportMeiliTest(APITestCase):
         response = self.client.get('/webapi/v2/browse/reports/', { 'cross_border': 'false' })
         self.assertEqual(response.data['count'], 7)
 
-        # TO DO: response = self.client.get('/webapi/v2/browse/reports/', { 'degree_outcome': '' })
+        response = self.client.get('/webapi/v2/browse/reports/', { 'ordering': 'valid_from', 'limit': 1, 'offset': '' })
+        self.assertEqual(response.data['results'][0]['valid_from'], '2010-03-23T00:00:00Z')
+        response = self.client.get('/webapi/v2/browse/reports/', { 'ordering': '-valid_to_calculated', 'limit': 1, 'offset': '' })
+        self.assertEqual(response.data['results'][0]['valid_to'], '2030-09-30T00:00:00Z')
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'limit': 0 })
+        self.assertEqual(len(response.data['results']), 0)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'limit': -5 })
+        self.assertEqual(response.status_code, 400)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'offset': 'should be a number' })
+        self.assertEqual(response.status_code, 400)
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'other_provider_covered': 'YES' })
+        self.assertEqual(response.status_code, 400)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'other_provider_covered': 'yes' })
+        self.assertEqual(response.data['count'], 2)
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'degree_outcome': 'false' })
+        self.assertEqual(response.data['count'], 0)
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'flag': 'high level' })
+        self.assertEqual(response.data['count'], 0)
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'year': '2014' })
+        self.assertEqual(response.data['count'], 8)
+
+        response = self.client.get('/webapi/v2/browse/reports/', { 'programme_type': 'Full recognised degree programme' })
+        self.assertEqual(response.data['count'], 8)
 
         # delete last report
         self.indexer.delete(report.id)
