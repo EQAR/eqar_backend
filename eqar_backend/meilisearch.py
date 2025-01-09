@@ -25,7 +25,9 @@ class MeiliTaskCanceled(MeiliError):
     """
 
 class MeiliClient:
-
+    """
+    wrapper for the meilisearch.Client class
+    """
     def __init__(self):
         if not hasattr(settings, "MEILI_API_URL"):
             raise MeiliError(f'Missing MEILI_API_URL setting')
@@ -49,6 +51,10 @@ class MeiliClient:
     @property
     def INDEX_REPORTS(self):
         return self._get_index_uid("MEILI_INDEX_REPORTS", 'reports-v3')
+
+    @property
+    def INDEX_INSTITUTIONS(self):
+        return self._get_index_uid("MEILI_INDEX_INSTITUTIONS", 'institutions-v3')
 
     def wait_for(self, task_info):
         """
@@ -99,4 +105,21 @@ class MeiliClient:
         Delete a document from the index
         """
         return self.wait_for(self.meili.index(index).delete_document(doc_id))
+
+
+class MeiliIndexer:
+    """
+    generic indexer for Meilisearch
+    """
+    def __init__(self):
+        self.meili = MeiliClient()
+        self.index_uid = getattr(self.meili, 'INDEX_' + self.model._meta.model_name.upper() + 'S')
+
+    def index(self, obj_id):
+        obj = self.model.objects.get(pk=obj_id)
+        doc = self.serializer(obj).data
+        self.meili.add_document(self.index_uid, doc)
+
+    def delete(self, obj_id):
+        self.meili.delete_document(self.index_uid, obj_id)
 
