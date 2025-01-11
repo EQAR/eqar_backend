@@ -17,11 +17,25 @@ def validate_submission_package_root(data):
     activities = data.get('activities', [])
     esg_activity = data.get('esg_activity', None)
     agency = data.get('agency', None)
+    contributing_agencies = data.get('contributing_agencies', [])
     report = data.get('report_id', None)
     local_identifier = data.get('local_identifier', None)
     valid_from = data.get('valid_from')
     valid_to = data.get('valid_to', None)
     status = data.get('status', None)
+
+    # Validate if every agency has at least one activity in the list. (Only for API v2)
+    if not esg_activity:
+        agencies_from_activities = []
+        for activity in activities:
+            agencies_from_activities.append(activity.agency.id)
+
+        if agency.id not in agencies_from_activities:
+            errors.append("Please provide at least one activity for the agency.")
+
+        for ca in contributing_agencies:
+            if ca.id not in agencies_from_activities:
+                errors.append("Please provide at least one activity for the contributing agency.")
 
     #
     # Validate if activity types haas the right amount of programme and instituton records
