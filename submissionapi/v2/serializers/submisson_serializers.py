@@ -28,64 +28,12 @@ class IdentifierSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=50, required=True,
                                        label='An identifier used by the Agency to identify each institution/programme.',
                                        help_text='example: HCERES21')
-    resource = serializers.CharField(max_length=200, required=False,
-                                     label='If the identifer is from another source, the source should be recorded as '
-                                           'well. If no source is recorded, the source will be recorded as the '
-                                           'Agency itself.',
+    resource = serializers.CharField(max_length=200, required=True,
+                                     label='The resource where the identifier is used.',
                                      help_text='example: national authority')
 
     class Meta:
         ref_name = "IdentifierV2Serializer"
-
-class InstitutionAlternativeNameSerializer(serializers.Serializer):
-    name_alternative = serializers.CharField(max_length=200, required=True,
-                                             label='Alternative name(s) or alternative language name(s) of each '
-                                                   'institution in the original alphabet')
-    name_alternative_transliterated = serializers.CharField(max_length=200, required=False,
-                                                            label='Alternative name(s) or alternative language name(s) '
-                                                                  'of each institution in a transliterated form')
-
-    class Meta:
-        ref_name = "InstitutionAlternativeNameV2Serializer"
-
-class InstitutionLocatonSerializer(serializers.Serializer):
-    country = CountryField(required=True,
-                           label='The country where each institution is located, submitted in the form of an '
-                                 'ISO 3166 alpha2 or ISO 3166 alpha3 country code.',
-                           help_text='examples: "BG", "BGR"')
-    city = serializers.CharField(max_length=100, required=False,
-                                 label='The city name, preferrably in English, where the institution is located '
-                                       'in each country.',
-                                 help_text='example: Sofia')
-    latitude = serializers.FloatField(required=False,
-                                      label='The exact latitude of the institution in the city or the '
-                                            'general latitude and longitude of the city itself.',
-                                      help_text='example: 42.698334')
-    longitude = serializers.FloatField(required=False,
-                                       label='The exact longitude of the institution in the city or the '
-                                             'general latitude and longitude of the city itself.',
-                                       help_text='example: 23.319941')
-
-    def validate(self, data):
-        city = data.get('city', None)
-        latitude = data.get('latitude', None)
-        longitude = data.get('longitude', None)
-
-        if latitude is not None:
-            if longitude is None:
-                raise serializers.ValidationError("Please provide latitude together with longitude.")
-
-        if longitude is not None:
-            if latitude is None:
-                raise serializers.ValidationError("Please provide latitude together with longitude.")
-
-        if (latitude is not None and longitude is not None) and city is None:
-            raise serializers.ValidationError("Please provide latitude and longitude together with city data.")
-
-        return data
-
-    class Meta:
-        ref_name = "InstitutionLocatonV2Serializer"
 
 class InstitutionSerializer(serializers.Serializer):
     # Reference
@@ -95,10 +43,7 @@ class InstitutionSerializer(serializers.Serializer):
                                     help_text='example: AT0005')
 
     # Identification
-    identifiers = IdentifierSerializer(many=True, required=False)
-
-    def validate_identifiers(self, value):
-        return validate_identifiers_and_resource(value)
+    identifier = IdentifierSerializer(required=False)
 
     # The new institution populator
     def to_internal_value(self, data):
@@ -106,7 +51,7 @@ class InstitutionSerializer(serializers.Serializer):
 
         deqar_id = data.get('deqar_id', None)
         eter_id = data.get('eter_id', None)
-        identifiers = data.get('identifiers', None)
+        institution_identifier = data.get('identifier', None)
 
         institution_deqar = None
         institution_eter = None
@@ -142,37 +87,36 @@ class InstitutionSerializer(serializers.Serializer):
         agency = agency_field.to_internal_value(parent_data['agency'])
 
         institutions = set()
-        if identifiers is not None:
-            for idf in identifiers:
-                identifier = idf.get('identifier', None)
-                resource = idf.get('resource', 'local identifier')
-                try:
-                    if resource == 'local identifier':
-                        inst_id = InstitutionIdentifier.objects.get(
-                            identifier=identifier,
-                            resource=resource,
-                            agency=agency
-                        )
-                        institutions.add(inst_id.institution)
-                    else:
-                        inst_id = InstitutionIdentifier.objects.get(
-                            identifier=identifier,
-                            resource=resource
-                        )
-                        institutions.add(inst_id.institution)
-                except ObjectDoesNotExist:
-                    pass
+        if institution_identifier is not None:
+            identifier = institution_identifier.get('identifier', None)
+            resource = institution_identifier.get('resource', 'local identifier')
+            try:
+                if resource == 'local identifier':
+                    inst_id = InstitutionIdentifier.objects.get(
+                        identifier=identifier,
+                        resource=resource,
+                        agency=agency
+                    )
+                    institutions.add(inst_id.institution)
+                else:
+                    inst_id = InstitutionIdentifier.objects.get(
+                        identifier=identifier,
+                        resource=resource
+                    )
+                    institutions.add(inst_id.institution)
+            except ObjectDoesNotExist:
+                pass
 
-            # If more than one institution were identified, raise error
-            if len(institutions) > 1:
-                raise serializers.ValidationError("The submitted institution identifiers are identifying "
-                                                  "more institutions. Please correct them.")
-            if len(institutions) == 0:
-                raise serializers.ValidationError("This report cannot be linked to an institution. "
-                                                  "It is missing either a valid ETER ID, DEQAR ID, or "
-                                                  "local identifier.")
-            if len(institutions) == 1:
-                return list(institutions)[0]
+        # If more than one institution were identified, raise error
+        if len(institutions) > 1:
+            raise serializers.ValidationError("The submitted institution identifiers are identifying "
+                                              "more institutions. Please correct them.")
+        if len(institutions) == 0:
+            raise serializers.ValidationError("This report cannot be linked to an institution. "
+                                              "It is missing either a valid ETER ID, DEQAR ID, or "
+                                              "local identifier.")
+        if len(institutions) == 1:
+            return list(institutions)[0]
 
         # If there were no ETER ID, DEQAR ID or local identifier submitted
         else:
@@ -411,7 +355,9 @@ class SubmissionPackageSerializer(serializers.Serializer):
         valid_from = data.get('valid_from')
         valid_to = data.get('valid_to', None)
 
-        agency = data.get('agency', None)
+        institutions = data.get('institutions', None)
+        if len(institutions) < 1:
+            errors.append("You cannot submit a report without identified institution data.")
 
         #
         # Validate if date format is applicable, default format is %Y-%m-%d.
@@ -425,6 +371,8 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 data['valid_to'] = date_to.strftime("%Y-%m-%d")
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
+
+
 
         # If there are errors raise ValidationError
         #
