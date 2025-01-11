@@ -1,4 +1,3 @@
-from django.core.exceptions import ObjectDoesNotExist
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, generics
 from rest_framework.generics import get_object_or_404

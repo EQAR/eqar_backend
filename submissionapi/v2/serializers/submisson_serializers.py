@@ -1,13 +1,10 @@
 from datetime import datetime
 
-from babel.localedata import locale_identifiers
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework.fields import ListField
 
-from adminapi.fields import PDFBase64File
 from agencies.models import AgencyESGActivity
 from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
@@ -20,8 +17,8 @@ from submissionapi.serializer_fields.country_field import CountryField
 from submissionapi.serializer_fields.qf_ehea_level_field import QFEHEALevelField
 from submissionapi.serializer_fields.report_decision_field import ReportDecisionField
 from submissionapi.serializer_fields.report_identifier_field import ReportIdentifierField
-from submissionapi.serializer_fields.report_language_field import ReportLanguageField
 from submissionapi.serializer_fields.report_status_field import ReportStatusField
+from submissionapi.v2.serializers.report_file_serializer import ReportFileSerializer
 from submissionapi.validations.validate_identifiers_and_resource import validate_identifiers_and_resource
 from submissionapi.validations.validate_programmes import validate_programmes
 from submissionapi.validations.validate_submission_package_root import validate_submission_package_root
@@ -278,36 +275,6 @@ class ProgrammeSerializer(serializers.Serializer):
     class Meta:
         ref_name = "ProgrammeV2Serializer"
 
-class ReportFileSerializer(serializers.Serializer):
-    original_location = serializers.URLField(max_length=500, required=False, label='The URL of the report file',
-                                             help_text='example: "http://estudis.aqu.cat/MAD2014_UPC_es.pdf"')
-    display_name = serializers.CharField(max_length=255, required=False, label='Display value of the file',
-                                         help_text='example: "Ev. de la Solicitud de Verification de Título oficial"')
-    report_language = serializers.ListField(child=ReportLanguageField(required=True), required=True,
-                                            label='Language(s) of the report',
-                                            help_text='example: ["eng", "ger"]')
-    file = PDFBase64File(required=False, label='The report file in PDF format encoded with Base64')
-    file_name = serializers.CharField(required=False, max_length=255, allow_blank=True,
-                                      label='The name of the file, required if you embed the file in the upload request',
-                                      help_text='example: ACQUIN_institutional_report.pdf')
-
-    def validate(self, data):
-        file = data.get('file', None)
-        file_name = data.get('file_name', None)
-
-        original_location = data.get('original_location', None)
-
-        if file:
-            if not file_name or file_name == '':
-                raise ValidationError("Please provide a file name for the uploaded file.")
-
-            if original_location:
-                raise ValidationError("You cannot submit both a file and an original_location URL.")
-
-        return super(ReportFileSerializer, self).validate(data)
-
-    class Meta:
-        ref_name = "ReportFileV2Serializer"
 
 class ReportLinkSerializer(serializers.Serializer):
     link = serializers.URLField(max_length=255, required=True,

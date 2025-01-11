@@ -39,6 +39,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
             "decision": "1",
             "report_files": [
                 {
+                    "original_location": "http://backend.deqar.eu/reports/AAQ/100676_20210104_0959_2018-09-14-bericht-systemakkreditierung-rwth-aachen.pdf",
                     "report_language": ["eng"]
                 }
             ],

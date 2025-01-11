@@ -3,10 +3,12 @@ import os
 from datetime import datetime
 
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+
+from submissionapi.populators.report_file_populator import ReportFilePopulator
 from submissionapi.tasks import download_file
 
-from reports.models import Report
+from reports.models import Report, ReportFile
 
 
 class ReportPopulator():
@@ -160,67 +162,59 @@ class ReportPopulator():
         """
         report_files = self.submission.get('report_files', [])
         for report_file in report_files:
-            languages = report_file.get('report_language', [])
-
-            # If original_location is submitted
-            original_location = report_file.get('original_location', "")
-            file_display_name = report_file.get('display_name', None)
-            if original_location != "":
-                self._create_report_file_from_original_location(original_location, file_display_name, languages)
-
-            # If file object was submitted as base64, save it to the disk and also generate checksum
-            file = report_file.get('file', None)
-            file_name = report_file.get('file_name', None)
-            if file:
-                self._create_report_file_from_base64_object(file, file_name, languages)
+            report_file_populator = ReportFilePopulator(
+                report_file_data=report_file,
+                report=self.report,
+                user=self.user
+            )
+            report_file_populator.report_file_create()
 
     def _report_file_update(self):
-        pass
+        """
+        Update ReportFile instances.
+        """
+        report_files = self.submission.get('report_files', [])
+        report_files_to_keep_by_id = [rf.get('report_file_id', None) for rf in report_files]
 
-    def _create_report_file_from_original_location(self, original_location, file_display_name, languages):
-        if file_display_name is None:
-            url = original_location
-            file_display_name = url[url.rfind("/") + 1:]
+        # Remove existing report files
+        self.report.reportfile_set.exclude(
+            report_id=self.report.id,
+            pk__in=report_files_to_keep_by_id
+        ).delete()
 
-        rf = self.report.reportfile_set.create(
-            file_display_name=file_display_name,
-            file_original_location=original_location
-        )
-
-        # Async file download with celery
-        download_file.delay(original_location, rf.id, self.agency.acronym_primary)
-
-        for lang in languages:
-            rf.languages.add(lang)
-
-    def _create_report_file_from_base64_object(self, file, file_name, languages):
-        rf = self.report.reportfile_set.create(
-            file_display_name=file_name
-        )
-        agency_acronym = self.report.agency.acronym_primary
-        file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym,
-                                 "%06d_%s_%s" % (rf.id, datetime.now().strftime("%Y%m%d_%H%M"), file_name))
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'wb') as f:
-            for chunk in file.chunks():
-                f.write(chunk)
-        with open(file_path, 'rb') as f:
-            checksum = hashlib.md5(f.read()).hexdigest()
-        rf.file = file_path
-        rf.checksum = checksum,
-        rf.save()
-
-        for lang in languages:
-            rf.languages.add(lang)
+        report_files = self.submission.get('report_files', [])
+        for report_file_data in report_files:
+            if 'report_file_id' in report_file_data:
+                report_file = ReportFile.objects.get(pk=report_file_data.get('report_file_id'))
+                report_file_populator = ReportFilePopulator(
+                    report_file_data=report_file_data,
+                    report_file=report_file,
+                    report=self.report,
+                    user=self.user
+                )
+                report_file_populator.report_file_update()
+            else:
+                report_file_populator = ReportFilePopulator(
+                    report_file_data=report_file_data,
+                    report=self.report,
+                    user=self.user
+                )
+                report_file_populator.report_file_create()
 
     def _report_file_upsert(self):
         """
-        Create or update a ReportFile instance.
+        Create or update a ReportFile instance. Used by the V1 endpoint only.
         """
         report_files = self.submission.get('report_files', None)
+        report_files_to_keep_by_original_location = [rf.get('original_location', None) for rf in report_files]
+
+        # Remove existing report files without matching original_location
+        self.report.reportfile_set.exclude(
+            report_id=self.report.id,
+            file_original_location__in=report_files_to_keep_by_original_location
+        ).delete()
+
         if report_files is not None or report_files != '' or report_files != []:
-            # Remove existing report files
-            self.report.reportfile_set.all().delete()
             for report_file in report_files:
                 languages = report_file.get('report_language', [])
                 file_display_name = report_file.get('display_name', None)
@@ -229,10 +223,19 @@ class ReportPopulator():
                     file_display_name = url[url.rfind("/")+1:]
 
                 original_location = report_file.get('original_location', "")
-                rf = self.report.reportfile_set.create(
-                    file_display_name=file_display_name,
-                    file_original_location=original_location
-                )
+
+                try:
+                    rf, created = self.report.reportfile_set.get_or_create(
+                        report_id=self.report.id,
+                        file_display_name=file_display_name,
+                        file_original_location=original_location
+                    )
+                except MultipleObjectsReturned:
+                    rf = ReportFile.objects.filter(
+                        report_id=self.report.id,
+                        file_display_name=file_display_name,
+                        file_original_location=original_location
+                    ).first()
 
                 # Async file download with celery
                 if original_location != "":
