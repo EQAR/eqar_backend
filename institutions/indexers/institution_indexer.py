@@ -303,10 +303,10 @@ class InstitutionIndexer:
             for activity in report.agency_esg_activities.all():
                 self.doc['activity_facet'].append(activity.activity_display)
 
-            activity_type_id = report.get_activity_type()
             try:
-                at = AgencyActivityType.objects.get(id=activity_type_id)
-                self.doc['activity_type_facet'].append(at.type)
+                for activity in report.agency_esg_activities.all():
+                    at = AgencyActivityType.objects.get(id=activity.activity_type_id)
+                    self.doc['activity_type_facet'].append(at.type)
             except ObjectDoesNotExist:
                 at = None
             self.doc['crossborder_facet'].append(False)

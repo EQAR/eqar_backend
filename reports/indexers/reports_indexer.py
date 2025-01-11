@@ -123,9 +123,9 @@ class ReportsIndexer:
         self.doc['activity_facet'] = self.report.get_activity_names()
         self.doc['activity_id'] = [activity.id for activity in self.report.agency_esg_activities.all()]
 
-        self.doc['agency_esg_activity_type'] = self.report.get_activity_type()
+        self.doc['agency_esg_activity_type'] = [activity.activity_type.type for activity in self.report.agency_esg_activities.all()]
         self.doc['activity_type_facet'] = [activity.activity_type.type for activity in self.report.agency_esg_activities.all()]
-        self.doc['activity_type_id'] = self.report.get_activity_type()
+        self.doc['activity_type_id'] = [activity.activity_type.id for activity in self.report.agency_esg_activities.all()]
 
         self.doc['agency_name'] = self.report.agency.name_primary
         self.doc['agency_acronym'] = self.report.agency.acronym_primary
