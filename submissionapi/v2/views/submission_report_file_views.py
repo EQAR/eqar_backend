@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,6 +13,13 @@ class ReportFileView(APIView):
     """
         Responsible for the update of report files
     """
+    @swagger_auto_schema(
+        request_body=ReportFileCreateSerializer,
+        responses={
+            '200': 'success',
+            '400': 'errors',
+            '403': "You don't have permission to add files to this report."
+        })
     def post(self, request, *args, **kwargs):
         serializer = ReportFileCreateSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -28,6 +36,13 @@ class ReportFileView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        request_body=ReportFileUpdateSerializer,
+        responses={
+            '200': 'success',
+            '400': 'errors',
+            '403': "You don't have permission to add files to this report."
+        })
     def put(self, request, *args, **kwargs):
         serializer = ReportFileUpdateSerializer(data=request.data)
         if serializer.is_valid():
@@ -47,6 +62,13 @@ class ReportFileView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        request_body=ReportFileDeleteSerializer,
+        responses={
+            '200': 'success',
+            '400': 'errors',
+            '403': "You don't have permission to delete files from this report."
+        })
     def delete(self, request, *args, **kwargs):
         serializer = ReportFileDeleteSerializer(data=request.data)
         if serializer.is_valid():
@@ -68,7 +90,7 @@ class ReportFileView(APIView):
                     report_file.delete()
                 return Response('deleted', status=status.HTTP_200_OK)
             else:
-                return Response({"error": "You don't have permission to add files to this report."},
+                return Response({"error": "You don't have permission to delete files from this report."},
                                 status=status.HTTP_403_FORBIDDEN)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
