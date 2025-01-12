@@ -10,9 +10,6 @@ from submissionapi.v2.serializers.report_file_serializer import ReportFileCreate
 
 
 class ReportFileView(APIView):
-    """
-        Responsible for the update of report files
-    """
     @swagger_auto_schema(
         request_body=ReportFileCreateSerializer,
         responses={
@@ -21,6 +18,9 @@ class ReportFileView(APIView):
             '403': "You don't have permission to add files to this report."
         })
     def post(self, request, *args, **kwargs):
+        """
+            Submission of report file for an existing report in DEQAR
+        """
         serializer = ReportFileCreateSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             report_file_populator = ReportFilePopulator(
@@ -44,6 +44,9 @@ class ReportFileView(APIView):
             '403': "You don't have permission to add files to this report."
         })
     def put(self, request, *args, **kwargs):
+        """
+            Submission of updated report file for an existing report
+        """
         serializer = ReportFileUpdateSerializer(data=request.data)
         if serializer.is_valid():
             report_file = serializer.validated_data['report_file_id']
@@ -70,6 +73,9 @@ class ReportFileView(APIView):
             '403': "You don't have permission to delete files from this report."
         })
     def delete(self, request, *args, **kwargs):
+        """
+            Deletion of report file for an existing report
+        """
         serializer = ReportFileDeleteSerializer(data=request.data)
         if serializer.is_valid():
             report_file = serializer.validated_data['report_file_id']

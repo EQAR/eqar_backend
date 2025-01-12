@@ -16,9 +16,6 @@ from submissionapi.v2.submission_package_handler import SubmissionPackageHandler
 
 
 class SubmissionReportView(APIView):
-    """
-        Submission of report data: POST request for creation, PUT request for update
-    """
     @swagger_auto_schema(
         request_body=SubmissionPackageCreateSerializer,
         responses={
@@ -27,6 +24,9 @@ class SubmissionReportView(APIView):
             '400': ResponseReportErrorResponseSerializer
         })
     def post(self, request):
+        """
+            Submission of report data for a new report not yet recorded in DEQAR
+        """
         serializer = SubmissionPackageCreateSerializer(data=request.data, context={'request': request})
         handler = SubmissionPackageHandler(request=request, serializer=serializer, action='create')
         handler.handle()
@@ -43,6 +43,9 @@ class SubmissionReportView(APIView):
             '400': ResponseReportErrorResponseSerializer
         })
     def put(self, request):
+        """
+            Submission of updated report data for an existing report
+        """
         serializer = SubmissionPackageUpdateSerializer(data=request.data, context={'request': request})
         handler = SubmissionPackageHandler(request=request, serializer=serializer, action='update')
         handler.handle()
