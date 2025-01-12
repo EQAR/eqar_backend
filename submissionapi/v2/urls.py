@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
     url(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
 
-    url(r'^check/local_identifier', CheckLocalIdentifierView.as_view(), name='check-report-local-identifier'),
+    url(r'^check/local-identifier', CheckLocalIdentifierView.as_view(), name='check-report-local-identifier'),
 
     url(r'^manage/report-file$', ReportFileView.as_view(), name='report_file-manage'),
     url(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
