@@ -4,6 +4,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from submissionapi.v1.views.csv_upload_report_view import SubmissionCSVView
+from submissionapi.v2.views.check_local_identifier_view import CheckLocalIdentifierView
 from submissionapi.v2.views.submission_report_view import SubmissionReportView, ReportDelete
 from submissionapi.v2.views.submission_report_file_views import ReportFileView
 
@@ -25,6 +26,8 @@ app_name = 'submissionapi'
 urlpatterns = [
     url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
     url(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
+
+    url(r'^check/local_identifier', CheckLocalIdentifierView.as_view(), name='check-report-local-identifier'),
 
     url(r'^manage/report-file$', ReportFileView.as_view(), name='report_file-manage'),
     url(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
