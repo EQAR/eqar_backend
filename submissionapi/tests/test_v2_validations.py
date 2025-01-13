@@ -46,10 +46,8 @@ class SubmissionV2ValidationTestCase(APITestCase):
             "institutions": [
                 {
                     "eter_id": "DE0392",
-                    "identifier": {
-                        "identifier": "DE0001",
-                        "resource": "national identifier"
-                    }
+                    "identifier": "DE0001",
+                    "resource": "national identifier"
                 }
             ],
             "programmes": [
@@ -464,7 +462,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         """
         data = self.valid_data
         data['institutions'][0].pop('eter_id', None)
-        data['institutions'][0]['identifier']['identifier'] = 'NOT_EXISTING_LOCAL'
+        data['institutions'][0]['identifier'] = 'NOT_EXISTING_LOCAL'
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -483,15 +481,6 @@ class SubmissionV2ValidationTestCase(APITestCase):
                 {'country': 'deu'}
             ],
         })
-        serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
-        self.assertFalse(serializer.is_valid(), serializer.errors)
-
-    def test_institution_resource_identifiers_two_id_without_resource_error(self):
-        """
-        Test if serializer rejects records with two institution identifiers without resource.
-        """
-        data = self.valid_data
-        data['institutions'][0]['identifier'] = ({"identifier": "004"})
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 

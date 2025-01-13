@@ -58,15 +58,8 @@ class SubmissionAPIV2ReportTest(APITestCase):
             "institutions": [
                 {
                     "eter_id": "DE0392",
-                    "identifiers": [
-                        {
-                            "identifier": "LOCAL001",
-                            "resource": "local identifier"
-                        }, {
-                            "identifier": "DE0876",
-                            "resource": "national identifier"
-                        }
-                    ]
+                    "identifier": "LOCAL001",
+                    "resource": "local identifier"
                 }
             ],
             "programmes": [
