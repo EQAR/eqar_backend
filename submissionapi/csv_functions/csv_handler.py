@@ -43,15 +43,8 @@ class CSVHandler:
         'institutions': [
             r'institution\[\d+\]\.deqar_id',
             r'institution\[\d+\]\.eter_id',
-            r'institution\[\d+\]\.name_official',
-            r'institution\[\d+\]\.name_official_transliterated',
-            r'institution\[\d+\]\.name_english',
-            r'institution\[\d+\]\.acronym',
-            r'institution\[\d+\]\.website_link'
-        ],
-        'institutions__identifiers': [
-            r'institution\[\d+\]\.identifier\[\d+\]',
-            r'institution\[\d+\]\.resource\[\d+\]',
+            r'institution\[\d+\]\.identifier',
+            r'institution\[\d+\]\.resource'
         ],
         'institutions__alternative_names': [
             r'institution\[\d+\]\.name_alternative\[\d+\]',
@@ -111,7 +104,6 @@ class CSVHandler:
                 self._create_report_links(row)
                 self._create_report_files(row)
                 self._create_institutions(row)
-                self._create_institutions_identifiers(row)
                 self._create_institutions_alternative_names(row)
                 self._create_institutions_locations(row)
                 self._create_institutions_qf_ehea_levels(row)
@@ -157,15 +149,10 @@ class CSVHandler:
 
     def _create_institutions(self, row):
         self._create_first_level_placeholder(['institutions',
-                                              'institutions__identifiers',
                                               'institutions__alternative_names',
                                               'institutions__locations',
                                               'institutions__qf_ehea_levels'])
         self._create_first_level_values('institutions', row, dotted=True)
-
-    def _create_institutions_identifiers(self, row):
-        self._create_second_level_placeholder('institutions__identifiers', dictkey=True)
-        self._create_second_level_values('institutions__identifiers', row, dictkey=True)
 
     def _create_institutions_alternative_names(self, row):
         self._create_second_level_placeholder('institutions__alternative_names', dictkey=True)

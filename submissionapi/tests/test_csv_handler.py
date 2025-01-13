@@ -56,7 +56,6 @@ class CSVHandlerTestCase(TestCase):
             csv_handler = CSVHandler(csvfile=csv_file)
             csv_handler._read_csv()
             csv_handler._create_first_level_placeholder(['institutions',
-                                                         'institutions__identifiers',
                                                          'institutions__alternative_names',
                                                          'institutions__locations',
                                                          'institutions__qf_ehea_levels'])
@@ -80,9 +79,9 @@ class CSVHandlerTestCase(TestCase):
         with open(file, 'r') as csv_file:
             csv_handler = CSVHandler(csvfile=csv_file)
             csv_handler._read_csv()
-            csv_handler._create_first_level_placeholder(['institutions'])
-            csv_handler._create_second_level_placeholder('institutions__identifiers', dictkey=True)
-            self.assertTrue('identifiers' in csv_handler.report_record['institutions'][0])
+            csv_handler._create_first_level_placeholder(['programmes'])
+            csv_handler._create_second_level_placeholder('programmes__identifiers', dictkey=True)
+            self.assertTrue('identifiers' in csv_handler.report_record['programmes'][0])
 
     def test_create_second_level_values(self):
         file = os.path.join(self.current_dir, "csv_test_files", "test_programme.csv")
@@ -90,10 +89,10 @@ class CSVHandlerTestCase(TestCase):
             csv_handler = CSVHandler(csvfile=csv_file)
             csv_handler._read_csv()
             for row in csv_handler.reader:
-                csv_handler._create_first_level_placeholder(['institutions'])
-                csv_handler._create_second_level_placeholder('institutions__identifiers', dictkey=True)
-                csv_handler._create_second_level_values('institutions__identifiers', row, dictkey=True)
-                self.assertEqual(csv_handler.report_record['institutions'][0]['identifiers'][0]['identifier'], '67')
+                csv_handler._create_first_level_placeholder(['programmes'])
+                csv_handler._create_second_level_placeholder('programmes__identifiers', dictkey=True)
+                csv_handler._create_second_level_values('programmes__identifiers', row, dictkey=True)
+                self.assertEqual(csv_handler.report_record['programmes'][0]['identifiers'][0]['identifier'], '12')
                 break
 
     def test_clear_submission_data(self):
@@ -106,8 +105,8 @@ class CSVHandlerTestCase(TestCase):
                 csv_handler._create_first_level_placeholder(["programmes"])
                 csv_handler._create_first_level_placeholder(["institutions"])
                 csv_handler._create_first_level_placeholder(["institutions"])
-                csv_handler._create_second_level_placeholder('institutions__identifiers', dictkey=True)
-                csv_handler._create_second_level_values('institutions__identifiers', row, dictkey=True)
+                csv_handler._create_second_level_placeholder('programmes__identifiers', dictkey=True)
+                csv_handler._create_second_level_values('programmes__identifiers', row, dictkey=True)
                 csv_handler._clear_submission_data()
                 self.assertFalse('reports' in csv_handler.submission_data[0])
                 break
@@ -119,7 +118,7 @@ class CSVHandlerTestCase(TestCase):
             csv_handler._read_csv()
             csv_handler.handle()
             self.assertEqual(len(csv_handler.submission_data), 2)
-            self.assertEqual(csv_handler.submission_data[0]['institutions'][0]['name_official'],
-                             'Prince Claus Conservatoire')
+            self.assertEqual(csv_handler.submission_data[0]['institutions'][0]['identifier'],
+                             '67')
             self.assertEqual(csv_handler.submission_data[1]['institutions'][0]['eter_id'],
                              'DE0140')

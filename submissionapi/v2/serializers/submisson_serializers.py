@@ -28,12 +28,13 @@ class IdentifierSerializer(serializers.Serializer):
     identifier = serializers.CharField(max_length=50, required=True,
                                        label='An identifier used by the Agency to identify each institution/programme.',
                                        help_text='example: HCERES21')
-    resource = serializers.CharField(max_length=200, required=True,
+    resource = serializers.CharField(max_length=200, required=False,
                                      label='The resource where the identifier is used.',
                                      help_text='example: national authority')
 
     class Meta:
         ref_name = "IdentifierV2Serializer"
+
 
 class InstitutionSerializer(serializers.Serializer):
     # Reference
@@ -43,7 +44,12 @@ class InstitutionSerializer(serializers.Serializer):
                                     help_text='example: AT0005')
 
     # Identification
-    identifier = IdentifierSerializer(required=False)
+    identifier = serializers.CharField(max_length=50, required=False,
+                                       label='An identifier used by the Agency to identify each institution/programme.',
+                                       help_text='example: HCERES21')
+    resource = serializers.CharField(max_length=200, required=False,
+                                     label='The resource where the identifier is used.',
+                                     help_text='example: national authority')
 
     # The new institution populator
     def to_internal_value(self, data):
@@ -51,7 +57,6 @@ class InstitutionSerializer(serializers.Serializer):
 
         deqar_id = data.get('deqar_id', None)
         eter_id = data.get('eter_id', None)
-        institution_identifier = data.get('identifier', None)
 
         institution_deqar = None
         institution_eter = None
@@ -86,37 +91,29 @@ class InstitutionSerializer(serializers.Serializer):
         agency_field = AgencyField()
         agency = agency_field.to_internal_value(parent_data['agency'])
 
-        institutions = set()
-        if institution_identifier is not None:
-            identifier = institution_identifier.get('identifier', None)
-            resource = institution_identifier.get('resource', 'local identifier')
-            try:
-                if resource == 'local identifier':
-                    inst_id = InstitutionIdentifier.objects.get(
-                        identifier=identifier,
-                        resource=resource,
-                        agency=agency
-                    )
-                    institutions.add(inst_id.institution)
-                else:
-                    inst_id = InstitutionIdentifier.objects.get(
-                        identifier=identifier,
-                        resource=resource
-                    )
-                    institutions.add(inst_id.institution)
-            except ObjectDoesNotExist:
-                pass
+        institution = None
+        identifier = data.get('identifier', None)
+        resource = data.get('resource', 'local identifier')
 
-        # If more than one institution were identified, raise error
-        if len(institutions) > 1:
-            raise serializers.ValidationError("The submitted institution identifiers are identifying "
-                                              "more institutions. Please correct them.")
-        if len(institutions) == 0:
-            raise serializers.ValidationError("This report cannot be linked to an institution. "
-                                              "It is missing either a valid ETER ID, DEQAR ID, or "
-                                              "local identifier.")
-        if len(institutions) == 1:
-            return list(institutions)[0]
+        try:
+            if resource == 'local identifier':
+                inst_id = InstitutionIdentifier.objects.get(
+                    identifier=identifier,
+                    resource=resource,
+                    agency=agency
+                )
+                institution = inst_id.institution
+            else:
+                inst_id = InstitutionIdentifier.objects.get(
+                    identifier=identifier,
+                    resource=resource
+                )
+                institution = inst_id.institution
+        except ObjectDoesNotExist:
+            pass
+
+        if institution:
+            return institution
 
         # If there were no ETER ID, DEQAR ID or local identifier submitted
         else:
