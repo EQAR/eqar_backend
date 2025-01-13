@@ -42,18 +42,27 @@ class ReportFileSerializer(serializers.Serializer):
         return super(ReportFileSerializer, self).validate(data)
 
     class Meta:
-        ref_name = "ReportFileV2Serializer"
+        ref_name = "ReportFileManageSerializer"
 
 
 class ReportFileCreateSerializer(ReportFileSerializer):
     report_id = ReportIdentifierPlusIntegerField(required=True, label='DEQAR identifier of the report')
+
+    class Meta:
+        ref_name = "ReportFileCreateSerializer"
 
 class ReportFileUpdateSerializer(ReportFileSerializer):
     report_file_id = serializers.PrimaryKeyRelatedField(
         required=True, label='Identifier of the report-file record', queryset=ReportFile.objects.all()
     )
 
+    class Meta:
+        ref_name = "ReportFileUpdateSerializer"
+
 class ReportFileDeleteSerializer(serializers.Serializer):
     report_file_id = serializers.PrimaryKeyRelatedField(
         required=True, label='Identifier of the report-file record', queryset=ReportFile.objects.all()
     )
+
+    class Meta:
+        ref_name = "ReportFileDeleteSerializer"
