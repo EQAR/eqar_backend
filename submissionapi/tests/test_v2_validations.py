@@ -10,7 +10,7 @@ from submissionapi.v2.serializers.submisson_serializers import SubmissionPackage
 
 class SubmissionV2ValidationTestCase(APITestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
+        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',

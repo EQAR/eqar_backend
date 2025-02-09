@@ -17,7 +17,6 @@ class SubmissionAPIV2ReportTest(APITestCase):
                 'report_decision', 'report_status',
                 'flag', 'permission_type',
                 'degree_outcome',
-                'eter_demo',
                 'eqar_decision_type',
                 'agency_historical_field',
                 'agency_demo_01', 'agency_demo_02',

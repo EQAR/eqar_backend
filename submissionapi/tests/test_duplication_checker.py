@@ -6,7 +6,7 @@ from submissionapi.duplication_checker.report_duplication_checker import ReportD
 
 class DuplicationCheckerTestCase(APITestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
+        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'assessment',
         'agency_historical_field', 'degree_outcome',
         'agency_demo_01', 'agency_demo_02', 'association',
