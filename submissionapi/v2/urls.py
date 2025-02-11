@@ -24,7 +24,7 @@ schema_view = get_schema_view(
 app_name = 'submissionapi'
 
 urlpatterns = [
-    url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
+    url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report-v2'),
     url(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
 
     url(r'^check/local-identifier', CheckLocalIdentifierView.as_view(), name='check-report-local-identifier'),
