@@ -35,8 +35,8 @@ jobs:
           command: dockerize -wait tcp://localhost:7700 -timeout 1m
       - run:
           command: |
-            python -m venv .python3
-            echo "source .python3/bin/activate" >> $BASH_ENV;
+            python -m venv python3
+            echo "source ./python3/bin/activate" >> $BASH_ENV;
       - run:
           command: |
             pip install --upgrade pip
