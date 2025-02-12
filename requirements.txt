@@ -29,6 +29,7 @@ drf-yasg==1.21.8
 beautifulsoup4==4.13.3
 # celery==5.4.0
 celery==4.4.7
+coverage==7.6.12
 datedelta==1.4
 dict2xml==1.7.6
 langdetect==1.0.9
