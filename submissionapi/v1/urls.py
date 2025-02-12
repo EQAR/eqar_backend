@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -23,14 +23,14 @@ schema_view = get_schema_view(
 app_name = 'submissionapi'
 
 urlpatterns = [
-    url(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
-    url(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
-    url(r'^submit/reportfile/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$', ReportFileUploadView.as_view(),
+    re_path(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
+    re_path(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
+    re_path(r'^submit/reportfile/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$', ReportFileUploadView.as_view(),
         name='upload-report_file'),
-    url(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
+    re_path(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
 
-    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
-    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
 
 ]

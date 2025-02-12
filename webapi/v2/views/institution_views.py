@@ -68,7 +68,7 @@ class InstitutionList(ListAPIView):
     """
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend, )
-    filter_class = InstitutionFilterClass
+    filterset_class = InstitutionFilterClass
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
 
     def zero_or_more(self, request, field, default):

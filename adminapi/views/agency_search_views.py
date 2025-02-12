@@ -37,7 +37,7 @@ class AgencyList(ListAPIView):
     """
     queryset = Agency.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = AgencyFilterClass
+    filterset_class = AgencyFilterClass
     core = getattr(settings, "SOLR_CORE_AGENCIES", "deqar-agencies")
 
     def list(self, request, request_type, *args, **kwargs):

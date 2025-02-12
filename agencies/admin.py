@@ -1,6 +1,5 @@
 from django.contrib.admin import StackedInline, ModelAdmin, TabularInline
 from django.forms import TextInput, Textarea, ModelForm, URLInput, ModelChoiceField
-from suit_ckeditor.widgets import CKEditorWidget
 
 from agencies.models import *
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline, DEQARTabularInline
@@ -77,12 +76,6 @@ class AgencyForm(ModelForm):
                              'extraPlugins': 'autogrow',
                              'toolbarGroups': _ck_editor_toolbar}
 
-        widgets = {
-            'address': CKEditorWidget(editor_options=_ck_editor_config),
-            'specialisation_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'description_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'registration_note': CKEditorWidget(editor_options=_ck_editor_config)
-        }
 
 
 class AgencyAdmin(DEQARModelAdmin):

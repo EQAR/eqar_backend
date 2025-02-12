@@ -66,7 +66,7 @@ class ReportList(ListAPIView):
     """
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = ReportFilterClass
+    filterset_class = ReportFilterClass
 
     def zero_or_more(self, request, field, default):
         value = request.query_params.get(field, default)

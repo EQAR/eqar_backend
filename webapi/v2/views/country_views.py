@@ -42,7 +42,7 @@ class CountryList(generics.ListAPIView):
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
     ordering_fields = ('name_english', 'agency_count')
     ordering = ('name_english',)
-    filter_class = CountryFilterClass
+    filterset_class = CountryFilterClass
     pagination_class = None
 
     def get_queryset(self):

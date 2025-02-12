@@ -11,7 +11,7 @@ class SerializerFieldTestCase(APITestCase):
 
     def test_boolean_field_not_boolean_and_not_string(self):
         field = BooleanExtendedField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
 
@@ -33,5 +33,5 @@ class SerializerFieldTestCase(APITestCase):
 
     def test_boolean_field_with_not_ok_values(self):
         field = BooleanExtendedField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect value.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect value.'):
             field.to_internal_value("Nope")
