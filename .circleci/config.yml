@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/eqar-backend
     docker:
-      - image: cimg/python:3.8-browsers
+      - image: cimg/python:3.9-browsers
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
