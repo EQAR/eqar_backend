@@ -10,7 +10,7 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
           DJANGO_SECRET_KEY: CircleCITesting
-      - image: cimg/postgres:9.6
+      - image: cimg/postgres:12.22
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
