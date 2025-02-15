@@ -46,7 +46,7 @@ class AgencyList(generics.ListAPIView):
     queryset = Agency.objects.filter(is_registered=True)
     serializer_class = AgencyListSerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    filter_class = AgencyFilterClass
+    filterset_class = AgencyFilterClass
     ordering_fields = ('name_primary', 'acronym_primary')
     ordering = ('acronym_primary', 'name_primary')
 

@@ -48,7 +48,7 @@ class SerializerFieldValidationTestCase(APITestCase):
     # AgencyField tests
     def test_agency_field_not_string(self):
         field = AgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_agency_deqar_id_ok(self):
@@ -56,7 +56,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_agency_deqar_id_error(self):
         field = AgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency DEQAR ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Agency DEQAR ID.'):
             field.to_internal_value("999")
 
     def test_agency_acronym_ok(self):
@@ -64,13 +64,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_agency_acronym_error(self):
         field = AgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency Acronym.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Agency Acronym.'):
             field.to_internal_value("ECQUIN")
 
     # Assessment tests
     def test_assessment_field_not_string(self):
         field = AssessmentField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_assessment_id_ok(self):
@@ -80,7 +80,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_assessment_id_error(self):
         field = AssessmentField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Assessment ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Assessment ID.'):
             field.to_internal_value("999")
 
     def test_assessment_str_ok(self):
@@ -90,13 +90,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_assessment_str_error(self):
         field = AssessmentField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid assessment name.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid assessment name.'):
             field.to_internal_value("not a good assessment value")
 
     # ContributingAgency tests
     def test_contributing_agency_field_not_string(self):
         field = ContributingAgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_contributing_agency_deqar_id_ok(self):
@@ -104,7 +104,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test__contributing_agency_deqar_id_error(self):
         field = ContributingAgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency DEQAR ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Agency DEQAR ID.'):
             field.to_internal_value("999")
 
     def test__contributing_agency_acronym_ok(self):
@@ -112,13 +112,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test__contributing_agency_acronym_error(self):
         field = ContributingAgencyField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Agency Acronym.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Agency Acronym.'):
             field.to_internal_value("ECQUIN")
 
     # ReportStatusField tests
     def test_report_status_field_not_string(self):
         field = ReportStatusField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_report_status_id_ok(self):
@@ -128,7 +128,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_status_id_error(self):
         field = ReportStatusField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report Status ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Report Status ID.'):
             field.to_internal_value("999")
 
     def test_report_status_str_ok(self):
@@ -138,13 +138,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_status_str_error(self):
         field = ReportStatusField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report Status.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Report Status.'):
             field.to_internal_value("part of obligatory EQA system wrong string")
 
     # ReportDecisionField tests
     def test_report_decision_field_not_string(self):
         field = ReportDecisionField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_report_decision_id_ok(self):
@@ -154,7 +154,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_decision_id_error(self):
         field = ReportDecisionField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report Decision ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Report Decision ID.'):
             field.to_internal_value("999")
 
     def test_report_decision_str_ok(self):
@@ -164,13 +164,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_decision_str_error(self):
         field = ReportDecisionField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report Decision.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Report Decision.'):
             field.to_internal_value("almost positive :)")
 
     # ReportLanguageField tests
     def test_report_language_field_not_string(self):
         field = ReportLanguageField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_report_language_iso639_1_ok(self):
@@ -180,7 +180,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_language_iso639_1_error(self):
         field = ReportLanguageField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid language code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid language code.'):
             field.to_internal_value("xx")
 
     def test_report_language_iso639_2_ok(self):
@@ -190,18 +190,18 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_language_iso639_2_error(self):
         field = ReportLanguageField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid language code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid language code.'):
             field.to_internal_value("xxx")
 
     def test_report_language_error(self):
         field = ReportLanguageField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid language code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid language code.'):
             field.to_internal_value("x")
 
     # QFEHEALevelField tests
     def test_qf_ehea_level_field_not_string(self):
         field = QFEHEALevelField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_qf_ehea_level_id_ok(self):
@@ -211,7 +211,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_qf_ehea_level_id_error(self):
         field = QFEHEALevelField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid QF EHEA ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid QF EHEA ID.'):
             field.to_internal_value("999")
 
     def test_qf_ehea_level_str_ok(self):
@@ -221,13 +221,13 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_qf_ehea_level_str_error(self):
         field = QFEHEALevelField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid QF EHEA level.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid QF EHEA level.'):
             field.to_internal_value("shortest cycle :)")
 
     # CountryField tests
     def test_country_not_string(self):
         field = CountryField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_country_alpha2_ok(self):
@@ -237,7 +237,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_country_alpha2_error(self):
         field = CountryField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid country code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid country code.'):
             field.to_internal_value("xx")
 
     def test_country_alpha3_ok(self):
@@ -247,18 +247,18 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_country_alpha3_error(self):
         field = CountryField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid country code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid country code.'):
             field.to_internal_value("xxx")
 
     def test_country_error(self):
         field = CountryField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid country code.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid country code.'):
             field.to_internal_value("x")
 
     # Report Identifier tests
     def test_report_identifier_not_string(self):
         field = ReportIdentifierField()
-        with self.assertRaisesRegexp(ValidationError, 'Incorrect type.'):
+        with self.assertRaisesRegex(ValidationError, 'Incorrect type.'):
             field.to_internal_value(1)
 
     def test_report_identifier_valid(self):
@@ -266,7 +266,7 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_report_identifier_invalid(self):
         field = ReportIdentifierField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid Report ID.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid Report ID.'):
             field.to_internal_value("999")
 
     def test_degree_outcome_ok(self):
@@ -279,5 +279,5 @@ class SerializerFieldValidationTestCase(APITestCase):
 
     def test_degree_outcome_invalid(self):
         field = DegreeOutcomeField()
-        with self.assertRaisesRegexp(ValidationError, 'Please provide valid degree_outcome value.'):
+        with self.assertRaisesRegex(ValidationError, 'Please provide valid degree_outcome value.'):
             field.to_internal_value("TRUE")

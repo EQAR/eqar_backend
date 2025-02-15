@@ -47,7 +47,7 @@ class InstitutionDEQARConnectList(ListAPIView):
     """
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = InstitutionFilterClass
+    filterset_class = InstitutionFilterClass
     serializer_class = InstitutionDEQARConnectListSerializer
     core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
     permission_classes = (permissions.AllowAny,)

@@ -44,7 +44,7 @@ class AgencyESGActivityList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
     ordering = ['agency__acronym_primary', 'id']
-    filter_class = AgencyESGActivityFilterClass
+    filterset_class = AgencyESGActivityFilterClass
     queryset = AgencyESGActivity.objects.all()
 
 

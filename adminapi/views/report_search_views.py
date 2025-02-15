@@ -43,7 +43,7 @@ class ReportList(ListAPIView):
     """
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = ReportFilterClass
+    filterset_class = ReportFilterClass
     core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
 
     def list(self, request, request_type, *args, **kwargs):
