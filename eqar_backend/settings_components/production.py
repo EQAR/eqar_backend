@@ -44,3 +44,5 @@ DJOSER = {
 
 # Connect API: time for which issued VCs may be cached
 VC_CACHE_MAX_AGE = 86400
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
