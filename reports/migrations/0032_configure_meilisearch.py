@@ -10,7 +10,7 @@ import time
 def configure_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
         meili = MeiliClient()
-        meili.update_settings(meili.INDEX_REPORTS, {
+        meili.wait_for(meili.update_settings(meili.INDEX_REPORTS, {
             'filterableAttributes': [
                 'agency.id',
                 'contributing_agencies.id',
@@ -47,7 +47,7 @@ def configure_index(apps, schema_editor):
                 'agency_esg_activities.type',
                 'flag',
             ],
-        })
+        }))
 
 
 class Migration(migrations.Migration):

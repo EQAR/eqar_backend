@@ -11,7 +11,7 @@ def configure_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
         meili = MeiliClient()
         meili.create_index(meili.INDEX_REPORTS, { 'primaryKey': 'id' })
-        meili.update_settings(meili.INDEX_REPORTS, {
+        meili.wait_for(meili.update_settings(meili.INDEX_REPORTS, {
             'displayedAttributes': [ '*' ],
             'searchableAttributes': [
                 'institutions.name_sort',
@@ -54,7 +54,7 @@ def configure_index(apps, schema_editor):
             'pagination': {
                 'maxTotalHits': 200000,
             },
-        })
+        }))
 
 
 class Migration(migrations.Migration):

@@ -9,7 +9,7 @@ def configure_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
         meili = MeiliClient()
         meili.create_index(meili.INDEX_PROGRAMMES, 'id')
-        meili.update_settings(meili.INDEX_PROGRAMMES, {
+        meili.wait_for(meili.update_settings(meili.INDEX_PROGRAMMES, {
             'displayedAttributes': [ '*' ],
             'searchableAttributes': [
                 'names.name',
@@ -33,7 +33,7 @@ def configure_index(apps, schema_editor):
                 'report.valid_from',
                 'report.valid_to',
             ],
-        })
+        }))
 
 
 class Migration(migrations.Migration):

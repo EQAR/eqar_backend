@@ -6,7 +6,7 @@ from eqar_backend.meilisearch import MeiliClient
 def update_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
         meili = MeiliClient()
-        meili.update_settings(meili.INDEX_PROGRAMMES, {
+        meili.wait_for(update_settings(meili.INDEX_PROGRAMMES, {
             'filterableAttributes': [
                 'degree_outcome',
                 'programme_type',
@@ -23,7 +23,7 @@ def update_index(apps, schema_editor):
                 'report.report_files.languages',
                 'workload_ects'
             ],
-        })
+        }))
 
 
 class Migration(migrations.Migration):

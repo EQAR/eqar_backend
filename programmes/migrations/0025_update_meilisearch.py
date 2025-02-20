@@ -6,11 +6,11 @@ from eqar_backend.meilisearch import MeiliClient
 def update_index(apps, schema_editor):
     if hasattr(settings, "MEILI_API_URL"):
         meili = MeiliClient()
-        meili.update_settings(meili.INDEX_PROGRAMMES, {
+        meili.wait_for(meili.update_settings(meili.INDEX_PROGRAMMES, {
             'pagination': {
                 'maxTotalHits': 3000,
             },
-        })
+        }))
 
 
 class Migration(migrations.Migration):
