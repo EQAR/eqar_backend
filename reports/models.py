@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from eqar_backend.fields.char_null_field import CharNullField
+from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
 
 
 class Report(models.Model):
@@ -23,6 +24,7 @@ class Report(models.Model):
     valid_from = models.DateField(default=datetime.date.today)
     valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
+    platforms = models.ManyToManyField('institutions.Institution', related_name='related_reports')
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
     other_comment = models.TextField(blank=True, null=True)
@@ -54,9 +56,22 @@ class Report(models.Model):
                         'non_field_errors': "Report with this Agency and Local Report Identifier already exists."
                     })
 
+    def set_platform_relationships(self, *args, **kwargs):
+        for platform in self.platforms.all():
+            relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='educational platform')
+            for institution in self.institutions.all():
+                relationship, created = InstitutionHierarchicalRelationship.objects.get_or_create(
+                    parent_institution=platform,
+                    child_institution=institution,
+                    relationship_type=relationship_type
+                )
+                if created:
+                    relationship.relationship_note = 'Relationship was initated by report no. %s' % self.id
+
     def save(self, *args, **kwargs):
         self.validate_local_identifier()
         super(Report, self).save(*args, **kwargs)
+        self.set_platform_relationships()
 
     class Meta:
         db_table = 'deqar_reports'
