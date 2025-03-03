@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from eqar_backend.fields.char_null_field import CharNullField
+from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
 
 
 class Report(models.Model):
@@ -55,7 +56,20 @@ class Report(models.Model):
                         'non_field_errors': "Report with this Agency and Local Report Identifier already exists."
                     })
 
+    def set_platform_relationships(self, *args, **kwargs):
+        for platform in self.platforms.all():
+            relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='educational platform')
+            for institution in self.institutions.all():
+                relationship, created = InstitutionHierarchicalRelationship.objects.get_or_create(
+                    parent_institution=platform,
+                    child_institution=institution,
+                    relationship_type=relationship_type
+                )
+                if created:
+                    relationship.relationship_note = 'Relationship was initated by report no. %s' % self.id
+
     def save(self, *args, **kwargs):
+        self.set_platform_relationships()
         self.validate_local_identifier()
         super(Report, self).save(*args, **kwargs)
 
