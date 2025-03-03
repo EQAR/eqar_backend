@@ -69,9 +69,9 @@ class Report(models.Model):
                     relationship.relationship_note = 'Relationship was initated by report no. %s' % self.id
 
     def save(self, *args, **kwargs):
-        self.set_platform_relationships()
         self.validate_local_identifier()
         super(Report, self).save(*args, **kwargs)
+        self.set_platform_relationships()
 
     class Meta:
         db_table = 'deqar_reports'
