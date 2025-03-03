@@ -113,6 +113,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     report_links = ReportLinkSerializer(many=True, source='reportlink_set', read_only=True)
     report_files = ReportReadFileSerializer(many=True, source='reportfile_set', read_only=True)
     institutions = InstitutionReadSerializer(many=True)
+    platforms = InstitutionReadSerializer(many=True)
     programmes = ProgrammeReadSerializer(many=True, source='programme_set')
     flags = ReportFlagSerializer(many=True, source='reportflag_set')
     update_log = serializers.SerializerMethodField()
@@ -130,7 +131,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'agency', 'contributing_agencies', 'activity', 'activities',
                   'local_identifier', 'name',
                   'status', 'decision', 'summary',
-                  'institutions', 'programmes', 'report_links', 'report_files',
+                  'institutions', 'platforms', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
                   'created_at', 'updated_at', 'created_by', 'update_log',
                   'other_comment', 'internal_note']
@@ -185,5 +186,5 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
         model = Report
         fields = ['id', 'agency', 'contributing_agencies', 'activity', 'activities', 'local_identifier',
                   'status', 'decision', 'summary',
-                  'institutions', 'programmes', 'report_links', 'report_files',
+                  'institutions', 'platforms', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'other_comment', 'internal_note']

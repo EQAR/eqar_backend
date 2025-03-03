@@ -333,6 +333,10 @@ class SubmissionPackageSerializer(serializers.Serializer):
                                                '(If programme information is submitted, then the report considered '
                                                'to be about the programme itself.)', allow_empty=False)
 
+    # Platforms
+    platforms = InstitutionSerializer(many=True, required=False,
+                                      label='Platforms(s) which are the subject of the report.', allow_empty=False)
+
     # Programmes
     programmes = ProgrammeSerializer(many=True, required=False,
                                      label='Programme(s) which are the subject of the report. '

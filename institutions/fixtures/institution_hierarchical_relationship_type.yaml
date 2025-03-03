@@ -11,9 +11,14 @@
 - model: institutions.InstitutionHierarchicalRelationshipType
   pk: 3
   fields:
-    type: supra-institution
+    type: independent faculty or school
 
 - model: institutions.InstitutionHierarchicalRelationshipType
-  pk: 4
+  pk: 5
   fields:
-    type: sub-institution
+    type: franchise or validation partnership
+
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 6
+  fields:
+    type: educational platform

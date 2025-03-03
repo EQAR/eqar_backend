@@ -32,6 +32,9 @@ class Populator():
         # Institution record populate
         self._institution_upsert()
 
+        # Platform record populate
+        self._platform_upsert()
+
         # Programme record populate
         self._programme_insert()
 
@@ -68,6 +71,16 @@ class Populator():
 
         for institution in institutions:
             self.report.institutions.add(institution)
+
+    def _platform_upsert(self):
+        """
+        Create or insert Platform instance.
+        """
+        self.report.platforms.clear()
+        platforms = self.data.get('platforms', None)
+
+        for platform in platforms:
+            self.report.platforms.add(platform)
 
     def _programme_insert(self):
         """

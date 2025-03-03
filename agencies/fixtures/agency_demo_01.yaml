@@ -104,7 +104,7 @@
     activity: Programme Accreditation Abroad
     activity_local_identifier: ACQ004
     activity_valid_from: 2010-01-01
-    activity_valid_to: 2030-01-01
+    activity_valid_to: 2999-01-01
 
 - model: agencies.AgencyESGActivity
   pk: 5
@@ -123,7 +123,7 @@
     activity: Institutinal/Programme Accreditation Abroad
     activity_local_identifier: ACQ005
     activity_valid_from: 2010-01-01
-    activity_valid_to: 2030-01-01
+    activity_valid_to: 2999-01-01
 
 - model: agencies.AgencyFocusCountry
   pk: 1
