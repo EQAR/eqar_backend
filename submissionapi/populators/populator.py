@@ -76,11 +76,13 @@ class Populator():
         """
         Create or insert Platform instance.
         """
-        self.report.platforms.clear()
         platforms = self.data.get('platforms', None)
 
-        for platform in platforms:
-            self.report.platforms.add(platform)
+        if platforms:
+            self.report.platforms.clear()
+    
+            for platform in platforms:
+                self.report.platforms.add(platform)
 
     def _programme_insert(self):
         """
