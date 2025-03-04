@@ -61,8 +61,8 @@ class Report(models.Model):
             relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='educational platform')
             for institution in self.institutions.all():
                 relationship, created = InstitutionHierarchicalRelationship.objects.get_or_create(
-                    parent_institution=platform,
-                    child_institution=institution,
+                    institution_parent=platform,
+                    institution_child=institution,
                     relationship_type=relationship_type
                 )
                 if created:
