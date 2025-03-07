@@ -55,12 +55,10 @@ class CSVHandlerTestCase(TestCase):
         with open(file, 'r') as csv_file:
             csv_handler = CSVHandler(csvfile=csv_file)
             csv_handler._read_csv()
-            csv_handler._create_first_level_placeholder(['institutions',
-                                                         'institutions__alternative_names',
-                                                         'institutions__locations',
-                                                         'institutions__qf_ehea_levels'])
-            self.assertTrue('institutions' in csv_handler.report_record)
-            self.assertEqual(csv_handler.report_record['institutions'][0], {})
+            csv_handler._create_first_level_placeholder(['report_files',
+                                                         'report_files__report_language'])
+            self.assertTrue('report_files' in csv_handler.report_record)
+            self.assertEqual(csv_handler.report_record['report_files'][0], {})
 
     def test_create_first_level_values(self):
         file = os.path.join(self.current_dir, "csv_test_files", "test_programme.csv")

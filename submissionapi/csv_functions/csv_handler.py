@@ -46,37 +46,11 @@ class CSVHandler:
             r'institution\[\d+\]\.identifier',
             r'institution\[\d+\]\.resource'
         ],
-        'institutions__alternative_names': [
-            r'institution\[\d+\]\.name_alternative\[\d+\]',
-            r'institution\[\d+\]\.name_alternative_transliterated\[\d+\]',
-        ],
-        'institutions__locations': [
-            r'institution\[\d+\]\.country\[\d+\]',
-            r'institution\[\d+\]\.city\[\d+\]',
-            r'institution\[\d+\]\.latitude\[\d+\]',
-            r'institution\[\d+\]\.longitude\[\d+\]',
-        ],
-        'institutions__qf_ehea_levels': [
-            r'institution\[\d+\]\.qf_ehea_level\[\d+\]',
-        ],
         'platforms': [
             r'platform\[\d+\]\.deqar_id',
             r'platform\[\d+\]\.eter_id',
             r'platform\[\d+\]\.identifier',
             r'platform\[\d+\]\.resource'
-        ],
-        'platforms__alternative_names': [
-            r'platform\[\d+\]\.name_alternative\[\d+\]',
-            r'platform\[\d+\]\.name_alternative_transliterated\[\d+\]',
-        ],
-        'platforms__locations': [
-            r'platform\[\d+\]\.country\[\d+\]',
-            r'platform\[\d+\]\.city\[\d+\]',
-            r'platform\[\d+\]\.latitude\[\d+\]',
-            r'platform\[\d+\]\.longitude\[\d+\]',
-        ],
-        'platforms__qf_ehea_levels': [
-            r'platform\[\d+\]\.qf_ehea_level\[\d+\]',
         ],
         'programmes': [
             r'programme\[\d+\]\.name_primary',
@@ -123,13 +97,7 @@ class CSVHandler:
                 self._create_report_links(row)
                 self._create_report_files(row)
                 self._create_institutions(row)
-                self._create_institutions_alternative_names(row)
-                self._create_institutions_locations(row)
-                self._create_institutions_qf_ehea_levels(row)
                 self._create_platforms(row)
-                self._create_platforms_alternative_names(row)
-                self._create_platforms_locations(row)
-                self._create_platforms_qf_ehea_levels(row)
                 self._create_programmes(row)
                 self._create_programmes_alternative_names(row)
                 self._create_programmes_identifiers(row)
@@ -171,42 +139,12 @@ class CSVHandler:
         self._create_first_level_values('activities', row, dotted=True)
 
     def _create_institutions(self, row):
-        self._create_first_level_placeholder(['institutions',
-                                              'institutions__alternative_names',
-                                              'institutions__locations',
-                                              'institutions__qf_ehea_levels'])
+        self._create_first_level_placeholder(['institutions'])
         self._create_first_level_values('institutions', row, dotted=True)
 
-    def _create_institutions_alternative_names(self, row):
-        self._create_second_level_placeholder('institutions__alternative_names', dictkey=True)
-        self._create_second_level_values('institutions__alternative_names', row, dictkey=True)
-
-    def _create_institutions_locations(self, row):
-        self._create_second_level_placeholder('institutions__locations', dictkey=True)
-        self._create_second_level_values('institutions__locations', row, dictkey=True)
-
-    def _create_institutions_qf_ehea_levels(self, row):
-        self._create_second_level_placeholder('institutions__qf_ehea_levels')
-        self._create_second_level_values('institutions__qf_ehea_levels', row)
-
     def _create_platforms(self, row):
-        self._create_first_level_placeholder(['platforms',
-                                              'platforms__alternative_names',
-                                              'platforms__locations',
-                                              'platforms__qf_ehea_levels'])
+        self._create_first_level_placeholder(['platforms'])
         self._create_first_level_values('platforms', row, dotted=True)
-
-    def _create_platforms_alternative_names(self, row):
-        self._create_second_level_placeholder('platforms__alternative_names', dictkey=True)
-        self._create_second_level_values('platforms__alternative_names', row, dictkey=True)
-
-    def _create_platforms_locations(self, row):
-        self._create_second_level_placeholder('platforms__locations', dictkey=True)
-        self._create_second_level_values('platforms__locations', row, dictkey=True)
-
-    def _create_platforms_qf_ehea_levels(self, row):
-        self._create_second_level_placeholder('platforms__qf_ehea_levels')
-        self._create_second_level_values('platforms__qf_ehea_levels', row)
 
     def _create_programmes(self, row):
         self._create_first_level_placeholder(['programmes',
