@@ -38,7 +38,7 @@ class ProgrammeMeiliTest(TestCase):
 
     def test_index_report(self):
         # check index for sample of reports
-        for report in Report.objects.filter(agency_esg_activities__activity_type__type__in=[ 'programme', 'joint programme' ]):
+        for report in Report.objects.filter(agency_esg_activities__activity_group__activity_type__type__in=[ 'programme', 'joint programme' ]):
             for programme in report.programme_set.all():
                 response = self.requests.get(urljoin(settings.MEILI_API_URL, f'indexes/{self.indexer.meili.INDEX_PROGRAMMES}/documents/{programme.id}'))
                 self.assertEqual(response.status_code, 200)

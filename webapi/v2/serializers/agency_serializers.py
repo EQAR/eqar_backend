@@ -7,7 +7,10 @@ from webapi.v2.serializers.country_serializers import CountryListSerializer
 
 
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
-    activity_type = serializers.StringRelatedField()
+    activity_type = serializers.SerializerMethodField()
+
+    def get_activity_type(self, obj):
+        return str(obj.activity_group.activity_type)
 
     class Meta:
         model = AgencyESGActivity
@@ -18,6 +21,7 @@ class AgencyESGActivitySerializer(serializers.ModelSerializer):
 class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
     report_count = serializers.SerializerMethodField()
     institution_count = serializers.SerializerMethodField()
+    activity_type = serializers.StringRelatedField()
 
     def get_report_count(self, obj):
         return obj.report_set.count()
