@@ -42,7 +42,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
             "date_format": "%Y-%M-%d",
             "activities": [
                 {
-                    "activity": "1"
+                    "id": "1"
                 }
             ],
             "status": "1",

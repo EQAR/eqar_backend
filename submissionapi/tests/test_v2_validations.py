@@ -32,7 +32,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
             "date_format": "%Y-%M-%d",
             "activities": [
                 {
-                    "activity": "1"
+                    "id": "1"
                 }
             ],
             "status": "1",
@@ -570,7 +570,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer accepts records with institutional ESG Activity type and valid data.
         """
         data = self.valid_data
-        data['activities'] = [{"activity": "2"}]
+        data['activities'] = [{"id": "2"}]
         data.pop('programmes', None)
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -580,7 +580,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with institutional ESG Activity type with programme data.
         """
         data = self.valid_data
-        data['activities'] = [{"activity": "2"}]
+        data['activities'] = [{"id": "2"}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -617,7 +617,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer accepts records with joint programme ESG Activity type and valid data.
         """
         data = self.valid_data
-        data['activities'] = [{"activity": "3"}]
+        data['activities'] = [{"id": "3"}]
         data['institutions'].append({
             "eter_id": "DE0392"
         })
@@ -629,7 +629,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with joint programme ESG Activity type and one institution.
         """
         data = self.valid_data
-        data['activities'] = [{"activity": "3"}]
+        data['activities'] = [{"id": "3"}]
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
 
@@ -638,7 +638,7 @@ class SubmissionV2ValidationTestCase(APITestCase):
         Test if serializer rejects records with joint programme ESG Activity type and no programme data.
         """
         data = self.valid_data
-        data['activities'] = [{"activity": "3"}]
+        data['activities'] = [{"id": "3"}]
         data['institutions'].append({
             "eter_id": "DE0392"
         })

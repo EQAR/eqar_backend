@@ -5,10 +5,10 @@ from django.test import RequestFactory
 
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency
-from submissionapi.v1.serializers.submisson_serializers import SubmissionPackageSerializer
+from submissionapi.v2.serializers.submisson_serializers import SubmissionPackageSerializer
 
 
-class SubmissionAPIV1ReportTestWithAP(APITestCase):
+class SubmissionAPIV2ReportTestWithAP(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',
@@ -30,11 +30,16 @@ class SubmissionAPIV1ReportTestWithAP(APITestCase):
             "agency": "ACQUIN",
             "valid_from": "2010-05-05",
             "date_format": "%Y-%M-%d",
-            "activity": "1",
+            "activities": [
+                {
+                    "id": "1"
+                }
+            ],
             "status": "2",
             "decision": "1",
             "report_files": [
                 {
+                    "original_location": "http://backend.deqar.eu/reports/AAQ/100676_20210104_0959_2018-09-14-bericht-systemakkreditierung-rwth-aachen.pdf",
                     "report_language": ["eng"]
                 }
             ],
@@ -86,7 +91,7 @@ class SubmissionAPIV1ReportTestWithAP(APITestCase):
     def test_status_is_voluntary_if_one_of_the_institutions_is_ap(self):
         data = self.report_with_only_ap
         data['status'] = "1"
-        data['activity'] = "3"
+        data['activities'] = [{"id": 3}]
         data['institutions'].append({
             'deqar_id': 'DEQARINST0001'
         })
@@ -103,7 +108,7 @@ class SubmissionAPIV1ReportTestWithAP(APITestCase):
 
     def test_degree_outcome_if_one_of_the_institutions_is_ap(self):
         data = self.report_with_only_ap
-        data['activity'] = "3"
+        data['activities'] = [{"id": 3}]
         data['institutions'].append({
             'deqar_id': 'DEQARINST0001'
         })
@@ -137,6 +142,7 @@ class SubmissionAPIV1ReportTestWithAP(APITestCase):
                 "name_primary": "Programme name 2",
                 "degree_outcome": "no",
                 "assessment_certification": "2",
+                "qf_ehea_level": "2",
                 "mc_as_part_of_accreditation": True
             }
         )
