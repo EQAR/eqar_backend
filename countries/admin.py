@@ -61,4 +61,4 @@ class CountryAdmin(DEQARModelAdmin):
     )
     inlines = [CountryQAARegulationInline, CountryQARequirementInline, CountryHistoricalDataInline]
 
-admin_site.register(Country, CountryAdmin)
+# admin_site.register(Country, CountryAdmin)

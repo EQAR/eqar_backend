@@ -62,4 +62,4 @@ class ReportAdmin(DEQARModelAdmin):
         return ", ".join(prg.name_primary for prg in obj.programme_set.all())
     get_programme.short_description = 'Programme(s)'
 
-admin_site.register(Report, ReportAdmin)
+# admin_site.register(Report, ReportAdmin)

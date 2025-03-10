@@ -25,7 +25,7 @@ class CSVHandler:
             r'other_comment'
         ],
         'activities': [
-            r'activities\[\d+\]\.activity',
+            r'activities\[\d+\]\.id',
             r'activities\[\d+\]\.local_identifier',
             r'activities\[\d+\]\.agency',
         ],

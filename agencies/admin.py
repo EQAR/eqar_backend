@@ -1,119 +1,11 @@
-from django.contrib.admin import StackedInline, ModelAdmin, TabularInline
-from django.forms import TextInput, Textarea, ModelForm, URLInput, ModelChoiceField
+from django import forms
+from django.db.models import Count
+from django.db.models.functions import Lower
+from django.forms import CharField, TextInput, Textarea
 
 from agencies.models import *
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline, DEQARTabularInline
-
-
-class AgencyFocusCountriesInline(DEQARTabularInline):
-    model = AgencyFocusCountry
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-focus_countries'
-    verbose_name = 'Focus Country'
-    verbose_name_plural = 'Focus Countries'
-
-
-class AgencyPhonesInline(DEQARStackedInline):
-    model = AgencyPhone
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-contact'
-    verbose_name = 'Phone Number'
-    verbose_name_plural = 'Phone Numbers'
-
-
-class AgencyEmailsInline(DEQARStackedInline):
-    model = AgencyEmail
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-contact'
-    verbose_name = 'E-mail'
-    verbose_name_plural = 'E-mails'
-
-
-class AgencyMembershipsInline(DEQARStackedInline):
-    model = AgencyMembership
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-other'
-    verbose_name = 'Membership'
-    verbose_name_plural = 'Memberships'
-
-
-class AgencyESGActivityInline(DEQARStackedInline):
-    model = AgencyESGActivity
-    extra = 0
-    suit_classes = 'suit-tab suit-tab-esg'
-    verbose_name = 'ESG Activity'
-    verbose_name_plural = 'ESG Activities'
-
-
-class AgencyEQARDecisionInline(DEQARStackedInline):
-    model = AgencyEQARDecision
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-decision'
-    verbose_name = 'Decision'
-    verbose_name_plural = 'Decisions'
-
-
-class AgencyHistoricalDataInline(DEQARStackedInline):
-    model = AgencyHistoricalData
-    extra = 1
-    suit_classes = 'suit-tab suit-tab-history'
-    verbose_name = 'History'
-    verbose_name_plural = 'Historical Entries'
-
-
-class AgencyForm(ModelForm):
-    default_renderer = None
-
-    class Meta:
-        _ck_editor_toolbar = [
-            {'name': 'basicstyles', 'groups': ['basicstyles', 'cleanup']},
-            {'name': 'documents', 'groups': ['mode']}
-        ]
-
-        _ck_editor_config = {'autoGrow_onStartup': True,
-                             'autoGrow_minHeight': 100,
-                             'autoGrow_maxHeight': 250,
-                             'extraPlugins': 'autogrow',
-                             'toolbarGroups': _ck_editor_toolbar}
-
-
-
-class AgencyAdmin(DEQARModelAdmin):
-    form = AgencyForm
-    list_display = ('acronym_primary', 'name_primary')
-    list_display_links = ('acronym_primary', 'name_primary')
-    list_filter = ('country',)
-    date_hierarchy = 'registration_start'
-
-    suit_form_tabs = (
-        ('name', 'Name'),
-        ('focus_countries', 'Focus Countries'),
-        ('contact', 'Contact'),
-        ('other', 'Other Inf.'),
-        ('esg', 'ESG Activities'),
-        ('decision', 'EQAR Decision'),
-        ('history', 'History'),
-    )
-
-    fieldsets = (
-        (None, {
-            'fields': ('deqar_id', 'acronym_primary', 'name_primary'),
-            'classes': ('suit-tab', 'suit-tab-name',)
-
-        }),
-        (None, {
-            'fields': ('contact_person', 'website_link', 'logo', 'fax', 'address', 'country'),
-            'classes': ('suit-tab', 'suit-tab-contact',),
-        }),
-        (None, {
-            'fields': ('reports_link', 'geographical_focus', 'specialisation_note', 'description_note',
-                       'is_registered', 'registration_start', 'registration_valid_to', 'registration_note'),
-            'classes': ('suit-tab', 'suit-tab-other',),
-        })
-    )
-    inlines = [AgencyPhonesInline, AgencyEmailsInline, AgencyFocusCountriesInline, AgencyMembershipsInline,
-               AgencyEQARDecisionInline, AgencyESGActivityInline, AgencyHistoricalDataInline]
-
+from django.utils.html import format_html
 
 class AgencyProxyInline(DEQARStackedInline):
     model = AgencyProxy
@@ -121,28 +13,53 @@ class AgencyProxyInline(DEQARStackedInline):
     verbose_name = 'Agency Proxy'
     verbose_name_plural = 'Agency Proxies'
 
-
 class SubmittingAgencyAdmin(DEQARModelAdmin):
     list_display = ('agency', 'external_agency')
     list_display_links = ('agency', 'external_agency')
     fields = ['agency', 'external_agency', 'external_agency_acronym', 'registration_from', 'registration_to']
     inlines = [AgencyProxyInline]
 
-
-class AgencyNameVersionInline(DEQARStackedInline):
-    model = AgencyNameVersion
-    extra = 0
-    verbose_name = 'Name Version'
-    verbose_name_plural = 'Name Versions'
-
-
-class AgencyNameAdmin(DEQARModelAdmin):
-    list_display = ('agency', 'name_valid_to')
-    ordering = ('agency',)
+class AgencyESGActivityAdmin(DEQARModelAdmin):
+    list_display = ('id', '_agency', '_activity_group')
+    list_display_links = ('id', '_agency', '_activity_group')
+    fields = ['agency', 'activity_group', 'activity_local_identifier', 'activity_description',
+              'reports_link', 'activity_valid_from', 'activity_valid_to']
     list_filter = ('agency',)
-    inlines = (AgencyNameVersionInline,)
 
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size': '80'})},
+        models.URLField: {'widget': TextInput(attrs={'size': '80'})},
+        models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40})},
+    }
 
-admin_site.register(Agency, AgencyAdmin)
-admin_site.register(AgencyName, AgencyNameAdmin)
+    def _activity_group(self, obj):
+        return format_html(
+            f'<div style="width: 90%; word-wrap: break-word">{obj.activity_group}</div>'
+        )
+
+    def _agency(self, obj):
+        return obj.agency.acronym_primary
+
+class AgencyActivityGroupAdmin(DEQARModelAdmin):
+    list_display = ('id', 'activity', 'assigned_agencies')
+    list_display_links = ('id', 'activity', 'assigned_agencies')
+    fields = ['activity', 'activity_type']
+    ordering = (Lower('activity'),)
+
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size': '80'})},
+        models.URLField: {'widget': TextInput(attrs={'size': '80'})},
+        models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 40})},
+    }
+
+    def assigned_agencies(self, obj):
+        return obj.assigned_agencies
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(assigned_agencies=Count("agencyesgactivity__agency", distinct=True))
+        return queryset
+
 admin_site.register(SubmittingAgency, SubmittingAgencyAdmin)
+admin_site.register(AgencyESGActivity, AgencyESGActivityAdmin)
+admin_site.register(AgencyActivityGroup, AgencyActivityGroupAdmin)

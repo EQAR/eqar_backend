@@ -98,10 +98,10 @@ class InstitutionUpdateLogAdmin(DEQARModelAdmin):
     list_filter = ('institution',)
 
 
-admin_site.register(InstitutionName, InstitutionNameAdmin)
-admin_site.register(Institution, InstitutionAdmin)
-admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
-admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
-admin_site.register(InstitutionFlag, InstitutionFlagAdmin)
-admin_site.register(InstitutionUpdateLog, InstitutionUpdateLogAdmin)
+# admin_site.register(InstitutionName, InstitutionNameAdmin)
+# admin_site.register(Institution, InstitutionAdmin)
+# admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
+# admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
+# admin_site.register(InstitutionFlag, InstitutionFlagAdmin)
+# admin_site.register(InstitutionUpdateLog, InstitutionUpdateLogAdmin)
 

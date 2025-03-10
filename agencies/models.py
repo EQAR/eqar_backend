@@ -246,7 +246,8 @@ class AgencyESGActivity(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_esg_activities'
-        verbose_name = 'Agency ESG Activity'
+        verbose_name = 'ESG Activity'
+        verbose_name_plural = 'ESG Activities'
         ordering = ('agency', 'activity')
         indexes = [
             models.Index(fields=['activity_display']),
@@ -263,9 +264,12 @@ class AgencyActivityGroup(models.Model):
     activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
     reports_link = models.URLField(blank=True, null=True)
 
+    def __str__(self):
+        return "%s (%s)" % (self.activity, self.activity_type)
+
     class Meta:
         db_table = 'deqar_agency_activity_group'
-        verbose_name = 'Agency ESG Activity Group'
+        verbose_name = 'ESG Activity Group'
 
 
 class AgencyActivityType(models.Model):

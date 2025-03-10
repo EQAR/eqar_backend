@@ -25,14 +25,16 @@ def load_csv_data(apps, schema_editor):
         activity_group = activity_groups.get(activity.id)
 
         if activity_group:
-            activity_name = activity_group
+            group, created = AgencyActivityGroup.objects.get_or_create(
+                activity=activity_group,
+                activity_type=activity.activity_type
+            )
         else:
-            activity_name = activity.activity
+            group = AgencyActivityGroup.create(
+                activity=activity_group,
+                activity_type=activity.activity_type
+            )
 
-        group, created = AgencyActivityGroup.objects.get_or_create(
-            activity=activity_name,
-            activity_type=activity.activity_type
-        )
         activity.activity_group = group
         activity.save()
 

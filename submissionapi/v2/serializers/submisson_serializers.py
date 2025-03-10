@@ -230,7 +230,7 @@ class ReportLinkSerializer(serializers.Serializer):
 
 
 class ActivitySerializer(serializers.Serializer):
-    activity = serializers.CharField(max_length=500, required=False,
+    id = serializers.CharField(max_length=500, required=False,
                                      label='Identifier of the Agency ESG Activity',
                                      help_text='examples: "2"')
     local_identifier = serializers.CharField(max_length=200, required=False,
@@ -241,7 +241,7 @@ class ActivitySerializer(serializers.Serializer):
                          help_text='examples: "33", "ACQUIN"')
 
     def to_internal_value(self, data):
-        activity = data.get('activity', None)
+        activity = data.get('id', None)
         local_identifier = data.get('local_identifier', None)
         agency = data.get('agency', None)
 
