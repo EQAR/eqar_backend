@@ -43,7 +43,7 @@ class AgencyESGActivityAdmin(DEQARModelAdmin):
 class AgencyActivityGroupAdmin(DEQARModelAdmin):
     list_display = ('id', 'activity', 'assigned_agencies')
     list_display_links = ('id', 'activity', 'assigned_agencies')
-    fields = ['activity', 'activity_type']
+    fields = ['activity', 'activity_type', 'reports_link']
     ordering = (Lower('activity'),)
 
     formfield_overrides = {
