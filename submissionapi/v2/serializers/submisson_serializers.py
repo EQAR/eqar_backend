@@ -254,6 +254,10 @@ class ActivitySerializer(serializers.Serializer):
         agency_field = AgencyField()
         submitting_agency = agency_field.to_internal_value(parent_data['agency'])
 
+        # Fill in the agency data
+        if agency:
+            agency = agency_field.to_internal_value(agency)
+
         # Get the contributing agencies
         contributing_agencies = []
         if 'contributing_agencies' in parent_data:
@@ -307,10 +311,10 @@ class ActivitySerializer(serializers.Serializer):
                 raise serializers.ValidationError("Please provide valid ESG Activity Group Identifier.")
 
             if agency:
-                data = AgencyESGActivity.objects.filter(
+                data = list(AgencyESGActivity.objects.filter(
                     activity_group=activity_group, agency=agency
-                )
-                if data.count() == 0:
+                ).all())
+                if len(data) == 0:
                     raise serializers.ValidationError(
                         "Please provide valid ESG Activity Group Identifier with Agency info.")
             else:
