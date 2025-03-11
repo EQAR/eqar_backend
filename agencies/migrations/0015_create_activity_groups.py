@@ -2,10 +2,12 @@
 import csv
 import os
 
+from celery.bin.celery import report
 from django.db import migrations
 
 def load_csv_data(apps, schema_editor):
     activity_groups = {}
+    reports_links = {}
 
     # Get the models
     AgencyESGActivity = apps.get_model('agencies', 'AgencyESGActivity')
@@ -20,15 +22,21 @@ def load_csv_data(apps, schema_editor):
         reader = csv.DictReader(csvfile)
         for row in reader:
             activity_groups[row['activity_id']] = row['group_name']
+            activity_groups[row['activity_id']] = row['reports_link']
 
     for activity in AgencyESGActivity.objects.all():
         activity_group = activity_groups.get(activity.id)
+        reports_link = reports_links.get(activity.id)
 
         if activity_group:
             group, created = AgencyActivityGroup.objects.get_or_create(
                 activity=activity_group,
-                activity_type=activity.activity_type
+                activity_type=activity.activity_type,
             )
+            if reports_link:
+                group.reports_link = reports_link
+                group.save()
+
         else:
             group = AgencyActivityGroup.create(
                 activity=activity_group,
