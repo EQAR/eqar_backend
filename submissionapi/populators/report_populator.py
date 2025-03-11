@@ -92,6 +92,8 @@ class ReportPopulator():
 
     def _get_report_name(self):
         activities = self.submission.get('activities', [])
+        activities = self._harmonize_activities(activities)
+
         name = []
         for activity in activities:
             name.append(activity.activity)
@@ -110,6 +112,8 @@ class ReportPopulator():
 
     def _assign_agency_esg_activities(self):
         activities = self.submission.get('activities', [])
+        activities = self._harmonize_activities(activities)
+
         for activity in activities:
             self.report.agency_esg_activities.add(activity)
 
@@ -243,3 +247,14 @@ class ReportPopulator():
 
                 for lang in languages:
                     rf.languages.add(lang)
+
+    def _harmonize_activities(self, activities):
+        # Harmonize activities
+        harmonized_activities = []
+        for activity in activities:
+            if type(activity) == list:
+                for a in activity:
+                    harmonized_activities.append(a)
+            else:
+                harmonized_activities.append(activity)
+        return harmonized_activities

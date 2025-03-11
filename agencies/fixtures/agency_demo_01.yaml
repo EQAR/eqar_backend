@@ -133,7 +133,7 @@
 - model: agencies.AgencyActivityGroup
   pk: 5
   fields:
-    activity: Institutional Accreditation Abroad
+    activity: Common ESG Activity
     activity_type: 1
 
 - model: agencies.AgencyESGActivity

@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.fields import ListField
 
-from agencies.models import AgencyESGActivity
+from agencies.models import AgencyESGActivity, AgencyActivityGroup
 from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
 from submissionapi.serializer_fields.isced_serializer_field import ISCEDSerializer
@@ -230,7 +230,7 @@ class ReportLinkSerializer(serializers.Serializer):
 
 
 class ActivitySerializer(serializers.Serializer):
-    id = serializers.CharField(max_length=500, required=False,
+    id = serializers.CharField(max_length=5, required=False,
                                      label='Identifier of the Agency ESG Activity',
                                      help_text='examples: "2"')
     local_identifier = serializers.CharField(max_length=200, required=False,
@@ -239,22 +239,40 @@ class ActivitySerializer(serializers.Serializer):
     agency = AgencyField(required=False, label='Identifier or the acronym of the agency whose local identifier is used. '
                                                'If not provided, the agency of the report will be used.',
                          help_text='examples: "33", "ACQUIN"')
+    group = serializers.CharField(max_length=5, required=False,
+                                  label='Identifier of the Agency ESG Activity Group',
+                                  help_text='examples: "2"')
 
     def to_internal_value(self, data):
         activity = data.get('id', None)
         local_identifier = data.get('local_identifier', None)
         agency = data.get('agency', None)
+        group = data.get('group', None)
 
         # Get the submitting agency
         parent_data = self.parent.parent.initial_data
         agency_field = AgencyField()
         submitting_agency = agency_field.to_internal_value(parent_data['agency'])
 
-        if activity is None and local_identifier is None:
-            raise serializers.ValidationError("Either ESG Activity ID or ESG Activity local identifier is needed.")
+        # Get the contributing agencies
+        contributing_agencies = []
+        if 'contributing_agencies' in parent_data:
+            for ca in parent_data['contributing_agencies']:
+                contributing_agency = agency_field.to_internal_value(ca)
+                contributing_agencies.append(contributing_agency)
+
+        if activity is None and local_identifier is None and group is None:
+            raise serializers.ValidationError("Either ESG Activity ID, ESG Activity local identifier or "
+                                              "ESG Activity Group is needed.")
 
         if activity is not None and local_identifier is not None:
             raise serializers.ValidationError("You cannot submit both ESG Activity ID and ESG Activity local identifier.")
+
+        if activity is not None and group is not None:
+            raise serializers.ValidationError("You cannot submit both ESG Activity ID and ESG Activity Group.")
+
+        if local_identifier is not None and group is not None:
+            raise serializers.ValidationError("You cannot submit both ESG Activity local identifier and ESG Activity Group.")
 
         if activity is not None:
             if str(activity).isdigit():
@@ -278,6 +296,35 @@ class ActivitySerializer(serializers.Serializer):
                         activity_local_identifier=local_identifier, agency=agency)
                 except ObjectDoesNotExist:
                     raise serializers.ValidationError("Please provide valid ESG Activity local identifier with Agency info.")
+
+        # Handle group
+        if group is not None:
+            try:
+                activity_group = AgencyActivityGroup.objects.get(
+                    pk=group
+                )
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide valid ESG Activity Group Identifier.")
+
+            if agency:
+                data = AgencyESGActivity.objects.filter(
+                    activity_group=activity_group, agency=agency
+                )
+                if data.count() == 0:
+                    raise serializers.ValidationError(
+                        "Please provide valid ESG Activity Group Identifier with Agency info.")
+            else:
+                data = []
+                data += list(AgencyESGActivity.objects.filter(
+                    activity_group=activity_group, agency=submitting_agency
+                ).all())
+                for ca in contributing_agencies:
+                    data += list(AgencyESGActivity.objects.filter(
+                        activity_group=activity_group, agency=ca
+                    ).all())
+                if len(data) == 0:
+                    raise serializers.ValidationError(
+                        "Please provide valid ESG Activity Group Identifier with Agency info.")
 
         return data
 
@@ -372,8 +419,6 @@ class SubmissionPackageSerializer(serializers.Serializer):
                 data['valid_to'] = date_to.strftime("%Y-%m-%d")
         except ValueError:
             errors.append("Date format string is not applicable to the submitted date.")
-
-
 
         # If there are errors raise ValidationError
         #

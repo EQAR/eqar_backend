@@ -24,6 +24,16 @@ def validate_submission_package_root(data):
     valid_to = data.get('valid_to', None)
     status = data.get('status', None)
 
+    # Harmonize activities
+    harmonized_activities = []
+    for activity in activities:
+        if type(activity) == list:
+            for a in activity:
+                harmonized_activities.append(a)
+        else:
+            harmonized_activities.append(activity)
+    activities = harmonized_activities
+
     # Validate if every agency has at least one activity in the list. (Only for API v2)
     if not esg_activity:
         agencies_from_activities = []
@@ -38,7 +48,7 @@ def validate_submission_package_root(data):
                 errors.append("Please provide at least one activity for the contributing agency.")
 
     #
-    # Validate if activity types haas the right amount of programme and instituton records
+    # Validate if activity types has the right amount of programme and instituton records
     #
     # institutional
     if esg_activity:

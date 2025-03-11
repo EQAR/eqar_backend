@@ -9,7 +9,7 @@ from agencies.models import SubmittingAgency, Agency
 from reports.models import Report
 
 
-class SubmissionAPIV2ReportTest(APITestCase):
+class SubmissionAPIV2ReportTestWithActivityGroup(APITestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
@@ -29,11 +29,12 @@ class SubmissionAPIV2ReportTest(APITestCase):
     def setUp(self):
         self.valid_data = {
             "agency": "ACQUIN",
+            "contributing_agencies": ["EKKA"],
             "valid_from": "2010-05-05",
             "date_format": "%Y-%M-%d",
             "activities": [
                 {
-                    "id": "1"
+                    "group": "5"
                 }
             ],
             "status": "1",
