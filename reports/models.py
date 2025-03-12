@@ -25,7 +25,7 @@ class Report(models.Model):
     valid_from = models.DateField(default=datetime.date.today)
     valid_to = models.DateField(blank=True, null=True)
     institutions = models.ManyToManyField('institutions.Institution', related_name='reports')
-    platforms = models.ManyToManyField('institutions.Institution', related_name='related_reports')
+    platforms = models.ManyToManyField('institutions.Institution', related_name='related_reports', blank=True)
     flag = models.ForeignKey('lists.Flag', default=1, on_delete=models.PROTECT)
     flag_log = models.TextField(blank=True)
     other_comment = models.TextField(blank=True, null=True)
