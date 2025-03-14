@@ -1,7 +1,7 @@
 from drf_writable_nested import UniqueFieldsMixin
 from rest_framework import serializers
 
-from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
+from agencies.models import Agency, AgencyESGActivity, AgencyActivityType, AgencyActivityGroup
 from countries.models import Country, CountryQARequirementType
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
@@ -16,13 +16,26 @@ class AgencySelectSerializer(serializers.ModelSerializer):
         fields = ['id', 'acronym_primary']
 
 
+class AgencyActivityGroupSerializer(serializers.ModelSerializer):
+    display_value = serializers.SerializerMethodField()
+    activity_type = serializers.StringRelatedField()
+
+    def get_display_value(self, obj):
+        return f'{obj.activity} - ID {obj.id} ({obj.activity_type})'
+
+    class Meta:
+        model = AgencyActivityGroup
+        fields = ['id', 'activity', 'activity_type', 'display_value', 'reports_link']
+
+
 class AgencyESGActivitySerializer(serializers.ModelSerializer):
     agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
     activity_type = serializers.StringRelatedField()
+    activity_group = AgencyActivityGroupSerializer()
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['id', 'agency', 'activity', 'activity_type']
+        fields = ['id', 'agency', 'activity', 'activity_group', 'activity_type']
 
 
 class AgencyActivityTypeSerializer(serializers.ModelSerializer):

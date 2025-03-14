@@ -14,9 +14,11 @@ from rest_framework.views import APIView
 
 from adminapi.permissions import CanAccessAgency
 from adminapi.serializers.agency_serializers import AgencyReadSerializer, \
-    AgencyUserWriteSerializer, AgencyAdminWriteSerializer
+    AgencyUserWriteSerializer, AgencyAdminWriteSerializer, AgencyActivityGroupWriteSerializer, \
+    AgencyActivityGroupReadSerializer
 from adminapi.serializers.select_serializers import AgencyESGActivitySerializer
-from agencies.models import Agency, AgencyActivityType, AgencyESGActivity, AgencyEQARDecision, AgencyUpdateLog
+from agencies.models import Agency, AgencyActivityType, AgencyESGActivity, AgencyEQARDecision, AgencyUpdateLog, \
+    AgencyActivityGroup
 from submissionapi.permissions import CanSubmitToAgency
 
 
@@ -25,6 +27,7 @@ class AgencyESGActivityFilterClass(filters.FilterSet):
     activity = filters.CharFilter(label='Activity', method='search_activity')
     activity_id = filters.CharFilter(label='Agency ID', method='search_activity_id')
     activity_type = filters.ModelChoiceFilter(field_name='activity_type', queryset=AgencyActivityType.objects.all())
+    activity_group = filters.ModelChoiceFilter(field_name='activity_group', queryset=AgencyActivityGroup.objects.all())
 
     def search_activity(self, queryset, name, value):
         return queryset.filter(activity__icontains=value)
@@ -43,7 +46,7 @@ class AgencyESGActivityFilterClass(filters.FilterSet):
 class AgencyESGActivityList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     filter_backends = (OrderingFilter, filters.DjangoFilterBackend)
-    ordering = ['agency__acronym_primary', 'id']
+    ordering = ['agency__acronym_primary', 'id', 'activity_group']
     filterset_class = AgencyESGActivityFilterClass
     queryset = AgencyESGActivity.objects.all()
 
@@ -145,3 +148,29 @@ class AgencyDecisionFileUploadView(APIView):
             return Response(status=204)
         except ObjectDoesNotExist:
             return Response(status=404)
+
+
+class AgencyActivityGroupCreateView(CreateAPIView):
+    queryset = AgencyActivityGroup.objects.all()
+    read_serializer_class = AgencyActivityGroupReadSerializer
+    write_serializer_class = AgencyActivityGroupWriteSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
+
+
+class AgencyActivityGroupUpdateView(RetrieveUpdateAPIView):
+    queryset = AgencyActivityGroup.objects.all()
+    read_serializer_class = AgencyActivityGroupReadSerializer
+    write_serializer_class = AgencyActivityGroupWriteSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'PUT':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]

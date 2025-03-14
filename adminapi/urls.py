@@ -5,7 +5,7 @@ from rest_framework import permissions
 
 from adminapi.views.agency_search_views import AgencyList
 from adminapi.views.agency_views import AgencyESGActivityList, AgencyDetail, MyAgencyDetail, \
-    AgencyDecisionFileUploadView
+    AgencyDecisionFileUploadView, AgencyActivityGroupUpdateView, AgencyActivityGroupCreateView
 from adminapi.views.country_views import CountryList, CountryDetail
 from adminapi.views.dashboard_views import ReportsByAgency, DashboardBadgesView
 from adminapi.views.flag_views import ReportFlagList
@@ -19,7 +19,7 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
     FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList, \
     InstitutionHierarchicalRelationshipTypeSelect, InstitutionOrganizationTypeSelectList, AssessmentSelectList, \
-    DegreeOutcomeSelectList
+    DegreeOutcomeSelectList, AgencyActivityGroupSelectList
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 app_name = 'adminapi'
@@ -50,6 +50,10 @@ urlpatterns = [
         name='agency-activity-select'),
     re_path(r'^select/agency_esg_activity_by_agency/$', AgencyESGActivitySelectList.as_view(),
         name='agency-activity-select-by-agency'),
+    re_path(r'^select/activity_group/$', AgencyActivityGroupSelectList.as_view(),
+            name='agency-activity-group-select'),
+    re_path(r'^select/activity_group_all$', AgencyActivityGroupSelectList.as_view(),
+            name='agency-activity-group-select'),
     re_path(r'^select/activity_type/$', AgencyActivityTypeSelectList.as_view(),
         name='agency-activity-type-select'),
     re_path(r'^select/country/$', CountrySelectList.as_view(), name='country-select'),
@@ -80,6 +84,10 @@ urlpatterns = [
     # Management endpoints
     re_path(r'^agencies/(?P<pk>[0-9]+)/$', AgencyDetail.as_view(), name='agency-view-edit'),
     re_path(r'^my_agency/(?P<pk>[0-9]+)/$', MyAgencyDetail.as_view(), name='my_agency-view-edit'),
+
+    # Group endpoints
+    re_path(r'^agencies/activity_group/$', AgencyActivityGroupCreateView.as_view(), name='agency-activity-group-create'),
+    re_path(r'^agencies/activity_group/(?P<pk>[0-9]+)/$', AgencyActivityGroupUpdateView.as_view(), name='agency-activity-group-edit'),
 
     re_path(r'^submit/(?P<file_type>["decision"|"decision_extra"]+)/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$',
         AgencyDecisionFileUploadView.as_view(), name='upload-agency_decision_file'),

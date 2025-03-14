@@ -268,6 +268,7 @@ class AgencyActivityGroup(models.Model):
         return "%s (%s)" % (self.activity, self.activity_type)
 
     class Meta:
+        ordering = ('activity', 'activity_type')
         db_table = 'deqar_agency_activity_group'
         verbose_name = 'ESG Activity Group'
 

@@ -41,7 +41,7 @@ class AgencyESGActivityAdmin(DEQARModelAdmin):
         return obj.agency.acronym_primary
 
 class AgencyActivityGroupAdmin(DEQARModelAdmin):
-    list_display = ('id', 'activity', 'assigned_agencies')
+    list_display = ('id', 'activity', 'assigned_agencies', 'assigned_agencies_list')
     list_display_links = ('id', 'activity', 'assigned_agencies')
     fields = ['activity', 'activity_type', 'reports_link']
     ordering = (Lower('activity'),)
@@ -53,12 +53,21 @@ class AgencyActivityGroupAdmin(DEQARModelAdmin):
     }
 
     def assigned_agencies(self, obj):
-        return obj.assigned_agencies
+        return obj._assigned_agencies
+
+    def assigned_agencies_list(self, obj):
+        agencies = set()
+        for agency in obj.agencyesgactivity_set.all():
+            agencies.add(agency.agency.acronym_primary)
+        agencies = sorted(agencies, key=str.lower)
+        return ', '.join(agencies)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        queryset = queryset.annotate(assigned_agencies=Count("agencyesgactivity__agency", distinct=True))
+        queryset = queryset.annotate(_assigned_agencies=Count("agencyesgactivity__agency", distinct=True))
         return queryset
+
+    assigned_agencies.admin_order_field = '_assigned_agencies'
 
 admin_site.register(SubmittingAgency, SubmittingAgencyAdmin)
 admin_site.register(AgencyESGActivity, AgencyESGActivityAdmin)
