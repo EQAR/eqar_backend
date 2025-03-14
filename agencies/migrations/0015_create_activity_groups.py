@@ -38,7 +38,7 @@ def load_csv_data(apps, schema_editor):
                 group.save()
 
         else:
-            group = AgencyActivityGroup.create(
+            group = AgencyActivityGroup.objects.create(
                 activity=activity_group,
                 activity_type=activity.activity_type
             )
