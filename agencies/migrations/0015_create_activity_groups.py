@@ -22,7 +22,7 @@ def load_csv_data(apps, schema_editor):
         reader = csv.DictReader(csvfile)
         for row in reader:
             activity_groups[row['activity_id']] = row['group_name']
-            activity_groups[row['activity_id']] = row['reports_link']
+            reports_links[row['activity_id']] = row['reports_link']
 
     for activity in AgencyESGActivity.objects.all():
         activity_group = activity_groups.get(activity.id)
@@ -38,8 +38,9 @@ def load_csv_data(apps, schema_editor):
                 group.save()
 
         else:
+            activity = activity.activity
             group = AgencyActivityGroup.objects.create(
-                activity=str(activity),
+                activity=activity.activity if activity.activity else 'Other',
                 activity_type=activity.activity_type
             )
 
