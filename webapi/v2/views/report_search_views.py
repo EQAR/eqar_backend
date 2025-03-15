@@ -2,6 +2,8 @@ import datetime
 import json
 import re
 
+from collections import defaultdict
+
 from django.conf import settings
 from django.utils.decorators import method_decorator
 
@@ -18,7 +20,6 @@ from eqar_backend.meilisearch import MeiliClient
 from meilisearch.errors import MeilisearchApiError
 
 from adminapi.inspectors.report_search_inspector import ReportSearchInspector
-from eqar_backend.searchers import Searcher
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
 from lists.models import Language
@@ -28,15 +29,29 @@ from countries.models import Country
 
 class ReportFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
-    agency = filters.CharFilter(label='Agency')
-    activity = filters.CharFilter(label='Agency ESG Activity')
-    activity_type = filters.CharFilter(label='Activity Type')
-    country = filters.CharFilter(label='Country')
-    status = filters.CharFilter(label='Status')
-    decision = filters.CharFilter(label='Decision')
-    cross_border = filters.CharFilter(label='Cross-border')
+    agency = filters.ModelChoiceFilter(label='Agency',
+                queryset=Agency.objects.all(),
+                to_field_name='acronym_primary')
+    activity = filters.ModelChoiceFilter(label='Agency ESG Activity',
+                queryset=AgencyESGActivity.objects.all(),
+                to_field_name='activity')
+    activity_type = filters.ModelChoiceFilter(label='Activity Type',
+                queryset=AgencyActivityType.objects.all(),
+                to_field_name='type')
+    country = filters.ModelChoiceFilter(label='Country',
+                queryset=Country.objects.all(),
+                to_field_name='name_english')
+    status = filters.ModelChoiceFilter(label='Status',
+                queryset=ReportStatus.objects.all(),
+                to_field_name='status')
+    decision = filters.ModelChoiceFilter(label='Decision',
+                queryset=ReportDecision.objects.all(),
+                to_field_name='decision')
+    cross_border = filters.BooleanFilter(label='Cross-border')
     flag = filters.CharFilter(label='Flag')
-    language = filters.CharFilter(label='Language')
+    language = filters.ModelChoiceFilter(label='Language',
+                queryset=Language.objects.all(),
+                to_field_name='language_name_en')
     active = filters.BooleanFilter(label='Active')
     year = filters.NumberFilter(label='Year')
     other_provider_covered = filters.BooleanFilter(label='Other Provider Covered')
@@ -63,6 +78,10 @@ class ReportFilterClass(filters.FilterSet):
 class ReportList(ListAPIView):
     """
     Returns a list of reports based on Meilisearch
+
+    NB: This is a compatibility with for the legacy v2 view, originally based on Solr. It
+    operates on the Meilisearch index and enriches the results to be fully compatible with
+    the original v2 return format.
     """
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
@@ -92,12 +111,18 @@ class ReportList(ListAPIView):
             "activity": "agency_esg_activities.type",
             "flag": "flag",
         }
-        if ordering in [ "score", "-score"]:
+        if ordering in [ "score", "-score", "" ]:
             return None
         elif ordering[0:1] == '-':
-            return [ MAPPING[ordering[1:]] + ':desc' ]
+            field =ordering[1:]
+            direction = 'desc'
         else:
-            return [ MAPPING[ordering] + ':asc' ]
+            field = ordering
+            direction = 'asc'
+        if field in MAPPING:
+            return [ f'{MAPPING[field]}:{direction}' ]
+        else:
+            raise ParseError(detail=f'unknown field [{field}] for ordering')
 
 
     def lookup_object(self, model, key, parameter, attribute, raw_parameter, multi=False):
@@ -259,6 +284,7 @@ class ReportList(ListAPIView):
         # convert facets
         FACET_NAMES = {
             'agency.id': 'agency_facet',
+            'contributing_agencies.id': 'agency_facet',
             'institutions.locations.country.id': 'country_facet',
             'flag': 'flag_level_facet',
             'agency_esg_activities.id': 'activity_facet',
@@ -276,22 +302,22 @@ class ReportList(ListAPIView):
             'institutions.locations.country.id': { 'model': Country,           'attribute': 'name_english' },
             'agency_esg_activities.id':          { 'model': AgencyESGActivity, 'attribute': 'activity' },
         }
-        fields = {}
+        # rename, lookup and merge
+        fields = defaultdict(lambda: defaultdict(int))
         for facet_name, distribution in response['facetDistribution'].items():
-            field = list()
             for value, count in distribution.items():
                 if facet_name in FACET_LOOKUP:
                     try:
                         obj = FACET_LOOKUP[facet_name]['model'].objects.get(id=value)
-                        field.append(getattr(obj, FACET_LOOKUP[facet_name]['attribute']))
+                        fields[FACET_NAMES[facet_name]][getattr(obj, FACET_LOOKUP[facet_name]['attribute'])] += count
                     except FACET_LOOKUP[facet_name]['model'].DoesNotExist:
-                        field.append(f'unknown ID: {value}')
+                        fields[FACET_NAMES[facet_name]][f'unknown ID: {value}'] += count
                 else:
-                    field.append(value)
-                field.append(count)
-            fields[FACET_NAMES[facet_name]] = field
-
-        # TO DO: merge contributing_agencies.id
+                    fields[FACET_NAMES[facet_name]][value] += count
+        # restructure for Solr
+        solr_fields = {}
+        for facet_name, field in fields.items():
+            solr_fields[facet_name] = [item for pair in field.items() for item in pair]
 
         resp = {
             'count': response['totalHits'],
@@ -299,7 +325,7 @@ class ReportList(ListAPIView):
             'results': response['hits'],
             'facets': {
                 'facet_queries': {},
-                'facet_fields': fields,
+                'facet_fields': solr_fields,
                 'facet_ranges': {},
                 'facet_intervals': {},
                 'facet_heatmaps': {},
