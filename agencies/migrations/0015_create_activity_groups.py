@@ -38,7 +38,6 @@ def load_csv_data(apps, schema_editor):
                 group.save()
 
         else:
-            activity = activity.activity
             group = AgencyActivityGroup.objects.create(
                 activity=activity.activity if activity.activity else 'Other',
                 activity_type=activity.activity_type
