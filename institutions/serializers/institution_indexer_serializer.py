@@ -116,9 +116,9 @@ class RelatedInstitutionSerializer(serializers.ModelSerializer):
         ]
 
 
-class InstitutionParentsSerializer(serializers.ModelSerializer):
+class ParentInstitutionSerializer(serializers.ModelSerializer):
 
-    parent = RelatedInstitutionSerializer(source='institution_parent')
+    institution = RelatedInstitutionSerializer(source='institution_parent')
     relationship_type = serializers.StringRelatedField()
     valid_from = UnixTimestampDateField()
     valid_to = UnixTimestampDateField()
@@ -126,11 +126,16 @@ class InstitutionParentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = InstitutionHierarchicalRelationship
         fields = [
-            'parent',
+            'institution',
             'relationship_type',
             'valid_from',
             'valid_to',
         ]
+
+
+class ChildInstitutionSerializer(ParentInstitutionSerializer):
+
+    institution = RelatedInstitutionSerializer(source='institution_child')
 
 
 class InstitutionIndexerSerializer(serializers.ModelSerializer):
@@ -141,7 +146,8 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
     founding_date = UnixTimestampDateField()
     closure_date = UnixTimestampDateField()
     locations = InstitutionCountrySerializer(many=True, read_only=True, source='institutioncountry_set')
-    relationship_parent = InstitutionParentsSerializer(many=True, read_only=True)
+    part_of = ParentInstitutionSerializer(many=True, read_only=True, source='relationship_child')
+    includes = ChildInstitutionSerializer(many=True, read_only=True, source='relationship_parent')
     qf_ehea_levels = serializers.SerializerMethodField()
     created_at = UnixTimestampDateField()
     agencies = serializers.SerializerMethodField()
@@ -167,7 +173,7 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
         return list(obj.reports.values_list('status__status', flat=True).distinct())
 
     def get_activity_types(self, obj):
-        return list(obj.reports.values_list('agency_esg_activities__activity_type__type', flat=True).distinct())
+        return list(obj.reports.values_list('agency_esg_activities__activity_group__activity_type__type', flat=True).distinct())
 
     class Meta:
         model = Institution
@@ -184,7 +190,8 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
                     'founding_date',
                     'closure_date',
                     'locations',
-                    'relationship_parent',
+                    'part_of',
+                    'includes',
                     'qf_ehea_levels',
                     'has_report',
                     'agencies',
