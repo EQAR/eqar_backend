@@ -3,20 +3,21 @@ import datetime
 
 from collections import defaultdict
 
-from django.conf import settings
 from django.http import Http404
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
-from pysolr import SolrError
 from rest_framework import generics
 from rest_framework.exceptions import ParseError, APIException
-from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from eqar_backend.meilisearch import MeiliClient
 from meilisearch.errors import MeilisearchApiError
+
+from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
+
+from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
 from countries.models import Country
@@ -24,8 +25,10 @@ from eqar_backend.searchers import Searcher
 from institutions.models import Institution, InstitutionIdentifier
 from lists.models import QFEHEALevel, IdentifierResource
 from reports.models import ReportStatus
+
 from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
 from webapi.v2.serializers.institution_serializers import InstitutionResourceSerializer, InstitutionDetailSerializer
+
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -71,7 +74,7 @@ class InstitutionFilterClass(filters.FilterSet):
 @method_decorator(name='get', decorator=swagger_auto_schema(
     filter_inspectors=[InstitutionSearchInspector]
 ))
-class InstitutionList(ListAPIView):
+class InstitutionList(MeiliSolrBackportView):
     """
     Returns a list of all the institutions to which a report was submitted in DEQAR
 
@@ -83,64 +86,29 @@ class InstitutionList(ListAPIView):
     filter_backends = (filters.DjangoFilterBackend, )
     filterset_class = InstitutionFilterClass
 
-    def zero_or_more(self, request, field, default):
-        value = request.query_params.get(field, default)
-        if not str(value).isdigit():
-            raise ParseError(detail='%s should be zero or larger number.' % field)
-        value = default if value == '' else value
-        return value
+    MEILI_INDEX = 'INDEX_INSTITUTIONS'
+    ORDERING_MAPPING = {
+        'name_sort': 'name_sort',
+        'founding_date': 'founding_date',
+        'closure_date': 'closure_date',
+        'country': 'locations.country.name_english',
+    }
+    FACET_NAMES = {
+        'locations.country.id': 'country_facet',
+        'qf_ehea_levels': 'qf_ehea_level_facet',
+        'agencies.id': 'reports_agencies',
+        'status': 'status_facet',
+        'activity_types': 'activity_type_facet',
+        'crossborder': 'crossborder_facet',
+        'is_other_provider': 'other_provider_facet',
+    }
+    FACET_LOOKUP = {
+        'agencies.id':          { 'model': Agency,            'attribute': 'acronym_primary' },
+        'locations.country.id': { 'model': Country,           'attribute': 'name_english' },
+    }
 
 
-    def convert_ordering(self, ordering):
-        """
-        map legacy ordering parameters to Meilisearch ones
-        """
-        MAPPING = {
-            'name_sort': 'name_sort',
-            'founding_date': 'founding_date',
-            'closure_date': 'closure_date',
-            'country': 'locations.country.name_english',
-        }
-        if ordering in [ "score", "-score", "" ]:
-            return None
-        elif ordering[0:1] == '-':
-            field =ordering[1:]
-            direction = 'desc'
-        else:
-            field = ordering
-            direction = 'asc'
-        if field in MAPPING:
-            return [ f'{MAPPING[field]}:{direction}' ]
-        else:
-            raise ParseError(detail=f'unknown field [{field}] for ordering')
-
-
-    def lookup_object(self, model, key, parameter, attribute, raw_parameter, multi=False):
-        """
-        If parameter is set, looks up model object against key and returns its attribute - otherwise raw_parameter if set
-        """
-        if lookup := self.request.query_params.get(parameter, None):
-            if multi:
-                obj = model.objects.filter(**{key: lookup})
-                if obj.count() == 0:
-                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
-                else:
-                    return ', '.join([ str(getattr(i, attribute)) for i in obj ])
-            else:
-                try:
-                    obj = model.objects.get(**{key: lookup})
-                    return getattr(obj, attribute)
-                except model.DoesNotExist:
-                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
-        else:
-            return self.request.query_params.get(raw_parameter, None)
-
-
-    def list(self, request, *args, **kwargs):
-        self.request = request
-
-        limit = self.zero_or_more(request, 'limit', 10)
-        offset = self.zero_or_more(request, 'offset', 0)
+    def make_filters(self, request):
 
         # this view shows only institutions with reports
         filters = [ 'has_report = True' ]
@@ -166,128 +134,60 @@ class InstitutionList(ListAPIView):
         if other_provider := request.query_params.get('other_provider', None):
             filters.append(f'is_other_provider = {BooleanExtendedField.to_internal_value(None, other_provider)}')
 
-        meili = MeiliClient()
-        params = {
-            'sort': self.convert_ordering(request.query_params.get('ordering', '-score')),
-            'filter': filters,
-            'facets': [
-                'locations.country.id',
-                'qf_ehea_levels',
-                'agencies.id',
-                'status',
-                'activity_types',
-                'crossborder',
-                'is_other_provider',
-            ],
-            'hitsPerPage': limit,
-            'page': int(offset/limit) + 1 if limit > 0 else 1,
+        return filters
+
+    def convert_hit(self, r):
+        # names
+        if r['eter_id']:
+            r['name_select_display'] = f"{r['name_primary']} ({r['eter_id']})"
+        else:
+            r['name_select_display'] = r['name_primary']
+        for name in r['names']:
+            if name['name_valid_to'] is None:
+                r['name_official_display'] = name['name_official']
+                break
+        if r['name_official_display'] != r['name_primary']:
+            r['name_display'] = f"{r['name_official_display']} / {r['name_primary']}"
+        else:
+            r['name_display'] = r['name_primary']
+
+        # QF-EHEA levels
+        r['qf_ehea_level'] = r.pop("qf_ehea_levels")
+
+        # relationships
+        def convert_related(new_style):
+            for rel in new_style:
+                yield {
+                    "deqar_id": rel['institution']['deqar_id'],
+                    "eter_id": rel['institution']['eter_id'],
+                    "name_primary": rel['institution']['name_primary'],
+                    "website_link": rel['institution']['website_link'],
+                    "relationship_type": rel['relationship_type'],
+                    "valid_from": datetime.date.fromtimestamp(rel['valid_from']).isoformat() if rel['valid_from'] else None,
+                    "valid_to": datetime.date.fromtimestamp(rel['valid_to']).isoformat() if rel['valid_to'] else None,
+                }
+        r['hierarchical_relationships'] = {
+            "part_of":  list(convert_related(r.pop("part_of"))),
+            "includes": list(convert_related(r.pop("includes"))),
         }
 
-        try:
-            response = meili.meili.index(meili.INDEX_INSTITUTIONS).search(query=request.query_params.get('query', ''), opt_params=params)
-        except MeilisearchApiError as e:
-            return Response(status=HTTP_400_BAD_REQUEST, data={'error': str(e)})
+        # date formats
+        r['founding_date'] = datetime.date.fromtimestamp(r['founding_date']).isoformat() if r['founding_date'] else None
+        r['closure_date'] = datetime.date.fromtimestamp(r['closure_date']).isoformat() if r['closure_date'] else None
+        r['date_created'] = datetime.datetime.fromtimestamp(r.pop('created_at')).isoformat() + "Z"
 
-        # convert result structure for compatibility
-        for r in response['hits']:
-            # names
-            if r['eter_id']:
-                r['name_select_display'] = f"{r['name_primary']} ({r['eter_id']})"
-            else:
-                r['name_select_display'] = r['name_primary']
-            for name in r['names']:
-                if name['name_valid_to'] is None:
-                    r['name_official_display'] = name['name_official']
-                    break
-            if r['name_official_display'] != r['name_primary']:
-                r['name_display'] = f"{r['name_official_display']} / {r['name_primary']}"
-            else:
-                r['name_display'] = r['name_primary']
+        # merged country list
+        countries = set()
+        for l in r['locations']:
+            countries.add(l['country']['name_english'])
+        r["country"] = list(countries)
 
-            # QF-EHEA levels
-            r['qf_ehea_level'] = r.pop("qf_ehea_levels")
-
-            # relationships
-            def convert_related(new_style):
-                for rel in new_style:
-                    yield {
-                        "deqar_id": rel['institution']['deqar_id'],
-                        "eter_id": rel['institution']['eter_id'],
-                        "name_primary": rel['institution']['name_primary'],
-                        "website_link": rel['institution']['website_link'],
-                        "relationship_type": rel['relationship_type'],
-                        "valid_from": datetime.date.fromtimestamp(rel['valid_from']).isoformat() if rel['valid_from'] else None,
-                        "valid_to": datetime.date.fromtimestamp(rel['valid_to']).isoformat() if rel['valid_to'] else None,
-                    }
-            r['hierarchical_relationships'] = {
-                "part_of":  list(convert_related(r.pop("part_of"))),
-                "includes": list(convert_related(r.pop("includes"))),
-            }
-
-            # date formats
-            r['founding_date'] = datetime.date.fromtimestamp(r['founding_date']).isoformat() if r['founding_date'] else None
-            r['closure_date'] = datetime.date.fromtimestamp(r['closure_date']).isoformat() if r['closure_date'] else None
-            r['date_created'] = datetime.datetime.fromtimestamp(r.pop('created_at')).isoformat() + "Z"
-
-            # merged country list
-            countries = set()
-            for l in r['locations']:
-                countries.add(l['country']['name_english'])
-            r["country"] = list(countries)
-
-            # location
-            r['place'] = r.pop("locations")
-            for loc in r['place']:
-                loc["country"] = loc['country']['name_english']
-                loc["country_valid_from"] = datetime.date.fromtimestamp(loc['country_valid_from']).isoformat() if loc['country_valid_from'] else None
-                loc["country_valid_to"] = datetime.date.fromtimestamp(loc['country_valid_to']).isoformat() if loc['country_valid_to'] else None
-
-
-        # convert facets
-        FACET_NAMES = {
-            'locations.country.id': 'country_facet',
-            'qf_ehea_levels': 'qf_ehea_level_facet',
-            'agencies.id': 'reports_agencies',
-            'status': 'status_facet',
-            'activity_types': 'activity_type_facet',
-            'crossborder': 'crossborder_facet',
-            'is_other_provider': 'other_provider_facet',
-        }
-        FACET_LOOKUP = {
-            'agencies.id':          { 'model': Agency,            'attribute': 'acronym_primary' },
-            'locations.country.id': { 'model': Country,           'attribute': 'name_english' },
-        }
-        # rename, lookup and merge
-        fields = defaultdict(lambda: defaultdict(int))
-        for facet_name, distribution in response['facetDistribution'].items():
-            for value, count in distribution.items():
-                if facet_name in FACET_LOOKUP:
-                    try:
-                        obj = FACET_LOOKUP[facet_name]['model'].objects.get(id=value)
-                        fields[FACET_NAMES[facet_name]][getattr(obj, FACET_LOOKUP[facet_name]['attribute'])] += count
-                    except FACET_LOOKUP[facet_name]['model'].DoesNotExist:
-                        fields[FACET_NAMES[facet_name]][f'unknown ID: {value}'] += count
-                else:
-                    fields[FACET_NAMES[facet_name]][value] += count
-        # restructure for Solr
-        solr_fields = {}
-        for facet_name, field in fields.items():
-            solr_fields[facet_name] = [item for pair in field.items() for item in pair]
-
-        resp = {
-            'count': response['totalHits'],
-            'next': (limit + offset < response['totalHits']),
-            'results': response['hits'],
-            'facets': {
-                'facet_queries': {},
-                'facet_fields': solr_fields,
-                'facet_ranges': {},
-                'facet_intervals': {},
-                'facet_heatmaps': {},
-            },
-        }
-
-        return Response(resp)
+        # location
+        r['place'] = r.pop("locations")
+        for loc in r['place']:
+            loc["country"] = loc['country']['name_english']
+            loc["country_valid_from"] = datetime.date.fromtimestamp(loc['country_valid_from']).isoformat() if loc['country_valid_from'] else None
+            loc["country_valid_to"] = datetime.date.fromtimestamp(loc['country_valid_to']).isoformat() if loc['country_valid_to'] else None
 
 
 class InstitutionDetailByETER(generics.RetrieveAPIView):
@@ -307,11 +207,14 @@ class InstitutionDetail(generics.RetrieveAPIView):
     """
         Returns all the data available of the selected institution.
     """
+    queryset = Institution.objects.all()
     serializer_class = InstitutionDetailSerializer
 
-    def get_queryset(self):
-        qs = Institution.objects.filter(pk=self.kwargs['pk'])
-        return qs
+    def get_object(self):
+        try:
+            return Institution.objects.get(pk=self.kwargs['pk'])
+        except Institution.DoesNotExist:
+            raise Http404
 
 
 class InstitutionDetailByIdentifier(generics.RetrieveAPIView):
