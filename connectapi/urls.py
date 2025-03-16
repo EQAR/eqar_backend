@@ -4,7 +4,14 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from connectapi.letstrust.views import DEQARVCIssue, EBSIVCIssue
-from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLViewV2
+from connectapi.views import InstitutionDEQARConnectList, \
+    ProviderDEQARConnectList, \
+    InstitutionDetail, \
+    InstitutionDetailByETER, \
+    InstitutionDetailByIdentifier, \
+    InstitutionIdentifierResourcesList, \
+    AgencyActivityDEQARConnectList, \
+    AccreditationXMLViewV2
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 schema_view = get_schema_view(
@@ -23,14 +30,17 @@ schema_view = get_schema_view(
 
 app_name = 'connectapi'
 
-
-class AccrediationXMLViewV2:
-    pass
-
-
 urlpatterns = [
     # DEQAR Connect endpoints
+    re_path(r'^providers/$', ProviderDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
     re_path(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
+    re_path(r'^institutions/(?P<pk>[0-9]+)$', InstitutionDetail.as_view(), name='institution-deqar-connect-detail'),
+    re_path(r'^institutions/by-eter/(?P<eter_id>[^/]+)$', InstitutionDetailByETER.as_view(),
+        name='institution-deqar-connect-eter_id-detail'),
+    re_path(r'^institutions/by-identifier/(?P<resource>[^/]+)/(?P<identifier>[^/]+)$', InstitutionDetailByIdentifier.as_view(),
+        name='institution-deqar-connect-by-identifier-detail'),
+    re_path(r'^institutions/resources/$', InstitutionIdentifierResourcesList.as_view(),
+        name='institution-deqar-connect-resources'),
     re_path(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
     # Europass endpoints

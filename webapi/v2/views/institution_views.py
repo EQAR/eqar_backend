@@ -145,7 +145,8 @@ class InstitutionList(MeiliSolrBackportView):
         for name in r['names']:
             if name['name_valid_to'] is None:
                 r['name_official_display'] = name['name_official']
-                break
+            else:
+                name['name_valid_to'] = self.timestamp_to_isodate(name['name_valid_to'])
         if r['name_official_display'] != r['name_primary']:
             r['name_display'] = f"{r['name_official_display']} / {r['name_primary']}"
         else:
@@ -163,8 +164,8 @@ class InstitutionList(MeiliSolrBackportView):
                     "name_primary": rel['institution']['name_primary'],
                     "website_link": rel['institution']['website_link'],
                     "relationship_type": rel['relationship_type'],
-                    "valid_from": datetime.date.fromtimestamp(rel['valid_from']).isoformat() if rel['valid_from'] else None,
-                    "valid_to": datetime.date.fromtimestamp(rel['valid_to']).isoformat() if rel['valid_to'] else None,
+                    "valid_from": self.timestamp_to_isodate(rel['valid_from']),
+                    "valid_to": self.timestamp_to_isodate(rel['valid_to']),
                 }
         r['hierarchical_relationships'] = {
             "part_of":  list(convert_related(r.pop("part_of"))),
@@ -172,9 +173,9 @@ class InstitutionList(MeiliSolrBackportView):
         }
 
         # date formats
-        r['founding_date'] = datetime.date.fromtimestamp(r['founding_date']).isoformat() if r['founding_date'] else None
-        r['closure_date'] = datetime.date.fromtimestamp(r['closure_date']).isoformat() if r['closure_date'] else None
-        r['date_created'] = datetime.datetime.fromtimestamp(r.pop('created_at')).isoformat() + "Z"
+        r['founding_date'] = self.timestamp_to_isodate(r['founding_date'])
+        r['closure_date'] = self.timestamp_to_isodate(r['closure_date'])
+        r['date_created'] = self.timestamp_to_isodatetime(r.pop('created_at'))
 
         # merged country list
         countries = set()
@@ -186,8 +187,8 @@ class InstitutionList(MeiliSolrBackportView):
         r['place'] = r.pop("locations")
         for loc in r['place']:
             loc["country"] = loc['country']['name_english']
-            loc["country_valid_from"] = datetime.date.fromtimestamp(loc['country_valid_from']).isoformat() if loc['country_valid_from'] else None
-            loc["country_valid_to"] = datetime.date.fromtimestamp(loc['country_valid_to']).isoformat() if loc['country_valid_to'] else None
+            loc["country_valid_from"] = self.timestamp_to_isodate(loc['country_valid_from'])
+            loc["country_valid_to"] = self.timestamp_to_isodate(loc['country_valid_to'])
 
 
 class InstitutionDetailByETER(generics.RetrieveAPIView):

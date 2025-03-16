@@ -182,12 +182,11 @@ class ReportList(MeiliSolrBackportView):
         r["flag_level"] = r.pop("flag")
 
         # date formats
-        r['valid_from'] = datetime.datetime.fromtimestamp(r['valid_from']).isoformat() + "Z"
-        r['valid_to_calculated'] = datetime.datetime.fromtimestamp(r['valid_to_calculated']).isoformat() + "Z"
-        if r['valid_to']:
-            r['valid_to'] = datetime.datetime.fromtimestamp(r['valid_to']).isoformat() + "Z"
-        r['date_created'] = datetime.datetime.fromtimestamp(r.pop('created_at')).isoformat() + "Z"
-        r['date_updated'] = datetime.datetime.fromtimestamp(r.pop('updated_at')).isoformat() + "Z"
+        r['valid_from'] = self.timestamp_to_isodatetime(r['valid_from'])
+        r['valid_to_calculated'] = self.timestamp_to_isodatetime(r['valid_to_calculated'])
+        r['valid_to'] = self.timestamp_to_isodatetime(r['valid_to'])
+        r['date_created'] = self.timestamp_to_isodatetime(r.pop('created_at'))
+        r['date_updated'] = self.timestamp_to_isodatetime(r.pop('updated_at'))
 
         # additional agency and activity info
         agency = Agency.objects.get(id=r['agency']['id'])

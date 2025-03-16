@@ -40,6 +40,20 @@ class MeiliSolrBackportView(ListAPIView):
         return int(value)
 
 
+    def timestamp_to_isodate(self, timestamp):
+        """
+        convert Unix timestamp to ISO format date
+        """
+        return datetime.date.fromtimestamp(timestamp).isoformat() if timestamp is not None else None
+
+
+    def timestamp_to_isodatetime(self, timestamp):
+        """
+        convert Unix timestamp to ISO format date and time
+        """
+        return datetime.datetime.fromtimestamp(timestamp).isoformat() + "Z" if timestamp is not None else None
+
+
     def convert_ordering(self, ordering):
         """
         map legacy ordering parameters to Meilisearch ones
@@ -88,6 +102,15 @@ class MeiliSolrBackportView(ListAPIView):
         raise NotImplemented
 
 
+    def make_meili_params(self, request):
+        """
+        Optionally overwrite this function to add additional Meilisearch parameters
+
+        request : DRF request object - return : dict
+        """
+        return {}
+
+
     def convert_hit(self, hit):
         """
         Convert a single Meilisearch hit to the format of the old Solr-based API
@@ -115,6 +138,7 @@ class MeiliSolrBackportView(ListAPIView):
             'facets': list(self.FACET_NAMES.keys()),
             'hitsPerPage': limit,
             'page': int(offset/limit) + 1 if limit > 0 else 1,
+            **self.make_meili_params(request),
         }
 
         try:
