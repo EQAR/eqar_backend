@@ -28,6 +28,7 @@ class CSVHandler:
             r'activities\[\d+\]\.id',
             r'activities\[\d+\]\.local_identifier',
             r'activities\[\d+\]\.agency',
+            r'activities\[\d+\]\.group',
         ],
         'report_links': [
             r'link\[\d+\]',
