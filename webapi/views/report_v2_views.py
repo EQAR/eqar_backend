@@ -48,9 +48,9 @@ class ReportListByInstitution(generics.ListAPIView):
 
         # Add Original
         if include_history == 'true':
-            qs = Report.objects.filter(Q(institutions__in=[institution])).filter(filter).filter(~Q(flag=3))
+            qs = Report.objects.filter(Q(institutions__in=[institution]) | Q(platforms__in=[institution])).filter(filter).filter(~Q(flag=3))
         else:
-            qs = Report.objects.filter(Q(institutions__in=[institution])).filter(filter).filter(~Q(flag=3)).filter(
+            qs = Report.objects.filter(Q(institutions__in=[institution]) | Q(platforms__in=[institution])).filter(filter).filter(~Q(flag=3)).filter(
                 Q(valid_to__gte=datetime.datetime.now()) | (
                         Q(valid_to__isnull=True) &
                         Q(valid_from__gte=datetime.datetime.now() - datedelta(years=6))
@@ -61,11 +61,11 @@ class ReportListByInstitution(generics.ListAPIView):
         institution_ids = []
 
         # Add Children
-        for inst in institution.relationship_parent.all():
+        for inst in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_child_id)
 
         # Add Parents
-        for inst in institution.relationship_child.all():
+        for inst in institution.relationship_child.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_parent_id)
 
         if len(institution_ids) > 0:

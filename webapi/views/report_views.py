@@ -52,20 +52,26 @@ class ReportProgrammeListByInstitution(generics.ListAPIView):
         institution_ids = [institution.id]
 
         # Add Children
-        for inst in institution.relationship_parent.all():
+        for inst in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_child_id)
 
         # Add Parents
-        for inst in institution.relationship_child.all():
+        for inst in institution.relationship_child.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_parent_id)
 
         if include_history == 'true':
             qs = Programme.objects.filter(
-                Q(report__institutions__id__in=institution_ids) & ~Q(report__flag=3)
+                (
+                    Q(report__institutions__id__in=institution_ids) |
+                    Q(report__platforms__id=institution.id)
+                ) & ~Q(report__flag=3)
             )
         else:
             qs = Programme.objects.filter(
-                Q(report__institutions__id__in=institution_ids) & ~Q(report__flag=3) &
+                (
+                    Q(report__institutions__id__in=institution_ids) |
+                    Q(report__platforms__id=institution.id)
+                ) & ~Q(report__flag=3) &
                 (
                     Q(report__valid_to__gte=datetime.datetime.now()) | (
                         Q(report__valid_to__isnull=True) &
@@ -163,16 +169,19 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
         institution_ids = [institution.id]
 
         # Add Children
-        for inst in institution.relationship_parent.all():
+        for inst in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_child_id)
 
         # Add Parents
-        for inst in institution.relationship_child.all():
+        for inst in institution.relationship_child.exclude(relationship_type__type='educational platform'):
             institution_ids.append(inst.institution_parent_id)
 
         if include_history == 'true':
             qs = Report.objects.filter(
-                Q(institutions__id__in=institution_ids) & (
+                (
+                    Q(institutions__id__in=institution_ids) |
+                    Q(platforms__id=institution.id)
+                ) & (
                         Q(agency_esg_activity__activity_type=2) |
                         Q(agency_esg_activity__activity_type=4)
                 )
@@ -180,7 +189,10 @@ class ReportInstitutionListByInstitution(generics.ListAPIView):
             )
         else:
             qs = Report.objects.filter(
-                Q(institutions__id__in=institution_ids) & (
+                (
+                    Q(institutions__id__in=institution_ids) |
+                    Q(platforms__id=institution.id)
+                ) & (
                         Q(agency_esg_activity__activity_type=2) |
                         Q(agency_esg_activity__activity_type=4)
                 ) & ~Q(flag=3) & (
