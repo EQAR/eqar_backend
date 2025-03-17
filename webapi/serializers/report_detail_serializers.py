@@ -78,6 +78,7 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     report_files = ReportFileSerializer(many=True, read_only=True, source='reportfile_set')
     report_links = ReportLinkSerializer(many=True, read_only=True, source='reportlink_set')
     institutions = InstitutionSerializer(many=True)
+    platforms = InstitutionSerializer(many=True)
     institutions_hierarchical = serializers.SerializerMethodField(source='institutions')
     institutions_historical = serializers.SerializerMethodField(source='institutions')
     programmes = ProgrammeSerializer(many=True, source='programme_set')
@@ -167,5 +168,6 @@ class ReportDetailSerializer(serializers.ModelSerializer):
                   'contributing_agencies',
                   'agency_esg_activity', 'agency_esg_activity_type', 'name',
                   'institutions', 'institutions_hierarchical', 'institutions_historical', 'programmes',
+                  'platforms',
                   'report_valid', 'valid_from', 'valid_to', 'status', 'decision', 'crossborder', 'summary', 'report_files',
                   'report_links', 'local_identifier', 'other_comment', 'flag']
