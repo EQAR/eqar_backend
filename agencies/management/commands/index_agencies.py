@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         solr_core = getattr(settings, "SOLR_CORE_AGENCIES", "deqar-agencies")
         solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), solr_core)
-        solr = pysolr.Solr(solr_url)
+        solr = pysolr.Solr(solr_url, always_commit=True)
         solr.delete(q='*:*', commit=True)
 
         for agency in Agency.objects.iterator():

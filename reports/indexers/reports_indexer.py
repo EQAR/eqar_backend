@@ -19,7 +19,7 @@ class ReportsIndexer:
         self.report = None
         self.solr_core = getattr(settings, "SOLR_CORE_REPORTS", "deqar-reports")
         self.solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), self.solr_core)
-        self.solr = pysolr.Solr(self.solr_url)
+        self.solr = pysolr.Solr(self.solr_url, always_commit=True)
         self.doc = {
             'id': None,
             'local_id': None,
