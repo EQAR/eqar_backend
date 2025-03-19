@@ -11,7 +11,7 @@ class AgencyIndexer:
         self.agency = agency
         self.solr_core = getattr(settings, "SOLR_CORE_AGENCIES", "deqar-agencies")
         self.solr_url = "%s/%s" % (getattr(settings, "SOLR_URL", "http://localhost:8983/solr"), self.solr_core)
-        self.solr = pysolr.Solr(self.solr_url)
+        self.solr = pysolr.Solr(self.solr_url, always_commit=True)
         self.doc = {
             # Display fields
             'id': None,
