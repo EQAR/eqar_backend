@@ -56,7 +56,7 @@ class AgencyESGActivitySelectList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     pagination_class = None
     filter_backends = (SearchFilter,)
-    search_fields = ('activity',)
+    search_fields = ('activity', 'activity_group__activity')
 
     def get_queryset(self, *args, **kwargs):
         agencies = self.request.query_params.getlist('agencies', [])
