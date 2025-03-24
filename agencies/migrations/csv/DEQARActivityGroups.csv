@@ -25,6 +25,15 @@ activity_id,group_name,agency,reports_link
 388,Programme accreditation in Germany,AQ Austria,https://www.akkreditierungsrat.de/index.php/en/accreditation-system/programme-accreditation/programme-accreditation
 462,Programme accreditation in Germany,AKAST,https://www.akkreditierungsrat.de/index.php/en/accreditation-system/programme-accreditation/programme-accreditation
 481,Programme accreditation in Germany,GAC,https://www.akkreditierungsrat.de/index.php/en/accreditation-system/programme-accreditation/programme-accreditation
+49,"Programme accreditation in Germany, pre-2018 rules",AQAS,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+76,"Programme accreditation in Germany, pre-2018 rules",EVALAG,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+20,"Programme accreditation in Germany, pre-2018 rules",ACQUIN,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+79,"Programme accreditation in Germany, pre-2018 rules",FIBAA,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+138,"Programme accreditation in Germany, pre-2018 rules",ZEvA,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+62,"Programme accreditation in Germany, pre-2018 rules",ASIIN,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+339,"Programme accreditation in Germany, pre-2018 rules",AAQ,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+31,"Programme accreditation in Germany, pre-2018 rules",AHPGS,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
+193,"Programme accreditation in Germany, pre-2018 rules",AQ Austria,"https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html"
 347,System Accreditation in Germany,EVALAG,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
 375,System Accreditation in Germany,ZEvA,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
 377,System Accreditation in Germany,ACQUIN,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
@@ -35,6 +44,15 @@ activity_id,group_name,agency,reports_link
 387,System Accreditation in Germany,AAQ,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
 389,System Accreditation in Germany,AQ Austria,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
 482,System Accreditation in Germany,GAC,https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
+64,"System accreditation in Germany, pre-2018 rules",ASIIN,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+139,"System accreditation in Germany, pre-2018 rules",ZEvA,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+6,"System accreditation in Germany, pre-2018 rules",AAQ,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+192,"System accreditation in Germany, pre-2018 rules",AQ Austria,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+158,"System accreditation in Germany, pre-2018 rules",AHPGS,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+151,"System accreditation in Germany, pre-2018 rules",EVALAG,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+22,"System accreditation in Germany, pre-2018 rules",ACQUIN,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+50,"System accreditation in Germany, pre-2018 rules",AQAS,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
+84,"System accreditation in Germany, pre-2018 rules",FIBAA,"https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html"
 15,DOCENTIA,ACPUA,https://www.aneca.es/reacu
 155,DOCENTIA,ACSUCYL,https://www.aneca.es/reacu
 166,DOCENTIA,ANECA,https://www.aneca.es/reacu
