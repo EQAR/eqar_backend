@@ -34,7 +34,7 @@ class ProgrammeMeiliTest(TestCase):
         if hasattr(settings, "MEILI_API_KEY"):
             self.requests.headers.update({ 'authorization': f'Bearer {settings.MEILI_API_KEY}' })
         # index programmes
-        call_command('index_programmes')
+        call_command('index_programmes', '--sync')
 
     def test_index_report(self):
         # check index for sample of reports

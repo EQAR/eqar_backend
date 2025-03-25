@@ -18,6 +18,9 @@ class Command(BaseCommand):
                             help='Index the report specified by ID', default=None)
         parser.add_argument('--institution', dest='institution',
                             help='Index reports covering the institution (by ID)', default=None)
+        parser.add_argument('--sync',
+                            help='Wait for the result of each Meilisearch API request.',
+                            action='store_true')
 
     def handle(self, *args, **options):
 
@@ -41,7 +44,7 @@ class Command(BaseCommand):
             reports = Report.objects.all()
 
         self.stdout.write(f'Indexing {reports.count()} reports:')
-        indexer = ReportIndexer()
+        indexer = ReportIndexer(sync=options['sync'])
         for report in reports.iterator():
             self.stdout.write(f'- {report.id} {report.agency.acronym_primary}')
             indexer.index(report.id)

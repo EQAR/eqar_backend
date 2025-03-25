@@ -17,6 +17,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--country',
                             help='Index institutions from the specific country (ISO 3166 alpha-2 or alpha-3 code)', default=None)
+        parser.add_argument('--sync',
+                            help='Wait for the result of each Meilisearch API request.',
+                            action='store_true')
 
     def handle(self, *args, **options):
 
@@ -30,7 +33,7 @@ class Command(BaseCommand):
             institutions = Institution.objects.all()
 
         self.stdout.write(f'Indexing {institutions.count()} institutions:')
-        indexer = InstitutionIndexer()
+        indexer = InstitutionIndexer(sync=options['sync'])
         for hei in institutions.iterator():
             self.stdout.write(f'- {hei.deqar_id} {hei}')
             indexer.index(hei.id)

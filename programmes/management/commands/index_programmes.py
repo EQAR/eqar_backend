@@ -19,6 +19,9 @@ class Command(BaseCommand):
                             help='Index programmes covered in the report (by ID)', default=None)
         parser.add_argument('--institution', dest='institution',
                             help='Index programmes belonging to the institution (by ID)', default=None)
+        parser.add_argument('--sync',
+                            help='Wait for the result of each Meilisearch API request.',
+                            action='store_true')
 
     def handle(self, *args, **options):
 
@@ -43,7 +46,7 @@ class Command(BaseCommand):
             programmes = Programme.objects.all()
 
         self.stdout.write(f'Indexing {programmes.count()} programmes:')
-        indexer = ProgrammeIndexer()
+        indexer = ProgrammeIndexer(sync=options['sync'])
         for programme in programmes.iterator():
             self.stdout.write(f'- {programme.id} {programme.name_primary}')
             indexer.index(programme.id)

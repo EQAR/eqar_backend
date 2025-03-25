@@ -46,7 +46,7 @@ class InstitutionMeiliTest(APITestCase):
         if hasattr(settings, "MEILI_API_KEY"):
             self.requests.headers.update({ 'authorization': f'Bearer {settings.MEILI_API_KEY}' })
         # index reports
-        call_command('index_institutions_meili')
+        call_command('index_institutions_meili', '--sync')
         # create test user
         user = User.objects.create_superuser(username='testuser',
                                              email='testuser@eqar.eu',
