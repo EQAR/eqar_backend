@@ -80,7 +80,6 @@ class Populator():
 
         if platforms:
             self.report.platforms.clear()
-    
             for platform in platforms:
                 self.report.platforms.add(platform)
 

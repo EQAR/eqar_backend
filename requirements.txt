@@ -43,4 +43,3 @@ python-dateutil==2.9.0
 requests==2.32.3
 redis==5.2.1
 whitenoise==6.9.0
-
