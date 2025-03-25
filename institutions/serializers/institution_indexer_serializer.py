@@ -153,6 +153,7 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
     agencies = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
     activity_types = serializers.SerializerMethodField()
+    activity_groups = serializers.SerializerMethodField()
     crossborder = serializers.SerializerMethodField()
 
     def get_qf_ehea_levels(self, obj):
@@ -178,6 +179,9 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
     def get_activity_types(self, obj):
         return list(obj.reports.values_list('agency_esg_activities__activity_group__activity_type__type', flat=True).distinct())
 
+    def get_activity_groups(self, obj):
+        return list(obj.reports.values_list('agency_esg_activities__activity_group__id', flat=True).distinct())
+
     class Meta:
         model = Institution
         fields = [  'id',
@@ -200,6 +204,7 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
                     'agencies',
                     'status',
                     'activity_types',
+                    'activity_groups',
                     'crossborder',
                     'created_at'
                 ]

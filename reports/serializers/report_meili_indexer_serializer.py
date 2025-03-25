@@ -27,11 +27,14 @@ class AgencySerializer(serializers.ModelSerializer):
 class EsgActivitySerializer(serializers.ModelSerializer):
 
     type = serializers.CharField(source='activity_type.type')
+    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True, many=False)
 
     class Meta:
         model = AgencyESGActivity
         fields = [
-            'id', 'type'
+            'id',
+            'group_id',
+            'type',
         ]
 
 class ReportFileSerializer(serializers.ModelSerializer):
