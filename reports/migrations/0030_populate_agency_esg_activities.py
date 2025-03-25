@@ -4,9 +4,8 @@ from django.db import migrations, models
 
 def populate_agency_esg_activities(apps, schema_editor):
     Report = apps.get_model("reports", "Report")
-    for report in Report.objects.all():
+    for report in Report.objects.iterator():
         report.agency_esg_activities.add(report.agency_esg_activity)
-        report.save()
 
 class Migration(migrations.Migration):
 
