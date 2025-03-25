@@ -97,6 +97,7 @@ class ReportList(MeiliSolrBackportView):
         'agency.id': 'agency_facet',
         'contributing_agencies.id': 'agency_facet',
         'institutions.locations.country.id': 'country_facet',
+        'platforms.locations.country.id': 'country_facet',
         'flag': 'flag_level_facet',
         'agency_esg_activities.id': 'activity_facet',
         'agency_esg_activities.type': 'activity_type_facet',
@@ -111,6 +112,7 @@ class ReportList(MeiliSolrBackportView):
     FACET_LOOKUP = {
         'agency.id':                         { 'model': Agency,            'attribute': 'acronym_primary' },
         'institutions.locations.country.id': { 'model': Country,           'attribute': 'name_english' },
+        'platforms.locations.country.id':    { 'model': Country,           'attribute': 'name_english' },
         'agency_esg_activities.id':          { 'model': AgencyESGActivity, 'attribute': 'activity' },
     }
 
@@ -128,7 +130,7 @@ class ReportList(MeiliSolrBackportView):
             filters.append(f'agency_esg_activities.type = "{activity_type}"')
 
         if country_id := self.lookup_object(Country, 'name_english', 'country', 'id', 'country_id'):
-            filters.append(f'institutions.locations.country.id = {country_id}')
+            filters.append(f'institutions.locations.country.id = {country_id} OR platforms.locations.country.id = {country_id}')
 
         if status := self.lookup_object(ReportStatus, 'id', 'status_id', 'status', 'status'):
             filters.append(f'status = "{status}"')
