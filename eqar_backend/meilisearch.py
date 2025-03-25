@@ -33,6 +33,8 @@ class MeiliClient:
             raise MeiliError(f'Missing MEILI_API_URL setting')
         key = getattr(settings, "MEILI_API_KEY", None)
         self.meili = meilisearch.Client(settings.MEILI_API_URL, key)
+        self.timeout = getattr(settings, "MEILI_WAIT_TIMEOUT", 6000 if TESTING else 1200000)
+        self.interval = getattr(settings, "MEILI_WAIT_INTERVAL", 250 if TESTING else 1000)
 
     def _get_index_uid(self, setting, default):
         """
@@ -60,7 +62,7 @@ class MeiliClient:
         """
         wrapper around wait_for_task with error handling
         """
-        task = self.meili.wait_for_task(task_info.task_uid, timeout_in_ms=600000, interval_in_ms=500)
+        task = self.meili.wait_for_task(task_info.task_uid, timeout_in_ms=self.timeout, interval_in_ms=self.interval)
 
         if task.status == 'succeeded':
             return task

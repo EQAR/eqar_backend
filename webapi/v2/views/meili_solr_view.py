@@ -78,17 +78,22 @@ class MeiliSolrBackportView(ListAPIView):
         """
         if lookup := self.request.query_params.get(parameter, None):
             if multi:
-                obj = model.objects.filter(**{key: lookup})
-                if obj.count() == 0:
-                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
-                else:
-                    return ', '.join([ str(getattr(i, attribute)) for i in obj ])
+                try:
+                    obj = model.objects.filter(**{key: lookup})
+                    if obj.count() == 0:
+                        raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+                    else:
+                        return ', '.join([ str(getattr(i, attribute)) for i in obj ])
+                except ValueError:
+                    raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
             else:
                 try:
                     obj = model.objects.get(**{key: lookup})
                     return getattr(obj, attribute)
                 except model.DoesNotExist:
                     raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+                except ValueError:
+                    raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
         else:
             return self.request.query_params.get(raw_parameter, None)
 

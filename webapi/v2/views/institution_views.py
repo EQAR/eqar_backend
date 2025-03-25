@@ -119,6 +119,9 @@ class InstitutionList(MeiliSolrBackportView):
         if request.query_params.get('activity', None) or request.query_params.get('activity_id', None):
             raise ParseError(detail='filtering by activity name or ID is no longer supported by the Web API')
 
+        if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
+            filters.append(f'activity_types = "{activity_type}"')
+
         if agency_id := self.lookup_object(Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
             filters.append(f'agencies.id = {agency_id}')
 
@@ -142,6 +145,7 @@ class InstitutionList(MeiliSolrBackportView):
             r['name_select_display'] = f"{r['name_primary']} ({r['eter_id']})"
         else:
             r['name_select_display'] = r['name_primary']
+        r['name_official_display'] = r['name_primary']
         for name in r['names']:
             if name['name_valid_to'] is None:
                 r['name_official_display'] = name['name_official']

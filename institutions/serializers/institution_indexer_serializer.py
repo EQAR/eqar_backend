@@ -164,6 +164,9 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
             for ic in obj.institutioncountry_set.filter(country_verified=True):
                 if not report.agency.agencyfocuscountry_set.filter(Q(country__id=ic.country.id) & Q(country_is_crossborder=False)):
                     crossborder = True
+                    break
+            if crossborder:
+                break
         return crossborder
 
     def get_agencies(self, obj):
