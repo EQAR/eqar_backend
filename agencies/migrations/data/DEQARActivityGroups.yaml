@@ -1,0 +1,131 @@
+- id: 499
+  group_name: European Approach for QA of Joint Programmes
+  activity_type: 3
+  reports_link: https://www.eqar.eu/assets/uploads/2018/04/02_European_Approach_QA_of_Joint_Programmes_v1_0.pdf
+  activities:
+    - 351
+    - 352
+    - 353
+    - 354
+    - 355
+    - 356
+    - 357
+    - 429
+    - 473
+    - 480
+    - 500
+    - 502
+    - 520
+    - 533
+    - 542
+    - 551
+
+- group_name: Programme accreditation in Germany
+  activity_type: 1
+  reports_link: https://www.akkreditierungsrat.de/index.php/en/accreditation-system/programme-accreditation/programme-accreditation
+  activities:
+    - 346
+    - 374
+    - 376
+    - 378
+    - 380
+    - 382
+    - 384
+    - 386
+    - 388
+    - 462
+    - 481
+
+- group_name: Programme accreditation in Germany, pre-2018 rules
+  activity_type: 1
+  reports_link: https://archiv.akkreditierungsrat.de/index_php_id=programmakkreditierung&L=1.html
+  activities:
+    - 49
+    - 76
+    - 20
+    - 79
+    - 138
+    - 62
+    - 339
+    - 31
+    - 193
+
+- group_name: System Accreditation in Germany
+  activity_type: 2
+  reports_link: https://www.akkreditierungsrat.de/en/accreditation-system/system-accreditation/system-accreditation
+  activities:
+    - 347
+    - 375
+    - 377
+    - 379
+    - 381
+    - 383
+    - 385
+    - 387
+    - 389
+    - 482
+
+- group_name: System accreditation in Germany, pre-2018 rules
+  activity_type: 2
+  reports_link: https://archiv.akkreditierungsrat.de/index_php_id=systemakkreditierung&L=1.html
+  activities:
+    - 64
+    - 139
+    - 6
+    - 192
+    - 158
+    - 151
+    - 22
+    - 50
+    - 84
+
+- id: 518
+  group_name: DOCENTIA
+  activity_type: 2
+  reports_link: https://www.aneca.es/reacu
+  activities:
+    - 15
+    - 155
+    - 166
+    - 169
+    - 209
+    - 216
+    - 266
+    - 491
+    - 248
+
+- group_name: EUR-ACE
+  activity_type: 1
+  reports_link: https://www.enaee.eu/eur-ace-system/
+  activities:
+    - 164
+    - 199
+    - 281
+    - 308
+    - 156
+    - 524
+    - 226
+
+- group_name: EURO-INF
+  activity_type: 1
+  reports_link: https://eqanie.eu/quality-label/
+  activities:
+    - 435
+    - 282
+    - 311
+
+- group_name: Eurobachelor
+  activity_type: 1
+  reports_link: https://ectn.eu/committees/label/labels/
+  activities:
+    - 434
+    - 283
+    - 309
+
+- group_name: Euromaster
+  activity_type: 1
+  reports_link: https://ectn.eu/committees/label/labels/
+  activities:
+    - 436
+    - 284
+    - 310
