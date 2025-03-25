@@ -136,6 +136,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
     contributing_agencies = AgencySerializer(read_only=True, many=True)
     agency_esg_activities = EsgActivitySerializer(read_only=True, many=True)
     institutions = InstitutionSerializer(read_only=True, many=True)
+    platforms = InstitutionSerializer(read_only=True, many=True)
     programmes = ProgrammeSerializer(source='programme_set', read_only=True, many=True)
     crossborder = serializers.SerializerMethodField()
     flag = serializers.StringRelatedField()
@@ -177,6 +178,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
             'agency', 'contributing_agencies',
             'agency_esg_activities',
             'institutions',
+            'platforms',
             'programmes',
             'decision', 'status',
             'valid_from', 'valid_to', 'valid_to_calculated',

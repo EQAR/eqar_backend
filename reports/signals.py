@@ -12,6 +12,7 @@ from submissionapi.tasks import download_file
 
 
 @receiver(m2m_changed, sender=Report.institutions.through)
+@receiver(m2m_changed, sender=Report.platforms.through)
 def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
     if pk_set:
         institutions = Institution.objects.filter(pk__in=pk_set)
@@ -21,7 +22,7 @@ def set_institution_has_reports(sender, instance, action, pk_set, **kwargs):
             # deliberately avoids post_save signals and indexation, since institutions will be indexed anyhow on report save
         elif action == 'post_remove':
             for institution in institutions:
-                existing = institution.reports.count()
+                existing = institution.reports.count() + institution.related_reports.count()
                 if institution.has_report and existing == 0:
                     institution.has_report = False
                     institution.save()

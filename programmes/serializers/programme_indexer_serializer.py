@@ -73,6 +73,7 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
 
     report = ReportSerializer()
     institutions = serializers.PrimaryKeyRelatedField(source='report.institutions', read_only=True, many=True)
+    platforms = serializers.PrimaryKeyRelatedField(source='report.platforms', read_only=True, many=True)
     names = ProgrammeNameSerializer(source='programmename_set', read_only=True, many=True)
     programme_type = serializers.SerializerMethodField()
     degree_outcome = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
@@ -89,6 +90,7 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
                     'names',
                     'name_primary',
                     'institutions',
+                    'platforms',
                     'qf_ehea_level',
                     'nqf_level',
                     'workload_ects',
