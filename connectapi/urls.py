@@ -32,15 +32,15 @@ app_name = 'connectapi'
 
 urlpatterns = [
     # DEQAR Connect endpoints
-    re_path(r'^providers/$', ProviderDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
     re_path(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
-    re_path(r'^institutions/(?P<pk>[0-9]+)$', InstitutionDetail.as_view(), name='institution-deqar-connect-detail'),
-    re_path(r'^institutions/by-eter/(?P<eter_id>[^/]+)$', InstitutionDetailByETER.as_view(),
-        name='institution-deqar-connect-eter_id-detail'),
-    re_path(r'^institutions/by-identifier/(?P<resource>[^/]+)/(?P<identifier>[^/]+)$', InstitutionDetailByIdentifier.as_view(),
-        name='institution-deqar-connect-by-identifier-detail'),
-    re_path(r'^institutions/resources/$', InstitutionIdentifierResourcesList.as_view(),
-        name='institution-deqar-connect-resources'),
+    re_path(r'^providers/$', ProviderDEQARConnectList.as_view(), name='provider-deqar-connect-list'),
+    re_path(r'^providers/(?P<pk>[0-9]+)$', InstitutionDetail.as_view(), name='provider-deqar-connect-detail'),
+    re_path(r'^providers/by-eter/(?P<eter_id>[^/]+)$', InstitutionDetailByETER.as_view(),
+        name='provider-deqar-connect-eter_id-detail'),
+    re_path(r'^providers/by-identifier/(?P<resource>[^/]+)/(?P<identifier>[^/]+)$', InstitutionDetailByIdentifier.as_view(),
+        name='provider-deqar-connect-by-identifier-detail'),
+    re_path(r'^providers/resources/$', InstitutionIdentifierResourcesList.as_view(),
+        name='provider-deqar-connect-resources'),
     re_path(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
     # Europass endpoints
