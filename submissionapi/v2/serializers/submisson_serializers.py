@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.fields import ListField
 
@@ -280,10 +281,12 @@ class ActivitySerializer(serializers.Serializer):
 
         if activity is not None:
             if str(activity).isdigit():
-                try:
-                    data = AgencyESGActivity.objects.get(pk=activity, agency=submitting_agency)
-                except ObjectDoesNotExist:
+                data = AgencyESGActivity.objects.filter(
+                    Q(pk=activity) & (Q(agency=submitting_agency) | Q(agency__in=contributing_agencies)))
+                if len(data) == 0:
                     raise serializers.ValidationError("Please provide valid ESG Activity ID.")
+                else:
+                    data = data.first()
             else:
                 raise serializers.ValidationError("Please provide ESG Activity ID as an integer or string.")
 

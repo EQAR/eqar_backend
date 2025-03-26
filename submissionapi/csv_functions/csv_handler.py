@@ -1,6 +1,4 @@
 import csv
-
-import itertools
 import re
 
 from submissionapi.csv_functions.csv_insensitive_dict_reader import DictReaderInsensitive
