@@ -35,6 +35,8 @@ class CSVHandler:
         'report_files': [
             r'file\[\d+\]\.original_location',
             r'file\[\d+\]\.display_name',
+            r'file\[\d+\]\.file',
+            r'file\[\d+\]\.file_name',
         ],
         'report_files__report_language': [
             r'file\[\d+\]\.report_language\[\d+\]',
