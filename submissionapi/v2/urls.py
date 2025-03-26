@@ -3,7 +3,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from submissionapi.v1.views.csv_upload_report_view import SubmissionCSVView
+from submissionapi.v2.views.csv_upload_report_view import SubmissionCSVView
 from submissionapi.v2.views.check_local_identifier_view import CheckLocalIdentifierView
 from submissionapi.v2.views.submission_report_view import SubmissionReportView, ReportDelete
 from submissionapi.v2.views.submission_report_file_views import ReportFileView
