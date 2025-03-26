@@ -645,3 +645,22 @@ class SubmissionV2ValidationTestCase(APITestCase):
         data.pop('programmes', None)
         serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
         self.assertFalse(serializer.is_valid(), serializer.errors)
+
+    def test_report_platforms_ok(self):
+        """
+        Test if serializer accepts records with different platforms.
+        """
+        data = self.valid_data
+        data['platforms'] = [{"eter_id": "DE0394"}]
+        serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
+
+    def test_report_platforms_not_ok(self):
+        """
+        Test if serializer reject records with one matching platforms.
+        """
+        data = self.valid_data
+        data['platforms'] = [{"eter_id": "DE0392"}, {"eter_id": "DE0394"}]
+        serializer = SubmissionPackageCreateSerializer(data=data, context={'request': self.create_request})
+        self.assertFalse(serializer.is_valid(), serializer.errors)

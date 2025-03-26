@@ -13,6 +13,7 @@ def validate_submission_package_root(data):
 
     # Get the required values for the validations
     institutions = data.get('institutions', [])
+    platforms = data.get('platforms', [])
     programmes = data.get('programmes', [])
     activities = data.get('activities', [])
     esg_activity = data.get('esg_activity', None)
@@ -110,6 +111,12 @@ def validate_submission_package_root(data):
         else:
             if agency.registration_start >= datetime.date(date_from):
                 errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+
+    #
+    # Validate if Institutions and Platforms are different.
+    #
+    if not set([i.id for i in institutions]).isdisjoint(set([p.id for p in platforms])):
+        errors.append("An education provider cannot be submitted as platform in a report.")
 
     #
     # Validations for OTHER PROVIDERS
