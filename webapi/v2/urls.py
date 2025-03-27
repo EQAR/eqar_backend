@@ -5,7 +5,7 @@ from rest_framework import permissions
 
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 from webapi.v2.views.agency_views import AgencyList, AgencyDetail, AgencyListByFocusCountry, AgencyListByOriginCountry, \
-    AgencyDecisionList, AgencyActivityList
+    AgencyDecisionList, AgencyActivityList, AgencyActivityGroupList
 from webapi.v2.views.country_views import CountryList, CountryDetail, CountryListByAgency, CountryListByReports
 from webapi.v2.views.institution_views import *
 from webapi.v2.views.report_search_views import ReportList
@@ -37,6 +37,7 @@ urlpatterns = [
         name='agency-list-by-country'),
     re_path(r'^browse/agencies/decisions/$', AgencyDecisionList.as_view(), name='agency-decision-list'),
     re_path(r'^browse/agencies/activities/$', AgencyActivityList.as_view(), name='agency-activity-list'),
+    re_path(r'^browse/agencies/activity-groups/$', AgencyActivityGroupList.as_view(), name='agency-activity-group-list'),
 
     # Country endpoints
     re_path(r'^browse/countries/$', CountryList.as_view(), name='country-list'),

@@ -19,7 +19,7 @@ from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
 
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
-from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
+from agencies.models import Agency, AgencyActivityGroup, AgencyActivityType
 from countries.models import Country
 from eqar_backend.searchers import Searcher
 from institutions.models import Institution, InstitutionIdentifier
@@ -33,30 +33,18 @@ from webapi.v2.serializers.institution_serializers import InstitutionResourceSer
 
 class InstitutionFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
-    country = filters.ModelChoiceFilter(label='Country', queryset=Country.objects.all(),
-                                        to_field_name='name_english')
-    country_id = filters.ModelChoiceFilter(label='Country ID', queryset=Country.objects.all(),
+    country_id = filters.ModelChoiceFilter(label='Country', queryset=Country.objects.all(),
                                            to_field_name='id')
-    agency = filters.ModelChoiceFilter(label='Agency', queryset=Agency.objects.all(),
-                                       to_field_name='acronym_primary')
-    agency_id = filters.ModelChoiceFilter(label='Agency ID', queryset=Agency.objects.all(),
+    agency_id = filters.ModelChoiceFilter(label='Agency', queryset=Agency.objects.all(),
                                           to_field_name='id')
-    activity = filters.ModelChoiceFilter(label='Activity', queryset=AgencyESGActivity.objects.all(),
-                                         to_field_name='activity_display')
-    activity_id = filters.ModelChoiceFilter(label='Activity ID', queryset=AgencyESGActivity.objects.all(),
+    activity_id = filters.ModelChoiceFilter(label='Activity (Group)', queryset=AgencyActivityGroup.objects.all(),
                                             to_field_name='id')
     activity_type = filters.ModelChoiceFilter(label='Activity Type', queryset=AgencyActivityType.objects.all(),
                                               to_field_name='type')
-    activity_type_id = filters.ModelChoiceFilter(label='Activity Type ID', queryset=AgencyActivityType.objects.all(),
-                                                 to_field_name='id')
     status = filters.ModelChoiceFilter(label='Report Status', queryset=ReportStatus.objects.all(),
                                        to_field_name='status')
-    status_id = filters.ModelChoiceFilter(label='Report Status ID', queryset=ReportStatus.objects.all(),
-                                          to_field_name='id')
     qf_ehea_level = filters.ModelChoiceFilter(label='QF EHEA Level', queryset=QFEHEALevel.objects.all(),
                                               to_field_name='level')
-    qf_ehea_level_id = filters.ModelChoiceFilter(label='QF EHEA Level ID', queryset=QFEHEALevel.objects.all(),
-                                                 to_field_name='id')
     crossborder = filters.BooleanFilter(label='Crossborder')
     other_provider = filters.BooleanFilter(label='Other Provider')
 
@@ -99,12 +87,14 @@ class InstitutionList(MeiliSolrBackportView):
         'agencies.id': 'reports_agencies',
         'status': 'status_facet',
         'activity_types': 'activity_type_facet',
+        'activity_groups': 'activity_facet',
         'crossborder': 'crossborder_facet',
         'is_other_provider': 'other_provider_facet',
     }
     FACET_LOOKUP = {
         'agencies.id':          { 'model': Agency,            'attribute': 'acronym_primary' },
         'locations.country.id': { 'model': Country,           'attribute': 'name_english' },
+        'activity_groups':      { 'model': AgencyActivityGroup, 'attribute': 'activity' },
     }
 
 
@@ -116,8 +106,8 @@ class InstitutionList(MeiliSolrBackportView):
         if country_id := self.lookup_object(Country, 'name_english', 'country', 'id', 'country_id'):
             filters.append(f'locations.country.id = {country_id}')
 
-        if request.query_params.get('activity', None) or request.query_params.get('activity_id', None):
-            raise ParseError(detail='filtering by activity name or ID is no longer supported by the Web API')
+        if activity_group_ids := self.lookup_object(AgencyActivityGroup, 'activity', 'activity', 'id', 'activity_id', multi=True):
+            filters.append(f'activity_groups IN [ {activity_group_ids} ]')
 
         if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
             filters.append(f'activity_types = "{activity_type}"')

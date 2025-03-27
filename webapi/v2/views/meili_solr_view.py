@@ -170,7 +170,7 @@ class MeiliSolrBackportView(ListAPIView):
         # restructure in Solr way
         solr_fields = {}
         for facet_name, field in fields.items():
-            solr_fields[facet_name] = [item for pair in field.items() for item in pair]
+            solr_fields[facet_name] = [item for pair in sorted(field.items()) for item in pair]
 
         # create a response dict looking like the Solr one
         resp = {

@@ -196,6 +196,23 @@ class AgencyActivityDEQARConnectListSerializer(serializers.ModelSerializer):
         fields = ['id', 'agency', 'activity', 'activity_type', 'activity_description']
 
 
+class AgencyActivityGroupMemberSerializer(serializers.ModelSerializer):
+    agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
+
+    class Meta:
+        model = AgencyESGActivity
+        fields = ['id', 'agency', 'activity_description', 'reports_link', 'activity_valid_from', 'activity_valid_to',]
+
+
+class AgencyActivityGroupListSerializer(serializers.ModelSerializer):
+    activity_type = serializers.StringRelatedField()
+    members = AgencyActivityGroupMemberSerializer(many=True, read_only=True, source='agencyesgactivity_set')
+
+    class Meta:
+        model = AgencyActivityGroup
+        fields = ['id', 'activity', 'activity_type', 'reports_link', 'members' ]
+
+
 class ContributingAgencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Agency
