@@ -461,7 +461,7 @@ class SubmissionPackageUpdateSerializer(SubmissionPackageSerializer):
         local_identifier = data.get('local_identifier', None)
 
         # If no report_id is submitted, we need to have a local_identifier and vice versa
-        if not report_record and local_identifier:
+        if not report_record and not local_identifier:
             raise serializers.ValidationError(
                 "Either report_id or local_identifier is needed to update a report.")
 
