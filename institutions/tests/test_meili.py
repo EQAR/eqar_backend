@@ -116,6 +116,8 @@ class InstitutionMeiliTest(APITestCase):
         self.assertEqual(response.data['count'], 2)
         response = self.client.get('/webapi/v2/browse/institutions/', { 'status_id': 111 })
         self.assertEqual(response.status_code, 400)
+        response = self.client.get('/webapi/v2/browse/institutions/', { 'status_id': 'should-not-be-a-string' })
+        self.assertEqual(response.status_code, 400)
 
         response = self.client.get('/webapi/v2/browse/institutions/', { 'qf_ehea_level_id': 2 })
         self.assertEqual(response.data['count'], 5)
@@ -131,6 +133,8 @@ class InstitutionMeiliTest(APITestCase):
 
         response = self.client.get('/webapi/v2/browse/institutions/', { 'ordering': 'name_sort', 'limit': 1, 'offset': '' })
         self.assertEqual(response.data['results'][0]['name_primary'], 'Academy for computer sciences Aaron Hillel Swartz')
+        response = self.client.get('/webapi/v2/browse/institutions/', { 'ordering': 'UNKNOWN-COLUMN', 'limit': 1, 'offset': '' })
+        self.assertEqual(response.status_code, 400)
 
         response = self.client.get('/webapi/v2/browse/institutions/', { 'limit': 0 })
         self.assertEqual(len(response.data['results']), 0)

@@ -2,8 +2,9 @@
   pk: 1
   fields:
     agency: 5
+    contributing_agencies: [2]
     local_identifier: EQARAG0021-EQARIN0001-01
-    agency_esg_activities: [1]
+    agency_esg_activities: [1,7]
     name: Akkreditierungsverfahren an der Hochschule für öffentliche Verwaltung Rheinland-Pfalz in Mayen
     status: 1
     decision: 1

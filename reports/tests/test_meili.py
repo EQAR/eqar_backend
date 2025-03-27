@@ -7,10 +7,12 @@ from rest_framework.test import APITestCase
 
 from urllib.parse import urljoin
 import requests
+from freezegun import freeze_time
 
 from reports.models import Report
 from reports.indexers.report_meili_indexer import ReportIndexer
 
+@freeze_time("2025-03-27")
 class ReportMeiliTest(APITestCase):
     """
     Test module for the Reports Meilisearch index
@@ -135,12 +137,18 @@ class ReportMeiliTest(APITestCase):
 
         response = self.client.get('/webapi/v2/browse/reports/', { 'degree_outcome': 'false' })
         self.assertEqual(response.data['count'], 0)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'degree_outcome': 'true' })
+        self.assertEqual(response.data['count'], 8)
 
         response = self.client.get('/webapi/v2/browse/reports/', { 'flag': 'high level' })
         self.assertEqual(response.data['count'], 0)
 
         response = self.client.get('/webapi/v2/browse/reports/', { 'year': '2014' })
         self.assertEqual(response.data['count'], 8)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'year': 'thisisnotayear' })
+        self.assertEqual(response.status_code, 400)
+        response = self.client.get('/webapi/v2/browse/reports/', { 'active': 'true' })
+        self.assertEqual(response.data['count'], 9)
 
         response = self.client.get('/webapi/v2/browse/reports/', { 'programme_type': 'Full recognised degree programme' })
         self.assertEqual(response.data['count'], 8)

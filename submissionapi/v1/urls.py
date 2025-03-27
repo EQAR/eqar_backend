@@ -3,7 +3,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from submissionapi.v1.views.csv_upload_report_view import SubmissionCSVView
 from submissionapi.v1.views.report_file_upload_view import ReportFileUploadView
 from submissionapi.v1.views.submission_report_view import SubmissionReportView, ReportDelete
 
@@ -24,7 +23,6 @@ app_name = 'submissionapi'
 
 urlpatterns = [
     re_path(r'^submit/report$', SubmissionReportView.as_view(), name='submit-report'),
-    re_path(r'^submit/csv', SubmissionCSVView.as_view(), name='submit-csv'),
     re_path(r'^submit/reportfile/(?P<pk>[0-9]+)/(?P<filename>[^/]+)$', ReportFileUploadView.as_view(),
         name='upload-report_file'),
     re_path(r'^delete/report/(?P<pk>[0-9]+)/$', ReportDelete.as_view(), name='report-delete'),
