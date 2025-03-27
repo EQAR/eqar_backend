@@ -16,8 +16,13 @@ from adminapi.inspectors.report_search_inspector import ReportSearchInspector
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
 from lists.models import Language
-from reports.models import Report, ReportStatus, ReportDecision
-from agencies.models import Agency, AgencyESGActivity, AgencyActivityType
+from reports.models import  Report, \
+                            ReportStatus, \
+                            ReportDecision
+from agencies.models import Agency, \
+                            AgencyESGActivity, \
+                            AgencyActivityGroup, \
+                            AgencyActivityType
 from countries.models import Country
 
 
@@ -26,9 +31,12 @@ class ReportFilterClass(filters.FilterSet):
     agency = filters.ModelChoiceFilter(label='Agency',
                 queryset=Agency.objects.all(),
                 to_field_name='acronym_primary')
-    activity = filters.ModelChoiceFilter(label='Agency ESG Activity',
+    activity_id = filters.ModelChoiceFilter(label='Agency ESG Activity',
                 queryset=AgencyESGActivity.objects.all(),
-                to_field_name='activity')
+                to_field_name='id')
+    activity_group_id = filters.ModelChoiceFilter(label='ESG Activity Group',
+                queryset=AgencyActivityGroup.objects.all(),
+                to_field_name='id')
     activity_type = filters.ModelChoiceFilter(label='Activity Type',
                 queryset=AgencyActivityType.objects.all(),
                 to_field_name='type')
@@ -99,7 +107,7 @@ class ReportList(MeiliSolrBackportView):
         'institutions.locations.country.id': 'country_facet',
         'platforms.locations.country.id': 'country_facet',
         'flag': 'flag_level_facet',
-        'agency_esg_activities.id': 'activity_facet',
+        'agency_esg_activities.group_id': 'activity_facet',
         'agency_esg_activities.type': 'activity_type_facet',
         'status': 'status_facet',
         'decision': 'decision_facet',
@@ -111,9 +119,10 @@ class ReportList(MeiliSolrBackportView):
     }
     FACET_LOOKUP = {
         'agency.id':                         { 'model': Agency,            'attribute': 'acronym_primary' },
+        'contributing_agencies.id':          { 'model': Agency,            'attribute': 'acronym_primary' },
         'institutions.locations.country.id': { 'model': Country,           'attribute': 'name_english' },
         'platforms.locations.country.id':    { 'model': Country,           'attribute': 'name_english' },
-        'agency_esg_activities.id':          { 'model': AgencyESGActivity, 'attribute': 'activity' },
+        'agency_esg_activities.group_id':    { 'model': AgencyActivityGroup, 'attribute': 'activity' },
     }
 
 
@@ -125,6 +134,9 @@ class ReportList(MeiliSolrBackportView):
 
         if activity_ids := self.lookup_object(AgencyESGActivity, 'activity', 'activity', 'id', 'activity_id', multi=True):
             filters.append(f'agency_esg_activities.id IN [ {activity_ids} ]')
+
+        if activity_group_ids := self.lookup_object(AgencyActivityGroup, 'activity', 'activity_group', 'id', 'activity_group_id', multi=True):
+            filters.append(f'agency_esg_activities.group_id IN [ {activity_group_ids} ]')
 
         if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
             filters.append(f'agency_esg_activities.type = "{activity_type}"')
@@ -195,7 +207,7 @@ class ReportList(MeiliSolrBackportView):
         activity = AgencyESGActivity.objects.get(id=r['agency_esg_activities'][0]['id'])
         r['agency_name']= agency.name_primary
         r['agency_acronym'] = r['agency']['acronym_primary']
-        r['agency_esg_activity'] = activity.activity
+        r['agency_esg_activity'] = activity.activity_group.activity
         r['agency_esg_activity_type'] = r['agency_esg_activities'][0]['type']
 
         # reformat contributing agency list
