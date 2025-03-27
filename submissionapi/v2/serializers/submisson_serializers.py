@@ -6,7 +6,9 @@ from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.fields import ListField
 
+from accounts.models import DEQARProfile
 from agencies.models import AgencyESGActivity, AgencyActivityGroup
+from reports.models import Report
 from submissionapi.serializer_fields.degree_outcome_field import DegreeOutcomeField
 from submissionapi.serializer_fields.esco_serializer_field import ESCOSerializer
 from submissionapi.serializer_fields.isced_serializer_field import ISCEDSerializer
@@ -450,4 +452,42 @@ class SubmissionPackageCreateSerializer(SubmissionPackageSerializer):
 
 class SubmissionPackageUpdateSerializer(SubmissionPackageSerializer):
     # Report Identifier
-    report_id = ReportIdentifierField(required=True, label='DEQAR identifier of the report')
+    report_id = ReportIdentifierField(required=False, label='DEQAR identifier of the report')
+
+    def validate(self, data):
+        # Check if the report_id is submitted
+        report_record = data.get('report_id', None)
+        agency = data.get('agency', None)
+        local_identifier = data.get('local_identifier', None)
+
+        # If no report_id is submitted, we need to have a local_identifier and vice versa
+        if not report_record and local_identifier:
+            raise serializers.ValidationError(
+                "Either report_id or local_identifier is needed to update a report.")
+
+        # Check if local_identifier resolves to a report
+        if local_identifier:
+            try:
+                report_record = Report.objects.get(agency=agency, local_identifier=local_identifier)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("Please provide a valid local identifier.")
+
+        # Check permission
+        if not self.context['request'].user.is_anonymous:
+            deqar_profile = DEQARProfile.objects.get(user=self.context['request'].user)
+            can_submit_existing_agency = False
+            can_submit_new_agency = False
+            for agency_proxy in deqar_profile.submitting_agency.submitting_agency.all():
+                if agency_proxy.allowed_agency_id == agency.id:
+                    can_submit_new_agency = True
+                if agency_proxy.allowed_agency_id == report_record.agency.id:
+                    can_submit_existing_agency = True
+
+            if not can_submit_new_agency:
+                raise serializers.ValidationError("You do not have permission to update this report in the name of the "
+                                                  "newly submitted agency.")
+
+            if not can_submit_existing_agency:
+                raise serializers.ValidationError("You do not have permission to update this report.")
+
+        return data
