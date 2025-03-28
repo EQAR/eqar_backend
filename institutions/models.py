@@ -68,7 +68,7 @@ class Institution(models.Model):
                 self.name_primary = inst_name_primary.name_official
 
             children = InstitutionHierarchicalRelationship.objects\
-                .exclude(relationship_type_id=1)\
+                .filter(relationship_type_id=2)\
                 .filter(institution_parent=self)
             if children.count() > 0:
                 for child in children:
@@ -78,7 +78,7 @@ class Institution(models.Model):
 
     def set_name_sort(self):
         parents = InstitutionHierarchicalRelationship.objects\
-            .exclude(relationship_type_id=1)\
+            .filter(relationship_type_id=2)\
             .filter(institution_child=self)
         if parents.count() > 0:
             parent_name = parents.first().institution_parent.name_primary
