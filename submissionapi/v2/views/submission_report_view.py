@@ -65,7 +65,7 @@ class SubmissionReportView(APIView):
             return Response(handler.response, status=status.HTTP_400_BAD_REQUEST)
     '''
 
-class ReportDelete(generics.DestroyAPIView):
+class ReportDelete(APIView):
     """
         Requests report records to be not visible on the public and on the search interface.
     """

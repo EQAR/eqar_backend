@@ -146,7 +146,7 @@ class SubmissionReportView(APIView):
         }
 
 
-class ReportDelete(generics.DestroyAPIView):
+class ReportDelete(APIView):
     """
         Requests report records to be not visible on the public and on the search interface.
     """
