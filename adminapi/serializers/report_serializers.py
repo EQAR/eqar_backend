@@ -128,7 +128,7 @@ class ReportReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ['id', 'agency', 'contributing_agencies', 'activities',
-                  'local_identifier', 'name',
+                  'local_identifier',
                   'status', 'decision', 'summary',
                   'institutions', 'platforms', 'programmes', 'report_links', 'report_files',
                   'valid_from', 'valid_to', 'flags',
