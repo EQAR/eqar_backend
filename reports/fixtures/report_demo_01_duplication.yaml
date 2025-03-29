@@ -4,7 +4,7 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0001-01
     agency_esg_activities: [1]
-    name: Akkreditierungsverfahren an der Hochschule für öffentliche Verwaltung Rheinland-Pfalz in Mayen
+    # name: Akkreditierungsverfahren an der Hochschule für öffentliche Verwaltung Rheinland-Pfalz in Mayen
     status: 1
     decision: 1
     valid_from: 2015-03-31
@@ -19,9 +19,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0002-01
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
-      Mecklenburg-Vorpommern - „Öffentliche Verwaltung“ (LL.B.)
+    # name: |
+    #  Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
+    #  Mecklenburg-Vorpommern - „Öffentliche Verwaltung“ (LL.B.)
     status: 1
     decision: 1
     valid_from: 2014-09-30
@@ -36,9 +36,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0002-02
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
-      Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A.)
+    # name: |
+    # Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
+    # Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A.)
     status: 1
     decision: 1
     valid_from: 2013-09-24
@@ -53,9 +53,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0002-03
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
-      Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A., für Aufstiegsbeamte)
+    # name: |
+    # Akkreditierungsverfahren an der Fachhochschule für öffentliche Verwaltung, Polizei und Rechtspflege des Landes
+    # Mecklenburg-Vorpommern - „Polizeivollzugsdienst“ (B.A., für Aufstiegsbeamte)
     status: 1
     decision: 1
     valid_from: 2010-03-23
@@ -70,8 +70,8 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-01
     agency_esg_activities: [2]
-    name: |
-      Reakkreditierungsverfahren Hessische Hochschule für Polizei und Verwaltung „Public Administration“ (B.A.)
+    # name: |
+    # Reakkreditierungsverfahren Hessische Hochschule für Polizei und Verwaltung „Public Administration“ (B.A.)
     status: 1
     decision: 1
     valid_from: 2010-06-16
@@ -86,9 +86,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-02
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Polizeivollzugsdienst -
-      Schutzpolizei“ (B.A.), „Polizeivollzugsdienst - Kriminalpolizei“ (B.A.)
+    # name: |
+    # Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Polizeivollzugsdienst -
+    # Schutzpolizei“ (B.A.), „Polizeivollzugsdienst - Kriminalpolizei“ (B.A.)
     status: 1
     decision: 1
     valid_from: 2010-03-23
@@ -103,9 +103,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-03
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
-      (Master of Public Management)
+    # name: |
+    # Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
+    # (Master of Public Management)
     status: 1
     decision: 1
     valid_from: 2010-06-26
@@ -119,9 +119,9 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-04
     agency_esg_activities: [2]
-    name: |
-      Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
-      (Master of Public Management)
+    # name: |
+    # Akkreditierungsverfahren an der Hessischen Hochschule für Polizei und Verwaltung „Public Management“
+    # (Master of Public Management)
     status: 1
     decision: 1
     valid_from: 2016-03-31
@@ -136,8 +136,8 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-05
     agency_esg_activities: [2]
-    name: |
-      Institutional Report
+    # name: |
+    # Institutional Report
     status: 1
     decision: 1
     valid_from: 2016-03-31
@@ -152,8 +152,8 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-06
     agency_esg_activities: [2]
-    name: |
-      Institutional Report (Historical)
+    # name: |
+    # Institutional Report (Historical)
     status: 1
     decision: 1
     valid_from: 2011-03-31
@@ -168,7 +168,7 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0001-EQARIN0002-01
     agency_esg_activities: [3]
-    name: Joint Programme Accreditation
+    # name: Joint Programme Accreditation
     status: 1
     decision: 1
     valid_from: 2015-03-31
@@ -183,8 +183,8 @@
     agency: 5
     local_identifier: EQARAG0021-EQARIN0003-05-DUPL
     agency_esg_activities: [2]
-    name: |
-      Institutional Report
+    # name: |
+    # Institutional Report
     status: 1
     decision: 1
     valid_from: 2016-03-31

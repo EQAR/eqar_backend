@@ -4,7 +4,7 @@
     agency: 5
     local_identifier: DEQARINSTAP0010-DEQARINSTAP0011-01
     agency_esg_activities: [1]
-    name: Report with only APs
+    # name: Report with only APs
     status: 2
     decision: 1
     valid_from: 2015-03-31
@@ -19,7 +19,7 @@
     agency: 5
     local_identifier: EQARAG0021-DEQARINSTAP0011-01
     agency_esg_activities: [2]
-    name: Report with APs and HEIs mixed
+    # name: Report with APs and HEIs mixed
     status: 1
     decision: 1
     valid_from: 2014-09-30

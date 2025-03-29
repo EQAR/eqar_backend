@@ -17,8 +17,8 @@ class ReportListByInstitution(generics.ListAPIView):
     """
     serializer_class = ReportDetailSerializer
     filter_backends = (OrderingFilter,)
-    ordering_fields = ('name', 'agency')
-    ordering = ('name', 'agency')
+    ordering_fields = ('agency',)
+    ordering = ('agency',)
 
     def get_serializer_context(self):
         context = super(ReportListByInstitution, self).get_serializer_context()

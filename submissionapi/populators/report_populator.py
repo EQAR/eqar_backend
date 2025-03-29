@@ -55,7 +55,6 @@ class ReportPopulator():
 
     def _report_create(self):
         self.report = Report(
-            name=self._get_report_name(),
             agency=self.agency,
             local_identifier=self.submission.get('local_identifier', None),
             status=self.submission.get('status', None),
@@ -73,7 +72,6 @@ class ReportPopulator():
         self._assign_contributing_agencies()
 
     def _report_update(self):
-        self.report.name = self._get_report_name()
         self.report.agency = self.agency
         self.report.local_identifier = self.submission.get('local_identifier', None)
         self.report.status = self.submission.get('status', None)
@@ -89,16 +87,6 @@ class ReportPopulator():
         self._assign_agency_esg_activities()
         self._assign_agency_esg_activity_to_activities()
         self._assign_contributing_agencies()
-
-    def _get_report_name(self):
-        activities = self.submission.get('activities', [])
-        activities = self._harmonize_activities(activities)
-
-        name = []
-        for activity in activities:
-            name.append(activity.activity)
-        report_name = ', '.join(name) + ' (by ' + self.agency.acronym_primary + ')'
-        return report_name
 
     def _assign_contributing_agencies(self):
         contributing_agencies = self.submission.get('contributing_agencies', [])

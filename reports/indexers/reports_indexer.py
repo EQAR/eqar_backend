@@ -30,7 +30,6 @@ class ReportsIndexer:
             'agency_esg_activity': None,
             'agency_esg_activity_type': None,
             'contributing_agencies': [],
-            'name': None,
             'institutions': [],
             'institutions_hierarchical': [],
             'institutions_historical': [],
@@ -117,7 +116,6 @@ class ReportsIndexer:
         self.doc['id_search'] = self.report.id
         self.doc['local_id'] = self.report.local_identifier
         self.doc['local_identifier'] = self.report.local_identifier
-        self.doc['name'] = self.report.agency_esg_activities.first().activity_description
 
         self.doc['agency_esg_activity'] = self.report.get_activity_names()
         self.doc['activity_facet'] = self.report.get_activity_names()
