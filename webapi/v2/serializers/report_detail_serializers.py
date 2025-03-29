@@ -4,7 +4,7 @@ from django.db.models import Q
 from datedelta import datedelta
 from institutions.models import Institution
 from reports.models import Report
-from agencies.models import AgencyESGActivity
+from agencies.models import AgencyESGActivity, AgencyActivityGroup
 from programmes.models import Programme, ProgrammeIdentifier, ProgrammeName, ProgrammeLearningOutcome
 from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
@@ -67,12 +67,19 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
 
 class EsgActivitySerializer(serializers.ModelSerializer):
-    type = serializers.CharField(source='activity_type.type')
+    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True)
+    activity = serializers.CharField(source='activity_group.activity')
+    activity_type = serializers.CharField(source='activity_group.activity_type.type')
 
     class Meta:
         model = AgencyESGActivity
         fields = [
-            'id', 'type'
+            'id',
+            'group_id',
+            'activity',
+            'activity_description',
+            'reports_link',
+            'activity_type'
         ]
 
 
