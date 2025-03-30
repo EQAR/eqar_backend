@@ -4,6 +4,7 @@ from reports.indexers.reports_indexer import ReportsIndexer
 from reports.indexers.report_meili_indexer import ReportIndexer as MeiliReportIndexer
 from programmes.indexers.programme_indexer import ProgrammeIndexer
 from institutions.indexers.institution_indexer import InstitutionIndexer
+from institutions.indexers.institution_meili_indexer import InstitutionIndexer as MeiliInstitutionIndexer
 from reports.models import Report
 
 
@@ -23,9 +24,11 @@ def meili_index_report(report_id):
     for programme in report.programme_set.iterator():
         indexer.index(programme.id)
     # index institutions
+    meili_indexer = MeiliInstitutionIndexer()
     for institution in report.institutions.iterator():
         indexer = InstitutionIndexer(institution.id)
         indexer.index()
+        meili_indexer.index(institution.id)
 
 @task(name="index_delete_report")
 def index_delete_report(report_id):
@@ -42,7 +45,9 @@ def meili_delete_report(report_id, programme_ids, institution_ids):
     indexer = MeiliReportIndexer()
     indexer.delete(report_id)
     # re-index institutions
+    meili_indexer = MeiliInstitutionIndexer()
     for institution_id in institution_ids:
         indexer = InstitutionIndexer(institution_id)
         indexer.index()
+        meili_indexer.index(institution_id)
 
