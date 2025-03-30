@@ -15,8 +15,9 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
     AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer, \
     CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer, \
-    InstitutionOrganizationTypeSerializer, AssessmentSerializer, DegreeOutcomeSelectSerializer
-from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType
+    InstitutionOrganizationTypeSerializer, AssessmentSerializer, DegreeOutcomeSelectSerializer, \
+    AgencyActivityGroupSerializer
+from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType, AgencyActivityGroup
 from countries.models import Country, CountryQARequirementType
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
@@ -55,11 +56,32 @@ class AgencyESGActivitySelectList(generics.ListAPIView):
     serializer_class = AgencyESGActivitySerializer
     pagination_class = None
     filter_backends = (SearchFilter,)
-    search_fields = ('activity',)
+    search_fields = ('activity', 'activity_group__activity')
 
-    def get_queryset(self):
-        agency = get_object_or_404(Agency, pk=self.kwargs['pk'])
-        return AgencyESGActivity.objects.filter(agency=agency).order_by('activity')
+    def get_queryset(self, *args, **kwargs):
+        agencies = self.request.query_params.getlist('agencies', [])
+        return AgencyESGActivity.objects.filter(agency__id__in=agencies).order_by('agency', 'activity')
+
+
+class AgencyActivityGroupSelectList(generics.ListAPIView):
+    serializer_class = AgencyActivityGroupSerializer
+    pagination_class = None
+    filter_backends = (SearchFilter,)
+    search_fields = ('activity', 'activity_type')
+    queryset = AgencyActivityGroup.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        activity_type = self.request.query_params.get('activity_type', None)
+        if activity_type == 'I':
+            return AgencyActivityGroup.objects.filter(activity_type__type='institutional').order_by('activity')
+        elif activity_type == 'P':
+            return AgencyActivityGroup.objects.filter(activity_type__type='programme').order_by('activity')
+        elif activity_type == 'JP':
+            return AgencyActivityGroup.objects.filter(activity_type__type='joint programme').order_by('activity')
+        elif activity_type == 'I/P':
+            return AgencyActivityGroup.objects.filter(activity_type__type='institutional/programme').order_by('activity')
+        else:
+            return AgencyActivityGroup.objects.all().order_by('activity')
 
 
 class AgencyActivityTypeSelectList(generics.ListAPIView):

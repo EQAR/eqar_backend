@@ -25,4 +25,4 @@ class SubmissionLogAdmin(DEQARModelAdmin):
     get_user.short_description = 'User'
 
 
-admin_site.register(SubmissionPackageLog, SubmissionLogAdmin)
+# admin_site.register(SubmissionPackageLog, SubmissionLogAdmin)

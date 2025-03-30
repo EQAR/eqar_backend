@@ -202,17 +202,29 @@ class AgencyESGActivity(models.Model):
     """
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('Agency', on_delete=models.CASCADE)
-    activity = models.CharField(max_length=500)
+    activity = models.CharField(max_length=500, blank=True, null=True)
+    activity_group = models.ForeignKey('AgencyActivityGroup', on_delete=models.PROTECT)
     activity_display = models.CharField(max_length=500, blank=True, null=True)
     activity_local_identifier = models.CharField(max_length=100, blank=True)
     activity_description = models.CharField(max_length=300, blank=True)
-    activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
+    # activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
     reports_link = models.URLField(blank=True, null=True)
     activity_valid_from = models.DateField(default=date.today)
     activity_valid_to = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.activity_display
+        if self.activity_display:
+            return self.activity_display
+        else:
+            return self.activity
+
+    @property
+    def activity_type(self):
+        return self.activity_group.activity_type
+
+    @property
+    def activity_type_id(self):
+        return self.activity_group.activity_type_id
 
     def set_activity_display(self):
         self.activity_display = "%s -> %s (%s)" % (self.agency.acronym_primary, self.activity, self.activity_type)
@@ -234,12 +246,31 @@ class AgencyESGActivity(models.Model):
 
     class Meta:
         db_table = 'deqar_agency_esg_activities'
-        verbose_name = 'Agency ESG Activity'
+        verbose_name = 'ESG Activity'
+        verbose_name_plural = 'ESG Activities'
         ordering = ('agency', 'activity')
         indexes = [
             models.Index(fields=['activity_display']),
             models.Index(fields=['activity_valid_to'])
         ]
+
+
+class AgencyActivityGroup(models.Model):
+    """
+       External quality assurance activity groups.
+       """
+    id = models.AutoField(primary_key=True)
+    activity = models.CharField(max_length=500)
+    activity_type = models.ForeignKey('AgencyActivityType', on_delete=models.PROTECT)
+    reports_link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return "%s (%s)" % (self.activity, self.activity_type)
+
+    class Meta:
+        ordering = ('activity', 'activity_type')
+        db_table = 'deqar_agency_activity_group'
+        verbose_name = 'ESG Activity Group'
 
 
 class AgencyActivityType(models.Model):

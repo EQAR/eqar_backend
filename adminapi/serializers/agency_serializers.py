@@ -3,15 +3,16 @@ from rest_framework import serializers
 
 from adminapi.fields import PDFBase64File
 from adminapi.serializers.select_serializers import CountrySelectSerializer, \
-    AgencyActivityTypeSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer
+    AgencyActivityTypeSerializer, AssociationSelectSerializer, EQARDecisionTypeSelectSerializer, \
+    AgencyActivityGroupSerializer
 from agencies.models import Agency, AgencyName, AgencyNameVersion, AgencyPhone, AgencyEmail, AgencyFocusCountry, \
-    AgencyESGActivity, AgencyMembership, AgencyEQARDecision, AgencyFlag, AgencyUpdateLog
+    AgencyESGActivity, AgencyMembership, AgencyEQARDecision, AgencyFlag, AgencyUpdateLog, AgencyActivityGroup
 from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from eqar_backend.serializers import AgencyNameTypeSerializer
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="webapi-v1:agency-detail")
+    url = serializers.HyperlinkedIdentityField(view_name="webapi-v2:agency-detail")
     name_primary = serializers.CharField(source='get_primary_name', read_only=True)
     acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
     country = serializers.SlugRelatedField(slug_field='name_english', read_only=True)
@@ -66,7 +67,7 @@ class AgencyFocusCountryWriteSerializer(serializers.ModelSerializer):
 
 
 class AgencyESGActivityReadSerializer(serializers.ModelSerializer):
-    activity_type = AgencyActivityTypeSerializer()
+    activity_group = AgencyActivityGroupSerializer()
 
     class Meta:
         model = AgencyESGActivity
@@ -251,3 +252,21 @@ class AgencyAdminWriteSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Agency
         fields = '__all__'
+
+
+class AgencyActivityGroupReadSerializer(serializers.ModelSerializer):
+    activity_type = AgencyActivityTypeSerializer()
+    display_value = serializers.SerializerMethodField()
+
+    def get_display_value(self, obj):
+        return f'{obj.activity} - ID {obj.id} ({obj.activity_type})'
+
+    class Meta:
+        model = AgencyActivityGroup
+        fields = ['id', 'activity', 'display_value', 'activity_type', 'reports_link']
+
+
+class AgencyActivityGroupWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyActivityGroup
+        fields = ['activity', 'activity_type', 'reports_link']

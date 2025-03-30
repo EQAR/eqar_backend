@@ -11,7 +11,7 @@ class InstitutionTestCase(TestCase):
     """
     fixtures = [
         'country_qa_requirement_type', 'country', 'flag', 'permission_type',
-        'qf_ehea_level', 'eter_demo', 'institution_historical_field',
+        'qf_ehea_level', 'institution_historical_field',
         'agency_activity_type', 'agency_focus', 'identifier_resource',
         'agency_historical_field',
         'eqar_decision_type',

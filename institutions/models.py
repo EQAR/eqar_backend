@@ -68,7 +68,7 @@ class Institution(models.Model):
                 self.name_primary = inst_name_primary.name_official
 
             children = InstitutionHierarchicalRelationship.objects\
-                .exclude(relationship_type_id=1)\
+                .filter(relationship_type_id=2)\
                 .filter(institution_parent=self)
             if children.count() > 0:
                 for child in children:
@@ -78,7 +78,7 @@ class Institution(models.Model):
 
     def set_name_sort(self):
         parents = InstitutionHierarchicalRelationship.objects\
-            .exclude(relationship_type_id=1)\
+            .filter(relationship_type_id=2)\
             .filter(institution_child=self)
         if parents.count() > 0:
             parent_name = parents.first().institution_parent.name_primary
@@ -292,43 +292,6 @@ class InstitutionQFEHEALevel(models.Model):
         indexes = [
             models.Index(fields=['qf_ehea_level_valid_to']),
         ]
-
-
-class InstitutionETERRecord(models.Model):
-    """
-    Periodically updated list of institutions managed by ETER.
-    """
-    id = models.AutoField(primary_key=True)
-    eter_id = models.CharField(max_length=15)
-    national_identifier = models.CharField(max_length=20)
-    name = models.CharField(max_length=200)
-    name_english = models.CharField(max_length=200, blank=True)
-    acronym = models.CharField(max_length=30, blank=True)
-    country = models.CharField(max_length=3)
-    city = models.CharField(max_length=100, blank=True)
-    lat = models.FloatField(blank=True, null=True)
-    long = models.FloatField(blank=True, null=True)
-    website = models.CharField(max_length=200)
-    ISCED_lowest = models.CharField(max_length=10)
-    ISCED_highest = models.CharField(max_length=10)
-    valid_from_year = models.DateField()
-    data_updated = models.DateField()
-    eter_link = models.URLField(blank=True)
-
-    def __str__(self):
-        return "%s - %s" % (self.eter_id, self.name)
-
-    def create_institution_from_eter(self):
-        Institution(
-            eter_id=self.eter_id,
-            name_primary=self.name_english,
-            website_link=self.website
-        )
-
-    class Meta:
-        db_table = 'deqar_institution_eter_records'
-        verbose_name = 'ETER Record'
-        verbose_name_plural = 'ETER Records'
 
 
 class InstitutionHistoricalRelationshipType(models.Model):

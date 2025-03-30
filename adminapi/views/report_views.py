@@ -30,8 +30,6 @@ class ReportCreate(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         report = serializer.save(created_by=self.request.user)
-        report.name = report.agency_esg_activity.activity + ' (by ' + report.agency.acronym_primary + ')'
-        report.save()
 
         # Harvest files
         for rf in report.reportfile_set.iterator():

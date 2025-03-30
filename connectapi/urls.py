@@ -1,10 +1,17 @@
-from django.conf.urls import url
+from django.urls import re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from connectapi.letstrust.views import DEQARVCIssue, EBSIVCIssue
-from connectapi.views import InstitutionDEQARConnectList, AgencyActivityDEQARConnectList, AccreditationXMLView, AccreditationXMLViewV2
+from connectapi.views import InstitutionDEQARConnectList, \
+    ProviderDEQARConnectList, \
+    InstitutionDetail, \
+    InstitutionDetailByETER, \
+    InstitutionDetailByIdentifier, \
+    InstitutionIdentifierResourcesList, \
+    AgencyActivityDEQARConnectList, \
+    AccreditationXMLViewV2
 from eqar_backend.schema_generator import HttpsSchemaGenerator
 
 schema_view = get_schema_view(
@@ -23,26 +30,28 @@ schema_view = get_schema_view(
 
 app_name = 'connectapi'
 
-
-class AccrediationXMLViewV2:
-    pass
-
-
 urlpatterns = [
     # DEQAR Connect endpoints
-    url(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
-    url(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
+    re_path(r'^institutions/$', InstitutionDEQARConnectList.as_view(), name='institution-deqar-connect-list'),
+    re_path(r'^providers/$', ProviderDEQARConnectList.as_view(), name='provider-deqar-connect-list'),
+    re_path(r'^providers/(?P<pk>[0-9]+)$', InstitutionDetail.as_view(), name='provider-deqar-connect-detail'),
+    re_path(r'^providers/by-eter/(?P<eter_id>[^/]+)$', InstitutionDetailByETER.as_view(),
+        name='provider-deqar-connect-eter_id-detail'),
+    re_path(r'^providers/by-identifier/(?P<resource>[^/]+)/(?P<identifier>[^/]+)$', InstitutionDetailByIdentifier.as_view(),
+        name='provider-deqar-connect-by-identifier-detail'),
+    re_path(r'^providers/resources/$', InstitutionIdentifierResourcesList.as_view(),
+        name='provider-deqar-connect-resources'),
+    re_path(r'^activities/$', AgencyActivityDEQARConnectList.as_view(), name='agency-activity-deqar-connect-list'),
 
     # Europass endpoints
-    url(r'^europass/accreditations/(?P<country_code>[a-zA-Z]{3})/$', AccreditationXMLView.as_view(), name='europass-accreditations'),
-    url(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z\-]+)/$', AccreditationXMLViewV2.as_view(),
+    re_path(r'^europass/accreditations-v2/(?P<country_code>[a-zA-Z\-]+)/$', AccreditationXMLViewV2.as_view(),
         name='europass-accreditations-v2'),
 
     # Let's Trust endpoints
-    url(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', DEQARVCIssue.as_view(), name='letstrust-vc-issue'),
-    url(r'^letstrust/ebsi-vc/issue/(?P<report_id>[0-9]+)$', EBSIVCIssue.as_view(), name='letstrust-ebsi-vc-issue'),
+    re_path(r'^letstrust/vc/issue/(?P<report_id>[0-9]+)$', DEQARVCIssue.as_view(), name='letstrust-vc-issue'),
+    re_path(r'^letstrust/ebsi-vc/issue/(?P<report_id>[0-9]+)$', EBSIVCIssue.as_view(), name='letstrust-ebsi-vc-issue'),
 
-    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
-    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
 ]

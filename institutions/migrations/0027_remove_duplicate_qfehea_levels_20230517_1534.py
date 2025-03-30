@@ -13,7 +13,7 @@ def remove_duplicate_qfehea_levels(apps, schema_editor):
         iqf.save()
 
     # Remove duplicates
-    for duplicates in InstitutionQFEHEALevel.objects.values("institution", "qf_ehea_level").annotate(
+    for duplicates in InstitutionQFEHEALevel.objects.values("institution", "qf_ehea_level").order_by("qf_ehea_level__code").annotate(
             records=Count("institution")
     ).filter(records__gt=1):
         for iqf in InstitutionQFEHEALevel.objects.filter(

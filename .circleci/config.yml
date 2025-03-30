@@ -5,16 +5,19 @@ jobs:
   build:
     working_directory: ~/eqar-backend
     docker:
-      - image: cimg/python:3.8-browsers
+      - image: cimg/python:3.9-browsers
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
           DJANGO_SECRET_KEY: CircleCITesting
-      - image: cimg/postgres:9.6
+      - image: cimg/postgres:17.3
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
       - image: cimg/redis:5.0
+      - image: getmeili/meilisearch:v1.7
+        environment:
+          MEILI_ENV: development
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -28,9 +31,12 @@ jobs:
           name: Wait for redis
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run:
+          name: Wait for Meilisearch
+          command: dockerize -wait tcp://localhost:7700 -timeout 1m
+      - run:
           command: |
-            python -m venv .python3
-            echo "source .python3/bin/activate" >> $BASH_ENV;
+            python -m venv python3
+            echo "source ./python3/bin/activate" >> $BASH_ENV;
       - run:
           command: |
             pip install -r requirements.txt

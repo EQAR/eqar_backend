@@ -15,12 +15,19 @@ class Populator():
         self.report = None
         self.agency = None
 
-    def populate(self):
+    def populate(self, action='upsert'):
         # Save submitted agency record
         self.agency = self.data.get('agency', None)
 
         # Report record populate
-        self._report_upsert()
+        if action == 'create':
+            self._report_create()
+
+        if action == 'update':
+            self._report_update()
+
+        if action == 'upsert':
+            self._report_upsert()
 
         # Institution record populate
         self._institution_upsert()
@@ -31,9 +38,25 @@ class Populator():
         # Programme record populate
         self._programme_insert()
 
+    def _report_create(self):
+        """
+        Create Report instance.
+        """
+        rp = ReportPopulator(self.data, self.agency, self.user)
+        rp.create()
+        self.report = rp.report
+
+    def _report_update(self):
+        """
+        Update Report instance.
+        """
+        rp = ReportPopulator(self.data, self.agency, self.user)
+        rp.update()
+        self.report = rp.report
+
     def _report_upsert(self):
         """
-        Create or insert Report instance.
+        Create or update Report instance.
         """
         rp = ReportPopulator(self.data, self.agency, self.user)
         rp.populate()

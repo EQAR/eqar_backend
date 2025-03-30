@@ -1,4 +1,7 @@
+from logging import fatal
+
 from django.core.exceptions import ObjectDoesNotExist
+from mypy.typeops import false_only
 from rest_framework import permissions
 
 from accounts.models import DEQARProfile
@@ -11,7 +14,10 @@ class CanSubmitToAgency(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        deqar_profile = DEQARProfile.objects.get(user=request.user)
+        try:
+            deqar_profile = DEQARProfile.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            return False
 
         try:
             report_file = ReportFile.objects.get(pk=view.kwargs['pk'])

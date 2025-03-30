@@ -12,12 +12,15 @@ class BrowseAPIReportTest(APITestCase):
                 'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
                 'flag', 'permission_type', 'degree_outcome',
-                'eter_demo',
                 'eqar_decision_type',
                 'agency_historical_field',
                 'agency_demo_01', 'agency_demo_02',
                 'institution_historical_field',
+                'institution_hierarchical_relationship_type',
+                'institution_relationship_type',
                 'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
+                'institutions_hierarchical_relationship_demo',
+                'institutions_historical_relationship_demo',
                 'users', 'report_demo_01',
                 'programme_demo_01', 'programme_demo_02', 'programme_demo_03', 'programme_demo_04',
                 'programme_demo_05', 'programme_demo_06', 'programme_demo_07', 'programme_demo_08',
@@ -47,7 +50,7 @@ class BrowseAPIReportTest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/2/')
-        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 2)
 
         response = self.client.get('/webapi/v2/browse/reports/programme/by-institution/2/', {'history': 'false'})
-        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 2)

@@ -5,12 +5,12 @@ from django.test import TestCase
 from agencies.models import Agency, AgencyESGActivity
 from lists.models import Language
 from reports.models import ReportStatus, ReportDecision, Report
-from submissionapi.populators.report_populator import ReportPopulator
+from submissionapi.populators.populator import ReportPopulator
 
 
 class ReportPopulatorTestCase(TestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
+        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
@@ -126,7 +126,7 @@ class ReportPopulatorTestCase(TestCase):
             ]}
         populator.get_report_if_exists()
         populator._report_upsert()
-        populator._report_link_upsert()
+        populator._report_link_update()
         self.assertEqual(populator.report.reportlink_set.count(), 2)
         self.assertEqual(populator.report.reportlink_set.first().link_display_name,
                          "View report record on agency site")

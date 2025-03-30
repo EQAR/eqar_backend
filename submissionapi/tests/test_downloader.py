@@ -8,7 +8,7 @@ from submissionapi.downloaders.report_downloader import ReportDownloader
 
 class ReportDownloaderTestCase(TestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eter_demo', 'eqar_decision_type', 'language',
+        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
@@ -100,7 +100,7 @@ class ReportDownloaderTestCase(TestCase):
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        downloader._get_old_file_path()
+        downloader._get_old_file_info()
         self.assertEqual(downloader.old_file_path, "")
 
     def test_get_old_file_path_exists(self):
@@ -110,5 +110,5 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         downloader.download()
-        downloader._get_old_file_path()
+        downloader._get_old_file_info()
         self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.old_file_path)

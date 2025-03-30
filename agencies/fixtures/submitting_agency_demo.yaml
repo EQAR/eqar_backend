@@ -22,3 +22,9 @@
   fields:
     submitting_agency: 2
     allowed_agency: 5
+
+- model: agencies.AgencyProxy
+  pk: 3
+  fields:
+    submitting_agency: 1
+    allowed_agency: 2

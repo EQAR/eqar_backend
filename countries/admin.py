@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-from suit_ckeditor.widgets import CKEditorWidget
 
 from countries.models import Country, CountryQAARegulation, CountryQARequirement, CountryHistoricalData
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
@@ -32,15 +31,6 @@ class CountryForm(ModelForm):
                              'extraPlugins': 'autogrow',
                              'toolbarGroups': _ck_editor_toolbar}
 
-        widgets = {
-            'qa_requirement_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'eligibility': CKEditorWidget(editor_options=_ck_editor_config),
-            'external_QAA_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'european_approach_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'general_note': CKEditorWidget(editor_options=_ck_editor_config),
-            'recognition': CKEditorWidget(editor_options=_ck_editor_config)
-        }
-
 
 class CountryHistoricalDataInline(DEQARStackedInline):
     model = CountryHistoricalData
@@ -71,4 +61,4 @@ class CountryAdmin(DEQARModelAdmin):
     )
     inlines = [CountryQAARegulationInline, CountryQARequirementInline, CountryHistoricalDataInline]
 
-admin_site.register(Country, CountryAdmin)
+# admin_site.register(Country, CountryAdmin)

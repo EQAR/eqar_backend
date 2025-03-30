@@ -6,7 +6,7 @@ from langdetect import detect, DetectorFactory
 from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
-from agencies.models import Agency
+from agencies.models import Agency, AgencyActivityType
 from countries.models import Country
 from institutions.models import Institution, InstitutionHierarchicalRelationship
 from programmes.models import Programme
@@ -150,12 +150,12 @@ class AccrediationXMLCreatorV2:
             issued.text = self.current_report.created_at.strftime("%Y-%m-%dT%H:%M:%S")
 
             # type
-            etree.SubElement(acc, f"{self.NS}type",
-                             uri=self.REPORT_TYPES[self.current_report.agency_esg_activity.activity_type.type])
+            activity_type = AgencyActivityType.objects.get(pk=self.current_report.get_activity_type())
+            etree.SubElement(acc, f"{self.NS}type", uri=self.REPORT_TYPES[activity_type.type])
 
             # title
             title = etree.SubElement(acc, f"{self.NS}title", attrib={'language': 'en'})
-            title.text = self.current_report.agency_esg_activity.activity_description
+            title.text = " / ".join([ a.activity_description or a.activity for a in self.current_report.agency_esg_activities.all() ])
 
             # decision
             if self.current_report.decision.id != 4:
@@ -666,7 +666,7 @@ class AccrediationXMLCreatorV2:
 
     def collect_eqf_levels(self, report):
         eqf_levels = set()
-        if report.agency_esg_activity.activity_type.type == 'institutional':
+        if report.get_activity_type() == 2:
             for institution in report.institutions.iterator():
                 for level in institution.institutionqfehealevel_set.exclude(qf_ehea_level__level='other').iterator():
                     eqf_levels.add(level.qf_ehea_level.level)

@@ -16,7 +16,6 @@ import os
 from eqar_backend.settings import BASE_DIR
 
 INSTALLED_APPS = [
-    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,7 +29,6 @@ INSTALLED_APPS = [
     'modelsdoc',
     'django_filters',
     'corsheaders',
-    'suit_ckeditor',
     'mail_templated',
     'django_unused_media',
     'djoser',
@@ -112,7 +110,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
 
 USE_TZ = True
 

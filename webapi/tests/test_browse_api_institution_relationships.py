@@ -12,7 +12,6 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
                 'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
                 'flag', 'permission_type', 'degree_outcome',
-                'eter_demo',
                 'eqar_decision_type',
                 'agency_historical_field',
                 'agency_demo_01', 'agency_demo_02',
@@ -37,7 +36,7 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
             Test if we can display an institution with historical relationship.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/institutions/2/')
+        response = self.client.get('/webapi/v2/browse/institutions/2/')
         self.assertEqual(len(response.data['hierarchical_relationships']['part_of']), 1)
 
     def test_institution_detail_hierarchical_relationship(self):
@@ -45,5 +44,5 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
             Test if we can display an institution with hierarchical relationship.
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v1/browse/institutions/1/')
+        response = self.client.get('/webapi/v2/browse/institutions/1/')
         self.assertEqual(response.data['historical_relationships'][0]['relationship_type'], 'is spun off from')

@@ -3,116 +3,182 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
-from pysolr import SolrError
 from rest_framework import generics, permissions
 from rest_framework.generics import ListAPIView, get_object_or_404
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
-from agencies.models import AgencyESGActivity
-from connectapi.europass.accrediation_xml_creator import AccrediationXMLCreator
-from connectapi.europass.accrediation_xml_creator_v2 import AccrediationXMLCreatorV2
-from countries.models import Country
-from eqar_backend.searchers import Searcher
-from eqar_backend.xml_renderer import XMLRenderer
-from institutions.models import Institution
-from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
-from webapi.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
-from webapi.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
+from meilisearch.errors import MeilisearchApiError
 
+from eqar_backend.xml_renderer import XMLRenderer
+from eqar_backend.meilisearch import MeiliClient
+from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
+
+from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
+from connectapi.europass.accrediation_xml_creator_v2 import AccrediationXMLCreatorV2
+
+from agencies.models import AgencyESGActivity
+from countries.models import Country
+from institutions.models import Institution
+
+from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+
+from webapi.v2.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
+from webapi.v2.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
+
+from webapi.v2.views import institution_views
+
+
+SEARCH_CHOICES = (
+    ("locations.city", "city only"),
+    ("deqar_id", "DEQARINST ID"),
+    ("eter_id", "ETER ID"),
+)
 
 class InstitutionFilterClass(filters.FilterSet):
     query = filters.CharFilter(label='Search')
-    country = filters.CharFilter(label='Country')
-    city = filters.CharFilter(label='City')
-    eter_id = filters.CharFilter(label='ETER ID')
-    deqar_id = filters.CharFilter(label='DEQAR ID')
+    country = filters.ModelChoiceFilter(label='Country (ISO 3166-alpha2)', queryset=Country.objects.all(),
+                                        to_field_name='iso_3166_alpha2')
+    country_id = filters.ModelChoiceFilter(label='Country (DEQAR ID)', queryset=Country.objects.all(),
+                                           to_field_name='id')
+    search_field = filters.ChoiceFilter(label='Limit search field', choices=SEARCH_CHOICES)
 
     ordering = OrderingFilter(
         fields=(
-            ('score', 'score'),
-            ('name_primary', 'name_sort'),
-            ('deqar_id', 'deqar_id_sort'),
-            ('eter_id', 'eter_id_sort')
+            'score',
+            'name_sort',
+            'founding_date',
+            'closure_date',
+            'country',
+            'deqar_id',
+            'eter_id',
         )
     )
+
+class ProviderFilterClass(InstitutionFilterClass):
+    other_provider = filters.BooleanFilter(label='Other Provider')
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
    filter_inspectors=[InstitutionSearchInspector],
 ))
-class InstitutionDEQARConnectList(ListAPIView):
+class ProviderDEQARConnectList(MeiliSolrBackportView):
     """
-    Returns a list of all the institutions existing in DEQAR.
+    Returns a list of all education providers existing in DEQAR.
+
+    NB: This is a compatibility with for the legacy v2 view, originally based on Solr. It
+    operates on the Meilisearch index and enriches the results to be fully compatible with
+    the original v2 return format.
     """
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = InstitutionFilterClass
+    filterset_class = ProviderFilterClass
+    permission_classes = (permissions.AllowAny,)
     serializer_class = InstitutionDEQARConnectListSerializer
-    core = getattr(settings, "SOLR_CORE_INSTITUTIONS", "deqar-institutions")
+
+    MEILI_INDEX = 'INDEX_INSTITUTIONS'
+    ORDERING_MAPPING = {
+        'name_sort': 'name_sort',
+        'founding_date': 'founding_date',
+        'closure_date': 'closure_date',
+        'country': 'locations.country.name_english',
+        'deqar_id': 'deqar_id',
+        'eter_id': 'eter_id',
+    }
+    FACET_NAMES = {
+        'locations.country.id': 'country_facet',
+        'is_other_provider': 'other_provider_facet',
+    }
+    FACET_LOOKUP = {
+        'locations.country.id': { 'model': Country,           'attribute': 'name_english' },
+    }
+
+    def make_filters(self, request):
+        filters = [ ]
+
+        if country_id := self.lookup_object(Country, 'iso_3166_alpha2', 'country', 'id', 'country_id'):
+            filters.append(f'locations.country.id = {country_id}')
+
+        if other_provider := request.query_params.get('other_provider', None):
+            filters.append(f'is_other_provider = {BooleanExtendedField.to_internal_value(None, other_provider)}')
+
+        return filters
+
+
+    def make_meili_params(self, request):
+        return {
+            "attributesToRetrieve": [
+                "id",
+                "deqar_id",
+                "eter_id",
+                "name_primary",
+                "website_link",
+                "is_other_provider",
+                "organization_type",
+                "names",
+                "founding_date",
+                "closure_date",
+                "locations",
+                "created_at",
+                "part_of",
+                "includes",
+            ],
+            "attributesToSearchOn": [ request.query_params.get('search_field', '*') or '*' ],
+        }
+
+
+    def convert_hit(self, r):
+        # merged country list
+        countries = set()
+        cities = set()
+        for l in r['locations']:
+            countries.add(l['country']['name_english'])
+            cities.add(l['city'])
+        r["country"] = list(countries)
+        r["city"] = list(cities)
+
+        # date formats
+        r['founding_date'] = self.timestamp_to_isodate(r['founding_date'])
+        r['closure_date'] = self.timestamp_to_isodate(r['closure_date'])
+        r['date_created'] = self.timestamp_to_isodatetime(r.pop('created_at'))
+        for name in r['names']:
+            name['name_valid_to'] = self.timestamp_to_isodate(name['name_valid_to'])
+        for rel in r["part_of"]:
+            rel["valid_from"] = self.timestamp_to_isodate(rel['valid_from'])
+            rel["valid_to"] = self.timestamp_to_isodate(rel['valid_to'])
+        for loc in r['locations']:
+            loc["country_valid_from"] = self.timestamp_to_isodate(loc['country_valid_from'])
+            loc["country_valid_to"] = self.timestamp_to_isodate(loc['country_valid_to'])
+
+
+class InstitutionDEQARConnectList(ProviderDEQARConnectList):
+    """
+    Returns a list of all the higher education institutions existing in DEQAR.
+
+    NB: This is a compatibility with for the legacy v2 view, originally based on Solr. It
+    operates on the Meilisearch index and enriches the results to be fully compatible with
+    the original v2 return format.
+    """
+    filterset_class = InstitutionFilterClass
+
+    def make_filters(self, request):
+        filters = super().make_filters(request)
+        filters.append("is_other_provider = False")
+        return filters
+
+
+class InstitutionDetail(institution_views.InstitutionDetail):
     permission_classes = (permissions.AllowAny,)
 
-    def list(self, request, *args, **kwargs):
-        limit = request.query_params.get('limit', 10)
-        offset = request.query_params.get('offset', 0)
+class InstitutionDetailByETER(institution_views.InstitutionDetailByETER):
+    permission_classes = (permissions.AllowAny,)
 
-        filters = []
-        qf = [
-            'name_official^5',
-            'name_official_transliterated',
-            'name_english^2.5',
-            'name_version^1.5',
-            'name_version_transliterated^1.5',
-            'country_search^2.5',
-            'city_search^2.5',
-            'eter_id^2',
-            'deqar_id^2',
-        ]
-        params = {
-            'search': request.query_params.get('query', ''),
-            'ordering': request.query_params.get('ordering', '-score'),
-            'qf': qf,
-            'fl': 'id,eter_id,deqar_id,name_primary,'
-                  'website_link,country,city',
-            'facet': True,
-            'facet_fields': ['country_facet'],
-            'facet_sort': 'index'
-        }
+class InstitutionDetailByIdentifier(institution_views.InstitutionDetailByIdentifier):
+    permission_classes = (permissions.AllowAny,)
 
-        country = request.query_params.get('country', None)
-        city = request.query_params.get('city', None)
-        eter_id = request.query_params.get('eter_id', None)
-        deqar_id = request.query_params.get('deqar_id', None)
-
-        if country:
-            filters.append({'country': country})
-        if city:
-            filters.append({'city': city})
-        if eter_id:
-            filters.append({'eter_id': eter_id})
-        if deqar_id:
-            filters.append({'deqar_id_search': deqar_id})
-
-        params['filters'] = filters
-
-        searcher = Searcher(self.core)
-        searcher.initialize(params, start=offset, rows_per_page=limit, tie_breaker='name_sort asc')
-
-        try:
-            response = searcher.search()
-        except SolrError as e:
-            return Response(status=HTTP_400_BAD_REQUEST, data={'error': str(e)})
-
-        resp = {
-            'count': response.hits,
-            'results': response.docs,
-            'facets': response.facets
-        }
-        if (int(limit) + int(offset)) < int(response.hits):
-            resp['next'] = True
-        return Response(resp)
+class InstitutionIdentifierResourcesList(institution_views.InstitutionIdentifierResourcesList):
+    permission_classes = (permissions.AllowAny,)
 
 
 class AgencyActivityDEQARConnectList(generics.ListAPIView):
@@ -126,17 +192,6 @@ class AgencyActivityDEQARConnectList(generics.ListAPIView):
         submitting_agency = user.deqarprofile.submitting_agency.submitting_agency.all()
         return AgencyESGActivity.objects.filter(agency__allowed_agency__in=submitting_agency)\
             .order_by('agency__acronym_primary')
-
-
-class AccreditationXMLView(APIView):
-    permission_classes = []
-    renderer_classes = (XMLRenderer,)
-
-    def get(self, request, *args, **kwargs):
-        country_code = self.kwargs['country_code']
-        country = get_object_or_404(Country, iso_3166_alpha3=country_code.upper())
-        creator = AccrediationXMLCreator(country, request)
-        return Response(creator.create(), content_type='application/xml')
 
 
 class AccreditationXMLViewV2(APIView):

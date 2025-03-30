@@ -84,15 +84,16 @@ class InstitutionSearchInspector(CoreAPICompatInspector):
     def get_filter_parameters(self, filter_backend):
         if isinstance(filter_backend, DjangoFilterBackend):
             results = super(InstitutionSearchInspector, self).get_filter_parameters(filter_backend)
-            for param in results:
-                for field, config in self.fields.items():
-                    if param.get('name') == field:
-                        if 'description' in config.keys():
-                            param.description = config['description']
-                        if 'type' in config.keys():
-                            param.type = config['type']
-                        if 'enum' in config.keys():
-                            param.enum = config['enum']
+            if results != NotHandled:
+                for param in results:
+                    for field, config in self.fields.items():
+                        if param.get('name') == field:
+                            if 'description' in config.keys():
+                                param.description = config['description']
+                            if 'type' in config.keys():
+                                param.type = config['type']
+                            if 'enum' in config.keys():
+                                param.enum = config['enum']
             return results
 
         if isinstance(filter_backend, OrderingFilter):

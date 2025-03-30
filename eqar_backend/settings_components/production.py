@@ -31,6 +31,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Brussels'
 
+# Meilisearch
+MEILI_API_URL = "http://localhost:7700"
+
 USE_TZ = False
 
 DJOSER = {
@@ -41,3 +44,5 @@ DJOSER = {
 
 # Connect API: time for which issued VCs may be cached
 VC_CACHE_MAX_AGE = 86400
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

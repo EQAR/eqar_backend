@@ -69,58 +69,95 @@
     agency: 5
     email: biehl@acquin.org
 
+- model: agencies.AgencyActivityGroup
+  pk: 1
+  fields:
+    activity: System Accreditation in Germany
+    activity_type: 1
+
 - model: agencies.AgencyESGActivity
   pk: 1
   fields:
     agency: 5
-    activity_type: 1
+    activity_group: 1
     activity: System Accreditation in Germany
     activity_local_identifier: ACQ001
     activity_valid_from: 2010-01-01
+
+- model: agencies.AgencyActivityGroup
+  pk: 2
+  fields:
+    activity: Programme Accreditation in Germany
+    activity_type: 2
 
 - model: agencies.AgencyESGActivity
   pk: 2
   fields:
     agency: 5
-    activity_type: 2
+    activity_group: 2
     activity: Programme Accreditation in Germany
     activity_local_identifier: ACQ002
     activity_valid_from: 2010-01-01
+
+- model: agencies.AgencyActivityGroup
+  pk: 3
+  fields:
+    activity: Joint Programme Accreditation in Germany
+    activity_type: 3
 
 - model: agencies.AgencyESGActivity
   pk: 3
   fields:
     agency: 5
-    activity_type: 3
+    activity_group: 3
     activity: Certification Procedures in Germany
     activity_local_identifier: ACQ003
     activity_valid_from: 2010-01-01
+
+- model: agencies.AgencyActivityGroup
+  pk: 4
+  fields:
+    activity: Programme Accreditation Abroad
+    activity_type: 2
 
 - model: agencies.AgencyESGActivity
   pk: 4
   fields:
     agency: 5
-    activity_type: 2
+    activity_group: 4
     activity: Programme Accreditation Abroad
     activity_local_identifier: ACQ004
     activity_valid_from: 2010-01-01
     activity_valid_to: 2999-01-01
 
+- model: agencies.AgencyActivityGroup
+  pk: 5
+  fields:
+    activity: Common ESG Activity
+    activity_type: 1
+
 - model: agencies.AgencyESGActivity
   pk: 5
   fields:
     agency: 5
-    activity_type: 1
+    activity_group: 5
     activity: Institutional Accreditation Abroad (Historical)
     activity_valid_from: 2010-01-01
     activity_valid_to: 2013-01-01
+
+
+- model: agencies.AgencyActivityGroup
+  pk: 6
+  fields:
+    activity: Institutional/Programme Accreditation Abroad
+    activity_type: 4
 
 - model: agencies.AgencyESGActivity
   pk: 6
   fields:
     agency: 5
-    activity_type: 4
-    activity: Institutinal/Programme Accreditation Abroad
+    activity_group: 6
+    activity: Institutional/Programme Accreditation Abroad
     activity_local_identifier: ACQ005
     activity_valid_from: 2010-01-01
     activity_valid_to: 2999-01-01

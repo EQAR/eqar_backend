@@ -16,8 +16,8 @@ class Report(models.Model):
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
     contributing_agencies = models.ManyToManyField('agencies.Agency', related_name='co_authored_reports', blank=True)
     local_identifier = CharNullField(max_length=255, blank=True, null=True)
-    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT)
-    name = models.CharField(max_length=300)
+    agency_esg_activities = models.ManyToManyField('agencies.AgencyESGActivity', related_name='reports')
+    agency_esg_activity = models.ForeignKey('agencies.AgencyESGActivity', on_delete=models.PROTECT, blank=True, null=True)
     status = models.ForeignKey('ReportStatus', on_delete=models.PROTECT)
     decision = models.ForeignKey('ReportDecision', on_delete=models.PROTECT)
     summary = models.TextField(blank=True, null=True)
@@ -37,6 +37,30 @@ class Report(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     updated_by = models.ForeignKey(User, related_name='reports_updated_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
+
+    def get_activity_type(self):
+        # Default = institutional
+        activity_type_id = 2
+        for activity in self.agency_esg_activities.all():
+            # If there is a programme or institutional/programme activity, set the activity type to programme
+            # if there was no joint/programme activity before
+            if activity.activity_type_id == 1 or activity.activity_type_id == 4:
+                if activity_type_id == 2:
+                    activity_type_id = activity.activity_type_id
+            # If there is a joint/programme activity, set the activity type to joint programme
+            # all the time
+            elif activity.activity_type_id == 3:
+                activity_type_id = 3
+        return activity_type_id
+
+    def get_activity_names(self):
+        activity_names = []
+        for activity in self.agency_esg_activities.all():
+            if activity.activity_display:
+                activity_names.append(activity.activity_display)
+            else:
+                activity_names.append(activity.activity)
+        return activity_names
 
     def validate_local_identifier(self):
         if self.local_identifier:
@@ -141,6 +165,7 @@ class ReportFile(models.Model):
     file_display_name = models.CharField(max_length=255, blank=True)
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
+    file_checksum = models.CharField(max_length=32, blank=True, null=True)
     languages = models.ManyToManyField('lists.Language')
 
     class Meta:
