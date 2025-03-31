@@ -216,7 +216,10 @@ class AgencyESGActivity(models.Model):
         if self.activity_display:
             return self.activity_display
         else:
-            return self.activity
+            if self.activity:
+                return self.activity
+            else:
+                return self.activity_group.activity
 
     @property
     def activity_type(self):

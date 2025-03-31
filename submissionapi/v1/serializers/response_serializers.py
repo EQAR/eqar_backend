@@ -53,7 +53,8 @@ class ResponseReportSerializer(serializers.ModelSerializer):
     programmes = ResponseProgrammeSerializer(many=True, source='programme_set')
 
     def get_agency_esg_activity(self, obj):
-        return obj.agency_esg_activities.first()
+        activity = obj.agency_esg_activities.first()
+        return str(activity) if activity else 'N/A'
 
     class Meta:
         model = Report
