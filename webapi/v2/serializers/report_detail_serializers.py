@@ -107,10 +107,18 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     report_valid = serializers.SerializerMethodField()
 
     def get_agency_esg_activity(self, obj):
-        return obj.agency_esg_activities.first().activity
+        # Temporary fix, to prevent frontend from crashing
+        if obj.agency_esg_activities.count() > 0:
+            return obj.agency_esg_activities.first().activity
+        else:
+            return 'N/A'
 
     def get_agency_esg_activity_type(self, obj):
-        return obj.agency_esg_activities.first().activity_type.type
+        # Temporary fix, to prevent frontend from crashing
+        if obj.agency_esg_activities.count() > 0:
+            return obj.agency_esg_activities.first().activity_type.type
+        else:
+            return 'N/A'
 
     def get_crossborder(self, obj):
         crossborder = False
