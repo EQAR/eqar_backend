@@ -94,7 +94,7 @@ class ReportPopulator():
             self.report.contributing_agencies.add(contributing_agency)
 
     def _assign_agency_esg_activity_to_activities(self):
-        activity = self.submission.get('agency_esg_activity', None)
+        activity = self.submission.get('esg_activity', None)
         if activity:
             self.report.agency_esg_activities.add(activity)
 
