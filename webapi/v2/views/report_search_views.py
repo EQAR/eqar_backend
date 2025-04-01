@@ -204,11 +204,17 @@ class ReportList(MeiliSolrBackportView):
 
         # additional agency and activity info
         agency = Agency.objects.get(id=r['agency']['id'])
-        activity = AgencyESGActivity.objects.get(id=r['agency_esg_activities'][0]['id'])
-        r['agency_name']= agency.name_primary
+        r['agency_name'] = agency.name_primary
         r['agency_acronym'] = r['agency']['acronym_primary']
-        r['agency_esg_activity'] = activity.activity_group.activity
-        r['agency_esg_activity_type'] = r['agency_esg_activities'][0]['type']
+
+        # Temporary fix, to prevent frontend from crashing
+        if len(r['agency_esg_activities']) > 0:
+            activity = AgencyESGActivity.objects.get(id=r['agency_esg_activities'][0]['id'])
+            r['agency_esg_activity'] = activity.activity_group.activity
+            r['agency_esg_activity_type'] = r['agency_esg_activities'][0]['type']
+        else:
+            r['agency_esg_activity'] = 'N/A'
+            r['agency_esg_activity_type'] = 'N/A'
 
         # reformat contributing agency list
         for ca in r['contributing_agencies']:
