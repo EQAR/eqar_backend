@@ -10,7 +10,7 @@ from lists.models import DegreeOutcome, Assessment
 from rest_framework import serializers
 
 from webapi.v2.serializers.report_serializers import ReportFileSerializer, ReportLinkSerializer
-from webapi.v2.serializers.agency_serializers import ContributingAgencySerializer
+from webapi.v2.serializers.agency_serializers import ContributingAgencySerializer, EsgActivitySerializer
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -64,23 +64,6 @@ class ProgrammeSerializer(serializers.ModelSerializer):
                   'nqf_level', 'qf_ehea_level', 'countries', 'programme_type',
                   'degree_outcome', 'workload_ects', 'assessment_certification', 'field_study',
                   'learning_outcomes', 'learning_outcome_description']
-
-
-class EsgActivitySerializer(serializers.ModelSerializer):
-    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True)
-    activity = serializers.CharField(source='activity_group.activity')
-    activity_type = serializers.CharField(source='activity_group.activity_type.type')
-
-    class Meta:
-        model = AgencyESGActivity
-        fields = [
-            'id',
-            'group_id',
-            'activity',
-            'activity_description',
-            'reports_link',
-            'activity_type'
-        ]
 
 
 class ReportDetailSerializer(serializers.ModelSerializer):

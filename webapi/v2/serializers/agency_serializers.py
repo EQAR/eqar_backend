@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers
 from agencies.models import *
 from eqar_backend.serializers import HistoryFilteredListSerializer
@@ -6,25 +7,31 @@ from reports.models import Report
 from webapi.v2.serializers.country_serializers import CountryListSerializer
 
 
-class AgencyESGActivitySerializer(serializers.ModelSerializer):
-    activity_type = serializers.SerializerMethodField()
-
-    def get_activity_type(self, obj):
-        return str(obj.activity_group.activity_type)
+class EsgActivitySerializer(serializers.ModelSerializer):
+    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True)
+    activity = serializers.CharField(source='activity_group.activity')
+    activity_type = serializers.CharField(source='activity_group.activity_type.type')
 
     class Meta:
         model = AgencyESGActivity
         list_serializer_class = HistoryFilteredListSerializer
-        fields = ['id', 'activity', 'activity_description', 'activity_type', 'reports_link', 'activity_valid_to',]
+        fields = [
+            'id',
+            'group_id',
+            'activity',
+            'activity_description',
+            'reports_link',
+            'activity_type',
+            'activity_valid_to',
+        ]
 
 
-class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
+class EsgActivityDetailSerializer(EsgActivitySerializer):
     report_count = serializers.SerializerMethodField()
     institution_count = serializers.SerializerMethodField()
-    activity_type = serializers.StringRelatedField()
 
     def get_report_count(self, obj):
-        return obj.report_set.count()
+        return obj.reports.count()
 
     def get_institution_count(self, obj):
         return Institution.objects.filter(reports__agency_esg_activities=obj).distinct().count()
@@ -32,8 +39,17 @@ class AgencyESGActivityDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgencyESGActivity
         list_serializer_class = HistoryFilteredListSerializer
-        fields = ['id', 'activity', 'activity_description', 'activity_type', 'reports_link', 'activity_valid_to',
-                  'report_count', 'institution_count']
+        fields = [
+            'id',
+            'group_id',
+            'activity',
+            'activity_description',
+            'reports_link',
+            'activity_type',
+            'activity_valid_to',
+            'report_count',
+            'institution_count',
+        ]
 
 
 class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,15 +57,15 @@ class AgencyListSerializer(serializers.HyperlinkedModelSerializer):
     name_primary = serializers.CharField(source='get_primary_name', read_only=True)
     acronym_primary = serializers.CharField(source='get_primary_acronym', read_only=True)
     country = CountryListSerializer()
-    activities = AgencyESGActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
+    activities = EsgActivitySerializer(many=True, read_only=True, source='agencyesgactivity_set')
     institution_count = serializers.SerializerMethodField()
     report_count = serializers.SerializerMethodField()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(reports__agency=obj).distinct().count()
+        return Institution.objects.filter(Q(reports__agency=obj) | Q(reports__contributing_agencies=obj)).distinct().count()
 
     def get_report_count(self, obj):
-        return Report.objects.filter(agency=obj).count()
+        return Report.objects.filter(Q(agency=obj) | Q(contributing_agencies=obj)).count()
 
     class Meta:
         model = Agency
@@ -64,12 +80,16 @@ class AgencyListByFocusCountrySerializer(AgencyListSerializer):
     institution_count = serializers.SerializerMethodField()
 
     def get_report_count(self, obj):
-        return Report.objects.filter(agency=obj,
-                                     institutions__institutioncountry__country_id=self.context['country_id']).count()
+        return Report.objects.filter(
+                ( Q(agency=obj) | Q(contributing_agencies=obj) ) &
+                Q(institutions__institutioncountry__country_id=self.context['country_id'])
+            ).count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(has_report=True, reports__agency=obj,
-                                          institutioncountry__country_id=self.context['country_id']).distinct().count()
+        return Institution.objects.filter(
+                ( Q(reports__agency=obj) | Q(reports__contributing_agencies=obj) ) &
+                Q(institutioncountry__country_id=self.context['country_id'])
+            ).distinct().count()
 
     def get_country_is_official(self, obj):
         focus_country = obj.agencyfocuscountry_set.filter(country_id=self.context['country_id']).first()
@@ -93,13 +113,13 @@ class AgencyFocusCountrySerializer(serializers.ModelSerializer):
     def get_institution_count(self, obj):
         return Institution.objects.filter(
             Q(institutioncountry__country=obj.country) &
-            Q(reports__agency=obj.agency)
+            ( Q(reports__agency=obj.agency) | Q(reports__contributing_agencies=obj.agency) )
         ).distinct().count()
 
     def get_report_count(self, obj):
         return Report.objects.filter(
             Q(institutions__institutioncountry__country=obj.country) &
-            Q(agency=obj.agency)
+            ( Q(agency=obj.agency) | Q(contributing_agencies=obj.agency) )
         ).count()
 
     def get_country_is_ehea(self, obj):
@@ -148,7 +168,7 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
     phone_numbers = serializers.StringRelatedField(many=True, source='agencyphone_set')
     emails = serializers.StringRelatedField(many=True, source='agencyemail_set')
     country = CountryListSerializer()
-    activities = AgencyESGActivityDetailSerializer(many=True, read_only=True, source='agencyesgactivity_set')
+    activities = EsgActivityDetailSerializer(many=True, read_only=True, source='agencyesgactivity_set')
     associations = serializers.StringRelatedField(many=True, read_only=True, source='agencymembership_set')
     decisions = serializers.SerializerMethodField()
     historical_data = AgencyHistoricalDataSerializer(many=True, read_only=True, source='agencyhistoricaldata_set')
@@ -161,10 +181,10 @@ class AgencyDetailSerializer(serializers.ModelSerializer):
         return AgencyEQARDecisionSerializer(queryset, many=True, context=self.context).data
 
     def get_report_count(self, obj):
-        return obj.report_set.count()
+        return obj.report_set.count() + obj.co_authored_reports.count()
 
     def get_institution_count(self, obj):
-        return Institution.objects.filter(reports__agency=obj).distinct().count()
+        return Institution.objects.filter(Q(reports__agency=obj) | Q(reports__contributing_agencies=obj)).distinct().count()
 
     class Meta:
         model = Agency
@@ -189,11 +209,13 @@ class AgencyEQARDecisionListSerializer(serializers.ModelSerializer):
 
 class AgencyActivityDEQARConnectListSerializer(serializers.ModelSerializer):
     agency = serializers.SlugRelatedField(read_only=True, slug_field='acronym_primary')
-    activity_type = serializers.StringRelatedField()
+    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True)
+    activity = serializers.CharField(source='activity_group.activity')
+    activity_type = serializers.CharField(source='activity_group.activity_type.type')
 
     class Meta:
         model = AgencyESGActivity
-        fields = ['id', 'agency', 'activity', 'activity_type', 'activity_description']
+        fields = ['id', 'group_id', 'agency', 'activity', 'activity_type', 'activity_description']
 
 
 class AgencyActivityGroupMemberSerializer(serializers.ModelSerializer):
