@@ -24,10 +24,6 @@ class SubmissionPackageHandler:
             self.populator.populate(action=self.action)
             self.flagger = ReportFlagger(report=self.populator.report)
             self.flagger.check_and_set_flags()
-            send_submission_email.delay(response=[self._make_success_response()],
-                                        institution_id_max=self.max_inst,
-                                        total_submission=1,
-                                        agency_email=self.request.user.email)
             # Add log entry
             ReportUpdateLog.objects.create(
                 report=self.populator.report,
@@ -35,6 +31,11 @@ class SubmissionPackageHandler:
                 updated_by=self.request.user
             )
             self._make_success_response()
+            # Send email
+            send_submission_email.delay(response=[self.response],
+                                        institution_id_max=self.max_inst,
+                                        total_submission=1,
+                                        agency_email=self.request.user.email)
         else:
             self.status = 'error'
             self._make_error_response()

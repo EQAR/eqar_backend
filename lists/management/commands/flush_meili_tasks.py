@@ -12,14 +12,15 @@ class Command(BaseCommand):
     PAGESIZE = 5000
 
     def add_arguments(self, parser):
-        parser.add_argument("--dry-run", "-n", action='store_true',
-                            help="Only show report records, but do not actually delete")
-        parser.add_argument("--only-deleted", "-d", action='store_true',
-                            help="Only check index for deleted reports")
-        parser.add_argument("--only-missing", "-m", action='store_true',
-                            help="Only check for reports missing from the index")
+        parser.add_argument('status',
+                            nargs='*',
+                            default=['failed','canceled','succeeded'],
+                            choices=['enqueued', 'processing', 'succeeded', 'failed', 'canceled'],
+                            help="Specify tasks with which status to delete (default: failed,canceled,succeeded)")
 
-    def handle(self, *args, **options):
+    def handle(self, status, *args, **options):
+        self.stdout.write(f"Clearing tasks with the following statuses: {', '.join(status)}")
         meili = MeiliClient()
-        meili.wait_for(meili.meili.delete_tasks(parameters={'statuses': 'failed,canceled,succeeded'}))
+        tinfo = meili.wait_for(meili.meili.delete_tasks(parameters={'statuses': ','.join(status)}))
+        self.stdout.write(f"Status={tinfo.status} Duration={tinfo.duration}")
 

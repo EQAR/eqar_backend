@@ -171,7 +171,7 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
         return crossborder
 
     def get_agencies(self, obj):
-        return AgencySerializer(Agency.objects.filter(report__institutions=obj).distinct(), many=True).data
+        return AgencySerializer(Agency.objects.filter(Q(report__institutions=obj) | Q(co_authored_reports__institutions=obj)).distinct(), many=True).data
 
     def get_status(self, obj):
         return list(obj.reports.values_list('status__status', flat=True).distinct())

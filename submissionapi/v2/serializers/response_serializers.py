@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from agencies.models import Agency
+from agencies.models import Agency, AgencyESGActivity
 from institutions.models import Institution
 from lists.models import DegreeOutcome
 from programmes.models import Programme
@@ -42,20 +42,36 @@ class ResponseCSVReportSerializer(serializers.ModelSerializer):
         fields = ('report_id', )
 
 
+class ResponseEsgActivitySerializer(serializers.ModelSerializer):
+    group_id = serializers.PrimaryKeyRelatedField(source='activity_group', read_only=True)
+    activity = serializers.CharField(source='activity_group.activity')
+    activity_type = serializers.CharField(source='activity_group.activity_type.type')
+
+    class Meta:
+        model = AgencyESGActivity
+        fields = [
+            'id',
+            'group_id',
+            'activity',
+            'activity_type',
+        ]
+
+
 class ResponseReportSerializer(serializers.ModelSerializer):
     agency = serializers.StringRelatedField()
     contributing_agencies = serializers.SlugRelatedField(many=True, slug_field="acronym_primary", queryset=Agency.objects.all())
-    agency_esg_activity = serializers.StringRelatedField()
+    agency_esg_activities = ResponseEsgActivitySerializer(many=True, read_only=True)
     status = serializers.StringRelatedField()
     decision = serializers.StringRelatedField()
     files = ResponseReportFileSerializer(many=True, source='reportfile_set')
     institutions = ResponseInstitutionSerializer(many=True)
+    platforms = ResponseInstitutionSerializer(many=True)
     programmes = ResponseProgrammeSerializer(many=True, source='programme_set')
 
     class Meta:
         model = Report
-        fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activity', 'status',
-                  'decision', 'summary', 'valid_from', 'valid_to', 'files', 'institutions', 'programmes')
+        fields = ('id', 'agency', 'contributing_agencies', 'local_identifier', 'agency_esg_activities', 'status',
+                  'decision', 'summary', 'valid_from', 'valid_to', 'files', 'institutions', 'platforms', 'programmes')
 
 
 class ResponseReportSuccessResponseSerializer(serializers.Serializer):
