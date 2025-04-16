@@ -5,6 +5,7 @@ from django.dispatch import receiver
 
 from agencies.models import Agency, AgencyESGActivity, AgencyNameVersion
 from agencies.tasks import index_agency
+from reports.models import Report
 from reports.tasks import index_report
 
 
@@ -21,5 +22,6 @@ def do_index_reports_upon_activity_name_change(sender, instance, **kwargs):
             if original.activity_display != instance.activity_display or \
                original.activity != instance.activity or \
                original.activity_type != instance.activity_type:
-                for report in instance.report_set.iterator():
+                # If the activity name has changed, re-index all reports
+                for report in instance.reports.iterator():
                     index_report.delay(report.id)
