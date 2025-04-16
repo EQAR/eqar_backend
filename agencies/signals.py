@@ -5,7 +5,6 @@ from django.dispatch import receiver
 
 from agencies.models import Agency, AgencyESGActivity, AgencyNameVersion
 from agencies.tasks import index_agency
-from reports.models import Report
 from reports.tasks import index_report
 
 
