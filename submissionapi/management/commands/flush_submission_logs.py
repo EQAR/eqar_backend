@@ -32,7 +32,13 @@ class Command(BaseCommand):
         self.stdout.write(f'Deleting {to_delete.count()} of {log_all.count()} log entries...')
 
         if not dry_run:
-            self.stdout.write(str(to_delete.delete()))
+            i = 0
+            for obj in to_delete.iterator():
+                if i % 100 == 0:
+                    self.stdout.write(f'\rdeleted {i} entries', ending='')
+                obj.delete()
+                i += 1
+            self.stdout.write(f'\rdeleted {i} entries')
         else:
             self.stdout.write('--- dry run, nothing deleted ---')
 
