@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.core.management import BaseCommand
 
 import sys
 
@@ -133,4 +134,74 @@ class MeiliIndexer:
             return self.meili.wait_for(taskinfo)
         else:
             return taskinfo
+
+
+class CheckMeiliIndex(BaseCommand):
+    """
+    generic management command to check whether deleted objects remain in Meilisearch index
+    or whether objects are missing
+    """
+    PAGESIZE = 5000 # how many documents to fetch from Meili at once
+    indexer = None
+    model = None
+
+    def add_arguments(self, parser):
+        parser.add_argument("--dry-run", "-n", action='store_true',
+                            help="Only show records, but do not actually delete")
+        parser.add_argument("--only-deleted", "-d", action='store_true',
+                            help="Only check index for deleted objects")
+        parser.add_argument("--only-missing", "-m", action='store_true',
+                            help="Only check for objects missing from the index")
+
+    def _to_string(self, record):
+        return f"[{self.model._meta.verbose_name} #{record.id}]"
+
+    def handle(self, *args, **options):
+        meili = MeiliClient()
+        indexer = self.indexer(sync=False)
+        if self.model is None:
+            self.model = indexer.model
+
+        offset = 0
+        total = 1
+        in_meili = set()
+        to_delete = []
+        while offset < total:
+            self.stdout.write(f"\rChecking {self.model._meta.verbose_name} {offset}-{offset+self.PAGESIZE-1} of {total}", ending='')
+            response = meili.meili.index(indexer.index_uid).get_documents({ 'offset': offset, 'limit': self.PAGESIZE })
+            if response.total > total:
+                total = response.total
+            for r in response.results:
+                in_meili.add(int(r.id))
+                if not options['only_missing']:
+                    try:
+                        self.model.objects.get(id=r.id)
+                    except self.model.DoesNotExist:
+                        self.stdout.write(self.style.WARNING(f"\rdeleted {self.model._meta.verbose_name} {r.id} still in Meili index: {self._to_string(r)}"))
+                        to_delete.append(r.id)
+            offset += self.PAGESIZE
+        self.stdout.write('')
+
+        if not options['dry_run']:
+            for i in to_delete:
+                indexer.delete(i)
+                self.stdout.write(self.style.ERROR(f"deleted {self.model._meta.verbose_name} {i} from Meili index"))
+
+        self.stdout.write(f'\r{len(to_delete)} deleted {self.model._meta.verbose_name_plural} were still in Meilisearch')
+
+        if not options['only_deleted']:
+            missing_meili = 0
+            for r in self.model.objects.iterator():
+                if r.id in in_meili:
+                    self.stdout.write(f"\r{self.model._meta.verbose_name} {r.id} is in Meilisearch", ending='')
+                else:
+                    self.stdout.write(self.style.WARNING(f"\r{self.model._meta.verbose_name} {r.id} is missing from Meilisearch"), ending='')
+                    if not options['dry_run']:
+                        indexer.index(r.id)
+                        self.stdout.write(" - " + self.style.SUCCESS(f"added."))
+                    else:
+                        self.stdout.write('')
+                    missing_meili += 1
+
+            self.stdout.write(f'\r{missing_meili} {self.model._meta.verbose_name_plural} were missing from Meilisearch in total.')
 
