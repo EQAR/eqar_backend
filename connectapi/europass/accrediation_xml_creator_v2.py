@@ -459,7 +459,12 @@ class AccrediationXMLCreatorV2:
             f"{self.NS}identifier",
         )
         notation = etree.SubElement(_id, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-        notation.text = "DEQARINST%04d" % institution.id
+
+        if institution.id < 10000:
+            notation.text = "DEQARINST%04d" % institution.id
+        else:
+            notation.text = "DEQARINST%s" % institution.id
+
         scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
         scheme_agency.text = "DEQAR"
 
