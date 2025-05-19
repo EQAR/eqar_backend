@@ -43,10 +43,7 @@ class Institution(models.Model):
 
     def create_deqar_id(self):
         if not self.deqar_id:
-            if self.id < 10000:
-                self.deqar_id = 'DEQARINST%04d' % self.id
-            else:
-                self.deqar_id = 'DEQARINST%s' % self.id
+            self.deqar_id = 'DEQARINST%04d' % self.id
             self.save()
 
     def set_flag_low(self):
