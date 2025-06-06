@@ -1,9 +1,12 @@
+from ipware import get_client_ip
+
 from django.core.exceptions import ObjectDoesNotExist
 from institutions.models import Institution
 from reports.models import ReportUpdateLog
 from submissionapi.flaggers.report_flagger import ReportFlagger
 from submissionapi.populators.populator import Populator
 from submissionapi.v2.serializers.response_serializers import ResponseReportSerializer
+from submissionapi.trackers.submission_tracker import SubmissionTracker
 from submissionapi.tasks import send_submission_email
 
 
@@ -19,11 +22,21 @@ class SubmissionPackageHandler:
         self.flagger = None
 
     def handle(self):
+        # Tracking
+        client_ip, is_routable = get_client_ip(self.request)
+        tracker = SubmissionTracker(original_data=self.request.data,
+                                    origin='api-v2',
+                                    user_profile=self.request.user.deqarprofile,
+                                    ip_address=client_ip)
+        tracker.log_package()
+
         if self.serializer.is_valid():
             self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
             self.populator.populate(action=self.action)
             self.flagger = ReportFlagger(report=self.populator.report)
             self.flagger.check_and_set_flags()
+            # Add submission report log
+            tracker.log_report(self.populator, self.flagger)
             # Add log entry
             ReportUpdateLog.objects.create(
                 report=self.populator.report,

@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"\n{qaa.acronym_primary}'s identifier '{i['identifier']}' is not unique") + ", it points to these institutions:")
                 l = InstitutionIdentifier.objects.filter(identifier=i['identifier'], agency=qaa)
             for j in l:
-                self.stdout.write(f"- DEQARINST{j.institution.deqar_id} {j.institution} ({j.institution.website_link})", ending='')
+                self.stdout.write(f"- {j.institution.deqar_id} {j.institution} ({j.institution.website_link})", ending='')
                 if j.institution.closure_date:
                     self.stdout.write(f" - closed {j.institution.closure_date}")
                 else:
