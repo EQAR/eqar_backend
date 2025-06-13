@@ -1,17 +1,17 @@
 - model: institutions.InstitutionHistoricalRelationshipType
-  pk: 1
-  fields:
-    type_from: precedes
-    type_to: succeeds
-
-- model: institutions.InstitutionHistoricalRelationshipType
   pk: 2
   fields:
-    type_from: absorbs
-    type_to: is absorbed by
+    type_from: succeeded
+    type_to: succeeded by
 
 - model: institutions.InstitutionHistoricalRelationshipType
   pk: 3
   fields:
-    type_from: spins off
-    type_to: is spun off from
+    type_from: was absorbed by
+    type_to: absorbed
+
+- model: institutions.InstitutionHistoricalRelationshipType
+  pk: 4
+  fields:
+    type_from: was spun off from
+    type_to: spun off
