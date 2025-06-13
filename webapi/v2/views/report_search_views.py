@@ -12,7 +12,7 @@ from rest_framework.exceptions import ParseError
 
 from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
 
-from adminapi.inspectors.report_search_inspector import ReportSearchInspector
+from webapi.inspectors.report_search_inspector import ReportSearchInspector
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
 from lists.models import Language
@@ -25,22 +25,24 @@ from agencies.models import Agency, \
                             AgencyActivityType
 from countries.models import Country
 
+from reports.serializers.report_meili_indexer_serializer import ReportIndexerSerializer
+
 
 class ReportFilterClass(filters.FilterSet):
-    query = filters.CharFilter(label='Search')
-    agency = filters.ModelChoiceFilter(label='Agency',
+    query = filters.CharFilter(label='Search (institution, programme, country)')
+    agency = filters.ModelChoiceFilter(label='Agency (acronym)',
                 queryset=Agency.objects.all(),
                 to_field_name='acronym_primary')
-    activity_id = filters.ModelChoiceFilter(label='Agency ESG Activity',
+    activity_id = filters.ModelChoiceFilter(label='Agency ESG Activity (ID)',
                 queryset=AgencyESGActivity.objects.all(),
                 to_field_name='id')
-    activity_group_id = filters.ModelChoiceFilter(label='ESG Activity Group',
+    activity_group_id = filters.ModelChoiceFilter(label='ESG Activity Group (ID)',
                 queryset=AgencyActivityGroup.objects.all(),
                 to_field_name='id')
     activity_type = filters.ModelChoiceFilter(label='Activity Type',
                 queryset=AgencyActivityType.objects.all(),
                 to_field_name='type')
-    country = filters.ModelChoiceFilter(label='Country',
+    country = filters.ModelChoiceFilter(label='Country (name)',
                 queryset=Country.objects.all(),
                 to_field_name='name_english')
     status = filters.ModelChoiceFilter(label='Status',
@@ -55,7 +57,8 @@ class ReportFilterClass(filters.FilterSet):
                 queryset=Language.objects.all(),
                 to_field_name='language_name_en')
     active = filters.BooleanFilter(label='Active')
-    year = filters.NumberFilter(label='Year')
+    year = filters.NumberFilter(label='Reports that are/were valid in the given year')
+    valid_on = filters.DateFilter(label='Reports that are/were valid on the given date')
     other_provider_covered = filters.BooleanFilter(label='Other Provider Covered')
     degree_outcome = filters.BooleanFilter(label='Degree Outcome')
 
@@ -70,12 +73,26 @@ class ReportFilterClass(filters.FilterSet):
             "valid_to_calculated",
             "date_created",
             "date_updated",
-        )
+        ),
+        field_labels={
+            "institution_programme_sort": "Institution & programme name",
+            "agency": "Agency (acronym)",
+            "country": "Country (English name)",
+            "activity": "ESG Activity type",
+            "flag": "Flag level",
+            "valid_from": "Report date",
+            "valid_to_calculated": "Valid to date",
+            "date_created": "Date of upload to DEQAR",
+            "date_updated": "Date of last update",
+        }
     )
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-   filter_inspectors=[ReportSearchInspector]
+    filter_inspectors=[ReportSearchInspector],
+    responses={
+        400: 'Bad request, e.g. some filter parameters could not be parsed',
+    }
 ))
 class ReportList(MeiliSolrBackportView):
     """
@@ -88,6 +105,7 @@ class ReportList(MeiliSolrBackportView):
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ReportFilterClass
+    serializer_class = ReportIndexerSerializer
 
     MEILI_INDEX = 'INDEX_REPORTS'
     ORDERING_MAPPING = {
@@ -183,6 +201,13 @@ class ReportList(MeiliSolrBackportView):
                 filters.append(f'valid_to_calculated >= {int(datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).timestamp())}')
             except ValueError:
                 raise ParseError(detail=f'value [{year}] for year cannot be parsed to int')
+
+        if valid_on := request.query_params.get('valid_on', False):
+            try:
+                filters.append(f'valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
+                filters.append(f'valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
+            except ValueError:
+                raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
 
         return filters
 

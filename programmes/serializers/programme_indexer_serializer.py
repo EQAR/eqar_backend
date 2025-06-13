@@ -52,6 +52,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
+        ref_name = 'Report (Meili Programmes)'
         fields = [
             'id',
             'local_identifier',
@@ -86,6 +87,7 @@ class ProgrammeIndexerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Programme
+        ref_name = 'Programme (Meili)'
         fields = [  'id',
                     'names',
                     'name_primary',

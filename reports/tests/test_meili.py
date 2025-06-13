@@ -153,6 +153,9 @@ class ReportMeiliTest(APITestCase):
         response = self.client.get('/webapi/v2/browse/reports/', { 'programme_type': 'Full recognised degree programme' })
         self.assertEqual(response.data['count'], 8)
 
+        response = self.client.get('/webapi/v2/browse/reports/institutional/by-institution/3/')
+        self.assertEqual(response.data['count'], 6)
+
         # delete last report
         self.indexer.delete(report.id)
         response = self.requests.get(urljoin(settings.MEILI_API_URL, f'indexes/{self.indexer.meili.INDEX_REPORTS}/documents/{report.id}'))
