@@ -43,16 +43,20 @@ class Command(BaseCommand):
                 file_path = os.path.join(base_dir, f'{country.iso_3166_alpha2}.xml')
                 new_mtime = creator.get_mtime()
 
-                self.stdout.write(f'\nProcessing XML file for {country} ({file_path}):')
+                log_hdr = f'\nProcessing XML file for {country} ({file_path}):'
 
                 if os.path.isfile(file_path):
                     if int(new_mtime.timestamp()) == int(os.path.getmtime(file_path)):
-                        self.stdout.write(self.style.SUCCESS(f'  - Last-Modified: {new_mtime} (unchanged)'))
+                        if options['regenerate'] or options['verbosity'] > 1:
+                            self.stdout.write(log_hdr)
+                            self.stdout.write(self.style.SUCCESS(f'  - Last-Modified: {new_mtime} (unchanged)'))
                         if not options['regenerate']:
                             continue
                     else:
+                        self.stdout.write(log_hdr)
                         self.stdout.write(self.style.WARNING(f'  - Last-Modified: {datetime.fromtimestamp(os.path.getmtime(file_path))} -> {new_mtime}'))
                 else:
+                    self.stdout.write(log_hdr)
                     self.stdout.write(self.style.WARNING(f'  - Last-Modified: {new_mtime} (new file)'))
 
                 with open(file_path, 'wb') as f:
