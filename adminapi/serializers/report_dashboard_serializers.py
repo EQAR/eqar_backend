@@ -19,7 +19,7 @@ class ReportDashboardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ['id', 'agency', 'name', 'institutions', 'programmes', 'flag', 'date', 'report_files', 'flag_log']
+        fields = ['id', 'agency', 'institutions', 'programmes', 'flag', 'date', 'report_files', 'flag_log']
 
     def get_date(self, obj):
         try:
