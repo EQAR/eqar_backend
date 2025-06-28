@@ -185,7 +185,7 @@ class InstitutionalReportsByInstitution(MeiliSolrBackportView):
             try:
                 filters.append(f'valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
                 filters.append(f'valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
-            except ValueError:
+            except (ValueError, OverflowError):
                 raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
 
         return filters
@@ -318,7 +318,7 @@ class ProgrammesByInstitution(MeiliSolrBackportView):
             try:
                 filters.append(f'report.valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
                 filters.append(f'report.valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
-            except ValueError:
+            except (ValueError, OverflowError):
                 raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
 
         return filters

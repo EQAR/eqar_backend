@@ -199,14 +199,14 @@ class ReportList(MeiliSolrBackportView):
             try:
                 filters.append(f'valid_from <= {int(datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).timestamp())}')
                 filters.append(f'valid_to_calculated >= {int(datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).timestamp())}')
-            except ValueError:
+            except (ValueError, OverflowError):
                 raise ParseError(detail=f'value [{year}] for year cannot be parsed to int')
 
         if valid_on := request.query_params.get('valid_on', False):
             try:
                 filters.append(f'valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
                 filters.append(f'valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
-            except ValueError:
+            except (ValueError, OverflowError):
                 raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
 
         return filters
