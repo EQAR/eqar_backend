@@ -123,6 +123,7 @@ class ProviderDEQARConnectList(MeiliSolrBackportView):
                 "id",
                 "deqar_id",
                 "eter_id",
+                "identifiers",
                 "name_primary",
                 "website_link",
                 "is_other_provider",
