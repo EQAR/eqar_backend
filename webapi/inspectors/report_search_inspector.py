@@ -31,6 +31,7 @@ class ReportSearchInspector(DrfAPICompatInspector):
         'crossborder',
         'degree_outcome',
         'other_provider',
+        'other_provider_covered',
     )
     dates = (
         'valid_on',

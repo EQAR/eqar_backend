@@ -5,6 +5,7 @@ import re
 from django.utils.decorators import method_decorator
 
 from django_filters import rest_framework as filters, OrderingFilter
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from webapi.inspectors.report_search_inspector import ReportSearchInspector
@@ -98,6 +99,9 @@ class ProgrammeFilterClass(ReportFilterClass):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     filter_inspectors=[ReportSearchInspector],
+    manual_parameters=[
+        openapi.Parameter('institution', 'path', description='Numerical DEQAR Institution ID', required=True, type=openapi.TYPE_INTEGER),
+    ],
     responses={
         400: 'Bad request, e.g. some filter parameters could not be parsed',
         404: 'Institution could not be found',
@@ -215,6 +219,9 @@ class InstitutionalReportsByInstitution(MeiliSolrBackportView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     filter_inspectors=[ReportSearchInspector],
+    manual_parameters=[
+        openapi.Parameter('institution', 'path', description='Numerical DEQAR Institution ID', required=True, type=openapi.TYPE_INTEGER)
+    ],
     responses={
         400: 'Bad request, e.g. some filter parameters could not be parsed',
         404: 'Institution could not be found',

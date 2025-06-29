@@ -15,6 +15,9 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+
 from institutions.models import InstitutionIdentifier
 from reports.models import Report
 from agencies.models import AgencyActivityType
@@ -25,6 +28,15 @@ class ServiceUnavailable(APIException):
     default_code = 'service_unavailable'
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    manual_parameters=[
+        openapi.Parameter('report_id', 'path', description='Numerical DEQAR Report ID', required=True, type=openapi.TYPE_INTEGER)
+    ],
+    responses={
+        200: 'Verifiable credential (JSON-LD aligned with W3C VC standard)',
+        404: 'Report could not be found',
+    }
+))
 class VCIssue(APIView):
     """
     Base class for views to issue generic W3C-compliant Verifiable Credentials (VC)
@@ -62,9 +74,6 @@ class VCIssue(APIView):
         self.country_uri = getattr(settings, "DEQAR_COUNTRY_URI", 'https://data.deqar.eu/country/%s')
 
     def get(self, request, *args, **kwargs):
-        """
-        Method handler - returns the report as VC
-        """
         report_id = self.kwargs['report_id']
         report = get_object_or_404(Report, pk=report_id)
 

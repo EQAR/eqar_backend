@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters, OrderingFilter
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework import generics, permissions
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.response import Response
@@ -22,7 +23,7 @@ from agencies.models import AgencyESGActivity
 from countries.models import Country
 from institutions.models import Institution
 
-from adminapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from webapi.inspectors.report_search_inspector import ReportSearchInspector
 
 from webapi.v2.serializers.agency_serializers import AgencyActivityDEQARConnectListSerializer
 from webapi.v2.serializers.institution_serializers import InstitutionDEQARConnectListSerializer
@@ -32,12 +33,13 @@ from webapi.v2.views import institution_views
 
 SEARCH_CHOICES = (
     ("locations.city", "city only"),
+    ("website_link", "website URL"),
     ("deqar_id", "DEQARINST ID"),
     ("eter_id", "ETER ID"),
 )
 
 class InstitutionFilterClass(filters.FilterSet):
-    query = filters.CharFilter(label='Search')
+    query = filters.CharFilter(label='Search string')
     country = filters.ModelChoiceFilter(label='Country (ISO 3166-alpha2)', queryset=Country.objects.all(),
                                         to_field_name='iso_3166_alpha2')
     country_id = filters.ModelChoiceFilter(label='Country (DEQAR ID)', queryset=Country.objects.all(),
@@ -53,15 +55,24 @@ class InstitutionFilterClass(filters.FilterSet):
             'country',
             'deqar_id',
             'eter_id',
-        )
+        ),
+        field_labels={
+            'score': "Relevance (text search)",
+            'name_sort': "Alphabetical",
+            'founding_date': "Founding date",
+            'closure_date': "Closing date",
+            'country': "Country (English name)",
+            'deqar_id': "DEQARINST ID",
+            'eter_id': "ETER ID",
+        }
     )
 
 class ProviderFilterClass(InstitutionFilterClass):
-    other_provider = filters.BooleanFilter(label='Other Provider')
+    other_provider = filters.BooleanFilter(label='Is other provider (false = higher education institution)')
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-   filter_inspectors=[InstitutionSearchInspector],
+   filter_inspectors=[ReportSearchInspector],
 ))
 class ProviderDEQARConnectList(MeiliSolrBackportView):
     """
@@ -169,15 +180,44 @@ class InstitutionDEQARConnectList(ProviderDEQARConnectList):
 
 
 class InstitutionDetail(institution_views.InstitutionDetail):
+    """
+    Return full information on a single institution/other provider
+    """
     permission_classes = (permissions.AllowAny,)
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    manual_parameters=[
+        openapi.Parameter('eter_id', 'path', description='ETER ID (format: CCNNNN)', required=True, type=openapi.TYPE_STRING),
+    ],
+    responses={
+        404: 'ETER ID could not be found',
+    }
+))
 class InstitutionDetailByETER(institution_views.InstitutionDetailByETER):
+    """
+    Return full information on a single institution/other provider, identified by its ETER ID
+    """
     permission_classes = (permissions.AllowAny,)
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    manual_parameters=[
+        openapi.Parameter('resource', 'path', description='Identifier type (resource tag as used in DEQAR)', required=True, type=openapi.TYPE_STRING),
+        openapi.Parameter('identifier', 'path', description='Identifier', required=True, type=openapi.TYPE_STRING),
+    ],
+    responses={
+        404: 'Identifier could not be resolved found',
+    }
+))
 class InstitutionDetailByIdentifier(institution_views.InstitutionDetailByIdentifier):
+    """
+    Return full information on a single institution/other provider, identified by an identifier known in DEQAR
+    """
     permission_classes = (permissions.AllowAny,)
 
 class InstitutionIdentifierResourcesList(institution_views.InstitutionIdentifierResourcesList):
+    """
+    Provide a list of identifier types
+    """
     permission_classes = (permissions.AllowAny,)
 
 
@@ -194,6 +234,15 @@ class AgencyActivityDEQARConnectList(generics.ListAPIView):
             .order_by('agency__acronym_primary')
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    manual_parameters=[
+        openapi.Parameter('country_code', 'path', description='Country code (ISO 3166-alpha2 or -alpha3)', required=True, type=openapi.TYPE_STRING),
+    ],
+    responses={
+        200: 'DEQAR reports according to ELM application profile Accreditations (RDF+XML)',
+        404: 'Country could not be found',
+    }
+))
 class AccreditationXMLViewV2(APIView):
     permission_classes = []
     renderer_classes = (XMLRenderer,)
