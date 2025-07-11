@@ -30,6 +30,7 @@ class SubmissionCSVView(APIView):
 
         submitted_reports = []
         accepted_reports = []
+        error_messages = []
         response_contains_valid = False
 
         csv_object = io.StringIO(request.data, newline=None)
@@ -51,12 +52,20 @@ class SubmissionCSVView(APIView):
             serializer = SubmissionPackageSerializer(data=data, context={'request': request})
             if serializer.is_valid():
                 populator = Populator(data=serializer.validated_data, user=request.user)
-                populator.populate()
+                try:
+                    populator.populate()
+                except ValidationError as error:
+                    if hasattr(error, "error_dict"):
+                        tracker.log_errors(dict(error))
+                    else:
+                        tracker.log_errors(list(error))
+                    raise
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
                 tracker.log_report(populator, flagger)
                 submitted_reports.append(self.make_success_response(populator, flagger))
                 accepted_reports.append(self.make_success_response(populator, flagger))
+                error_messages.append(None)
 
                 # Add log entry
                 ReportUpdateLog.objects.create(
@@ -68,7 +77,10 @@ class SubmissionCSVView(APIView):
                 response_contains_valid = True
             else:
                 report_id = data.get('report_id', None)
+                error_messages.append(serializer.errors)
                 submitted_reports.append(self.make_error_response(serializer, original_data={}, report_id=report_id))
+
+        tracker.log_errors(error_messages)
 
         if response_contains_valid:
             send_submission_email.delay(response=accepted_reports,

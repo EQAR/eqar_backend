@@ -33,8 +33,8 @@ class SubmissionLogAdmin(DEQARModelAdmin):
     ordering = ('-id',) # 'user', 'origin', 'submission_date')
     list_filter = ('user', 'origin', 'submission_date')
     inlines = [SubmissionReportLogInline,]
-    readonly_fields = ('user','origin','user_ip_address','submission_date','submitted_data_pp')
-    exclude = ('submitted_data',)
+    readonly_fields = ('user','origin','user_ip_address','submission_date','submitted_data_pp','submission_errors_pp')
+    exclude = ('submitted_data','submission_errors')
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -61,5 +61,21 @@ class SubmissionLogAdmin(DEQARModelAdmin):
                 return instance.submitted_data
 
     submitted_data_pp.short_description = 'submitted data'
+
+    def submission_errors_pp(self, instance):
+        # return the errors as pretty-printed JSON
+        try:
+            content = json.dumps(json.loads(instance.submission_errors), indent=2)
+            # highlight the data
+            formatter = HtmlFormatter()
+            response = highlight(content, JsonLexer(), formatter)
+            # add the stylesheet
+            style = "<style>" + formatter.get_style_defs() + "</style>\n"
+            # return the output
+            return mark_safe(style + response)
+        except ValueError:
+            return instance.submission_errors
+
+    submission_errors_pp.short_description = 'submission errors'
 
 admin_site.register(SubmissionPackageLog, SubmissionLogAdmin)
