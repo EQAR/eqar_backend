@@ -1,5 +1,8 @@
 import io
+
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
+
 from ipware import get_client_ip
 from rest_framework import status
 from rest_framework.response import Response
@@ -53,7 +56,8 @@ class SubmissionCSVView(APIView):
             if serializer.is_valid():
                 populator = Populator(data=serializer.validated_data, user=request.user)
                 try:
-                    populator.populate()
+                    with transaction.atomic():
+                        populator.populate()
                 except ValidationError as error:
                     if hasattr(error, "error_dict"):
                         tracker.log_errors(dict(error))

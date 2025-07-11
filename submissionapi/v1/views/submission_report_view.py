@@ -1,4 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
+
 from drf_yasg.utils import swagger_auto_schema
 from ipware import get_client_ip
 from rest_framework import status, generics
@@ -64,7 +66,8 @@ class SubmissionReportView(APIView):
                 serializer = SubmissionPackageSerializer(data=data, context={'request': request})
                 if serializer.is_valid():
                     populator = Populator(data=serializer.validated_data, user=request.user)
-                    populator.populate()
+                    with transaction.atomic():
+                        populator.populate()
                     flagger = ReportFlagger(report=populator.report)
                     flagger.check_and_set_flags()
                     tracker.log_report(populator, flagger)
@@ -102,7 +105,8 @@ class SubmissionReportView(APIView):
             serializer = SubmissionPackageSerializer(data=request.data, context={'request': request})
             if serializer.is_valid():
                 populator = Populator(data=serializer.validated_data, user=request.user)
-                populator.populate()
+                with transaction.atomic():
+                    populator.populate()
                 flagger = ReportFlagger(report=populator.report)
                 flagger.check_and_set_flags()
                 tracker.log_report(populator, flagger)
