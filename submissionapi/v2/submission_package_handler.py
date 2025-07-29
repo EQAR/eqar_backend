@@ -1,7 +1,6 @@
 from ipware import get_client_ip
 
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import transaction
 
 from institutions.models import Institution
 from reports.models import ReportUpdateLog
@@ -35,8 +34,7 @@ class SubmissionPackageHandler:
         if self.serializer.is_valid():
             self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
             try:
-                with transaction.atomic():
-                    self.populator.populate(action=self.action)
+                self.populator.populate(action=self.action)
             except ValidationError as error:
                 if hasattr(error, "error_dict"):
                     tracker.log_errors(dict(error))
