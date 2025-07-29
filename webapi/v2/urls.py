@@ -60,10 +60,10 @@ urlpatterns = [
     re_path(r'^browse/reports/$', ReportList.as_view(), name='report-list'),
     re_path(r'^browse/reports/(?P<pk>[0-9]+)/$', ReportDetail.as_view(), name='report-detail'),
     re_path(r'^browse/reports/programme/by-institution/(?P<institution>[0-9]+)/$',
-        ReportListByInstitution.as_view(), {'report_type': 'programme'},
+        ProgrammesByInstitution.as_view(),
         name='programme-report-list-by-institution'),
     re_path(r'^browse/reports/institutional/by-institution/(?P<institution>[0-9]+)/$',
-        ReportListByInstitution.as_view(), {'report_type': 'institutional'},
+        InstitutionalReportsByInstitution.as_view(),
         name='institutional-report-list-by-institution'),
 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None), name='schema-json'),

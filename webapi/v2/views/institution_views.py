@@ -26,9 +26,9 @@ from institutions.models import Institution, InstitutionIdentifier
 from lists.models import QFEHEALevel, IdentifierResource
 from reports.models import ReportStatus
 
-from webapi.inspectors.institution_search_inspector import InstitutionSearchInspector
+from webapi.inspectors.report_search_inspector import ReportSearchInspector
 from webapi.v2.serializers.institution_serializers import InstitutionResourceSerializer, InstitutionDetailSerializer
-
+from institutions.serializers.institution_indexer_serializer import InstitutionIndexerSerializer
 
 
 class InstitutionFilterClass(filters.FilterSet):
@@ -45,8 +45,8 @@ class InstitutionFilterClass(filters.FilterSet):
                                        to_field_name='status')
     qf_ehea_level = filters.ModelChoiceFilter(label='QF EHEA Level', queryset=QFEHEALevel.objects.all(),
                                               to_field_name='level')
-    crossborder = filters.BooleanFilter(label='Crossborder')
-    other_provider = filters.BooleanFilter(label='Other Provider')
+    crossborder = filters.BooleanFilter(label='Only providers with cross-border reports')
+    other_provider = filters.BooleanFilter(label='Is other provider (false = higher education institution)')
 
     ordering = OrderingFilter(
         fields=(
@@ -55,12 +55,22 @@ class InstitutionFilterClass(filters.FilterSet):
             'founding_date',
             'closure_date',
             'country'
-        )
+        ),
+        field_labels={
+            'score': "Relevance (text search)",
+            'name_sort': "Alphabetical",
+            'founding_date': "Founding date",
+            'closure_date': "Closing date",
+            'country': "Country (English name)",
+        }
     )
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-    filter_inspectors=[InstitutionSearchInspector]
+    filter_inspectors=[ReportSearchInspector],
+    responses={
+        400: 'Bad request, e.g. some filter parameters could not be parsed',
+    }
 ))
 class InstitutionList(MeiliSolrBackportView):
     """
@@ -73,6 +83,7 @@ class InstitutionList(MeiliSolrBackportView):
     queryset = Institution.objects.all()
     filter_backends = (filters.DjangoFilterBackend, )
     filterset_class = InstitutionFilterClass
+    serializer_class = InstitutionIndexerSerializer
 
     MEILI_INDEX = 'INDEX_INSTITUTIONS'
     ORDERING_MAPPING = {

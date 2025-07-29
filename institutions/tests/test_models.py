@@ -127,8 +127,8 @@ class InstitutionTestCase(TestCase):
         self.assertEqual('%s on [%s]; %s on [%s]' % (msg1, cur_date, msg2, cur_date), inst_qf.qf_ehea_level_source_note)
 
     def test_institution_historical_relationship_type_str(self):
-        relationship_type = InstitutionHistoricalRelationshipType.objects.get(id=1)
-        self.assertEqual(str(relationship_type), '=> precedes / succeeds <=')
+        relationship_type = InstitutionHistoricalRelationshipType.objects.get(id=2)
+        self.assertEqual(str(relationship_type), '=> succeeded / succeeded by <=')
 
     def test_institution_set_primary_name_ongoing(self):
         inst = Institution.objects.get(id=3)

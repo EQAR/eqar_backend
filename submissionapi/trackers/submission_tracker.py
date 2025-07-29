@@ -2,6 +2,7 @@ import datetime
 import json
 
 from submissionapi.models import SubmissionPackageLog, SubmissionReportLog
+from submissionapi.populators.populator import Populator
 
 
 class SubmissionTracker:
@@ -23,11 +24,17 @@ class SubmissionTracker:
         )
 
     def log_report(self, populator, flagger):
+        # populator can be instance of submissionapi.populators.populator.Populator of reports.models.Report
         SubmissionReportLog.objects.create(
             submission_package_log=self.spl,
             agency=populator.agency,
             report=flagger.report,
             report_status=flagger.report.flag,
             report_warnings=json.dumps([fl.flag_message for fl in flagger.report.reportflag_set.all()]),
-            institution_warnings=json.dumps(populator.institution_flag_log)
+            institution_warnings=json.dumps(populator.institution_flag_log if isinstance(populator, Populator) else [])
         )
+
+    def log_errors(self, errors):
+        self.spl.submission_errors = json.dumps(errors)
+        self.spl.save()
+

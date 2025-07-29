@@ -48,6 +48,7 @@ class ReportCreate(generics.CreateAPIView):
                                     user_profile=self.request.user.deqarprofile,
                                     ip_address=client_ip)
         tracker.log_package()
+        tracker.log_report(report, flagger)
 
 
 class ReportDetail(generics.RetrieveUpdateDestroyAPIView):

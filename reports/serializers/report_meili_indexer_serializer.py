@@ -19,6 +19,7 @@ class AgencySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agency
+        ref_name = 'Agency (Meili)'
         fields = [
             'id',
             'acronym_primary',
@@ -31,6 +32,7 @@ class EsgActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
+        ref_name = 'AgencyESGActivity (Meili)'
         fields = [
             'id',
             'group_id',
@@ -43,6 +45,7 @@ class ReportFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportFile
+        ref_name = 'ReportFile (Meili)'
         fields = [
             'file_display_name',
             'file',
@@ -53,6 +56,7 @@ class ReportLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportLink
+        ref_name = 'ReportLink (Meili)'
         fields = [
             'link_display_name',
             'link',
@@ -62,6 +66,7 @@ class ProgrammeNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgrammeName
+        ref_name = 'ProgrammeName (Meili)'
         fields = [ 'id', 'name', 'qualification', 'name_is_primary' ]
 
 class ProgrammeSerializer(serializers.ModelSerializer):
@@ -78,6 +83,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Programme
+        ref_name = 'Programme (Meili Reports)'
         fields = [  'id',
                     'names',
                     'name_primary',
@@ -96,6 +102,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
+        ref_name = 'Country (Meili)'
         fields = [  'id',
                     'iso_3166_alpha2',
                     'iso_3166_alpha3',
@@ -111,6 +118,7 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionCountry
+        ref_name = 'InstitutionCountry (Meili)'
         fields = [  'country',
                     'city',
                     'country_verified',
@@ -124,6 +132,7 @@ class InstitutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
+        ref_name = 'Institution (Meili)'
         fields = [  'id',
                     'deqar_id',
                     'name_sort',
@@ -175,6 +184,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
+        ref_name = 'Report (Meili)'
         fields = [
             'id',
             'local_identifier',

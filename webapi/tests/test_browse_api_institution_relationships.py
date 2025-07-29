@@ -45,4 +45,4 @@ class BrowseAPIInstitutionRelationshipTest(APITestCase):
         """
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/institutions/1/')
-        self.assertEqual(response.data['historical_relationships'][0]['relationship_type'], 'is spun off from')
+        self.assertEqual(response.data['historical_relationships'][0]['relationship_type'], 'spun off')

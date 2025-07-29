@@ -9,6 +9,7 @@ class SubmissionPackageLog(models.Model):
     origin = models.CharField(max_length=10, blank=True, null=True)
     submitted_data = models.TextField(blank=True)
     submission_date = models.DateTimeField(auto_now_add=True)
+    submission_errors = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.user} from {self.user_ip_address} via {self.origin} @ {self.submission_date}"

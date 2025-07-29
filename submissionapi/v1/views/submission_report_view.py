@@ -56,6 +56,7 @@ class SubmissionReportView(APIView):
         if isinstance(request.data, list):
             submitted_reports = []
             accepted_reports = []
+            error_messages = []
             response_contains_success = False
             response_contains_error = False
 
@@ -69,6 +70,7 @@ class SubmissionReportView(APIView):
                     tracker.log_report(populator, flagger)
                     submitted_reports.append(self.make_success_response(populator, flagger))
                     accepted_reports.append(self.make_success_response(populator, flagger))
+                    error_messages.append(None)
                     response_contains_success = True
 
                     # Add log entry
@@ -80,6 +82,7 @@ class SubmissionReportView(APIView):
 
                 else:
                     submitted_reports.append(self.make_error_response(serializer, data))
+                    error_messages.append(serializer.errors)
                     response_contains_error = True
 
             if response_contains_success:
@@ -89,6 +92,7 @@ class SubmissionReportView(APIView):
                                             agency_email=request.user.email)
 
             if response_contains_error:
+                tracker.log_errors(error_messages)
                 return Response(submitted_reports, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(submitted_reports, status=status.HTTP_200_OK)
@@ -116,6 +120,7 @@ class SubmissionReportView(APIView):
                 )
                 return Response(self.make_success_response(populator, flagger), status=status.HTTP_200_OK)
             else:
+                tracker.log_errors(serializer.errors)
                 return Response(self.make_error_response(serializer, request.data), status=status.HTTP_400_BAD_REQUEST)
 
     def make_success_response(self, populator, flagger):

@@ -23,6 +23,7 @@ class AgencySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agency
+        ref_name = 'Agency (Meili Institutions)'
         fields = [
             'id',
             'acronym_primary',
@@ -32,6 +33,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
+        ref_name = 'Country (Meili Institutions)'
         fields = [  'id',
                     'iso_3166_alpha2',
                     'iso_3166_alpha3',
@@ -46,6 +48,7 @@ class InstitutionIdentifierSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionIdentifier
+        ref_name = 'InstitutionIdentifier (Meili Institutions)'
         fields = [
             'identifier',
             'agency',
@@ -56,6 +59,7 @@ class InstitutionNameVersionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionNameVersion
+        ref_name = 'InstitutionNameVersion (Meili Institutions)'
         fields = [
             'name',
             'transliteration'
@@ -68,6 +72,7 @@ class InstitutionNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionName
+        ref_name = 'InstitutionName (Meili Institutions)'
         fields = [
             'name_official',
             'name_official_transliterated',
@@ -81,6 +86,7 @@ class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionOrganizationType
+        ref_name = 'InstitutionOrganizationType (Meili Institutions)'
         fields = [
             'id',
             'type'
@@ -94,6 +100,7 @@ class InstitutionCountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionCountry
+        ref_name = 'InstitutionCountry (Meili Institutions)'
         fields = [  'country',
                     'city',
                     'lat', 'long',
@@ -106,6 +113,7 @@ class RelatedInstitutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
+        ref_name = 'Related Institution (Meili Institutions)'
         fields = [
             'id',
             'deqar_id',
@@ -125,6 +133,7 @@ class ParentInstitutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InstitutionHierarchicalRelationship
+        ref_name = 'InstitutionHierarchicalRelationship (Meili Institutions)'
         fields = [
             'institution',
             'relationship_type',
@@ -184,6 +193,7 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Institution
+        ref_name = 'Institution (Meili)'
         fields = [  'id',
                     'deqar_id',
                     'eter_id',

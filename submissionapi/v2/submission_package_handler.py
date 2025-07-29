@@ -1,6 +1,7 @@
 from ipware import get_client_ip
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+
 from institutions.models import Institution
 from reports.models import ReportUpdateLog
 from submissionapi.flaggers.report_flagger import ReportFlagger
@@ -32,7 +33,14 @@ class SubmissionPackageHandler:
 
         if self.serializer.is_valid():
             self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
-            self.populator.populate(action=self.action)
+            try:
+                self.populator.populate(action=self.action)
+            except ValidationError as error:
+                if hasattr(error, "error_dict"):
+                    tracker.log_errors(dict(error))
+                else:
+                    tracker.log_errors(list(error))
+                raise
             self.flagger = ReportFlagger(report=self.populator.report)
             self.flagger.check_and_set_flags()
             # Add submission report log
@@ -51,6 +59,8 @@ class SubmissionPackageHandler:
                                         agency_email=self.request.user.email)
         else:
             self.status = 'error'
+            # Add error to package log
+            tracker.log_errors(self.serializer.errors)
             self._make_error_response()
 
     def _get_max_inst(self):
