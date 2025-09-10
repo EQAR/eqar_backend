@@ -1,5 +1,5 @@
 # Django
-Django==4.2.19
+Django==4.2.24
 
 # Django extensions
 dj-database-url==2.3.0
