@@ -9,3 +9,6 @@ class DEQARProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
+    class Meta:
+        ordering = [ 'user__username' ]
+
