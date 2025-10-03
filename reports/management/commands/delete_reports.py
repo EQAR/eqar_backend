@@ -8,7 +8,7 @@ from django.core.management import BaseCommand, CommandError
 from django.conf import settings
 
 from reports.models import Report
-from webapi.serializers.report_detail_serializers import ReportDetailSerializer
+from webapi.v2.serializers.report_detail_serializers import ReportDetailSerializer
 from rest_framework.renderers import JSONRenderer
 
 from urllib.parse import urljoin
