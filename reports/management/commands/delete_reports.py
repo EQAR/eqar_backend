@@ -19,6 +19,7 @@ class FakeRequest:
     """
 
     GET = {}
+    query_params = {}
 
     def __init__(self, root):
         self.root = root
