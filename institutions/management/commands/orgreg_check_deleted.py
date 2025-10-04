@@ -15,32 +15,37 @@ from institutions.models import \
 class Command(BaseCommand):
     help = 'Find local OrgReg-based objects that have been deleted in OrgReg'
 
-    Translations = {
-        'BAS.ENTITYID.v': {
+    Collections = {
+        'entities': {
+            'key': 'BAS.ENTITYID.v',
             'model': Institution,
             'expr': 'eter_id',
             'pattern': '%s',
             'msg': 'Entity {orgreg} was deleted, but still exists as {deqar.deqar_id} {deqar.name_primary}'
         },
-        'CHAR.CHARID.v': {
+        'characteristics': {
+            'key': 'CHAR.CHARID.v',
             'model': InstitutionName,
             'expr': 'name_source_note__iregex',
             'pattern': r'^\s*OrgReg-[0-9]{4}-%s(\s|$)',
             'msg': 'Name {orgreg} was deleted, but still exists for {deqar.institution.name_primary}'
         },
-        'LOCAT.LOCATID.v': {
+        'locations': {
+            'key': 'LOCAT.LOCATID.v',
             'model': InstitutionCountry,
             'expr': 'country_source_note__iregex',
             'pattern': r'^\s*OrgReg-[0-9]{4}-%s(\s|$)',
             'msg': 'Location {orgreg} was deleted, but still exists for {deqar.institution.name_primary}'
         },
-        'LINK.ID.v': {
+        'linkages': {
+            'key': 'LINK.ID.v',
             'model': InstitutionHierarchicalRelationship,
             'expr': 'relationship_note__iregex',
             'pattern': r'^\s*OrgReg-[0-9]{4}-%s(\s|$)',
             'msg': 'Link {orgreg} was deleted, but still exists for {deqar.institution_child.name_primary} -> {deqar.institution_parent.name_primary}'
         },
-        'DEMO.EVENTID.v': {
+        'demographics': {
+            'key': 'DEMO.EVENTID.v',
             'model': InstitutionHistoricalRelationship,
             'expr': 'relationship_note__iregex',
             'pattern': r'^\s*OrgReg-[0-9]{4}-%s(\s|$)',
@@ -49,12 +54,13 @@ class Command(BaseCommand):
     }
 
     def _lookup_deqar_object(self, item):
-        if item.get('keyFieldId') not in self.Translations:
-            self.stdout.write(self.style.WARNING('No corresponding DEQAR model for keyFieldId: "{item.get("keyFieldId")}"'))
+        if item.get('collection') not in self.Collections:
+            self.stdout.write(self.style.WARNING(f'No corresponding DEQAR model for collection: "{item.get("collection")}"'))
         else:
-            qs = self.Translations[item['keyFieldId']]['model'].objects
-            for obj in qs.filter(**{ self.Translations[item['keyFieldId']]['expr']: self.Translations[item['keyFieldId']]['pattern'] % item.get('keyFieldIdValue') }):
-                self.stdout.write(self.Translations[item['keyFieldId']]['msg'].format(orgreg=item.get('keyFieldIdValue'), deqar=obj))
+            qs = self.Collections[item['collection']]['model'].objects
+            orgreg_id = item.get(self.Collections[item['collection']]['key'])
+            for obj in qs.filter(**{ self.Collections[item['collection']]['expr']: self.Collections[item['collection']]['pattern'] % orgreg_id }):
+                self.stdout.write(self.Collections[item['collection']]['msg'].format(orgreg=orgreg_id, deqar=obj))
 
 
     def handle(self, *args, **options):

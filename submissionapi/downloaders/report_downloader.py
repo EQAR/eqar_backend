@@ -83,8 +83,7 @@ class ReportDownloader:
         """
         Checks if url contain a downloadable resource
         """
-        headers = {'User-Agent': 'DEQAR File Downloader'}
-        h = self.session.head(self.url)
+        h = self.session.head(self.url, allow_redirects=True)
 
         if h.status_code != 200:
             return False
