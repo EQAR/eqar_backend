@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from eqar_backend.admin import DEQARModelAdmin, admin_site, DEQARStackedInline
 from programmes.models import Programme
 from reports.models import Report, ReportFile, ReportLink, ReportUpdateLog, ReportFlag
@@ -75,5 +77,11 @@ class ReportAdmin(DEQARModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    def view_on_site(self, obj):
+        if hasattr(settings, 'DEQAR_REPORT_URI'):
+            return settings.DEQAR_REPORT_URI % obj.pk
+        else:
+            return False
 
 admin_site.register(Report, ReportAdmin)
