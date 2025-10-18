@@ -1,5 +1,5 @@
 import io
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from ipware import get_client_ip
 from rest_framework import status
 from rest_framework.response import Response
