@@ -97,15 +97,16 @@ class ReportFilePopulator():
             file_display_name=file_name
         )
         agency_acronym = self.agency.acronym_primary
-        file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym,
+        file_base_path = os.path.join(agency_acronym,
                                  "%06d_%s_%s" % (rf.id, datetime.now().strftime("%Y%m%d_%H%M"), file_name))
+        file_path = os.path.join(settings.MEDIA_ROOT, file_base_path)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'wb') as f:
             for chunk in file.chunks():
                 f.write(chunk)
         with open(file_path, 'rb') as f:
             checksum = hashlib.md5(f.read()).hexdigest()
-        rf.file = file_path
+        rf.file = file_base_path
         rf.checksum = checksum,
         rf.save()
 
@@ -114,15 +115,16 @@ class ReportFilePopulator():
 
     def _update_report_file_from_base64_object(self, file, file_name, languages):
         agency_acronym = self.agency.acronym_primary
-        file_path = os.path.join(settings.MEDIA_ROOT, agency_acronym,
+        file_base_path = os.path.join(agency_acronym,
                                  "%06d_%s_%s" % (self.report_file.id, datetime.now().strftime("%Y%m%d_%H%M"), file_name))
+        file_path = os.path.join(settings.MEDIA_ROOT, file_base_path)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'wb') as f:
             for chunk in file.chunks():
                 f.write(chunk)
         with open(file_path, 'rb') as f:
             checksum = hashlib.md5(f.read()).hexdigest()
-        self.report_file.file = file_path
+        self.report_file.file = file_base_path
         self.report_file.checksum = checksum
         self.report_file.save()
 
