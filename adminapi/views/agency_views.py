@@ -26,7 +26,7 @@ class AgencyESGActivityFilterClass(filters.FilterSet):
     agency = filters.ModelChoiceFilter(field_name='agency', queryset=Agency.objects.all())
     activity = filters.CharFilter(label='Activity', method='search_activity')
     activity_id = filters.CharFilter(label='Agency ID', method='search_activity_id')
-    activity_type = filters.ModelChoiceFilter(field_name='activity_type', queryset=AgencyActivityType.objects.all())
+    activity_type = filters.ModelChoiceFilter(field_name='activity_group__activity_type', queryset=AgencyActivityType.objects.all())
     activity_group = filters.ModelChoiceFilter(field_name='activity_group', queryset=AgencyActivityGroup.objects.all())
 
     def search_activity(self, queryset, name, value):

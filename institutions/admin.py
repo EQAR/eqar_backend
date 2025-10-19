@@ -1,6 +1,8 @@
-from django.contrib.admin import StackedInline
+from django.contrib.admin import TabularInline, StackedInline, display
 from django.db import models
 from django.forms import TextInput, Textarea, Select
+from django.utils.html import format_html
+from django.conf import settings
 
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 from institutions.models import Institution, InstitutionIdentifier, InstitutionQFEHEALevel, \
@@ -8,100 +10,124 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionQ
     InstitutionHistoricalRelationship, InstitutionHierarchicalRelationship, InstitutionUpdateLog, InstitutionFlag
 
 
-class InstitutionIdentifierInline(StackedInline):
+class InstitutionIdentifierInline(TabularInline):
     model = InstitutionIdentifier
-    extra = 1
     verbose_name = 'Identifier'
     verbose_name_plural = 'Identifiers'
+    fields = ('identifier', 'resource', 'agency')
 
 
-class InstitutionQFEHEALevelInline(StackedInline):
-    model = InstitutionQFEHEALevel
-    extra = 1
-    verbose_name = 'QF-EHEA level'
-    verbose_name_plural = 'QF-EHEA levels'
-
-
-class InstitutionCountryInline(StackedInline):
+class InstitutionCountryInline(TabularInline):
     model = InstitutionCountry
-    extra = 1
     verbose_name = 'Country'
     verbose_name_plural = 'Countries'
+    fields = ('country_verified', 'country', 'city', 'lat', 'long')
 
 
-class InstitutionHistoricalDataInline(DEQARStackedInline):
-    model = InstitutionHistoricalData
-    extra = 1
-    verbose_name = 'History'
-    verbose_name_plural = 'Historical Entries'
+class InstitutionNameInline(TabularInline):
+    model = InstitutionName
+    verbose_name = 'Name'
+    verbose_name_plural = 'Names'
+    fields = ('name_official', 'name_english', 'name_valid_to')
+    ordering = ('-name_valid_to',)
+
+
+class InstitutionHistoricalSourceInline(TabularInline):
+    model = InstitutionHistoricalRelationship
+    fields = ('relationship_type', 'institution_source', 'relationship_note', 'relationship_date')
+    fk_name = 'institution_target'
+    verbose_name = 'Historical relationship (=>)'
+    verbose_name_plural = 'Historical relationships (=>)'
+
+class InstitutionHistoricalTargetInline(TabularInline):
+    model = InstitutionHistoricalRelationship
+    fields = ('relationship_type', 'institution_target', 'relationship_note', 'relationship_date')
+    fk_name = 'institution_source'
+    verbose_name = 'Historical relationship (<=)'
+    verbose_name_plural = 'Historical relationships (<=)'
+
+
+class ParentInstitutionInline(TabularInline):
+    model = InstitutionHierarchicalRelationship
+    fields = ('institution_parent', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to',)
+    fk_name = 'institution_child'
+    verbose_name = 'Part of'
+    verbose_name_plural = 'Part of'
+
+class ChildInstitutionInline(TabularInline):
+    model = InstitutionHierarchicalRelationship
+    fields = ('institution_child', 'relationship_type', 'relationship_note', 'valid_from', 'valid_to',)
+    fk_name = 'institution_parent'
+    verbose_name = 'Includes'
+    verbose_name_plural = 'Includes'
+
+
+class InstitutionUpdateLogInline(TabularInline):
+    model = InstitutionUpdateLog
+    ordering = ('-updated_at',)
 
 
 class InstitutionAdmin(DEQARModelAdmin):
-    list_display = ('name_primary', 'website_link')
+    list_display = ('deqar_id', 'eter_id', 'name_primary', 'website_link', 'is_other_provider')
     list_display_links = ('name_primary',)
     ordering = ('name_primary',)
     search_fields = ('name_primary', 'website_link')
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('deqar_id', 'eter_id', 'name_primary', 'website_link', 'is_other_provider', 'founding_date', 'closure_date')
+            'fields': ('deqar_id', 'eter_id_link', 'name_primary', 'website_link', 'is_other_provider', 'founding_date', 'closure_date')
+        }),
+        ('Reports', {
+            'fields': ('report_count', 'platform_count',)
         }),
     )
 
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'class': 'span10'})},
-        models.TextField: {'widget': Textarea(attrs={'class': 'span10', 'rows': 4})},
-        models.URLField: {'widget': TextInput(attrs={'class': 'span10'})},
-        models.ForeignKey: {'widget': Select(attrs={'class': 'span10'})},
-    }
+    inlines = [
+        InstitutionNameInline,
+        InstitutionIdentifierInline,
+        InstitutionCountryInline,
+        InstitutionHistoricalSourceInline,
+        InstitutionHistoricalTargetInline,
+        ParentInstitutionInline,
+        ChildInstitutionInline,
+        InstitutionUpdateLogInline,
+    ]
 
-    inlines = [InstitutionIdentifierInline, InstitutionQFEHEALevelInline,
-               InstitutionCountryInline, InstitutionHistoricalDataInline]
+    @display(description="OrgReg/ETER ID")
+    def eter_id_link(self, obj):
+        if obj.eter_id:
+            return format_html('<a href="https://register.orgreg.joanneum.at/#/entity-details/{eter_id}">{eter_id}</a>', eter_id=obj.eter_id)
+        else:
+            return '-'
 
+    @display(description="As provider")
+    def report_count(self, obj):
+        return obj.reports.count()
 
-class InstitutionNameVersionInline(DEQARStackedInline):
-    model = InstitutionNameVersion
-    extra = 0
-    verbose_name = 'Name Version'
-    verbose_name_plural = 'Name Versions'
+    @display(description="As platform")
+    def platform_count(self, obj):
+        return obj.related_reports.count()
 
+    def has_change_permission(self, request, obj=None):
+        return False
 
-class InstitutionNameAdmin(DEQARModelAdmin):
-    list_display = ('institution', 'name_official', 'name_valid_to')
-    ordering = ('institution', 'name_official',)
-    list_filter = ('institution',)
-    inlines = (InstitutionNameVersionInline, )
+    def has_add_permission(self, request):
+        return False
 
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return True
+        else:
+            if obj.reports.count() + obj.related_reports.count() > 0:
+                return False
+            else:
+                return True
 
-class InstitutionHistoricalRelationshipAdmin(DEQARModelAdmin):
-    fields = ('institution_source', 'relationship_type', 'institution_target', 'relationship_note', 'relationship_date')
-    list_display = ('institution_source', 'relationship_type', 'institution_target')
-    ordering = ('institution_source', 'institution_target')
-    list_filter = ('institution_source', 'institution_target')
+    def view_on_site(self, obj):
+        if hasattr(settings, 'DEQAR_INSTITUTION_URI'):
+            return settings.DEQAR_INSTITUTION_URI % obj.pk
+        else:
+            return False
 
-
-class InstitutionHierarchicalRelationshipAdmin(DEQARModelAdmin):
-    list_display = ('institution_parent', 'institution_child', 'relationship_type')
-    ordering = ('institution_parent', 'institution_child')
-    list_filter = ('institution_parent', 'institution_child', 'relationship_type')
-
-
-class InstitutionFlagAdmin(DEQARModelAdmin):
-    list_display = ('institution', 'flag', 'flag_message', 'active', 'removed_by_eqar')
-    ordering = ('institution', 'flag', 'active')
-    list_filter = ('institution', 'flag', 'active', 'removed_by_eqar')
-
-
-class InstitutionUpdateLogAdmin(DEQARModelAdmin):
-    list_display = ('institution', 'updated_at', 'updated_by')
-    ordering = ('institution',)
-    list_filter = ('institution',)
-
-
-# admin_site.register(InstitutionName, InstitutionNameAdmin)
-# admin_site.register(Institution, InstitutionAdmin)
-# admin_site.register(InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipAdmin)
-# admin_site.register(InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipAdmin)
-# admin_site.register(InstitutionFlag, InstitutionFlagAdmin)
-# admin_site.register(InstitutionUpdateLog, InstitutionUpdateLogAdmin)
+admin_site.register(Institution, InstitutionAdmin)
 
