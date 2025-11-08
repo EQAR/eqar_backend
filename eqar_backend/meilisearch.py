@@ -162,12 +162,15 @@ class CheckMeiliIndex(BaseCommand):
         if self.model is None:
             self.model = indexer.model
 
+        self.stdout.write(f"Checking {self.model._meta.verbose_name_plural} Meilisearch index:\n")
+
         offset = 0
         total = 1
         in_meili = set()
         to_delete = []
         while offset < total:
-            self.stdout.write(f"\rChecking {self.model._meta.verbose_name} {offset}-{offset+self.PAGESIZE-1} of {total}", ending='')
+            if options['verbosity'] > 1:
+                self.stdout.write(f"\rChecking {self.model._meta.verbose_name} {offset}-{offset+self.PAGESIZE-1} of {total}", ending='')
             response = meili.meili.index(indexer.index_uid).get_documents({ 'offset': offset, 'limit': self.PAGESIZE })
             if response.total > total:
                 total = response.total
@@ -193,7 +196,8 @@ class CheckMeiliIndex(BaseCommand):
             missing_meili = 0
             for r in self.model.objects.iterator():
                 if r.id in in_meili:
-                    self.stdout.write(f"\r{self.model._meta.verbose_name} {r.id} is in Meilisearch", ending='')
+                    if options['verbosity'] > 1:
+                        self.stdout.write(f"\r{self.model._meta.verbose_name} {r.id} is in Meilisearch", ending='')
                 else:
                     self.stdout.write(self.style.WARNING(f"\r{self.model._meta.verbose_name} {r.id} is missing from Meilisearch"), ending='')
                     if not options['dry_run']:

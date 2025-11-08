@@ -53,9 +53,9 @@ class ProgrammeName(models.Model):
     """
     id = models.AutoField(primary_key=True)
     programme = models.ForeignKey('Programme', on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     name_is_primary = models.BooleanField(default=False)
-    qualification = models.CharField(max_length=255, blank=True)
+    qualification = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = 'deqar_programme_names'
