@@ -71,3 +71,76 @@ class SubmissionAPIV2ReportTest(APITestCase):
         )
         self.assertEqual(response.status_code, 200, response.data)
         self.assertEqual(response.data['submission_status'], 'success')
+        # add qualification
+        self.valid_data["programmes"][0]["qualification_primary"] = "Bachelor of Science"
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=self.valid_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
+        # add alternative name
+        self.valid_data["programmes"][0]["alternative_names"] = [
+            {
+                "name_alternative": "Another name",
+                "qualification_alternative": "Bachelor der Wissenschaften",
+            }
+        ]
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=self.valid_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
+        # add more alternative names
+        self.valid_data["programmes"][0]["alternative_names"].append(
+            {
+                "name_alternative": "Another name without qualification",
+            }
+        )
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=self.valid_data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
+
+
+    def test_report_submission_post_vs_put(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = self.valid_data.copy()
+        data["local_identifier"] = "4711-echt-koelnisch-wasser"
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['submission_status'], 'success')
+        # same local ID with POST not allowed
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400)
+        # same local ID with PUT is allowed
+        response = self.client.put(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['submission_status'], 'success')
+        # unknown local ID with PUT is not allowed
+        data["local_identifier"] = "4711-echt-koelnisch-wasser-1948"
+        response = self.client.put(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400)
+
