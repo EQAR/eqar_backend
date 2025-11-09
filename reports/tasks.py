@@ -21,7 +21,7 @@ def meili_index_report(report_id):
     indexer.index(report.id)
     # index programmes - delete existing first, IDs change on update
     indexer = ProgrammeIndexer()
-    previous_programmes = indexer.meili.meili.index().get_documents(
+    previous_programmes = indexer.meili.meili.index(indexer.index_uid).get_documents(
         parameters={
             'filter': f'report.id = {report_id}',
             'fields': [ 'id' ],

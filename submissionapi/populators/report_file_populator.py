@@ -104,10 +104,7 @@ class ReportFilePopulator():
         with open(file_path, 'wb') as f:
             for chunk in file.chunks():
                 f.write(chunk)
-        with open(file_path, 'rb') as f:
-            checksum = hashlib.md5(f.read()).hexdigest()
         rf.file = file_base_path
-        rf.checksum = checksum,
         rf.save()
 
         for lang in languages:
@@ -122,10 +119,7 @@ class ReportFilePopulator():
         with open(file_path, 'wb') as f:
             for chunk in file.chunks():
                 f.write(chunk)
-        with open(file_path, 'rb') as f:
-            checksum = hashlib.md5(f.read()).hexdigest()
         self.report_file.file = file_base_path
-        self.report_file.checksum = checksum
         self.report_file.save()
 
         self.report_file.languages.clear()

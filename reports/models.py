@@ -1,8 +1,12 @@
 import datetime
+import os
+import hashlib
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 from eqar_backend.fields.char_null_field import CharNullField
 from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
@@ -166,6 +170,22 @@ class ReportFile(models.Model):
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
     file_checksum = models.CharField(max_length=32, blank=True, null=True)
     languages = models.ManyToManyField('lists.Language')
+
+    def generate_checksum(self):
+        if self.file:
+            file_path = os.path.join(settings.MEDIA_ROOT, self.file.name)
+            with open(file_path, 'rb') as f:
+                checksum = hashlib.md5(f.read()).hexdigest()
+            return checksum
+        else:
+            raise FileNotFoundError
+
+    def save(self, *args, **kwargs):
+        try:
+            self.file_checksum = self.generate_checksum()
+        except FileNotFoundError:
+            self.file_checksum = None
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'deqar_report_files'

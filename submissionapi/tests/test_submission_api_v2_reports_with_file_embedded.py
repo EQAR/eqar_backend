@@ -1,4 +1,6 @@
 import os
+import base64
+import hashlib
 
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -6,7 +8,7 @@ from rest_framework.test import APITestCase
 
 from accounts.models import DEQARProfile
 from agencies.models import SubmittingAgency, Agency
-from reports.models import Report
+from reports.models import Report, ReportFile
 
 
 class SubmissionAPIV2ReportTest(APITestCase):
@@ -36,7 +38,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
         with open(self.base64_file, 'r') as file:
             self.base64_file_content = file.read().replace('\n', '')
 
-        self.valid_data = self.valid_data = {
+        self.valid_data = {
             "agency": "ACQUIN",
             "valid_from": "2010-05-05",
             "date_format": "%Y-%M-%d",
@@ -87,6 +89,9 @@ class SubmissionAPIV2ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 200, response.data)
+        report_id = response.data["submitted_report"]["id"]
+        checksum_expected = hashlib.md5(base64.b64decode(self.base64_file_content)).hexdigest()
+        self.assertEqual(ReportFile.objects.get(report__id=report_id).file_checksum, checksum_expected)
 
     def test_submit_report_with_embedded_file_missing_file_name(self):
         data = self.valid_data
