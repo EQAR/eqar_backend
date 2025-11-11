@@ -1,7 +1,6 @@
 from django.db.models import Q
 from rest_framework import serializers
 from agencies.models import *
-from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution
 from reports.models import Report
 from webapi.v2.serializers.country_serializers import CountryListSerializer
@@ -14,7 +13,6 @@ class EsgActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyESGActivity
-        list_serializer_class = HistoryFilteredListSerializer
         fields = [
             'id',
             'group_id',
@@ -38,7 +36,6 @@ class EsgActivityDetailSerializer(EsgActivitySerializer):
 
     class Meta:
         model = AgencyESGActivity
-        list_serializer_class = HistoryFilteredListSerializer
         fields = [
             'id',
             'group_id',
@@ -159,7 +156,6 @@ class AgencyHistoricalDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AgencyHistoricalData
-        list_serializer_class = HistoryFilteredListSerializer
         fields = ['field', 'record_id', 'value', 'valid_from', 'valid_to']
 
 
