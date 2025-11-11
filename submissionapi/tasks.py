@@ -2,12 +2,12 @@ import datetime
 from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
+import requests
 
-from submissionapi.downloaders.report_downloader import ReportDownloader
+from submissionapi.downloaders.report_downloader import ReportDownloader, RetryHTTPError
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
-
-@task(name="download_file")
+@task(name="download_file", autoretry_for=(requests.exceptions.ConnectionError, RetryHTTPError), retry_backoff=60)
 def download_file(url, report_file_id, agency_acronym):
     downloader = ReportDownloader(
         url=url,
