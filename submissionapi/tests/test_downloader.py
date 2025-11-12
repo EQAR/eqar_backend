@@ -1,9 +1,10 @@
 import os
 from django.test import TestCase
 
+from requests.exceptions import HTTPError
 from lists.models import Language
 from reports.models import ReportFile, Report
-from submissionapi.downloaders.report_downloader import ReportDownloader
+from submissionapi.downloaders.report_downloader import ReportDownloader, WrongFileType, FileTooLarge
 
 
 class ReportDownloaderTestCase(TestCase):
@@ -40,29 +41,30 @@ class ReportDownloaderTestCase(TestCase):
         self.assertEqual(downloader.agency_acronym, "SPACE")
         self.assertEqual(downloader.url, "http://www.example.com/example.pdf")
 
-    def test_is_downloadable_true(self):
+    def test_is_downloadable_false(self):
         downloader = ReportDownloader(
-            url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
+            url="https://backend.deqar.eu/URL/FOR/SURE/DOES/NOT/EXIST",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        self.assertEqual(downloader._url_is_downloadable(), True)
+        self.assertRaises(HTTPError, downloader.download)
 
-    def test_is_downloadable_false(self):
+    def test_wrong_content_type(self):
         downloader = ReportDownloader(
             url="https://www.youtube.com/watch?v=mwtjWym2wOs",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        self.assertEqual(downloader._url_is_downloadable(), False)
+        self.assertRaises(WrongFileType, downloader.download)
+        self.assertFalse(os.path.isfile(downloader.saved_file_path))
 
-    def test_get_filename_from_url(self):
+    def test_file_too_large(self):
         downloader = ReportDownloader(
-            url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
+            url="https://download.documentfoundation.org/libreoffice/stable/25.8.2/mac/aarch64/LibreOffice_25.8.2_MacOS_aarch64.dmg",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader._get_filename())
+        self.assertRaises(FileTooLarge, downloader.download)
 
     def test_get_filename_from_content_disposition(self):
         downloader = ReportDownloader(
@@ -71,18 +73,9 @@ class ReportDownloaderTestCase(TestCase):
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        self.assertTrue("northern-university-expert-report-2.pdf" in downloader._get_filename())
-
-    def test_get_filename_url_encoded(self):
-        downloader = ReportDownloader(
-            url="https://iqaa.kz/images/otchety/Specialized_Accreditation/2018/rus/"
-                "6D070200%20%E2%80%93%20%C2%AB%D0%90%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%"
-                "D1%8F%20%20%D0%B8%20%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%9A%D0%A3%D0%9F%D0"
-                "%A1_%D0%BE%D1%82%D1%87%D0%B5%D1%82%D1%8B_2018%D1%80%D1%83%D1%81.pdf",
-            report_file_id=self.report_file.id,
-            agency_acronym='SPACE'
-        )
-        self.assertTrue("Автоматизация" in downloader._get_filename())
+        downloader.download()
+        self.assertTrue("northern-university-expert-report-2.pdf" in downloader.saved_file_path)
+        os.remove(downloader.saved_file_path)
 
     def test_download_file(self):
         downloader = ReportDownloader(
@@ -90,25 +83,15 @@ class ReportDownloaderTestCase(TestCase):
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
+        self.assertIsNone(downloader.old_file_path)
         downloader.download()
         self.assertTrue(os.path.exists(downloader.saved_file_path))
+        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.saved_file_path)
+        downloader2 = ReportDownloader(
+            url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
+            report_file_id=self.report_file.id,
+            agency_acronym='SPACE'
+        )
+        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader2.old_file_path)
         os.remove(downloader.saved_file_path)
 
-    def test_get_old_file_path_not_exists(self):
-        downloader = ReportDownloader(
-            url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
-            report_file_id=self.report_file.id,
-            agency_acronym='SPACE'
-        )
-        downloader._get_old_file_info()
-        self.assertEqual(downloader.old_file_path, "")
-
-    def test_get_old_file_path_exists(self):
-        downloader = ReportDownloader(
-            url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
-            report_file_id=self.report_file.id,
-            agency_acronym='SPACE'
-        )
-        downloader.download()
-        downloader._get_old_file_info()
-        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.old_file_path)

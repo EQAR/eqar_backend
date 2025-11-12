@@ -36,16 +36,7 @@ class BrowseAgencyAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/agencies/5/')
         self.assertEqual(response.data['deqar_id'], 21)
-
-    def test_agency_detail_with_history(self):
-        """
-            Test if we can display a particular agency with historical data.
-        """
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        response = self.client.get('/webapi/v2/browse/agencies/5/')
-        response_h = self.client.get('/webapi/v2/browse/agencies/5/', {'history': 'true'})
-        self.assertEqual(len(response.data['activities']), 5)
-        self.assertEqual(len(response_h.data['activities']), 6)
+        self.assertEqual(len(response.data['activities']), 6)
 
     def test_agency_list_by_location_country(self):
         """

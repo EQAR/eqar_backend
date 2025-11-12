@@ -1,17 +1,37 @@
 import hashlib
 import mimetypes
 import datetime
+import filetype
 
 import os
 import re
 import requests
 import functools
 from django.conf import settings
+from django.core.management import color_style
 
 from reports.models import ReportFile
-from submissionapi.flaggers.report_flagger import ReportFlagger
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
+from email.message import Message
 
+
+class FileTooLarge(Exception):
+    """
+    File at URL exceeds the 100MB limit
+    """
+    pass
+
+class WrongFileType(Exception):
+    """
+    File at URL was downloaded but is not a PDF
+    """
+    pass
+
+class RetryHTTPError(requests.HTTPError):
+    """
+    HTTP 500+ or 429 (rate limit) error - for this one, retry is useful
+    """
+    pass
 
 class ReportDownloader:
     """
@@ -19,139 +39,120 @@ class ReportDownloader:
     """
     def __init__(self, url, report_file_id, agency_acronym):
         self.url = unquote(url)
-        self.report_file_id = report_file_id
+        self.report_file = ReportFile.objects.get(pk=report_file_id)
         self.agency_acronym = agency_acronym
-        self.old_file_path = ""
-        self.old_checksum = ""
-        self.saved_file_path = ""
+        # colourful logging
+        self.style = color_style()
+        # check data of existing file
+        if self.report_file.file:
+            self.old_file_path = self.report_file.file.name
+            self.old_checksum = self.report_file.file_checksum
+        else:
+            self.old_file_path = None
+            self.old_checksum = None
+        self.saved_file_path = None
         # session and HTTP defaults
         self.session = requests.Session()
         self.session.headers.update({'User-Agent': 'DEQAR File Downloader'})
         self.session.request = functools.partial(self.session.request, timeout=getattr(settings, "REPORT_FILE_TIMEOUT", 5), allow_redirects=True)
 
+
     def download(self):
-        if self._url_is_downloadable():
-            file_name = self._get_filename()
-            if file_name:
-                self._get_old_file_info()
-                self._download_file(local_filename=file_name)
-
-    def _get_old_file_info(self):
-        rf = ReportFile.objects.get(pk=self.report_file_id)
-        self.old_file_path = rf.file.name
-        self.old_checksum = rf.file_checksum
-
-    def _download_file(self, local_filename):
         r = self.session.get(self.url, stream=True)
+
+        try:
+            r.raise_for_status()
+        except requests.HTTPError as exc:
+            if r.status_code >= requests.codes.server_error or r.status_code == requests.codes.too_many_requests:
+                # server-side error or rate-limiting: custom exception that triggers a retry
+                raise RetryHTTPError(request=exc.request, response=exc.response) from exc
+            else:
+                raise exc
+
         if r.status_code == requests.codes.ok:
-            rf = ReportFile.objects.get(pk=self.report_file_id)
-            file_path = os.path.join(settings.MEDIA_ROOT, self.agency_acronym, local_filename)
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
-            with open(file_path, 'wb') as f:
+            # Limit download to files less than 100MB
+            content_length = r.headers.get('content-length', None)
+            if content_length and int(content_length) > 1e8:
+                raise FileTooLarge
+
+            # determine local filename
+            local_filename = self._get_filename(r)
+
+            # download the file
+            self.saved_file_name = os.path.join(self.agency_acronym, local_filename)
+            self.saved_file_path = os.path.join(settings.MEDIA_ROOT, self.saved_file_name)
+            os.makedirs(os.path.dirname(self.saved_file_path), exist_ok=True)
+            with open(self.saved_file_path, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
 
-            self.saved_file_path = file_path
+            # check content-type
+            content_type = r.headers.get('content-type')
+            if content_type != 'application/pdf':
+                ft = filetype.guess(self.saved_file_path)
+                if ft is None or ft.mime != 'application/pdf':
+                    os.remove(self.saved_file_path)
+                    raise WrongFileType
+                else:
+                    print(self.style.WARNING(f'Report {self.report_file.report.id} / File {self.report_file.id}: {self.url} reported wrong content type {content_type}, but downloaded file is a PDF'))
 
-            if rf.file_display_name == "":
-                rf.file_display_name = local_filename
+            if self.report_file.file_display_name == "":
+                self.report_file.file_display_name = local_filename
 
             # Check if the downloaded file is different from the old file
-            with open(file_path, 'rb') as f:
+            with open(self.saved_file_path, 'rb') as f:
                 checksum = hashlib.md5(f.read()).hexdigest()
 
             # If the two checksums are different, update the file and remove the old one,
             # if they are identical remove the downloaded file
             if checksum != self.old_checksum:
-                rf.file.name = os.path.join(self.agency_acronym, local_filename)
-                rf.save()
+                self.report_file.file.name = self.saved_file_name
+                self.report_file.save()
                 self._remove_old_file()
+                print(self.style.SUCCESS(f'Report {self.report_file.report.id} / File {self.report_file.id}: saved file downloaded from {self.url}'))
             else:
-                os.remove(file_path)
+                os.remove(self.saved_file_path)
+                print(self.style.WARNING(f'Report {self.report_file.report.id} / File {self.report_file.id}: file downloaded from {self.url} has identical checksum, discarded'))
 
-            flagger = ReportFlagger(rf.report)
-            flagger.check_and_set_flags()
 
     def _remove_old_file(self):
-        if self.old_file_path != "":
+        if self.old_file_path:
             old_file = os.path.join(settings.MEDIA_ROOT, self.old_file_path)
             if os.path.exists(old_file):
                 os.remove(old_file)
 
-    def _url_is_downloadable(self):
+    def _get_filename(self, response):
         """
-        Checks if url contain a downloadable resource
+        Detects filename from content-disposition header or URL.
         """
-        h = self.session.head(self.url, allow_redirects=True)
 
-        if h.status_code != 200:
-            return False
+        # Option 1: get content-disposition
+        filename = self._get_filename_from_cd(response.headers.get('content-disposition'))
 
-        header = h.headers
-        content_type = header.get('content-type')
+        if filename:
+            filename = filename.encode('iso-8859-1').decode('utf-8')
 
-        # Fallback to GET if HEAD content-type is not application/pdf
-        if content_type != 'application/pdf':
-            r = self.session.get(self.url, stream=True)
-            content_type = r.headers.get('content-type')
-            if content_type != 'application/pdf':
-                return False
+        # Option 2: use URL
+        if not filename:
+            filename = urlparse(self.url).path.rsplit('/', 1)[1]
 
-        # Limit download to files less than 100MB
-        content_length = header.get('content-length', None)
-        if content_length and int(content_length) > 1e8:
-            return False
+        # Fallback
+        if not filename:
+            filename = 'document'
 
-        return True
+        # Ensure PDF extension
+        filename, ext = os.path.splitext(filename)
+        filename += '.pdf'
 
-    def _get_filename(self):
-        """
-        Detects filename from url. If URL doesn't contain filename, it checks
-        content-disposition header. If that fails as well, it assigns the timestamp
-        plus the extension according to the mime-type.
-        """
-        # Report file ID
-        file_name = self.report_file_id
-
-        # Step 1A. - Get content-disposition
-        r = self.session.head(self.url)
-        fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
-
-        # Step 1B. - Fallback to get request if head is not giving results.
-        if not fn:
-            r = self.session.get(self.url)
-            fn = self._get_filename_from_cd(r.headers.get('content-disposition'))
-
-        if fn:
-            fn = fn.encode('iso-8859-1').decode('utf-8')
-
-        # Step 2. - Get filename from url
-        if not fn:
-            fn = self.url.rsplit('/', 1)[1]
-            fn, ext = os.path.splitext(fn)
-
-            # Step 2A. - If filename is valid filename + extension in URL
-            if fn != "" and ext != "":
-                fn = "%s%s" % (fn, ext)
-
-            # Step 2B. - If not add report_file_id + extension from Content-Type header
-            else:
-                ext = mimetypes.guess_extension(r.headers.get('Content-Type'))
-                fn = "%s.%s" % (self.report_file_id, ext)
-
-        return "%06d_%s_%s" % (file_name, datetime.datetime.now().strftime("%Y%m%d_%H%M"), fn)
+        return "%06d_%s_%s" % (self.report_file.id, datetime.datetime.now().strftime("%Y%m%d_%H%M"), filename)
 
     @staticmethod
     def _get_filename_from_cd(cd):
         """
         Get filename from content-disposition
         """
-        if not cd:
-            return None
-        fname = re.findall('filename=(.+)', cd)
-        if len(fname) == 0:
-            return None
-        else:
-            fname = re.sub('\"|;', "", fname[0])
-        return fname
+        m = Message()
+        m['content-type'] = cd # not a mistake, the content-type header is parsed by get_param(s)
+        return m.get_param('filename')
+
