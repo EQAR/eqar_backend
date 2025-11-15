@@ -105,7 +105,7 @@ class ReportsIndexer:
             print('Error with Report No. %s! Error: %s' % (self.doc['id'], e))
 
     def delete(self):
-        self.solr.delete(id=self.report_id, commit=True)
+        self.solr.delete(id=str(self.report_id), commit=True)
 
     def _get_report(self):
         self.report = Report.objects.get(pk=self.report_id)
@@ -285,7 +285,8 @@ class ReportsIndexer:
             programmes.append(programme.name_primary)
 
             for pname in programme.programmename_set.iterator():
-                self.doc['programme_name'].append(pname.name.strip())
+                if pname.name:
+                    self.doc['programme_name'].append(pname.name.strip())
 
             for c in programme.countries.iterator():
                 self.doc['country'].append(c.name_english)
