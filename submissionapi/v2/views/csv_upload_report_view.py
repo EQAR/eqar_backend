@@ -135,7 +135,7 @@ class SubmissionCSVView(APIView):
                         'report': data.get('report_id'),
                         'submission_status': 'errors',
                         'original_data': data,
-                        'errors': {"unexpected_error": str(unexpected)}
+                        'errors': [[f"Server error! - {str(unexpected)}"]]
                     })
 
                     # Continue to next row safely
