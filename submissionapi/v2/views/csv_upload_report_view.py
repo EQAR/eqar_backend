@@ -59,45 +59,29 @@ class SubmissionCSVView(APIView):
         # Process rows one by one
         # ----------------------------
         for data in csv_handler.submission_data:
+            serializer = SubmissionPackageSerializer(
+                data=data,
+                context={'request': request}
+            )
+
+            if not serializer.is_valid():
+                # No DB writes yet → nothing to roll back
+                report_id = data.get('report_id')
+                error_messages.append(serializer.errors)
+                submitted_reports.append(
+                    self.make_error_response(serializer, {}, report_id)
+                )
+                continue
 
             # Each row gets its own savepoint
             with transaction.atomic():
                 try:
-                    serializer = SubmissionPackageSerializer(
-                        data=data,
-                        context={'request': request}
-                    )
-
-                    if not serializer.is_valid():
-                        # No DB writes yet → nothing to roll back
-                        report_id = data.get('report_id')
-                        error_messages.append(serializer.errors)
-                        submitted_reports.append(
-                            self.make_error_response(serializer, {}, report_id)
-                        )
-                        continue
-
                     # Populate (this may write to DB)
                     populator = Populator(
                         data=serializer.validated_data,
                         user=request.user
                     )
-
-                    try:
-                        populator.populate()
-                    except ValidationError as ve:
-                        # Expected validation issue → rollback row
-                        if hasattr(ve, "error_dict"):
-                            tracker.log_errors(dict(ve))
-                            error_messages.append(dict(ve))
-                        else:
-                            tracker.log_errors(list(ve))
-                            error_messages.append(list(ve))
-
-                        submitted_reports.append(
-                            self.make_error_response(serializer, {}, data.get('report_id'))
-                        )
-                        continue
+                    populator.populate()
 
                     # Flag & log
                     flagger = ReportFlagger(report=populator.report)
@@ -118,6 +102,21 @@ class SubmissionCSVView(APIView):
                         updated_by=request.user
                     )
 
+                except ValidationError as ve:
+                    if hasattr(ve, "error_dict"):
+                        tracker.log_errors(dict(ve))
+                        error_messages.append(dict(ve))
+                    else:
+                        tracker.log_errors(list(ve))
+                        error_messages.append(list(ve))
+
+                    submitted_reports.append(
+                        self.make_error_response(serializer, {}, data.get('report_id'))
+                    )
+                    # Roll back
+                    transaction.set_rollback(True)
+                    continue
+
                 except Exception as unexpected:
                     # ----------------------------
                     # Catch ANY unexpected errors
@@ -137,6 +136,9 @@ class SubmissionCSVView(APIView):
                         'original_data': data,
                         'errors': [[f"Server error! - {str(unexpected)}"]]
                     })
+
+                    # Roll back
+                    transaction.set_rollback(True)
 
                     # Continue to next row safely
                     continue
