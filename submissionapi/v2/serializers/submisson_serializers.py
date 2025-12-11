@@ -263,7 +263,7 @@ class ActivitySerializer(serializers.Serializer):
 
         # Get the contributing agencies
         contributing_agencies = []
-        if 'contributing_agencies' in parent_data:
+        if 'contributing_agencies' in parent_data and isinstance(parent_data['contributing_agencies'], list):
             for ca in parent_data['contributing_agencies']:
                 contributing_agency = agency_field.to_internal_value(ca)
                 contributing_agencies.append(contributing_agency)
