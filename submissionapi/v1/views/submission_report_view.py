@@ -89,7 +89,8 @@ class SubmissionReportView(APIView):
                 send_submission_email.delay(response=accepted_reports,
                                             institution_id_max=max_inst,
                                             total_submission=len(submitted_reports),
-                                            agency_email=request.user.email)
+                                            agency_email=request.user.email,
+                                            version='v1')
 
             if response_contains_error:
                 tracker.log_errors(error_messages)
@@ -110,7 +111,8 @@ class SubmissionReportView(APIView):
                 send_submission_email.delay(response=[self.make_success_response(populator, flagger)],
                                             institution_id_max=max_inst,
                                             total_submission=1,
-                                            agency_email=request.user.email)
+                                            agency_email=request.user.email,
+                                            version='v1')
 
                 # Add log entry
                 ReportUpdateLog.objects.create(

@@ -56,7 +56,8 @@ class SubmissionPackageHandler:
             send_submission_email.delay(response=[self.response],
                                         institution_id_max=self.max_inst,
                                         total_submission=1,
-                                        agency_email=self.request.user.email)
+                                        agency_email=self.request.user.email,
+                                        version='v2')
         else:
             self.status = 'error'
             # Add error to package log
