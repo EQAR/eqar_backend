@@ -1,4 +1,6 @@
 import io
+import traceback
+from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from ipware import get_client_ip
 from rest_framework import status
@@ -22,7 +24,7 @@ class SubmissionCSVView(APIView):
     swagger_schema = None
 
     def post(self, request):
-        # Save the highest institution id
+        # Get highest institution ID before import starts
         try:
             max_inst = Institution.objects.latest('id').id
         except ObjectDoesNotExist:
@@ -33,70 +35,140 @@ class SubmissionCSVView(APIView):
         error_messages = []
         response_contains_valid = False
 
+        # Read CSV into handler
         csv_object = io.StringIO(request.data, newline=None)
         csv_handler = CSVHandler(csvfile=csv_object)
         csv_handler.handle()
 
-        # Tracking
-        client_ip, is_routable = get_client_ip(request)
-        tracker = SubmissionTracker(original_data=request.data,
-                                    origin='csv',
-                                    user_profile=request.user.deqarprofile,
-                                    ip_address=client_ip)
+        # Track request
+        client_ip, _ = get_client_ip(request)
+        tracker = SubmissionTracker(
+            original_data=request.data,
+            origin='csv',
+            user_profile=request.user.deqarprofile,
+            ip_address=client_ip
+        )
         tracker.log_package()
 
+        # If parsing failed before any row was processed
         if csv_handler.error:
+            # You may want to return a 400 here
             pass
 
+        # ----------------------------
+        # Process rows one by one
+        # ----------------------------
         for data in csv_handler.submission_data:
-            serializer = SubmissionPackageSerializer(data=data, context={'request': request})
-            if serializer.is_valid():
-                populator = Populator(data=serializer.validated_data, user=request.user)
-                try:
-                    populator.populate()
-                except ValidationError as error:
-                    if hasattr(error, "error_dict"):
-                        tracker.log_errors(dict(error))
-                    else:
-                        tracker.log_errors(list(error))
-                    raise
-                flagger = ReportFlagger(report=populator.report)
-                flagger.check_and_set_flags()
-                tracker.log_report(populator, flagger)
-                submitted_reports.append(self.make_success_response(populator, flagger))
-                accepted_reports.append(self.make_success_response(populator, flagger))
-                error_messages.append(None)
+            serializer = SubmissionPackageSerializer(
+                data=data,
+                context={'request': request}
+            )
 
-                # Add log entry
-                ReportUpdateLog.objects.create(
-                    report=populator.report,
-                    note="Report updated via CSV.",
-                    updated_by=request.user
-                )
-
-                response_contains_valid = True
-            else:
-                report_id = data.get('report_id', None)
+            if not serializer.is_valid():
+                # No DB writes yet → nothing to roll back
+                report_id = data.get('report_id')
                 error_messages.append(serializer.errors)
-                submitted_reports.append(self.make_error_response(serializer, original_data={}, report_id=report_id))
+                submitted_reports.append(
+                    self.make_error_response(serializer, {}, report_id)
+                )
+                continue
 
+            # Each row gets its own savepoint
+            with transaction.atomic():
+                try:
+                    # Populate (this may write to DB)
+                    populator = Populator(
+                        data=serializer.validated_data,
+                        user=request.user
+                    )
+                    populator.populate()
+
+                    # Flag & log
+                    flagger = ReportFlagger(report=populator.report)
+                    flagger.check_and_set_flags()
+                    tracker.log_report(populator, flagger)
+
+                    # Row success output
+                    success = self.make_success_response(populator, flagger)
+                    submitted_reports.append(success)
+                    accepted_reports.append(success)
+                    error_messages.append(None)
+                    response_contains_valid = True
+
+                    # Add update log
+                    ReportUpdateLog.objects.create(
+                        report=populator.report,
+                        note="Report updated via CSV.",
+                        updated_by=request.user
+                    )
+
+                except ValidationError as ve:
+                    if hasattr(ve, "error_dict"):
+                        tracker.log_errors(dict(ve))
+                        error_messages.append(dict(ve))
+                    else:
+                        tracker.log_errors(list(ve))
+                        error_messages.append(list(ve))
+
+                    submitted_reports.append(
+                        self.make_error_response(serializer, {}, data.get('report_id'))
+                    )
+                    # Roll back
+                    transaction.set_rollback(True)
+                    continue
+
+                except Exception as unexpected:
+                    # ----------------------------
+                    # Catch ANY unexpected errors
+                    # Roll back row only
+                    # ----------------------------
+                    trace = traceback.format_exc()
+                    error_payload = {
+                        "unexpected_error": str(unexpected),
+                        "traceback": trace
+                    }
+                    error_messages.append(error_payload)
+                    tracker.log_errors(error_payload)
+
+                    submitted_reports.append({
+                        'report': data.get('report_id'),
+                        'submission_status': 'errors',
+                        'original_data': data,
+                        'errors': [[f"Server error! - {str(unexpected)}"]]
+                    })
+
+                    # Roll back
+                    transaction.set_rollback(True)
+
+                    # Continue to next row safely
+                    continue
+
+        # Final track of all errors
         tracker.log_errors(error_messages)
 
+        # Only send success email if at least one row was valid
         if response_contains_valid:
-            send_submission_email.delay(response=accepted_reports,
-                                        institution_id_max=max_inst,
-                                        total_submission=len(submitted_reports),
-                                        agency_email=request.user.email)
+            send_submission_email.delay(
+                response=accepted_reports,
+                institution_id_max=max_inst,
+                total_submission=len(submitted_reports),
+                agency_email=request.user.email
+            )
+
         return Response(submitted_reports, status=status.HTTP_200_OK)
 
+    # ------------------------------------
+    # Helpers (untouched)
+    # ------------------------------------
     def make_success_response(self, populator, flagger):
         institution_warnings = populator.institution_flag_log
-        report_warnings = [fl.flag_message for fl in flagger.report.reportflag_set.filter(active=True)]
+        report_warnings = [
+            fl.flag_message for fl in flagger.report.reportflag_set.filter(active=True)
+        ]
 
-        if len(institution_warnings) > 0 or len(report_warnings) > 0:
-            sanity_check_status = "warnings"
-        else:
-            sanity_check_status = "success"
+        sanity_check_status = (
+            "warnings" if institution_warnings or report_warnings else "success"
+        )
 
         serializer = ResponseCSVReportSerializer(flagger.report)
 
@@ -108,7 +180,7 @@ class SubmissionCSVView(APIView):
             'sanity_check_status': sanity_check_status,
             'report_flag': flagger.report.flag.flag,
             'report_warnings': report_warnings,
-            'institution_warnings': institution_warnings
+            'institution_warnings': institution_warnings,
         }
 
     def make_error_response(self, serializer, original_data, report_id):

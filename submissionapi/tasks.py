@@ -1,4 +1,6 @@
 import datetime
+from tempfile import template
+
 from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
@@ -18,7 +20,7 @@ def download_file(url, report_file_id, agency_acronym):
 
 
 @task(name="send_submission_email")
-def send_submission_email(response, institution_id_max, total_submission, agency_email):
+def send_submission_email(response, institution_id_max, total_submission, agency_email, version='v2'):
     from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
     cc = getattr(settings, "EMAIL_CC", "")
     total_accepted = len(response)
@@ -46,7 +48,13 @@ def send_submission_email(response, institution_id_max, total_submission, agency
         'date': datetime.date.today().strftime("%Y-%m-%d"),
         'agency_email': agency_email
     }
-    message = EmailMessage('email/submission.tpl', context=context,
+
+    if version == 'v1':
+        template_name = 'email/submission-v1.tpl'
+    else:
+        template_name = 'email/submission.tpl'
+
+    message = EmailMessage(template_name, context=context,
                            from_email=from_email,
                            to=[agency_email],
                            cc=cc)
