@@ -1,7 +1,7 @@
 {% extends "mail_templated/base.tpl" %}
 
 {% block subject %}
-    [DEQAR] - Submission report on {{ date }}
+    [DEQAR] - Submission report on {{ date }} - with Submission API V1
 {% endblock %}
 
 {% block html %}
