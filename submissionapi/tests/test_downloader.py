@@ -60,7 +60,7 @@ class ReportDownloaderTestCase(TestCase):
 
     def test_file_too_large(self):
         downloader = ReportDownloader(
-            url="https://ftp.tu-chemnitz.de/pub/tdf/libreoffice/src/25.8.2/libreoffice-25.8.2.2.tar.xz",
+            url="https://raw.githubusercontent.com/TestFileHub/FileHub/main/pdf/pdf100mb.pdf",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
