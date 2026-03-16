@@ -1,12 +1,10 @@
 import datetime
-import os
 import hashlib
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
 
 from eqar_backend.fields.char_null_field import CharNullField
 from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
@@ -154,9 +152,13 @@ class ReportLink(models.Model):
 
 
 def set_directory_path(instance, filename):
-    return '{0}/{1}-{2}'.format(instance.report.agency.acronym_primary,
-                                datetime.datetime.now().strftime("%Y%m%d_%H%M"),
-                                filename)
+    return '{0}/{1}/{2:6d}/{3}_{4}'.format(
+        instance.report.agency.acronym_primary,
+        datetime.datetime.now().strftime("%Y"),
+        instance.report.id,
+        datetime.datetime.now().strftime("%Y%m%d_%H%M"),
+        filename
+    )
 
 
 class ReportFile(models.Model):
@@ -173,10 +175,8 @@ class ReportFile(models.Model):
 
     def generate_checksum(self):
         if self.file:
-            file_path = os.path.join(settings.MEDIA_ROOT, self.file.name)
-            with open(file_path, 'rb') as f:
-                checksum = hashlib.md5(f.read()).hexdigest()
-            return checksum
+            with self.file.open('rb') as f:
+                return hashlib.md5(f.read()).hexdigest()
         else:
             raise FileNotFoundError
 

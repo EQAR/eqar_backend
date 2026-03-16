@@ -1,4 +1,3 @@
-import os
 from django.test import TestCase
 
 from requests.exceptions import HTTPError
@@ -56,7 +55,7 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         self.assertRaises(WrongFileType, downloader.download)
-        self.assertFalse(os.path.isfile(downloader.saved_file_path))
+        self.assertFalse(downloader.report_file.file)
 
     def test_file_too_large(self):
         downloader = ReportDownloader(
@@ -74,8 +73,8 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         downloader.download()
-        self.assertTrue("northern-university-expert-report-2.pdf" in downloader.saved_file_path)
-        os.remove(downloader.saved_file_path)
+        self.assertTrue("northern-university-expert-report-2.pdf" in downloader.report_file.file.name)
+        downloader.report_file.file.delete()
 
     def test_download_file(self):
         downloader = ReportDownloader(
@@ -85,13 +84,13 @@ class ReportDownloaderTestCase(TestCase):
         )
         self.assertIsNone(downloader.old_file_path)
         downloader.download()
-        self.assertTrue(os.path.exists(downloader.saved_file_path))
-        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.saved_file_path)
+        self.assertTrue(downloader.report_file.file)
+        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.report_file.file.name)
         downloader2 = ReportDownloader(
             url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
         self.assertTrue("2008-06-report-groningen-website.pdf" in downloader2.old_file_path)
-        os.remove(downloader.saved_file_path)
+        downloader.report_file.file.delete()
 
