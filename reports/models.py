@@ -152,9 +152,12 @@ class ReportLink(models.Model):
 
 
 def set_directory_path(instance, filename):
-    return '{0}/{1}/{2:6d}/{3}_{4}'.format(
+    valid_from = instance.report.valid_from
+    if isinstance(valid_from, str):
+        valid_from = datetime.datetime.strptime(valid_from, '%Y-%m-%d').date()
+    return '{0}/{1}/{2}/{3}_{4}'.format(
         instance.report.agency.acronym_primary,
-        datetime.datetime.now().strftime("%Y"),
+        valid_from.year,
         instance.report.id,
         datetime.datetime.now().strftime("%Y%m%d_%H%M"),
         filename

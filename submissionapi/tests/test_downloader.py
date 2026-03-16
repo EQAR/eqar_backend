@@ -74,7 +74,6 @@ class ReportDownloaderTestCase(TestCase):
         )
         downloader.download()
         self.assertTrue("northern-university-expert-report-2.pdf" in downloader.report_file.file.name)
-        downloader.report_file.file.delete()
 
     def test_download_file(self):
         downloader = ReportDownloader(
@@ -92,5 +91,4 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         self.assertTrue("2008-06-report-groningen-website.pdf" in downloader2.old_file_path)
-        downloader.report_file.file.delete()
 
