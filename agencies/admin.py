@@ -7,6 +7,12 @@ from agencies.models import *
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline, DEQARTabularInline
 from django.utils.html import format_html
 
+class AgencyAdmin(DEQARModelAdmin):
+    model = Agency
+    list_display = ( 'acronym_primary', 'name_primary', 'country', 'is_registered', 'registration_start', 'registration_valid_to', )
+    fields = ( 'deqar_id', 'acronym_primary', 'name_primary', 'country', 'is_registered', 'registration_start', 'registration_valid_to', )
+    readonly_fields = ( 'acronym_primary', 'name_primary', 'country', 'is_registered', 'registration_start', 'registration_valid_to', )
+
 class AgencyProxyInline(DEQARStackedInline):
     model = AgencyProxy
     extra = 1
@@ -69,6 +75,7 @@ class AgencyActivityGroupAdmin(DEQARModelAdmin):
 
     assigned_agencies.admin_order_field = '_assigned_agencies'
 
+admin_site.register(Agency, AgencyAdmin)
 admin_site.register(SubmittingAgency, SubmittingAgencyAdmin)
 admin_site.register(AgencyESGActivity, AgencyESGActivityAdmin)
 admin_site.register(AgencyActivityGroup, AgencyActivityGroupAdmin)

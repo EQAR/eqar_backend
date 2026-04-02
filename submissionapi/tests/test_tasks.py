@@ -37,8 +37,3 @@ class CeleryTaskTestCase(TestCase):
     def test_send_submission_email(self):
         pass
 
-    def tearDown(self):
-        report = Report.objects.get(pk=1)
-        rf = report.reportfile_set.first()
-        if rf.file:
-            rf.file.delete()

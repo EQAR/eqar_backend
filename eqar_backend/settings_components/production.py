@@ -21,6 +21,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 
 MEDIA_URL = '/reports/'
 
+STORAGES = {
+    "default": {
+        "BACKEND": "eqar_backend.storage.ByteTruncatingFileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CELERY STUFF

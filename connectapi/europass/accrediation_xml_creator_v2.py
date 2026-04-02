@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
-from langdetect import detect, DetectorFactory
+from langdetect import detect, DetectorFactory, LangDetectException
 from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
@@ -711,7 +711,11 @@ class AccrediationXMLCreatorV2:
 
 
     def guess_language_from_string(self, string):
-        return detect(string)
+        try:
+            language = detect(string)
+        except LangDetectException:
+            language = 'en'
+        return language
 
     def guess_language_from_country(self, country_code):
         CODES = {
