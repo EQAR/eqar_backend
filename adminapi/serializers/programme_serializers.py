@@ -9,9 +9,9 @@ from programmes.models import Programme, ProgrammeName, ProgrammeLearningOutcome
 
 
 class ProgrammeAlternativeNameSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
-    name_alternative = serializers.CharField(max_length=200, source='name', required=False)
+    name_alternative = serializers.CharField(max_length=200, source='name', required=False, allow_null=True)
     qualification_alternative = serializers.CharField(max_length=200, source='qualification',
-                                                      allow_blank=True, required=False)
+                                                      allow_blank=True, required=False, allow_null=True)
 
     class Meta:
         model = ProgrammeName
