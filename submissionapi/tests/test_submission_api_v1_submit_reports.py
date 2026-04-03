@@ -1,12 +1,10 @@
-import json
-
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from accounts.models import DEQARProfile
-from agencies.models import SubmittingAgency, Agency
-from reports.models import Report
+from agencies.models import SubmittingAgency
+from submissionapi.v1.closure import SUBMISSION_V1_CLOSED_MESSAGE
 
 
 class SubmissionAPIV1ReportTest(APITestCase):
@@ -68,52 +66,19 @@ class SubmissionAPIV1ReportTest(APITestCase):
         self.deqar_profile = DEQARProfile.objects.create(user=self.user, submitting_agency=submitting_agency)
         self.deqar_profile.save()
 
-    def test_one_report_submission_ok(self):
+    def test_closure_submission(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.post(
             '/submissionapi/v1/submit/report',
             data=self.valid_data,
             format='json'
         )
-        self.assertEqual(response.status_code, 200, response.data)
-        self.assertEqual(response.data['submission_status'], 'success')
+        self.assertEqual(response.status_code, 410, response.data)
+        self.assertEqual(response.data['detail'], SUBMISSION_V1_CLOSED_MESSAGE)
 
-    def test_multiple_report_submission_ok(self):
+    def test_closure_delete(self):
+        DEQARProfile.objects.create(user=self.user, submitting_agency_id=1)
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        data2 = self.valid_data
-        data2['valid_from'] = "2010-05-01"
-        data_multiple = [self.valid_data, data2]
-        response = self.client.post(
-            '/submissionapi/v1/submit/report',
-            data=data_multiple,
-            format='json'
-        )
-        self.assertEqual(response.status_code, 200, response.data)
-        self.assertEqual(response.data[0]['submission_status'], 'success')
-
-    def test_one_report_submission_not_ok(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        data = self.valid_data
-        data['agency'] = "invalid agency"
-        response = self.client.post(
-            '/submissionapi/v1/submit/report',
-            data=data,
-            format='json'
-        )
-        self.assertEqual(response.status_code, 400, response.data)
-        self.assertEqual(response.data['submission_status'], 'errors')
-
-    def test_multiple_report_submission_not_ok(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
-        data1 = self.valid_data
-        data1['agency'] = "invalid agency"
-        data2 = self.valid_data
-        data2['valid_from'] = "2010-05-01"
-        data_multiple = [data1, data2]
-        response = self.client.post(
-            '/submissionapi/v1/submit/report',
-            data=data_multiple,
-            format='json'
-        )
-        self.assertEqual(response.status_code, 400, response.data)
-        self.assertEqual(response.data[0]['submission_status'], 'errors')
+        response = self.client.delete('/submissionapi/v1/delete/report/2/')
+        self.assertEqual(response.status_code, 410)
+        self.assertEqual(response.data['detail'], SUBMISSION_V1_CLOSED_MESSAGE)
