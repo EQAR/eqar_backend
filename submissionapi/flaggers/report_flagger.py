@@ -7,6 +7,7 @@ from agencies.models import AgencyFocusCountry
 from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
 from lists.models import Flag
 from reports.models import ReportFlag
+from submissionapi.tasks import send_red_flag_email
 
 
 class ReportFlagger:
@@ -67,6 +68,14 @@ class ReportFlagger:
                 report=self.report,
                 flag=flag,
                 flag_message=flag_message
+            )
+
+        # In case of red flag, send out an e-mail to the agency contact person and EQAR staff
+        if flag_level == 3:
+            send_red_flag_email.delay(
+                report=self.report,
+                flag_message=flag_message,
+                agency_email=self.report.agency.contact_email
             )
 
     def set_flag(self):
