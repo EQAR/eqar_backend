@@ -7,7 +7,7 @@ from agencies.models import AgencyFocusCountry
 from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
 from lists.models import Flag
 from reports.models import ReportFlag
-from submissionapi.tasks import send_red_flag_email
+from reports.tasks import send_red_flag_email
 
 
 class ReportFlagger:

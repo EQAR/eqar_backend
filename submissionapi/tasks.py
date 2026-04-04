@@ -1,6 +1,4 @@
 import datetime
-from tempfile import template
-
 from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
@@ -17,27 +15,6 @@ def download_file(url, report_file_id, agency_acronym):
         agency_acronym=agency_acronym
     )
     downloader.download()
-
-
-@task(name="send_red_flag_email")
-def send_red_flag_email(report, agency_email, flag_message):
-    from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
-    cc = getattr(settings, "EMAIL_CC", "")
-
-    context = {
-        'report': report,
-        'date': datetime.date.today().strftime("%Y-%m-%d"),
-        'agency_email': agency_email,
-        'flag_message': flag_message
-    }
-
-    template_name = 'email/red-flag.tpl'
-
-    message = EmailMessage(template_name, context=context,
-                           from_email=from_email,
-                           to=[agency_email],
-                           cc=cc)
-    message.send()
 
 
 @task(name="send_submission_email")

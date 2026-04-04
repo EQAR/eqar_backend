@@ -1,4 +1,7 @@
+import datetime
+
 from celery.task import task
+from django.conf import settings
 
 from reports.indexers.reports_indexer import ReportsIndexer
 from reports.indexers.report_meili_indexer import ReportIndexer as MeiliReportIndexer
@@ -6,6 +9,7 @@ from programmes.indexers.programme_indexer import ProgrammeIndexer
 from institutions.indexers.institution_indexer import InstitutionIndexer
 from institutions.indexers.institution_meili_indexer import InstitutionIndexer as MeiliInstitutionIndexer
 from reports.models import Report
+from mail_templated import EmailMessage
 
 
 @task(name="index_report")
@@ -60,3 +64,22 @@ def meili_delete_report(report_id, programme_ids, institution_ids):
         indexer.index()
         meili_indexer.index(institution_id)
 
+
+@task(name="send_red_flag_email")
+def send_red_flag_email(report, agency_email, flag_message):
+    from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
+    cc = getattr(settings, "EMAIL_CC", "")
+
+    context = {
+        'report': report,
+        'date': datetime.date.today().strftime("%Y-%m-%d"),
+        'flag_message': flag_message
+    }
+
+    template_name = 'email/red-flag.tpl'
+
+    message = EmailMessage(template_name, context=context,
+                           from_email=from_email,
+                           to=[agency_email],
+                           cc=cc)
+    message.send()
