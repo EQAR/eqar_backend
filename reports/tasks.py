@@ -71,7 +71,8 @@ def send_red_flag_email(report, agency_emails, flag_message):
     cc = getattr(settings, "EMAIL_CC", "")
 
     context = {
-        'report': report,
+        'report_id': report.id,
+        'report_name': report.name,
         'date': datetime.date.today().strftime("%Y-%m-%d"),
         'flag_message': flag_message
     }
