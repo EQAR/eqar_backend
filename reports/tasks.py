@@ -66,7 +66,7 @@ def meili_delete_report(report_id, programme_ids, institution_ids):
 
 
 @task(name="send_red_flag_email")
-def send_red_flag_email(report, agency_email, flag_message):
+def send_red_flag_email(report, agency_emails, flag_message):
     from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
     cc = getattr(settings, "EMAIL_CC", "")
 
@@ -80,6 +80,6 @@ def send_red_flag_email(report, agency_email, flag_message):
 
     message = EmailMessage(template_name, context=context,
                            from_email=from_email,
-                           to=[agency_email],
+                           to=agency_emails,
                            cc=cc)
     message.send()

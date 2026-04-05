@@ -75,7 +75,7 @@ class ReportFlagger:
             send_red_flag_email.delay(
                 report=self.report,
                 flag_message=flag_message,
-                agency_email=self.report.agency.contact_email
+                agency_emails=[agency_email.email for agency_email in self.report.agency.agencyemail_set.all()],
             )
 
     def set_flag(self):
