@@ -73,7 +73,8 @@ class ReportFlagger:
         # In case of red flag, send out an e-mail to the agency contact person and EQAR staff
         if flag_level == 3:
             send_red_flag_email.delay(
-                report=self.report,
+                report_id=self.report.id,
+                report_name=self.report,
                 flag_message=flag_message,
                 agency_emails=[agency_email.email for agency_email in self.report.agency.agencyemail_set.all()],
             )

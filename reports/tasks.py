@@ -66,13 +66,12 @@ def meili_delete_report(report_id, programme_ids, institution_ids):
 
 
 @task(name="send_red_flag_email")
-def send_red_flag_email(report, agency_emails, flag_message):
+def send_red_flag_email(report_id, agency_emails, flag_message):
     from_email = getattr(settings, "EMAIL_FROM", "backend@deqar.eu")
     cc = getattr(settings, "EMAIL_CC", "")
 
     context = {
-        'report_id': report.id,
-        'report_name': report.name,
+        'report_id': report_id,
         'date': datetime.date.today().strftime("%Y-%m-%d"),
         'flag_message': flag_message
     }
