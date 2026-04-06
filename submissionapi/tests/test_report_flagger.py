@@ -1,4 +1,5 @@
 from django.test import TestCase
+from unittest.mock import patch
 
 from agencies.models import AgencyFocusCountry
 from countries.models import Country
@@ -25,6 +26,14 @@ class ReportFlaggerTestCase(TestCase):
         'report_decision', 'report_status',
         'users', 'report_demo_01'
     ]
+
+    def setUp(self):
+        super().setUp()
+        self._send_red_flag_email_patcher = patch(
+            'submissionapi.flaggers.report_flagger.send_red_flag_email.delay'
+        )
+        self._send_red_flag_email_patcher.start()
+        self.addCleanup(self._send_red_flag_email_patcher.stop)
 
     def test_init(self):
         flagger = ReportFlagger(

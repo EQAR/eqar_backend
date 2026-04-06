@@ -1,6 +1,4 @@
 import datetime
-from tempfile import template
-
 from celery.task import task
 from django.conf import settings
 from mail_templated import EmailMessage
