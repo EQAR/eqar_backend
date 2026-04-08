@@ -1,7 +1,6 @@
 import datetime
 import logging
 import traceback
-from tempfile import template
 
 from celery.task import task
 from django.conf import settings
@@ -92,12 +91,7 @@ def send_submission_email(response, institution_id_max, total_submission, agency
         'agency_email': agency_email
     }
 
-    if version == 'v1':
-        template_name = 'email/submission-v1.tpl'
-    else:
-        template_name = 'email/submission.tpl'
-
-    message = EmailMessage(template_name, context=context,
+    message = EmailMessage('email/submission.tpl', context=context,
                            from_email=from_email,
                            to=[agency_email],
                            cc=cc)
