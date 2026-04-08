@@ -1,4 +1,5 @@
 import os
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -92,3 +93,22 @@ class SubmissionAPIV2ReportTestWithContributingAgencies(APITestCase):
         for line in response.data:
             self.assertEqual(line['submission_status'], 'success')
 
+    @patch('submissionapi.flaggers.report_flagger.ReportFlagger.check_and_set_flags')
+    def test_csv_submission_rolls_back_row_on_mid_flow_error(self, mocked_check_and_set_flags):
+        mocked_check_and_set_flags.side_effect = RuntimeError('Simulated failure after report populate')
+        file = os.path.join(self.base_dir, "fulltest_inst.csv")
+        reports_before = Report.objects.count()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        with open(file, 'r') as csv_file:
+            response = self.client.post(
+                '/submissionapi/v2/submit/csv',
+                data=csv_file.read(),
+                content_type='text/csv',
+            )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertGreater(len(response.data), 0)
+        for line in response.data:
+            self.assertEqual(line['submission_status'], 'errors')
+        self.assertEqual(Report.objects.count(), reports_before)
