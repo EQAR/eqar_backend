@@ -1,9 +1,11 @@
 import datetime
 import logging
+import traceback
 from tempfile import template
 
 from celery.task import task
 from django.conf import settings
+from django.core.mail import mail_admins
 from mail_templated import EmailMessage
 import requests
 
@@ -12,6 +14,23 @@ from submissionapi.downloaders.report_downloader import ReportDownloader, RetryH
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
 logger = logging.getLogger(__name__)
+
+
+def _notify_download_problem(url, report_file_id, agency_acronym, exc):
+    """
+    Send a diagnostic email when a report download fails.
+    """
+    subject = f"ReportDownloader failure for report_file {report_file_id}"
+    message = (
+        "An error occurred while downloading a report file.\n\n"
+        f"URL: {url}\n"
+        f"Report file ID: {report_file_id}\n"
+        f"Agency acronym: {agency_acronym}\n"
+        f"Exception: {exc.__class__.__name__}: {exc}\n\n"
+        "Traceback:\n"
+        f"{traceback.format_exc()}"
+    )
+    mail_admins(subject, message, fail_silently=True)
 
 
 def _recheck_flag_for_report_file(report_file_id):
@@ -33,6 +52,9 @@ def download_file(url, report_file_id, agency_acronym):
     )
     try:
         downloader.download()
+    except Exception as exc:
+        _notify_download_problem(url, report_file_id, agency_acronym, exc)
+        raise
     finally:
         try:
             _recheck_flag_for_report_file(report_file_id)
