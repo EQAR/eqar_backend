@@ -28,7 +28,8 @@ class ReportFlagger:
             'validityDate': 'Report validity is more then one year old.',
             'EHEAIsMember': 'A record was created/identified for an institution (%s) in an EHEA member country (%s) '
                             'without including QF-EHEA levels.',
-            'file': 'File location was not provided.'
+            'file': 'File location was not provided.',
+            'noFile': 'No report file is available for this report.'
         }
 
     def check_and_set_flags(self):
@@ -216,7 +217,15 @@ class ReportFlagger:
                         self.add_flag(flag_level=2, flag_message=flag_message)
 
     def check_report_file(self):
-        for rf in self.report.reportfile_set.all():
+        report_files = self.report.reportfile_set.order_by('id')
+        if report_files.count() == 0:
+            self.add_flag(flag_level=3, flag_message=self.flag_msg['noFile'])
+            return
+
+        has_stored_file = any(rf.file.name != "" for rf in report_files)
+        if not has_stored_file:
+            self.add_flag(flag_level=3, flag_message=self.flag_msg['noFile'])
+
+        for rf in report_files:
             if rf.file_original_location == "" and rf.file.name == "":
-                flag_message = self.flag_msg['file']
-                self.add_flag(flag_level=2, flag_message=flag_message)
+                self.add_flag(flag_level=2, flag_message=self.flag_msg['file'])

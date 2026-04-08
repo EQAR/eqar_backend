@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.files.base import ContentFile
 
 from agencies.models import AgencyFocusCountry
 from countries.models import Country
@@ -170,6 +171,59 @@ class ReportFlaggerTestCase(TestCase):
         flagger.report.reportfile_set.create(
             file_display_name="Test File"
         )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+
+    def test_check_report_file_non_first_missing_stays_low_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        first_rf = flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf"
+        )
+        first_rf.file.save("first.pdf", ContentFile(b"dummy pdf bytes"), save=True)
+        flagger.report.reportfile_set.create(
+            file_display_name="Second File"
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'low level')
+
+    def test_check_report_file_first_with_original_location_and_no_download_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf"
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+
+    def test_check_report_file_without_any_report_files_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.all().delete()
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+
+    def test_check_report_file_at_least_one_stored_file_removes_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.create(
+            file_display_name="First File"
+        )
+        second_rf = flagger.report.reportfile_set.create(
+            file_display_name="Second File",
+            file_original_location="https://example.com/second.pdf"
+        )
+        second_rf.file.save("second.pdf", ContentFile(b"dummy pdf bytes"), save=True)
         flagger.check_report_file()
         flagger.set_flag()
         self.assertEqual(flagger.report.flag.flag, 'low level')

@@ -1,4 +1,5 @@
 import datetime
+import logging
 from tempfile import template
 
 from celery.task import task
@@ -6,8 +7,22 @@ from django.conf import settings
 from mail_templated import EmailMessage
 import requests
 
+from reports.models import ReportFile
 from submissionapi.downloaders.report_downloader import ReportDownloader, RetryHTTPError
 from submissionapi.flaggers.report_flagger import ReportFlagger
+
+logger = logging.getLogger(__name__)
+
+
+def _recheck_flag_for_report_file(report_file_id):
+    try:
+        report_file = ReportFile.objects.select_related('report').get(pk=report_file_id)
+    except ReportFile.DoesNotExist:
+        logger.warning("Cannot recheck flags: report_file %s does not exist.", report_file_id)
+        return
+
+    recheck_flag(report=report_file.report)
+
 
 @task(name="download_file", autoretry_for=(requests.exceptions.ConnectionError, RetryHTTPError), retry_backoff=60)
 def download_file(url, report_file_id, agency_acronym):
@@ -16,7 +31,13 @@ def download_file(url, report_file_id, agency_acronym):
         report_file_id=report_file_id,
         agency_acronym=agency_acronym
     )
-    downloader.download()
+    try:
+        downloader.download()
+    finally:
+        try:
+            _recheck_flag_for_report_file(report_file_id)
+        except Exception:
+            logger.exception("Failed to recheck flags for report_file %s.", report_file_id)
 
 
 @task(name="send_submission_email")
