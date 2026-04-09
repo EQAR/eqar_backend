@@ -1267,6 +1267,11 @@
                     <xs:documentation>North Macedonia</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="http://publications.europa.eu/resource/authority/country/XKX">
+                <xs:annotation>
+                    <xs:documentation>Kosovo</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="http://publications.europa.eu/resource/authority/country/OP_DATPRO">
                 <xs:annotation>
                     <xs:documentation>Provisional data</xs:documentation>
