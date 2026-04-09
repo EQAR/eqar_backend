@@ -24,7 +24,6 @@ static/media
 *.rdb
 data_cleaning*.*
 
-/connectapi/europass/schema
 /SPACE
 /ACQUIN
 
