@@ -83,6 +83,48 @@ class AgencyESGActivityUserWriteSerializer(serializers.ModelSerializer):
 class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):
     activity_valid_to = DateBlankSerializer(allow_null=True, required=False)
 
+    @staticmethod
+    def _to_date(value):
+        if value in (None, ''):
+            return None
+        if hasattr(value, 'year') and hasattr(value, 'month') and hasattr(value, 'day'):
+            return value
+        return serializers.DateField().to_internal_value(value)
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+
+        root_serializer = self.root
+        agency_instance = getattr(root_serializer, 'instance', None)
+
+        registration_start = root_serializer.initial_data.get(
+            'registration_start',
+            agency_instance.registration_start if agency_instance else None,
+        )
+        registration_valid_to = root_serializer.initial_data.get(
+            'registration_valid_to',
+            agency_instance.registration_valid_to if agency_instance else None,
+        )
+        registration_start = self._to_date(registration_start)
+        registration_valid_to = self._to_date(registration_valid_to)
+
+        activity_valid_from = attrs.get(
+            'activity_valid_from',
+            self.instance.activity_valid_from if self.instance else None,
+        )
+
+        if activity_valid_from and registration_start and activity_valid_from < registration_start:
+            raise serializers.ValidationError(
+                {'activity_valid_from': 'Must be on or after agency registration_start.'}
+            )
+
+        if activity_valid_from and registration_valid_to and activity_valid_from > registration_valid_to:
+            raise serializers.ValidationError(
+                {'activity_valid_from': 'Must be on or before agency registration_valid_to.'}
+            )
+
+        return attrs
+
     class Meta:
         model = AgencyESGActivity
         exclude = ('agency',)
