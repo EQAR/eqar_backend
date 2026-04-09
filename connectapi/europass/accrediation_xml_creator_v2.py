@@ -227,7 +227,7 @@ class AccrediationXMLCreatorV2:
                 pref_label.text = programme.name_primary
                 # Programme alternative titles
                 for alternative_name in programme.programmename_set.iterator():
-                    if not alternative_name.name_is_primary:
+                    if alternative_name.name and not alternative_name.name_is_primary:
                         alt_label = etree.SubElement(
                             programme_element,
                             f"{{http://www.w3.org/2004/02/skos/core#}}altLabel",
@@ -714,7 +714,7 @@ class AccrediationXMLCreatorV2:
     def guess_language_from_string(self, string):
         try:
             language = detect(string)
-        except LangDetectException:
+        except (LangDetectException, TypeError):
             language = 'en'
         return language
 
