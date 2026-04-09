@@ -57,7 +57,7 @@ class AgencyAdminWriteSerializerTest(TestCase):
 
         self.assertFalse(serializer.is_valid())
         self.assertIn('activities', serializer.errors)
-        self.assertIn('registration_start', serializer.errors['activities'][0])
+        self.assertIn('activity_valid_from', serializer.errors['activities'][0])
 
     def test_invalid_when_registration_valid_to_before_activity_valid_from(self):
         serializer = AgencyAdminWriteSerializer(
