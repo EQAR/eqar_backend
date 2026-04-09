@@ -26,6 +26,16 @@
                     <xs:documentation>Program License</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/accreditation/c_1f1a469a">
+                <xs:annotation>
+                    <xs:documentation>EQAR Institutional accreditation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/accreditation/c_64666c29">
+                <xs:annotation>
+                    <xs:documentation>EQAR Programme accreditation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

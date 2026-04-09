@@ -1,8 +1,8 @@
-<xs:schema xmlns="http://data.europa.eu/snb/model/ap/ams-constraints/"
-           xmlns:ams="http://data.europa.eu/snb/model/ap/ams-constraints/"
+<xs:schema xmlns="http://data.europa.eu/snb/model/application-profile/ams-constraints/"
+           xmlns:ams="http://data.europa.eu/snb/model/application-profile/ams-constraints/"
            xmlns:adms="http://www.w3.org/ns/adms#"
            xmlns:dc="http://purl.org/dc/terms/"
-           xmlns:elm="http://data.europa.eu/snb/model/elm/"
+           xmlns:elm="http://data.europa.eu/snb/model/ontology/"
            xmlns:foaf="http://xmlns.com/foaf/0.1/"
            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
            xmlns:locn="http://www.w3.org/ns/locn#"
@@ -19,8 +19,8 @@
            xmlns:eat="http://data.europa.eu/snb/accreditation/25831c2"
            xmlns:ecet="http://data.europa.eu/snb/encoding/25831c2"
            elementFormDefault="qualified"
-           targetNamespace="http://data.europa.eu/snb/model/ap/ams-constraints/"
-           version="3.1.0">
+           targetNamespace="http://data.europa.eu/snb/model/application-profile/ams-constraints/"
+           version="3.3.1">
 
    <xs:import namespace="http://www.w3.org/ns/regorg#" schemaLocation="external/rov.xsd"/>
    <xs:import namespace="http://www.w3.org/ns/adms#" schemaLocation="external/adms.xsd"/>
@@ -134,7 +134,7 @@
    <xs:element name="contactPoint" type="ContactPointType"/>
    <xs:element name="group" type="GroupType"/>
    <xs:element name="identifier" type="IdentifierType"/>
-   <xs:element name="emailAddress" type="EmailAddressType"/>
+   <xs:element name="emailAddress" type="MailboxType"/>
    <xs:element name="phone" type="PhoneType"/>
 
    <!-- PROPERTIES  -->
@@ -622,9 +622,9 @@
       </xs:complexContent>
    </xs:complexType>
 
-   <xs:complexType name="EmailAddressType">
+   <xs:complexType name="MailboxType">
       <xs:annotation>
-         <xs:documentation>An e-mail address.</xs:documentation>
+         <xs:documentation>A mailbox.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:anyURI"/>
@@ -692,7 +692,7 @@
                <xs:documentation>The format of the note.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="noteLiteral">
+         <xs:element ref="noteLiteral" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>The textual content of the note.</xs:documentation>
             </xs:annotation>
@@ -900,7 +900,7 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="xsdVersion" use="optional" default="3.1.0">
+      <xs:attribute name="xsdVersion" use="optional" default="3.3.1">
          <xs:annotation>
             <xs:documentation>used xsd version</xs:documentation>
          </xs:annotation>
@@ -908,6 +908,7 @@
             <xs:restriction base="xs:token">
                <xs:enumeration value="3.0.0"/>
                <xs:enumeration value="3.1.0"/>
+               <xs:enumeration value="3.3.1"/>
             </xs:restriction>
          </xs:simpleType>
       </xs:attribute>

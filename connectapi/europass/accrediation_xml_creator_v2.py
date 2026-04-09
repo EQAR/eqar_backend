@@ -18,20 +18,20 @@ from urllib.parse import urljoin
 class AccrediationXMLCreatorV2:
     attr_qname = etree.QName("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation")
 
-    NS = "{http://data.europa.eu/snb/model/ap/ams-constraints/}"
+    NS = "{http://data.europa.eu/snb/model/application-profile/ams-constraints/}"
     NSMAP = {
         'skos': 'http://www.w3.org/2004/02/skos/core#',
         'clv': 'http://data.europa.eu/m8g/',
-        None: 'http://data.europa.eu/snb/model/ap/ams-constraints/',
+        None: 'http://data.europa.eu/snb/model/application-profile/ams-constraints/',
         'dc': 'http://purl.org/dc/terms/',
         'locn': 'http://www.w3.org/ns/locn#'
     }
 
     REPORT_TYPES = {
-        'institutional': 'http://data.europa.eu/snb/accreditation/003293d2ce',
-        'institutional/programme': 'http://data.europa.eu/snb/accreditation/003293d2ce',
-        'programme': 'http://data.europa.eu/snb/accreditation/e57dddfcf3',
-        'joint programme': 'http://data.europa.eu/snb/accreditation/e57dddfcf3'
+        'institutional': 'http://data.europa.eu/snb/accreditation/c_1f1a469a',
+        'institutional/programme': 'http://data.europa.eu/snb/accreditation/c_1f1a469a',
+        'programme': 'http://data.europa.eu/snb/accreditation/c_64666c29',
+        'joint programme': 'http://data.europa.eu/snb/accreditation/c_64666c29',
     }
 
     EQF_LEVElS = {
@@ -96,6 +96,7 @@ class AccrediationXMLCreatorV2:
         self.reports = Report.objects.filter(
             Q(institutions__in=institutions) &
             Q(status=1) &
+            ~Q(decision=3) &
             ~Q(flag=3)
         ).order_by('id').distinct('id')
 
