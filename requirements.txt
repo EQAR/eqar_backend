@@ -41,6 +41,6 @@ psycopg2==2.9.10
 pypdf==6.9.2
 pysolr==3.10.0
 python-dateutil==2.9.0
-requests==2.32.4
+requests==2.33.1
 redis==5.2.1
 whitenoise==6.9.0
