@@ -159,3 +159,32 @@ class SubmissionAPIV2ReportTest(APITestCase):
             )
 
         self.assertEqual(Report.objects.count(), reports_before)
+
+    def test_report_submission_rejects_valid_to_outside_activity_window_with_registration_fallback(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = json.loads(json.dumps(self.valid_data))
+        data['valid_to'] = '2022-01-01'
+
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('activity #1', str(response.data))
+
+    def test_report_submission_rejects_valid_from_outside_activity_window_with_activity_valid_to(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = json.loads(json.dumps(self.valid_data))
+        data['activities'] = [{'id': '5'}]
+        data['valid_from'] = '2014-01-01'
+
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('activity #5', str(response.data))
