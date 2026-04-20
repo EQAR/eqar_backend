@@ -126,9 +126,6 @@ class ReportDownloader:
         # Option 1: get content-disposition
         filename = self._get_filename_from_cd(response.headers.get('content-disposition'))
 
-        if filename:
-            filename = filename.encode('iso-8859-1').decode('utf-8')
-
         # Option 2: use URL
         if not filename:
             filename = urlparse(self.url).path.rsplit('/', 1)[1]
@@ -146,9 +143,11 @@ class ReportDownloader:
     @staticmethod
     def _get_filename_from_cd(cd):
         """
-        Get filename from content-disposition
+        Get filename from content-disposition, supporting RFC 5987 (filename*=UTF-8'').
         """
+        if not cd:
+            return None
         m = Message()
-        m['content-type'] = cd # not a mistake, the content-type header is parsed by get_param(s)
-        return m.get_param('filename')
+        m['content-disposition'] = cd
+        return m.get_filename()
 
