@@ -1,5 +1,6 @@
 import os
 from django.conf import settings
+from django.core import mail
 from django.test import TestCase
 
 from reports.models import Report
@@ -26,6 +27,7 @@ class CeleryTaskTestCase(TestCase):
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
         settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+        settings.ADMINS = [('Admin', 'admin@example.com')]
 
     def test_download_file(self):
         report = Report.objects.get(pk=1)
@@ -37,3 +39,8 @@ class CeleryTaskTestCase(TestCase):
     def test_send_submission_email(self):
         pass
 
+    def test_download_file_sends_email_on_failure(self):
+        result = download_file.apply(args=('https://backend.deqar.eu/URL/FOR/SURE/DOES/NOT/EXIST', 1, 'ACQUIN'))
+        self.assertFalse(result.successful())
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("ReportDownloader failure for report_file 1", mail.outbox[0].subject)

@@ -71,6 +71,20 @@ class SubmissionAPIV2ReportTest(APITestCase):
         )
         self.assertEqual(response.status_code, 400, response.data)
 
+    def test_report_file_creation_blank_original_location_without_file(self):
+        data = {
+            "report_id": 1,
+            "original_location": "   ",
+            "report_language": ["eng"]
+        }
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.post(
+            '/submissionapi/v2/manage/report-file',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+
     def test_report_file_update(self):
         data = self.data
         data['report_file_id'] = 1
