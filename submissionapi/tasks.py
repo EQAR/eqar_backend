@@ -42,17 +42,29 @@ def _recheck_flag_for_report_file(report_file_id):
     recheck_flag(report=report_file.report)
 
 
-@task(name="download_file", autoretry_for=(requests.exceptions.ConnectionError, RetryHTTPError), retry_backoff=60)
-def download_file(url, report_file_id, agency_acronym):
+def _set_download_status(report_file_id, status):
+    ReportFile.objects.filter(pk=report_file_id).update(download_status=status)
+
+
+@task(name="download_file", bind=True, autoretry_for=(requests.exceptions.ConnectionError, RetryHTTPError), retry_backoff=60)
+def download_file(self, url, report_file_id, agency_acronym):
     downloader = ReportDownloader(
         url=url,
         report_file_id=report_file_id,
         agency_acronym=agency_acronym
     )
     try:
+        _set_download_status(report_file_id, ReportFile.DOWNLOAD_STATUS_PENDING)
         downloader.download()
+        _set_download_status(report_file_id, ReportFile.DOWNLOAD_STATUS_SUCCESS)
     except Exception as exc:
         _notify_download_problem(url, report_file_id, agency_acronym, exc)
+        is_retryable = isinstance(exc, (requests.exceptions.ConnectionError, RetryHTTPError))
+        retries_exhausted = not is_retryable
+        if is_retryable and self.max_retries is not None:
+            retries_exhausted = self.request.retries >= self.max_retries
+        if retries_exhausted:
+            _set_download_status(report_file_id, ReportFile.DOWNLOAD_STATUS_FAILED)
         raise
     finally:
         try:

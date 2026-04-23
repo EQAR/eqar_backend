@@ -6,7 +6,7 @@ from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from institutions.models import InstitutionQFEHEALevel
 from lists.models import QFEHEALevel
-from reports.models import Report, ReportFlag, ReportStatus
+from reports.models import Report, ReportFile, ReportFlag, ReportStatus
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
 
@@ -207,6 +207,19 @@ class ReportFlaggerTestCase(TestCase):
         flagger.report.reportfile_set.create(
             file_display_name="First File",
             file_original_location="https://example.com/first.pdf"
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'none')
+
+    def test_check_report_file_first_download_failed_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf",
+            download_status=ReportFile.DOWNLOAD_STATUS_FAILED
         )
         flagger.check_report_file()
         flagger.set_flag()

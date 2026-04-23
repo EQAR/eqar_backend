@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core import mail
 from django.test import TestCase
 
-from reports.models import Report
+from reports.models import Report, ReportFile
 from submissionapi.tasks import download_file
 
 
@@ -35,6 +35,7 @@ class CeleryTaskTestCase(TestCase):
         self.assertTrue(result.successful())
         rf = report.reportfile_set.first()
         self.assertTrue('git-cheat-sheet-education.pdf' in rf.file.name)
+        self.assertEqual(rf.download_status, ReportFile.DOWNLOAD_STATUS_SUCCESS)
 
     def test_send_submission_email(self):
         pass
@@ -44,3 +45,6 @@ class CeleryTaskTestCase(TestCase):
         self.assertFalse(result.successful())
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("ReportDownloader failure for report_file 1", mail.outbox[0].subject)
+        report = Report.objects.get(pk=1)
+        rf = report.reportfile_set.first()
+        self.assertEqual(rf.download_status, ReportFile.DOWNLOAD_STATUS_FAILED)

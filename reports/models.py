@@ -168,12 +168,22 @@ class ReportFile(models.Model):
     """
     PDF versions of reports and evaluations.
     """
+    DOWNLOAD_STATUS_PENDING = 'pending'
+    DOWNLOAD_STATUS_SUCCESS = 'success'
+    DOWNLOAD_STATUS_FAILED = 'failed'
+    DOWNLOAD_STATUS_CHOICES = (
+        (DOWNLOAD_STATUS_PENDING, 'Pending'),
+        (DOWNLOAD_STATUS_SUCCESS, 'Success'),
+        (DOWNLOAD_STATUS_FAILED, 'Failed'),
+    )
+
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('Report', on_delete=models.CASCADE)
     file_display_name = models.CharField(max_length=255, blank=True)
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
     file_checksum = models.CharField(max_length=32, blank=True, null=True)
+    download_status = models.CharField(max_length=20, choices=DOWNLOAD_STATUS_CHOICES, blank=True)
     languages = models.ManyToManyField('lists.Language')
 
     def generate_checksum(self):
@@ -188,6 +198,8 @@ class ReportFile(models.Model):
             self.file_checksum = self.generate_checksum()
         except FileNotFoundError:
             self.file_checksum = None
+        if self.file:
+            self.download_status = self.DOWNLOAD_STATUS_SUCCESS
         super().save(*args, **kwargs)
 
     class Meta:
