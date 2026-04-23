@@ -122,8 +122,7 @@ def validate_submission_package_root(data):
     #
     errors += validate_report_dates_within_activity_windows(
         activities=activities,
-        valid_from=date_from,
-        valid_to=date_to
+        valid_from=date_from
     )
 
     #
