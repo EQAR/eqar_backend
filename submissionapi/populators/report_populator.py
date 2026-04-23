@@ -231,6 +231,8 @@ class ReportPopulator():
 
                 # Async file download with celery
                 if original_location != "":
+                    rf.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
+                    rf.save()
                     download_file.delay(original_location, rf.id, self.agency.acronym_primary)
 
                 for lang in languages:

@@ -1,11 +1,8 @@
 import hashlib
-import mimetypes
-import datetime
 import filetype
 import tempfile
 
 import os
-import re
 import requests
 import functools
 from django.conf import settings

@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
 
+from reports.models import ReportFile
 from submissionapi.tasks import download_file
 
 
@@ -62,7 +63,8 @@ class ReportFilePopulator():
 
         rf = self.report.reportfile_set.create(
             file_display_name=file_display_name,
-            file_original_location=original_location
+            file_original_location=original_location,
+            download_status=ReportFile.DOWNLOAD_STATUS_PENDING
         )
 
         # Async file download with celery
@@ -78,6 +80,7 @@ class ReportFilePopulator():
 
         self.report_file.file_display_name = file_display_name
         self.report_file.file_original_location = original_location
+        self.report_file.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
         self.report_file.save()
 
         # Async file download with celery

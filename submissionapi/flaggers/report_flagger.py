@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from agencies.models import AgencyFocusCountry
 from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
 from lists.models import Flag
-from reports.models import ReportFlag
+from reports.models import ReportFile, ReportFlag
 from reports.tasks import send_red_flag_email
 
 
@@ -232,7 +232,8 @@ class ReportFlagger:
             return
 
         has_stored_file = any(rf.file.name != "" for rf in report_files)
-        if not has_stored_file:
+        first_report_file = report_files.first()
+        if not has_stored_file and first_report_file.download_status == ReportFile.DOWNLOAD_STATUS_FAILED:
             self.add_flag(flag_level=3, flag_message=self.flag_msg['noFile'])
 
         for rf in report_files:
