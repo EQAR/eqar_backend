@@ -150,7 +150,6 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
 
         activities = data.get('agency_esg_activities')
         valid_from = data.get('valid_from')
-        valid_to = data.get('valid_to', None)
         institutions = data.get('institutions', [])
         programmes = data.get('programmes', [])
         status = data.get('status', None)
@@ -182,8 +181,7 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
         if activities and valid_from:
             errors += validate_report_dates_within_activity_windows(
                 activities=activities,
-                valid_from=valid_from,
-                valid_to=valid_to
+                valid_from=valid_from
             )
 
         if len(errors) > 0:

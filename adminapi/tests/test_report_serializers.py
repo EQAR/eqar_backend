@@ -25,7 +25,7 @@ class ReportWriteSerializerTest(TestCase):
     def setUp(self):
         self.report = Report.objects.get(id=1)
 
-    def test_invalid_when_valid_to_exceeds_registration_valid_to_for_open_activity(self):
+    def test_valid_when_valid_to_exceeds_registration_valid_to_for_open_activity(self):
         serializer = ReportWriteSerializer(
             instance=self.report,
             data={
@@ -38,9 +38,7 @@ class ReportWriteSerializerTest(TestCase):
             partial=True
         )
 
-        self.assertFalse(serializer.is_valid())
-        self.assertIn(settings.NON_FIELD_ERRORS_KEY, serializer.errors)
-        self.assertIn('activity #1', str(serializer.errors[settings.NON_FIELD_ERRORS_KEY]))
+        self.assertTrue(serializer.is_valid(), serializer.errors)
 
     def test_invalid_when_valid_from_exceeds_activity_valid_to(self):
         serializer = ReportWriteSerializer(

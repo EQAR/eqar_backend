@@ -160,7 +160,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
 
         self.assertEqual(Report.objects.count(), reports_before)
 
-    def test_report_submission_rejects_valid_to_outside_activity_window_with_registration_fallback(self):
+    def test_report_submission_allows_valid_to_outside_activity_window_with_registration_fallback(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         data = json.loads(json.dumps(self.valid_data))
         data['valid_to'] = '2022-01-01'
@@ -171,8 +171,8 @@ class SubmissionAPIV2ReportTest(APITestCase):
             format='json'
         )
 
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('activity #1', str(response.data))
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
 
     def test_report_submission_rejects_valid_from_outside_activity_window_with_activity_valid_to(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
