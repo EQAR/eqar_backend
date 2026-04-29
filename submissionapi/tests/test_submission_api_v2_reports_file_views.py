@@ -61,6 +61,9 @@ class SubmissionAPIV2ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 200, response.data)
+        rf = ReportFile.objects.filter(report_id=1).order_by('-id').first()
+        self.assertIsNotNone(rf)
+        self.assertEqual(rf.download_status, ReportFile.DOWNLOAD_STATUS_SUCCESS)
 
     def test_report_file_creation_report_id_missing(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)

@@ -92,9 +92,13 @@ class ReportFilePopulator():
 
 
     def _create_report_file_from_base64_object(self, file, file_name, languages):
-        rf = self.report.reportfile_set.create(file_display_name=file_name)
+        rf = self.report.reportfile_set.create(
+            file_display_name=file_name,
+            download_status=ReportFile.DOWNLOAD_STATUS_PENDING
+        )
         content = ContentFile(b''.join(file.chunks()))
         rf.file.save(file_name, content, save=True)
+        ReportFile.objects.filter(pk=rf.pk).update(download_status=ReportFile.DOWNLOAD_STATUS_SUCCESS)
         for lang in languages:
             rf.languages.add(lang)
 
@@ -102,6 +106,7 @@ class ReportFilePopulator():
         self.report_file.file.delete(save=False)
         content = ContentFile(b''.join(file.chunks()))
         self.report_file.file.save(file_name, content, save=True)
+        ReportFile.objects.filter(pk=self.report_file.pk).update(download_status=ReportFile.DOWNLOAD_STATUS_SUCCESS)
         self.report_file.languages.clear()
         for lang in languages:
             self.report_file.languages.add(lang)
