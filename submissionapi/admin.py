@@ -31,7 +31,7 @@ class SubmissionLogAdmin(DEQARModelAdmin):
     list_display = ('id', 'user', 'user_ip_address', 'origin', 'submission_date')
     list_display_links = ('id', 'submission_date')
     ordering = ('-id',) # 'user', 'origin', 'submission_date')
-    list_filter = ('user', 'origin', 'submission_date', 'report_status')
+    list_filter = ('user', 'origin', 'submission_date')
     inlines = [SubmissionReportLogInline,]
     readonly_fields = ('user','origin','user_ip_address','submission_date','submitted_data_pp','submission_errors_pp')
     exclude = ('submitted_data','submission_errors')
