@@ -1,4 +1,8 @@
+import shutil
+import tempfile
+
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from requests.exceptions import HTTPError
 from lists.models import Language
@@ -22,6 +26,19 @@ class ReportDownloaderTestCase(TestCase):
         'report_decision', 'report_status',
         'users', 'report_demo_01'
     ]
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._temp_media_root = tempfile.mkdtemp(prefix='test_media_')
+        cls._media_override = override_settings(MEDIA_ROOT=cls._temp_media_root)
+        cls._media_override.enable()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._media_override.disable()
+        shutil.rmtree(cls._temp_media_root, ignore_errors=True)
+        super().tearDownClass()
 
     def setUp(self):
         self.report_file = ReportFile.objects.create(
@@ -73,7 +90,13 @@ class ReportDownloaderTestCase(TestCase):
             agency_acronym='SPACE'
         )
         downloader.download()
-        self.assertTrue("northern-university-expert-report-2.pdf" in downloader.report_file.file.name)
+        saved_name = downloader.report_file.file.name
+        self.assertIn(
+            "northern-university-expert-report-2",
+            saved_name,
+            msg=f"Actual saved filename: {saved_name}",
+        )
+        self.assertTrue(saved_name.endswith(".pdf"), msg=f"Actual saved filename: {saved_name}")
 
     def test_download_file(self):
         downloader = ReportDownloader(
@@ -84,11 +107,22 @@ class ReportDownloaderTestCase(TestCase):
         self.assertIsNone(downloader.old_file_path)
         downloader.download()
         self.assertTrue(downloader.report_file.file)
-        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader.report_file.file.name)
+        saved_name = downloader.report_file.file.name
+        self.assertIn(
+            "2008-06-report-groningen-website",
+            saved_name,
+            msg=f"Actual saved filename: {saved_name}",
+        )
+        self.assertTrue(saved_name.endswith(".pdf"), msg=f"Actual saved filename: {saved_name}")
         downloader2 = ReportDownloader(
             url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
             report_file_id=self.report_file.id,
             agency_acronym='SPACE'
         )
-        self.assertTrue("2008-06-report-groningen-website.pdf" in downloader2.old_file_path)
-
+        old_name = downloader2.old_file_path
+        self.assertIn(
+            "2008-06-report-groningen-website",
+            old_name,
+            msg=f"Actual previously saved filename: {old_name}",
+        )
+        self.assertTrue(old_name.endswith(".pdf"), msg=f"Actual previously saved filename: {old_name}")
