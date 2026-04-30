@@ -50,6 +50,10 @@ def do_reharvest_file_when_location_change(sender, instance, **kwargs):
         if instance.id is not None:
             original = ReportFile.objects.get(pk=instance.pk)
             if original.file_original_location != instance.file_original_location:
+                if instance.file_original_location:
+                    instance.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
+                else:
+                    instance.download_status = ''
                 download_file.delay(instance.file_original_location,
                                     instance.pk,
                                     instance.report.agency.acronym_primary)

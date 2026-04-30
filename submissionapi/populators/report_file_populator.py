@@ -1,11 +1,8 @@
-import hashlib
-import os
-from datetime import datetime
-
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.base import ContentFile
 
+from reports.models import ReportFile
 from submissionapi.tasks import download_file
-from django.conf import settings
 
 
 class ReportFilePopulator():
@@ -66,7 +63,8 @@ class ReportFilePopulator():
 
         rf = self.report.reportfile_set.create(
             file_display_name=file_display_name,
-            file_original_location=original_location
+            file_original_location=original_location,
+            download_status=ReportFile.DOWNLOAD_STATUS_PENDING
         )
 
         # Async file download with celery
@@ -82,6 +80,7 @@ class ReportFilePopulator():
 
         self.report_file.file_display_name = file_display_name
         self.report_file.file_original_location = original_location
+        self.report_file.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
         self.report_file.save()
 
         # Async file download with celery
@@ -94,34 +93,20 @@ class ReportFilePopulator():
 
     def _create_report_file_from_base64_object(self, file, file_name, languages):
         rf = self.report.reportfile_set.create(
-            file_display_name=file_name
+            file_display_name=file_name,
+            download_status=ReportFile.DOWNLOAD_STATUS_PENDING
         )
-        agency_acronym = self.agency.acronym_primary
-        file_base_path = os.path.join(agency_acronym,
-                                 "%06d_%s_%s" % (rf.id, datetime.now().strftime("%Y%m%d_%H%M"), file_name))
-        file_path = os.path.join(settings.MEDIA_ROOT, file_base_path)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'wb') as f:
-            for chunk in file.chunks():
-                f.write(chunk)
-        rf.file = file_base_path
-        rf.save()
-
+        content = ContentFile(b''.join(file.chunks()))
+        rf.file.save(file_name, content, save=True)
+        ReportFile.objects.filter(pk=rf.pk).update(download_status=ReportFile.DOWNLOAD_STATUS_SUCCESS)
         for lang in languages:
             rf.languages.add(lang)
 
     def _update_report_file_from_base64_object(self, file, file_name, languages):
-        agency_acronym = self.agency.acronym_primary
-        file_base_path = os.path.join(agency_acronym,
-                                 "%06d_%s_%s" % (self.report_file.id, datetime.now().strftime("%Y%m%d_%H%M"), file_name))
-        file_path = os.path.join(settings.MEDIA_ROOT, file_base_path)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'wb') as f:
-            for chunk in file.chunks():
-                f.write(chunk)
-        self.report_file.file = file_base_path
-        self.report_file.save()
-
+        self.report_file.file.delete(save=False)
+        content = ContentFile(b''.join(file.chunks()))
+        self.report_file.file.save(file_name, content, save=True)
+        ReportFile.objects.filter(pk=self.report_file.pk).update(download_status=ReportFile.DOWNLOAD_STATUS_SUCCESS)
         self.report_file.languages.clear()
         for lang in languages:
             self.report_file.languages.add(lang)

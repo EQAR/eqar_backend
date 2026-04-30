@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
+from reports.validations import validate_report_dates_within_activity_windows
 from reports.models import Report
 
 
@@ -96,21 +97,33 @@ def validate_submission_package_root(data):
     #
     date_from = datetime.strptime(valid_from, "%Y-%m-%d")
 
+    date_from = datetime.date(date_from)
+    date_to = None
     if valid_to:
         date_to = datetime.strptime(valid_to, "%Y-%m-%d")
-        if date_from >= date_to:
+        if date_from >= datetime.date(date_to):
             errors.append("Report's validity start should be earlier then validity end.")
+        else:
+            date_to = datetime.date(date_to)
 
     #
     # Validate if Agency registration start is earlier than report validation start date.
     #
     if date_from:
         if agency.registration_valid_to:
-            if not (agency.registration_start <= datetime.date(date_from) <= agency.registration_valid_to):
+            if not (agency.registration_start <= date_from <= agency.registration_valid_to):
                 errors.append("Report's validity date must fall between the Agency EQAR registration dates.")
         else:
-            if agency.registration_start >= datetime.date(date_from):
+            if agency.registration_start >= date_from:
                 errors.append("Report's validity date must fall after the Agency was registered with EQAR.")
+
+    #
+    # Validate if report validity period falls inside all assigned activity validity periods.
+    #
+    errors += validate_report_dates_within_activity_windows(
+        activities=activities,
+        valid_from=date_from
+    )
 
     #
     # Validate if Institutions and Platforms are different.

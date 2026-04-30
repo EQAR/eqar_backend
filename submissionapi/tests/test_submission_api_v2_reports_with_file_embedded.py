@@ -1,6 +1,7 @@
 import os
 import base64
 import hashlib
+import copy
 
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -94,7 +95,7 @@ class SubmissionAPIV2ReportTest(APITestCase):
         self.assertEqual(ReportFile.objects.get(report__id=report_id).file_checksum, checksum_expected)
 
     def test_submit_report_with_embedded_file_missing_file_name(self):
-        data = self.valid_data
+        data = copy.deepcopy(self.valid_data)
         data['report_files'][0].pop('file_name')
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.post(
@@ -103,3 +104,28 @@ class SubmissionAPIV2ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 400, response.data)
+
+    def test_submit_report_with_embedded_file_blank_file_name(self):
+        data = copy.deepcopy(self.valid_data)
+        data['report_files'][0]['file_name'] = '   '
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+
+    def test_submit_report_with_embedded_file_long_name(self):
+        data = copy.deepcopy(self.valid_data)
+        data['report_files'][0]['file_name'] = "Annotation_AC_PAMC-PA_NMU_SRP_\u0441\u043f\u0435\u0446\u0438\u0430\u043b\u043d\u043e\u0441\u0442 \u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0438 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043d\u0430 \u0432\u043e\u0435\u043d\u043d\u0438\u0442\u0435 \u0444\u043e\u0440\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u043d\u0430 \u0442\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e \u043d\u0438\u0432\u043e \u043e\u0442 \u0440\u0435\u0433\u0443\u043b\u0438\u0440\u0430\u043d\u0430\u0442\u0430 \u043f\u0440\u043e\u0444\u0435\u0441\u0438\u044f \u041e\u0444\u0438\u0446\u0435\u0440 \u043d\u0430 \u0442\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e \u043d\u0438\u0432\u043e \u043d\u0430 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435_MP_2024.pdf"
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 200, response.data)
+        report_id = response.data["submitted_report"]["id"]
+        checksum_expected = hashlib.md5(base64.b64decode(self.base64_file_content)).hexdigest()
+        self.assertEqual(ReportFile.objects.get(report__id=report_id).file_checksum, checksum_expected)

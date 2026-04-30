@@ -1,12 +1,10 @@
 import datetime
-import os
 import hashlib
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
 
 from eqar_backend.fields.char_null_field import CharNullField
 from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
@@ -154,29 +152,44 @@ class ReportLink(models.Model):
 
 
 def set_directory_path(instance, filename):
-    return '{0}/{1}-{2}'.format(instance.report.agency.acronym_primary,
-                                datetime.datetime.now().strftime("%Y%m%d_%H%M"),
-                                filename)
+    valid_from = instance.report.valid_from
+    if isinstance(valid_from, str):
+        valid_from = datetime.datetime.strptime(valid_from, '%Y-%m-%d').date()
+    return '{0}/{1}/{2}/{3}_{4}'.format(
+        instance.report.agency.acronym_primary,
+        valid_from.year,
+        instance.report.id,
+        datetime.datetime.now().strftime("%Y%m%d_%H%M"),
+        filename
+    )
 
 
 class ReportFile(models.Model):
     """
     PDF versions of reports and evaluations.
     """
+    DOWNLOAD_STATUS_PENDING = 'pending'
+    DOWNLOAD_STATUS_SUCCESS = 'success'
+    DOWNLOAD_STATUS_FAILED = 'failed'
+    DOWNLOAD_STATUS_CHOICES = (
+        (DOWNLOAD_STATUS_PENDING, 'Pending'),
+        (DOWNLOAD_STATUS_SUCCESS, 'Success'),
+        (DOWNLOAD_STATUS_FAILED, 'Failed'),
+    )
+
     id = models.AutoField(primary_key=True)
     report = models.ForeignKey('Report', on_delete=models.CASCADE)
     file_display_name = models.CharField(max_length=255, blank=True)
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
     file_checksum = models.CharField(max_length=32, blank=True, null=True)
+    download_status = models.CharField(max_length=20, choices=DOWNLOAD_STATUS_CHOICES, blank=True)
     languages = models.ManyToManyField('lists.Language')
 
     def generate_checksum(self):
         if self.file:
-            file_path = os.path.join(settings.MEDIA_ROOT, self.file.name)
-            with open(file_path, 'rb') as f:
-                checksum = hashlib.md5(f.read()).hexdigest()
-            return checksum
+            with self.file.open('rb') as f:
+                return hashlib.md5(f.read()).hexdigest()
         else:
             raise FileNotFoundError
 
@@ -185,6 +198,8 @@ class ReportFile(models.Model):
             self.file_checksum = self.generate_checksum()
         except FileNotFoundError:
             self.file_checksum = None
+        if self.file:
+            self.download_status = self.DOWNLOAD_STATUS_SUCCESS
         super().save(*args, **kwargs)
 
     class Meta:

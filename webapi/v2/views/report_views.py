@@ -150,16 +150,16 @@ class InstitutionalReportsByInstitution(MeiliSolrBackportView):
         for rel in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
             this_filter = f'( institutions.id = {rel.institution_child.id} OR platforms.id = {rel.institution_child.id} )'
             if rel.valid_from:
-                this_filter += f' AND report.valid_to_calculated >= {datetime.combine(rel.valid_from, datetime.min.time()).timestamp()}'
+                this_filter += f' AND report.valid_to_calculated >= {datetime.datetime.combine(rel.valid_from, datetime.datetime.min.time()).timestamp()}'
             if rel.valid_to:
-                this_filter += f' AND report.valid_from <= {datetime.combine(rel.valid_to, datetime.min.time()).timestamp()}'
+                this_filter += f' AND report.valid_from <= {datetime.datetime.combine(rel.valid_to, datetime.datetime.min.time()).timestamp()}'
             institution_filters.append(this_filter)
 
         # add reports of historically related institutions
         for rel in institution.relationship_source.filter(relationship_type__type_from='succeeded'):
-            institution_filters.append(f'institutions.id = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.combine(rel.relationship_date, datetime.min.time()).timestamp()}')
+            institution_filters.append(f'institutions.id = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
         for rel in institution.relationship_target.filter(relationship_type__type_to='absorbed'):
-            institution_filters.append(f'institutions.id = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.combine(rel.relationship_date, datetime.min.time()).timestamp()}')
+            institution_filters.append(f'institutions.id = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
 
         filters = [
             institution_filters,
@@ -274,16 +274,16 @@ class ProgrammesByInstitution(MeiliSolrBackportView):
         for rel in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
             this_filter = f'( institutions = {rel.institution_child.id} OR platforms = {rel.institution_child.id} )'
             if rel.valid_from:
-                this_filter += f' AND report.valid_to_calculated >= {datetime.combine(rel.valid_from, datetime.min.time()).timestamp()}'
+                this_filter += f' AND report.valid_to_calculated >= {datetime.datetime.combine(rel.valid_from, datetime.datetime.min.time()).timestamp()}'
             if rel.valid_to:
-                this_filter += f' AND report.valid_from <= {datetime.combine(rel.valid_to, datetime.min.time()).timestamp()}'
+                this_filter += f' AND report.valid_from <= {datetime.datetime.combine(rel.valid_to, datetime.datetime.min.time()).timestamp()}'
             institution_filters.append(this_filter)
 
         # add reports of historically related institutions
         for rel in institution.relationship_source.filter(relationship_type__type_from='succeeded'):
-            institution_filters.append(f'institutions = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.combine(rel.relationship_date, datetime.min.time()).timestamp()}')
+            institution_filters.append(f'institutions = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
         for rel in institution.relationship_target.filter(relationship_type__type_to='absorbed'):
-            institution_filters.append(f'institutions = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.combine(rel.relationship_date, datetime.min.time()).timestamp()}')
+            institution_filters.append(f'institutions = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
 
         filters = [
             institution_filters,

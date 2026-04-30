@@ -1,10 +1,12 @@
 from django.test import TestCase
+from django.core.files.base import ContentFile
+from unittest.mock import patch
 
 from agencies.models import AgencyFocusCountry
 from countries.models import Country
 from institutions.models import InstitutionQFEHEALevel
 from lists.models import QFEHEALevel
-from reports.models import Report, ReportFlag, ReportStatus
+from reports.models import Report, ReportFile, ReportFlag, ReportStatus
 from submissionapi.flaggers.report_flagger import ReportFlagger
 
 
@@ -25,6 +27,14 @@ class ReportFlaggerTestCase(TestCase):
         'report_decision', 'report_status',
         'users', 'report_demo_01'
     ]
+
+    def setUp(self):
+        super().setUp()
+        self._send_red_flag_email_patcher = patch(
+            'submissionapi.flaggers.report_flagger.send_red_flag_email.delay'
+        )
+        self._send_red_flag_email_patcher.start()
+        self.addCleanup(self._send_red_flag_email_patcher.stop)
 
     def test_init(self):
         flagger = ReportFlagger(
@@ -167,9 +177,81 @@ class ReportFlaggerTestCase(TestCase):
         flagger = ReportFlagger(
             report=Report.objects.get(pk=1)
         )
+        flagger.report.reportfile_set.all().delete()
+        flagger.reset_flag()
         flagger.report.reportfile_set.create(
             file_display_name="Test File"
         )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'low level')
+
+    def test_check_report_file_non_first_missing_stays_low_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        first_rf = flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf"
+        )
+        first_rf.file.save("first.pdf", ContentFile(b"dummy pdf bytes"), save=True)
+        flagger.report.reportfile_set.create(
+            file_display_name="Second File"
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'low level')
+
+    def test_check_report_file_first_with_original_location_and_no_download_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.all().delete()
+        flagger.reset_flag()
+        flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf"
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'none')
+
+    def test_check_report_file_first_download_failed_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.all().delete()
+        flagger.reset_flag()
+        flagger.report.reportfile_set.create(
+            file_display_name="First File",
+            file_original_location="https://example.com/first.pdf",
+            download_status=ReportFile.DOWNLOAD_STATUS_FAILED
+        )
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+
+    def test_check_report_file_without_any_report_files_is_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.all().delete()
+        flagger.check_report_file()
+        flagger.set_flag()
+        self.assertEqual(flagger.report.flag.flag, 'high level')
+
+    def test_check_report_file_at_least_one_stored_file_removes_high_level(self):
+        flagger = ReportFlagger(
+            report=Report.objects.get(pk=1)
+        )
+        flagger.report.reportfile_set.create(
+            file_display_name="First File"
+        )
+        second_rf = flagger.report.reportfile_set.create(
+            file_display_name="Second File",
+            file_original_location="https://example.com/second.pdf"
+        )
+        second_rf.file.save("second.pdf", ContentFile(b"dummy pdf bytes"), save=True)
         flagger.check_report_file()
         flagger.set_flag()
         self.assertEqual(flagger.report.flag.flag, 'low level')

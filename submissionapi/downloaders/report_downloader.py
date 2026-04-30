@@ -1,13 +1,12 @@
 import hashlib
-import mimetypes
-import datetime
 import filetype
+import tempfile
 
 import os
-import re
 import requests
 import functools
 from django.conf import settings
+from django.core.files import File
 from django.core.management import color_style
 
 from reports.models import ReportFile
@@ -50,7 +49,6 @@ class ReportDownloader:
         else:
             self.old_file_path = None
             self.old_checksum = None
-        self.saved_file_path = None
         # session and HTTP defaults
         self.session = requests.Session()
         self.session.headers.update({'User-Agent': 'DEQAR File Downloader'})
@@ -78,21 +76,20 @@ class ReportDownloader:
             # determine local filename
             local_filename = self._get_filename(r)
 
-            # download the file
-            self.saved_file_name = os.path.join(self.agency_acronym, local_filename)
-            self.saved_file_path = os.path.join(settings.MEDIA_ROOT, self.saved_file_name)
-            os.makedirs(os.path.dirname(self.saved_file_path), exist_ok=True)
-            with open(self.saved_file_path, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=1024):
-                    if chunk:
-                        f.write(chunk)
+            # download the file into a temporary file
+            tmp = tempfile.TemporaryFile()
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    tmp.write(chunk)
 
             # check content-type
             content_type = r.headers.get('content-type')
             if content_type != 'application/pdf':
-                ft = filetype.guess(self.saved_file_path)
+                tmp.seek(0)
+                header = tmp.read(261)
+                ft = filetype.guess(header)
                 if ft is None or ft.mime != 'application/pdf':
-                    os.remove(self.saved_file_path)
+                    tmp.close()
                     raise WrongFileType
                 else:
                     print(self.style.WARNING(f'Report {self.report_file.report.id} / File {self.report_file.id}: {self.url} reported wrong content type {content_type}, but downloaded file is a PDF'))
@@ -101,26 +98,25 @@ class ReportDownloader:
                 self.report_file.file_display_name = local_filename
 
             # Check if the downloaded file is different from the old file
-            with open(self.saved_file_path, 'rb') as f:
-                checksum = hashlib.md5(f.read()).hexdigest()
+            tmp.seek(0)
+            checksum = hashlib.md5(tmp.read()).hexdigest()
 
             # If the two checksums are different, update the file and remove the old one,
-            # if they are identical remove the downloaded file
+            # if they are identical discard the temp file
             if checksum != self.old_checksum:
-                self.report_file.file.name = self.saved_file_name
-                self.report_file.save()
+                tmp.seek(0)
+                self.report_file.file.save(local_filename, File(tmp), save=True)
+                tmp.close()
                 self._remove_old_file()
                 print(self.style.SUCCESS(f'Report {self.report_file.report.id} / File {self.report_file.id}: saved file downloaded from {self.url}'))
             else:
-                os.remove(self.saved_file_path)
+                tmp.close()
                 print(self.style.WARNING(f'Report {self.report_file.report.id} / File {self.report_file.id}: file downloaded from {self.url} has identical checksum, discarded'))
 
 
     def _remove_old_file(self):
         if self.old_file_path:
-            old_file = os.path.join(settings.MEDIA_ROOT, self.old_file_path)
-            if os.path.exists(old_file):
-                os.remove(old_file)
+            self.report_file.file.storage.delete(self.old_file_path)
 
     def _get_filename(self, response):
         """
@@ -145,7 +141,7 @@ class ReportDownloader:
         filename, ext = os.path.splitext(filename)
         filename += '.pdf'
 
-        return "%06d_%s_%s" % (self.report_file.id, datetime.datetime.now().strftime("%Y%m%d_%H%M"), filename)
+        return filename
 
     @staticmethod
     def _get_filename_from_cd(cd):

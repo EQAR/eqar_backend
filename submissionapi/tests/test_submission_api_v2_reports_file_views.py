@@ -61,12 +61,29 @@ class SubmissionAPIV2ReportTest(APITestCase):
             format='json'
         )
         self.assertEqual(response.status_code, 200, response.data)
+        rf = ReportFile.objects.filter(report_id=1).order_by('-id').first()
+        self.assertIsNotNone(rf)
+        self.assertEqual(rf.download_status, ReportFile.DOWNLOAD_STATUS_SUCCESS)
 
     def test_report_file_creation_report_id_missing(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.post(
             '/submissionapi/v2/manage/report-file',
             data=self.data,
+            format='json'
+        )
+        self.assertEqual(response.status_code, 400, response.data)
+
+    def test_report_file_creation_blank_original_location_without_file(self):
+        data = {
+            "report_id": 1,
+            "original_location": "   ",
+            "report_language": ["eng"]
+        }
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        response = self.client.post(
+            '/submissionapi/v2/manage/report-file',
+            data=data,
             format='json'
         )
         self.assertEqual(response.status_code, 400, response.data)

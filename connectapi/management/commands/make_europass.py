@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 with open(file_path, 'wb') as f:
                     output = creator.create()
                     f.write(etree.tostring(output, encoding='utf8'))
-                    if output.tag == '{http://data.europa.eu/snb/model/ap/ams-constraints/}Accreditations':
+                    if output.tag == '{http://data.europa.eu/snb/model/application-profile/ams-constraints/}Accreditations':
                         if options['force']:
                             self.stdout.write(f'  - validation skipped (--force/-f)')
                         else:

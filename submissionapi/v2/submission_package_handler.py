@@ -1,6 +1,7 @@
 from ipware import get_client_ip
 
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.db import transaction
 
 from institutions.models import Institution
 from reports.models import ReportUpdateLog
@@ -32,25 +33,27 @@ class SubmissionPackageHandler:
         tracker.log_package()
 
         if self.serializer.is_valid():
-            self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
             try:
-                self.populator.populate(action=self.action)
+                with transaction.atomic():
+                    self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
+                    self.populator.populate(action=self.action)
+
+                    self.flagger = ReportFlagger(report=self.populator.report)
+                    self.flagger.check_and_set_flags()
+                    # Add submission report log
+                    tracker.log_report(self.populator, self.flagger)
+                    # Add log entry
+                    ReportUpdateLog.objects.create(
+                        report=self.populator.report,
+                        note="Report %sd via API." % self.action,
+                        updated_by=self.request.user
+                    )
             except ValidationError as error:
                 if hasattr(error, "error_dict"):
                     tracker.log_errors(dict(error))
                 else:
                     tracker.log_errors(list(error))
                 raise
-            self.flagger = ReportFlagger(report=self.populator.report)
-            self.flagger.check_and_set_flags()
-            # Add submission report log
-            tracker.log_report(self.populator, self.flagger)
-            # Add log entry
-            ReportUpdateLog.objects.create(
-                report=self.populator.report,
-                note="Report %sd via API." % self.action,
-                updated_by=self.request.user
-            )
             self._make_success_response()
             # Send email
             send_submission_email.delay(response=[self.response],

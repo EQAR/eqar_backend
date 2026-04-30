@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -144,3 +145,46 @@ class SubmissionAPIV2ReportTest(APITestCase):
         )
         self.assertEqual(response.status_code, 400)
 
+    @patch('submissionapi.flaggers.report_flagger.ReportFlagger.check_and_set_flags')
+    def test_report_submission_rolls_back_on_mid_flow_error(self, mocked_check_and_set_flags):
+        mocked_check_and_set_flags.side_effect = RuntimeError('Simulated failure after report populate')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        reports_before = Report.objects.count()
+
+        with self.assertRaises(RuntimeError):
+            self.client.post(
+                '/submissionapi/v2/submit/report',
+                data=self.valid_data,
+                format='json'
+            )
+
+        self.assertEqual(Report.objects.count(), reports_before)
+
+    def test_report_submission_allows_valid_to_outside_activity_window_with_registration_fallback(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = json.loads(json.dumps(self.valid_data))
+        data['valid_to'] = '2022-01-01'
+
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, 200, response.data)
+        self.assertEqual(response.data['submission_status'], 'success')
+
+    def test_report_submission_rejects_valid_from_outside_activity_window_with_activity_valid_to(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
+        data = json.loads(json.dumps(self.valid_data))
+        data['activities'] = [{'id': '5'}]
+        data['valid_from'] = '2014-01-01'
+
+        response = self.client.post(
+            '/submissionapi/v2/submit/report',
+            data=data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('activity #5', str(response.data))

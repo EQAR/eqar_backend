@@ -10,6 +10,7 @@ from agencies.models import AgencyESGActivity
 from eqar_backend.serializer_fields.date_blank_serializer_field import DateBlankSerializer
 from lists.models import Language
 from reports.models import Report, ReportFile, ReportFlag, ReportUpdateLog, ReportLink
+from reports.validations import validate_report_dates_within_activity_windows
 from adminapi.serializers.institution_serializers import InstitutionReadSerializer
 
 
@@ -147,6 +148,8 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
         errors = []
         data = super(ReportWriteSerializer, self).validate(data)
 
+        activities = data.get('agency_esg_activities')
+        valid_from = data.get('valid_from')
         institutions = data.get('institutions', [])
         programmes = data.get('programmes', [])
         status = data.get('status', None)
@@ -174,6 +177,12 @@ class ReportWriteSerializer(WritableNestedModelSerializer):
                 if programme['degree_outcome'].id != 2:
                     errors.append("Degree outcome should be '2 / no full degree' if all the "
                                   "organisations are other providers")
+
+        if activities and valid_from:
+            errors += validate_report_dates_within_activity_windows(
+                activities=activities,
+                valid_from=valid_from
+            )
 
         if len(errors) > 0:
             raise serializers.ValidationError({settings.NON_FIELD_ERRORS_KEY: errors})

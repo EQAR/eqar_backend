@@ -23,14 +23,24 @@ class ReportFileSerializer(serializers.Serializer):
                                       label='The name of the file, required if you embed the file in the upload request',
                                       help_text='example: ACQUIN_institutional_report.pdf')
 
+    @staticmethod
+    def _is_blank_string(value):
+        return isinstance(value, str) and value.strip() == ''
+
     def validate(self, data):
         file = data.get('file', None)
         file_name = data.get('file_name', None)
 
         original_location = data.get('original_location', None)
 
+        if self._is_blank_string(file_name):
+            file_name = None
+
+        if self._is_blank_string(original_location):
+            original_location = None
+
         if file:
-            if not file_name or file_name == '':
+            if not file_name:
                 raise ValidationError("Please provide a file name for the uploaded file.")
 
             if original_location:

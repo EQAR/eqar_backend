@@ -6,7 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from agencies.models import AgencyFocusCountry
 from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
 from lists.models import Flag
-from reports.models import ReportFlag
+from reports.models import ReportFile, ReportFlag
+from reports.tasks import send_red_flag_email
 
 
 class ReportFlagger:
@@ -28,7 +29,8 @@ class ReportFlagger:
             'validityDate': 'Report validity is more then one year old.',
             'EHEAIsMember': 'A record was created/identified for an institution (%s) in an EHEA member country (%s) '
                             'without including QF-EHEA levels.',
-            'file': 'File location was not provided.'
+            'file': 'File location was not provided.',
+            'noFile': 'No report file is available for this report.'
         }
 
     def check_and_set_flags(self):
@@ -67,6 +69,14 @@ class ReportFlagger:
                 report=self.report,
                 flag=flag,
                 flag_message=flag_message
+            )
+
+        # In case of red flag, send out an e-mail to the agency contact person and EQAR staff
+        if flag_level == 3:
+            send_red_flag_email.delay(
+                report_id=self.report.id,
+                flag_message=flag_message,
+                agency_emails=[agency_email.email for agency_email in self.report.agency.agencyemail_set.all()],
             )
 
     def set_flag(self):
@@ -216,7 +226,16 @@ class ReportFlagger:
                         self.add_flag(flag_level=2, flag_message=flag_message)
 
     def check_report_file(self):
-        for rf in self.report.reportfile_set.all():
+        report_files = self.report.reportfile_set.order_by('id')
+        if report_files.count() == 0:
+            self.add_flag(flag_level=3, flag_message=self.flag_msg['noFile'])
+            return
+
+        has_stored_file = any(rf.file.name != "" for rf in report_files)
+        first_report_file = report_files.first()
+        if not has_stored_file and first_report_file.download_status == ReportFile.DOWNLOAD_STATUS_FAILED:
+            self.add_flag(flag_level=3, flag_message=self.flag_msg['noFile'])
+
+        for rf in report_files:
             if rf.file_original_location == "" and rf.file.name == "":
-                flag_message = self.flag_msg['file']
-                self.add_flag(flag_level=2, flag_message=flag_message)
+                self.add_flag(flag_level=2, flag_message=self.flag_msg['file'])
