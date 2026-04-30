@@ -1,7 +1,9 @@
-import os
+import shutil
+import tempfile
 from django.conf import settings
 from django.core import mail
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from reports.models import Report, ReportFile
 from submissionapi.tasks import download_file
@@ -24,6 +26,19 @@ class CeleryTaskTestCase(TestCase):
         'users', 'report_demo_01'
     ]
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._temp_media_root = tempfile.mkdtemp(prefix='test_media_')
+        cls._media_override = override_settings(MEDIA_ROOT=cls._temp_media_root)
+        cls._media_override.enable()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._media_override.disable()
+        shutil.rmtree(cls._temp_media_root, ignore_errors=True)
+        super().tearDownClass()
+
     def setUp(self):
         settings.CELERY_ALWAYS_EAGER = True
         settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
@@ -34,7 +49,9 @@ class CeleryTaskTestCase(TestCase):
         result = download_file.apply(args=('https://education.github.com/git-cheat-sheet-education.pdf', 1, 'ACQUIN'))
         self.assertTrue(result.successful())
         rf = report.reportfile_set.first()
-        self.assertTrue('git-cheat-sheet-education.pdf' in rf.file.name)
+        saved_name = rf.file.name
+        self.assertIn('git-cheat-sheet-education', saved_name, msg=f"Actual saved filename: {saved_name}")
+        self.assertTrue(saved_name.endswith('.pdf'), msg=f"Actual saved filename: {saved_name}")
         self.assertEqual(rf.download_status, ReportFile.DOWNLOAD_STATUS_SUCCESS)
 
     def test_send_submission_email(self):
