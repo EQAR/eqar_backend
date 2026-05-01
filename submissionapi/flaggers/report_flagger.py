@@ -14,8 +14,9 @@ class ReportFlagger:
     """
     Class to check and create flags in report records.
     """
-    def __init__(self, report):
+    def __init__(self, report, agency_email=None):
         self.report = report
+        self.agency_email = agency_email
         self.flag_msg = {
             'institutionCountry': 'Institution country [%s] was not on a list as an Agency Focus country for [%s].',
             'programmeCountry': 'Programme country [%s] was not on a list as an Agency Focus country for [%s].',
@@ -72,11 +73,11 @@ class ReportFlagger:
             )
 
         # In case of red flag, send out an e-mail to the agency contact person and EQAR staff
-        if flag_level == 3:
+        if flag_level == 3 and self.agency_email:
             send_red_flag_email.delay(
                 report_id=self.report.id,
                 flag_message=flag_message,
-                agency_emails=[agency_email.email for agency_email in self.report.agency.agencyemail_set.all()],
+                agency_email=self.agency_email,
             )
 
     def set_flag(self):
