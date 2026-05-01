@@ -98,6 +98,27 @@ class ReportDownloaderTestCase(TestCase):
         )
         self.assertTrue(saved_name.endswith(".pdf"), msg=f"Actual saved filename: {saved_name}")
 
+    def test_get_filename_from_cd_parsing(self):
+        # No header → None
+        self.assertIsNone(ReportDownloader._get_filename_from_cd(None))
+        self.assertIsNone(ReportDownloader._get_filename_from_cd(''))
+
+        # Plain ASCII filename
+        self.assertEqual(
+            ReportDownloader._get_filename_from_cd('attachment; filename="report.pdf"'),
+            'report.pdf',
+        )
+
+        # RFC 5987 extended form with UTF-8 percent-encoded characters
+        # (the regression that prompted the fix: previously this returned None
+        # because get_param('filename') ignored the extended form)
+        self.assertEqual(
+            ReportDownloader._get_filename_from_cd(
+                "attachment; filename*=UTF-8''na%C3%AFve%20r%C3%A9port.pdf"
+            ),
+            'naïve réport.pdf',
+        )
+
     def test_download_file(self):
         downloader = ReportDownloader(
             url="http://www.musique-qe.eu/userfiles/File/2008-06-report-groningen-website.pdf",
