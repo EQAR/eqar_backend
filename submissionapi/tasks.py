@@ -111,6 +111,6 @@ def send_submission_email(response, institution_id_max, total_submission, agency
 
 
 @task(name="recheck_flag")
-def recheck_flag(report):
-    report_flagger = ReportFlagger(report=report)
+def recheck_flag(report, agency_email=None):
+    report_flagger = ReportFlagger(report=report, agency_email=agency_email)
     report_flagger.check_and_set_flags()

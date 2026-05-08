@@ -40,7 +40,7 @@ class ReportCreate(generics.CreateAPIView):
                     report.agency.acronym_primary
                 )
 
-        flagger = ReportFlagger(report=report)
+        flagger = ReportFlagger(report=report, agency_email=self.request.user.email)
         flagger.check_and_set_flags()
         client_ip, is_routable = get_client_ip(self.request)
         tracker = SubmissionTracker(original_data=self.request.data,
@@ -67,7 +67,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_update(self, serializer):
         report = serializer.save()
-        flagger = ReportFlagger(report=report)
+        flagger = ReportFlagger(report=report, agency_email=self.request.user.email)
         flagger.check_and_set_flags()
 
         submit_comment = self.request.data.get('submit_comment', None)
@@ -102,7 +102,7 @@ class ReportDetail(generics.RetrieveUpdateDestroyAPIView):
             report_flag.active = True
             report_flag.removed_by_eqar = False
             report_flag.save()
-        report_flagger = ReportFlagger(report=report)
+        report_flagger = ReportFlagger(report=report, agency_email=request.user.email)
         report_flagger.set_flag()
         index_delete_report.delay(report.id)
         return Response(data={'OK'}, status=200)
@@ -124,6 +124,6 @@ class ReportFlagRemove(APIView):
         )
 
         # Reindex and recheck flag
-        recheck_flag(report=report_flag.report)
+        recheck_flag(report=report_flag.report, agency_email=request.user.email)
 
         return Response(data={'OK'}, status=200)

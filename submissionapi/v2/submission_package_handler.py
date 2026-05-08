@@ -38,7 +38,10 @@ class SubmissionPackageHandler:
                     self.populator = Populator(data=self.serializer.validated_data, user=self.request.user)
                     self.populator.populate(action=self.action)
 
-                    self.flagger = ReportFlagger(report=self.populator.report)
+                    self.flagger = ReportFlagger(
+                        report=self.populator.report,
+                        agency_email=self.request.user.email
+                    )
                     self.flagger.check_and_set_flags()
                     # Add submission report log
                     tracker.log_report(self.populator, self.flagger)

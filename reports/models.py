@@ -183,7 +183,12 @@ class ReportFile(models.Model):
     file_original_location = models.CharField(max_length=500, blank=True)
     file = models.FileField(max_length=255, blank=True, upload_to=set_directory_path)
     file_checksum = models.CharField(max_length=32, blank=True, null=True)
-    download_status = models.CharField(max_length=20, choices=DOWNLOAD_STATUS_CHOICES, blank=True)
+    download_status = models.CharField(
+        max_length=20,
+        choices=DOWNLOAD_STATUS_CHOICES,
+        blank=True,
+        default=DOWNLOAD_STATUS_PENDING
+    )
     languages = models.ManyToManyField('lists.Language')
 
     def generate_checksum(self):
@@ -200,6 +205,8 @@ class ReportFile(models.Model):
             self.file_checksum = None
         if self.file:
             self.download_status = self.DOWNLOAD_STATUS_SUCCESS
+        elif self.download_status is None:
+            self.download_status = self.DOWNLOAD_STATUS_PENDING
         super().save(*args, **kwargs)
 
     class Meta:

@@ -84,7 +84,10 @@ class SubmissionCSVView(APIView):
                     populator.populate()
 
                     # Flag & log
-                    flagger = ReportFlagger(report=populator.report)
+                    flagger = ReportFlagger(
+                        report=populator.report,
+                        agency_email=request.user.email
+                    )
                     flagger.check_and_set_flags()
                     tracker.log_report(populator, flagger)
 
