@@ -91,17 +91,35 @@ class AgencyESGActivityAdminWriteSerializer(serializers.ModelSerializer):
             return value
         return serializers.DateField().to_internal_value(value)
 
+    def _resolve_agency_context(self):
+        agency = getattr(self.instance, 'agency', None) if self.instance else None
+        serializer = self
+        while serializer is not None:
+            instance = getattr(serializer, 'instance', None)
+            if hasattr(instance, 'registration_start') and hasattr(instance, 'registration_valid_to'):
+                agency = instance
+                break
+            serializer = getattr(serializer, 'parent', None)
+        return agency
+
+    def _get_root_initial_data(self):
+        serializer = self
+        while getattr(serializer, 'parent', None) is not None:
+            serializer = serializer.parent
+        data = getattr(serializer, 'initial_data', None)
+        return data if isinstance(data, dict) else {}
+
     def validate(self, attrs):
         attrs = super().validate(attrs)
 
-        root_serializer = self.root
-        agency_instance = getattr(root_serializer, 'instance', None)
+        agency_instance = self._resolve_agency_context()
+        root_initial_data = self._get_root_initial_data()
 
-        registration_start = root_serializer.initial_data.get(
+        registration_start = root_initial_data.get(
             'registration_start',
             agency_instance.registration_start if agency_instance else None,
         )
-        registration_valid_to = root_serializer.initial_data.get(
+        registration_valid_to = root_initial_data.get(
             'registration_valid_to',
             agency_instance.registration_valid_to if agency_instance else None,
         )
