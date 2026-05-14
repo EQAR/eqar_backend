@@ -4,6 +4,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.db import transaction
 
 from submissionapi.populators.report_file_populator import ReportFilePopulator
 from submissionapi.tasks import download_file
@@ -229,11 +230,15 @@ class ReportPopulator():
                         file_original_location=original_location
                     ).first()
 
-                # Async file download with celery
+                # Async file download with celery — deferred until transaction commits
                 if original_location != "":
                     rf.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
                     rf.save()
-                    download_file.delay(original_location, rf.id, self.agency.acronym_primary)
+                    agency_acronym = self.agency.acronym_primary
+                    transaction.on_commit(
+                        lambda ol=original_location, rf_id=rf.id, acr=agency_acronym:
+                        download_file.delay(ol, rf_id, acr)
+                    )
 
                 for lang in languages:
                     rf.languages.add(lang)

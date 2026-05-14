@@ -2,6 +2,7 @@ import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 
 from agencies.models import AgencyFocusCountry
 from institutions.models import InstitutionCountry, InstitutionQFEHEALevel
@@ -73,12 +74,15 @@ class ReportFlagger:
             )
 
         # In case of red flag, send out an e-mail to the agency contact person and EQAR staff
+        # Deferred until transaction commits so no email is sent if the surrounding atomic block rolls back.
         if flag_level == 3 and self.agency_email:
-            send_red_flag_email.delay(
-                report_id=self.report.id,
+            report_id = self.report.id
+            agency_email = self.agency_email
+            transaction.on_commit(lambda: send_red_flag_email.delay(
+                report_id=report_id,
                 flag_message=flag_message,
-                agency_email=self.agency_email,
-            )
+                agency_email=agency_email,
+            ))
 
     def set_flag(self):
         self.report.flag = Flag.objects.get(pk=1)
