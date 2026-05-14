@@ -10,6 +10,7 @@ from reports.models import Report
 from submissionapi.tasks import download_file
 
 from requests.exceptions import RequestException
+from submissionapi.downloaders.report_downloader import WrongFileType
 
 class Command(BaseCommand):
     help = 'Reharvest files for report.'
@@ -137,6 +138,9 @@ class Command(BaseCommand):
                             download_file(rf.file_original_location, rf.id, report.agency.acronym_primary)
                         except RequestException as e:
                             self.stdout.write(self.style.ERROR(f'-> failed, Exception: {e}'))
+                            self.count_failed += 1
+                        except WrongFileType as e:
+                            self.stdout.write(self.style.ERROR(f'-> failed, wrong file type: {e}'))
                             self.count_failed += 1
                         else:
                             rf.refresh_from_db()

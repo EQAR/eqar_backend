@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
+from django.db import transaction
 
 from reports.models import ReportFile
 from submissionapi.tasks import download_file
@@ -67,8 +68,10 @@ class ReportFilePopulator():
             download_status=ReportFile.DOWNLOAD_STATUS_PENDING
         )
 
-        # Async file download with celery
-        download_file.delay(original_location, rf.id, self.agency.acronym_primary)
+        # Async file download with celery — deferred until transaction commits
+        agency_acronym = self.agency.acronym_primary
+        rf_id = rf.id
+        transaction.on_commit(lambda: download_file.delay(original_location, rf_id, agency_acronym))
 
         for lang in languages:
             rf.languages.add(lang)
@@ -83,8 +86,10 @@ class ReportFilePopulator():
         self.report_file.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
         self.report_file.save()
 
-        # Async file download with celery
-        download_file.delay(original_location, self.report_file.id, self.agency.acronym_primary)
+        # Async file download with celery — deferred until transaction commits
+        agency_acronym = self.agency.acronym_primary
+        rf_id = self.report_file.id
+        transaction.on_commit(lambda: download_file.delay(original_location, rf_id, agency_acronym))
 
         self.report_file.languages.clear()
         for lang in languages:
