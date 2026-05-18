@@ -73,7 +73,7 @@ class Country(models.Model):
 class CountryQARequirement(models.Model):
     id = models.AutoField(primary_key=True)
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
-    qa_requirement = models.CharField(max_length=200)
+    qa_requirement = models.CharField(max_length=500)
     qa_requirement_type = models.ForeignKey('countries.CountryQARequirementType', on_delete=models.CASCADE)
     qa_requirement_note = models.TextField(blank=True)
     requirement_valid_from = models.DateField(default=datetime.date.today)
@@ -108,8 +108,8 @@ class CountryQAARegulation(models.Model):
     """
     id = models.AutoField(primary_key=True)
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE)
-    regulation = models.CharField(max_length=200, blank=True)
-    regulation_url = models.URLField(max_length=200, blank=True)
+    regulation = models.CharField(max_length=500, blank=True)
+    regulation_url = models.URLField(max_length=500, blank=True)
     regulation_valid_from = models.DateField(default=datetime.date.today)
     regulation_valid_to = models.DateField(blank=True, null=True)
 
@@ -147,7 +147,7 @@ class CountryHistoricalData(models.Model):
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     field = models.ForeignKey('CountryHistoricalField', on_delete=models.CASCADE)
     record_id = models.IntegerField(blank=True, null=True)
-    value = models.CharField(max_length=200)
+    value = models.CharField(max_length=500)
     valid_from = models.DateField(blank=True, null=True)
     valid_to = models.DateField(blank=True, null=True)
 
