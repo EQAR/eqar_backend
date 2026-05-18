@@ -7,6 +7,7 @@ from reports.models import ReportFlag
 class ReportFlagSerializer(serializers.ModelSerializer):
     agency = serializers.SlugRelatedField(source='report.agency', slug_field='acronym_primary',
                                           queryset=Agency.objects.all())
+    local_identifier = serializers.CharField(source='report.local_identifier')
     flag = serializers.StringRelatedField()
     institution_programme_primary = serializers.SerializerMethodField()
 
