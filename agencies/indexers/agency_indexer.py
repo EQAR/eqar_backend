@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pysolr
 from django.conf import settings
 
@@ -61,8 +63,10 @@ class AgencyIndexer:
         self.doc['acronym'] = self.agency.acronym_primary.strip()
         self.doc['name'] = self.agency.name_primary.strip()
         self.doc['country'] = self.agency.country.name_english.strip()
-        self.doc['valid_from'] = self.agency.registration_start
-        self.doc['valid_to'] = self.agency.registration_valid_to
+        if self.agency.registration_start:
+            self.doc['valid_from'] = "%sZ" % datetime.combine(self.agency.registration_start, datetime.min.time()).isoformat()
+        if self.agency.registration_valid_to:
+            self.doc['valid_to'] = "%sZ" % datetime.combine(self.agency.registration_valid_to, datetime.min.time()).isoformat()
 
         # Index sort fields
         self.doc['deqar_id_sort'] = self.agency.id
