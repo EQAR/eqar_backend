@@ -201,12 +201,12 @@ class ReportViewsFilterParityTest(HasReportTestBase):
             f'institutions.id = {inst.id}',
             f'platforms.id = {inst.id}',
             f'( institutions.id = {self.faculty.id} OR platforms.id = {self.faculty.id} )'
-            f' AND report.valid_to_calculated >= {self.ts(self.vf)}'
-            f' AND report.valid_from <= {self.ts(self.vt)}',
-            f'institutions.id = {self.predecessor.id} AND report.valid_to_calculated >= {self.ts(self.succeeded_date)}',
-            f'institutions.id = {self.absorbed.id} AND report.valid_to_calculated >= {self.ts(self.absorbed_date)}',
+            f' AND valid_to_calculated >= {self.ts(self.vf)}'
+            f' AND valid_from <= {self.ts(self.vt)}',
+            f'institutions.id = {self.predecessor.id} AND valid_to_calculated >= {self.ts(self.succeeded_date)}',
+            f'institutions.id = {self.absorbed.id} AND valid_to_calculated >= {self.ts(self.absorbed_date)}',
         ]
-        self.assertEqual(institution_report_meili_filters(inst, '.id'), expected)
+        self.assertEqual(institution_report_meili_filters(inst, 'INDEX_REPORTS'), expected)
 
     def test_programmes_index_filters(self):
         from webapi.v2.views.report_views import institution_report_meili_filters
@@ -220,7 +220,7 @@ class ReportViewsFilterParityTest(HasReportTestBase):
             f'institutions = {self.predecessor.id} AND report.valid_to_calculated >= {self.ts(self.succeeded_date)}',
             f'institutions = {self.absorbed.id} AND report.valid_to_calculated >= {self.ts(self.absorbed_date)}',
         ]
-        self.assertEqual(institution_report_meili_filters(inst, ''), expected)
+        self.assertEqual(institution_report_meili_filters(inst, 'INDEX_PROGRAMMES'), expected)
 
 
 class HasReportSignalTest(HasReportTestBase):
