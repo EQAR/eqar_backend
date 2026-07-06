@@ -23,6 +23,9 @@ def do_remove_institutions_upon_institution_delete(sender, instance, **kwargs):
 def do_index_institutions_upon_hierarchical_relationship_save(sender, instance, **kwargs):
     institution_parent = instance.institution_parent
     institution_child = instance.institution_child
+    # a (non-platform) parent inherits its child's reports, so its has_report may change
+    institution_parent.update_has_report()
+    institution_child.update_has_report()
     transaction.on_commit(lambda: index_institution.delay(institution_parent.id))
     transaction.on_commit(lambda: meili_index_institution.delay(institution_parent.id))
     transaction.on_commit(lambda: index_institution.delay(institution_child.id))
@@ -33,6 +36,9 @@ def do_index_institutions_upon_hierarchical_relationship_save(sender, instance, 
 def do_index_institutions_upon_historical_relationship_save(sender, instance, **kwargs):
     institution_source = instance.institution_source
     institution_target = instance.institution_target
+    # succeeded/absorbed relationships let one side inherit the other's reports; recompute both
+    institution_source.update_has_report()
+    institution_target.update_has_report()
     transaction.on_commit(lambda: index_institution.delay(institution_source.id))
     transaction.on_commit(lambda: meili_index_institution.delay(institution_source.id))
     transaction.on_commit(lambda: index_institution.delay(institution_target.id))

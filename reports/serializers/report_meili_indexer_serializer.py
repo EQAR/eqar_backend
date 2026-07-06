@@ -2,7 +2,6 @@ from django.db.models import Q
 
 from rest_framework import serializers
 
-from datedelta import datedelta
 from rest_framework.utils.representation import manager_repr
 
 from eqar_backend.serializer_fields.date_unix_timestamp import UnixTimestampDateField
@@ -174,10 +173,7 @@ class ReportIndexerSerializer(serializers.ModelSerializer):
 
     def get_valid_to_calculated(self, obj):
         field = UnixTimestampDateField()
-        if obj.valid_to:
-            return field.to_representation(obj.valid_to)
-        else:
-            return field.to_representation(obj.valid_from + datedelta(years=6))
+        return field.to_representation(obj.valid_to_calculated)
 
     def get_other_provider_covered(self, obj):
         return any(obj.institutions.values_list('is_other_provider', flat=True))

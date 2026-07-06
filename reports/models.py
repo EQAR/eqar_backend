@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 
+from datedelta import datedelta
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -14,6 +15,8 @@ class Report(models.Model):
     """
     List of reports and evaluations produced on HE institutions by EQAR registered agencies.
     """
+    VALIDITY_YEARS = 6  # default validity period when valid_to is not set (Meili semantics)
+
     id = models.AutoField(primary_key=True)
     agency = models.ForeignKey('agencies.Agency', on_delete=models.CASCADE)
     contributing_agencies = models.ManyToManyField('agencies.Agency', related_name='co_authored_reports', blank=True)
@@ -38,6 +41,14 @@ class Report(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     updated_by = models.ForeignKey(User, related_name='reports_updated_by',
                                    on_delete=models.CASCADE, blank=True, null=True)
+
+    @property
+    def valid_to_calculated(self):
+        """
+        Effective end of validity: the explicit valid_to, or VALIDITY_YEARS after valid_from.
+        Single source of truth for the "valid_to or valid_from + N years" rule.
+        """
+        return self.valid_to or (self.valid_from + datedelta(years=self.VALIDITY_YEARS))
 
     def get_activity_type(self):
         # Default = institutional

@@ -112,6 +112,8 @@ class InstitutionIndexer:
 
     def _index_main_institution(self):
         # Index display fields
+        # has_report is maintained on the model (single source of truth, incl. related reports)
+        self.doc['has_report'] = self.institution.has_report
         self.doc['id'] = self.institution.id
         self.doc['deqar_id'] = self.institution.deqar_id
         self.doc['deqar_id_search'] = self.institution.deqar_id
@@ -284,20 +286,8 @@ class InstitutionIndexer:
         reports = Report.objects.filter(institutions=self.institution).iterator()
         self._add_reports(reports)
 
-    def _index_related_reports(self):
-        # Index parents
-        for related_institution in self.institution.relationship_parent.iterator():
-            reports = Report.objects.filter(institution=related_institution.institution_child).iterator()
-            self._add_reports(reports)
-
-        # Index children
-        for related_institution in self.institution.relationship_child.iterator():
-            reports = Report.objects.filter(institution=related_institution.institution_parent).iterator()
-            self._add_reports(reports)
-
     def _add_reports(self, reports):
         for report in reports:
-            self.doc['has_report'] = True
             self.doc['reports_agencies'].append(report.agency.acronym_primary)
             self.doc['status_facet'].append(report.status.status)
             for activity in report.agency_esg_activities.all():

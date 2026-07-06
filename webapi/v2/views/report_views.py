@@ -31,6 +31,41 @@ from reports.serializers.report_meili_indexer_serializer import ReportIndexerSer
 from programmes.serializers.programme_indexer_serializer import ProgrammeIndexerSerializer
 
 
+def institution_report_meili_filters(institution, field_suffix):
+    """
+    Build the list of Meilisearch filter clauses that select the reports shown for `institution`,
+    derived from the canonical Institution.get_report_contributors(). This is the single source of
+    truth for the relationship traversal, shared with Institution.has_report.
+
+    `field_suffix` is '.id' for the reports index (INDEX_REPORTS) and '' for the programmes index
+    (INDEX_PROGRAMMES), which reference the institution/platform ids under different field names.
+    """
+    inst = f'institutions{field_suffix}'
+    plat = f'platforms{field_suffix}'
+
+    def ts(d):
+        return datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp()
+
+    contributors = institution.get_report_contributors()
+    # self (first contributor): direct or platform membership, unbounded
+    self_id = contributors[0][0]
+    clauses = [f'{inst} = {self_id}', f'{plat} = {self_id}']
+
+    for institution_id, include_platforms, window_from, window_to in contributors[1:]:
+        if include_platforms:
+            # sub-units (hierarchical children): match as institution or platform, within validity
+            clause = f'( {inst} = {institution_id} OR {plat} = {institution_id} )'
+            if window_from:
+                clause += f' AND report.valid_to_calculated >= {ts(window_from)}'
+            if window_to:
+                clause += f' AND report.valid_from <= {ts(window_to)}'
+        else:
+            # historically related institutions: match as institution only, from the relationship date
+            clause = f'{inst} = {institution_id} AND report.valid_to_calculated >= {ts(window_from)}'
+        clauses.append(clause)
+    return clauses
+
+
 class ReportFilterClass(filters.FilterSet):
     """
     Filters for all reports (used for institutional and programme views)
@@ -141,25 +176,7 @@ class InstitutionalReportsByInstitution(MeiliSolrBackportView):
     def make_filters(self, request):
         institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
-        institution_filters = [
-            f'institutions.id = {institution.id}',
-            f'platforms.id = {institution.id}',
-        ]
-
-        # add reports of sub-units (faculties etc.)
-        for rel in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
-            this_filter = f'( institutions.id = {rel.institution_child.id} OR platforms.id = {rel.institution_child.id} )'
-            if rel.valid_from:
-                this_filter += f' AND report.valid_to_calculated >= {datetime.datetime.combine(rel.valid_from, datetime.datetime.min.time()).timestamp()}'
-            if rel.valid_to:
-                this_filter += f' AND report.valid_from <= {datetime.datetime.combine(rel.valid_to, datetime.datetime.min.time()).timestamp()}'
-            institution_filters.append(this_filter)
-
-        # add reports of historically related institutions
-        for rel in institution.relationship_source.filter(relationship_type__type_from='succeeded'):
-            institution_filters.append(f'institutions.id = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
-        for rel in institution.relationship_target.filter(relationship_type__type_to='absorbed'):
-            institution_filters.append(f'institutions.id = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
+        institution_filters = institution_report_meili_filters(institution, '.id')
 
         filters = [
             institution_filters,
@@ -265,25 +282,7 @@ class ProgrammesByInstitution(MeiliSolrBackportView):
     def make_filters(self, request):
         institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
-        institution_filters = [
-            f'institutions = {institution.id}',
-            f'platforms = {institution.id}',
-        ]
-
-        # add reports of sub-units (faculties etc.)
-        for rel in institution.relationship_parent.exclude(relationship_type__type='educational platform'):
-            this_filter = f'( institutions = {rel.institution_child.id} OR platforms = {rel.institution_child.id} )'
-            if rel.valid_from:
-                this_filter += f' AND report.valid_to_calculated >= {datetime.datetime.combine(rel.valid_from, datetime.datetime.min.time()).timestamp()}'
-            if rel.valid_to:
-                this_filter += f' AND report.valid_from <= {datetime.datetime.combine(rel.valid_to, datetime.datetime.min.time()).timestamp()}'
-            institution_filters.append(this_filter)
-
-        # add reports of historically related institutions
-        for rel in institution.relationship_source.filter(relationship_type__type_from='succeeded'):
-            institution_filters.append(f'institutions = {rel.institution_target.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
-        for rel in institution.relationship_target.filter(relationship_type__type_to='absorbed'):
-            institution_filters.append(f'institutions = {rel.institution_source.id} AND report.valid_to_calculated >= {datetime.datetime.combine(rel.relationship_date, datetime.datetime.min.time()).timestamp()}')
+        institution_filters = institution_report_meili_filters(institution, '')
 
         filters = [
             institution_filters,
