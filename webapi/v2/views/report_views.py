@@ -31,17 +31,36 @@ from reports.serializers.report_meili_indexer_serializer import ReportIndexerSer
 from programmes.serializers.programme_indexer_serializer import ProgrammeIndexerSerializer
 
 
-def institution_report_meili_filters(institution, field_suffix):
+def institution_report_meili_filters(institution, index):
     """
     Build the list of Meilisearch filter clauses that select the reports shown for `institution`,
     derived from the canonical Institution.get_report_contributors(). This is the single source of
     truth for the relationship traversal, shared with Institution.has_report.
 
-    `field_suffix` is '.id' for the reports index (INDEX_REPORTS) and '' for the programmes index
-    (INDEX_PROGRAMMES), which reference the institution/platform ids under different field names.
+    `index` selects the field-name mapping: the reports index (INDEX_REPORTS) stores the report at
+    the document root and institutions/platforms as nested objects, while the programmes index
+    (INDEX_PROGRAMMES) nests the report under `report.` and stores institution/platform ids at the
+    root.
     """
-    inst = f'institutions{field_suffix}'
-    plat = f'platforms{field_suffix}'
+    fields = {
+        'INDEX_REPORTS': {
+            'institutions': 'institutions.id',
+            'platforms': 'platforms.id',
+            'valid_from': 'valid_from',
+            'valid_to_calculated': 'valid_to_calculated',
+        },
+        'INDEX_PROGRAMMES': {
+            'institutions': 'institutions',
+            'platforms': 'platforms',
+            'valid_from': 'report.valid_from',
+            'valid_to_calculated': 'report.valid_to_calculated',
+        },
+    }[index]
+
+    inst = fields['institutions']
+    plat = fields['platforms']
+    valid_from = fields['valid_from']
+    valid_to_calculated = fields['valid_to_calculated']
 
     def ts(d):
         return datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp()
@@ -56,12 +75,12 @@ def institution_report_meili_filters(institution, field_suffix):
             # sub-units (hierarchical children): match as institution or platform, within validity
             clause = f'( {inst} = {institution_id} OR {plat} = {institution_id} )'
             if window_from:
-                clause += f' AND report.valid_to_calculated >= {ts(window_from)}'
+                clause += f' AND {valid_to_calculated} >= {ts(window_from)}'
             if window_to:
-                clause += f' AND report.valid_from <= {ts(window_to)}'
+                clause += f' AND {valid_from} <= {ts(window_to)}'
         else:
             # historically related institutions: match as institution only, from the relationship date
-            clause = f'{inst} = {institution_id} AND report.valid_to_calculated >= {ts(window_from)}'
+            clause = f'{inst} = {institution_id} AND {valid_to_calculated} >= {ts(window_from)}'
         clauses.append(clause)
     return clauses
 
@@ -176,7 +195,7 @@ class InstitutionalReportsByInstitution(MeiliSolrBackportView):
     def make_filters(self, request):
         institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
-        institution_filters = institution_report_meili_filters(institution, '.id')
+        institution_filters = institution_report_meili_filters(institution, self.MEILI_INDEX)
 
         filters = [
             institution_filters,
@@ -282,7 +301,7 @@ class ProgrammesByInstitution(MeiliSolrBackportView):
     def make_filters(self, request):
         institution = get_object_or_404(Institution, pk=self.kwargs['institution'])
 
-        institution_filters = institution_report_meili_filters(institution, '')
+        institution_filters = institution_report_meili_filters(institution, self.MEILI_INDEX)
 
         filters = [
             institution_filters,
