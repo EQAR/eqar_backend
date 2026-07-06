@@ -40,6 +40,7 @@ class InstitutionMeiliTest(APITestCase):
     ]
 
     def setUp(self):
+        self.maxDiff = None
         self.indexer = InstitutionIndexer()
         self.serializer = self.indexer.serializer()
         self.requests = requests.session()
