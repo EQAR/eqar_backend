@@ -1,6 +1,5 @@
 import shutil
 import tempfile
-from django.conf import settings
 from django.core import mail
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -9,6 +8,11 @@ from reports.models import Report, ReportFile
 from submissionapi.tasks import download_file
 
 
+@override_settings(
+    CELERY_ALWAYS_EAGER=True,
+    EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+    ADMINS=[('Admin', 'admin@example.com')],
+)
 class CeleryTaskTestCase(TestCase):
     fixtures = [
         'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
@@ -38,11 +42,6 @@ class CeleryTaskTestCase(TestCase):
         cls._media_override.disable()
         shutil.rmtree(cls._temp_media_root, ignore_errors=True)
         super().tearDownClass()
-
-    def setUp(self):
-        settings.CELERY_ALWAYS_EAGER = True
-        settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-        settings.ADMINS = [('Admin', 'admin@example.com')]
 
     def test_download_file(self):
         report = Report.objects.get(pk=1)

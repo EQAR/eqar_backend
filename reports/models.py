@@ -160,6 +160,7 @@ class ReportLink(models.Model):
     class Meta:
         db_table = 'deqar_report_links'
         verbose_name = 'Report Link'
+        ordering = ('id',)
 
 
 def set_directory_path(instance, filename):

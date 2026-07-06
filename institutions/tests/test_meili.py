@@ -46,6 +46,9 @@ class InstitutionMeiliTest(APITestCase):
         self.requests = requests.session()
         if hasattr(settings, "MEILI_API_KEY"):
             self.requests.headers.update({ 'authorization': f'Bearer {settings.MEILI_API_KEY}' })
+        # the test Meili index is process-global and not rolled back between tests: flush it so it
+        # reflects only this test's fixtures (create_index deletes all documents in test mode)
+        self.indexer.meili.create_index(self.indexer.index_uid)
         # index reports
         call_command('index_institutions_meili', '--sync')
         # create test user

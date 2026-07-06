@@ -205,6 +205,7 @@ class InstitutionIdentifier(models.Model):
             models.Index(fields=['identifier_valid_to']),
         ]
         unique_together = ('institution', 'agency', 'resource')
+        ordering = ('agency', 'resource', 'identifier')
 
 
 class InstitutionName(models.Model):
@@ -455,6 +456,7 @@ class InstitutionHierarchicalRelationship(models.Model):
         db_table = 'deqar_institution_hierarchical_relationships'
         verbose_name = 'Institution Hierarchical Relationship'
         verbose_name_plural = 'Institution Hierarchical Relationships'
+        ordering = ('id',)
 
 
 class InstitutionOrganizationType(models.Model):
