@@ -67,6 +67,16 @@ class HasReportTestBase(TestCase):
             relationship_date=relationship_date,
         )
 
+    def make_succeeded(self, successor, predecessor, relationship_date):
+        # data convention (matches webapi/v2 display serializer + PHP frontend): the successor is the
+        # TARGET and the predecessor the SOURCE of a 'succeeded' (type_from='succeeded') row
+        return self.make_historical(predecessor, successor, TYPE_SUCCEEDED, relationship_date)
+
+    def make_absorbed(self, absorber, absorbed, relationship_date):
+        # data convention: the absorber is the SOURCE and the absorbed institution the TARGET of an
+        # 'absorbed' (type_to='absorbed') row
+        return self.make_historical(absorber, absorbed, TYPE_ABSORBED, relationship_date)
+
 
 class HasReportCalculationTest(HasReportTestBase):
     """calculate_has_report() across all contributor paths, honouring validity dates."""
@@ -124,7 +134,7 @@ class HasReportCalculationTest(HasReportTestBase):
         successor = self.make_institution('Successor')
         predecessor = self.make_institution('Predecessor')
         # successor succeeded predecessor in 2014; predecessor report valid until 2030
-        self.make_historical(successor, predecessor, TYPE_SUCCEEDED, datetime.date(2014, 1, 1))
+        self.make_succeeded(successor, predecessor, datetime.date(2014, 1, 1))
         self.make_report(institutions=[predecessor],
                          valid_from=datetime.date(2015, 1, 1), valid_to=datetime.date(2030, 1, 1))
         self.assertTrue(successor.calculate_has_report())
@@ -133,7 +143,7 @@ class HasReportCalculationTest(HasReportTestBase):
         successor = self.make_institution('Successor')
         predecessor = self.make_institution('Predecessor')
         # successor succeeded predecessor in 2014; predecessor report expired in 2012
-        self.make_historical(successor, predecessor, TYPE_SUCCEEDED, datetime.date(2014, 1, 1))
+        self.make_succeeded(successor, predecessor, datetime.date(2014, 1, 1))
         self.make_report(institutions=[predecessor],
                          valid_from=datetime.date(2008, 1, 1), valid_to=datetime.date(2012, 1, 1))
         self.assertFalse(successor.calculate_has_report())
@@ -141,8 +151,8 @@ class HasReportCalculationTest(HasReportTestBase):
     def test_historical_absorbed(self):
         absorber = self.make_institution('Absorber')
         absorbed = self.make_institution('Absorbed')
-        # absorber absorbed 'absorbed' (source) in 2014 -> absorbed is the source, absorber the target
-        self.make_historical(absorbed, absorber, TYPE_ABSORBED, datetime.date(2014, 1, 1))
+        # absorber absorbed 'absorbed' in 2014
+        self.make_absorbed(absorber, absorbed, datetime.date(2014, 1, 1))
         self.make_report(institutions=[absorbed],
                          valid_from=datetime.date(2015, 1, 1), valid_to=datetime.date(2030, 1, 1))
         self.assertTrue(absorber.calculate_has_report())
@@ -152,7 +162,7 @@ class HasReportCalculationTest(HasReportTestBase):
         successor = self.make_institution('Successor')
         predecessor = self.make_institution('Predecessor')
         # relationship in 2014; report valid_from 2010, no valid_to -> effective end 2016 (>= 2014) -> included
-        self.make_historical(successor, predecessor, TYPE_SUCCEEDED, datetime.date(2014, 1, 1))
+        self.make_succeeded(successor, predecessor, datetime.date(2014, 1, 1))
         self.make_report(institutions=[predecessor],
                          valid_from=datetime.date(2010, 1, 1), valid_to=None)
         self.assertTrue(successor.calculate_has_report())
@@ -161,10 +171,50 @@ class HasReportCalculationTest(HasReportTestBase):
         successor = self.make_institution('Successor')
         predecessor = self.make_institution('Predecessor')
         # relationship in 2020; report valid_from 2010, no valid_to -> effective end 2016 (< 2020) -> excluded
-        self.make_historical(successor, predecessor, TYPE_SUCCEEDED, datetime.date(2020, 1, 1))
+        self.make_succeeded(successor, predecessor, datetime.date(2020, 1, 1))
         self.make_report(institutions=[predecessor],
                          valid_from=datetime.date(2010, 1, 1), valid_to=None)
         self.assertFalse(successor.calculate_has_report())
+
+    # --- regression: direction of historical report inheritance (must match the webapi/v2 detail
+    # serializer + PHP frontend). These pin the raw on-disk source/target orientation so the
+    # traversal cannot silently re-invert. ---
+
+    def test_successor_inherits_predecessor_not_the_reverse(self):
+        # "A succeeded B in 2024": stored as source=B (predecessor), target=A (successor) on a
+        # type_from='succeeded' row -- exactly what the detail serializer flattens to
+        # relationship_type='succeeded' on A's side.
+        successor = self.make_institution('A (successor)')
+        predecessor = self.make_institution('B (predecessor)')
+        self.make_historical(predecessor, successor, TYPE_SUCCEEDED, datetime.date(2024, 1, 1))
+        # B's report is still valid past the succession date
+        self.make_report(institutions=[predecessor],
+                         valid_from=datetime.date(2022, 1, 1), valid_to=datetime.date(2026, 1, 1))
+        # A (successor) inherits B's report; B does not inherit anything from A
+        self.assertIn(predecessor.id, [c[0] for c in successor.get_report_contributors()])
+        self.assertNotIn(successor.id, [c[0] for c in predecessor.get_report_contributors()])
+        self.assertTrue(successor.calculate_has_report())
+
+    def test_predecessor_does_not_inherit_successor_reports(self):
+        successor = self.make_institution('A (successor)')
+        predecessor = self.make_institution('B (predecessor)')
+        self.make_historical(predecessor, successor, TYPE_SUCCEEDED, datetime.date(2024, 1, 1))
+        # only the successor has a report -> the predecessor must NOT be credited with it
+        self.make_report(institutions=[successor],
+                         valid_from=datetime.date(2022, 1, 1), valid_to=datetime.date(2026, 1, 1))
+        self.assertFalse(predecessor.calculate_has_report())
+
+    def test_absorber_inherits_absorbed_not_the_reverse(self):
+        # "A absorbed B in 2024": stored as source=A (absorber), target=B (absorbed) on a
+        # type_to='absorbed' row.
+        absorber = self.make_institution('A (absorber)')
+        absorbed = self.make_institution('B (absorbed)')
+        self.make_historical(absorber, absorbed, TYPE_ABSORBED, datetime.date(2024, 1, 1))
+        self.make_report(institutions=[absorbed],
+                         valid_from=datetime.date(2022, 1, 1), valid_to=datetime.date(2026, 1, 1))
+        self.assertIn(absorbed.id, [c[0] for c in absorber.get_report_contributors()])
+        self.assertNotIn(absorber.id, [c[0] for c in absorbed.get_report_contributors()])
+        self.assertTrue(absorber.calculate_has_report())
 
 
 class ReportViewsFilterParityTest(HasReportTestBase):
@@ -187,9 +237,9 @@ class ReportViewsFilterParityTest(HasReportTestBase):
         self.make_hierarchical(inst, faculty, TYPE_FACULTY, valid_from=self.vf, valid_to=self.vt)
         self.make_hierarchical(inst, hosted, TYPE_EDUCATIONAL_PLATFORM)  # excluded
         self.succeeded_date = datetime.date(2014, 1, 1)
-        self.make_historical(inst, predecessor, TYPE_SUCCEEDED, self.succeeded_date)
+        self.make_succeeded(inst, predecessor, self.succeeded_date)
         self.absorbed_date = datetime.date(2016, 1, 1)
-        self.make_historical(absorbed, inst, TYPE_ABSORBED, self.absorbed_date)
+        self.make_absorbed(inst, absorbed, self.absorbed_date)
 
         self.inst, self.faculty, self.predecessor, self.absorbed = inst, faculty, predecessor, absorbed
         return inst
@@ -282,5 +332,5 @@ class HasReportSignalTest(HasReportTestBase):
         self.make_report(institutions=[predecessor],
                          valid_from=datetime.date(2015, 1, 1), valid_to=datetime.date(2030, 1, 1))
         self.assertFalse(self.refresh(successor).has_report)
-        self.make_historical(successor, predecessor, TYPE_SUCCEEDED, datetime.date(2014, 1, 1))
+        self.make_succeeded(successor, predecessor, datetime.date(2014, 1, 1))
         self.assertTrue(self.refresh(successor).has_report)

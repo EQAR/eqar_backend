@@ -105,12 +105,14 @@ class Institution(models.Model):
         # sub-units (non-platform hierarchical children)
         for rel in self.relationship_parent.exclude(relationship_type__type='educational platform'):
             contributors.append((rel.institution_child_id, True, rel.valid_from, rel.valid_to))
-        # historically related: institutions this one succeeded
-        for rel in self.relationship_source.filter(relationship_type__type_from='succeeded'):
-            contributors.append((rel.institution_target_id, False, rel.relationship_date, None))
-        # historically related: institutions this one absorbed
-        for rel in self.relationship_target.filter(relationship_type__type_to='absorbed'):
+        # historical: this institution succeeded another (it is the target of a 'succeeded' row) ->
+        # it inherits the predecessor's (source's) reports from the succession date on
+        for rel in self.relationship_target.filter(relationship_type__type_from='succeeded'):
             contributors.append((rel.institution_source_id, False, rel.relationship_date, None))
+        # historical: this institution absorbed another (it is the source of an 'absorbed' row) ->
+        # it inherits the absorbed institution's (target's) reports from the absorption date on
+        for rel in self.relationship_source.filter(relationship_type__type_to='absorbed'):
+            contributors.append((rel.institution_target_id, False, rel.relationship_date, None))
         return contributors
 
     def get_report_dependents(self):
@@ -123,12 +125,12 @@ class Institution(models.Model):
         # institutions for which this one is a non-platform child (its parents)
         for rel in self.relationship_child.exclude(relationship_type__type='educational platform'):
             ids.add(rel.institution_parent_id)
-        # institutions that succeeded this one (this one is their target)
-        for rel in self.relationship_target.filter(relationship_type__type_from='succeeded'):
-            ids.add(rel.institution_source_id)
-        # institutions that absorbed this one (this one is their source)
-        for rel in self.relationship_source.filter(relationship_type__type_to='absorbed'):
+        # this institution is a predecessor (source of a 'succeeded' row) -> the successor (target) inherits
+        for rel in self.relationship_source.filter(relationship_type__type_from='succeeded'):
             ids.add(rel.institution_target_id)
+        # this institution was absorbed (target of an 'absorbed' row) -> the absorber (source) inherits
+        for rel in self.relationship_target.filter(relationship_type__type_to='absorbed'):
+            ids.add(rel.institution_source_id)
         return ids
 
     def calculate_has_report(self):
