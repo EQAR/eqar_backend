@@ -1,7 +1,9 @@
 import datetime
 
+from datedelta import datedelta
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 
 from lists.models import Flag
 
@@ -86,6 +88,93 @@ class Institution(models.Model):
         else:
             self.name_sort = self.name_primary
 
+    def get_report_contributors(self):
+        """
+        Canonical enumeration of the institutions whose reports are considered to belong to this
+        institution in the public report/programme views (see webapi.v2.views.report_views).
+
+        Returns a list of tuples:
+            (institution_id, include_platforms, window_from, window_to)
+        where include_platforms indicates whether reports linking the institution as a platform
+        also count, and window_from/window_to (dates or None) bound the reports by validity
+        (compared against report.valid_to_calculated / report.valid_from respectively).
+
+        This is the single source of truth shared by calculate_has_report() and the view filters.
+        """
+        contributors = [(self.id, True, None, None)]  # self: direct or platform, unbounded
+        # sub-units (non-platform hierarchical children)
+        for rel in self.relationship_parent.exclude(relationship_type__type='educational platform'):
+            contributors.append((rel.institution_child_id, True, rel.valid_from, rel.valid_to))
+        # historical: this institution succeeded another (it is the target of a 'succeeded' row) ->
+        # it inherits the predecessor's (source's) reports from the succession date on
+        for rel in self.relationship_target.filter(relationship_type__type_from='succeeded'):
+            contributors.append((rel.institution_source_id, False, rel.relationship_date, None))
+        # historical: this institution absorbed another (it is the source of an 'absorbed' row) ->
+        # it inherits the absorbed institution's (target's) reports from the absorption date on
+        for rel in self.relationship_source.filter(relationship_type__type_to='absorbed'):
+            contributors.append((rel.institution_target_id, False, rel.relationship_date, None))
+        return contributors
+
+    def get_report_dependents(self):
+        """
+        Inverse of get_report_contributors(): the set of institution ids (including this one) whose
+        has_report value can change when this institution's report links change. Used to propagate
+        recomputation when reports are added to / removed from an institution.
+        """
+        ids = {self.id}
+        # institutions for which this one is a non-platform child (its parents)
+        for rel in self.relationship_child.exclude(relationship_type__type='educational platform'):
+            ids.add(rel.institution_parent_id)
+        # this institution is a predecessor (source of a 'succeeded' row) -> the successor (target) inherits
+        for rel in self.relationship_source.filter(relationship_type__type_from='succeeded'):
+            ids.add(rel.institution_target_id)
+        # this institution was absorbed (target of an 'absorbed' row) -> the absorber (source) inherits
+        for rel in self.relationship_target.filter(relationship_type__type_to='absorbed'):
+            ids.add(rel.institution_source_id)
+        return ids
+
+    def calculate_has_report(self):
+        """
+        Whether this institution has at least one report shown for it in the public views, across
+        all contributor paths and honouring the validity-date windows. Does not apply the
+        flag/activity-type filters that narrow individual list views.
+        """
+        from reports.models import Report
+
+        def window_q(window_from, window_to):
+            q = Q()
+            if window_from:
+                # report.valid_to_calculated >= window_from
+                # valid_to_calculated = valid_to, or valid_from + VALIDITY_YEARS when valid_to unset
+                q &= (Q(valid_to__gte=window_from)
+                      | Q(valid_to__isnull=True,
+                          valid_from__gte=window_from - datedelta(years=Report.VALIDITY_YEARS)))
+            if window_to:
+                # report.valid_from <= window_to
+                q &= Q(valid_from__lte=window_to)
+            return q
+
+        overall = Q()
+        for iid, include_platforms, window_from, window_to in self.get_report_contributors():
+            member = Q(institutions=iid)
+            if include_platforms:
+                member |= Q(platforms=iid)
+            overall |= (member & window_q(window_from, window_to))
+        return Report.objects.filter(overall).exists()
+
+    def update_has_report(self):
+        """
+        Recompute has_report and persist it if changed. Returns True if the value changed.
+        Uses .update() to avoid re-triggering the Institution post_save reindex; callers are
+        responsible for reindexing the institutions whose flag changed.
+        """
+        new_value = self.calculate_has_report()
+        if self.has_report != new_value:
+            Institution.objects.filter(pk=self.pk).update(has_report=new_value)
+            self.has_report = new_value
+            return True
+        return False
+
     class Meta:
         db_table = 'deqar_institutions'
         verbose_name = 'Institution'
@@ -118,6 +207,7 @@ class InstitutionIdentifier(models.Model):
             models.Index(fields=['identifier_valid_to']),
         ]
         unique_together = ('institution', 'agency', 'resource')
+        ordering = ('agency', 'resource', 'identifier')
 
 
 class InstitutionName(models.Model):
@@ -368,6 +458,7 @@ class InstitutionHierarchicalRelationship(models.Model):
         db_table = 'deqar_institution_hierarchical_relationships'
         verbose_name = 'Institution Hierarchical Relationship'
         verbose_name_plural = 'Institution Hierarchical Relationships'
+        ordering = ('id',)
 
 
 class InstitutionOrganizationType(models.Model):

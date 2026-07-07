@@ -180,16 +180,16 @@ class InstitutionIndexerSerializer(serializers.ModelSerializer):
         return crossborder
 
     def get_agencies(self, obj):
-        return AgencySerializer(Agency.objects.filter(Q(report__institutions=obj) | Q(co_authored_reports__institutions=obj)).distinct(), many=True).data
+        return AgencySerializer(Agency.objects.filter(Q(report__institutions=obj) | Q(co_authored_reports__institutions=obj)).distinct().order_by('acronym_primary'), many=True).data
 
     def get_status(self, obj):
-        return list(obj.reports.values_list('status__status', flat=True).distinct())
+        return list(obj.reports.values_list('status__status', flat=True).distinct().order_by('status__status'))
 
     def get_activity_types(self, obj):
-        return list(obj.reports.values_list('agency_esg_activities__activity_group__activity_type__type', flat=True).distinct())
+        return list(obj.reports.values_list('agency_esg_activities__activity_group__activity_type__type', flat=True).distinct().order_by('agency_esg_activities__activity_group__activity_type__type'))
 
     def get_activity_groups(self, obj):
-        return list(obj.reports.values_list('agency_esg_activities__activity_group__id', flat=True).distinct())
+        return list(obj.reports.values_list('agency_esg_activities__activity_group__id', flat=True).distinct().order_by('agency_esg_activities__activity_group__id'))
 
     class Meta:
         model = Institution

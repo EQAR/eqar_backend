@@ -93,3 +93,4 @@ class ProgrammeLearningOutcome(models.Model):
         db_table = 'deqar_programme_learning_outcomes'
         verbose_name = 'Programme Learning Outcome'
         unique_together = ('programme', 'learning_outcome_esco')
+        ordering = ('id',)
