@@ -945,15 +945,15 @@ class OrgRegSynchronizer:
             elif action == 'add':
                 # Only add when the original record status is not deleted.
                 if not deleted:
-                    if date_from['key'] == 'm':
+                    if date_from['key'] in [ 'a', 'm' ]:
                         df = None
                     else:
                         df = "%s-01-01" % date_from['value'] if date_from['value'] else None
 
-                    if date_to['key'] == 'm':
+                    if date_to['key'] in [ 'a', 'm' ]:
                         dt = None
                     else:
-                        dt = "%s-12-31" % date_from['value'] if date_from['value'] else None
+                        dt = "%s-12-31" % date_to['value'] if date_to['value'] else None
 
                     self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
                     self.report.add_report_line('  Parent: %s' % parent_institution.eter_id)
