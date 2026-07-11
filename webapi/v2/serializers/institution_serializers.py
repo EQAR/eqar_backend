@@ -6,7 +6,7 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionN
     InstitutionOrganizationType
 from lists.models import IdentifierResource
 from webapi.v2.serializers.country_serializers import CountryDetailSerializer
-
+from webapi.v2.views.report_views import institution_report_meili_filters
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
@@ -94,6 +94,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     hierarchical_relationships = serializers.SerializerMethodField()
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
     organization_type = InstitutionOrganizationTypeSerializer()
+    meili_filters = serializers.SerializerMethodField()
 
     def get_hierarchical_relationships(self, obj):
         includes = []
@@ -135,10 +136,16 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
             })
         return relationships
 
+    def get_meili_filters(self, obj):
+        return {
+            'reports': institution_report_meili_filters(obj, 'INDEX_REPORTS'),
+            'programmes': institution_report_meili_filters(obj, 'INDEX_PROGRAMMES'),
+        }
+
     class Meta:
         model = Institution
         fields = ('id', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
-                  'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels',
+                  'historical_relationships', 'hierarchical_relationships', 'meili_filters', 'qf_ehea_levels',
                   'is_other_provider', 'organization_type', 'source_of_information', 'historical_data')
 
 

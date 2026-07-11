@@ -257,7 +257,7 @@ class ReportViewsFilterParityTest(HasReportTestBase):
     """
 
     def ts(self, d):
-        return datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp()
+        return int(datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp())
 
     def build_scenario(self):
         inst = self.make_institution('Main')
