@@ -9,6 +9,7 @@ public ``InstitutionDetailSerializer`` -- against an expected snapshot.
 """
 import json
 import threading
+import requests
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from freezegun import freeze_time
@@ -815,14 +816,20 @@ class OrgRegSyncTest(TestCase):
         self.server.server_close()
         self.server_thread.join(timeout=5)
 
+    def test_orgreg_mock_api(self):
+        get_ok = requests.get(self.sync.api + '/entity-details/' + PRIMARY_ORGREG_ID)
+        self.assertEqual(get_ok.status_code, 200)
+        get_404 = requests.get(self.sync.api + '/entity-details/XYZ4711')
+        self.assertEqual(get_404.status_code, 404)
+        get_404 = requests.get(self.sync.api + '/unknown-path-entirely')
+        self.assertEqual(get_404.status_code, 404)
+        post_ok = requests.post(self.sync.api + '/organizations/query')
+        self.assertEqual(post_ok.status_code, 201)
+        post_404 = requests.post(self.sync.api + '/some-wrong-path')
+        self.assertEqual(post_404.status_code, 404)
+
     @freeze_time(FROZEN_TIME)
     def test_sync_institution_matches_expected(self):
-        if not PRIMARY_ORGREG_ID or not MOCK_ORGREG_RECORDS or not EXPECTED_SERIALIZED:
-            self.skipTest(
-                "Fill PRIMARY_ORGREG_ID, MOCK_ORGREG_RECORDS and EXPECTED_SERIALIZED "
-                "from a real OrgReg case to enable this test."
-            )
-
         # Collect the ID (hits the mock entity-details endpoint) and run the full sync.
         self.assertTrue(
             self.sync.collect_orgreg_ids_by_institution(PRIMARY_ORGREG_ID),
