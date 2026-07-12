@@ -2,7 +2,9 @@
   pk: 1
   fields:
     iso_3166_alpha2: AF
+    orgreg_eu_2_letter_code: AF
     iso_3166_alpha3: AFG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AFG
     name_english: Afghanistan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -22,29 +24,20 @@
   pk: 2
   fields:
     iso_3166_alpha2: AL
+    orgreg_eu_2_letter_code: AL
     iso_3166_alpha3: ALB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ALB
     name_english: Albania
     ehea_is_member: true
     eqar_governmental_member_start: '2015-09-08'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Yes, all Albanian higher education institutions are able to
-      choose an EQAR-registered agency for their mandatory external quality assurance.
-      Additional conditions apply: \n\nMinistry Decision No.424, date 02.6.2010 on
-      the approval of the regulation of accreditation system, organisation and operation
-      of institutions of external quality assurance (amended No. 368, date 14.4.2011)."
-    eligibility: Registration on EQAR is sufficient.
-    conditions: EQAR-registered agencies should follow the standards and procedures
-      adopted by the Ministry of Education and Science (e.g. Institutional evaluation
-      and evaluation of study programs last no more than 6 months). See <link http://www.aaal.edu.al/dokumente/en/paaheregulation.pdf
-      - external-link-new-window "Opens external link in new window">here</link>.
-    recognition: The reports produced by the reviewing agency are used to inform a
-      final decision on accreditation, which is taken by the Minister of Education
-      and Science, based on recommendations by the Accreditation Council of the Public
-      Agency for accreditation of Higher Education (PAAHE).
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach not available to higher education
-      institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -53,7 +46,9 @@
   pk: 3
   fields:
     iso_3166_alpha2: DZ
+    orgreg_eu_2_letter_code: DZ
     iso_3166_alpha3: DZA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DZA
     name_english: Algeria
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -69,12 +64,13 @@
     flag: 1
     flag_log: ''
     created_at: "2019-01-01T12:00:00+00:00"
-    created_at: "2019-01-01T12:00:00+00:00"
 - model: countries.country
   pk: 4
   fields:
     iso_3166_alpha2: AD
+    orgreg_eu_2_letter_code: AD
     iso_3166_alpha3: AND
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AND
     name_english: Andorra
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -85,17 +81,18 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] Unknown."
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
-    created_at: "2019-01-01T12:00:00+00:00"
     created_at: "2019-01-01T12:00:00+00:00"
 - model: countries.country
   pk: 5
   fields:
     iso_3166_alpha2: AO
+    orgreg_eu_2_letter_code: AO
     iso_3166_alpha3: AGO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AGO
     name_english: Angola
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -115,7 +112,9 @@
   pk: 6
   fields:
     iso_3166_alpha2: AG
+    orgreg_eu_2_letter_code: AG
     iso_3166_alpha3: ATG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ATG
     name_english: Antigua and Barbuda
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -135,7 +134,9 @@
   pk: 7
   fields:
     iso_3166_alpha2: AR
+    orgreg_eu_2_letter_code: AR
     iso_3166_alpha3: ARG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ARG
     name_english: Argentina
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -155,27 +156,20 @@
   pk: 8
   fields:
     iso_3166_alpha2: AM
+    orgreg_eu_2_letter_code: AM
     iso_3166_alpha3: ARM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ARM
     name_english: Armenia
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-22'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, all Armenian higher education institutions can choose
-      an EQAR-registered agency for their mandatory external quality assurance. \n\nGovernment
-      Decision No 301 dated on March 19, 2014 on amendments and supplements in the
-      Government Decision No. 978 dated June 30, 2011 on Regulation of State Accreditation
-      of the Educational Institutions providing professional education programs in
-      the Republic of Armenia, their specializations (bullets 11 and 19)."
-    eligibility: EQAR registration is sufficient.
-    conditions: agencies follow their usual, own standards and procedures. Prior to
-      starting their accreditation procedure the higher education institution should
-      inform national agency (ANQA).
-    recognition: automatic. The results of the accreditation are listed in the State
-      Accreditation Register.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: 'Yes, the European Approach is available to all higher
-      education institutions that seek an evaluation with an EQAR-registered agency. '
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -184,7 +178,9 @@
   pk: 9
   fields:
     iso_3166_alpha2: AU
+    orgreg_eu_2_letter_code: AU
     iso_3166_alpha3: AUS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AUS
     name_english: Australia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -204,37 +200,23 @@
   pk: 10
   fields:
     iso_3166_alpha2: AT
+    orgreg_eu_2_letter_code: AT
     iso_3166_alpha3: AUT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AUT
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/AUT
     eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AUT
     eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/AUT
     name_english: Austria
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-29'
-    qa_requirement_note: "* University colleges of teacher education:own methodology
-      \n"
+    qa_requirement_note: ''
     external_QAA_is_permitted: 2
-    external_QAA_note: '[not recognised] <ul><li>Public universities: yes.</li><li>Universities
-      of applied science: after having been re-accredited by the national Agency for
-      Quality Assurance and Accreditation Austria (AQ Austria)</li><li>Private universities
-      &amp; university colleges of teacher education: no.</li></ul> <ul><li> <b>Eligibility
-      requirements for foreign agencies</b>: <ul><li>Registration on EQAR</li><li>QA
-      agencies have to submit an expression of interest to the Federal Ministry of
-      Science, Research and Economy. </li></ul></li><li><b>Condition for the agency''s
-      work</b>: compliance with the criteria by the Federal Ministry of Science, Research
-      and Economy. </li><li><b>Further information/regulations</b>: <link http://wissenschaft.bmwfw.gv.at/fileadmin/user_upload/E_HS-QSG.pdf
-      - external-link-new-window "Opens external link in new window">Act on Quality
-      Assurance in Higher Education (HS-QSG)</link> (§ 19.) (page 14) &amp; <link
-      https://www.eqar.eu/fileadmin/documents/eqar/presentations/2013/131909_HS-QSG_BMWF_Neuhold.pdf
-      - external-link-new-window "Opens external link in new window">BMWF Presentation
-      </link></li></ul>'
+    external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>Public universities: yes (due
-      to “self-accrediting” status of their programmes they are able to employ the
-      European Approach).</li><li>Universities of applied sciences: no</li><li> Private
-      education providers &amp; university colleges of teacher education: no.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -243,7 +225,9 @@
   pk: 11
   fields:
     iso_3166_alpha2: AZ
+    orgreg_eu_2_letter_code: AZ
     iso_3166_alpha3: AZE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AZE
     name_english: Azerbaijan
     ehea_is_member: true
     eqar_governmental_member_start: '2015-03-05'
@@ -254,8 +238,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach is not available to higher
-      education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -264,7 +247,9 @@
   pk: 12
   fields:
     iso_3166_alpha2: BS
+    orgreg_eu_2_letter_code: BS
     iso_3166_alpha3: BHS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BHS
     name_english: Bahamas, The
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -284,7 +269,9 @@
   pk: 13
   fields:
     iso_3166_alpha2: BH
+    orgreg_eu_2_letter_code: BH
     iso_3166_alpha3: BHR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BHR
     name_english: Bahrain
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -304,7 +291,9 @@
   pk: 14
   fields:
     iso_3166_alpha2: BD
+    orgreg_eu_2_letter_code: BD
     iso_3166_alpha3: BGD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BGD
     name_english: Bangladesh
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -324,7 +313,9 @@
   pk: 15
   fields:
     iso_3166_alpha2: BB
+    orgreg_eu_2_letter_code: BB
     iso_3166_alpha3: BRB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BRB
     name_english: Barbados
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -344,7 +335,9 @@
   pk: 16
   fields:
     iso_3166_alpha2: BY
+    orgreg_eu_2_letter_code: BY
     iso_3166_alpha3: BLR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BLR
     name_english: Belarus
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -356,7 +349,7 @@
     recognition: ''
     european_approach_is_permitted: 2
     european_approach_note: ''
-    general_note: "[not recognised] "
+    general_note: ''
     flag: 1
     flag_log: ''
     created_at: "2019-01-01T12:00:00+00:00"
@@ -364,41 +357,21 @@
   pk: 17
   fields:
     iso_3166_alpha2: BE
+    orgreg_eu_2_letter_code: BE
     iso_3166_alpha3: BEL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BEL
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/BEL
     name_english: Belgium
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-14'
     qa_requirement_note: ''
     external_QAA_is_permitted: 2
-    external_QAA_note: '[not recognised] Flemish Community: yes, for external quality
-      assurance at programme level. Discussions are ongoing to allow higher education
-      institutions to choose EQAR-registered agencies for institutional evaluations
-      as well. <ul><li><b>Eligibility requirements for foreign agencies</b>: registration
-      on EQAR or other conditions agreed with NVAO.</li><li><b>Conditions for the
-      agencies’ work (e.g. criteria to be used)</b>: own criteria.</li><li><b>Recognition
-      of reviews carried out by foreign agencies: </b> QA agencies will have to agree
-      the Terms of Reference with NVAO.</li><li><b>Further information/regulations:
-      <link http://media.ehea.info/file/Belgium/40/8/National_Report_Belgium_Flemish_2015_566408.pdf
-      - external-link-new-window "Opens external link in new window">Bologna National
-      Report 2015 </link>&amp; <link http://data-onderwijs.vlaanderen.be/edulex/document.aspx?docid=14650
-      - external-link-new-window "Opens external link in new window">Decision of the
-      Flemish Government on higher educatio</link>n (in Dutch, Art. II. 122. § 4)</b></li></ul>
-      French Community : yes, Walloon higher education institutions can choose an
-      EQAR-registered agency for their mandatory external quality assurance. <ul><li><b>Eligibility
-      requirements for foreign agencies</b>: N/A</li><li><b>Conditions for the agencies’
-      work (e.g. criteria to be used)</b>: own criteria (compatible with AEQES and
-      the ESG).</li><li><b>Recognition of reviews carried out by foreign agencies:
-      </b>AEQES reviews the request of the higher education institution to recognise
-      the programme evaluations carried out by the foreign agency. External QA carried
-      out by EQAR-registered agencies go through a simplified procedure.</li><li><b>Further
-      information/regulations: </b>AEQES QA Guide </li></ul>'
+    external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] Flemish Community: yes, the European
-      Approach can be used for the external review of joint programmes. French Community:
-      yes, the European Approach can be used for the external review of joint programmes."
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -407,7 +380,9 @@
   pk: 18
   fields:
     iso_3166_alpha2: BZ
+    orgreg_eu_2_letter_code: BZ
     iso_3166_alpha3: BLZ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BLZ
     name_english: Belize
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -427,7 +402,9 @@
   pk: 19
   fields:
     iso_3166_alpha2: BJ
+    orgreg_eu_2_letter_code: BJ
     iso_3166_alpha3: BEN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BEN
     name_english: Benin
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -447,7 +424,9 @@
   pk: 20
   fields:
     iso_3166_alpha2: BT
+    orgreg_eu_2_letter_code: BT
     iso_3166_alpha3: BTN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BTN
     name_english: Bhutan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -467,7 +446,9 @@
   pk: 21
   fields:
     iso_3166_alpha2: BO
+    orgreg_eu_2_letter_code: BO
     iso_3166_alpha3: BOL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BOL
     name_english: Bolivia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -487,7 +468,9 @@
   pk: 22
   fields:
     iso_3166_alpha2: BA
+    orgreg_eu_2_letter_code: BA
     iso_3166_alpha3: BIH
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BIH
     name_english: Bosnia and Herzegovina
     ehea_is_member: true
     eqar_governmental_member_start: '2008-06-25'
@@ -498,12 +481,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>While Bosnian and Herzegovinian
-      higher education institutions may employ the European Approach for the quality
-      assurance of their joint programmes (on the basis of agreement that will be
-      signed with partner institutions within the consortium), the reviewed programme
-      will not be included into the State register of accredited higher education
-      institutions and study programs in Bosnia and Herzegovina.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -512,7 +490,9 @@
   pk: 23
   fields:
     iso_3166_alpha2: BW
+    orgreg_eu_2_letter_code: BW
     iso_3166_alpha3: BWA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BWA
     name_english: Botswana
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -532,7 +512,9 @@
   pk: 24
   fields:
     iso_3166_alpha2: BR
+    orgreg_eu_2_letter_code: BR
     iso_3166_alpha3: BRA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BRA
     name_english: Brazil
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -552,7 +534,9 @@
   pk: 25
   fields:
     iso_3166_alpha2: BN
+    orgreg_eu_2_letter_code: BN
     iso_3166_alpha3: BRN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BRN
     name_english: Brunei
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -572,25 +556,21 @@
   pk: 26
   fields:
     iso_3166_alpha2: BG
+    orgreg_eu_2_letter_code: BG
     iso_3166_alpha3: BGR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BGR
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/BGR
     name_english: Bulgaria
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-22'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Yes, under certain conditions: \n\n<link http://media.ehea.info/file/Bulgaria/45/7/National_Report_Bulgaria_2015_566457.pdf
-      - external-link-new-window \"Opens external link in new window\">Bologna National
-      Report</link> (2015) &amp; <link http://siteresources.worldbank.org/BULGARIAEXTN/Resources/305438-1307440973243/Bulgaria-Higher-Education-executive-summary-March-2012-EN.pdf
-      - external-link-new-window \"Opens external link in new window\">Amendments
-      to the Higher Education Act of August 2011 </link>(Art. 88, para. 3) <b> </b>"
-    eligibility: registration on EQAR is sufficient.
-    conditions: the foreign agency will have to use the same criteria and mark-based
-      system as the national agency, NEAA.
-    recognition: accreditation is given by the National Evaluation and Accreditation
-      Agency (NEAA) based on the results of the assessment.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>European Approach can be used
-      by EQAR-registered agencies operating in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -599,7 +579,9 @@
   pk: 27
   fields:
     iso_3166_alpha2: BF
+    orgreg_eu_2_letter_code: BF
     iso_3166_alpha3: BFA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BFA
     name_english: Burkina Faso
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -619,7 +601,9 @@
   pk: 28
   fields:
     iso_3166_alpha2: BI
+    orgreg_eu_2_letter_code: BI
     iso_3166_alpha3: BDI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BDI
     name_english: Burundi
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -639,7 +623,9 @@
   pk: 29
   fields:
     iso_3166_alpha2: KH
+    orgreg_eu_2_letter_code: KH
     iso_3166_alpha3: KHM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KHM
     name_english: Cambodia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -659,7 +645,9 @@
   pk: 30
   fields:
     iso_3166_alpha2: CM
+    orgreg_eu_2_letter_code: CM
     iso_3166_alpha3: CMR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CMR
     name_english: Cameroon
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -679,7 +667,9 @@
   pk: 31
   fields:
     iso_3166_alpha2: CA
+    orgreg_eu_2_letter_code: CA
     iso_3166_alpha3: CAN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CAN
     name_english: Canada
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -699,7 +689,9 @@
   pk: 32
   fields:
     iso_3166_alpha2: CV
+    orgreg_eu_2_letter_code: CV
     iso_3166_alpha3: CPV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CPV
     name_english: Cape Verde
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -719,7 +711,9 @@
   pk: 33
   fields:
     iso_3166_alpha2: CF
+    orgreg_eu_2_letter_code: CF
     iso_3166_alpha3: CAF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CAF
     name_english: Central African Republic
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -739,7 +733,9 @@
   pk: 34
   fields:
     iso_3166_alpha2: TD
+    orgreg_eu_2_letter_code: TD
     iso_3166_alpha3: TCD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TCD
     name_english: Chad
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -759,7 +755,9 @@
   pk: 35
   fields:
     iso_3166_alpha2: CL
+    orgreg_eu_2_letter_code: CL
     iso_3166_alpha3: CHL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CHL
     name_english: Chile
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -779,7 +777,9 @@
   pk: 36
   fields:
     iso_3166_alpha2: CN
+    orgreg_eu_2_letter_code: CN
     iso_3166_alpha3: CHN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CHN
     name_english: China, People's Republic of
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -799,7 +799,9 @@
   pk: 37
   fields:
     iso_3166_alpha2: CO
+    orgreg_eu_2_letter_code: CO
     iso_3166_alpha3: COL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/COL
     name_english: Colombia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -819,7 +821,9 @@
   pk: 38
   fields:
     iso_3166_alpha2: KM
+    orgreg_eu_2_letter_code: KM
     iso_3166_alpha3: COM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/COM
     name_english: Comoros
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -839,7 +843,9 @@
   pk: 39
   fields:
     iso_3166_alpha2: CD
+    orgreg_eu_2_letter_code: CD
     iso_3166_alpha3: COD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/COD
     name_english: Congo, (Congo ¬ñ Kinshasa)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -859,7 +865,9 @@
   pk: 40
   fields:
     iso_3166_alpha2: CG
+    orgreg_eu_2_letter_code: CG
     iso_3166_alpha3: COG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/COG
     name_english: Congo, (Congo ¬ñ Brazzaville)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -879,7 +887,9 @@
   pk: 41
   fields:
     iso_3166_alpha2: CR
+    orgreg_eu_2_letter_code: CR
     iso_3166_alpha3: CRI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CRI
     name_english: Costa Rica
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -899,7 +909,9 @@
   pk: 42
   fields:
     iso_3166_alpha2: CI
+    orgreg_eu_2_letter_code: CI
     iso_3166_alpha3: CIV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CIV
     name_english: Cote d'Ivoire (Ivory Coast)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -919,7 +931,10 @@
   pk: 43
   fields:
     iso_3166_alpha2: HR
+    orgreg_eu_2_letter_code: HR
     iso_3166_alpha3: HRV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HRV
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/HRV
     name_english: Croatia
     ehea_is_member: true
     eqar_governmental_member_start: '2011-09-05'
@@ -930,9 +945,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: <ul><li>No, however discussions are being held on a possible
-      proposal to implement the European Approach. See further info <link https://www.azvo.hr/en/about-ashe/international-projects
-      - external-link-new-window "Opens external link in new window">here</link>.</li></ul>
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -941,7 +954,9 @@
   pk: 44
   fields:
     iso_3166_alpha2: CU
+    orgreg_eu_2_letter_code: CU
     iso_3166_alpha3: CUB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CUB
     name_english: Cuba
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -961,27 +976,21 @@
   pk: 45
   fields:
     iso_3166_alpha2: CY
+    orgreg_eu_2_letter_code: CY
     iso_3166_alpha3: CYP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CYP
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/CYP
     name_english: Cyprus
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-18'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, all higher education institutions may choose an external
-      QA agency for programme or institutional evaluations except private universities
-      with initial licence of operation. The first evaluation (accreditation and certification
-      procedures) can only be carried out by the Cyprus Agency of Quality Assurance
-      and Accreditation in Higher Education. \n\nArticle 5 of the law for ”The Cyprus
-      Agency of Quality Assurance and Accreditation in Higher Education&quot; (2015)."
-    eligibility: EQAR registration otherwise prior consent needs to be obtained from
-      the Cyprus QA agency.
-    conditions: "<b>(e.g. criteria to be used): </b>own criteria"
-    recognition: final decision is to be taken by the Cypriot Agency of Quality Assurance
-      and Accreditation in Higher Education based on the outcomes of the external
-      QA activity carried out by the EQAR-registered agency.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -990,7 +999,10 @@
   pk: 46
   fields:
     iso_3166_alpha2: CZ
+    orgreg_eu_2_letter_code: CZ
     iso_3166_alpha3: CZE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CZE
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/CZE
     name_english: Czech Republic
     ehea_is_member: true
     eqar_governmental_member_start: '2013-01-10'
@@ -1001,8 +1013,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1011,30 +1022,21 @@
   pk: 47
   fields:
     iso_3166_alpha2: DK
+    orgreg_eu_2_letter_code: DK
     iso_3166_alpha3: DNK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DNK
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/DNK
     name_english: Denmark
     ehea_is_member: true
     eqar_governmental_member_start: '2008-04-10'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, Danish higher education institutions are able to choose
-      an EQAR-registered agency for the accreditation of Danish education programmes
-      offered abroad and the accreditation of professional education programmes offered
-      by transnational providers. The Accreditation Council may decide to also use
-      an EQAR-registered quality assurance agency, other than the Danish Accreditation
-      Agency for the preparation of the accreditation reports. At the request of a
-      higher education institution, the Accreditation Council may accept an accreditation
-      report from another internationally recognised quality assurance agency. \n\n"
-    eligibility: EQAR registration
-    conditions: "<ul><li>for accrediting Danish higher education institutions or programmes
-      or Danish education programmes offered abroad: the agency can use its own criteria."
-    recognition:
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: "<ul><li>Yes, the European Approach is available to all
-      higher education institutions.<ul><li>Joint programmes can be accredited by
-      all “internationally recognised” agencies. If an agency is registered on EQAR,
-      it is automatically considered “internationally recognised”; otherwise, it has
-      to prove this in an individual procedure to the Danish authorities.</li></ul></li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1043,7 +1045,9 @@
   pk: 48
   fields:
     iso_3166_alpha2: DJ
+    orgreg_eu_2_letter_code: DJ
     iso_3166_alpha3: DJI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DJI
     name_english: Djibouti
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1063,7 +1067,9 @@
   pk: 49
   fields:
     iso_3166_alpha2: DM
+    orgreg_eu_2_letter_code: DM
     iso_3166_alpha3: DMA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DMA
     name_english: Dominica
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1083,7 +1089,9 @@
   pk: 50
   fields:
     iso_3166_alpha2: DO
+    orgreg_eu_2_letter_code: DO
     iso_3166_alpha3: DOM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DOM
     name_english: Dominican Republic
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1103,7 +1111,9 @@
   pk: 51
   fields:
     iso_3166_alpha2: EC
+    orgreg_eu_2_letter_code: EC
     iso_3166_alpha3: ECU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ECU
     name_english: Ecuador
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1123,7 +1133,9 @@
   pk: 52
   fields:
     iso_3166_alpha2: EG
+    orgreg_eu_2_letter_code: EG
     iso_3166_alpha3: EGY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/EGY
     name_english: Egypt
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1143,7 +1155,9 @@
   pk: 53
   fields:
     iso_3166_alpha2: SV
+    orgreg_eu_2_letter_code: SV
     iso_3166_alpha3: SLV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SLV
     name_english: El Salvador
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1163,7 +1177,9 @@
   pk: 54
   fields:
     iso_3166_alpha2: GQ
+    orgreg_eu_2_letter_code: GQ
     iso_3166_alpha3: GNQ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GNQ
     name_english: Equatorial Guinea
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1183,7 +1199,9 @@
   pk: 55
   fields:
     iso_3166_alpha2: ER
+    orgreg_eu_2_letter_code: ER
     iso_3166_alpha3: ERI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ERI
     name_english: Eritrea
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1203,28 +1221,21 @@
   pk: 56
   fields:
     iso_3166_alpha2: EE
+    orgreg_eu_2_letter_code: EE
     iso_3166_alpha3: EST
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/EST
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/EST
     name_english: Estonia
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-20'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Generally yes, but based on specific national criteria and
-      conditions: \n\n<link http://media.ehea.info/file/Estonia/63/2/National_Report_Estonia_2015_566632.pdf
-      - external-link-new-window \"Opens external link in new window\">Bologna National
-      Report (2015).</link>"
-    eligibility: the agency must be approved by the <link register/detailpage.html?tx_pxdeqar_pi1[cid]=51
-      - internal-link "Opens external link in new window">Estonian Higher Education
-      Quality Agency (EKKA)</link>
-    conditions: the agency has to have experience in assessing study programmes or
-      higher education institutions, it must have an international assessment committee
-      (review team) and the assessment procedures should be transparent and in line
-      with the ESG.<b> </b>
-    recognition: treated in the same way as the evaluations carried out by the national
-      QA agency (EKKA)<b>.</b>
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1233,7 +1244,9 @@
   pk: 57
   fields:
     iso_3166_alpha2: ET
+    orgreg_eu_2_letter_code: ET
     iso_3166_alpha3: ETH
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ETH
     name_english: Ethiopia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1253,7 +1266,9 @@
   pk: 58
   fields:
     iso_3166_alpha2: FJ
+    orgreg_eu_2_letter_code: FJ
     iso_3166_alpha3: FJI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FJI
     name_english: Fiji
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1273,26 +1288,21 @@
   pk: 59
   fields:
     iso_3166_alpha2: FI
+    orgreg_eu_2_letter_code: FI
     iso_3166_alpha3: FIN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FIN
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/FIN
     name_english: Finland
     ehea_is_member: true
     eqar_governmental_member_start: '2015-03-06'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Generally yes, but based on a specific national regulations.
-      \n\nUniversity Act 558/2009; University of Applied Sciences Act 932/2014 &amp;
-      <link http://typo3/http://karvi.fi/app/uploads/2014/09/KKA_1512.pdf - external-link-new-window
-      \"Opens external link in new window\">Audit manual for the quality systems of
-      higher education institutions </link>"
-    eligibility: none
-    conditions: agencies must follow the Finish methodology (including the six main
-      audit targets and four point scale criteria). See below the audit manual for
-      the quality systems.<b> </b>
-    recognition: treated in the same way as the evaluations carried out by the national
-      QA agency (FINEEC)<b>.</b>
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: "<ul><li>Yes, due to “self-accrediting” status for their
-      programmes, higher education institutions can employ the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1301,46 +1311,21 @@
   pk: 60
   fields:
     iso_3166_alpha2: FR
+    orgreg_eu_2_letter_code: FR
     iso_3166_alpha3: FRA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FRA
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/FRA
     name_english: France
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-28'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: '[not recognised] </li></ul> <ul style="fill: none; margin:
-      0px 15px 15px 10px; padding: 0px; list-style-type: none; line-height: 19.2px;
-      "><li style="color: rgb(51, 51, 51); font-family: Arial, Verdana, Helvetica;
-      font-size: 12.8px; fill: none; margin: 0px; padding: 2px 5px 2px 30px; background-image:
-      url(&quot;/fileadmin/tmpl/img/li.gif&quot;); background-repeat: no-repeat; background-position:
-      0px 5px; text-align: left; "><b style="fill: none; ">Eligibility requirements
-      for foreign agencies</b>: N/A</li><li style="color: rgb(51, 51, 51); font-family:
-      Arial, Verdana, Helvetica; font-size: 12.8px; fill: none; margin: 0px; padding:
-      2px 5px 2px 30px; background-image: url(&quot;/fileadmin/tmpl/img/li.gif&quot;);
-      background-repeat: no-repeat; background-position: 0px 5px; text-align: left;
-      "><b style="fill: none; ">Conditions for the agencies’ work (e.g. criteria to
-      be used)</b>: Criteria and procedures for external quality assurance must be
-      validated by HCERES.</li><li style="color: rgb(51, 51, 51); font-family: Arial,
-      Verdana, Helvetica; font-size: 12.8px; fill: none; margin: 0px; padding: 2px
-      5px 2px 30px; background-image: url(&quot;/fileadmin/tmpl/img/li.gif&quot;);
-      background-repeat: no-repeat; background-position: 0px 5px; text-align: left;
-      "><b style="fill: none; ">Recognition of reviews carried out by foreign agencies:
-      </b>HCERES checks the external quality assurance activity, whether it corresponds
-      to the national qualifications framework and whether the foreign quality assurance
-      has effectively involved students in the review.</li><li style="color: rgb(51,
-      51, 51); font-family: Arial, Verdana, Helvetica; font-size: 12.8px; fill: none;
-      margin: 0px; padding: 2px 5px 2px 30px; background-image: url(&quot;/fileadmin/tmpl/img/li.gif&quot;);
-      background-repeat: no-repeat; background-position: 0px 5px; text-align: left;
-      "><b>Further information / regulations</b>: French legal framework (<link https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000027748429&cidTexte=LEGITEXT000006071190&dateTexte=20170531&oldAction=rechCodeArticle&fastReqId=1537061084&nbResultRech=1
-      - external-link-new-window "Opens external link in new window">Code de la recherche)</link>,
-      <link https://www.legifrance.gouv.fr/affichCodeArticle.do?idArticle=LEGIARTI000027748429&cidTexte=LEGITEXT000006071190&dateTexte=20170531&oldAction=rechCodeArticle&fastReqId=1537061084&nbResultRech=1
-      - external-link-new-window "Opens external link in new window">Article L114-3-1
-      </link></li></ul> <b> </b>'
+    external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1349,7 +1334,9 @@
   pk: 61
   fields:
     iso_3166_alpha2: GA
+    orgreg_eu_2_letter_code: GA
     iso_3166_alpha3: GAB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GAB
     name_english: Gabon
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1369,7 +1356,9 @@
   pk: 62
   fields:
     iso_3166_alpha2: GM
+    orgreg_eu_2_letter_code: GM
     iso_3166_alpha3: GMB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GMB
     name_english: Gambia, The
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1389,27 +1378,20 @@
   pk: 63
   fields:
     iso_3166_alpha2: GE
+    orgreg_eu_2_letter_code: GE
     iso_3166_alpha3: GEO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GEO
     name_english: Georgia
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-27'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, Georgian higher education institutions can choose an
-      EQAR-registered agency for their mandatory external quality assurance. \n\nOrder
-      of the Minister of Education and Science of Georgia No. 65 “On approving statute
-      for accreditation of educational programs and fees” (Chapter 28. Recognition
-      of Accreditation awarded by foreign organizations). May 4, 2011"
-    eligibility: N/A
-    conditions: "(e.g. criteria to be used): Criteria and procedures for external
-      quality assurance must be validated by ."
-    recognition: The National Center for Educational Quality Enhancement of Georgia
-      (<link http://www.eqe.ge/eng - external-link-new-window "Opens external link
-      in new window">NCEQE</link>) checks the compatibility of the evaluation with
-      National Standards and Procedures (Art. 28).
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1418,7 +1400,10 @@
   pk: 64
   fields:
     iso_3166_alpha2: DE
+    orgreg_eu_2_letter_code: DE
     iso_3166_alpha3: DEU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DEU
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/DEU
     eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/DEU
     eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/DEU
     name_english: Germany
@@ -1426,21 +1411,12 @@
     eqar_governmental_member_start: '2008-02-25'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, all German higher education institutions (HEIs) \n\n<ul><li><link
-      http://www.akkreditierungsrat.de/index.php?id=284&L=1 - external-link-new-window
-      \"Opens external link in new window\">Accreditation Council</link>"
-    eligibility: EQAR-registration
-    conditions: use of national standards and criteria (see below)
-    recognition: starting with mid-2018 applications for program and system accreditation
-      must be addressed to the German Accreditation Council.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: <ul><li>Yes. all German higher education institutions
-      can opt for programme accreditation of joint degrees by an EQAR-registered agency
-      using the European Approach. See <link http://www.akkreditierungsrat.de/index.php?id=internationales&L=1&size=title%3DACQUIN%2FAccessKey%3A#c1796
-      - external-link-new-window "Opens external link in new window">here</link> for
-      further information. </li><li>Nationally recognised QA agencies can also ratify
-      individual accreditation decisions by other EQAR-registered agencies on joint
-      programmes between a German and foreign institution. </li></ul>
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1449,7 +1425,9 @@
   pk: 65
   fields:
     iso_3166_alpha2: GH
+    orgreg_eu_2_letter_code: GH
     iso_3166_alpha3: GHA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GHA
     name_english: Ghana
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1469,7 +1447,10 @@
   pk: 66
   fields:
     iso_3166_alpha2: GR
+    orgreg_eu_2_letter_code: GR
     iso_3166_alpha3: GRC
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GRC
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/GRC
     name_english: Greece
     ehea_is_member: true
     eqar_governmental_member_start: '2017-01-01'
@@ -1480,8 +1461,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1490,7 +1470,9 @@
   pk: 67
   fields:
     iso_3166_alpha2: GD
+    orgreg_eu_2_letter_code: GD
     iso_3166_alpha3: GRD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GRD
     name_english: Grenada
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1510,7 +1492,9 @@
   pk: 68
   fields:
     iso_3166_alpha2: GT
+    orgreg_eu_2_letter_code: GT
     iso_3166_alpha3: GTM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GTM
     name_english: Guatemala
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1530,7 +1514,9 @@
   pk: 69
   fields:
     iso_3166_alpha2: GN
+    orgreg_eu_2_letter_code: GN
     iso_3166_alpha3: GIN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GIN
     name_english: Guinea
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1550,7 +1536,9 @@
   pk: 70
   fields:
     iso_3166_alpha2: GW
+    orgreg_eu_2_letter_code: GW
     iso_3166_alpha3: GNB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GNB
     name_english: Guinea-Bissau
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1570,7 +1558,9 @@
   pk: 71
   fields:
     iso_3166_alpha2: GY
+    orgreg_eu_2_letter_code: GY
     iso_3166_alpha3: GUY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GUY
     name_english: Guyana
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1590,7 +1580,9 @@
   pk: 72
   fields:
     iso_3166_alpha2: HT
+    orgreg_eu_2_letter_code: HT
     iso_3166_alpha3: HTI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HTI
     name_english: Haiti
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1610,7 +1602,9 @@
   pk: 73
   fields:
     iso_3166_alpha2: HN
+    orgreg_eu_2_letter_code: HN
     iso_3166_alpha3: HND
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HND
     name_english: Honduras
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1630,7 +1624,10 @@
   pk: 74
   fields:
     iso_3166_alpha2: HU
+    orgreg_eu_2_letter_code: HU
     iso_3166_alpha3: HUN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HUN
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/HUN
     eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HUN
     eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/HUN
     name_english: Hungary
@@ -1643,8 +1640,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach is not available to higher
-      education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1653,7 +1649,9 @@
   pk: 75
   fields:
     iso_3166_alpha2: IS
+    orgreg_eu_2_letter_code: IS
     iso_3166_alpha3: ISL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ISL
     name_english: Iceland
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -1664,8 +1662,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach is not available to higher
-      education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1674,7 +1671,9 @@
   pk: 76
   fields:
     iso_3166_alpha2: IN
+    orgreg_eu_2_letter_code: IN
     iso_3166_alpha3: IND
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IND
     name_english: India
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1694,7 +1693,9 @@
   pk: 77
   fields:
     iso_3166_alpha2: ID
+    orgreg_eu_2_letter_code: ID
     iso_3166_alpha3: IDN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IDN
     name_english: Indonesia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1714,7 +1715,9 @@
   pk: 78
   fields:
     iso_3166_alpha2: IR
+    orgreg_eu_2_letter_code: IR
     iso_3166_alpha3: IRN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IRN
     name_english: Iran
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1734,7 +1737,9 @@
   pk: 79
   fields:
     iso_3166_alpha2: IQ
+    orgreg_eu_2_letter_code: IQ
     iso_3166_alpha3: IRQ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IRQ
     name_english: Iraq
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1754,7 +1759,10 @@
   pk: 80
   fields:
     iso_3166_alpha2: IE
+    orgreg_eu_2_letter_code: IE
     iso_3166_alpha3: IRL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IRL
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/IRL
     name_english: Ireland
     ehea_is_member: true
     eqar_governmental_member_start: '2008-08-26'
@@ -1765,12 +1773,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>A number of eight universities
-      together with the Dublin Institute of Technology and Royal College of Surgeons
-      in Ireland have self-awarding powers giving them the possibility to validate
-      and award their own qualifications. They can employ the European Approach for
-      the quality assurance of joint programmes. Providers with awarding powers delegated
-      to them by QQI may also employ this approach</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1779,7 +1782,9 @@
   pk: 81
   fields:
     iso_3166_alpha2: IL
+    orgreg_eu_2_letter_code: IL
     iso_3166_alpha3: ISR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ISR
     name_english: Israel
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1799,7 +1804,10 @@
   pk: 82
   fields:
     iso_3166_alpha2: IT
+    orgreg_eu_2_letter_code: IT
     iso_3166_alpha3: ITA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ITA
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/ITA
     name_english: Italy
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -1810,8 +1818,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1820,7 +1827,9 @@
   pk: 83
   fields:
     iso_3166_alpha2: JM
+    orgreg_eu_2_letter_code: JM
     iso_3166_alpha3: JAM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/JAM
     name_english: Jamaica
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1840,7 +1849,9 @@
   pk: 84
   fields:
     iso_3166_alpha2: JP
+    orgreg_eu_2_letter_code: JP
     iso_3166_alpha3: JPN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/JPN
     name_english: Japan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1860,7 +1871,9 @@
   pk: 85
   fields:
     iso_3166_alpha2: JO
+    orgreg_eu_2_letter_code: JO
     iso_3166_alpha3: JOR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/JOR
     name_english: Jordan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1880,32 +1893,20 @@
   pk: 86
   fields:
     iso_3166_alpha2: KZ
+    orgreg_eu_2_letter_code: KZ
     iso_3166_alpha3: KAZ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KAZ
     name_english: Kazakhstan
     ehea_is_member: true
     eqar_governmental_member_start: '2012-08-23'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, Kazakh higher education institutions can choose for their
-      mandatory external quality assurance an EQAR-registered agency. \n\n<ul><li><link
-      http://edu.gov.kz/m/ministerstvo/list.php?SECTION_ID=1 - external-link-new-window
-      \"Opens external link in new window\">Rules for the recognition of accreditation
-      bodies</link>"
-    eligibility: Foreign agencies have to be listed in the national Kazakh register.
-      To be listed, agencies need to be registered in EQAR and to also meet the following
-      requirements:<ul><li>1) to have the status of a legal entity in the organizational
-      and legal form of a non-profit organization;</li><li>2) to be a full member
-      of the international network of quality assurance;</li><li>3) to have the resources
-      necessary to fulfill the obligations on accreditation of educational organizations,
-      educational programs;</li><li>4) to have the necessary staffing;</li><li>5)
-      to have accreditation standards (regulations) that establish requirements for
-      the accreditation procedure.</li></ul>
-    conditions: own criteria.
-    recognition: automatic.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: Yes, Kazakh higher education institutions can opt for
-      programme accreditation of joint degrees by an EQAR registered agency using
-      the European Approach.
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -1914,7 +1915,9 @@
   pk: 87
   fields:
     iso_3166_alpha2: KE
+    orgreg_eu_2_letter_code: KE
     iso_3166_alpha3: KEN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KEN
     name_english: Kenya
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1934,7 +1937,9 @@
   pk: 88
   fields:
     iso_3166_alpha2: KI
+    orgreg_eu_2_letter_code: KI
     iso_3166_alpha3: KIR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KIR
     name_english: Kiribati
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1954,7 +1959,9 @@
   pk: 89
   fields:
     iso_3166_alpha2: KP
+    orgreg_eu_2_letter_code: KP
     iso_3166_alpha3: PRK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PRK
     name_english: Korea, North
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1974,7 +1981,9 @@
   pk: 90
   fields:
     iso_3166_alpha2: KR
+    orgreg_eu_2_letter_code: KR
     iso_3166_alpha3: KOR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KOR
     name_english: Korea, South
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -1994,7 +2003,9 @@
   pk: 91
   fields:
     iso_3166_alpha2: KW
+    orgreg_eu_2_letter_code: KW
     iso_3166_alpha3: KWT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KWT
     name_english: Kuwait
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2014,7 +2025,9 @@
   pk: 92
   fields:
     iso_3166_alpha2: KG
+    orgreg_eu_2_letter_code: KG
     iso_3166_alpha3: KGZ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KGZ
     name_english: Kyrgyzstan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2034,7 +2047,9 @@
   pk: 93
   fields:
     iso_3166_alpha2: LA
+    orgreg_eu_2_letter_code: LA
     iso_3166_alpha3: LAO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LAO
     name_english: Laos
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2054,19 +2069,21 @@
   pk: 94
   fields:
     iso_3166_alpha2: LV
+    orgreg_eu_2_letter_code: LV
     iso_3166_alpha3: LVA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LVA
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/LVA
     name_english: Latvia
     ehea_is_member: true
     eqar_governmental_member_start: '2011-05-05'
-    qa_requirement_note: "* Study direction accreditation.\n"
+    qa_requirement_note: ''
     external_QAA_is_permitted: 2
     external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2075,7 +2092,9 @@
   pk: 95
   fields:
     iso_3166_alpha2: LB
+    orgreg_eu_2_letter_code: LB
     iso_3166_alpha3: LBN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LBN
     name_english: Lebanon
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2095,7 +2114,9 @@
   pk: 96
   fields:
     iso_3166_alpha2: LS
+    orgreg_eu_2_letter_code: LS
     iso_3166_alpha3: LSO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LSO
     name_english: Lesotho
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2115,7 +2136,9 @@
   pk: 97
   fields:
     iso_3166_alpha2: LR
+    orgreg_eu_2_letter_code: LR
     iso_3166_alpha3: LBR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LBR
     name_english: Liberia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2135,7 +2158,9 @@
   pk: 98
   fields:
     iso_3166_alpha2: LY
+    orgreg_eu_2_letter_code: LY
     iso_3166_alpha3: LBY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LBY
     name_english: Libya
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2155,22 +2180,20 @@
   pk: 99
   fields:
     iso_3166_alpha2: LI
+    orgreg_eu_2_letter_code: LI
     iso_3166_alpha3: LIE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LIE
     name_english: Liechtenstein
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-29'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes. \n\n<ul><li>Liechtenstein legislation requires the higher
-      education institution to seek accreditation by any EQAR-registered agency.The
-      country has decided not to establish an own national agency."
-    eligibility: Registration on EQAR is sufficient.
-    conditions: own criteria.
-    recognition:
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: "<ul><li>Yes, all Liechtenstein higher education institutions
-      can opt for programme accreditation of joint degrees by an EQAR registered agency
-      using the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2179,23 +2202,21 @@
   pk: 100
   fields:
     iso_3166_alpha2: LT
+    orgreg_eu_2_letter_code: LT
     iso_3166_alpha3: LTU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LTU
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/LTU
     name_english: Lithuania
     ehea_is_member: true
     eqar_governmental_member_start: '2015-03-04'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, but it's limited to (cluster) programme evaluations:
-      \n\n<ul><li> <link https://www.e-tar.lt/portal/lt/legalAct/1a9058e049b311e6b5d09300a16a686c/nMPTrsSoMV
-      (see art. 48, 49 - external-link-new-window \"Opens external link in new window\">Law
-      on Higher Education and Research </link>(first adopted in 2009, revised in 2016)."
-    eligibility: EQAR registration
-    conditions: "<b>(e.g. criteria to be used)</b>: national criteria (see below).
-      The evaluation should consider the local context, the needs of Lithuania as
-      a state, as well as the economic, social and cultural developments."
-    recognition:
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>Unknown.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2204,39 +2225,21 @@
   pk: 101
   fields:
     iso_3166_alpha2: LU
+    orgreg_eu_2_letter_code: LU
     iso_3166_alpha3: LUX
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LUX
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/LUX
     name_english: Luxembourg
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-26'
     qa_requirement_note: ''
     external_QAA_is_permitted: 2
-    external_QAA_note: '[not recognised] <ul><li>foreign higher education institutions<b>
-      </b>(whether public or private) which seek accreditation in Luxembourg must
-      have their programme and institutional evaluation carried out by an EQAR-registered
-      agency. </li><li>Public institutions, i.e. University of Luxembourg has a ''self-accrediting
-      status'' and does not fall into the requirement of this legal provision. </li></ul>
-      <ul><li><b>Eligibility criteria for foreign agencies:</b> <ul><li>EQAR registration.
-      The agency is selected by the Ministry of Higher Education and Research.</li></ul></li><li><b>Conditions
-      for the agencies’ work</b>: <ul><li>The agency has to follow the accreditation
-      criteria set out in the Regulation of the Grand Duchy of Luxembourg (see below,
-      art. 4).<b> </b></li></ul></li><li><b>Recognition of review outcomes :</b><ul><li>The
-      final decision is taken by the Ministry based on the result of the accreditation
-      procedure.<b></b></li></ul></li><li><b>Further information/regulations</b>:
-      <ul><li><link http://www.legilux.public.lu/leg/a/archives/2016/0143/2016A2424A.html?highlight=enseignement%22sup%C3%A9rieur
-      - external-link-new-window "Opens external link in new window">Law of 23 July
-      2016 amending the Law on Higher Education of 19 June 2009</link> and </li><li><link
-      http://www.legilux.public.lu/leg/a/archives/2016/0197/2016A3850A.html?highlight=accr%C3%A9ditation
-      _blank external-link-new-window "Opens external link in new window">the Regulation
-      of the Grand Duchy of Luxembourg of 24 August 2016</link></li></ul></li></ul>
-      <b> </b>'
+    external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>Due to its “self-accrediting”
-      status for their programmes, the University of Luxembourg can employ the European
-      Approach. </li><li>Other Luxembourg higher education institutions that require
-      external programme accreditation can not use the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2245,7 +2248,9 @@
   pk: 102
   fields:
     iso_3166_alpha2: MK
+    orgreg_eu_2_letter_code: MK
     iso_3166_alpha3: MKD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MKD
     name_english: Macedonia
     ehea_is_member: true
     eqar_governmental_member_start: '2015-03-05'
@@ -2256,8 +2261,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2266,7 +2270,9 @@
   pk: 103
   fields:
     iso_3166_alpha2: MG
+    orgreg_eu_2_letter_code: MG
     iso_3166_alpha3: MDG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MDG
     name_english: Madagascar
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2286,7 +2292,9 @@
   pk: 104
   fields:
     iso_3166_alpha2: MW
+    orgreg_eu_2_letter_code: MW
     iso_3166_alpha3: MWI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MWI
     name_english: Malawi
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2306,7 +2314,9 @@
   pk: 105
   fields:
     iso_3166_alpha2: MY
+    orgreg_eu_2_letter_code: MY
     iso_3166_alpha3: MYS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MYS
     name_english: Malaysia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2326,7 +2336,9 @@
   pk: 106
   fields:
     iso_3166_alpha2: MV
+    orgreg_eu_2_letter_code: MV
     iso_3166_alpha3: MDV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MDV
     name_english: Maldives
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2346,7 +2358,9 @@
   pk: 107
   fields:
     iso_3166_alpha2: ML
+    orgreg_eu_2_letter_code: ML
     iso_3166_alpha3: MLI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MLI
     name_english: Mali
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2366,7 +2380,10 @@
   pk: 108
   fields:
     iso_3166_alpha2: MT
+    orgreg_eu_2_letter_code: MT
     iso_3166_alpha3: MLT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MLT
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/MLT
     name_english: Malta
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-22'
@@ -2377,10 +2394,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>Only for self-accrediting institutions
-      in Malta, i.e. the University of Malta; the Malta College for Arts, Science
-      and Technology; and the Institute for Tourism Studies. These institutions can
-      choose to employ the European Approach for the Quality Assurance of Joint Programmes</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2389,7 +2403,9 @@
   pk: 109
   fields:
     iso_3166_alpha2: MH
+    orgreg_eu_2_letter_code: MH
     iso_3166_alpha3: MHL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MHL
     name_english: Marshall Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2409,7 +2425,9 @@
   pk: 110
   fields:
     iso_3166_alpha2: MR
+    orgreg_eu_2_letter_code: MR
     iso_3166_alpha3: MRT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MRT
     name_english: Mauritania
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2429,7 +2447,9 @@
   pk: 111
   fields:
     iso_3166_alpha2: MU
+    orgreg_eu_2_letter_code: MU
     iso_3166_alpha3: MUS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MUS
     name_english: Mauritius
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2449,7 +2469,9 @@
   pk: 112
   fields:
     iso_3166_alpha2: MX
+    orgreg_eu_2_letter_code: MX
     iso_3166_alpha3: MEX
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MEX
     name_english: Mexico
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2469,7 +2491,9 @@
   pk: 113
   fields:
     iso_3166_alpha2: FM
+    orgreg_eu_2_letter_code: FM
     iso_3166_alpha3: FSM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FSM
     name_english: Micronesia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2489,7 +2513,9 @@
   pk: 114
   fields:
     iso_3166_alpha2: MD
+    orgreg_eu_2_letter_code: MD
     iso_3166_alpha3: MDA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MDA
     name_english: Moldova
     ehea_is_member: true
     eqar_governmental_member_start: '2015-02-27'
@@ -2501,18 +2527,7 @@
     recognition: ''
     european_approach_is_permitted: 2
     european_approach_note: ''
-    general_note: '[not recognised] Moldova has been a Governmental Member of EQAR
-      since 2015. <h4>Can higher education institutions choose a suitable EQAR-registered
-      agency? </h4> Yes: <ul><li><b>Eligibility requirements for foreign agencies</b>:
-      EQAR registration is sufficient.</li><li><b>Condition for the agency''s work</b>:
-      the quality assurance agency has to follow the national standards when carrying
-      out the review.</li><li><b>Further information/regulations</b>: <link http://lex.justice.md/md/355156/
-      - external-link-new-window "Opens external link in new window">Education Code,
-      Law no</link>. 152, 17.07.2014 ( art. 113) (in Romanian)</li></ul> <h4>Can HEIs
-      employ the <link projects/joint-programmes.html _self internal-link "Opens internal
-      link in current window">European Approach for the Quality Assurance of Joint
-      Programmes</link>?</h4> Yes, the European Approach is available to all higher
-      education institutions that seek an evaluation with an EQAR-registered agency.'
+    general_note: ''
     flag: 1
     flag_log: ''
     created_at: "2019-01-01T12:00:00+00:00"
@@ -2520,7 +2535,9 @@
   pk: 115
   fields:
     iso_3166_alpha2: MC
+    orgreg_eu_2_letter_code: MC
     iso_3166_alpha3: MCO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MCO
     name_english: Monaco
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2540,7 +2557,9 @@
   pk: 116
   fields:
     iso_3166_alpha2: MN
+    orgreg_eu_2_letter_code: MN
     iso_3166_alpha3: MNG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MNG
     name_english: Mongolia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2560,7 +2579,9 @@
   pk: 117
   fields:
     iso_3166_alpha2: ME
+    orgreg_eu_2_letter_code: ME
     iso_3166_alpha3: MNE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MNE
     name_english: Montenegro
     ehea_is_member: true
     eqar_governmental_member_start: '2011-06-29'
@@ -2571,8 +2592,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2581,7 +2601,9 @@
   pk: 118
   fields:
     iso_3166_alpha2: MA
+    orgreg_eu_2_letter_code: MA
     iso_3166_alpha3: MAR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MAR
     name_english: Morocco
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2601,7 +2623,9 @@
   pk: 119
   fields:
     iso_3166_alpha2: MZ
+    orgreg_eu_2_letter_code: MZ
     iso_3166_alpha3: MOZ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MOZ
     name_english: Mozambique
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2621,7 +2645,9 @@
   pk: 120
   fields:
     iso_3166_alpha2: MM
+    orgreg_eu_2_letter_code: MM
     iso_3166_alpha3: MMR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MMR
     name_english: Myanmar (Burma)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2641,7 +2667,9 @@
   pk: 121
   fields:
     iso_3166_alpha2: NA
+    orgreg_eu_2_letter_code: NA
     iso_3166_alpha3: NAM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NAM
     name_english: Namibia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2661,7 +2689,9 @@
   pk: 122
   fields:
     iso_3166_alpha2: NR
+    orgreg_eu_2_letter_code: NR
     iso_3166_alpha3: NRU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NRU
     name_english: Nauru
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2681,7 +2711,9 @@
   pk: 123
   fields:
     iso_3166_alpha2: NP
+    orgreg_eu_2_letter_code: NP
     iso_3166_alpha3: NPL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NPL
     name_english: Nepal
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2701,33 +2733,21 @@
   pk: 124
   fields:
     iso_3166_alpha2: NL
+    orgreg_eu_2_letter_code: NL
     iso_3166_alpha3: NLD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NLD
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/NLD
     name_english: Netherlands
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-27'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Yes for programme accreditation only (with the exception of
-      initial accreditation). The following conditions have to be met: \n\n<link http://www.ehea.info/cid101574/netherlands.html
-      - external-link-new-window \"Opens external link in new window\">Bologna National
-      Report</link> (2015), <link https://www.nvao.net/nederland/nederlandse-wetgeving
-      - external-link-new-window \"Opens external link in new window\">Dutch legal
-      frameworks on external quality assurance</link>, &amp; <link https://www.nvao.net/beoordelingskaders/beoordelingskader-accreditatiestelsel-nederland-2016
-      _self external-link-new-window \"Opens external link in new window\">Assessment
-      Framework for higher education accreditation system Netherlands (2016</link>)"
-    eligibility: the QA agency must agree its Terms of Reference with the <link https://www.eqar.eu/register/detailpage.html?tx_pxdeqar_pi1%5Bcid%5D=16&tx_pxdeqar_pi1%5Bback%5D%5Bpid%5D=6
-      _blank internal-link "Opens internal link in current window"> Accreditation
-      Organisation for the Netherlands and Flanders (NVAO)</link> and the panel secretary
-      must be trained by NVAO.
-    conditions: own criteria.<b> </b>
-    recognition: NVAO will take the final decision of based on the result of the assessment
-      / accreditation procedure.<b></b>
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: <ul><li>Yes. all Dutch higher education institutions can
-      opt for programme accreditation of joint degrees by an EQAR-registered agency
-      using the European Approach. See <link https://www.nvao.net/procedures/internationaal
-      - external-link-new-window "Opens external link in new window">here </link>for
-      further information.</li></ul>
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2736,7 +2756,9 @@
   pk: 125
   fields:
     iso_3166_alpha2: NZ
+    orgreg_eu_2_letter_code: NZ
     iso_3166_alpha3: NZL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NZL
     name_english: New Zealand
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2756,7 +2778,9 @@
   pk: 126
   fields:
     iso_3166_alpha2: NI
+    orgreg_eu_2_letter_code: NI
     iso_3166_alpha3: NIC
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NIC
     name_english: Nicaragua
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2776,7 +2800,9 @@
   pk: 127
   fields:
     iso_3166_alpha2: NE
+    orgreg_eu_2_letter_code: NE
     iso_3166_alpha3: NER
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NER
     name_english: Niger
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2796,7 +2822,9 @@
   pk: 128
   fields:
     iso_3166_alpha2: NG
+    orgreg_eu_2_letter_code: NG
     iso_3166_alpha3: NGA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NGA
     name_english: Nigeria
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2816,7 +2844,9 @@
   pk: 129
   fields:
     iso_3166_alpha2: 'NO'
+    orgreg_eu_2_letter_code: 'NO'
     iso_3166_alpha3: NOR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NOR
     name_english: Norway
     ehea_is_member: true
     eqar_governmental_member_start: '2008-06-06'
@@ -2827,8 +2857,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -2837,7 +2866,9 @@
   pk: 130
   fields:
     iso_3166_alpha2: OM
+    orgreg_eu_2_letter_code: OM
     iso_3166_alpha3: OMN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/OMN
     name_english: Oman
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2857,7 +2888,9 @@
   pk: 131
   fields:
     iso_3166_alpha2: PK
+    orgreg_eu_2_letter_code: PK
     iso_3166_alpha3: PAK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PAK
     name_english: Pakistan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2877,7 +2910,9 @@
   pk: 132
   fields:
     iso_3166_alpha2: PW
+    orgreg_eu_2_letter_code: PW
     iso_3166_alpha3: PLW
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PLW
     name_english: Palau
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2897,7 +2932,9 @@
   pk: 133
   fields:
     iso_3166_alpha2: PA
+    orgreg_eu_2_letter_code: PA
     iso_3166_alpha3: PAN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PAN
     name_english: Panama
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2917,7 +2954,9 @@
   pk: 134
   fields:
     iso_3166_alpha2: PG
+    orgreg_eu_2_letter_code: PG
     iso_3166_alpha3: PNG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PNG
     name_english: Papua New Guinea
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2937,7 +2976,9 @@
   pk: 135
   fields:
     iso_3166_alpha2: PY
+    orgreg_eu_2_letter_code: PY
     iso_3166_alpha3: PRY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PRY
     name_english: Paraguay
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2957,7 +2998,9 @@
   pk: 136
   fields:
     iso_3166_alpha2: PE
+    orgreg_eu_2_letter_code: PE
     iso_3166_alpha3: PER
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PER
     name_english: Peru
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2977,7 +3020,9 @@
   pk: 137
   fields:
     iso_3166_alpha2: PH
+    orgreg_eu_2_letter_code: PH
     iso_3166_alpha3: PHL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PHL
     name_english: Philippines
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -2997,35 +3042,21 @@
   pk: 138
   fields:
     iso_3166_alpha2: PL
+    orgreg_eu_2_letter_code: PL
     iso_3166_alpha3: POL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/POL
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/POL
     name_english: Poland
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-25'
     qa_requirement_note: ''
     external_QAA_is_permitted: 2
-    external_QAA_note: '[not recognised] - HEIs are required to be reviewed by an
-      EQAR-registered agency in order to apply for the right to offer doctorate degrees.-
-      Foreign higher education institutions (HEIs) that have been accredited by any
-      EQAR-registered agency have the right to establish branch HEIs or departments
-      in Polish.- Higher education institutions may have their programme evaluated
-      by EQAR-registered agencies if certain conditions are met: <ul><li><b>Eligibility
-      requirements for foreign agencies</b>: EQAR registration</li><li><b>Conditions
-      for the agencies’ work (e.g. criteria to be used)</b>: own criteria for EQAR
-      registered QA agencies.</li><li><b>Recognition of reviews carried out by foreign
-      agencies: </b>the Polish Accreditation Commission (PKA, the national QA agency)
-      takes into account the accreditations and certificates obtained through the
-      evaluation by the foreign agency in selected areas of education</li><li><b>Further
-      information/regulations: </b><ul><li><link http://dziennikustaw.gov.pl/du/2016/1529/1
-      - external-link-new-window "Opens external link in new window">Ministry of Science
-      and Higher Education Regulation of 20 September 2016 on the general criteria
-      for program evaluation</link></li></ul></li></ul> <b> </b>'
+    external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: "<ul><li>Yes. all Polish higher education institutions
-      can opt for programme accreditation of joint degrees by an EQAR-registered agency
-      using the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3034,25 +3065,21 @@
   pk: 139
   fields:
     iso_3166_alpha2: PT
+    orgreg_eu_2_letter_code: PT
     iso_3166_alpha3: PRT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PRT
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/PRT
     name_english: Portugal
     ehea_is_member: true
     eqar_governmental_member_start: '2008-03-04'
-    qa_requirement_note: "* Audit of internal quality assurance systems.\n"
+    qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Generally yes, but only under certain conditions: \n\n<link
-      http://media.ehea.info/file/Portugal/92/4/National_Report_Portugal_2015_571924.pdf
-      - external-link-new-window \"Opens external link in new window\">Bologna National
-      Report (2015)</link>."
-    eligibility: the QA agency must be approved by the <link register/detailpage.html?tx_pxdeqar_pi1[cid]=59
-      - internal-link "Opens internal link in current window">Agency for Assessment
-      and Accreditation of Higher Education (A3ES)</link>.
-    conditions: own criteria.<b> </b>
-    recognition: on a case by case decision, the Executive Board of A3ES may accept
-      the result of the assessment / accreditation procedure from other QA agencies.<b></b>
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3061,7 +3088,9 @@
   pk: 140
   fields:
     iso_3166_alpha2: QA
+    orgreg_eu_2_letter_code: QA
     iso_3166_alpha3: QAT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/QAT
     name_english: Qatar
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3081,24 +3110,21 @@
   pk: 141
   fields:
     iso_3166_alpha2: RO
+    orgreg_eu_2_letter_code: RO
     iso_3166_alpha3: ROU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ROU
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/ROU
     name_english: Romania
     ehea_is_member: true
     eqar_governmental_member_start: '2008-03-04'
     qa_requirement_note: ''
     external_QAA_is_permitted: 1
-    external_QAA_note: "Yes, Romanian higher education institutions can choose for
-      their programme accreditation and periodic external evaluations the national
-      QA agency, ARACIS or any other EQAR listed agency. \n\n<link http://media.ehea.info/file/Romania/94/4/National_Report_Romania_2015_571944.pdf
-      - external-link-new-window \"Opens external link in new window\">Bologna National
-      Report (2015)</link>."
-    eligibility: Registration on EQAR is sufficient.
-    conditions: own criteria.
-    recognition:
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 1
-    european_approach_note: "<ul><li>Yes, all Romanian higher education institutions
-      can opt for programme accreditation of joint degrees by an EQAR registered agency
-      using the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3107,7 +3133,9 @@
   pk: 142
   fields:
     iso_3166_alpha2: RU
+    orgreg_eu_2_letter_code: RU
     iso_3166_alpha3: RUS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/RUS
     name_english: Russia
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -3118,8 +3146,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3128,7 +3155,9 @@
   pk: 143
   fields:
     iso_3166_alpha2: RW
+    orgreg_eu_2_letter_code: RW
     iso_3166_alpha3: RWA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/RWA
     name_english: Rwanda
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3148,7 +3177,9 @@
   pk: 144
   fields:
     iso_3166_alpha2: KN
+    orgreg_eu_2_letter_code: KN
     iso_3166_alpha3: KNA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/KNA
     name_english: Saint Kitts and Nevis
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3168,7 +3199,9 @@
   pk: 145
   fields:
     iso_3166_alpha2: LC
+    orgreg_eu_2_letter_code: LC
     iso_3166_alpha3: LCA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LCA
     name_english: Saint Lucia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3188,7 +3221,9 @@
   pk: 146
   fields:
     iso_3166_alpha2: VC
+    orgreg_eu_2_letter_code: VC
     iso_3166_alpha3: VCT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VCT
     name_english: Saint Vincent and the Grenadines
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3208,7 +3243,9 @@
   pk: 147
   fields:
     iso_3166_alpha2: WS
+    orgreg_eu_2_letter_code: WS
     iso_3166_alpha3: WSM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/WSM
     name_english: Samoa
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3228,7 +3265,9 @@
   pk: 148
   fields:
     iso_3166_alpha2: SM
+    orgreg_eu_2_letter_code: SM
     iso_3166_alpha3: SMR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SMR
     name_english: San Marino
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3248,7 +3287,9 @@
   pk: 149
   fields:
     iso_3166_alpha2: ST
+    orgreg_eu_2_letter_code: ST
     iso_3166_alpha3: STP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/STP
     name_english: Sao Tome and Principe
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3268,7 +3309,9 @@
   pk: 150
   fields:
     iso_3166_alpha2: SA
+    orgreg_eu_2_letter_code: SA
     iso_3166_alpha3: SAU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SAU
     name_english: Saudi Arabia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3288,7 +3331,9 @@
   pk: 151
   fields:
     iso_3166_alpha2: SN
+    orgreg_eu_2_letter_code: SN
     iso_3166_alpha3: SEN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SEN
     name_english: Senegal
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3308,7 +3353,9 @@
   pk: 152
   fields:
     iso_3166_alpha2: RS
+    orgreg_eu_2_letter_code: RS
     iso_3166_alpha3: SRB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SRB
     name_english: Serbia
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -3319,8 +3366,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3329,7 +3375,9 @@
   pk: 153
   fields:
     iso_3166_alpha2: SC
+    orgreg_eu_2_letter_code: SC
     iso_3166_alpha3: SYC
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SYC
     name_english: Seychelles
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3349,7 +3397,9 @@
   pk: 154
   fields:
     iso_3166_alpha2: SL
+    orgreg_eu_2_letter_code: SL
     iso_3166_alpha3: SLE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SLE
     name_english: Sierra Leone
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3369,7 +3419,9 @@
   pk: 155
   fields:
     iso_3166_alpha2: SG
+    orgreg_eu_2_letter_code: SG
     iso_3166_alpha3: SGP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SGP
     name_english: Singapore
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3389,7 +3441,10 @@
   pk: 156
   fields:
     iso_3166_alpha2: SK
+    orgreg_eu_2_letter_code: SK
     iso_3166_alpha3: SVK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SVK
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/SVK
     name_english: Slovakia
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -3400,8 +3455,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach is not available to higher
-      education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3410,7 +3464,10 @@
   pk: 157
   fields:
     iso_3166_alpha2: SI
+    orgreg_eu_2_letter_code: SI
     iso_3166_alpha3: SVN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SVN
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/SVN
     name_english: Slovenia
     ehea_is_member: true
     eqar_governmental_member_start: '2009-03-05'
@@ -3421,8 +3478,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>European Approach is not available to higher
-      education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3431,7 +3487,9 @@
   pk: 158
   fields:
     iso_3166_alpha2: SB
+    orgreg_eu_2_letter_code: SB
     iso_3166_alpha3: SLB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SLB
     name_english: Solomon Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3451,7 +3509,9 @@
   pk: 159
   fields:
     iso_3166_alpha2: SO
+    orgreg_eu_2_letter_code: SO
     iso_3166_alpha3: SOM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SOM
     name_english: Somalia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3471,7 +3531,9 @@
   pk: 160
   fields:
     iso_3166_alpha2: ZA
+    orgreg_eu_2_letter_code: ZA
     iso_3166_alpha3: ZAF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ZAF
     name_english: South Africa
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3491,7 +3553,10 @@
   pk: 161
   fields:
     iso_3166_alpha2: ES
+    orgreg_eu_2_letter_code: ES
     iso_3166_alpha3: ESP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ESP
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/ESP
     name_english: Spain
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-28'
@@ -3502,8 +3567,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, however discussions are being held on developing
-      a legal framework to implement the European Approach.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3512,7 +3576,9 @@
   pk: 162
   fields:
     iso_3166_alpha2: LK
+    orgreg_eu_2_letter_code: LK
     iso_3166_alpha3: LKA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/LKA
     name_english: Sri Lanka
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3532,7 +3598,9 @@
   pk: 163
   fields:
     iso_3166_alpha2: SD
+    orgreg_eu_2_letter_code: SD
     iso_3166_alpha3: SDN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SDN
     name_english: Sudan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3552,7 +3620,9 @@
   pk: 164
   fields:
     iso_3166_alpha2: SR
+    orgreg_eu_2_letter_code: SR
     iso_3166_alpha3: SUR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SUR
     name_english: Suriname
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3572,7 +3642,9 @@
   pk: 165
   fields:
     iso_3166_alpha2: SZ
+    orgreg_eu_2_letter_code: SZ
     iso_3166_alpha3: SWZ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SWZ
     name_english: Swaziland
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3592,7 +3664,10 @@
   pk: 166
   fields:
     iso_3166_alpha2: SE
+    orgreg_eu_2_letter_code: SE
     iso_3166_alpha3: SWE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SWE
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/SWE
     name_english: Sweden
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -3603,8 +3678,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3613,28 +3687,20 @@
   pk: 167
   fields:
     iso_3166_alpha2: CH
+    orgreg_eu_2_letter_code: CH
     iso_3166_alpha3: CHE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CHE
     name_english: Switzerland
     ehea_is_member: true
     eqar_governmental_member_start: '2009-05-05'
     qa_requirement_note: ''
     external_QAA_is_permitted: 3
-    external_QAA_note: "Yes, under certain conditions: \n\n<link https://www.admin.ch/opc/en/classified-compilation/20151363/index.html
-      - external-link-new-window \"Opens external link in new window\">HEdA Accreditation
-      Guidelines</link> (2015) &amp; <link http://akkreditierungsrat.ch/download/Rechtliche%20Grundlagen/Guidelines_recognition-agencies.pdf
-      - external-link-new-window \"Opens external link in new window\">Guidelines
-      of the Swiss Accreditation Council on the recognition of agencies</link>"
-    eligibility: The agency will have to make an application to the Swiss Accreditation
-      Council to prove it fulfills the necessary conditions (see below) and to also
-      agree to the Fee Regulations of the Accreditation Council.
-    conditions: to align its accreditation procedures with the HEdA Accreditation
-      Guidelines or alternatively to use the Accreditation Guide of <link https://eqar.eu/?id=
-      - internal-link "Opens internal link in current window">AAQ</link>.
-    recognition: the final accreditation decision is taken by the Swiss Accreditation
-      Council.
+    external_QAA_note: ''
+    eligibility: ''
+    conditions: ''
+    recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "[not recognised] <ul><li>The European Approach can be
-      used by EQAR-registered agencies operating in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3643,7 +3709,9 @@
   pk: 168
   fields:
     iso_3166_alpha2: SY
+    orgreg_eu_2_letter_code: SY
     iso_3166_alpha3: SYR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SYR
     name_english: Syria
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3663,7 +3731,9 @@
   pk: 169
   fields:
     iso_3166_alpha2: TJ
+    orgreg_eu_2_letter_code: TJ
     iso_3166_alpha3: TJK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TJK
     name_english: Tajikistan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3683,7 +3753,9 @@
   pk: 170
   fields:
     iso_3166_alpha2: TZ
+    orgreg_eu_2_letter_code: TZ
     iso_3166_alpha3: TZA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TZA
     name_english: Tanzania
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3703,7 +3775,9 @@
   pk: 171
   fields:
     iso_3166_alpha2: TH
+    orgreg_eu_2_letter_code: TH
     iso_3166_alpha3: THA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/THA
     name_english: Thailand
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3723,7 +3797,9 @@
   pk: 172
   fields:
     iso_3166_alpha2: TL
+    orgreg_eu_2_letter_code: TL
     iso_3166_alpha3: TLS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TLS
     name_english: Timor-Leste (East Timor)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3743,7 +3819,9 @@
   pk: 173
   fields:
     iso_3166_alpha2: TG
+    orgreg_eu_2_letter_code: TG
     iso_3166_alpha3: TGO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TGO
     name_english: Togo
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3763,7 +3841,9 @@
   pk: 174
   fields:
     iso_3166_alpha2: TO
+    orgreg_eu_2_letter_code: TO
     iso_3166_alpha3: TON
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TON
     name_english: Tonga
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3783,7 +3863,9 @@
   pk: 175
   fields:
     iso_3166_alpha2: TT
+    orgreg_eu_2_letter_code: TT
     iso_3166_alpha3: TTO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TTO
     name_english: Trinidad and Tobago
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3803,7 +3885,9 @@
   pk: 176
   fields:
     iso_3166_alpha2: TN
+    orgreg_eu_2_letter_code: TN
     iso_3166_alpha3: TUN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TUN
     name_english: Tunisia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3823,18 +3907,20 @@
   pk: 177
   fields:
     iso_3166_alpha2: TR
+    orgreg_eu_2_letter_code: TR
     iso_3166_alpha3: TUR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TUR
     name_english: Turkey
     ehea_is_member: true
     eqar_governmental_member_start: '2012-03-13'
-    qa_requirement_note: "* no obligatory external QA framework\n"
+    qa_requirement_note: ''
     external_QAA_is_permitted: 2
     external_QAA_note: ''
     eligibility: ''
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>Not applicable.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3843,7 +3929,9 @@
   pk: 178
   fields:
     iso_3166_alpha2: TM
+    orgreg_eu_2_letter_code: TM
     iso_3166_alpha3: TKM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TKM
     name_english: Turkmenistan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3863,7 +3951,9 @@
   pk: 179
   fields:
     iso_3166_alpha2: TV
+    orgreg_eu_2_letter_code: TV
     iso_3166_alpha3: TUV
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TUV
     name_english: Tuvalu
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3883,7 +3973,9 @@
   pk: 180
   fields:
     iso_3166_alpha2: UG
+    orgreg_eu_2_letter_code: UG
     iso_3166_alpha3: UGA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/UGA
     name_english: Uganda
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3903,7 +3995,9 @@
   pk: 181
   fields:
     iso_3166_alpha2: UA
+    orgreg_eu_2_letter_code: UA
     iso_3166_alpha3: UKR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/UKR
     name_english: Ukraine
     ehea_is_member: true
     eqar_governmental_member_start: '2008-02-25'
@@ -3914,8 +4008,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3924,7 +4017,9 @@
   pk: 182
   fields:
     iso_3166_alpha2: AE
+    orgreg_eu_2_letter_code: AE
     iso_3166_alpha3: ARE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ARE
     name_english: United Arab Emirates
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3944,7 +4039,10 @@
   pk: 183
   fields:
     iso_3166_alpha2: GB
+    orgreg_eu_2_letter_code: UK
     iso_3166_alpha3: GBR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GBR
+    eu_controlled_vocab_atu: http://publications.europa.eu/resource/authority/atu/GBR
     name_english: United Kingdom
     ehea_is_member: true
     eqar_governmental_member_start: '2014-07-29'
@@ -3955,12 +4053,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: '[not recognised] <ul><li>All higher education institutions
-      with degree awarding power are able to approve their own awards and therefore
-      they can employ the European Approach for the quality assurance of their joint
-      programme.<a href="#_ftn1" name="_ftnref1"></a> This is notwithstanding the
-      fact that the approval of their own awards must be done according to the UK
-      Quality Code for Higher Education.</li></ul>'
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -3969,7 +4062,9 @@
   pk: 184
   fields:
     iso_3166_alpha2: US
+    orgreg_eu_2_letter_code: US
     iso_3166_alpha3: USA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/USA
     name_english: United States
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -3989,7 +4084,9 @@
   pk: 185
   fields:
     iso_3166_alpha2: UY
+    orgreg_eu_2_letter_code: UY
     iso_3166_alpha3: URY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/URY
     name_english: Uruguay
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4009,7 +4106,9 @@
   pk: 186
   fields:
     iso_3166_alpha2: UZ
+    orgreg_eu_2_letter_code: UZ
     iso_3166_alpha3: UZB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/UZB
     name_english: Uzbekistan
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4029,7 +4128,9 @@
   pk: 187
   fields:
     iso_3166_alpha2: VU
+    orgreg_eu_2_letter_code: VU
     iso_3166_alpha3: VUT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VUT
     name_english: Vanuatu
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4049,7 +4150,9 @@
   pk: 188
   fields:
     iso_3166_alpha2: VA
+    orgreg_eu_2_letter_code: VA
     iso_3166_alpha3: VAT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VAT
     name_english: Vatican City
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -4060,8 +4163,7 @@
     conditions: ''
     recognition: ''
     european_approach_is_permitted: 2
-    european_approach_note: "<ul><li>No, the European Approach is not available to
-      higher education institutions in the country.</li></ul>"
+    european_approach_note: ''
     general_note: ''
     flag: 1
     flag_log: ''
@@ -4070,7 +4172,9 @@
   pk: 189
   fields:
     iso_3166_alpha2: VE
+    orgreg_eu_2_letter_code: VE
     iso_3166_alpha3: VEN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VEN
     name_english: Venezuela
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4090,7 +4194,9 @@
   pk: 190
   fields:
     iso_3166_alpha2: VN
+    orgreg_eu_2_letter_code: VN
     iso_3166_alpha3: VNM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VNM
     name_english: Vietnam
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4110,7 +4216,9 @@
   pk: 191
   fields:
     iso_3166_alpha2: YE
+    orgreg_eu_2_letter_code: YE
     iso_3166_alpha3: YEM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/YEM
     name_english: Yemen
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4130,7 +4238,9 @@
   pk: 192
   fields:
     iso_3166_alpha2: ZM
+    orgreg_eu_2_letter_code: ZM
     iso_3166_alpha3: ZMB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ZMB
     name_english: Zambia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4150,7 +4260,9 @@
   pk: 193
   fields:
     iso_3166_alpha2: ZW
+    orgreg_eu_2_letter_code: ZW
     iso_3166_alpha3: ZWE
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ZWE
     name_english: Zimbabwe
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4170,7 +4282,9 @@
   pk: 195
   fields:
     iso_3166_alpha2: TW
+    orgreg_eu_2_letter_code: TW
     iso_3166_alpha3: TWN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TWN
     name_english: China, Republic of (Taiwan)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4190,7 +4304,9 @@
   pk: 202
   fields:
     iso_3166_alpha2: CX
+    orgreg_eu_2_letter_code: CX
     iso_3166_alpha3: CXR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CXR
     name_english: Christmas Island
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4210,7 +4326,9 @@
   pk: 203
   fields:
     iso_3166_alpha2: CC
+    orgreg_eu_2_letter_code: CC
     iso_3166_alpha3: CCK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CCK
     name_english: Cocos (Keeling) Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4230,7 +4348,9 @@
   pk: 205
   fields:
     iso_3166_alpha2: HM
+    orgreg_eu_2_letter_code: HM
     iso_3166_alpha3: HMD
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HMD
     name_english: Heard Island and McDonald Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4250,7 +4370,9 @@
   pk: 206
   fields:
     iso_3166_alpha2: NF
+    orgreg_eu_2_letter_code: NF
     iso_3166_alpha3: NFK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NFK
     name_english: Norfolk Island
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4270,7 +4392,9 @@
   pk: 207
   fields:
     iso_3166_alpha2: NC
+    orgreg_eu_2_letter_code: NC
     iso_3166_alpha3: NCL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NCL
     name_english: New Caledonia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4290,7 +4414,9 @@
   pk: 208
   fields:
     iso_3166_alpha2: PF
+    orgreg_eu_2_letter_code: PF
     iso_3166_alpha3: PYF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PYF
     name_english: French Polynesia
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4310,7 +4436,9 @@
   pk: 209
   fields:
     iso_3166_alpha2: YT
+    orgreg_eu_2_letter_code: YT
     iso_3166_alpha3: MYT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MYT
     name_english: Mayotte
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4330,7 +4458,9 @@
   pk: 212
   fields:
     iso_3166_alpha2: PM
+    orgreg_eu_2_letter_code: PM
     iso_3166_alpha3: SPM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SPM
     name_english: Saint Pierre and Miquelon
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4350,7 +4480,9 @@
   pk: 213
   fields:
     iso_3166_alpha2: WF
+    orgreg_eu_2_letter_code: WF
     iso_3166_alpha3: WLF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/WLF
     name_english: Wallis and Futuna
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4370,7 +4502,9 @@
   pk: 214
   fields:
     iso_3166_alpha2: TF
+    orgreg_eu_2_letter_code: TF
     iso_3166_alpha3: ATF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ATF
     name_english: French Southern and Antarctic Lands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4390,7 +4524,9 @@
   pk: 216
   fields:
     iso_3166_alpha2: BV
+    orgreg_eu_2_letter_code: BV
     iso_3166_alpha3: BVT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BVT
     name_english: Bouvet Island
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4410,7 +4546,9 @@
   pk: 217
   fields:
     iso_3166_alpha2: CK
+    orgreg_eu_2_letter_code: CK
     iso_3166_alpha3: COK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/COK
     name_english: Cook Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4430,7 +4568,9 @@
   pk: 218
   fields:
     iso_3166_alpha2: NU
+    orgreg_eu_2_letter_code: NU
     iso_3166_alpha3: NIU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/NIU
     name_english: Niue
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4450,7 +4590,9 @@
   pk: 219
   fields:
     iso_3166_alpha2: TK
+    orgreg_eu_2_letter_code: TK
     iso_3166_alpha3: TKL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TKL
     name_english: Tokelau
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4470,7 +4612,9 @@
   pk: 220
   fields:
     iso_3166_alpha2: GG
+    orgreg_eu_2_letter_code: GG
     iso_3166_alpha3: GGY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GGY
     name_english: Guernsey
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4490,7 +4634,9 @@
   pk: 221
   fields:
     iso_3166_alpha2: IM
+    orgreg_eu_2_letter_code: IM
     iso_3166_alpha3: IMN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IMN
     name_english: Isle of Man
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4510,7 +4656,9 @@
   pk: 222
   fields:
     iso_3166_alpha2: JE
+    orgreg_eu_2_letter_code: JE
     iso_3166_alpha3: JEY
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/JEY
     name_english: Jersey
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4530,7 +4678,9 @@
   pk: 223
   fields:
     iso_3166_alpha2: AI
+    orgreg_eu_2_letter_code: AI
     iso_3166_alpha3: AIA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/AIA
     name_english: Anguilla
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4550,7 +4700,9 @@
   pk: 224
   fields:
     iso_3166_alpha2: BM
+    orgreg_eu_2_letter_code: BM
     iso_3166_alpha3: BMU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/BMU
     name_english: Bermuda
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4570,7 +4722,9 @@
   pk: 225
   fields:
     iso_3166_alpha2: IO
+    orgreg_eu_2_letter_code: IO
     iso_3166_alpha3: IOT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/IOT
     name_english: British Indian Ocean Territory
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4590,7 +4744,9 @@
   pk: 226
   fields:
     iso_3166_alpha2: VG
+    orgreg_eu_2_letter_code: VG
     iso_3166_alpha3: VGB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VGB
     name_english: British Virgin Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4610,7 +4766,9 @@
   pk: 227
   fields:
     iso_3166_alpha2: KY
+    orgreg_eu_2_letter_code: KY
     iso_3166_alpha3: CYM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/CYM
     name_english: Cayman Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4630,7 +4788,9 @@
   pk: 228
   fields:
     iso_3166_alpha2: FK
+    orgreg_eu_2_letter_code: FK
     iso_3166_alpha3: FLK
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FLK
     name_english: Falkland Islands (Islas Malvinas)
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4650,7 +4810,9 @@
   pk: 229
   fields:
     iso_3166_alpha2: GI
+    orgreg_eu_2_letter_code: GI
     iso_3166_alpha3: GIB
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GIB
     name_english: Gibraltar
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4670,7 +4832,9 @@
   pk: 230
   fields:
     iso_3166_alpha2: MS
+    orgreg_eu_2_letter_code: MS
     iso_3166_alpha3: MSR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MSR
     name_english: Montserrat
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4690,7 +4854,9 @@
   pk: 231
   fields:
     iso_3166_alpha2: PN
+    orgreg_eu_2_letter_code: PN
     iso_3166_alpha3: PCN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PCN
     name_english: Pitcairn Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4710,7 +4876,9 @@
   pk: 232
   fields:
     iso_3166_alpha2: SH
+    orgreg_eu_2_letter_code: SH
     iso_3166_alpha3: SHN
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SHN
     name_english: Saint Helena
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4730,7 +4898,9 @@
   pk: 233
   fields:
     iso_3166_alpha2: GS
+    orgreg_eu_2_letter_code: GS
     iso_3166_alpha3: SGS
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SGS
     name_english: South Georgia & South Sandwich Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4750,7 +4920,9 @@
   pk: 234
   fields:
     iso_3166_alpha2: TC
+    orgreg_eu_2_letter_code: TC
     iso_3166_alpha3: TCA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TCA
     name_english: Turks and Caicos Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4770,7 +4942,9 @@
   pk: 235
   fields:
     iso_3166_alpha2: MP
+    orgreg_eu_2_letter_code: MP
     iso_3166_alpha3: MNP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MNP
     name_english: Northern Mariana Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4790,7 +4964,9 @@
   pk: 236
   fields:
     iso_3166_alpha2: PR
+    orgreg_eu_2_letter_code: PR
     iso_3166_alpha3: PRI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/PRI
     name_english: Puerto Rico
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4810,7 +4986,9 @@
   pk: 237
   fields:
     iso_3166_alpha2: AS
+    orgreg_eu_2_letter_code: AS
     iso_3166_alpha3: ASM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ASM
     name_english: American Samoa
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4830,7 +5008,9 @@
   pk: 238
   fields:
     iso_3166_alpha2: UM
+    orgreg_eu_2_letter_code: UM
     iso_3166_alpha3: UMI
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/UMI
     name_english: US Minor Outlying Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4850,7 +5030,9 @@
   pk: 239
   fields:
     iso_3166_alpha2: GU
+    orgreg_eu_2_letter_code: GU
     iso_3166_alpha3: GUM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GUM
     name_english: Guam
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4870,7 +5052,9 @@
   pk: 247
   fields:
     iso_3166_alpha2: VI
+    orgreg_eu_2_letter_code: VI
     iso_3166_alpha3: VIR
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/VIR
     name_english: U.S. Virgin Islands
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4890,7 +5074,9 @@
   pk: 249
   fields:
     iso_3166_alpha2: HK
+    orgreg_eu_2_letter_code: HK
     iso_3166_alpha3: HKG
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/HKG
     name_english: Hong Kong
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4910,7 +5096,9 @@
   pk: 250
   fields:
     iso_3166_alpha2: MO
+    orgreg_eu_2_letter_code: MO
     iso_3166_alpha3: MAC
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MAC
     name_english: Macau
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4930,7 +5118,9 @@
   pk: 251
   fields:
     iso_3166_alpha2: FO
+    orgreg_eu_2_letter_code: FO
     iso_3166_alpha3: FRO
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/FRO
     name_english: Faroe Islands
     ehea_is_member: true
     eqar_governmental_member_start:
@@ -4942,7 +5132,7 @@
     recognition: ''
     european_approach_is_permitted: 2
     european_approach_note: ''
-    general_note: "[not recognised] "
+    general_note: ''
     flag: 1
     flag_log: ''
     created_at: "2019-01-01T12:00:00+00:00"
@@ -4950,7 +5140,9 @@
   pk: 252
   fields:
     iso_3166_alpha2: GL
+    orgreg_eu_2_letter_code: GL
     iso_3166_alpha3: GRL
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GRL
     name_english: Greenland
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4970,7 +5162,9 @@
   pk: 253
   fields:
     iso_3166_alpha2: GF
+    orgreg_eu_2_letter_code: GF
     iso_3166_alpha3: GUF
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GUF
     name_english: French Guiana
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -4990,7 +5184,9 @@
   pk: 254
   fields:
     iso_3166_alpha2: GP
+    orgreg_eu_2_letter_code: GP
     iso_3166_alpha3: GLP
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/GLP
     name_english: Guadeloupe
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5010,7 +5206,9 @@
   pk: 255
   fields:
     iso_3166_alpha2: MQ
+    orgreg_eu_2_letter_code: MQ
     iso_3166_alpha3: MTQ
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/MTQ
     name_english: Martinique
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5030,7 +5228,9 @@
   pk: 256
   fields:
     iso_3166_alpha2: RE
+    orgreg_eu_2_letter_code: RE
     iso_3166_alpha3: REU
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/REU
     name_english: Reunion
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5050,7 +5250,9 @@
   pk: 257
   fields:
     iso_3166_alpha2: AX
+    orgreg_eu_2_letter_code: AX
     iso_3166_alpha3: ALA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ALA
     name_english: Aland
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5070,7 +5272,9 @@
   pk: 258
   fields:
     iso_3166_alpha2: AW
+    orgreg_eu_2_letter_code: AW
     iso_3166_alpha3: ABW
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ABW
     name_english: Aruba
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5090,7 +5294,9 @@
   pk: 259
   fields:
     iso_3166_alpha2: AN
+    orgreg_eu_2_letter_code: AN
     iso_3166_alpha3: ANT
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ANT
     name_english: Netherlands Antilles
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5110,7 +5316,9 @@
   pk: 260
   fields:
     iso_3166_alpha2: SJ
+    orgreg_eu_2_letter_code: SJ
     iso_3166_alpha3: SJM
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/SJM
     name_english: Svalbard
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5130,7 +5338,9 @@
   pk: 261
   fields:
     iso_3166_alpha2: AC
+    orgreg_eu_2_letter_code: AC
     iso_3166_alpha3: ASC
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ASC
     name_english: Ascension
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5150,7 +5360,9 @@
   pk: 262
   fields:
     iso_3166_alpha2: TA
+    orgreg_eu_2_letter_code: TA
     iso_3166_alpha3: TAA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/TAA
     name_english: Tristan da Cunha
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5170,7 +5382,9 @@
   pk: 263
   fields:
     iso_3166_alpha2: AQ
+    orgreg_eu_2_letter_code: AQ
     iso_3166_alpha3: ATA
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/ATA
     name_english: Antarctica
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5190,7 +5404,9 @@
   pk: 268
   fields:
     iso_3166_alpha2: XK
+    orgreg_eu_2_letter_code: XK
     iso_3166_alpha3: XKX
+    eu_controlled_vocab_country: http://publications.europa.eu/resource/authority/country/XKX
     name_english: Kosovo
     ehea_is_member: false
     eqar_governmental_member_start:
@@ -5202,7 +5418,7 @@
     recognition: ''
     european_approach_is_permitted: 2
     european_approach_note: ''
-    general_note: "[not recognised] Not a governmental member."
+    general_note: ''
     flag: 1
     flag_log: ''
     created_at: "2019-01-01T12:00:00+00:00"
