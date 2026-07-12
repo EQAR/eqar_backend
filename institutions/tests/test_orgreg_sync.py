@@ -536,6 +536,13 @@ EXPECTED_SERIALIZED = {
       "identifier_valid_to": None
     },
     {
+      "identifier": "0381912X",
+      "agency": None,
+      "resource": "FR-ETER.BAS.NATID",
+      "identifier_valid_from": "2026-01-01",
+      "identifier_valid_to": None
+    },
+    {
       "identifier": "https://ror.org/05sbt2524",
       "agency": None,
       "resource": "ROR",

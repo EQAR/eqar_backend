@@ -239,59 +239,14 @@ class OrgRegSynchronizer:
             # ROR ID
             self._compare_identifiers('ROR', 'RORID')
 
+            # National identifier
+            country = self._get_value(self.orgreg_record['BAS'][0]['BAS'], 'COUNTRY', default=None)
+            if country:
+                self._compare_identifiers("%s-ETER.BAS.NATID" % country, 'NATID')
+
             if self.inst_update:
                 if not self.dry_run:
                     self.inst.save()
-
-    def sync_national_identifier(self):
-        base_record = self.orgreg_record['BAS'][0]
-        nat_id = self._get_value(base_record, 'NATID', default=None)
-        country = self._get_value(base_record, 'COUNTRY', default=None)
-        action = 'skip'
-
-        if nat_id and country:
-            try:
-                iid = InstitutionIdentifier.objects.get(
-                    institution=self.inst,
-                    resource="%s-ETER.BAS.NATID" % country
-                )
-                if iid.identifier != nat_id:
-                    action = 'update'
-            except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - More than one InstitutionIdentifier record exists with the "
-                                            "same resource [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               "%s-ETER.BAS.NATID" % country,
-                                               self.colours['END']))
-            except ObjectDoesNotExist:
-                action = 'add'
-
-        if action == 'update':
-            self.report.add_report_line('**UPDATE - IDENTIFIER RECORD')
-            self.report.add_report_line('  Identifier: %s <- %s ' % (iid.identifier, nat_id))
-            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
-
-            # Update InstiutionIdentifier
-            if not self.dry_run:
-                iid.identifier = nat_id
-                iid.save()
-
-        elif action == 'add':
-            self.report.add_report_line('**ADD - IDENTIFIER RECORD')
-            self.report.add_report_line('  Identifier: %s' % nat_id)
-            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
-
-            # Create InstiutionIdentifier
-            if not self.dry_run:
-                identifier_resource, created = IdentifierResource.objects.get_or_create(
-                    resource="%s-ETER.BAS.NATID" % country
-                )
-
-                InstitutionIdentifier.objects.create(
-                    institution=self.inst,
-                    resource=identifier_resource,
-                    identifier=nat_id
-                )
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
