@@ -3,7 +3,7 @@ from rest_framework import serializers
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
-    InstitutionOrganizationType
+    InstitutionOrganizationType, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
 from lists.models import IdentifierResource
 from webapi.v2.serializers.country_serializers import CountryDetailSerializer
 from webapi.v2.views.report_views import institution_report_meili_filters
@@ -79,6 +79,40 @@ class InstitutionRelationshipSerializer(serializers.ModelSerializer):
         fields = ['id', 'eter_id', 'url', 'name_primary', 'name_sort', 'website_link', 'countries']
 
 
+class ParentInstitutionSerializer(serializers.ModelSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_parent')
+    relationship_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = InstitutionHierarchicalRelationship
+        fields = [
+            'institution',
+            'relationship_type',
+            'valid_from',
+            'valid_to',
+        ]
+
+class ChildInstitutionSerializer(ParentInstitutionSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_child')
+
+
+class HistoricalTargetSerializer(serializers.ModelSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_target')
+    relationship_type = serializers.CharField(source='relationship_type.type_to')
+
+    class Meta:
+        model = InstitutionHistoricalRelationship
+        fields = [
+            'institution',
+            'relationship_type',
+            'relationship_date'
+        ]
+
+class HistoricalSourceSerializer(HistoricalTargetSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_source')
+    relationship_type = serializers.CharField(source='relationship_type.type_from')
+
+
 class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = InstitutionOrganizationType
@@ -97,44 +131,14 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     meili_filters = serializers.SerializerMethodField()
 
     def get_hierarchical_relationships(self, obj):
-        includes = []
-        part_of = []
-
-        for relation in obj.relationship_parent.all():
-            includes.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_child, context=self.context).data,
-                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
-                'valid_from': relation.valid_from if relation.relationship_type else None,
-                'valid_to': relation.valid_to if relation.relationship_type else None
-            })
-
-        for relation in obj.relationship_child.all():
-            part_of.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_parent, context=self.context).data,
-                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
-                'valid_from': relation.valid_from if relation.relationship_type else None,
-                'valid_to': relation.valid_to if relation.relationship_type else None
-            })
-
-        return {'includes': includes, 'part_of': part_of}
+        return {
+            'includes': ChildInstitutionSerializer(obj.relationship_parent.all(), many=True, context=self.context).data,
+            'part_of': ParentInstitutionSerializer(obj.relationship_child.all(), many=True, context=self.context).data
+        }
 
     def get_historical_relationships(self, obj):
-        relationships = []
-
-        for relation in obj.relationship_source.all():
-            relationships.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_target, context=self.context).data,
-                'relationship_type': relation.relationship_type.type_to,
-                'relationship_date': relation.relationship_date
-            })
-
-        for relation in obj.relationship_target.all():
-            relationships.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_source, context=self.context).data,
-                'relationship_type': relation.relationship_type.type_from,
-                'relationship_date': relation.relationship_date
-            })
-        return relationships
+        return HistoricalTargetSerializer(obj.relationship_source.all(), many=True, context=self.context).data + \
+               HistoricalSourceSerializer(obj.relationship_target.all(), many=True, context=self.context).data
 
     def get_meili_filters(self, obj):
         return {
