@@ -129,6 +129,10 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
     organization_type = InstitutionOrganizationTypeSerializer()
     meili_filters = serializers.SerializerMethodField()
+    is_orgreg_alliance = serializers.SerializerMethodField()
+
+    def get_is_orgreg_alliance(self, obj):
+        return obj.is_orgreg_alliance()
 
     def get_hierarchical_relationships(self, obj):
         return {
@@ -150,7 +154,7 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
         model = Institution
         fields = ('id', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
                   'historical_relationships', 'hierarchical_relationships', 'meili_filters', 'qf_ehea_levels',
-                  'is_other_provider', 'organization_type', 'source_of_information', 'historical_data')
+                  'is_other_provider', 'organization_type', 'is_orgreg_alliance', 'source_of_information', 'historical_data')
 
 
 class InstitutionResourceSerializer(serializers.ModelSerializer):

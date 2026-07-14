@@ -741,6 +741,7 @@ EXPECTED_SERIALIZED = {
   },
   "qf_ehea_levels": [],
   "is_other_provider": False,
+  "is_orgreg_alliance": False,
   "organization_type": None,
   "source_of_information": None,
   "historical_data": []
