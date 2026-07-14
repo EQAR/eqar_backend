@@ -1,0 +1,69 @@
+- model: institutions.Institution
+  pk: 962
+  fields:
+    deqar_id: DEQARINST0962
+    eter_id: FR0076
+    name_primary: NAME TO BE SYNCED
+    website_link: http://example.net/
+    created_at: 2019-01-01
+
+- model: institutions.Institution
+  pk: 7014
+  fields:
+    deqar_id: DEQARINST7014
+    eter_id: FR0884
+    name_primary: Ecole polytechnique universitaire Grenoble Alpes
+    name_sort: Ecole polytechnique universitaire Grenoble Alpes
+    website_link: https://www.polytech-grenoble.fr/
+    created_at: 2019-01-01
+
+- model: institutions.Institution
+  pk: 7026
+  fields:
+    deqar_id: 7026
+    eter_id: FR0973
+    name_primary: Ecole nationale supérieure en systèmes avancés et réseaux
+    name_sort: Grenoble institute of technology / Ecole nationale supérieure en systèmes avancés et réseaux
+    website_link: https://esisar.grenoble-inp.fr/fr/l-ecole
+    created_at: 2019-01-01
+
+- model: institutions.InstitutionCountry
+  pk: 7026
+  fields:
+    institution: 7026
+    country: 60
+    city: Valence
+    lat: 44.917222
+    long: 4.913611
+    country_verified: true
+
+- model: institutions.Institution
+  pk: 963
+  fields:
+    deqar_id: 963
+    eter_id: FR0077
+    name_primary: Communauté Université Grenoble-Alpes 
+    name_sort: Communauté Université Grenoble-Alpes 
+    website_link: http://www.grenoble-univ.fr/
+    created_at: 2019-01-01
+
+- model: institutions.Institution
+  pk: 7597
+  fields:
+    deqar_id: DEQARINST7597
+    eter_id: FR0367
+    name_primary: EPE université Grenoble Alpes
+    name_sort: EPE université Grenoble Alpes
+    website_link: https://www.univ-grenoble-alpes.fr/english/
+    created_at: 2019-01-01
+
+- model: institutions.InstitutionCountry
+  pk: 7597
+  fields:
+    institution: 7597
+    country: 60
+    city: Saint-Martin-d'Hères
+    lat: 45.189444
+    long: 5.77
+    country_verified: true
+

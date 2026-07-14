@@ -8,6 +8,20 @@ from django.db.models import Q
 from lists.models import Flag
 
 
+# OrgReg CHARTYPE value marking single institutions and European Universities alliances
+ORGREG_CHARTYPE_HEI = 1
+ORGREG_CHARTYPE_ALLIANCE = 10
+
+# InstitutionHierarchicalRelationshipType PKs (stable; labels are user-editable)
+HIERARCHICAL_TYPE_FACULTY = 2
+HIERARCHICAL_TYPE_EDUCATIONAL_PLATFORM = 6
+HIERARCHICAL_TYPE_ALLIANCE = 7  # European Universities alliance
+
+# InstitutionHistoricalRelationshipType PKs
+HISTORICAL_TYPE_SUCCEEDED = 2
+HISTORICAL_TYPE_ABSORBED = 3
+
+
 class Institution(models.Model):
     """
     List of institutions reviewed or evaluated by EQAR registered agencies.
@@ -70,7 +84,7 @@ class Institution(models.Model):
                 self.name_primary = inst_name_primary.name_official
 
             children = InstitutionHierarchicalRelationship.objects\
-                .filter(relationship_type_id=2)\
+                .filter(relationship_type_id=HIERARCHICAL_TYPE_FACULTY)\
                 .filter(institution_parent=self)
             if children.count() > 0:
                 for child in children:
@@ -80,7 +94,7 @@ class Institution(models.Model):
 
     def set_name_sort(self):
         parents = InstitutionHierarchicalRelationship.objects\
-            .filter(relationship_type_id=2)\
+            .filter(relationship_type_id=HIERARCHICAL_TYPE_FACULTY)\
             .filter(institution_child=self)
         if parents.count() > 0:
             parent_name = parents.first().institution_parent.name_primary
@@ -102,16 +116,22 @@ class Institution(models.Model):
         This is the single source of truth shared by calculate_has_report() and the view filters.
         """
         contributors = [(self.id, True, None, None)]  # self: direct or platform, unbounded
-        # sub-units (non-platform hierarchical children)
-        for rel in self.relationship_parent.exclude(relationship_type__type='educational platform'):
+        # sub-units (non-platform hierarchical children); alliances are excluded here because their
+        # report flow is reversed (see below) - an alliance does not inherit its members' reports
+        for rel in self.relationship_parent.exclude(
+                relationship_type_id__in=[HIERARCHICAL_TYPE_EDUCATIONAL_PLATFORM, HIERARCHICAL_TYPE_ALLIANCE]):
             contributors.append((rel.institution_child_id, True, rel.valid_from, rel.valid_to))
+        # European Universities alliance: this institution is a member (child) -> it inherits its
+        # alliance parent's reports (reverse of the ordinary parent-pulls-children direction)
+        for rel in self.relationship_child.filter(relationship_type_id=HIERARCHICAL_TYPE_ALLIANCE):
+            contributors.append((rel.institution_parent_id, True, rel.valid_from, rel.valid_to))
         # historical: this institution succeeded another (it is the target of a 'succeeded' row) ->
         # it inherits the predecessor's (source's) reports from the succession date on
-        for rel in self.relationship_target.filter(relationship_type__type_from='succeeded'):
+        for rel in self.relationship_target.filter(relationship_type_id=HISTORICAL_TYPE_SUCCEEDED):
             contributors.append((rel.institution_source_id, False, rel.relationship_date, None))
         # historical: this institution absorbed another (it is the source of an 'absorbed' row) ->
         # it inherits the absorbed institution's (target's) reports from the absorption date on
-        for rel in self.relationship_source.filter(relationship_type__type_to='absorbed'):
+        for rel in self.relationship_source.filter(relationship_type_id=HISTORICAL_TYPE_ABSORBED):
             contributors.append((rel.institution_target_id, False, rel.relationship_date, None))
         return contributors
 
@@ -122,14 +142,19 @@ class Institution(models.Model):
         recomputation when reports are added to / removed from an institution.
         """
         ids = {self.id}
-        # institutions for which this one is a non-platform child (its parents)
-        for rel in self.relationship_child.exclude(relationship_type__type='educational platform'):
+        # institutions for which this one is a non-platform, non-alliance child (its parents)
+        for rel in self.relationship_child.exclude(
+                relationship_type_id__in=[HIERARCHICAL_TYPE_EDUCATIONAL_PLATFORM, HIERARCHICAL_TYPE_ALLIANCE]):
             ids.add(rel.institution_parent_id)
+        # European Universities alliance: this institution is the alliance (parent) -> each member
+        # (child) inherits its reports, so their has_report must be recomputed when this one's change
+        for rel in self.relationship_parent.filter(relationship_type_id=HIERARCHICAL_TYPE_ALLIANCE):
+            ids.add(rel.institution_child_id)
         # this institution is a predecessor (source of a 'succeeded' row) -> the successor (target) inherits
-        for rel in self.relationship_source.filter(relationship_type__type_from='succeeded'):
+        for rel in self.relationship_source.filter(relationship_type_id=HISTORICAL_TYPE_SUCCEEDED):
             ids.add(rel.institution_target_id)
         # this institution was absorbed (target of an 'absorbed' row) -> the absorber (source) inherits
-        for rel in self.relationship_target.filter(relationship_type__type_to='absorbed'):
+        for rel in self.relationship_target.filter(relationship_type_id=HISTORICAL_TYPE_ABSORBED):
             ids.add(rel.institution_source_id)
         return ids
 
@@ -173,6 +198,17 @@ class Institution(models.Model):
             Institution.objects.filter(pk=self.pk).update(has_report=new_value)
             self.has_report = new_value
             return True
+        return False
+
+    def is_orgreg_alliance(self):
+        """
+        Whether this institution is a European Universities alliance in OrgReg, i.e. one of its
+        name (CHAR) records carries the alliance CHARTYPE value. The raw CHARTYPE list is kept on
+        InstitutionName so future characteristic types can be recognised the same way.
+        """
+        for name in self.institutionname_set.all():
+            if any(str(t) == str(ORGREG_CHARTYPE_ALLIANCE) for t in (name.orgreg_char_type or [])):
+                return True
         return False
 
     class Meta:
@@ -222,6 +258,9 @@ class InstitutionName(models.Model):
     acronym = models.CharField(max_length=30, blank=True)
     name_source_note = models.TextField(blank=True, default="")
     name_valid_to = models.DateField(blank=True, null=True)
+    # Raw OrgReg CHARTYPE value(s) for this CHAR record (multi-valued, e.g. [1, 10]);
+    # 10 marks a European Universities alliance. See Institution.is_orgreg_alliance().
+    orgreg_char_type = models.JSONField(default=list, blank=True)
 
     def add_source_note(self, flag_msg):
         if flag_msg not in self.name_source_note:

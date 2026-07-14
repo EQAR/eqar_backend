@@ -26,6 +26,7 @@ FIXTURES = [
 # Relationship type pks from the fixtures above
 TYPE_FACULTY = 2               # hierarchical, non-platform
 TYPE_EDUCATIONAL_PLATFORM = 6  # hierarchical, platform (excluded)
+TYPE_ALLIANCE = 7              # hierarchical, European Universities alliance (reversed report flow)
 TYPE_SUCCEEDED = 2             # historical: type_from='succeeded' / type_to='succeeded by'
 TYPE_ABSORBED = 3              # historical: type_from='was absorbed by' / type_to='absorbed'
 
@@ -216,6 +217,38 @@ class HasReportCalculationTest(HasReportTestBase):
         self.assertNotIn(absorber.id, [c[0] for c in absorbed.get_report_contributors()])
         self.assertTrue(absorber.calculate_has_report())
 
+    # --- European Universities alliance (type 7): report flow is reversed vs. ordinary hierarchy.
+    # The alliance is the PARENT and its member HEIs the CHILDREN, but the alliance's reports show
+    # on the members, not the other way round. ---
+
+    def test_alliance_report_marks_member_hei(self):
+        alliance = self.make_institution('Alliance')
+        member = self.make_institution('Member HEI')
+        self.make_hierarchical(alliance, member, TYPE_ALLIANCE)
+        self.make_report(institutions=[alliance])
+        # member (child) inherits the alliance's (parent's) report
+        self.assertIn(alliance.id, [c[0] for c in member.get_report_contributors()])
+        self.assertTrue(member.calculate_has_report())
+
+    def test_alliance_does_not_inherit_member_reports(self):
+        alliance = self.make_institution('Alliance')
+        member = self.make_institution('Member HEI')
+        self.make_hierarchical(alliance, member, TYPE_ALLIANCE)
+        self.make_report(institutions=[member])
+        # the alliance (parent) must NOT be credited with a member's report
+        self.assertNotIn(member.id, [c[0] for c in alliance.get_report_contributors()])
+        self.assertFalse(alliance.calculate_has_report())
+
+    def test_alliance_report_honours_validity_window(self):
+        alliance = self.make_institution('Alliance')
+        member = self.make_institution('Member HEI')
+        # membership only valid until 2012, but the alliance report starts in 2015
+        self.make_hierarchical(alliance, member, TYPE_ALLIANCE,
+                               valid_from=datetime.date(2010, 1, 1), valid_to=datetime.date(2012, 1, 1))
+        self.make_report(institutions=[alliance],
+                         valid_from=datetime.date(2015, 1, 1), valid_to=datetime.date(2016, 1, 1))
+        self.assertFalse(member.calculate_has_report())
+
 
 class ReportViewsFilterParityTest(HasReportTestBase):
     """
@@ -224,7 +257,7 @@ class ReportViewsFilterParityTest(HasReportTestBase):
     """
 
     def ts(self, d):
-        return datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp()
+        return int(datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp())
 
     def build_scenario(self):
         inst = self.make_institution('Main')
@@ -334,3 +367,22 @@ class HasReportSignalTest(HasReportTestBase):
         self.assertFalse(self.refresh(successor).has_report)
         self.make_succeeded(successor, predecessor, datetime.date(2014, 1, 1))
         self.assertTrue(self.refresh(successor).has_report)
+
+    def test_alliance_report_flips_member_flag(self):
+        alliance = self.make_institution('Alliance')
+        member = self.make_institution('Member HEI')
+        self.make_hierarchical(alliance, member, TYPE_ALLIANCE)
+        self.assertFalse(self.refresh(member).has_report)
+        # adding a report to the alliance (parent) must recompute the member (child) via dependents
+        report = self.make_report(institutions=[alliance])
+        self.assertTrue(self.refresh(member).has_report)
+        # the alliance itself is credited with its own report; the member's report is not required
+        report.institutions.remove(alliance)
+        self.assertFalse(self.refresh(member).has_report)
+
+    def test_member_report_does_not_flip_alliance_flag(self):
+        alliance = self.make_institution('Alliance')
+        member = self.make_institution('Member HEI')
+        self.make_hierarchical(alliance, member, TYPE_ALLIANCE)
+        self.make_report(institutions=[member])
+        self.assertFalse(self.refresh(alliance).has_report)

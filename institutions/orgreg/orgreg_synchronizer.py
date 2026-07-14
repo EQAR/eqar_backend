@@ -11,7 +11,10 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from countries.models import Country
 from institutions.models import Institution, InstitutionIdentifier, InstitutionCountry, \
     InstitutionName, InstitutionHistoricalRelationship, InstitutionHistoricalRelationshipType, \
-    InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipType
+    InstitutionHierarchicalRelationship, InstitutionHierarchicalRelationshipType, \
+    HIERARCHICAL_TYPE_ALLIANCE, \
+    ORGREG_CHARTYPE_HEI, \
+    ORGREG_CHARTYPE_ALLIANCE
 from institutions.orgreg.orgreg_reporter import OrgRegReporter
 from lists.models import IdentifierResource
 
@@ -51,7 +54,10 @@ class OrgRegSynchronizer:
             },
             "query": {
                 "countries": [country_code] if country_code else [],
-                "entityTypes": [1]
+                "entityTypes": [
+                    ORGREG_CHARTYPE_HEI,
+                    ORGREG_CHARTYPE_ALLIANCE
+                ]
             },
             "fieldIDs": [
                 "BAS.ENTITYID"
@@ -233,59 +239,14 @@ class OrgRegSynchronizer:
             # ROR ID
             self._compare_identifiers('ROR', 'RORID')
 
+            # National identifier
+            country = self._get_value(self.orgreg_record['BAS'][0]['BAS'], 'COUNTRY', default=None)
+            if country:
+                self._compare_identifiers("%s-ETER.BAS.NATID" % country, 'NATID')
+
             if self.inst_update:
                 if not self.dry_run:
                     self.inst.save()
-
-    def sync_national_identifier(self):
-        base_record = self.orgreg_record['BAS'][0]
-        nat_id = self._get_value(base_record, 'NATID', default=None)
-        country = self._get_value(base_record, 'COUNTRY', default=None)
-        action = 'skip'
-
-        if nat_id and country:
-            try:
-                iid = InstitutionIdentifier.objects.get(
-                    institution=self.inst,
-                    resource="%s-ETER.BAS.NATID" % country
-                )
-                if iid.identifier != nat_id:
-                    action = 'update'
-            except MultipleObjectsReturned:
-                self.report.add_report_line("%s**ERROR - More than one InstitutionIdentifier record exists with the "
-                                            "same resource [%s]. Skipping.%s"
-                                            % (self.colours['ERROR'],
-                                               "%s-ETER.BAS.NATID" % country,
-                                               self.colours['END']))
-            except ObjectDoesNotExist:
-                action = 'add'
-
-        if action == 'update':
-            self.report.add_report_line('**UPDATE - IDENTIFIER RECORD')
-            self.report.add_report_line('  Identifier: %s <- %s ' % (iid.identifier, nat_id))
-            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
-
-            # Update InstiutionIdentifier
-            if not self.dry_run:
-                iid.identifier = nat_id
-                iid.save()
-
-        elif action == 'add':
-            self.report.add_report_line('**ADD - IDENTIFIER RECORD')
-            self.report.add_report_line('  Identifier: %s' % nat_id)
-            self.report.add_report_line('  Resource: %s' % ("%s-ETER.BAS.NATID" % country))
-
-            # Create InstiutionIdentifier
-            if not self.dry_run:
-                identifier_resource, created = IdentifierResource.objects.get_or_create(
-                    resource="%s-ETER.BAS.NATID" % country
-                )
-
-                InstitutionIdentifier.objects.create(
-                    institution=self.inst,
-                    resource=identifier_resource,
-                    identifier=nat_id
-                )
 
     def sync_names(self):
         names = self.orgreg_record['CHAR']
@@ -307,6 +268,7 @@ class OrgRegSynchronizer:
 
             acronym = self._get_value(name_record, 'ACRONYM', max_length=30)
             date_to = self._get_date_value(name_record, 'CHARENDYEAR', default=None)
+            char_type = self._get_char_type(name_record)
 
             action = 'skip'
 
@@ -411,13 +373,16 @@ class OrgRegSynchronizer:
                         'acronym': self._compare_data(iname.acronym, acronym, update_null=update_null),
                         'name_valid_to': self._compare_date_data(iname.name_valid_to, date_to, '%s-12-31', update_null=update_null)
                     }
+                    char_type_changed = iname.orgreg_char_type != char_type
 
-                    if self._check_update(values_to_update):
+                    if self._check_update(values_to_update) or char_type_changed:
                         self.report.add_report_line('**UPDATE - NAME RECORD')
                         self.report.add_report_line('  Name English: %s' % values_to_update['name_english']['log'])
                         self.report.add_report_line('  Name Official: %s' % values_to_update['name_official']['log'])
                         self.report.add_report_line('  Acronym: %s' % values_to_update['acronym']['log'])
                         self.report.add_report_line('  Valid To: %s' % values_to_update['name_valid_to']['log'])
+                        if char_type_changed:
+                            self.report.add_report_line('  CHARTYPE: %s <- %s' % (iname.orgreg_char_type, char_type))
                         self.report.add_report_line('  Source Note: %s' % source_note)
 
                         # Update InstiutionName record
@@ -427,6 +392,7 @@ class OrgRegSynchronizer:
                             iname.acronym = values_to_update['acronym']['value']
                             iname.name_valid_to = values_to_update['name_valid_to']['value']
                             iname.name_source_note = source_note
+                            iname.orgreg_char_type = char_type
                             iname.save()
 
             # ADD NAME RECORD
@@ -453,7 +419,8 @@ class OrgRegSynchronizer:
                             name_official=name_official,
                             acronym=acronym,
                             name_valid_to="%s-12-31" % date_to['value'] if date_to['value'] else None,
-                            name_source_note=source_note
+                            name_source_note=source_note,
+                            orgreg_char_type=char_type
                         )
 
         # At the end of the run, check if there is one InstitutionName with null name_valid_to value. If there isn't
@@ -878,6 +845,16 @@ class OrgRegSynchronizer:
                                                self.colours['END']))
                 return
 
+            # European Universities alliance: OrgReg records the alliance as the child (ENTITY1), but
+            # in DEQAR the alliance is the parent of its member HEIs. When either side is an alliance,
+            # ensure the alliance ends up as parent and re-type the relationship accordingly. This
+            # only applies to the OrgReg link types kept above (1/2); 3/4 are already skipped.
+            if child_institution.is_orgreg_alliance():
+                parent_institution, child_institution = child_institution, parent_institution
+                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=HIERARCHICAL_TYPE_ALLIANCE)
+            elif parent_institution.is_orgreg_alliance():
+                deqar_event_type = InstitutionHierarchicalRelationshipType.objects.get(pk=HIERARCHICAL_TYPE_ALLIANCE)
+
             # Try to resolve record based on parent and child institution and the OrgRegEvent ID, if not exit.
             try:
                 ihr = InstitutionHierarchicalRelationship.objects.get(
@@ -945,15 +922,15 @@ class OrgRegSynchronizer:
             elif action == 'add':
                 # Only add when the original record status is not deleted.
                 if not deleted:
-                    if date_from['key'] == 'm':
+                    if date_from['key'] in [ 'a', 'm' ]:
                         df = None
                     else:
                         df = "%s-01-01" % date_from['value'] if date_from['value'] else None
 
-                    if date_to['key'] == 'm':
+                    if date_to['key'] in [ 'a', 'm' ]:
                         dt = None
                     else:
-                        dt = "%s-12-31" % date_from['value'] if date_from['value'] else None
+                        dt = "%s-12-31" % date_to['value'] if date_to['value'] else None
 
                     self.report.add_report_line('**ADD - HIERARCHICAL RELATIONSHIP')
                     self.report.add_report_line('  Parent: %s' % parent_institution.eter_id)
@@ -991,6 +968,24 @@ class OrgRegSynchronizer:
                 else:
                     return value
         return default
+
+    def _get_char_type(self, values_dict):
+        """
+        Read the (multi-valued) CHARTYPE characteristic from a CHAR record and normalise it to a
+        plain list (e.g. [1, 10]). OrgReg represents a multi-valued field as a list of value objects
+        ([{'v': 1}, {'v': 10}]); a single value may arrive as a lone {'v': ...} dict. Returns [] when
+        absent/empty.
+        """
+        if 'CHARTYPE' not in values_dict:
+            return []
+        raw = values_dict['CHARTYPE']
+        entries = raw if isinstance(raw, list) else [raw]
+        result = []
+        for entry in entries:
+            value = entry.get('v') if isinstance(entry, dict) else entry
+            if value is not None and value != '':
+                result.append(value)
+        return result
 
     def _get_date_value(self, values_dict, key, default=''):
         if 'v' in values_dict[key].keys():

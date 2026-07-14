@@ -22,3 +22,8 @@
   pk: 6
   fields:
     type: educational platform
+
+- model: institutions.InstitutionHierarchicalRelationshipType
+  pk: 7
+  fields:
+    type: European Universities alliance

@@ -3,10 +3,10 @@ from rest_framework import serializers
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionIdentifier, InstitutionName, \
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
-    InstitutionOrganizationType
+    InstitutionOrganizationType, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
 from lists.models import IdentifierResource
 from webapi.v2.serializers.country_serializers import CountryDetailSerializer
-
+from webapi.v2.views.report_views import institution_report_meili_filters
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
     country = serializers.StringRelatedField()
@@ -79,6 +79,40 @@ class InstitutionRelationshipSerializer(serializers.ModelSerializer):
         fields = ['id', 'eter_id', 'url', 'name_primary', 'name_sort', 'website_link', 'countries']
 
 
+class ParentInstitutionSerializer(serializers.ModelSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_parent')
+    relationship_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = InstitutionHierarchicalRelationship
+        fields = [
+            'institution',
+            'relationship_type',
+            'valid_from',
+            'valid_to',
+        ]
+
+class ChildInstitutionSerializer(ParentInstitutionSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_child')
+
+
+class HistoricalTargetSerializer(serializers.ModelSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_target')
+    relationship_type = serializers.CharField(source='relationship_type.type_to')
+
+    class Meta:
+        model = InstitutionHistoricalRelationship
+        fields = [
+            'institution',
+            'relationship_type',
+            'relationship_date'
+        ]
+
+class HistoricalSourceSerializer(HistoricalTargetSerializer):
+    institution = InstitutionRelationshipSerializer(source='institution_source')
+    relationship_type = serializers.CharField(source='relationship_type.type_from')
+
+
 class InstitutionOrganizationTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = InstitutionOrganizationType
@@ -94,52 +128,33 @@ class InstitutionDetailSerializer(serializers.ModelSerializer):
     hierarchical_relationships = serializers.SerializerMethodField()
     historical_data = InstitutionHistoricalDataSerializer(many=True, read_only=True, source='institutionhistoricaldata_set')
     organization_type = InstitutionOrganizationTypeSerializer()
+    meili_filters = serializers.SerializerMethodField()
+    is_orgreg_alliance = serializers.SerializerMethodField()
+
+    def get_is_orgreg_alliance(self, obj):
+        return obj.is_orgreg_alliance()
 
     def get_hierarchical_relationships(self, obj):
-        includes = []
-        part_of = []
-
-        for relation in obj.relationship_parent.all():
-            includes.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_child, context=self.context).data,
-                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
-                'valid_from': relation.valid_from if relation.relationship_type else None,
-                'valid_to': relation.valid_to if relation.relationship_type else None
-            })
-
-        for relation in obj.relationship_child.all():
-            part_of.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_parent, context=self.context).data,
-                'relationship_type': relation.relationship_type.type if relation.relationship_type else None,
-                'valid_from': relation.valid_from if relation.relationship_type else None,
-                'valid_to': relation.valid_to if relation.relationship_type else None
-            })
-
-        return {'includes': includes, 'part_of': part_of}
+        return {
+            'includes': ChildInstitutionSerializer(obj.relationship_parent.all(), many=True, context=self.context).data,
+            'part_of': ParentInstitutionSerializer(obj.relationship_child.all(), many=True, context=self.context).data
+        }
 
     def get_historical_relationships(self, obj):
-        relationships = []
+        return HistoricalTargetSerializer(obj.relationship_source.all(), many=True, context=self.context).data + \
+               HistoricalSourceSerializer(obj.relationship_target.all(), many=True, context=self.context).data
 
-        for relation in obj.relationship_source.all():
-            relationships.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_target, context=self.context).data,
-                'relationship_type': relation.relationship_type.type_to,
-                'relationship_date': relation.relationship_date
-            })
-
-        for relation in obj.relationship_target.all():
-            relationships.append({
-                'institution': InstitutionRelationshipSerializer(relation.institution_source, context=self.context).data,
-                'relationship_type': relation.relationship_type.type_from,
-                'relationship_date': relation.relationship_date
-            })
-        return relationships
+    def get_meili_filters(self, obj):
+        return {
+            'reports': institution_report_meili_filters(obj, 'INDEX_REPORTS'),
+            'programmes': institution_report_meili_filters(obj, 'INDEX_PROGRAMMES'),
+        }
 
     class Meta:
         model = Institution
         fields = ('id', 'eter_id', 'identifiers', 'website_link', 'names', 'countries', 'founding_date', 'closure_date',
-                  'historical_relationships', 'hierarchical_relationships', 'qf_ehea_levels',
-                  'is_other_provider', 'organization_type', 'source_of_information', 'historical_data')
+                  'historical_relationships', 'hierarchical_relationships', 'meili_filters', 'qf_ehea_levels',
+                  'is_other_provider', 'organization_type', 'is_orgreg_alliance', 'source_of_information', 'historical_data')
 
 
 class InstitutionResourceSerializer(serializers.ModelSerializer):

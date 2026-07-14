@@ -8,7 +8,8 @@ from django.db import models
 from django.utils import timezone
 
 from eqar_backend.fields.char_null_field import CharNullField
-from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship
+from institutions.models import InstitutionHierarchicalRelationshipType, InstitutionHierarchicalRelationship, \
+    HIERARCHICAL_TYPE_EDUCATIONAL_PLATFORM
 
 
 class Report(models.Model):
@@ -94,7 +95,7 @@ class Report(models.Model):
 
     def set_platform_relationships(self, *args, **kwargs):
         for platform in self.platforms.all():
-            relationship_type = InstitutionHierarchicalRelationshipType.objects.get(type='educational platform')
+            relationship_type = InstitutionHierarchicalRelationshipType.objects.get(pk=HIERARCHICAL_TYPE_EDUCATIONAL_PLATFORM)
             for institution in self.institutions.all():
                 relationship, created = InstitutionHierarchicalRelationship.objects.get_or_create(
                     institution_parent=platform,

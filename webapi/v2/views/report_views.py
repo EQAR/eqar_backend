@@ -63,7 +63,7 @@ def institution_report_meili_filters(institution, index):
     valid_to_calculated = fields['valid_to_calculated']
 
     def ts(d):
-        return datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp()
+        return int(datetime.datetime.combine(d, datetime.datetime.min.time()).timestamp())
 
     contributors = institution.get_report_contributors()
     # self (first contributor): direct or platform membership, unbounded
