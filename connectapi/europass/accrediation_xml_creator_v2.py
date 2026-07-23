@@ -464,18 +464,6 @@ class AccrediationXMLCreatorV2:
         scheme_agency = etree.SubElement(_id, f"{self.NS}schemeAgency", attrib={'language': 'en'})
         scheme_agency.text = "DEQAR"
 
-        # registration
-        if institution.institutionidentifier_set.filter(resource='EU-Registration').count() > 0:
-            for identifier in institution.institutionidentifier_set.filter(resource='EU-Registration').all():
-                reg = etree.SubElement(org, f"{self.NS}registration")
-                notation = etree.SubElement(reg, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
-                notation.text = identifier.identifier
-                etree.SubElement(
-                    reg,
-                    f"{self.NS}spatial",
-                    attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
-                )
-
         # vatIdentifier
         for identifier in institution.institutionidentifier_set.filter(resource='EU-VAT').iterator():
             vat = etree.SubElement(
@@ -484,10 +472,19 @@ class AccrediationXMLCreatorV2:
             )
             notation = etree.SubElement(vat, f"{{http://www.w3.org/2004/02/skos/core#}}notation")
             notation.text = identifier.identifier
+            if country:
+                country_uri = self.get_eu_controlled_vocab_country(country.country)
+            else:
+                try:
+                    vat_country = Country.objects.get(iso_3166_alpha2=identifier.identifier[:2].upper())
+                    country_uri = self.get_eu_controlled_vocab_country(vat_country)
+                except ObjectDoesNotExist:
+                    # very unlikely to happen with a valid VAT ID, but as a fallback
+                    country_uri = 'http://publications.europa.eu/resource/authority/country/OP_DATPRO'
             etree.SubElement(
                 vat,
                 f"{self.NS}spatial",
-                attrib={'uri': self.get_eu_controlled_vocab_country(country.country)}
+                attrib={'uri': country_uri}
             )
 
         # homepage
