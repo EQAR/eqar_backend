@@ -14,7 +14,9 @@ class EuropassTest(APITestCase):
         'agency_historical_field',
         'agency_demo_01', 'agency_demo_02', 'association',
         'institution_historical_field',
+        'institution_hierarchical_relationship_type',
         'institution_demo_01', 'institution_demo_02', 'institution_demo_03',
+        'institution_demo_04_no_country',
         'programme_demo_01', 'programme_demo_02', 'programme_demo_03',
         'programme_demo_04', 'programme_demo_05', 'programme_demo_06',
         'programme_demo_07', 'programme_demo_08', 'programme_demo_09',
@@ -39,4 +41,3 @@ class EuropassTest(APITestCase):
         self.assertEqual(response['Content-Type'], 'application/xml')
         xml = etree.fromstring(response.content)
         self.assertEqual(xml.tag, '{http://data.europa.eu/snb/model/application-profile/ams-constraints/}Accreditations')
-
