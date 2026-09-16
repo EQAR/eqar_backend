@@ -16,6 +16,7 @@ urlpatterns = [
     re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
     re_path(r'^admin/', admin_site.urls),
     re_path(r'^auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.jwt')),
 
     re_path(r'^__debug__/', include(debug_toolbar.urls))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
