@@ -2,7 +2,7 @@ import datetime
 from datetime import date
 
 import celery
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
@@ -123,10 +123,15 @@ class AgencyNameVersion(models.Model):
             self.agency_name.agency.name_primary = new_name_primary
             self.agency_name.agency.acronym_primary = new_acronym_primary
             self.agency_name.agency.save()
-            celery.current_app.send_task('agencies.tasks.index_reports_when_agency_acronym_changes',
-                                         (self.agency_name.agency.id,))
-            celery.current_app.send_task('agencies.tasks.index_institutions_when_agency_acronym_changes',
-                                         (self.agency_name.agency.id,))
+            agency_id = self.agency_name.agency.id
+            transaction.on_commit(lambda: celery.current_app.send_task(
+                'agencies.tasks.index_reports_when_agency_acronym_changes',
+                (agency_id,)
+            ))
+            transaction.on_commit(lambda: celery.current_app.send_task(
+                'agencies.tasks.index_institutions_when_agency_acronym_changes',
+                (agency_id,)
+            ))
 
     class Meta:
         db_table = 'deqar_agency_name_versions'

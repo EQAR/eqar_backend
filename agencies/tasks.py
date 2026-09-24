@@ -4,9 +4,11 @@ from django.db.models import Q
 from agencies.indexers.agency_indexer import AgencyIndexer
 from agencies.models import Agency
 from institutions.indexers.institution_indexer import InstitutionIndexer
+from institutions.indexers.institution_meili_indexer import InstitutionIndexer as MeiliInstitutionIndexer
 from institutions.models import Institution
 from reports.indexers.reports_indexer import ReportsIndexer
 from reports.models import Report
+from reports.tasks import meili_index_report
 
 
 @task(name="index_agency")
@@ -22,11 +24,20 @@ def index_reports_when_agency_acronym_changes(agency_id):
     for report in reports.all():
         indexer = ReportsIndexer(report.id)
         indexer.index()
+        # This refreshes both the report and its programme documents. Institutions
+        # are updated by the companion batch task to avoid indexing them repeatedly.
+        meili_index_report.delay(report.id, False)
 
 
 @task(name="index_institutions_when_agency_acronym_changes")
 def index_institutions_when_agency_acronym_changes(agency_id):
-    institutions = Institution.objects.filter(reports__agency__id=agency_id).distinct()
+    institutions = Institution.objects.filter(
+        Q(reports__agency__id=agency_id) |
+        Q(reports__contributing_agencies__id=agency_id) |
+        Q(institutionidentifier__agency__id=agency_id)
+    ).distinct()
+    meili_indexer = MeiliInstitutionIndexer()
     for inst in institutions.all():
         indexer = InstitutionIndexer(inst.id)
         indexer.index()
+        meili_indexer.index(inst.id)

@@ -18,7 +18,7 @@ def index_report(report_id):
     indexer.index()
 
 @task(name="meili_index_report")
-def meili_index_report(report_id):
+def meili_index_report(report_id, reindex_institutions=True):
     report = Report.objects.get(pk=report_id)
     # index report
     indexer = MeiliReportIndexer()
@@ -36,12 +36,13 @@ def meili_index_report(report_id):
         indexer.delete(programme.id)
     for programme in report.programme_set.iterator():
         indexer.index(programme.id)
-    # index institutions
-    meili_indexer = MeiliInstitutionIndexer()
-    for institution in report.institutions.iterator():
-        indexer = InstitutionIndexer(institution.id)
-        indexer.index()
-        meili_indexer.index(institution.id)
+    # index institutions unless the caller handles them as a separate batch
+    if reindex_institutions:
+        meili_indexer = MeiliInstitutionIndexer()
+        for institution in report.institutions.iterator():
+            indexer = InstitutionIndexer(institution.id)
+            indexer.index()
+            meili_indexer.index(institution.id)
 
 @task(name="index_delete_report")
 def index_delete_report(report_id):
