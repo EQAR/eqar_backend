@@ -22,10 +22,15 @@ AGENCY_REGISTERED_CHOICES = (
 
 class AgencyFilterClass(filters.FilterSet):
     """
-        Filter class for Agency List filtering...
+    Filter class for Agency List filtering...
     """
     registered = filters.ChoiceFilter(label='Is Registered', method='filter_registered',
                                       choices=AGENCY_REGISTERED_CHOICES)
+    activity_group = filters.ModelChoiceFilter(
+                        label='ESG activity group',
+                        field_name='agencyesgactivity__activity_group',
+                        queryset = AgencyActivityGroup.objects.all(),
+                     )
 
     def filter_registered(self, queryset, name, value):
         if value == 'True':
