@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand
 
+import difflib
+import json
 import sys
 
 import meilisearch
@@ -119,9 +121,12 @@ class MeiliIndexer:
         self.index_uid = getattr(self.meili, 'INDEX_' + self.model._meta.model_name.upper() + 'S')
         self.sync = sync
 
+    def serialize(self, obj):
+        return self.serializer(obj).data
+
     def index(self, obj_id):
         obj = self.model.objects.get(pk=obj_id)
-        doc = self.serializer(obj).data
+        doc = self.serialize(obj)
         taskinfo = self.meili.add_document(self.index_uid, doc)
         if self.sync:
             return self.meili.wait_for(taskinfo)
@@ -138,8 +143,8 @@ class MeiliIndexer:
 
 class CheckMeiliIndex(BaseCommand):
     """
-    generic management command to check whether deleted objects remain in Meilisearch index
-    or whether objects are missing
+    generic management command to check whether deleted objects remain in Meilisearch index,
+    whether objects are missing, and (optionally) whether indexed documents are outdated
     """
     PAGESIZE = 5000 # how many documents to fetch from Meili at once
     indexer = None
@@ -147,16 +152,35 @@ class CheckMeiliIndex(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--dry-run", "-n", action='store_true',
-                            help="Only show records, but do not actually delete")
+                            help="Only show records, but do not actually delete, add or update")
         parser.add_argument("--only-deleted", "-d", action='store_true',
                             help="Only check index for deleted objects")
         parser.add_argument("--only-missing", "-m", action='store_true',
                             help="Only check for objects missing from the index")
+        parser.add_argument("--check-content", "-c", action='store_true',
+                            help="Compare indexed documents of existing objects with current serializer output, reindex outdated ones")
+        parser.add_argument("--diff", action='store_true',
+                            help="Show diff between indexed and expected document (implies --check-content)")
 
     def _to_string(self, record):
         return f"[{self.model._meta.verbose_name} #{record.id}]"
 
+    def _print_diff(self, actual, expected):
+        diff = difflib.unified_diff(
+            json.dumps(actual, indent=2, sort_keys=True).splitlines(),
+            json.dumps(expected, indent=2, sort_keys=True).splitlines(),
+            fromfile='indexed', tofile='expected', lineterm='')
+        for line in diff:
+            if line.startswith('-') and not line.startswith('---'):
+                self.stdout.write(self.style.ERROR(line))
+            elif line.startswith('+') and not line.startswith('+++'):
+                self.stdout.write(self.style.SUCCESS(line))
+            else:
+                self.stdout.write(line)
+
     def handle(self, *args, **options):
+        if options['diff']:
+            options['check_content'] = True
         meili = MeiliClient()
         indexer = self.indexer(sync=False)
         if self.model is None:
@@ -168,6 +192,8 @@ class CheckMeiliIndex(BaseCommand):
         total = 1
         in_meili = set()
         to_delete = []
+        to_update = []
+        outdated = 0
         while offset < total:
             if options['verbosity'] > 1:
                 self.stdout.write(f"\rChecking {self.model._meta.verbose_name} {offset}-{offset+self.PAGESIZE-1} of {total}", ending='')
@@ -176,12 +202,24 @@ class CheckMeiliIndex(BaseCommand):
                 total = response.total
             for r in response.results:
                 in_meili.add(int(r.id))
-                if not options['only_missing']:
+                if not options['only_missing'] or options['check_content']:
                     try:
-                        self.model.objects.get(id=r.id)
+                        obj = self.model.objects.get(id=r.id)
                     except self.model.DoesNotExist:
-                        self.stdout.write(self.style.WARNING(f"\rdeleted {self.model._meta.verbose_name} {r.id} still in Meili index: {self._to_string(r)}"))
-                        to_delete.append(r.id)
+                        if not options['only_missing']:
+                            self.stdout.write(self.style.WARNING(f"\rdeleted {self.model._meta.verbose_name} {r.id} still in Meili index: {self._to_string(r)}"))
+                            to_delete.append(r.id)
+                    else:
+                        if options['check_content']:
+                            # JSON round-trip to normalise to what Meili stores and returns
+                            expected = json.loads(json.dumps(indexer.serialize(obj)))
+                            actual = r._Document__doc
+                            if expected != actual:
+                                self.stdout.write(self.style.WARNING(f"\r{self.model._meta.verbose_name} {r.id} is outdated in Meili index: {self._to_string(r)}"))
+                                if options['diff']:
+                                    self._print_diff(actual, expected)
+                                to_update.append(expected)
+                                outdated += 1
             offset += self.PAGESIZE
         self.stdout.write('')
 
@@ -189,8 +227,14 @@ class CheckMeiliIndex(BaseCommand):
             for i in to_delete:
                 indexer.delete(i)
                 self.stdout.write(self.style.ERROR(f"deleted {self.model._meta.verbose_name} {i} from Meili index"))
+            if to_update:
+                meili.add_document(indexer.index_uid, to_update)
+                self.stdout.write(self.style.SUCCESS(f"\rupdated {len(to_update)} outdated {self.model._meta.verbose_name_plural} in Meili index"))
 
         self.stdout.write(f'\r{len(to_delete)} deleted {self.model._meta.verbose_name_plural} were still in Meilisearch')
+
+        if options['check_content']:
+            self.stdout.write(f'{outdated} {self.model._meta.verbose_name_plural} were outdated in Meilisearch')
 
         if not options['only_deleted']:
             missing_meili = 0
