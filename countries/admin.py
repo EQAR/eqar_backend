@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 
-from countries.models import Country, CountryQAARegulation, CountryQARequirement, CountryHistoricalData
+from countries.models import Country, CountryQAARegulation, CountryQARequirement, CountryHistoricalData, \
+    CountryInstitutionType
 from eqar_backend.admin import admin_site, DEQARModelAdmin, DEQARStackedInline
 
 
@@ -16,6 +17,14 @@ class CountryQARequirementInline(DEQARStackedInline):
     extra = 1
     verbose_name = 'QA Requirement'
     verbose_name_plural = 'QA Requirements'
+
+
+class CountryInstitutionTypeInline(DEQARStackedInline):
+    model = CountryInstitutionType
+    extra = 0
+    fields = ('name_national', 'name_english', 'eter_category_standard', 'is_active')
+    verbose_name = 'Institution Type'
+    verbose_name_plural = 'Institution Types (from ETER)'
 
 
 class CountryForm(ModelForm):
@@ -59,6 +68,7 @@ class CountryAdmin(DEQARModelAdmin):
                        'european_approach_is_permitted', 'european_approach_note', 'general_note')
         })
     )
-    inlines = [CountryQAARegulationInline, CountryQARequirementInline, CountryHistoricalDataInline]
+    inlines = [CountryQAARegulationInline, CountryQARequirementInline, CountryHistoricalDataInline,
+               CountryInstitutionTypeInline]
 
-# admin_site.register(Country, CountryAdmin)
+admin_site.register(Country, CountryAdmin)

@@ -87,6 +87,40 @@ class CountryQARequirement(models.Model):
         ]
 
 
+class CountryInstitutionType(models.Model):
+    """
+    National institutional categories of HE institutions in a country, aggregated from ETER (BAS.INSTCAT).
+    """
+    ETER_CATEGORY_STANDARD_CHOICES = (
+        (0, 'other'),
+        (1, 'university'),
+        (2, 'university of applied sciences'),
+    )
+
+    id = models.AutoField(primary_key=True)
+    country = models.ForeignKey('countries.Country', related_name='institution_types', on_delete=models.CASCADE)
+    name_national = models.CharField(max_length=250)
+    name_english = models.CharField(max_length=250, blank=True)
+    eter_category_standard = models.SmallIntegerField(choices=ETER_CATEGORY_STANDARD_CHOICES, blank=True, null=True)
+    eter_institution_count = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name_english} ({self.name_national})' if self.name_english else self.name_national
+
+    class Meta:
+        db_table = 'deqar_country_institution_types'
+        verbose_name = 'Country Institution Type'
+        ordering = ('country', 'name_national')
+        constraints = [
+            UniqueConstraint(fields=['country', 'name_national'],
+                             name='country_institution_type_unique')
+        ]
+
+
 class CountryQARequirementType(models.Model):
     """
     Type of country requriement types.
