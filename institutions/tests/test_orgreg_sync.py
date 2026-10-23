@@ -603,7 +603,6 @@ EXPECTED_SERIALIZED = {
         "qaa_regulations": [],
         "report_count": 0,
         "institution_count": 0,
-        "historical_data": []
       },
       "city": "Valence",
       "lat": 44.9191742141,
@@ -636,7 +635,6 @@ EXPECTED_SERIALIZED = {
         "qaa_regulations": [],
         "report_count": 0,
         "institution_count": 0,
-        "historical_data": []
       },
       "city": "Grenoble",
       "lat": 45.191182,

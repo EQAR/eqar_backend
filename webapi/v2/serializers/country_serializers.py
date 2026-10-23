@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework import serializers
-from countries.models import Country, CountryQAARegulation, CountryHistoricalData, CountryQARequirement
+from countries.models import Country, CountryQAARegulation, CountryQARequirement
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionCountry
 from reports.models import Report
@@ -69,19 +69,9 @@ class CountryQARequirementSerializer(serializers.ModelSerializer):
                   'requirement_valid_from', 'requirement_valid_to']
 
 
-class CountryHistoricalDataSerializer(serializers.ModelSerializer):
-    field = serializers.StringRelatedField()
-
-    class Meta:
-        model = CountryHistoricalData
-        list_serializer_class = HistoryFilteredListSerializer
-        fields = ['field', 'record_id', 'value', 'valid_from', 'valid_to']
-
-
 class CountryDetailSerializer(serializers.ModelSerializer):
     qa_requirements = CountryQARequirementSerializer(many=True, read_only=True, source='countryqarequirement_set')
     qaa_regulations = CountryQAARegulationSerializer(many=True, read_only=True, source='countryqaaregulation_set')
-    historical_data = CountryHistoricalDataSerializer(many=True, read_only=True, source='countryhistoricaldata_set')
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
     ehea_key_commitment = serializers.StringRelatedField()
@@ -104,5 +94,4 @@ class CountryDetailSerializer(serializers.ModelSerializer):
                   'european_approach_is_permitted', 'european_approach_note',
                   'has_full_institution_list', 'ehea_key_commitment',
                   'general_note', 'qaa_regulations',
-                  'report_count', 'institution_count',
-                  'historical_data']
+                  'report_count', 'institution_count']

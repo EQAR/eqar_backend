@@ -7,8 +7,7 @@ class BrowseCountryAPITest(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',
-                'country_historical_field',
-                'country_qa_requirement_type', 'country', 'country_historical_data_demo_01',
+                'country_qa_requirement_type', 'country',
                 'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
                 'flag', 'permission_type', 'degree_outcome',
@@ -83,7 +82,7 @@ class BrowseCountryAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/countries/64/')
         self.assertEqual(response.data['name_english'], 'Germany')
-        self.assertEqual(len(response.data['historical_data']), 0)
+        self.assertNotIn('historical_data', response.data)
 
     def test_country_detail_with_history(self):
         """
@@ -92,7 +91,6 @@ class BrowseCountryAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token.key)
         response = self.client.get('/webapi/v2/browse/countries/64/', {'history': 'true'})
         self.assertEqual(response.data['name_english'], 'Germany')
-        self.assertEqual(len(response.data['historical_data']), 1)
 
     def test_country_reports_list(self):
         """

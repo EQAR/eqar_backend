@@ -7,7 +7,6 @@ class BrowseAgencyAPITest(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',
-                'country_historical_field',
                 'country_qa_requirement_type', 'country',
                 'flag', 'permission_type',
                 'agency_historical_field',

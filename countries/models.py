@@ -155,44 +155,6 @@ class CountryQAARegulation(models.Model):
         ]
 
 
-class CountryHistoricalField(models.Model):
-    """
-    Name of the db_fields which can contain historical data of the country.
-    """
-    id = models.AutoField(primary_key=True)
-    field = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.field
-
-    class Meta:
-        db_table = 'deqar_country_historical_fields'
-        verbose_name = 'Country Historical Field'
-        indexes = [
-            models.Index(fields=['field']),
-        ]
-
-
-class CountryHistoricalData(models.Model):
-    """
-    The historical data that country change.
-    """
-    id = models.AutoField(primary_key=True)
-    country = models.ForeignKey('Country', on_delete=models.CASCADE)
-    field = models.ForeignKey('CountryHistoricalField', on_delete=models.CASCADE)
-    record_id = models.IntegerField(blank=True, null=True)
-    value = models.CharField(max_length=500)
-    valid_from = models.DateField(blank=True, null=True)
-    valid_to = models.DateField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'deqar_country_historical_data'
-        verbose_name = 'Country Historical Data'
-        indexes = [
-            models.Index(fields=['valid_to']),
-        ]
-
-
 class CountryUpdateLog(models.Model):
     """
     Updates happened with a country record

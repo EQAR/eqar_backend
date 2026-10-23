@@ -11,10 +11,8 @@ python manage.py loaddata qf_ehea_level
 python manage.py loaddata agency_activity_type
 python manage.py loaddata agency_focus
 
-python manage.py loaddata country_historical_field
 python manage.py loaddata country_qa_requirement_type
 python manage.py loaddata country
-python manage.py loaddata country_historical_data_demo_01
 
 python manage.py loaddata report_decision
 python manage.py loaddata report_status

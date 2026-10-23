@@ -139,5 +139,5 @@ class CountryDetail(generics.RetrieveAPIView):
     def get_queryset(self):
         qs = Country.objects.all()
         qs = qs.select_related('external_QAA_is_permitted', 'european_approach_is_permitted')
-        qs = qs.prefetch_related('countryqarequirement_set', 'countryqaaregulation_set', 'countryhistoricaldata_set')
+        qs = qs.prefetch_related('countryqarequirement_set', 'countryqaaregulation_set')
         return qs

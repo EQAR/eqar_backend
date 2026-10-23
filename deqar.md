@@ -474,39 +474,6 @@ CountryQARequirement(id, country, qa_requirement, qa_requirement_type, qa_requir
 |regulation_valid_to |date | | | |Both | |
 
 
-## Country Historical Field(countries.models.CountryHistoricalField)
-
-```
-
-    Name of the db_fields which can contain historical data of the country.
-    
-```
-
-|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|
-|id |integer |True |True | |Blank | |
-|field |varchar(50) | | | | | |
-
-
-## Country Historical Data(countries.models.CountryHistoricalData)
-
-```
-
-    The historical data that country change.
-    
-```
-
-|Name|Type|PK|Unique|Index|Null/Blank|Comment|
-|---|---|---|---|---|---|---|
-|id |integer |True |True | |Blank | |
-|country |integer | | |True | |FK:countries.models.Country |
-|field |integer | | |True | |FK:countries.models.CountryHistoricalField |
-|record_id |integer | | | |Both | |
-|value |varchar(200) | | | | | |
-|valid_from |date | | | |Both | |
-|valid_to |date | | | |Both | |
-
-
 ## Country Update Log(countries.models.CountryUpdateLog)
 
 ```
