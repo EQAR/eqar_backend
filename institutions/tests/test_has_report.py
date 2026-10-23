@@ -14,7 +14,7 @@ from reports.models import Report, ReportStatus, ReportDecision
 
 
 FIXTURES = [
-    'country_qa_requirement_type', 'country', 'flag', 'permission_type',
+    'country', 'flag', 'permission_type',
     'qf_ehea_level', 'institution_historical_field',
     'agency_activity_type', 'agency_focus', 'identifier_resource',
     'agency_historical_field', 'eqar_decision_type',

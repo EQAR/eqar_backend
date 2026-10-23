@@ -1,6 +1,8 @@
 from django.db.models import Q
 from rest_framework import serializers
-from countries.models import Country, CountryQAARegulation, CountryQARequirement
+from agencies.models import AgencyActivityGroup
+from countries.models import Country, CountryQAARegulation, CountryQARequirement, CountryQARequirementGroup, \
+    CountryInstitutionType, CountryIncomingTneRegulation
 from eqar_backend.serializers import HistoryFilteredListSerializer
 from institutions.models import Institution, InstitutionCountry
 from reports.models import Report
@@ -59,18 +61,83 @@ class CountryQAARegulationSerializer(serializers.ModelSerializer):
         fields = ['regulation', 'regulation_url', 'regulation_valid_from', 'regulation_valid_to']
 
 
-class CountryQARequirementSerializer(serializers.ModelSerializer):
-    qa_requirement_type = serializers.StringRelatedField()
+class ControlledListSerializer(serializers.Serializer):
+    """
+    Serializes an entry of any controlled list (lists.models.ControlledList).
+    """
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    uri = serializers.URLField(read_only=True)
+    description = serializers.CharField(read_only=True)
+
+
+class CountryQARequirementActivityGroupSerializer(serializers.ModelSerializer):
+    activity_type = serializers.StringRelatedField()
+
+    class Meta:
+        model = AgencyActivityGroup
+        fields = ['id', 'activity', 'activity_type']
+
+
+class CountryInstitutionTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CountryInstitutionType
+        fields = ['id', 'name_national', 'name_english', 'eter_category_standard']
+
+
+class CountryQARequirementDetailSerializer(serializers.ModelSerializer):
+    activity_group = CountryQARequirementActivityGroupSerializer(read_only=True)
+    qf_ehea_levels = serializers.StringRelatedField(many=True)
+    cbqa_possible = ControlledListSerializer(read_only=True)
+    cbqa_approval = ControlledListSerializer(many=True, read_only=True)
+    cbqa_requirements = ControlledListSerializer(many=True, read_only=True)
+    cbqa_criteria = ControlledListSerializer(read_only=True)
+    cbqa_recognition = ControlledListSerializer(read_only=True)
+    ea_possible = ControlledListSerializer(read_only=True)
 
     class Meta:
         model = CountryQARequirement
         list_serializer_class = HistoryFilteredListSerializer
-        fields = ['qa_requirement', 'qa_requirement_type', 'qa_requirement_note',
-                  'requirement_valid_from', 'requirement_valid_to']
+        fields = ['id', 'activity_group', 'duration', 'initial_only',
+                  'fields_of_education', 'qf_ehea_levels', 'full_degrees', 'micro_credentials',
+                  'qa_requirement_note', 'requirement_valid_from', 'requirement_valid_to',
+                  'cbqa_possible', 'cbqa_approval', 'cbqa_requirements', 'cbqa_other_requirements_note',
+                  'cbqa_criteria', 'cbqa_recognition',
+                  'ea_possible', 'ea_note']
 
 
-class CountryDetailSerializer(serializers.ModelSerializer):
-    qa_requirements = CountryQARequirementSerializer(many=True, read_only=True, source='countryqarequirement_set')
+class CountryQARequirementGroupSerializer(serializers.ModelSerializer):
+    institution_types = CountryInstitutionTypeSerializer(many=True, read_only=True)
+    requirements = CountryQARequirementDetailSerializer(many=True, read_only=True)
+    regulations = CountryQAARegulationSerializer(many=True, read_only=True)
+    outgoing_tne_possible = ControlledListSerializer(read_only=True)
+    outgoing_tne_approval = ControlledListSerializer(many=True, read_only=True)
+    outgoing_tne_qa = ControlledListSerializer(read_only=True)
+    mc_qa = ControlledListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = CountryQARequirementGroup
+        fields = ['id', 'institution_types', 'combination_logic', 'requirements', 'regulations',
+                  'outgoing_tne_possible', 'outgoing_tne_conditions', 'outgoing_tne_approval', 'outgoing_tne_qa',
+                  'mc_possible', 'mc_credit_limit', 'mc_qa', 'mc_qa_note']
+
+
+class CountryIncomingTneRegulationSerializer(serializers.ModelSerializer):
+    origin_groups = ControlledListSerializer(many=True, read_only=True)
+    incoming_tne_possible = ControlledListSerializer(read_only=True)
+    incoming_tne_approval = ControlledListSerializer(many=True, read_only=True)
+    incoming_tne_qa = ControlledListSerializer(read_only=True)
+
+    class Meta:
+        model = CountryIncomingTneRegulation
+        fields = ['id', 'origin_groups', 'incoming_tne_possible', 'incoming_tne_conditions',
+                  'incoming_tne_approval', 'incoming_tne_qa']
+
+
+class CountryBaseDetailSerializer(serializers.ModelSerializer):
+    """
+    Country details without the structured QA requirements, TNE and micro-credential information.
+    """
     qaa_regulations = CountryQAARegulationSerializer(many=True, read_only=True, source='countryqaaregulation_set')
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
@@ -88,10 +155,19 @@ class CountryDetailSerializer(serializers.ModelSerializer):
         model = Country
         fields = ['id', 'name_english', 'iso_3166_alpha2', 'iso_3166_alpha3',
                   'ehea_is_member', 'eqar_governmental_member_start',
-                  'qa_requirements', 'qa_requirement_note',
-                  'external_QAA_is_permitted', 'external_QAA_note',
-                  'eligibility', 'conditions', 'recognition',
-                  'european_approach_is_permitted', 'european_approach_note',
+                  'qa_requirement_note',
+                  'external_QAA_is_permitted', 'european_approach_is_permitted',
                   'has_full_institution_list', 'ehea_key_commitment',
                   'general_note', 'qaa_regulations',
                   'report_count', 'institution_count']
+
+
+class CountryDetailSerializer(CountryBaseDetailSerializer):
+    qa_requirement_groups = CountryQARequirementGroupSerializer(many=True, read_only=True)
+    incoming_tne_regulations = CountryIncomingTneRegulationSerializer(many=True, read_only=True)
+
+    class Meta(CountryBaseDetailSerializer.Meta):
+        fields = CountryBaseDetailSerializer.Meta.fields + [
+            'lrc_signatory_date', 'qf_ehea_alignment_date', 'eqf_alignment_date',
+            'qa_requirement_groups', 'incoming_tne_regulations',
+        ]

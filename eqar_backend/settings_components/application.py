@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django_unused_media',
     'djoser',
     'drf_yasg',
+    'nested_admin',
 
     'accounts',
     'agencies',

@@ -1,3 +1,4 @@
+import nested_admin
 from django.contrib import admin
 from django.contrib.admin import AdminSite, StackedInline, TabularInline
 from django.db import models
@@ -11,29 +12,26 @@ class DEQARAdminSite(AdminSite):
 
 
 class DEQARModelAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.TextField: {'widget': Textarea(attrs={'class': 'span8', 'rows': 4})},
-        models.URLField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.ForeignKey: {'widget': Select(attrs={'class': 'span8'})},
-    }
+    pass
 
 
 class DEQARStackedInline(StackedInline):
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.TextField: {'widget': Textarea(attrs={'class': 'span8', 'rows': 4})},
-        models.URLField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.ForeignKey: {'widget': Select(attrs={'class': 'span8'})},
-    }
+    pass
 
 
 class DEQARTabularInline(TabularInline):
-    formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.TextField: {'widget': Textarea(attrs={'class': 'span8', 'rows': 4})},
-        models.URLField: {'widget': TextInput(attrs={'class': 'span8'})},
-        models.ForeignKey: {'widget': Select(attrs={'class': 'span8'})},
-    }
+    pass
+
+
+class DEQARNestedModelAdmin(nested_admin.NestedModelAdmin):
+    pass
+
+
+class DEQARNestedStackedInline(nested_admin.NestedStackedInline):
+    pass
+
+
+class DEQARNestedTabularInline(nested_admin.NestedTabularInline):
+    pass
 
 admin_site = DEQARAdminSite(name='deqar_admin')

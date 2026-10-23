@@ -2,7 +2,7 @@ from drf_writable_nested import UniqueFieldsMixin
 from rest_framework import serializers
 
 from agencies.models import Agency, AgencyESGActivity, AgencyActivityType, AgencyActivityGroup
-from countries.models import Country, CountryQARequirementType
+from countries.models import Country
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
@@ -115,12 +115,6 @@ class FlagSerializer(serializers.ModelSerializer):
         model = Flag
         ref_name = 'FlagSelectSerializer'
         fields = ['id', 'flag']
-
-
-class CountryQARequirementTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CountryQARequirementType
-        fields = ['id', 'qa_requirement_type']
 
 
 class InstitutionHierarchicalRelationshipTypeSerializer(serializers.ModelSerializer):

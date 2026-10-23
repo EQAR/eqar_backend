@@ -12,7 +12,7 @@ from reports.models import Report
 
 class SubmissionAPIV2ReportTestWithContributingAgencies(APITestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
+        'country', 'qf_ehea_level', 'eqar_decision_type', 'language',
         'agency_activity_type', 'agency_focus', 'identifier_resource', 'flag', 'permission_type', 'degree_outcome',
         'institution_hierarchical_relationship_type',
         'assessment',

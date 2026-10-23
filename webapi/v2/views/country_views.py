@@ -1,5 +1,5 @@
 import datetime
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Prefetch
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters
 from drf_yasg.utils import swagger_auto_schema
@@ -7,7 +7,7 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 
 from agencies.models import AgencyFocusCountry
-from countries.models import Country
+from countries.models import Country, CountryQARequirementGroup
 from lists.models import PermissionType
 from webapi.inspectors.country_list_inspector import CountryListInspector
 from webapi.v2.serializers.agency_serializers import AgencyFocusCountrySerializer
@@ -138,6 +138,16 @@ class CountryDetail(generics.RetrieveAPIView):
 
     def get_queryset(self):
         qs = Country.objects.all()
-        qs = qs.select_related('external_QAA_is_permitted', 'european_approach_is_permitted')
-        qs = qs.prefetch_related('countryqarequirement_set', 'countryqaaregulation_set')
+        qs = qs.select_related('external_QAA_is_permitted', 'european_approach_is_permitted', 'ehea_key_commitment')
+        qs = qs.prefetch_related(
+            'countryqaaregulation_set',
+            Prefetch('qa_requirement_groups',
+                     queryset=CountryQARequirementGroup.objects.select_related('outgoing_tne_possible',
+                                                                               'outgoing_tne_qa')),
+            'qa_requirement_groups__institution_types',
+            'qa_requirement_groups__outgoing_tne_approval',
+            'qa_requirement_groups__mc_qa',
+            'incoming_tne_regulations__origin_groups',
+            'incoming_tne_regulations__incoming_tne_approval',
+        )
         return qs

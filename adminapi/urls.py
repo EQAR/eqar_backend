@@ -17,7 +17,7 @@ from adminapi.views.select_views import CountrySelectList, AgencySelectList, Age
     LanguageSelectList, AssociationSelectList, EQARDecisionTypeSelectList, IdentifierResourceSelectList, \
     PermissionTypeSelectList, QFEHEALevelSelectList, ReportDecisionSelectList, \
     ReportStatusSelectList, InstitutionCountrySelectList, AgencySelectAllList, AgencyActivityTypeSelectList, \
-    FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, QARequirementTypeSelectList, \
+    FlagSelectList, InstitutionHistoricalRelationshipTypeSelect, \
     InstitutionHierarchicalRelationshipTypeSelect, InstitutionOrganizationTypeSelectList, AssessmentSelectList, \
     DegreeOutcomeSelectList, AgencyActivityGroupSelectList
 from eqar_backend.schema_generator import HttpsSchemaGenerator
@@ -75,7 +75,6 @@ urlpatterns = [
     re_path(r'^select/report_decision/$', ReportDecisionSelectList.as_view(), name='report_decision-select'),
     re_path(r'^select/report_status/$', ReportStatusSelectList.as_view(), name='report_status-select'),
     re_path(r'^select/flag/$', FlagSelectList.as_view(), name='flag-select'),
-    re_path(r'^select/qa_requirement_type/$', QARequirementTypeSelectList.as_view(), name='qa_requirement_type-select'),
     re_path(r'^select/institution_hierarchical_relationship_types/$', InstitutionHierarchicalRelationshipTypeSelect.as_view(),
         name='institution-hierarchical-relationship-type-select'),
     re_path(r'^select/institution_historical_relationship_types/$', InstitutionHistoricalRelationshipTypeSelect.as_view(),

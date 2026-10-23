@@ -5,7 +5,7 @@ from institutions.models import Institution, InstitutionIdentifier, InstitutionN
     InstitutionHistoricalData, InstitutionCountry, InstitutionQFEHEALevel, InstitutionNameVersion, \
     InstitutionOrganizationType, InstitutionHierarchicalRelationship, InstitutionHistoricalRelationship
 from lists.models import IdentifierResource
-from webapi.v2.serializers.country_serializers import CountryDetailSerializer
+from webapi.v2.serializers.country_serializers import CountryBaseDetailSerializer
 from webapi.v2.views.report_views import institution_report_meili_filters
 
 class InstitutionCountrySerializer(serializers.ModelSerializer):
@@ -61,7 +61,7 @@ class InstitutionQFEHEALevelSerializer(serializers.ModelSerializer):
 
 
 class InstitutionCountryDetailSerializer(serializers.ModelSerializer):
-    country = CountryDetailSerializer()
+    country = CountryBaseDetailSerializer()
 
     class Meta:
         model = InstitutionCountry

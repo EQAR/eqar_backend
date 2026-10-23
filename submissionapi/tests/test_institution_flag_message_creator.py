@@ -7,7 +7,7 @@ from submissionapi.flaggers.institution_flag_message_creator import InstitutionF
 
 class InstitutionFlagMessageCreatorTestCase(TestCase):
     fixtures = [
-        'country_qa_requirement_type', 'country', 'flag',
+        'country', 'flag',
         'agency_historical_field',
         'agency_activity_type', 'agency_focus', 'permission_type',
         'eqar_decision_type',

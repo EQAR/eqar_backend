@@ -14,11 +14,11 @@ from adminapi.serializers.select_serializers import CountrySelectSerializer, \
     IdentifierResourceSelectSerializer, PermissionTypeSelectSerializer, QFEHEALevelSelectSerializer, \
     ReportDecisionSerializer, ReportStatusSerializer, FlagSerializer, AgencySelectSerializer, \
     AgencyESGActivitySerializer, AgencyActivityTypeSerializer, InstitutionHistoricalRelationshipTypeSerializer, \
-    CountryQARequirementTypeSerializer, InstitutionHierarchicalRelationshipTypeSerializer, \
+    InstitutionHierarchicalRelationshipTypeSerializer, \
     InstitutionOrganizationTypeSerializer, AssessmentSerializer, DegreeOutcomeSelectSerializer, \
     AgencyActivityGroupSerializer
 from agencies.models import Agency, AgencyProxy, AgencyESGActivity, AgencyActivityType, AgencyActivityGroup
-from countries.models import Country, CountryQARequirementType
+from countries.models import Country
 from institutions.models import InstitutionHistoricalRelationshipType, InstitutionHierarchicalRelationshipType, \
     InstitutionOrganizationType
 from lists.models import Language, Association, EQARDecisionType, IdentifierResource, PermissionType, QFEHEALevel, Flag, \
@@ -189,14 +189,6 @@ class FlagSelectList(generics.ListAPIView):
     filter_backends = (SearchFilter,)
     search_fields = ('flag',)
     queryset = Flag.objects.all()
-
-
-class QARequirementTypeSelectList(generics.ListAPIView):
-    serializer_class = CountryQARequirementTypeSerializer
-    pagination_class = None
-    filter_backends = (SearchFilter,)
-    search_fields = ('qa_requirement_type',)
-    queryset = CountryQARequirementType.objects.all()
 
 
 class AssessmentSelectList(generics.ListAPIView):

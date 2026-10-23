@@ -7,7 +7,7 @@ class BrowseAPIReportTest(APITestCase):
     fixtures = ['agency_activity_type', 'agency_focus',
                 'identifier_resource',
                 'association',
-                'country_qa_requirement_type', 'country',
+                'country',
                 'language', 'qf_ehea_level',
                 'report_decision', 'report_status',
                 'flag', 'permission_type', 'degree_outcome',

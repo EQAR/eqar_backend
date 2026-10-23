@@ -7,11 +7,11 @@ python manage.py loaddata eqar_decision_type
 python manage.py loaddata identifier_resource
 python manage.py loaddata language
 python manage.py loaddata qf_ehea_level
+python manage.py loaddata country_qa_lists
 
 python manage.py loaddata agency_activity_type
 python manage.py loaddata agency_focus
 
-python manage.py loaddata country_qa_requirement_type
 python manage.py loaddata country
 
 python manage.py loaddata report_decision

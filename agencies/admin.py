@@ -50,6 +50,7 @@ class AgencyActivityGroupAdmin(DEQARModelAdmin):
     list_display = ('id', 'activity', 'assigned_agencies', 'assigned_agencies_list')
     list_display_links = ('id', 'activity', 'assigned_agencies')
     fields = ['activity', 'activity_type', 'reports_link']
+    search_fields = ('activity',)
     ordering = (Lower('activity'),)
 
     formfield_overrides = {

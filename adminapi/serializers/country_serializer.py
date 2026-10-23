@@ -1,8 +1,7 @@
 from drf_writable_nested import UniqueFieldsMixin, WritableNestedModelSerializer
 from rest_framework import serializers
 
-from adminapi.serializers.select_serializers import CountryQARequirementTypeSerializer
-from countries.models import Country, CountryQARequirement, CountryQAARegulation
+from countries.models import Country, CountryQAARegulation
 from lists.models import PermissionType, Flag
 
 
@@ -25,24 +24,11 @@ class FlagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CountryQARequirementReadSerializer(serializers.ModelSerializer):
-    qa_requirement_type = CountryQARequirementTypeSerializer()
-
-    class Meta:
-        model = CountryQARequirement
-        exclude = ('country',)
-
-
-class CountryQARequirementWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CountryQARequirement
-        exclude = ('country',)
-
-
 class CountryQAARegulationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CountryQAARegulation
         exclude = ('country',)
+        read_only_fields = ('group',)
 
 
 class CountryReadSerializer(serializers.ModelSerializer):
@@ -51,7 +37,6 @@ class CountryReadSerializer(serializers.ModelSerializer):
     european_approach_is_permitted = PermissionTypeSerializer()
     ehea_key_commitment = PermissionTypeSerializer()
     flag = FlagSerializer()
-    qa_requirements = CountryQARequirementReadSerializer(many=True, source='countryqarequirement_set')
     qaa_regulations = CountryQAARegulationSerializer(many=True, source='countryqaaregulation_set')
 
     class Meta:
@@ -60,7 +45,6 @@ class CountryReadSerializer(serializers.ModelSerializer):
 
 
 class CountryWriteSerializer(WritableNestedModelSerializer):
-    qa_requirements = CountryQARequirementWriteSerializer(many=True, source='countryqarequirement_set', required=False)
     qaa_regulations = CountryQAARegulationSerializer(many=True, source='countryqaaregulation_set', required=False)
 
     class Meta:

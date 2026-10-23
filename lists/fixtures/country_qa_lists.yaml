@@ -1,0 +1,192 @@
+- model: lists.CrossBorderPossibility
+  pk: 1
+  fields:
+    title: Not possible
+- model: lists.CrossBorderPossibility
+  pk: 2
+  fields:
+    title: Only after initial QA by home agency
+- model: lists.CrossBorderPossibility
+  pk: 3
+  fields:
+    title: Allowed for all cases
+- model: lists.CrossBorderApproval
+  pk: 1
+  fields:
+    title: Prior approval by national authority required
+- model: lists.CrossBorderApproval
+  pk: 2
+  fields:
+    title: Formal agreement with or approval by national QA agency
+- model: lists.CrossBorderApproval
+  pk: 3
+  fields:
+    title: Informing the national QA agency, without approval/agreement needed
+- model: lists.CrossBorderRequirement
+  pk: 1
+  fields:
+    title: EQAR registration
+- model: lists.CrossBorderRequirement
+  pk: 2
+  fields:
+    title: Inclusion of national expert
+- model: lists.CrossBorderRequirement
+  pk: 3
+  fields:
+    title: Sufficient resources/staff
+- model: lists.CrossBorderRequirement
+  pk: 4
+  fields:
+    title: Language proficiency of the experts
+- model: lists.CrossBorderRequirement
+  pk: 5
+  fields:
+    title: Use of a specific review report template/structure
+- model: lists.CrossBorderCriteria
+  pk: 1
+  fields:
+    title: National/home QA criteria/methodology has to be applied
+- model: lists.CrossBorderCriteria
+  pk: 2
+  fields:
+    title: Any ESG aligned criteria/methodology, with additional (national) criteria
+- model: lists.CrossBorderCriteria
+  pk: 3
+  fields:
+    title: Any ESG aligned criteria/methodology, without additional (national) criteria
+- model: lists.CrossBorderDecision
+  pk: 1
+  fields:
+    title: Final licence decision taken by home authority
+- model: lists.CrossBorderDecision
+  pk: 2
+  fields:
+    title: Final accreditation decision taken by the national QA agency
+- model: lists.CrossBorderDecision
+  pk: 3
+  fields:
+    title: Automatic approval of the accreditation outcomes if conditions are fulfilled
+- model: lists.EuropeanApproachPossibility
+  pk: 1
+  fields:
+    title: Yes, without restrictions
+- model: lists.EuropeanApproachPossibility
+  pk: 2
+  fields:
+    title: Yes, subject to conditions
+- model: lists.EuropeanApproachPossibility
+  pk: 3
+  fields:
+    title: 'No'
+- model: lists.TnePossible
+  pk: 1
+  fields:
+    title: Yes, without conditions
+- model: lists.TnePossible
+  pk: 2
+  fields:
+    title: Yes, subject to conditions
+- model: lists.TnePossible
+  pk: 3
+  fields:
+    title: 'No'
+- model: lists.TneApprovalOutgoing
+  pk: 1
+  fields:
+    title: Permission by home/sending national authority
+- model: lists.TneApprovalOutgoing
+  pk: 2
+  fields:
+    title: Evaluation by a home/sending national QA agency
+- model: lists.TneApprovalOutgoing
+  pk: 3
+  fields:
+    title: Evaluated by any EQAR registered agency is sufficient
+- model: lists.TneApprovalOutgoing
+  pk: 4
+  fields:
+    title: Proof of permission by the receiving/host country national authority
+- model: lists.TneApprovalOutgoing
+  pk: 5
+  fields:
+    title: Evaluation by the receiving/host country QA agency
+- model: lists.TneQaOutgoing
+  pk: 1
+  fields:
+    title: Part of the regular institutional/programme accreditation
+- model: lists.TneQaOutgoing
+  pk: 2
+  fields:
+    title: Part of the regular institutional/programme accreditation with additional criteria
+- model: lists.TneQaOutgoing
+  pk: 3
+  fields:
+    title: Separate procedure for TNE provision
+- model: lists.TneQaOutgoing
+  pk: 4
+  fields:
+    title: Not covered
+- model: lists.TneOriginGroup
+  pk: 1
+  fields:
+    title: EU Member States
+- model: lists.TneOriginGroup
+  pk: 2
+  fields:
+    title: Non-EU EHEA members
+- model: lists.TneOriginGroup
+  pk: 3
+  fields:
+    title: Non-EHEA countries
+- model: lists.TneApprovalIncoming
+  pk: 1
+  fields:
+    title: Permission by sending country national authority
+- model: lists.TneApprovalIncoming
+  pk: 2
+  fields:
+    title: Evaluation by a sending country QA agency
+- model: lists.TneApprovalIncoming
+  pk: 3
+  fields:
+    title: Evaluated by any EQAR registered agency
+- model: lists.TneApprovalIncoming
+  pk: 4
+  fields:
+    title: Permission by home/host country national authority
+- model: lists.TneApprovalIncoming
+  pk: 5
+  fields:
+    title: Evaluation by home/host country QA agency
+- model: lists.TneApprovalIncoming
+  pk: 6
+  fields:
+    title: Full responsibility of the host country
+- model: lists.TneQaIncoming
+  pk: 1
+  fields:
+    title: Accreditation by an EQAR registered agency is sufficient
+- model: lists.TneQaIncoming
+  pk: 2
+  fields:
+    title: Separate QA procedure for TNE provisions aligned with ESG by a home QA agency
+- model: lists.TneQaIncoming
+  pk: 3
+  fields:
+    title: Separate QA procedure for TNE provision not aligned with ESG by a home QA agency
+- model: lists.TneQaIncoming
+  pk: 4
+  fields:
+    title: Not applicable (= unregulated, not permitted OR responsibility of the sending country)
+- model: lists.McQa
+  pk: 1
+  fields:
+    title: Part of institutional EQA procedure
+- model: lists.McQa
+  pk: 2
+  fields:
+    title: Part of programme EQA procedure
+- model: lists.McQa
+  pk: 3
+  fields:
+    title: Certification of a single MC
