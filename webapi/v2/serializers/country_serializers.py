@@ -138,12 +138,17 @@ class CountryBaseDetailSerializer(serializers.ModelSerializer):
     """
     Country details without the structured QA requirements, TNE and micro-credential information.
     """
-    qaa_regulations = CountryQAARegulationSerializer(many=True, read_only=True, source='countryqaaregulation_set')
+    qaa_regulations = serializers.SerializerMethodField()
     external_QAA_is_permitted = serializers.StringRelatedField()
     european_approach_is_permitted = serializers.StringRelatedField()
     ehea_key_commitment = serializers.StringRelatedField()
     report_count = serializers.SerializerMethodField()
     institution_count = serializers.SerializerMethodField()
+
+    def get_qaa_regulations(self, obj):
+        # regulations attached to a QA requirements group are listed under that group instead
+        regulations = obj.countryqaaregulation_set.filter(group__isnull=True)
+        return CountryQAARegulationSerializer(regulations, many=True, context=self.context).data
 
     def get_report_count(self, obj):
         return Report.objects.filter(institutions__institutioncountry__country=obj).count()

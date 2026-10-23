@@ -140,7 +140,6 @@ class CountryDetail(generics.RetrieveAPIView):
         qs = Country.objects.all()
         qs = qs.select_related('external_QAA_is_permitted', 'european_approach_is_permitted', 'ehea_key_commitment')
         qs = qs.prefetch_related(
-            'countryqaaregulation_set',
             Prefetch('qa_requirement_groups',
                      queryset=CountryQARequirementGroup.objects.select_related('outgoing_tne_possible',
                                                                                'outgoing_tne_qa')),
