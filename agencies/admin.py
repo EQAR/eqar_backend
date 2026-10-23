@@ -50,7 +50,7 @@ class AgencyActivityGroupAdmin(DEQARModelAdmin):
     list_display = ('id', 'activity', 'assigned_agencies', 'assigned_agencies_list')
     list_display_links = ('id', 'activity', 'assigned_agencies')
     fields = ['activity', 'activity_type', 'reports_link']
-    search_fields = ('activity',)
+    search_fields = ('activity', 'agencyesgactivity__agency__acronym_primary')
     ordering = (Lower('activity'),)
 
     formfield_overrides = {
@@ -63,15 +63,15 @@ class AgencyActivityGroupAdmin(DEQARModelAdmin):
         return obj._assigned_agencies
 
     def assigned_agencies_list(self, obj):
-        agencies = set()
-        for agency in obj.agencyesgactivity_set.all():
-            agencies.add(agency.agency.acronym_primary)
-        agencies = sorted(agencies, key=str.lower)
-        return ', '.join(agencies)
+        return ', '.join(obj.get_agency_acronyms())
+
+    def autocomplete_label(self, obj):
+        return obj.str_with_agencies()
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         queryset = queryset.annotate(_assigned_agencies=Count("agencyesgactivity__agency", distinct=True))
+        queryset = queryset.select_related('activity_type').prefetch_related('agencyesgactivity_set__agency')
         return queryset
 
     assigned_agencies.admin_order_field = '_assigned_agencies'

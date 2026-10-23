@@ -67,7 +67,11 @@ class CountryQARequirementInline(DEQARNestedStackedInline):
         # the Select widget from formfield_overrides would otherwise replace the autocomplete widget
         if db_field.name in self.autocomplete_fields:
             kwargs.pop('widget', None)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+        formfield = super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == 'activity_group':
+            # show the selected group the same way as the autocomplete results
+            formfield.label_from_instance = lambda obj: obj.str_with_agencies()
+        return formfield
 
 
 class CountryQARequirementGroupForm(forms.ModelForm):

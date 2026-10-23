@@ -270,6 +270,19 @@ class AgencyActivityGroup(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.activity, self.activity_type)
 
+    def get_agency_acronyms(self):
+        """
+        Returns the sorted primary acronyms of all agencies with an ESG activity in this group, including past ones.
+        """
+        acronyms = {activity.agency.acronym_primary for activity in self.agencyesgactivity_set.all()}
+        return sorted(acronyms, key=str.lower)
+
+    def str_with_agencies(self):
+        acronyms = self.get_agency_acronyms()
+        if acronyms:
+            return "%s (%s)" % (self, ', '.join(acronyms))
+        return str(self)
+
     class Meta:
         ordering = ('activity', 'activity_type')
         db_table = 'deqar_agency_activity_group'
