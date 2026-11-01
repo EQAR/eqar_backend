@@ -36,6 +36,7 @@ dict2xml==1.7.6
 freezegun==1.5.1
 langdetect==1.0.9
 lxml==5.3.1
+mcp==2.3.0
 meilisearch==0.33.1
 mypy==1.15.0
 psycopg2==2.9.10
@@ -44,4 +45,5 @@ pysolr==3.10.0
 python-dateutil==2.9.0
 requests==2.33.1
 redis==5.2.1
+uvicorn==0.54.0
 whitenoise==6.9.0

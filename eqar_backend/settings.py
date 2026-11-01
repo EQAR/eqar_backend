@@ -11,5 +11,6 @@ include(
     'settings_components/special.py',
     'settings_components/production.py',
     'settings_components/suit.py',
+    'settings_components/mcp.py',
     optional('settings_components/local.py')
 )

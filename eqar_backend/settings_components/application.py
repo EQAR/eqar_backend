@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'submissionapi',
     'webapi',
     'adminapi',
-    'connectapi'
+    'connectapi',
+    'mcpapi',
 ]
 
 MIDDLEWARE = [

@@ -13,6 +13,35 @@ from eqar_backend.meilisearch import MeiliClient
 from meilisearch.errors import MeilisearchApiError
 
 
+def lookup_object(params, model, key, parameter, attribute, raw_parameter, multi=False):
+    """
+    If parameter is set in params, looks up model object against key and returns its attribute - otherwise
+    raw_parameter if set
+
+    params : mapping of (query) parameters, e.g. request.query_params
+    """
+    if lookup := params.get(parameter, None):
+        if multi:
+            try:
+                obj = model.objects.filter(**{key: lookup})
+                if obj.count() == 0:
+                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+                else:
+                    return ', '.join([ str(getattr(i, attribute)) for i in obj ])
+            except ValueError:
+                raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
+        else:
+            try:
+                obj = model.objects.get(**{key: lookup})
+                return getattr(obj, attribute)
+            except model.DoesNotExist:
+                raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
+            except ValueError:
+                raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
+    else:
+        return params.get(raw_parameter, None)
+
+
 class MeiliSolrBackportView(ListAPIView):
     """
     A compatibility view for the legacy v2 API, originally based on Solr. The class helps
@@ -76,26 +105,7 @@ class MeiliSolrBackportView(ListAPIView):
         """
         If parameter is set, looks up model object against key and returns its attribute - otherwise raw_parameter if set
         """
-        if lookup := self.request.query_params.get(parameter, None):
-            if multi:
-                try:
-                    obj = model.objects.filter(**{key: lookup})
-                    if obj.count() == 0:
-                        raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
-                    else:
-                        return ', '.join([ str(getattr(i, attribute)) for i in obj ])
-                except ValueError:
-                    raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
-            else:
-                try:
-                    obj = model.objects.get(**{key: lookup})
-                    return getattr(obj, attribute)
-                except model.DoesNotExist:
-                    raise ParseError(detail=f'unknown value [{lookup}] for {parameter}')
-                except ValueError:
-                    raise ParseError(detail=f'value [{lookup}] has wrong type for {parameter}')
-        else:
-            return self.request.query_params.get(raw_parameter, None)
+        return lookup_object(self.request.query_params, model, key, parameter, attribute, raw_parameter, multi)
 
 
     def make_filters(self, request):

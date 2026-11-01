@@ -10,7 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework.exceptions import ParseError
 
-from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
+from webapi.v2.views.meili_solr_view import MeiliSolrBackportView, lookup_object
 
 from webapi.inspectors.report_search_inspector import ReportSearchInspector
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
@@ -88,6 +88,77 @@ class ReportFilterClass(filters.FilterSet):
     )
 
 
+def build_report_filters(params):
+    """
+    Build the list of Meilisearch filter clauses for the reports index from a mapping of (query) parameters
+    """
+    filters = []
+
+    if agency_id := lookup_object(params, Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
+        filters.append(f'agency.id = {agency_id} OR contributing_agencies.id = {agency_id}')
+
+    if activity_ids := lookup_object(params, AgencyESGActivity, 'activity', 'activity', 'id', 'activity_id', multi=True):
+        filters.append(f'agency_esg_activities.id IN [ {activity_ids} ]')
+
+    if activity_group_ids := lookup_object(params, AgencyActivityGroup, 'activity', 'activity_group', 'id', 'activity_group_id', multi=True):
+        filters.append(f'agency_esg_activities.group_id IN [ {activity_group_ids} ]')
+
+    if activity_type := lookup_object(params, AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
+        filters.append(f'agency_esg_activities.type = "{activity_type}"')
+
+    if country_id := lookup_object(params, Country, 'name_english', 'country', 'id', 'country_id'):
+        filters.append(f'institutions.locations.country.id = {country_id} OR platforms.locations.country.id = {country_id}')
+
+    if status := lookup_object(params, ReportStatus, 'id', 'status_id', 'status', 'status'):
+        filters.append(f'status = "{status}"')
+
+    if decision := lookup_object(params, ReportDecision, 'id', 'decision_id', 'decision', 'decision'):
+        filters.append(f'decision = "{decision}"')
+
+    if language := lookup_object(params, Language, 'id', 'language_id', 'language_name_en', 'language'):
+        filters.append(f'report_files.languages = "{language}"')
+
+    if cross_border := params.get('cross_border', None):
+        filters.append(f'crossborder = {BooleanExtendedField.to_internal_value(None, cross_border)}')
+
+    if other_provider_covered := params.get('other_provider_covered', None):
+        filters.append(f'other_provider_covered = {BooleanExtendedField.to_internal_value(None, other_provider_covered)}')
+
+    if degree_outcome := params.get('degree_outcome', None):
+        if BooleanExtendedField.to_internal_value(None, degree_outcome):
+            filters.append(f'programmes.degree_outcome = 1')
+        else:
+            filters.append(f'programmes.degree_outcome > 1')
+
+    if flag := params.get('flag', None):
+        filters.append(f'flag = "{flag}"')
+    else:
+        filters.append(f'flag != "high level"')
+
+    if programme_type := params.get('programme_type', None):
+        filters.append(f'programmes.programme_type = "{programme_type}"')
+
+    if active := params.get('active', False):
+        if BooleanExtendedField.to_internal_value(None, active):
+            filters.append(f'valid_to_calculated >= {int(datetime.datetime.now().timestamp())}')
+
+    if year := params.get('year', False):
+        try:
+            filters.append(f'valid_from <= {int(datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).timestamp())}')
+            filters.append(f'valid_to_calculated >= {int(datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).timestamp())}')
+        except (ValueError, OverflowError):
+            raise ParseError(detail=f'value [{year}] for year cannot be parsed to int')
+
+    if valid_on := params.get('valid_on', False):
+        try:
+            filters.append(f'valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
+            filters.append(f'valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
+        except (ValueError, OverflowError):
+            raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
+
+    return filters
+
+
 @method_decorator(name='get', decorator=swagger_auto_schema(
     filter_inspectors=[ReportSearchInspector],
     responses={
@@ -145,71 +216,7 @@ class ReportList(MeiliSolrBackportView):
 
 
     def make_filters(self, request):
-        filters = []
-
-        if agency_id := self.lookup_object(Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
-            filters.append(f'agency.id = {agency_id} OR contributing_agencies.id = {agency_id}')
-
-        if activity_ids := self.lookup_object(AgencyESGActivity, 'activity', 'activity', 'id', 'activity_id', multi=True):
-            filters.append(f'agency_esg_activities.id IN [ {activity_ids} ]')
-
-        if activity_group_ids := self.lookup_object(AgencyActivityGroup, 'activity', 'activity_group', 'id', 'activity_group_id', multi=True):
-            filters.append(f'agency_esg_activities.group_id IN [ {activity_group_ids} ]')
-
-        if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
-            filters.append(f'agency_esg_activities.type = "{activity_type}"')
-
-        if country_id := self.lookup_object(Country, 'name_english', 'country', 'id', 'country_id'):
-            filters.append(f'institutions.locations.country.id = {country_id} OR platforms.locations.country.id = {country_id}')
-
-        if status := self.lookup_object(ReportStatus, 'id', 'status_id', 'status', 'status'):
-            filters.append(f'status = "{status}"')
-
-        if decision := self.lookup_object(ReportDecision, 'id', 'decision_id', 'decision', 'decision'):
-            filters.append(f'decision = "{decision}"')
-
-        if language := self.lookup_object(Language, 'id', 'language_id', 'language_name_en', 'language'):
-            filters.append(f'report_files.languages = "{language}"')
-
-        if cross_border := request.query_params.get('cross_border', None):
-            filters.append(f'crossborder = {BooleanExtendedField.to_internal_value(None, cross_border)}')
-
-        if other_provider_covered := request.query_params.get('other_provider_covered', None):
-            filters.append(f'other_provider_covered = {BooleanExtendedField.to_internal_value(None, other_provider_covered)}')
-
-        if degree_outcome := request.query_params.get('degree_outcome', None):
-            if BooleanExtendedField.to_internal_value(None, degree_outcome):
-                filters.append(f'programmes.degree_outcome = 1')
-            else:
-                filters.append(f'programmes.degree_outcome > 1')
-
-        if flag := request.query_params.get('flag', None):
-            filters.append(f'flag = "{flag}"')
-        else:
-            filters.append(f'flag != "high level"')
-
-        if programme_type := request.query_params.get('programme_type', None):
-            filters.append(f'programmes.programme_type = "{programme_type}"')
-
-        if active := request.query_params.get('active', False):
-            if BooleanExtendedField.to_internal_value(None, active):
-                filters.append(f'valid_to_calculated >= {int(datetime.datetime.now().timestamp())}')
-
-        if year := request.query_params.get('year', False):
-            try:
-                filters.append(f'valid_from <= {int(datetime.datetime(year=int(year), month=12, day=31, hour=23, minute=59, second=59).timestamp())}')
-                filters.append(f'valid_to_calculated >= {int(datetime.datetime(year=int(year), month=1, day=1, hour=0, minute=0, second=0).timestamp())}')
-            except (ValueError, OverflowError):
-                raise ParseError(detail=f'value [{year}] for year cannot be parsed to int')
-
-        if valid_on := request.query_params.get('valid_on', False):
-            try:
-                filters.append(f'valid_from <= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
-                filters.append(f'valid_to_calculated >= {int(datetime.datetime.fromisoformat(valid_on).timestamp())}')
-            except (ValueError, OverflowError):
-                raise ParseError(detail=f'value [{valid_on}] for year cannot be parsed to datetime')
-
-        return filters
+        return build_report_filters(request.query_params)
 
     def convert_hit(self, r):
         """

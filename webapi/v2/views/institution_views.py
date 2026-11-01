@@ -15,7 +15,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from eqar_backend.meilisearch import MeiliClient
 from meilisearch.errors import MeilisearchApiError
 
-from webapi.v2.views.meili_solr_view import MeiliSolrBackportView
+from webapi.v2.views.meili_solr_view import MeiliSolrBackportView, lookup_object
 
 from eqar_backend.serializer_fields.boolean_extended_serializer_field import BooleanExtendedField
 
@@ -66,6 +66,41 @@ class InstitutionFilterClass(filters.FilterSet):
     )
 
 
+def build_institution_filters(params):
+    """
+    Build the list of Meilisearch filter clauses for the institutions index from a mapping of (query) parameters
+    """
+
+    # only institutions with reports
+    filters = [ 'has_report = True' ]
+
+    if country_id := lookup_object(params, Country, 'name_english', 'country', 'id', 'country_id'):
+        filters.append(f'locations.country.id = {country_id}')
+
+    if activity_group_ids := lookup_object(params, AgencyActivityGroup, 'activity', 'activity', 'id', 'activity_id', multi=True):
+        filters.append(f'activity_groups IN [ {activity_group_ids} ]')
+
+    if activity_type := lookup_object(params, AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
+        filters.append(f'activity_types = "{activity_type}"')
+
+    if agency_id := lookup_object(params, Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
+        filters.append(f'agencies.id = {agency_id}')
+
+    if status := lookup_object(params, ReportStatus, 'id', 'status_id', 'status', 'status'):
+        filters.append(f'status = "{status}"')
+
+    if qf_ehea_level := lookup_object(params, QFEHEALevel, 'id', 'qf_ehea_level_id', 'level', 'qf_ehea_level'):
+        filters.append(f'qf_ehea_levels = "{qf_ehea_level}"')
+
+    if crossborder := params.get('crossborder', None):
+        filters.append(f'crossborder = {BooleanExtendedField.to_internal_value(None, crossborder)}')
+
+    if other_provider := params.get('other_provider', None):
+        filters.append(f'is_other_provider = {BooleanExtendedField.to_internal_value(None, other_provider)}')
+
+    return filters
+
+
 @method_decorator(name='get', decorator=swagger_auto_schema(
     filter_inspectors=[ReportSearchInspector],
     responses={
@@ -110,35 +145,7 @@ class InstitutionList(MeiliSolrBackportView):
 
 
     def make_filters(self, request):
-
-        # this view shows only institutions with reports
-        filters = [ 'has_report = True' ]
-
-        if country_id := self.lookup_object(Country, 'name_english', 'country', 'id', 'country_id'):
-            filters.append(f'locations.country.id = {country_id}')
-
-        if activity_group_ids := self.lookup_object(AgencyActivityGroup, 'activity', 'activity', 'id', 'activity_id', multi=True):
-            filters.append(f'activity_groups IN [ {activity_group_ids} ]')
-
-        if activity_type := self.lookup_object(AgencyActivityType, 'id', 'activity_type_id', 'type', 'activity_type'):
-            filters.append(f'activity_types = "{activity_type}"')
-
-        if agency_id := self.lookup_object(Agency, 'acronym_primary', 'agency', 'id', 'agency_id'):
-            filters.append(f'agencies.id = {agency_id}')
-
-        if status := self.lookup_object(ReportStatus, 'id', 'status_id', 'status', 'status'):
-            filters.append(f'status = "{status}"')
-
-        if qf_ehea_level := self.lookup_object(QFEHEALevel, 'id', 'qf_ehea_level_id', 'level', 'qf_ehea_level'):
-            filters.append(f'qf_ehea_levels = "{qf_ehea_level}"')
-
-        if crossborder := request.query_params.get('crossborder', None):
-            filters.append(f'crossborder = {BooleanExtendedField.to_internal_value(None, crossborder)}')
-
-        if other_provider := request.query_params.get('other_provider', None):
-            filters.append(f'is_other_provider = {BooleanExtendedField.to_internal_value(None, other_provider)}')
-
-        return filters
+        return build_institution_filters(request.query_params)
 
     def convert_hit(self, r):
         # names
