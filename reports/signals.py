@@ -88,8 +88,13 @@ def do_reharvest_file_when_location_change(sender, instance, **kwargs):
             if original.file_original_location != instance.file_original_location:
                 if instance.file_original_location:
                     instance.download_status = ReportFile.DOWNLOAD_STATUS_PENDING
+                    url = instance.file_original_location
+                    report_file_id = instance.pk
+                    agency_acronym = instance.report.agency.acronym_primary
+                    transaction.on_commit(
+                        lambda: download_file.delay(url, report_file_id, agency_acronym)
+                    )
+                elif instance.file:
+                    instance.download_status = ReportFile.DOWNLOAD_STATUS_SUCCESS
                 else:
                     instance.download_status = ''
-                download_file.delay(instance.file_original_location,
-                                    instance.pk,
-                                    instance.report.agency.acronym_primary)
